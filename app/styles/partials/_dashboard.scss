@@ -1,0 +1,13 @@
+.dashboard-ctas {
+    margin-top: 15px;
+  }
+@media #{$medium-only} {
+  .dashboard-ctas {
+    text-align: left !important;
+  }
+}
+@media #{$small-only} {
+  .dashboard-ctas {
+    text-align: left !important;
+  }
+}

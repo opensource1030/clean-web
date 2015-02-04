@@ -1,0 +1,164 @@
+.details-header {
+  background-color: $darkGrey;
+  color: $white;
+  font-size: 1.1em;
+  padding: rem-calc(10) rem-calc(20);
+}
+.details-table {
+  border-spacing: 0;
+
+  &.table-striped {
+    & > tbody > tr:not(.row-details):nth-child(odd) > td, 
+    & > tbody > tr:nth-child(odd) > th {
+      background-color: $rowAltBackground;
+    }
+  }
+
+  td, th {
+    padding: rem-calc(10) rem-calc(20);
+  }
+  thead {
+    th { 
+      span {
+        font-weight: 100;
+      }
+    }
+
+    &.alt {
+      th {
+        background-color: $white;
+        color: $black;
+      }
+
+      &.small {
+        th {
+          padding-top: 20px;
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+  tbody {
+    td {
+      white-space: normal;
+
+      a {
+      }
+      p {
+        margin: rem-calc(8) 0;
+        font-size: 13px;
+      }
+
+      .progress {
+        width: 70%;
+        float: left;
+        padding: 0;
+        border: 0;
+        margin-right: 10px;
+        margin-bottom: 0;
+        height: 1.25em;
+      }
+      .progress-text {
+        width: 24%;
+        float: left;
+        padding-left: 4px;
+      }
+
+      select {
+        margin-bottom: 0;
+      }
+      .button {
+        margin-bottom: 0;
+      }
+    }
+    td.row-header {
+      font-weight: bold;
+
+      a {
+        color: $black;
+        text-decoration: none;
+
+        &:hover {
+          color: $black;
+        }
+      }
+
+      .fa {
+        font-size: 1em;
+        margin-left: -12px;
+        margin-right: 4px;
+      }
+    }
+    td.more {
+      .fa {
+        margin-left: rem-calc(-10);
+      }
+    }
+    td.phone-image {
+      padding: 4px 10px;
+    }
+
+
+    tr.row-details {
+      td {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-color: $white;
+
+        border-top: 1px solid rgba(0,0,0,0.1);
+
+
+        a {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &.content-table {
+    tbody {
+      td {
+        border-bottom: 1px solid $grey;
+
+        .fa {
+          padding-right: 40px;
+          font-size: 1.2em;
+          display: inline-block;
+          width: 18px;
+          box-sizing: border-box;
+        }
+      }
+    }
+  }
+}
+
+.summary-row {
+  padding: rem-calc(10) rem-calc(20);
+  background: url(../assets/images/row-bg.png) repeat top left;
+  font-weight: bold;
+  margin-top: -20px;
+  margin-bottom: 20px;
+
+  span {
+    float: right;
+  }
+}
+
+// TODO remove
+.details-table {
+  td {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.charges-table {
+  tr {
+    td {
+      a  {
+        text-decoration: underline;
+      }
+    }
+  }
+}

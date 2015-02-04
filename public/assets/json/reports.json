@@ -1,0 +1,391 @@
+{
+  "data": [
+
+    {
+      "id": "3334567654",
+
+      "bill_period": {
+        "data": [
+          {
+            "id": 1,
+            "period": "201407"
+          }
+        ]
+      },
+
+      "assets": {
+        "data": [
+
+          {
+            "id": "3334567654",
+            "active": true,
+
+            "billing": {
+              "currency": "usd",
+
+              "voice": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 530.53
+                },
+
+                "usage": {
+                  "unit": "minutes",
+                  "total": 1243567,
+                  "cap": 233434
+                }
+              },
+
+              "data": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 35.50
+                },
+
+                "usage": {
+                  "unit": "kb",
+                  "total": 1234367,
+                  "cap": 233434
+                }
+              },
+
+              "messaging": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                },
+
+                "usage": {
+                  "unit": "",
+                  "total": 4343545656,
+                  "cap": 233434
+                }
+              },
+
+              "taxes": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "equipments": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "others": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              }
+
+            }
+
+
+          }
+        ]
+      },
+
+      "employees": {
+        "data": [
+          {
+            "id": 1,
+            "first_name": "Leonila",
+            "last_name": "Rausch"
+          }
+        ]
+      },
+
+      "carriers": {
+        "data": [
+          {
+            "id": 1,
+            "name": "Verizon"
+
+          }
+        ]
+      },
+      "devices": {
+        "data": [
+          {
+            "id": 1,
+            "make": "Apple",
+            "model": "iPhone 5",
+            "active": true
+
+          }
+        ]
+      }
+    },
+    {
+      "id": "2345575456",
+
+      "bill_period": {
+        "data": [
+          {
+            "id": 1,
+            "period": "201407"
+          }
+        ]
+      },
+
+      "assets": {
+        "data": [
+
+          {
+            "id": "2345575456",
+            "active": true,
+
+            "billing": {
+              "currency": "usd",
+
+              "voice": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 530.53
+                },
+
+                "usage": {
+                  "unit": "minutes",
+                  "total": 1243567,
+                  "cap": 233434
+                }
+              },
+
+              "data": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 35.50
+                },
+
+                "usage": {
+                  "unit": "kb",
+                  "total": 1234367,
+                  "cap": 233434
+                }
+              },
+
+              "messaging": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                },
+
+                "usage": {
+                  "unit": "",
+                  "total": 4343545656,
+                  "cap": 233434
+                }
+              },
+
+              "taxes": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "equipments": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "others": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              }
+
+            }
+
+
+          }
+        ]
+      },
+
+      "employees": {
+        "data": [
+          {
+            "id": 2,
+            "first_name": "Sam",
+            "last_name": "Jacks"
+          }
+        ]
+      },
+
+      "carriers": {
+        "data": [
+          {
+            "id": 1,
+            "name": "Verizon"
+
+          }
+        ]
+      },
+      "devices": {
+        "data": [
+          {
+            "id": 1,
+            "make": "Apple",
+            "model": "iPhone 5",
+            "active": true
+
+          }
+        ]
+      }
+    },
+    {
+      "id": "2345678976",
+
+      "bill_period": {
+        "data": [
+          {
+            "id": 1,
+            "period": "201407"
+          }
+        ]
+      },
+
+      "assets": {
+        "data": [
+
+          {
+            "id": "2345678976",
+            "active": true,
+
+            "billing": {
+              "currency": "usd",
+
+              "voice": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 530.53
+                },
+
+                "usage": {
+                  "unit": "minutes",
+                  "total": 1243567,
+                  "cap": 233434
+                }
+              },
+
+              "data": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 35.50
+                },
+
+                "usage": {
+                  "unit": "kb",
+                  "total": 1234367,
+                  "cap": 233434
+                }
+              },
+
+              "messaging": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                },
+
+                "usage": {
+                  "unit": "",
+                  "total": 4343545656,
+                  "cap": 233434
+                }
+              },
+
+              "taxes": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "equipments": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              },
+
+              "others": {
+                "charges": {
+                  "unit": "usd",
+                  "total": 0.00
+                }
+              }
+
+            }
+
+
+          }
+        ]
+      },
+
+      "employees": {
+        "data": [
+          {
+            "id": 3,
+            "first_name": "Arther",
+            "last_name": "Beats"
+          }
+        ]
+      },
+
+      "carriers": {
+        "data": [
+          {
+            "id": 1,
+            "name": "Verizon"
+
+          }
+        ]
+      },
+      "devices": {
+        "data": [
+          {
+            "id": 1,
+            "make": "Apple",
+            "model": "iPhone 5",
+            "active": true
+
+          }
+        ]
+      }
+    }
+
+
+
+  ],
+
+  "meta": {
+    "pagination": {
+      "total": 1500,
+      "count": 23,
+      "per_page": 25,
+      "current_page": 2,
+      "total_pages": 60,
+      "links": {
+        "next": "http:\/\/wa.com\/api\/employees?page=3",
+        "previous": "http:\/\/wa.com\/api\/employees?page=1"
+      }
+    },
+    "charge" : {
+      "total" : 31959.75,
+      "voice" : 845.33,
+      "data" : 511.00,
+      "messaging": 7691.00,
+      "taxes" : 140.87,
+      "equipment" : 120.87,
+      "other" : 234.97
+    }
+  }
+}

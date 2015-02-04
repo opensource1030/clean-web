@@ -1,0 +1,145 @@
+.report-table thead th, .details-table thead th , .details-overview-table thead th {
+	//font-size: 1rem;
+	font-weight: 700;
+	vertical-align: bottom;
+
+  strong {
+    font-size: 1.25em;
+  }
+}
+
+.report-table thead tr {
+  background-image: url(../assets/images/striped-background.gif);
+}
+
+.details-table thead.alt.small th, .details-overview-table thead tr  {
+	font-size: 13px;
+	
+	@media #{$small-only} { 
+		.striped-bg {
+			display: none;
+		}
+	}
+
+}
+table tr.even, table tr.alt, table tr:nth-of-type(even) {
+    background: transparent ; 
+}
+table tbody tr.even, table tbody tr.alt, table tbody tr:nth-of-type(even) {
+    background: transparent; 
+}
+.striped-bg {
+	background: url(../assets/images/striped-background.gif) !important;
+	font-size: 13px;
+	margin-top:3px;
+	padding: 2px 5px;
+	width: 100%;
+  margin-left: -5px;
+	th {
+		line-height: .4rem;
+		border-bottom: 5px solid #ffffff;
+	}
+}
+
+table tr td, table tr th {
+
+	&.cost {
+
+	}
+	@media #{$small-only} { 
+		&.cost {
+
+		}
+	}
+}
+
+table tr th, table tr td {
+	font-size: 13px;
+}
+
+.details-overview-table {
+	th, td {
+		min-height: auto;
+		height: auto;
+		line-height: normal !important;
+		padding: 5px 10px;
+	}
+	select {
+		margin: 0px
+	}
+	.button {
+		margin: 0px
+	}
+	.small-10, .small-2 {
+		padding: 0px !important
+	}
+}
+
+@media #{$small-only} { 
+	.details-overview-table {
+		table, 
+		thead, 
+		tbody, 
+		th, 
+		td, 
+		tr { 
+			display: block; 
+		}
+	 
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+	 
+		tr { border: 1px solid #ccc; }
+	 
+		td { 
+			border: none;
+			border-bottom: 1px solid #eee; 
+			position: relative;
+			padding-left: 50%; 
+			white-space: normal;
+			text-align:left;
+			&:first-child {
+				padding-left: 50% !important; 
+			}
+		}
+	 
+		td:before { 
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			white-space: nowrap;
+			text-align:left;
+			font-weight: bold;
+		}
+
+		td:before { content: attr(data-title); }
+	}
+}
+
+
+.details-table {
+	white-space: nowrap; 
+	.striped-bg th {
+		background-image: url(../assets/images/striped-bg.gif);
+		font-size: 13px !important;
+		margin-bottom:3px;
+		padding: 3px 20px !important;
+		width: 100%;
+	}
+}
+
+.table-striped {
+	thead {
+		background: transparent;;
+	}
+	tbody {
+		tr:nth-child(odd) {
+			background: #F5F5F5;
+		}
+	}
+}

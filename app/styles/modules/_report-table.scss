@@ -1,0 +1,97 @@
+
+.dataTables_wrapper {
+  .DTFC_LeftBodyLiner {
+    overflow-y: hidden !important;
+
+    table {
+      margin-top: 0 !important;
+    }
+  }
+
+  &.no-footer .dataTables_scrollBody {
+    border: 0;
+  }
+}
+
+table {
+  table-layout: auto;
+
+  td {
+      white-space: nowrap;
+  }
+}
+
+table.report-table {
+  border-collapse: separate;
+
+  thead, tbody {
+    tr {
+      th {
+        background-color: #fff;
+        white-space: nowrap;
+        padding: rem-calc(6) rem-calc(20);
+        border-bottom: 0;
+
+        &:focus {
+          outline: 0;
+        }
+      }
+      td {
+        background-color: #fff;
+        white-space: nowrap;
+        padding: rem-calc(12) rem-calc(20);
+      }
+    }
+  }
+
+  .table-head-total {
+    th {
+      background-color: white;
+    }
+    background: url(../assets/images/row-bg.png) repeat top left;
+    background-attachment: fixed;
+
+    th {
+      &.sorting_asc {
+        background: #fff url("../images/sort_asc.png") no-repeat center right;
+      }
+      &.sorting_desc {
+        background: #fff url("../images/sort_desc.png") no-repeat center right;
+      }
+      &.sorting {
+        background: #fff url("../images/sort_both.png") no-repeat center right;
+      }
+      &.null {
+        background: #fff;
+      }
+      &.total-head {
+        &.sorting_asc {
+          background: transparent url("../images/sort_asc.png") no-repeat center right;
+        }
+        &.sorting_desc {
+          background: transparent url("../images/sort_desc.png") no-repeat center right;
+        }
+        &.sorting {
+          background: transparent url("../images/sort_both.png") no-repeat center right;
+        }
+      }
+    }
+  }
+
+  &.table-striped > tbody > tr:nth-child(odd) > td, 
+  &.table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: $rowAltBackground;
+  }
+}
+
+.trend {
+
+  &.up {
+    color: $red1;
+  }
+  &.up + .fa {
+    color: $red1;
+    padding: 0 8px 0 4px;
+  }
+}
+

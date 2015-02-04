@@ -1,0 +1,178 @@
+<div class="builder">
+  <div class="row">
+    <div class="column small-12">
+      <div class="active-filters">
+        <span class="filter">
+          Report Builder
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="column small-12 large-12">
+      <div class="report-details-header">
+        <h1><strong>Step 2:</strong> Report Data</h1>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="column small-12 large-12">
+      <div {{bind-attr class="isManual:hidden:visible"}}>
+        <label for="checkbox-select-range" class="builder-section-title">
+          <input id="checkbox-select-range" type="checkbox" >
+          Select Range
+        </label>
+        <div class="builder-container">
+
+          <input id="checkbox-last-month" type="checkbox" ><label for="checkbox-last-month">Last Month</label>
+          <input id="checkbox-3-months" type="checkbox" ><label for="checkbox-3-months">Last 3 Months</label>
+          <input id="checkbox-6-months" type="checkbox" ><label for="checkbox-6-months">Last 6 Months</label>
+          <input id="checkbox-12-months" type="checkbox" ><label for="checkbox-12-months">Last 12 Months</label>
+          <input id="checkbox-ytd" type="checkbox" ><label for="checkbox-ytd">YTD</label>
+
+        </div>
+      </div>
+
+      <div {{bind-attr class="isManual:visible:hidden"}}>
+        <label for="checkbox-define-range" class="builder-section-title">
+          <input id="checkbox-define-range" type="checkbox" >
+          Define Date Range
+        </label>
+        <div class="builder-container">
+
+          <div class="row datepick">
+            <div class="column small-12 large-4">
+              <label>Start Date
+                <input type="text" id="start2" placeholder="Start Date">
+              </label>
+
+            </div>
+            <div class="column small-12 large-4">
+              <label>End Date
+                <input type="text" id="end2" placeholder="End Date">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr/>
+
+      <h5>Show Data For</h5>
+      <div class="row ">
+        <div class="column small-12">
+          <input id="all" type="checkbox"><label for="all">All</label>
+          <input id="usage" type="checkbox"><label for="usage">Usage</label>
+          <input id="rate-plans" type="checkbox"><label for="rate-plans">Rate Plans</label>
+          <input id="features" type="checkbox"><label for="features">Features</label>
+          <input id="show-data-other" type="checkbox"><label for="show-data-other">Other</label>
+        </div>
+      </div>
+
+      <h5>Include</h5>
+      <div class="row ">
+        <div class="column small-12">
+          <input id="all" type="checkbox"><label for="all">All</label>
+          <input id="voice" type="checkbox"><label for="voice">Voice</label>
+          <input id="data" type="checkbox"><label for="data">Data</label>
+          <input id="messaging" type="checkbox"><label for="messaging">Messaging</label>
+          <input id="include-other" type="checkbox"><label for="include-other">Other</label>
+        </div>
+      </div>
+
+      <hr/>
+
+      <h5>View By</h5>
+      <div class="row ">
+        <div class="column small-12 large-8">
+          <span class="select-moz">
+            <select>
+                <option>
+                  Device Type
+                </option>
+            </select>
+          </span>
+        </div>
+      </div>
+      
+      <hr/>
+
+      <h5>Filter By</h5>
+
+      <div class="row ">
+        <div class="column small-12 large-8">
+          <label for="checkbox-carrier">Carrier</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">Verizon</option>
+              <option value="2">AT&amp;T</option>
+              <option value="3">Sprint</option>
+            </select>
+
+          <label for="checkbox-device-os">Device OS</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">iOS</option>
+              <option value="2">Android</option>
+              <option value="3">Blackberry OS</option>
+              <option value="4">Symbian</option>
+            </select>
+
+          <label for="checkbox-country">Country</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+          <label for="checkbox-region">Region</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+          <label for="checkbox-division">Division</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+          <label for="checkbox-department">Department</label>
+            <select class="chosen-select" data-placeholder="Select" multiple="" tabindex="3">
+              <option value=""></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row action-row">
+    <div class="column small-12 large-6">
+      {{#link-to "buildercreate3" class='button small middles round'}}
+          Next
+        {{/link-to}}
+    </div>
+  </div>
+</div>
+
+

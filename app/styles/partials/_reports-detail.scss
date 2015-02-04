@@ -1,0 +1,119 @@
+.report-detail-container, .report-detail-usage-container {
+  & > div {
+    // hide default index
+    display: none;
+  }
+
+  .report, .usage {
+    display: block;
+    .report-slider, .usage-slider {
+      width: auto;
+      position: absolute;
+      left: 110%;
+      right: 0;
+      bottom: 0;
+      top: 00px;
+      z-index: 4000;
+      overflow-y: scroll;
+      background: #ffffff;
+      -webkit-transition: 250ms left cubic-bezier(0.165, 0.84, 0.44, 1);
+
+      .row {
+        margin-left: 0;
+      }
+    }
+    .sidebar-mask, .detail-mask {
+
+      opacity: 0;
+      background: rgba(0,0,0,0.2);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0px;
+      bottom: 0;
+      z-index: 1000;
+      cursor: pointer;
+
+      margin-left: -250px;
+      @media #{$small-only} {
+        margin-left: 0;
+      }
+      .toggled & {
+        margin-left: 0;
+      }
+
+      &:hover {
+        background: rgba(0,0,0,0.1);
+      }
+    }
+    &.open {
+      .report-slider, .usage-slider {
+
+        margin-left: -250px;
+        
+        .toggled & {
+          margin-left: 0;
+        }
+
+        left: 120px;
+        -webkit-transition: 250ms left cubic-bezier(0.165, 0.84, 0.44, 1);
+
+        @media #{$small-only} {
+          left: 0;
+          margin-left: 0;
+        }
+        @media #{$medium-only} {
+          margin-left: 0;
+          left: 0;
+        }
+      }
+      .sidebar-mask, .detail-mask {
+        opacity: 1;
+      }
+    }
+
+    .report-details-header {
+      padding-left: 1em;
+      h1 {
+        margin-bottom: 1em;
+        span {
+          padding-left: 0.5em;
+          font-weight: 100;
+        }
+      }
+
+    }
+
+    .button.middle {
+      margin-top: rem-calc(10);
+    }
+
+    .button.grey {
+    }
+
+
+  }
+
+
+  .usage {
+    .usage-slider {
+      z-index: 10001;
+      left: 110% !important;
+    }
+    .detail-mask {
+      z-index: 10000;
+    }
+
+    &.open {
+      .usage-slider {
+        left: 240px !important;
+        @media #{$medium-only} {
+          left: 120px !important;
+        }
+        @media #{$small-only} {
+          left: 120px !important;
+        }
+      }
+    }
+  }
+}

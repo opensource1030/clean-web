@@ -1,0 +1,114 @@
+<div class="menu-container fixed">    
+
+      <ul class="menu" data-topbar role="navigation">
+
+        {{#link-to "index" tagName="li" classNames="ember-view name title-area"}}
+          <h1><a {{bind-attr href="view.href"}}>ACME</a></h1>
+        {{/link-to}}
+       
+        <li class="switch">
+          <a>Menu <i class="fa fa-bars"></i></a>
+        </li>
+        
+        <li class="user">
+          <a href="#"><span class="fa fa-user"></span></a>
+          <div class="row">
+              <div class="columns">
+                <h5>James Conway</h5>
+                <div class="links">
+                  <a href="/#/">Me</a> | <a href="/#/landing2">Supervisor</a> | <a href="/#/landing3">System</a>
+                </div>
+                <ul class="userLinks">
+                  <li><span class="fa fa-lock"></span> <a href="#">Update Password</a></li>
+                  <li><span class="fa fa-sign-out"></span> <a href="#">Sign Out</a></li>
+                </ul>
+              </div>
+            </div>
+        </li>
+        <li class="search">
+          <input type="text" placeholder="Search"> 
+        </li>
+          {{#link-to "reports" tagName="li" class='dropdown'}}
+              <a {{action 'nothing'}}>Reports</a>
+              <div class="row">
+              <div class="large-3 columns">
+                <ul>
+                  <li class="title">Company</li>
+                  <li><a {{bind-attr href="view.href"}}>Line Charge Report</a></li>
+                  <li><a href="#">Charge Report</a></li>
+                  <li><a href="#">Usage Report</a></li>
+                  <li><a href="#">Data Report</a></li>
+                  <li><a href="#">Voice Report</a></li>
+                  <li><a href="#">Messaging Report</a></li>
+                  <li><a href="#">Intercompany Charge Report</a></li>
+                </ul>
+              </div>
+              <div class="large-3 columns">
+                <ul>
+                  <li class="title">User</li>
+                  <li><a href="#">Charge Report</a></li>
+                  <li><a href="#">Usage Report</a></li>
+                  <li><a href="#">Data Report</a></li>
+                  <li><a href="#">Voice Report</a></li>
+                  <li><a href="#">Messaging Report</a></li>
+                  <li><a href="#">Intercompany Charge Report</a></li>
+                </ul>
+              </div>
+              <div class="large-3 columns">
+                <ul>
+                  <li class="title">Line</li>
+                  <li><a href="#">Charge Report</a></li>
+                  <li><a href="#">Usage Report</a></li>
+                  <li><a href="#">Data Report</a></li>
+                  <li><a href="#">Voice Report</a></li>
+                  <li><a href="#">Messaging Report</a></li>
+                  <li><a href="#">Intercompany Charge Report</a></li>
+                </ul>
+              </div>
+              
+            </div>
+          {{/link-to}}
+
+            {{#link-to "builder" tagName="li" class=''}}
+              <a {{bind-attr href="view.href"}}>Custom Report</a>
+            {{/link-to}}
+          
+            {{#link-to "dashboard" tagName="li" class=''}}
+              <a {{bind-attr href="view.href"}}>Dashboard</a>
+            {{/link-to}}
+            
+            {{#link-to "dashboard" tagName="li" class=''}}
+              <a {{bind-attr href="view.href"}}>Wireless Devices</a>
+            {{/link-to}}
+            
+            {{#link-to "dashboard" tagName="li" class=''}}
+              <a {{bind-attr href="view.href"}}>Wireless Request Form</a>
+            {{/link-to}}
+
+            {{#link-to "dashboard" tagName="li" class=''}}
+              <a {{bind-attr href="view.href"}}>Support</a>
+            {{/link-to}}
+
+        
+      </ul>
+
+    </div>
+
+<div id="wrapper" {{bind-attr class="isSidebarVisible::toggled"}}>
+  {{render 'filter'}}
+
+  <div id="page-content-wrapper">
+    <div class="container-fluid" role="main">
+      {{outlet}}
+    </div>
+
+    <div class="report-detail-container">
+      {{outlet detail}}
+    </div>
+    <div class="report-detail-usage-container">
+      {{outlet summary}}
+    </div>
+  </div>
+
+</div>
+

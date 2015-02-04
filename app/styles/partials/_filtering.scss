@@ -1,0 +1,45 @@
+.sidebarVisibilityControl {
+  font-size: 0.9em;
+}
+
+.active-filters {
+  margin: 1em 0 0;
+  font-size: 0.8em;
+  text-transform: uppercase;
+
+  .filter {
+    color: #3c3c3c;
+    font-weight: 100;
+    display: inline-block;
+    margin-right: 10px; 
+    padding-right: 10px;
+    border-right: 1px solid #e5e5e5;
+  &:last-child {
+    border: 0px;
+  }
+  .fa {
+    font-size: 15px;
+    color: #ccc;
+    cursor: pointer;
+    padding-left: 10px
+  }
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  a.showControls {
+    color: #3c3c3c;
+    font-size: 0.9em;
+    padding-right: 5px;
+    margin-right: 5px;
+    border-right: 1px solid #777;
+    opacity: 1;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    text-transform: normal;
+  }
+}

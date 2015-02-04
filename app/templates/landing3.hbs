@@ -1,0 +1,356 @@
+<div class="row">
+  <div class="column small-12">
+    <div class="report-details-header">
+      <div class="active-filters">
+        <a href="#" {{action 'toggleSidebar' target="controllers.application"}}
+          {{bind-attr class="controllers.application.isSidebarVisible:hidden:visible-inline :showControls"}}>
+          <span class="fa fa-arrow-right"></span>
+          Show Filters
+        </a>
+        <span class="filter">
+          <strong>Bill Month</strong>: August 2014<span class="fa fa-close"></span>
+        </span>
+        <span class="filter">
+          <strong>Carrier</strong>: Verizon<span class="fa fa-close"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="column small-12 medium-8 large-8">
+    <div class="report-details-header">
+    </div>
+  </div>
+  <div class="column small-12 medium-4 large-4 text-right">
+    <a {{action 'toggleSupport'}} class="button small middle grey round">Support</a>
+  </div>
+</div>
+
+<div {{bind-attr class="showSupport:visible:hidden :row"}}>
+  <div class="column small-12 medium-6 large-6">
+    <h3 class="details-header">Contact Support</h3>
+    <table class="details-table content-table">
+      <tbody>
+        <tr>
+          <td>
+            Below are three easy ways to get support for your mobile device.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-envelope"></span>
+              <a href="#">support@company.com</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-comment"></span>
+              <a href="#">Submit a Support Request</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-phone"></span>
+              <a href="#">(800) 555-1212</a>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+  <div class="column small-12 medium-6 large-6">
+    <h3 class="details-header">Support Resources</h3>
+    <table class="details-table content-table">
+      <tbody>
+        <tr>
+          <td>
+            Commonly used resources to gather information or request a change for your mobile device.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-shopping-cart"></span> 
+              <a href="#">Wireless Request Form</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-users"></span> 
+              <a href="#">Wireless Telecom Administrators</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-file-o"></span> 
+              <a href="#">International Roaming Rate Sheet</a>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="icon-callout">
+              <span class="fa fa-file-o"></span> 
+              <a href="#">Wireless Service Policy</a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="column small-12 large-8">
+    <h3 class="details-header">Spend by Carrier</h3>
+    <table class="details-overview-table-2 table-striped">
+
+            <thead class="alt small">
+              <tr>
+                <th rowspan="2" valign="bottom">
+                  Carrier
+                </th>
+                <th>
+                  Usage
+
+                </th>
+                <th>
+                  Service Plan
+
+                </th>
+                <th>
+                  Equipment
+
+                </th>
+                <th>
+                  Taxes
+
+                </th>
+                <th>
+                  Other
+
+                </th>
+                <th>
+                  Total
+
+                </th>
+              </tr>
+ 
+              <tr class="striped-bg">
+               
+                <th>
+                    $161.82
+   
+                </th>
+                <th>
+
+                    $75.06
+       
+                </th>
+                <th>
+ 
+                    $104.88
+             
+                </th>
+                <th>
+          
+                    $45.00
+             
+                </th>
+                <th>
+
+                    $32.60
+ 
+                </th>
+                <th>
+
+                    $494.42
+
+                </th>
+              </tr>
+            </thead>
+         
+      <tbody>
+        <tr>
+          <td data-title="Carrier">AT&amp;T</td>
+          <td data-title="Usage">
+            $55.00
+          </td>
+          <td data-title="Service Plan">
+            $25.02
+          </td>
+          <td data-title="Equipment">
+            $104.88
+          </td>
+          <td data-title="Taxes">
+            $15.00
+          </td>
+          <td data-title="Other">
+            $10.00
+          </td>
+          <td data-title="Total">
+            $234.92
+          </td>
+        </tr>
+        <tr >
+          <td data-title="Carrier">Sprint</td>
+          <td data-title="Usage">
+            $15.00
+          </td>
+          <td data-title="Service Plan">
+            $25.02
+          </td>
+          <td data-title="Equipment">
+            $0
+          </td>
+          <td data-title="Taxes">
+            $15.00
+          </td>
+          <td data-title="Other">
+            $10.00
+          </td>
+          <td data-title="Total">
+            $90.04
+          </td>
+        </tr>
+        <tr>
+          <td data-title="Carrier">Verizon</td>
+          <td data-title="Usage">
+            $91.82
+          </td>
+          <td data-title="Service Plan">
+            $25.02
+          </td>
+          <td data-title="Equipment">
+            $0
+          </td>
+          <td data-title="Taxes">
+            $15.00
+          </td>
+          <td data-title="Other">
+            $12.60
+          </td>
+          <td data-title="Total">
+            $169.46
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+  <div class="column small-12 large-4">
+    <h3 class="details-header">Line Status Report</h3>
+    <table class="details-overview-table-2 table-striped">
+      <thead class="alt small">
+        <tr>
+          <th>
+            Act.
+          </th>
+          <th>
+            Sus.
+          </th>
+          <th>
+            Total
+          </th>
+          <th>
+            Avg/Line
+          </th>
+        </tr>
+        <tr class="striped-bg">
+          <th data-title="Act.">
+            14
+          </th>
+          <th data-title="Sus.">
+            15
+          </th>
+          <th data-title="Total">
+            32
+          </th>
+          <th data-title="Avg/Line">
+            $15.60
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-title="Act.">10</td>
+          <td data-title="Sus.">
+            1
+          </td>
+          <td data-title="Total">
+            11
+          </td>
+          <td data-title="Avg/Line">
+            $92.02
+          </td>
+        </tr>
+        <tr>
+          <td data-title="Act.">10</td>
+          <td data-title="Sus.">
+            1
+          </td>
+          <td data-title="Total">
+            11
+          </td>
+          <td data-title="Avg/Line">
+            $92.02
+          </td>
+        </tr>
+        <tr>
+          <td data-title="Act.">10</td>
+          <td data-title="Sus.">
+            1
+          </td>
+          <td data-title="Total">
+            11
+          </td>
+          <td data-title="Avg/Line">
+            $92.02
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="row">
+  <div class="column small-12 medium-6 large-6">
+    <h3 class="details-header">Spend by Category - Custom</h3>
+      <img src="/assets/images/spend-by-category.png">
+  </div>
+
+  <div class="column small-12 medium-6 large-6">
+    <h3 class="details-header">Trend by Category - Custom</h3>
+      <img src="/assets/images/trend-by-category.png">
+  </div>
+</div>
+
+<div class="row">
+  <div class="column small-12">
+    <div class="filler"></div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="column small-12">
+    <p class="copyright">
+      &copy;2014 by Wireless Analytics LLC All Rights Reserved. 
+    </p>
+  </div>
+</div>
