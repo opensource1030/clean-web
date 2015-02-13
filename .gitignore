@@ -22,3 +22,5 @@ pippo/pluto/*
 /libpeerconnection.log
 npm-debug.log
 testem.log
+/.capistrano
+.DS_Store
