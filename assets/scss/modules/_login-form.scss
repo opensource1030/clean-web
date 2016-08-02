@@ -1,0 +1,44 @@
+.login-form-holder{
+  margin-top:100px;
+  color:$white;
+  > img{
+    margin: 0 auto 35px;
+    display: block;
+  }
+}
+.login{
+  background: #31343c;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.login-box {
+  background: $white;
+  border: 1px solid #ddd;
+  margin: 0 0 35px;
+  padding: 20px 0 5px;
+}
+.title{
+  background: material-color('blue-grey', '800');
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0.6rem;
+  text-align: center;
+  text-transform: uppercase;
+  .version{
+    color: #ccc;
+    font-size: 12px;
+    text-transform: lowercase;
+  }
+}
+.by{
+  > span{
+    display: inline-block;
+    background: material-color('orange', '50');
+    padding: 3px 8px;
+    margin-bottom: 12px;
+    color:$body-font-color;
+  }
+}

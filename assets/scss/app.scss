@@ -1,3 +1,11 @@
-@import "../../bower_components/foundation-sites/scss/foundation";
-@import "../../bower_components/motion-ui/src/motion-ui";
-@include foundation-everything();
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700';
+@import "base/clean-variables";
+@import "base/base";
+@import "mixins/other-mixin";
+@import "plugins/material-color";
+@import "plugins/slick-nav";
+/*@import "mixins/other-mixin";*/
+@import "modules/all-modules";
+@import "partials/dashboard";
+@import "partials/sidebar-menu";
+

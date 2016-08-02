@@ -27,6 +27,9 @@
     "foundation-sites": "~6.2.3"
   },
   "dependencies": {
-    "motion-ui": "^1.2.2"
+    "motion-ui": "^1.2.2",
+    "sass-material-colors": "^0.0.5",
+    "slicknav": "^1.0.7",
+    "highcharts": "^4.2.6"
   }
 }

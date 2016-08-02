@@ -2,7 +2,9 @@ var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var browserSync = require('browser-sync').create();
 var sass        = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
 var reload      = browserSync.reload;
+const imagemin = require('gulp-imagemin');
 
 
 var sassPaths = [
@@ -12,15 +14,13 @@ var sassPaths = [
 
 gulp.task('sass', function() {
   return gulp.src('assets/scss/app.scss')
-    .pipe($.sass({
-      includePaths: sassPaths
-    })
+    .pipe($.sass()
       .on('error', $.sass.logError))
-    .pipe($.autoprefixer({
+    .pipe(autoprefixer({
       browsers: ['last 2 versions', 'ie >= 9']
     }))
     .pipe(gulp.dest('dist/css'))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.stream({match: '**/*.css'}));
 });
 
 // Static Server + watching scss/html files
@@ -30,9 +30,13 @@ gulp.task('serve', ['sass'], function() {
         server: "./"
     });
 
-    gulp.watch("./assets/scss/*.scss", ['sass']);
-    gulp.watch("./*.html").on('change', browserSync.reload);
+    gulp.watch("assets/scss/**/*.scss", ['sass']);
+    gulp.watch("*.html").on('change', browserSync.reload);
 });
 
-
-gulp.task('default', ['serve']);
+gulp.task('copyimg', function() {
+    gulp.src('assets/img/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('dist/img'));
+});
+gulp.task('default', ['serve', 'copyimg'] );
