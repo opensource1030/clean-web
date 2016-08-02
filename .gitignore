@@ -10,10 +10,7 @@
 /vendor/*
 !/vendor/.gitignore
 
-pippo/*
-!pippo/pluto
-pippo/pluto/*
-!pippo/pluto/paperino.xml
+
 
 # misc
 /.sass-cache
@@ -24,3 +21,4 @@ npm-debug.log
 testem.log
 /.capistrano
 .DS_Store
+.idea
