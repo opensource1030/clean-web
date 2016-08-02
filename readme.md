@@ -21,7 +21,6 @@
     bower install
     ```
 - **To build the Front End**  ( It will automatically run the html in default browser and started to watch changes )
-**
      ```
         gulp
     ```
