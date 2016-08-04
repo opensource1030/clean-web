@@ -21,6 +21,8 @@
 }
 .grid-box{
   margin-bottom: rem-calc(40);
+  background: $white;
+  @include css3(border-radius,3px);
   .box-heading{
     background: $brand-dark;
     padding: 0.5rem 0.8rem;
@@ -31,9 +33,10 @@
       margin: 0;
       text-transform: capitalize;
     }
+    @include css3(border-radius,3px 3px 0 0);
   }
   .box-content{
-    padding: 1rem 0;
+    padding: 1rem;
     p{
       padding: 0 1.3rem;
 
@@ -322,10 +325,17 @@
   left: 0;
   .icon-close{
     position: absolute;
-    right: -15px;
+    right: -27px;
+    top: 90px;
+    padding: 1px 9px;
+    background: #37474f;
+    color:$white;
   }
   &.test{
     width: 50px;
+    .icon-close{
+      top:11px;
+    }
     .sidebar-menu{
       > li {
         span,
@@ -360,5 +370,12 @@
   display: none;
   @media screen and (max-width: 800px) {
     display: block;
+  }
+}
+.client-info{
+  font-weight: 300;
+  border-color:rgba(0, 0, 0, 0.10);
+  h2{
+    font-size: 1.9rem;
   }
 }
