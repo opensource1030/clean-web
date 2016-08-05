@@ -1,8 +1,10 @@
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700';
+@import 'https://fonts.googleapis.com/css?family=Titillium+Web:600,700';
 @import "plugins/material-color";
 @import "base/clean-variables";
 @import "base/base";
 @import "mixins/other-mixin";
+@import "plugins/font-awesome";
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
 /*@import "mixins/other-mixin";*/
@@ -10,4 +12,5 @@
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
 
+.w1{overflow: hidden;}
 

@@ -62,6 +62,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &.logo{
       padding: 10px 9px 10px 8px;
       background: $white;
+      border-right:1px #37474F solid;
     }
   }
   li > a > .fa-angle-up {

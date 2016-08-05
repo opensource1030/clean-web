@@ -7,9 +7,9 @@
   <title>Clean Platform</title>
   <link rel="stylesheet" href="dist/css/app.css" />
 </head>
-<body>
+<body class="bg-login">
 <div class="login">
-<div class="large-3 large-centered columns login-form-holder">
+<div class="large-4 large-centered columns login-form-holder">
   <img src="dist/img/wa_logo.png" alt="Wireless Analytics">
   <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
 
@@ -19,12 +19,24 @@
         <form>
           <div class="row">
             <div class="large-12 columns">
-              <input type="text" name="username" placeholder="Username" />
+              <div class="input-group">
+                <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+                <input class="input-group-field" type="text" name="username" placeholder="Username" />
+              </div>
+
             </div>
           </div>
           <div class="row">
             <div class="large-12 columns">
-              <input type="password" name="password" placeholder="Password" />
+              <div class="input-group">
+                <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+              <input class="input-group-field" type="password" name="password" placeholder="Password" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
             </div>
           </div>
           <div class="row">

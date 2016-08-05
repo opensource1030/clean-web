@@ -86,8 +86,9 @@ $color_lightred: rgba(236,90,98,1);
   height: 100%;
   padding: 0 10% 0 10px !important;
   font-weight: 700;
-  border: none !important;
-  background: material-color('grey','200');
+  border: 1px rgba($color_gray,0.8) solid !important;
+  background: $white;
+
   font-size: 0.8em;
   color: $color_red;
   -webkit-transition: font-size 0.5s cubic-bezier(0.7,0,0.3,1);
