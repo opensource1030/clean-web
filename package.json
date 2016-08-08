@@ -21,6 +21,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "gulp-imagemin": "^3.0.2",
     "jquery": "^2.1.4"
   },
   "browser": {

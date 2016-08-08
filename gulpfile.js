@@ -17,7 +17,6 @@ var concat       = require('gulp-concat');
 var babel        = require('gulp-babel');
 var prod         = gutil.env.prod;
 var gulpSequence = require('gulp-sequence');
-var notify = require("gulp-notify");
 
 var onError = function(err) {
     console.log(err.message);
