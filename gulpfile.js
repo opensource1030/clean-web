@@ -24,24 +24,24 @@ var onError = function(err) {
 };
 
 var config = {
-    sassPath: './assets/scss',
-    bowerDir: './assets/vendor'
+    sassPath: './styles',
+    bowerDir: './vendor'
 }
 
 gulp.task('sass', function() {
-  return gulp.src('assets/scss/app.scss')
+  return gulp.src(config.sassPath + '/app.scss')
     .pipe($.sass()
       .on('error', $.sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions', 'ie >= 9']
     }))
-    .pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('./dest/css'))
     .pipe(browserSync.stream({match: '**/*.css'}))
 });
 
 gulp.task('icons', function() {
     return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
-        .pipe(gulp.dest('./dist/fonts'))
+        .pipe(gulp.dest('./dest/fonts'))
 });
 // Static Server + watching scss/html files
 gulp.task('serve', ['sass'], function() {
@@ -50,23 +50,23 @@ gulp.task('serve', ['sass'], function() {
         server: "./"
     });
 
-    gulp.watch("assets/scss/**/*.scss", ['sass']);
+    gulp.watch("./scss/**/*.scss", ['sass']);
     gulp.watch("*.html").on('change', browserSync.reload)
 
 });
 
 gulp.task('copyimg', function() {
-    gulp.src('assets/img/**/*.{gif,jpg,png}')
+    gulp.src('./images/**/*.{gif,jpg,png}')
         .pipe(imagemin({
             progressive: true,
             interlaced: true,
             svgoPlugins: [ {removeViewBox:false}, {removeUselessStrokeAndFill:false} ]
         }))
-        .pipe(gulp.dest('dist/img/'));
+        .pipe(gulp.dest('./dest/images/'));
 });
 
 // bundling js with browserify and watchify
-var b = watchify(browserify('assets/js/**/*.js', {
+var b = watchify(browserify('./scripts/**/*.js', {
     cache: {},
     packageCache: {},
     fullPaths: true
@@ -79,7 +79,7 @@ b.on('log', gutil.log);
 function bundle() {
     return b.bundle()
         .on('error', onError)
-        .pipe(source('assets/js/**/*.js'))
+        .pipe(source('./scripts/**/*.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
         .pipe(babel({
@@ -88,7 +88,7 @@ function bundle() {
         .pipe(concat('bundle.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(prod ? streamify(uglify()) : gutil.noop())
-        .pipe(gulp.dest('./dist/js'))
+        .pipe(gulp.dest('./dest/scripts'))
         .pipe(browserSync.stream())
 }
 
