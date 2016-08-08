@@ -53,7 +53,6 @@ gulp.task('serve', ['sass'], function() {
 
     gulp.watch("assets/scss/**/*.scss", ['sass']);
     gulp.watch("*.html").on('change', browserSync.reload)
-    .pipe(notify({ message: "All tasks complete."}));
 
 });
 
@@ -94,6 +93,4 @@ function bundle() {
         .pipe(browserSync.stream())
 }
 
-gulp.task('default', gulpSequence(['copyimg','icons','sass', 'js'], 'serve', function(){
-
-}));
+gulp.task('default', gulpSequence(['copyimg','icons','sass', 'js'], 'serve'));
