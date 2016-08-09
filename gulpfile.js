@@ -50,7 +50,7 @@ gulp.task('serve', ['sass'], function() {
         server: "./"
     });
 
-    gulp.watch("./scss/**/*.scss", ['sass']);
+    gulp.watch("./styles/**/*.scss", ['sass']);
     gulp.watch("*.html").on('change', browserSync.reload)
 
 });
@@ -66,7 +66,7 @@ gulp.task('copyimg', function() {
 });
 
 // bundling js with browserify and watchify
-var b = watchify(browserify('./scripts/**/*.js', {
+var b = watchify(browserify('./scripts/app.js', {
     cache: {},
     packageCache: {},
     fullPaths: true

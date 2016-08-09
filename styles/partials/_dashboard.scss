@@ -386,7 +386,7 @@
       > li {
         span,
         .label,
-        .fa-angle-up{
+        .fa-angle-down{
           display: none;
         }
         &.header{
@@ -400,6 +400,10 @@
 
       min-width: 170px;
       z-index: 9999;
+
+      .treeview-menu.menu-open{
+        position: static;
+      }
     }
   }
 }

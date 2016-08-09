@@ -23,12 +23,18 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       padding: 12px 5px 12px 20px;
       background: #37474f;
       color:$white;
+       > span{
+         text-transform: uppercase;
+         font-weight: 700;
+       }
       .fa{
         width: 20px;
       }
     }
     > a {
       padding: 12px 5px 12px 15px;
+      text-transform: uppercase;
+      font-weight: 700;
       display: block;
       border-left: 3px solid transparent;
       color: $sidebar-menu-color;
@@ -65,7 +71,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       border-right:1px #37474F solid;
     }
   }
-  li > a > .fa-angle-up {
+  li > a > .fa-angle-down {
     width: auto;
     height: auto;
     padding: 0;
@@ -73,7 +79,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     margin-top: 3px;
   }
   li.active {
-    > a > .fa-angle-up {
+    > a > .fa-angle-down {
       transform: rotate(-180deg);
     }
     > .treeview-menu {
