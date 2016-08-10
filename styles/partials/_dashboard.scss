@@ -30,7 +30,7 @@
   .box-heading{
     background: rgba(57, 67, 76, 1);
     border-bottom:1px solid rgba(0, 0, 0, 0.04);
-    padding:0.8rem;
+    padding:0.7rem;
     h2{
    /*   color: rgba(57, 67, 76, 1);*/
       color:$white;
@@ -366,16 +366,17 @@
   }
   position: absolute;
   width: 200px;
-  background: #222d32;
-  height: 105%;
+  background: #434A4F;
+  height: 106%;
   left: 0;
   .icon-close{
     position: absolute;
     right: -27px;
     top: 90px;
     padding: 1px 9px;
-    background: #37474f;
+    background: #2E3337;
     color:$white;
+    @include css3(border-radius,0 3px 3px 0);
   }
   &.test{
     width: 50px;
@@ -393,6 +394,9 @@
           display: none;
         }
       }
+      li.logo{
+        padding: 10px 2px 10px 2px;
+      }
     }
 
     .treeview-menu.menu-open {
@@ -405,6 +409,22 @@
         position: static;
       }
     }
+    .img-full{
+      display: none;
+    }
+    .img-collapse{
+      display: block;
+    }
+    .text-copyright{
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 10px;
+      margin-bottom: 5px;
+      margin-left: 0;
+      text-align: center;
+      text-transform: uppercase;
+    }
   }
 }
 .content-right{
@@ -414,17 +434,13 @@
   }
   @media screen and (max-width: 800px) {
     padding-left: 0;
-  }
-}
-.slicknav_menu{
-  display: none;
-  @media screen and (max-width: 800px) {
-    display: block;
-    .top-bar-section{
-      padding-bottom: 0;
+    &.test{
+      padding-left: 0;
     }
   }
 }
+
+
 .client-info{
   font-weight: 300;
   border-color:rgba(0, 0, 0, 0.10);

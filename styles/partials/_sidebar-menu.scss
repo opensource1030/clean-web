@@ -1,10 +1,10 @@
-$sidebar-menu-bg: #222d32;
-$sidebar-menu-color: lighten($sidebar-menu-bg, 60%);
+$sidebar-menu-bg: #434a4f;
+$sidebar-menu-color: lighten($sidebar-menu-bg, 80%);
 $sidebar-menu-hover-color: #fff;
-$sidebar-menu-hover-bg: darken($sidebar-menu-bg, 2%);
+$sidebar-menu-hover-bg: #2E3337;
 $sidebar-menu-hover-border-color: #fff ;
 $sidebar-menu-submenu-bg: lighten($sidebar-menu-bg, 5%);
-$sidebar-menu-submenu-color: lighten($sidebar-menu-submenu-bg, 40%);
+$sidebar-menu-submenu-color: $sidebar-menu-color;
 $sidebar-menu-submenu-hover-color: #fff;
 $sidebar-menu-hover-border-color: #3c8dbc;
 
@@ -20,8 +20,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     margin: 0;
     padding: 0;
     &.menu-title{
-      padding: 12px 5px 12px 20px;
-      background: #37474f;
+      background: #2E3337;
       color:$white;
        > span{
          text-transform: uppercase;
@@ -45,7 +44,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &:hover > a, &.active > a {
       color: $sidebar-menu-hover-color;
       background: $sidebar-menu-hover-bg;
-      border-left-color: $sidebar-menu-hover-border-color;
+      border-left-color: $brand-orange;
     }
     > .treeview-menu {
       margin: 0 1px;
@@ -68,7 +67,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &.logo{
       padding: 10px 9px 10px 8px;
       background: $white;
-      border-right:1px #37474F solid;
+      /*border-right:1px #37474F solid;*/
     }
   }
   li > a > .fa-angle-down {
@@ -117,9 +116,41 @@ $sidebar-menu-hover-border-color: #3c8dbc;
           width: auto;
         }
       }
-      &.active > a, > a:hover {
+      > a:hover{
+        color: $brand-orange;
+      }
+      &.active > a {
         color: $sidebar-menu-submenu-hover-color;
       }
     }
+  }
+}
+.nav-poweredby{
+
+  text-align: center;
+  bottom: 5px;
+  padding: 10px 0;
+  position: absolute;
+  .text-copyright{
+    margin-left: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color:$smoke;
+
+  }
+  img{
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    border-top: 1px solid rgba(204, 204, 204, 0.12);
+    padding-top: 5px;
+    margin-top: 3px;
+    max-width: 90%;
+
+  }
+  .img-collapse{
+    margin: 0 auto;
+    max-width: 74%;
+    display: none;
   }
 }
