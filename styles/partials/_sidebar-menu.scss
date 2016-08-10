@@ -126,27 +126,32 @@ $sidebar-menu-hover-border-color: #3c8dbc;
   }
 }
 .nav-poweredby{
-
+  border-top: 1px solid rgba(204, 204, 204, 0.12);
   text-align: center;
-  bottom: 5px;
-  padding: 10px 0;
+  bottom: 0;
+  padding: 3px 0 13px;
   position: absolute;
   .text-copyright{
-    margin-left: 16px;
+    color: #aeaeae;
+    float: left;
     font-size: 12px;
     font-weight: 700;
+    margin-left: 4px;
+    margin-right: 8px;
+    margin-top: 10px;
     text-transform: uppercase;
-    color:$smoke;
 
   }
   img{
     -webkit-filter: grayscale(1);
     filter: grayscale(1);
-    border-top: 1px solid rgba(204, 204, 204, 0.12);
-    padding-top: 5px;
-    margin-top: 3px;
-    max-width: 90%;
 
+  }
+  .img-full{
+    float: left;
+    margin-top: 3px;
+    max-width: 53%;
+    padding-top: 5px;
   }
   .img-collapse{
     margin: 0 auto;
