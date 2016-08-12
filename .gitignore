@@ -13,6 +13,7 @@ vendor/*
 
 
 # misc
+/gitflow
 /.sass-cache
 /connect.lock
 /coverage/*
