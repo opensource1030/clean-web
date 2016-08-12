@@ -60,23 +60,22 @@
 }
 .icon-list{
   @extend %listreset;
+  border-top:1px solid $smoke;
   li{
     line-height: rem-calc(43);
     padding-left: 20px;
+    border-bottom:1px solid $smoke;
     .fa{
       margin-right: 18px;
     }
     a{
       font-weight: 400;
     }
-    &:nth-child(odd){
-      background: material-color('grey','50');
-    }
   }
 }
 .wireless-overview{
   .user-actions{
-    max-width: 195px;
+    max-width: 180px;
     margin-bottom: 0;
     padding: 0.3rem;
   }
@@ -84,7 +83,7 @@
     padding: 0.5rem 1rem 0.38rem;
     vertical-align: top;
     margin-bottom: 0;
-    line-height: 1.1rem;
+    line-height: 1.2rem;
   }
   table{
     border:none;
@@ -95,14 +94,10 @@
         background: #F9F9F9;
       }
     }
-    th,td{
-      font-size: 0.9rem;
-    }
     th{
       background: $white;
-      color: #48535f;
+      line-height: 1.125rem;
       font-weight: 700;
-      font-size: 0.9rem;
       border-bottom:1px rgba(108, 122, 134, 0.08) solid;
       text-align: left;
       padding: 0.7rem 0.56667rem;
@@ -112,8 +107,8 @@
 
     }
     select{
-      font-size: 0.9rem;
-      height: 2.1rem;
+      font-size: 1rem;
+      height: 2.3rem;
       background-position: right 0.4rem center;
     }
   }
@@ -147,6 +142,8 @@
   .button{
     font-weight: 600;
     margin-bottom: 0;
+    padding:0.875rem 1.75rem 0.9375rem;
+    font-size: 14px;
   }
 }
 .search-container{
@@ -447,7 +444,7 @@
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
   font-size: 0.9125rem;
   h2{
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 600;
     margin: 0 0 0.7rem;
   }

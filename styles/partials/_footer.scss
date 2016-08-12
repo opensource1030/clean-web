@@ -1,0 +1,18 @@
+#footer{
+  .copyright{
+    a{
+      color:$body-font-color;
+      text-decoration: underline;
+
+    }
+  }
+  background: #434a4f;
+  bottom: 0;
+  left: 0;
+  padding: 1.16rem;
+  position: fixed;
+  text-align: right;
+  width: 100%;
+  z-index: 8;
+  color:#fff;
+}

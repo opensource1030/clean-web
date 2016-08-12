@@ -211,6 +211,7 @@
                 <th>Service Plan Charges</th>
                 <th> Other Charges</th>
                 <th> Last Upgrade Date</th>
+                <th width="20%"> Actions for this line</th>
               </tr>
               <tr>
                 <td>7/1/2016</td>
@@ -223,6 +224,17 @@
                 <td>$481.00</td>
                 <td>$20.00</td>
                 <td>N/A</td>
+                <td>
+                  <select class=" user-actions">
+                    <option value="husker">-- Choose an issue ---</option>
+                    <option value="starbuck">Troubleshooting</option>
+                    <option value="hotdog">Plan Change</option>
+                    <option value="apollo">Email Service</option>
+                    <option value="apollo">Billing &amp; allocations</option>
+                    <option value="apollo">Other</option>
+                  </select>
+                  <a class="button btn-next" href="#"> <i class="fa fa-long-arrow-right">
+                </td>
               </tr>
 
               </tbody></table>
@@ -258,7 +270,10 @@
   </div>
   </div>
 </div>
+<footer>
+  <div id="footer">Copyright &copy; 2016 <a href="http://wirelessanalytics.com">Wireless Analytics, LLC</a> Made with <i class="fa fa-heart text-orange"></i> from Danvers, MA</div>
 
+</footer>
 
 <script src="vendor/jquery/dist/jquery.min.js"></script>
 <script src="vendor/foundation-sites/dist/foundation.min.js"></script>
