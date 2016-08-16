@@ -178,8 +178,112 @@
         </header>
         <div class="box-content">
           <div class="action-button">
-            <a class="button " href="#">Request Provision</a>
+            <a class="button btn-provision " href="#">Request Provision</a>
             <a class="button" href="#">Get Support</a>
+            <div class="support-form-holder">
+              <div class="form-header">
+                <h2>Ticket Information</h2>
+              </div>
+              <form>
+                <div class="row support-form-container">
+                  <div class="medium-12 columns">
+                    <label>How Can We Help? <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                      <select id="#FilterSelect" class="user-actions">
+                        <option value="husker">-- Choose an issue ---</option>
+                        <option value="starbuck">Troubleshooting</option>
+                        <option value="hotdog">Plan Change</option>
+                        <option value="email-service">Email Service</option>
+                        <option value="Billing">Billing &amp; allocations</option>
+                        <option value="Activation">Activation</option>
+                        <option value="International">International Request</option>
+                        <option value="apollo">Other</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div id="Container">
+                    <div class="medium-12 columns mix Activation">
+                      <label>IMEI/MEID <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="imei/meid">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix Activation">
+                      <label>ICCID <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="iccid">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix Activation">
+                      <label>Device type, Make/Model <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="device type">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix Activation">
+                      <label>Mobile # <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="mobile number">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix International">
+                      <label>What country/countries are you travelling to? <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix International">
+                      <label>Dates of travel <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="">
+                      </label>
+                    </div>
+                    <div class="medium-12 columns mix International">
+                      <label>Device type, phone, tablet, mifi <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+                        <input type="text" placeholder="">
+                      </label>
+                    </div>
+                  <fieldset class="large-12 columns mix email-service ">
+                    <legend>Please select type <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
+                    <input type="radio" name="contact-method" value="email" id="email" required><label for="email">Email</label>
+                    <input type="radio" name="contact-metho" value="phone" id="phone"><label for="requestor">Phone</label>
+
+                  </fieldset>
+                  <div class="medium-12 columns ">
+                    <label>Requestor Email (whomever is filling out this form) <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Whomever is filling out this form."><i class="fa fa-question-circle"> </i> </span>
+                    </label>
+                    <p><strong>domotosho@wirelessanalytics.com</strong></p>
+                  </div>
+                  <div class="medium-12 columns ">
+                    <label>Recipient Email (the affected user)
+                      <input type="text" placeholder="your email">
+                    </label>
+                  </div>
+                  <div class="medium-12 columns mix">
+                    <label>Recipient Mobile Number (if number is unavailable, please add N/A)
+                      <input type="text" placeholder="your email">
+                    </label>
+                  </div>
+                  <fieldset class="large-12 columns ">
+                    <legend>Priority <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
+                      <input type="radio" name="priority" value="Low" id="low" required><label for="low">Low</label>
+                      <input type="radio" name="priority" value="Medium" id="medium"><label for="medium">Medium</label>
+                      <input type="radio" name="priority" value="High" id="high"><label for="high">High</label>
+                      <input type="radio" name="priority" value="Asap" id="asap"><label for="asap">Asap</label>
+
+                  </fieldset>
+                  <fieldset class="large-12 columns ">
+                    <legend>Who should we contact? <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
+                      <input type="radio" name="contact-person" value="recipent" id="recipent" required><label for="recipent">Recipent</label>
+                      <input type="radio" name="contact-person" value="requestor" id="requestor"><label for="requestor">Requestor</label>
+
+                  </fieldset>
+                  <fieldset class="large-12 columns ">
+                    <legend>Preferred Contact Method <span data-tooltip aria-haspopup="true" class="has-tip" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
+                      <input type="radio" name="contact-method" value="email" id="email" required><label for="email">Email</label>
+                      <input type="radio" name="contact-metho" value="phone" id="phone"><label for="requestor">Phone</label>
+
+                  </fieldset>
+                  </div>
+                </div>
+                <div class="form-footer">
+                  <input type="submit" value="submit-request" class="button">
+                </div>
+              </form>
+            </div>
           </div>
           <ul class="icon-list">
             <li><i class="fa fa-users"> </i> <a href="#">Wireless Telecom Administrators</a> </li>
@@ -233,7 +337,7 @@
                     <option value="apollo">Billing &amp; allocations</option>
                     <option value="apollo">Other</option>
                   </select>
-                  <a class="button btn-next" href="#"> <i class="fa fa-long-arrow-right">
+                  <a class="button btn-next" href="#"> <i class="fa fa-long-arrow-right"> </i> </a>
                 </td>
               </tr>
 
@@ -277,7 +381,7 @@
 
 <script src="vendor/jquery/dist/jquery.min.js"></script>
 <script src="vendor/foundation-sites/dist/foundation.min.js"></script>
-<script src="vendor/foundation-sites/dist/plugins/foundation.dropdown.js"></script>
+<script src="vendor/foundation-sites/dist/plugins/foundation.tooltip.js"></script>
 <script src="scripts/modules/sidebar-menu.js"></script>
 <script src="vendor/slicknav/dist/jquery.slicknav.min.js"></script>
 <script src="vendor/highcharts/highcharts.js"></script>
@@ -460,6 +564,24 @@
 
     })
     $('#menu').slicknav();
+  });
+
+  //filter
+  $(function(){
+    var $select = $('.user-actions'),
+            $images =  $('.mix');
+
+    $select.on('change', function() {
+      var value = '.' + $(this).val();
+      $images.show(200).not(value).hide();
+    });
+
+
+
+    $('.btn-provision').mouseenter(function(){
+      $('.support-form-holder').show(200);
+    })
+
   });
 </script>
 
