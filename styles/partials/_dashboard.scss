@@ -24,7 +24,7 @@
 }
 .grid-box{
   margin-bottom: 2.5rem;
-/*  border:1px solid rgba(0, 0, 0, 0.09);*/
+  /*  border:1px solid rgba(0, 0, 0, 0.09);*/
   background: $white;
   @include css3(border-radius,0);
   .box-heading{
@@ -32,7 +32,7 @@
     border-bottom:1px solid rgba(0, 0, 0, 0.04);
     padding:0.5rem 0.8rem;
     h2{
-   /*   color: rgba(57, 67, 76, 1);*/
+      /*   color: rgba(57, 67, 76, 1);*/
       color: #fff;
       font-size: 1.4rem;
       font-weight: 600;
@@ -60,23 +60,22 @@
 }
 .icon-list{
   @extend %listreset;
+  border-top:1px solid $smoke;
   li{
     line-height: rem-calc(43);
     padding-left: 20px;
+    border-bottom:1px solid $smoke;
     .fa{
       margin-right: 18px;
     }
     a{
       font-weight: 400;
     }
-    &:nth-child(odd){
-      background: material-color('grey','50');
-    }
   }
 }
 .wireless-overview{
   .user-actions{
-    max-width: 195px;
+    max-width: 180px;
     margin-bottom: 0;
     padding: 0.3rem;
   }
@@ -84,7 +83,7 @@
     padding: 0.5rem 1rem 0.38rem;
     vertical-align: top;
     margin-bottom: 0;
-    line-height: 1.1rem;
+    line-height: 1.2rem;
   }
   table{
     border:none;
@@ -95,14 +94,10 @@
         background: #F9F9F9;
       }
     }
-    th,td{
-      font-size: 0.9rem;
-    }
     th{
       background: $white;
-      color: #48535f;
+      line-height: 1.125rem;
       font-weight: 700;
-      font-size: 0.9rem;
       border-bottom:1px rgba(108, 122, 134, 0.08) solid;
       text-align: left;
       padding: 0.7rem 0.56667rem;
@@ -112,8 +107,8 @@
 
     }
     select{
-      font-size: 0.9rem;
-      height: 2.1rem;
+      font-size: 1rem;
+      height: 2.3rem;
       background-position: right 0.4rem center;
     }
   }
@@ -144,9 +139,12 @@
 }
 .action-button{
   padding:1rem;
+  position: relative;
   .button{
     font-weight: 600;
     margin-bottom: 0;
+    padding:0.875rem 1.75rem 0.9375rem;
+    font-size: 14px;
   }
 }
 .search-container{
@@ -367,7 +365,7 @@
   position: absolute;
   width: 200px;
   background: #434A4F;
-  height: 106%;
+  height: 100%;
   left: 0;
   .icon-close{
     position: absolute;
@@ -428,6 +426,7 @@
 }
 .content-right{
   padding-left: 200px;
+  padding-bottom: 40px;
   &.test{
     padding-left:50px ;
   }
@@ -447,8 +446,106 @@
   padding: 0.875rem 1.5rem 0.875rem 0.875rem;
   font-size: 0.9125rem;
   h2{
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 600;
     margin: 0 0 0.7rem;
+  }
+}
+a.btn-provision:hover .support-form-holder{
+  display: block !important;
+}
+.support-form-holder{
+  background: $white;
+  border: 1px solid $gainsboro;
+  @include css3(box-shadow,0 0 20px rgba(0, 0, 0, 0.29));
+  display: none;
+  right:0;
+  width: 430px;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  height: 100%;
+  label{
+    color:#444;
+  }
+  .form-header{
+    padding:1.15385rem;
+    position: relative;
+    border-bottom:1px $smoke solid;
+    background: $white;
+    top:-1px;
+    z-index: 99;
+    h2{
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+    }
+    #btn-close {
+      font-size: 18px;
+      position: absolute;
+      right: 9px;
+      top: 6px;
+      color:$brand-dark;
+      &:hover{
+        color:$brand-dark;
+      }
+    }
+  }
+  .form-footer{
+    padding:1.15385rem;
+    border-top:1px $smoke solid;
+    background: $white;
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    left: 0;
+
+  }
+  .form-title{
+    font-weight: 700;
+  }
+  legend{
+    color: #444;
+    display: block;
+    font-size: 1.07692rem;
+    font-weight: normal;
+line-height: 1.8;
+margin: 0;
+
+}
+.has-tip{
+  line-height: 1rem;
+  &.is-required{
+    color:$brand-red;
+    border-color:$brand-red;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .fa-question-circle{
+    color:$brand-blue;
+  }
+}
+  .fieldset{
+    padding: 0 0.53846rem;
+    margin: 0 0 1.23077rem;
+    legend{
+      background: #F9F9F9;
+    }
+  }
+
+}
+.off-canvas-wrapper{
+  overflow: hidden;
+}
+.support-form-container{
+  bottom: 71px;
+  height: 100%;
+  margin-top: 210px;
+  overflow-y: scroll;
+  padding-top: 128px;
+  background: #F9F9F9;
+  position: absolute;
+  .mix{
+    display: none;
   }
 }
