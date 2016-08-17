@@ -1,4 +1,4 @@
-var gulp        = require('gulp');
+/*var gulp        = require('gulp');
 var $           = require('gulp-load-plugins')();
 var browserSync = require('browser-sync').create();
 var sass        = require('gulp-sass');
@@ -36,7 +36,7 @@ gulp.task('sass', function() {
       browsers: ['last 2 versions', 'ie >= 9']
     }))
     .pipe(gulp.dest('./dest/css'))
-    .pipe(browserSync.stream({match: '**/*.css'}))
+    .pipe(browserSync.stream({match: '**//*.css'}))
 });
 
 gulp.task('icons', function() {
@@ -50,20 +50,12 @@ gulp.task('serve', ['sass'], function() {
         server: "./"
     });
 
-    gulp.watch("./styles/**/*.scss", ['sass']);
+    gulp.watch("./styles/**//*.scss", ['sass']);
     gulp.watch("*.html").on('change', browserSync.reload)
 
 });
 
-gulp.task('copyimg', function() {
-    gulp.src('./images/**/*.{gif,jpg,png}')
-        .pipe(imagemin({
-            progressive: true,
-            interlaced: true,
-            svgoPlugins: [ {removeViewBox:false}, {removeUselessStrokeAndFill:false} ]
-        }))
-        .pipe(gulp.dest('./dest/images/'));
-});
+
 
 // bundling js with browserify and watchify
 var b = watchify(browserify('./scripts/app.js', {
@@ -79,7 +71,7 @@ b.on('log', gutil.log);
 function bundle() {
     return b.bundle()
         .on('error', onError)
-        .pipe(source('./scripts/**/*.js'))
+        .pipe(source('./scripts/**//*.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init())
         .pipe(babel({
@@ -92,4 +84,94 @@ function bundle() {
         .pipe(browserSync.stream())
 }
 
-gulp.task('default', gulpSequence(['copyimg','icons','sass', 'js'], 'serve'));
+gulp.task('default', gulpSequence(['copyimg','icons','sass', 'js'], 'serve'));*/
+
+var gulp = require('gulp');
+var $           = require('gulp-load-plugins')();
+var webpack = require('webpack-stream');
+var browserSync = require('browser-sync').create();
+
+
+
+var sass        = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
+var reload      = browserSync.reload;
+const imagemin = require('gulp-imagemin');
+var watch = require('gulp-watch');
+var batch = require('gulp-batch');
+var connect = require('gulp-connect');
+var copy = require('gulp-copy');
+var gulpSequence = require('gulp-sequence');
+
+var url = require('url'); // https://www.npmjs.org/package/url
+var proxyMiddleware = require('http-proxy-middleware');// https://www.npmjs.org/package/proxy-middleware
+var browserSync = require('browser-sync'); // https://www.npmjs.org/package/browser-sync
+
+
+gulp.task('browser-sync', function() {
+
+
+
+    browserSync({
+        open: true,
+        port: 3000,
+        server: {
+            baseDir: "./"
+
+        }
+    });
+    gulp.watch("./styles/**//*.scss", ['sass']);
+    gulp.watch("*.html").on('change', browserSync.reload)
+
+});
+// Run webpack
+gulp.task('webpack', function(){
+  return gulp.src('src/app.js')
+    .pipe(webpack( require('./webpack.config.js') ))
+    .pipe(gulp.dest('dest/js/'))
+    .pipe(connect.reload());
+});
+
+
+
+// Copy index.html file
+gulp.task('build.index', function(){
+  return gulp.src('./index.html')
+    .pipe(gulp.dest('./dest'));
+});
+
+gulp.task('copyimg', function() {
+   gulp.src('./images/**//*.{gif,jpg,png}')
+        .pipe(imagemin({
+            progressive: true,
+            interlaced: true,
+            svgoPlugins: [ {removeViewBox:false}, {removeUselessStrokeAndFill:false} ]
+        }))
+        .pipe(gulp.dest('dest/images/'));
+});
+
+var onError = function(err) {
+    console.log(err.message);
+    this.emit('end');
+};
+
+var config = {
+    sassPath: './styles',
+    bowerDir: './vendor'
+}
+
+gulp.task('sass', function() {
+  return gulp.src(config.sassPath + '/app.scss')
+    .pipe($.sass()
+      .on('error', $.sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions', 'ie >= 9']
+    }))
+    .pipe(gulp.dest('./dest/css'))
+    .pipe(browserSync.stream({match: '**//*.css'}))
+});
+
+
+
+// Default task
+gulp.task('default', gulpSequence(['copyimg','webpack','browser-sync', 'sass','build.index']));
