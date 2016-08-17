@@ -30,7 +30,7 @@ router.map({
     component: LoginLocal
   },
   '/dashboard':{
-    name: 'ldashboard',
+    name: 'dashboard',
     component: Dashboard
   },
 

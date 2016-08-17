@@ -102,7 +102,7 @@ var batch = require('gulp-batch');
 var connect = require('gulp-connect');
 var copy = require('gulp-copy');
 var gulpSequence = require('gulp-sequence');
-const plugins = require('./bs-config').plugins;
+
 var url = require('url'); // https://www.npmjs.org/package/url
 var proxyMiddleware = require('http-proxy-middleware');// https://www.npmjs.org/package/proxy-middleware
 var browserSync = require('browser-sync'); // https://www.npmjs.org/package/browser-sync

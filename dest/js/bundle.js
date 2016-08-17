@@ -51,10 +51,10 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';Object.defineProperty(exports,"__esModule",{value:true});exports.router=undefined;var _vue=__webpack_require__(2);var _vue2=_interopRequireDefault(_vue);var _vueResource=__webpack_require__(4);var _vueResource2=_interopRequireDefault(_vueResource);var _vueRouter=__webpack_require__(28);var _vueRouter2=_interopRequireDefault(_vueRouter);var _App=__webpack_require__(29);var _App2=_interopRequireDefault(_App);var _Login=__webpack_require__(35);var _Login2=_interopRequireDefault(_Login);var _Register=__webpack_require__(39);var _Register2=_interopRequireDefault(_Register);var _LoginLocal=__webpack_require__(42);var _LoginLocal2=_interopRequireDefault(_LoginLocal);var _Dashboard=__webpack_require__(45);var _Dashboard2=_interopRequireDefault(_Dashboard);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}// Install plugins
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});exports.router=undefined;var _vue=__webpack_require__(2);var _vue2=_interopRequireDefault(_vue);var _vueResource=__webpack_require__(4);var _vueResource2=_interopRequireDefault(_vueResource);var _vueRouter=__webpack_require__(28);var _vueRouter2=_interopRequireDefault(_vueRouter);var _App=__webpack_require__(29);var _App2=_interopRequireDefault(_App);var _Login=__webpack_require__(35);var _Login2=_interopRequireDefault(_Login);var _Register=__webpack_require__(40);var _Register2=_interopRequireDefault(_Register);var _LoginLocal=__webpack_require__(43);var _LoginLocal2=_interopRequireDefault(_LoginLocal);var _Dashboard=__webpack_require__(46);var _Dashboard2=_interopRequireDefault(_Dashboard);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}// Install plugins
 	_vue2.default.use(_vueRouter2.default);_vue2.default.use(_vueResource2.default);// Set up a new router
 	var router=exports.router=new _vueRouter2.default();// Route config
-	router.map({'/login':{name:'login',component:_Login2.default},'/register':{name:'register',component:_Register2.default},'/loginLocal':{name:'loginLocal',component:_LoginLocal2.default},'/dashboard':{name:'ldashboard',component:_Dashboard2.default}});// For every new route scroll to the top of the page
+	router.map({'/login':{name:'login',component:_Login2.default},'/register':{name:'register',component:_Register2.default},'/loginLocal':{name:'loginLocal',component:_LoginLocal2.default},'/dashboard':{name:'dashboard',component:_Dashboard2.default}});// For every new route scroll to the top of the page
 	router.beforeEach(function(){window.scrollTo(0,0);});// If no route is matched redirect home
 	router.redirect({'*':'/login'});// Start up our app
 	router.start(_App2.default,'#app');
@@ -14704,11 +14704,11 @@
 	//   <div class="top-bar">
 	//   <div class="top-bar-left">
 	//     <ul class="dropdown menu" data-dropdown-menu>
-	//       <li class="menu-text">Vue </li>
+	//       <li class="menu-text">Vue</li>
 	//       <li><a v-link="{name: 'login'}">Login</a></li>
 	//       <li><a v-link="{name: 'loginLocal'}">Login Local</a></li>
-	//
 	//       <li><a v-link="{name: 'register'}">Register</a></li>
+	//           <li><a v-link="{name:'dashboard'}">Dashboard</a></li>
 	//     </ul>
 	//   </div>
 	//   <div class="top-bar-right">
@@ -14724,7 +14724,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <div class=\"top-bar\">\n  <div class=\"top-bar-left\">\n    <ul class=\"dropdown menu\" data-dropdown-menu>\n      <li class=\"menu-text\">Vue </li>\n      <li><a v-link=\"{name: 'login'}\">Login</a></li>\n      <li><a v-link=\"{name: 'loginLocal'}\">Login Local</a></li>\n\n      <li><a v-link=\"{name: 'register'}\">Register</a></li>\n    </ul>\n  </div>\n  <div class=\"top-bar-right\">\n    <ul class=\"menu\">\n\n    </ul>\n  </div>\n</div>\n";
+	module.exports = "\n  <div class=\"top-bar\">\n  <div class=\"top-bar-left\">\n    <ul class=\"dropdown menu\" data-dropdown-menu>\n      <li class=\"menu-text\">Vue</li>\n      <li><a v-link=\"{name: 'login'}\">Login</a></li>\n      <li><a v-link=\"{name: 'loginLocal'}\">Login Local</a></li>\n      <li><a v-link=\"{name: 'register'}\">Register</a></li>\n          <li><a v-link=\"{name:'dashboard'}\">Dashboard</a></li>\n    </ul>\n  </div>\n  <div class=\"top-bar-right\">\n    <ul class=\"menu\">\n\n    </ul>\n  </div>\n</div>\n";
 
 /***/ },
 /* 34 */
@@ -14770,7 +14770,7 @@
 	//   <div class=class="bg-login">
 	//     <div class="login">
 	//   <div class="large-4 large-centered columns login-form-holder">
-	//
+	//     <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
 	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
 	//
 	//     <div class="login-box">
@@ -14812,21 +14812,27 @@
 	var api="http://clean.api";exports.default={// User object will let us check authentication status
 	user:{authenticated:false},// Send a request to the login URL and save the returned JWT
 	login:function login(context,creds,redirect){context.$http.get(api+'/doSSO/'+creds.email).then(function(response){console.log(response.data.data.redirectUrl);},function(response){//error
-	if(response.data.error=="User Not Found, Register Required"){_app.router.go('register');context.error=response.data.error;}else{context.error=response.data.error;}});},register:function register(context,creds,redirect){}};
+	if(response.data.error=="User Not Found, Register Required"){_app.router.go('register');context.error=response.data.error;}else{context.error=response.data.error;}});},register:function register(context,creds,redirect){},loginLocal:function loginLocal(context,creds,redirect){if(creds.email==="mateo@test.com"&&creds.password==="1234"){_app.router.go('dashboard');}else{context.error="Error password or email not matching";}}};
 
 /***/ },
 /* 38 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n    <img src=\"" + __webpack_require__(39) + "\" alt=\"Wireless Analytics\">\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
 
 /***/ },
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__.p + "1c4b278aa92b88734825ff677308579e.png";
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(40)
-	__vue_template__ = __webpack_require__(41)
+	__vue_script__ = __webpack_require__(41)
+	__vue_template__ = __webpack_require__(42)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -14843,22 +14849,112 @@
 	})()}
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
 	// properties that will be used in it
-	credentials:{email:'',password:''},error:''};},methods:{name:"Register",submit:function submit(){var credentials={email:this.credentials.email,password:this.credentials.password};// We need to pass the component's this context
+	credentials:{firstName:'',lastName:'',email:''},error:''};},methods:{name:"loginLocal",submit:function submit(){var credentials={firstName:this.credentials.firstName,password:this.credentials.lastName,email:this.credentials.email};// We need to pass the component's this context
 	// to properly make use of http in the auth service
-	_auth2.default.register(this,credentials,'dashboard');}}};// </script>
+	_auth2.default.loginLocal(this,credentials,'dashboard');}}};// </script>
 	//
 	// <template>
 	//   <div class=class="bg-login">
 	//     <div class="login">
 	//   <div class="large-4 large-centered columns login-form-holder">
-	//
+	//       <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
 	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+	// <h3 class="error">{{error}}<h3>
+	//     <div class="login-box">
+	//       <div class="row">
+	//         <div class="large-12 columns">
+	//           <form>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+	//                   <input class="input-group-field" type="text" v-model="credentials.firstName" placeholder="First Name" />
+	//                 </div>
 	//
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+	//                 <input class="input-group-field" type="password" v-model="credentials.lastName" placeholder="Last Name" />
+	//                 </div>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+	//                 <input class="input-group-field" type="email" v-model="credentials.email" placeholder="email" />
+	//                 </div>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 large-centered columns">
+	//                 <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
+	//               </div>
+	//             </div>
+	//           </form>
+	//         </div>
+	//       </div>
+	//     </div>
+	//   </div>
+	//   </div>
+	//   </div>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n      <img src=\"" + __webpack_require__(39) + "\" alt=\"Wireless Analytics\">\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n<h3 class=\"error\">{{error}}<h3>\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.firstName\" placeholder=\"First Name\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.lastName\" placeholder=\"Last Name\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"email\" v-model=\"credentials.email\" placeholder=\"email\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(44)
+	__vue_template__ = __webpack_require__(45)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/LoginLocal.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
+	// properties that will be used in it
+	credentials:{email:'',password:''},error:''};},methods:{name:"loginLocal",submit:function submit(){var credentials={email:this.credentials.email,password:this.credentials.password};// We need to pass the component's this context
+	// to properly make use of http in the auth service
+	_auth2.default.loginLocal(this,credentials,'dashboard');}}};// </script>
+	//
+	// <template>
+	//   <div class=class="bg-login">
+	//     <div class="login">
+	//   <div class="large-4 large-centered columns login-form-holder">
+	//       <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
+	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+	//     <h3 class="error">{{error}}<h3>
 	//     <div class="login-box">
 	//       <div class="row">
 	//         <div class="large-12 columns">
@@ -14902,108 +14998,18 @@
 	// <script>
 
 /***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.password\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <input id=\"checkbox3\" type=\"checkbox\"><label for=\"checkbox3\">remember me</label>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\" value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(43)
-	__vue_template__ = __webpack_require__(44)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/LoginLocal.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
-	// properties that will be used in it
-	credentials:{firstName:'',lastName:'',email:''},error:''};},methods:{name:"loginLocal",submit:function submit(){var credentials={firstName:this.credentials.firstName,password:this.credentials.lastName,email:this.credentials.email};// We need to pass the component's this context
-	// to properly make use of http in the auth service
-	_auth2.default.register(this,credentials,'dashboard');}}};// </script>
-	//
-	// <template>
-	//   <div class=class="bg-login">
-	//     <div class="login">
-	//   <div class="large-4 large-centered columns login-form-holder">
-	//
-	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
-	//
-	//     <div class="login-box">
-	//       <div class="row">
-	//         <div class="large-12 columns">
-	//           <form>
-	//             <div class="row">
-	//               <div class="large-12 columns">
-	//                 <div class="input-group">
-	//                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
-	//                   <input class="input-group-field" type="text" v-model="credentials.firstName" placeholder="Username" />
-	//                 </div>
-	//
-	//               </div>
-	//             </div>
-	//             <div class="row">
-	//               <div class="large-12 columns">
-	//                 <div class="input-group">
-	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-	//                 <input class="input-group-field" type="password" v-model="credentials.lastName" placeholder="Password" />
-	//                 </div>
-	//               </div>
-	//             </div>
-	//             <div class="row">
-	//               <div class="large-12 columns">
-	//                 <div class="input-group">
-	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-	//                 <input class="input-group-field" type="password" v-model="credentials.email" placeholder="Password" />
-	//                 </div>
-	//               </div>
-	//             </div>
-	//             <div class="row">
-	//               <div class="large-12 large-centered columns">
-	//                 <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
-	//               </div>
-	//             </div>
-	//           </form>
-	//         </div>
-	//       </div>
-	//     </div>
-	//   </div>
-	//   </div>
-	//   </div>
-	// </template>
-	//
-	// <script>
-
-/***/ },
-/* 44 */
-/***/ function(module, exports) {
-
-	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.firstName\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.lastName\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.email\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
-
-/***/ },
 /* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n      <img src=\"" + __webpack_require__(39) + "\" alt=\"Wireless Analytics\">\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n    <h3 class=\"error\">{{error}}<h3>\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.password\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <input id=\"checkbox3\" type=\"checkbox\"><label for=\"checkbox3\">remember me</label>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\" value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(46)
-	__vue_template__ = __webpack_require__(47)
+	__vue_script__ = __webpack_require__(47)
+	__vue_template__ = __webpack_require__(48)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -15020,10 +15026,261 @@
 	})()}
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	"use strict";Object.defineProperty(exports,"__esModule",{value:true});// <template>
+	//   <div class="off-canvas-wrapper">
+	//     <section  class="menu-left">
+	//       <a href="#" class="icon-close"> <i class="fa fa-bars "> </i> </a>
+	//       <ul id="menu" class="sidebar-menu">
+	//         <li class="logo"> <img src="../../dest/images/clients/tfs/logo.png" alt="logo" title="Client Logo"> </li>
+	//         <li class="menu-title">
+	//           <a href="#">
+	//             <i class="fa fa-home"></i> <span>Home</span>
+	//           </a>
+	//         </li>
+	//         <li class="treeview">
+	//           <a href="#">
+	//             <i class="fa fa-dashboard"></i>
+	//             <span>Dashboard</span>
+	//             <i class="fa fa-angle-down pull-right"></i>
+	//           </a>
+	//           <ul class="treeview-menu" style="display: none;">
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Trends</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
+	//             <li class=""><a href="#"><i class="fa fa-circle-o"></i> Split Billing</a>
+	//             </li>
+	//           </ul>
+	//         </li>
+	//         <li class="treeview">
+	//           <a href="#">
+	//             <i class="fa fa-bar-chart"></i>
+	//             <span>Reports</span>
+	//             <i class="fa fa-angle-down pull-right"></i>
+	//           </a>
+	//           <ul class="treeview-menu">
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Charge</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Data</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> International</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Usage</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
+	//             <li><a href="#"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
+	//           </ul>
+	//         </li>
+	//         <li class="treeview">
+	//           <a href="#">
+	//             <i class="fa fa-gears"></i> <span>Admin</span>
+	//             <i class="fa fa-angle-down pull-right"></i>
+	//           </a>
+	//           <ul class="treeview-menu">
+	//             <li>
+	//               <a href="#"><i class="fa fa-circle-o"></i> Carrier <i class="fa fa-angle-down pull-right"></i></a>
+	//               <ul class="treeview-menu">
+	//                 <li><a href="#"> View All</a></li>
+	//                 <li><a href="#"> Process New Data</a></li>
+	//                 <li><a href="#"> View All Plans</a></li>
+	//                 <li><a href="#"> View Incompleted</a></li>
+	//                 <li><a href="#"> Perform Plan Analysis</a></li>
+	//               </ul>
+	//             </li>
+	//             <li>
+	//               <a href="#"><i class="fa fa-circle-o"></i> Device <i class="fa fa-angle-down pull-right"></i></a>
+	//               <ul class="treeview-menu">
+	//                 <li><a href="#"> Search</a></li>
+	//                 <li><a href="#"> Add New Device</a></li>
+	//
+	//               </ul>
+	//             </li>
+	//             <li>
+	//               <a href="#"><i class="fa fa-circle-o"></i> Employees <i class="fa fa-angle-down pull-right"></i></a>
+	//               <ul class="treeview-menu">
+	//                 <li><a href="#"> Search</a></li>
+	//                 <li><a href="#"> Load New Census</a></li>
+	//                 <li><a href="#"> Add New Employee</a></li>
+	//               </ul>
+	//             </li>
+	//             <li>
+	//               <a href="#"><i class="fa fa-circle-o"></i> Employees <i class="fa fa-angle-down pull-right"></i></a>
+	//               <ul class="treeview-menu">
+	//                 <li><a href="#"> Jenkins</a></li>
+	//                 <li><a href="#"> Beanstalk</a></li>
+	//                 <li><a href="#"> DB Snapshots</a></li>
+	//               </ul>
+	//             </li>
+	//
+	//           </ul>
+	//         </li>
+	//         <li><a href="#"><i class="fa fa-cog"></i> <span>Setting</span></a></li>
+	//         <li><a href="#"><i class="fa fa-phone"></i> <span>Support</span></a></li>
+	//
+	//
+	//       </ul>
+	//       <div class="nav-poweredby">
+	//         <span class="text-copyright">Powered By</span>
+	//         <img class="img-full" src="../../images/wa_logo.png" alt="Wireless Analytics">
+	//         <img class="img-collapse" src="../../images/logo.jpg" alt="Wireless Analytics">
+	//       </div>
+	//     </section>
+	//     <div class="content-right" >
+	//     <div class="expanded row">
+	//
+	//       <!-- top nav -->
+	//       <section class="top-bar-section clearfix ">
+	//         <div class="column large-8">
+	//         <div id="morphsearch" class="morphsearch">
+	//           <form class="morphsearch-form">
+	//             <input class="morphsearch-input" type="search" placeholder="What can we help you with?" title="What can we help you with?"/>
+	//             <button class="morphsearch-submit" type="submit">Search</button>
+	//           </form>
+	//           <div class="morphsearch-content">
+	//             <!-- Helpjuice Knowledge base code -->
+	//             <div id="helpjuice_js_widget_content">
+	//              <img src='//helpjuice.com/images/cube-theme/loading.gif' class="helpjuice-loading-spinner" />
+	//             </div>
+	//             <script>
+	//               var helpjuice_account_url = "https://wirelessanalytics.helpjuice.com/";
+	//             </script>
+	//             <script src="//s3.amazonaws.com/assets.helpjuice.com/helpjuice.min.js"></script>
+	//             <!-- End of Helpjuice knowledge base code -->
+	//
+	//
+	//           </div><!-- /morphsearch-content -->
+	//           <span class="morphsearch-close"></span>
+	//         </div><!-- /morphsearch -->
+	//         </div>
+	//         <div class="large-4">
+	//
+	//         </div>
+	//       </section>
+	//
+	//       <!-- end of top nav -->
+	//       <div class="clearfix"></div>
+	//       <nav aria-label="You are here:" role="navigation">
+	//         <ul class="breadcrumbs for-clean">
+	//           <li><a href="#"><i class="fa fa-home"> </i></a></li>
+	//           <li>
+	//             <span class="show-for-sr">Current: </span> Dashboard
+	//           </li>
+	//         </ul>
+	//       </nav>
+	//     <div class="column large-12">
+	//       <div class="default callout client-info" data-closable>
+	//         <h2>Thermo Fisher Wireless Portal</h2>
+	//         Welcome to the Thermo Fisher wireless support portal. On this site you can review your recent wireless usage and charges, place requests for wireless devices and services, and get assistance should you require troubleshooting or support for your company-owned wireless device.
+	//         <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+	//           <span aria-hidden="true">&times;</span>
+	//         </button>
+	//       </div>
+	//     </div>
+	//       <div class="clearfix"></div>
+	//       <div class="large-6 columns" >
+	//         <div class="grid-box" data-mh="box1">
+	//           <header class="box-heading">
+	//             <h2>contact support</h2>
+	//           </header>
+	//           <div class="box-content">
+	//             <div class="box-content-holder">
+	//               <p>There Are 3 Easy Ways To Get Support:  </p>
+	//             </div>
+	//             <ul class="icon-list">
+	//               <li><i class="fa fa-envelope"> </i> <a href="mailto:support@company.com">support@company.com</a> </li>
+	//               <li><i class="fa fa-phone"> </i> <a href="tel:800-55-1212">(800)-55-1212</a> </li>
+	//               <li><i class="fa fa-question"> </i> <a href="tel:800-55-1212">Submit a support request</a> </li>
+	//             </ul>
+	//             <span class="note">For a detailed summary of the support options available please click <a href="#">HERE</a>. </span>
+	//           </div>
+	//         </div>
+	//       </div>
+	//       <div class="large-6 columns" >
+	//         <div class="grid-box" data-mh="box1">
+	//           <header class="box-heading">
+	//             <h2> support resources</h2>
+	//           </header>
+	//           <div class="box-content">
+	//             <div class="action-button">
+	//               <a class="button " href="#">Request Provision</a>
+	//               <a class="button" href="#">Get Support</a>
+	//             </div>
+	//             <ul class="icon-list">
+	//               <li><i class="fa fa-users"> </i> <a href="#">Wireless Telecom Administrators</a> </li>
+	//               <li><i class="fa fa-file-o"> </i> <a href="#">International Roaming Rate Sheet</a> </li>
+	//               <li><i class="fa fa-file-o"> </i> <a href="#">Wireless Service Policy</a> </li>
+	//             </ul>
+	//           </div>
+	//         </div>
+	//       </div>
+	//       <div class="clearfix"></div>
+	//       <div class="large-12 columns">
+	//         <div class="grid-box">
+	//           <header class="box-heading">
+	//             <h2> Wireless Line Overview</h2>
+	//           </header>
+	//           <div class="box-content no-pad">
+	//             <div class="wireless-overview">
+	//               <table width="100%" class="responsive">
+	//                 <tbody><tr>
+	//                   <th>Bill Month</th>
+	//                   <th>
+	//                     User Name
+	//                   </th>
+	//                   <th>Mobile Number</th>
+	//                   <th>Carrier</th>
+	//                   <th>Device</th>
+	//                   <th>Total Allocated Charge</th>
+	//                   <th>Usage Charges</th>
+	//                   <th>Service Plan Charges</th>
+	//                   <th> Other Charges</th>
+	//                   <th> Last Upgrade Date</th>
+	//                 </tr>
+	//                 <tr>
+	//                   <td>7/1/2016</td>
+	//                   <td>Adriana Vicentini</td>
+	//                   <td><a href="tel:115-123-1613">115-326-8868</a></td>
+	//                   <td>Telefonica</td>
+	//                   <td>Samsung Galaxy Core 2 G355</td>
+	//                   <td>$503.21</td>
+	//                   <td>$3.00</td>
+	//                   <td>$481.00</td>
+	//                   <td>$20.00</td>
+	//                   <td>N/A</td>
+	//                 </tr>
+	//
+	//                 </tbody></table>
+	//             </div>
+	//           </div>
+	//         </div>
+	//       </div>
+	//       <div class="clearfix"></div>
+	//       <div class="large-6 columns">
+	//         <div class="grid-box" data-mh="box2">
+	//           <header class="box-heading">
+	//             <h2>Spend by Category- Custom</h2>
+	//           </header>
+	//           <div class="box-content">
+	//             <div id="spend-category">
+	//
+	//             </div>
+	//           </div>
+	//         </div>
+	//       </div>
+	//       <div class="large-6 columns">
+	//         <div class="grid-box" data-mh="box2">
+	//           <header class="box-heading">
+	//             <h2>Trend by Category- Custom</h2>
+	//           </header>
+	//           <div class="box-content">
+	//             <div id="trend-category">
+	//
+	//             </div>
+	//           </div>
+	//         </div>
+	//       </div>
+	//     </div>
+	//     </div>
+	//   </div>
+	//
 	//
 	//
 	//
@@ -15034,10 +15291,28 @@
 	//
 
 /***/ },
-/* 47 */
-/***/ function(module, exports) {
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\n\n\n\n";
+	module.exports = "\n  <div class=\"off-canvas-wrapper\">\n    <section  class=\"menu-left\">\n      <a href=\"#\" class=\"icon-close\"> <i class=\"fa fa-bars \"> </i> </a>\n      <ul id=\"menu\" class=\"sidebar-menu\">\n        <li class=\"logo\"> <img src=\"" + __webpack_require__(49) + "\" alt=\"logo\" title=\"Client Logo\"> </li>\n        <li class=\"menu-title\">\n          <a href=\"#\">\n            <i class=\"fa fa-home\"></i> <span>Home</span>\n          </a>\n        </li>\n        <li class=\"treeview\">\n          <a href=\"#\">\n            <i class=\"fa fa-dashboard\"></i>\n            <span>Dashboard</span>\n            <i class=\"fa fa-angle-down pull-right\"></i>\n          </a>\n          <ul class=\"treeview-menu\" style=\"display: none;\">\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Trends</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Bill Cycle</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Top 10 Reports</a></li>\n            <li class=\"\"><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Split Billing</a>\n            </li>\n          </ul>\n        </li>\n        <li class=\"treeview\">\n          <a href=\"#\">\n            <i class=\"fa fa-bar-chart\"></i>\n            <span>Reports</span>\n            <i class=\"fa fa-angle-down pull-right\"></i>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Charge</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Data</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> International</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Usage</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Intercompany Charge</a></li>\n            <li><a href=\"#\"><i class=\"fa fa-circle-o\"></i> Zero Usage</a></li>\n          </ul>\n        </li>\n        <li class=\"treeview\">\n          <a href=\"#\">\n            <i class=\"fa fa-gears\"></i> <span>Admin</span>\n            <i class=\"fa fa-angle-down pull-right\"></i>\n          </a>\n          <ul class=\"treeview-menu\">\n            <li>\n              <a href=\"#\"><i class=\"fa fa-circle-o\"></i> Carrier <i class=\"fa fa-angle-down pull-right\"></i></a>\n              <ul class=\"treeview-menu\">\n                <li><a href=\"#\"> View All</a></li>\n                <li><a href=\"#\"> Process New Data</a></li>\n                <li><a href=\"#\"> View All Plans</a></li>\n                <li><a href=\"#\"> View Incompleted</a></li>\n                <li><a href=\"#\"> Perform Plan Analysis</a></li>\n              </ul>\n            </li>\n            <li>\n              <a href=\"#\"><i class=\"fa fa-circle-o\"></i> Device <i class=\"fa fa-angle-down pull-right\"></i></a>\n              <ul class=\"treeview-menu\">\n                <li><a href=\"#\"> Search</a></li>\n                <li><a href=\"#\"> Add New Device</a></li>\n\n              </ul>\n            </li>\n            <li>\n              <a href=\"#\"><i class=\"fa fa-circle-o\"></i> Employees <i class=\"fa fa-angle-down pull-right\"></i></a>\n              <ul class=\"treeview-menu\">\n                <li><a href=\"#\"> Search</a></li>\n                <li><a href=\"#\"> Load New Census</a></li>\n                <li><a href=\"#\"> Add New Employee</a></li>\n              </ul>\n            </li>\n            <li>\n              <a href=\"#\"><i class=\"fa fa-circle-o\"></i> Employees <i class=\"fa fa-angle-down pull-right\"></i></a>\n              <ul class=\"treeview-menu\">\n                <li><a href=\"#\"> Jenkins</a></li>\n                <li><a href=\"#\"> Beanstalk</a></li>\n                <li><a href=\"#\"> DB Snapshots</a></li>\n              </ul>\n            </li>\n\n          </ul>\n        </li>\n        <li><a href=\"#\"><i class=\"fa fa-cog\"></i> <span>Setting</span></a></li>\n        <li><a href=\"#\"><i class=\"fa fa-phone\"></i> <span>Support</span></a></li>\n\n\n      </ul>\n      <div class=\"nav-poweredby\">\n        <span class=\"text-copyright\">Powered By</span>\n        <img class=\"img-full\" src=\"" + __webpack_require__(50) + "\" alt=\"Wireless Analytics\">\n        <img class=\"img-collapse\" src=\"" + __webpack_require__(51) + "\" alt=\"Wireless Analytics\">\n      </div>\n    </section>\n    <div class=\"content-right\" >\n    <div class=\"expanded row\">\n\n      <!-- top nav -->\n      <section class=\"top-bar-section clearfix \">\n        <div class=\"column large-8\">\n        <div id=\"morphsearch\" class=\"morphsearch\">\n          <form class=\"morphsearch-form\">\n            <input class=\"morphsearch-input\" type=\"search\" placeholder=\"What can we help you with?\" title=\"What can we help you with?\"/>\n            <button class=\"morphsearch-submit\" type=\"submit\">Search</button>\n          </form>\n          <div class=\"morphsearch-content\">\n            <!-- Helpjuice Knowledge base code -->\n            <div id=\"helpjuice_js_widget_content\">\n             <img src='//helpjuice.com/images/cube-theme/loading.gif' class=\"helpjuice-loading-spinner\" />\n            </div>\n            <script>\n              var helpjuice_account_url = \"https://wirelessanalytics.helpjuice.com/\";\n            </script>\n            <script src=\"//s3.amazonaws.com/assets.helpjuice.com/helpjuice.min.js\"></script>\n            <!-- End of Helpjuice knowledge base code -->\n\n\n          </div><!-- /morphsearch-content -->\n          <span class=\"morphsearch-close\"></span>\n        </div><!-- /morphsearch -->\n        </div>\n        <div class=\"large-4\">\n\n        </div>\n      </section>\n\n      <!-- end of top nav -->\n      <div class=\"clearfix\"></div>\n      <nav aria-label=\"You are here:\" role=\"navigation\">\n        <ul class=\"breadcrumbs for-clean\">\n          <li><a href=\"#\"><i class=\"fa fa-home\"> </i></a></li>\n          <li>\n            <span class=\"show-for-sr\">Current: </span> Dashboard\n          </li>\n        </ul>\n      </nav>\n    <div class=\"column large-12\">\n      <div class=\"default callout client-info\" data-closable>\n        <h2>Thermo Fisher Wireless Portal</h2>\n        Welcome to the Thermo Fisher wireless support portal. On this site you can review your recent wireless usage and charges, place requests for wireless devices and services, and get assistance should you require troubleshooting or support for your company-owned wireless device.\n        <button class=\"close-button\" aria-label=\"Dismiss alert\" type=\"button\" data-close>\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n    </div>\n      <div class=\"clearfix\"></div>\n      <div class=\"large-6 columns\" >\n        <div class=\"grid-box\" data-mh=\"box1\">\n          <header class=\"box-heading\">\n            <h2>contact support</h2>\n          </header>\n          <div class=\"box-content\">\n            <div class=\"box-content-holder\">\n              <p>There Are 3 Easy Ways To Get Support:  </p>\n            </div>\n            <ul class=\"icon-list\">\n              <li><i class=\"fa fa-envelope\"> </i> <a href=\"mailto:support@company.com\">support@company.com</a> </li>\n              <li><i class=\"fa fa-phone\"> </i> <a href=\"tel:800-55-1212\">(800)-55-1212</a> </li>\n              <li><i class=\"fa fa-question\"> </i> <a href=\"tel:800-55-1212\">Submit a support request</a> </li>\n            </ul>\n            <span class=\"note\">For a detailed summary of the support options available please click <a href=\"#\">HERE</a>. </span>\n          </div>\n        </div>\n      </div>\n      <div class=\"large-6 columns\" >\n        <div class=\"grid-box\" data-mh=\"box1\">\n          <header class=\"box-heading\">\n            <h2> support resources</h2>\n          </header>\n          <div class=\"box-content\">\n            <div class=\"action-button\">\n              <a class=\"button \" href=\"#\">Request Provision</a>\n              <a class=\"button\" href=\"#\">Get Support</a>\n            </div>\n            <ul class=\"icon-list\">\n              <li><i class=\"fa fa-users\"> </i> <a href=\"#\">Wireless Telecom Administrators</a> </li>\n              <li><i class=\"fa fa-file-o\"> </i> <a href=\"#\">International Roaming Rate Sheet</a> </li>\n              <li><i class=\"fa fa-file-o\"> </i> <a href=\"#\">Wireless Service Policy</a> </li>\n            </ul>\n          </div>\n        </div>\n      </div>\n      <div class=\"clearfix\"></div>\n      <div class=\"large-12 columns\">\n        <div class=\"grid-box\">\n          <header class=\"box-heading\">\n            <h2> Wireless Line Overview</h2>\n          </header>\n          <div class=\"box-content no-pad\">\n            <div class=\"wireless-overview\">\n              <table width=\"100%\" class=\"responsive\">\n                <tbody><tr>\n                  <th>Bill Month</th>\n                  <th>\n                    User Name\n                  </th>\n                  <th>Mobile Number</th>\n                  <th>Carrier</th>\n                  <th>Device</th>\n                  <th>Total Allocated Charge</th>\n                  <th>Usage Charges</th>\n                  <th>Service Plan Charges</th>\n                  <th> Other Charges</th>\n                  <th> Last Upgrade Date</th>\n                </tr>\n                <tr>\n                  <td>7/1/2016</td>\n                  <td>Adriana Vicentini</td>\n                  <td><a href=\"tel:115-123-1613\">115-326-8868</a></td>\n                  <td>Telefonica</td>\n                  <td>Samsung Galaxy Core 2 G355</td>\n                  <td>$503.21</td>\n                  <td>$3.00</td>\n                  <td>$481.00</td>\n                  <td>$20.00</td>\n                  <td>N/A</td>\n                </tr>\n\n                </tbody></table>\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"clearfix\"></div>\n      <div class=\"large-6 columns\">\n        <div class=\"grid-box\" data-mh=\"box2\">\n          <header class=\"box-heading\">\n            <h2>Spend by Category- Custom</h2>\n          </header>\n          <div class=\"box-content\">\n            <div id=\"spend-category\">\n\n            </div>\n          </div>\n        </div>\n      </div>\n      <div class=\"large-6 columns\">\n        <div class=\"grid-box\" data-mh=\"box2\">\n          <header class=\"box-heading\">\n            <h2>Trend by Category- Custom</h2>\n          </header>\n          <div class=\"box-content\">\n            <div id=\"trend-category\">\n\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    </div>\n  </div>\n\n\n\n\n";
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "5aa1ea6e789eb29d69c6160c59a9fa0c.png";
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "1c4b278aa92b88734825ff677308579e.png";
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "a2aef57a00ef957100715a36350307d7.jpg";
 
 /***/ }
 /******/ ]);

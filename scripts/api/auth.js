@@ -13,8 +13,6 @@ export default {
  // Send a request to the login URL and save the returned JWT
 login(context, creds, redirect) {
 
-
-
   context.$http.get(api+'/doSSO/'+creds.email).then((response) => {
                 console.log(response.data.data.redirectUrl);
 
@@ -30,12 +28,20 @@ login(context, creds, redirect) {
 
 
         });
-
 },
 
 register(context,creds,redirect){
 
 
+},
+loginLocal(context,creds,redirect){
+
+  if(creds.email==="mateo@test.com" && creds.password==="1234"){
+    router.go('dashboard');
+  }else{
+      context.error="Error password or email not matching"
+
+  }
 
 
 

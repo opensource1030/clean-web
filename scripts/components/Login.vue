@@ -4,7 +4,7 @@
   <div class=class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-
+    <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
 
     <div class="login-box">
