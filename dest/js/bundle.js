@@ -51,12 +51,12 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';var _vue=__webpack_require__(2);var _vue2=_interopRequireDefault(_vue);var _vueResource=__webpack_require__(4);var _vueResource2=_interopRequireDefault(_vueResource);var _vueRouter=__webpack_require__(28);var _vueRouter2=_interopRequireDefault(_vueRouter);var _App=__webpack_require__(29);var _App2=_interopRequireDefault(_App);var _Home=__webpack_require__(35);var _Home2=_interopRequireDefault(_Home);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}// Install plugins
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});exports.router=undefined;var _vue=__webpack_require__(2);var _vue2=_interopRequireDefault(_vue);var _vueResource=__webpack_require__(4);var _vueResource2=_interopRequireDefault(_vueResource);var _vueRouter=__webpack_require__(28);var _vueRouter2=_interopRequireDefault(_vueRouter);var _App=__webpack_require__(29);var _App2=_interopRequireDefault(_App);var _Login=__webpack_require__(35);var _Login2=_interopRequireDefault(_Login);var _Register=__webpack_require__(39);var _Register2=_interopRequireDefault(_Register);var _LoginLocal=__webpack_require__(42);var _LoginLocal2=_interopRequireDefault(_LoginLocal);var _Dashboard=__webpack_require__(45);var _Dashboard2=_interopRequireDefault(_Dashboard);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}// Install plugins
 	_vue2.default.use(_vueRouter2.default);_vue2.default.use(_vueResource2.default);// Set up a new router
-	var router=new _vueRouter2.default();// Route config
-	router.map({'/home':{name:'home',component:_Home2.default}});// For every new route scroll to the top of the page
+	var router=exports.router=new _vueRouter2.default();// Route config
+	router.map({'/login':{name:'login',component:_Login2.default},'/register':{name:'register',component:_Register2.default},'/loginLocal':{name:'loginLocal',component:_LoginLocal2.default},'/dashboard':{name:'ldashboard',component:_Dashboard2.default}});// For every new route scroll to the top of the page
 	router.beforeEach(function(){window.scrollTo(0,0);});// If no route is matched redirect home
-	router.redirect({'*':'/home'});// Start up our app
+	router.redirect({'*':'/login'});// Start up our app
 	router.start(_App2.default,'#app');
 
 /***/ },
@@ -14704,9 +14704,11 @@
 	//   <div class="top-bar">
 	//   <div class="top-bar-left">
 	//     <ul class="dropdown menu" data-dropdown-menu>
-	//       <li class="menu-text">Vue Webgulp</li>
-	//       <li><a v-link="{name: 'home'}">Home</a></li>
+	//       <li class="menu-text">Vue </li>
+	//       <li><a v-link="{name: 'login'}">Login</a></li>
+	//       <li><a v-link="{name: 'loginLocal'}">Login Local</a></li>
 	//
+	//       <li><a v-link="{name: 'register'}">Register</a></li>
 	//     </ul>
 	//   </div>
 	//   <div class="top-bar-right">
@@ -14722,7 +14724,7 @@
 /* 33 */
 /***/ function(module, exports) {
 
-	module.exports = "\n  <div class=\"top-bar\">\n  <div class=\"top-bar-left\">\n    <ul class=\"dropdown menu\" data-dropdown-menu>\n      <li class=\"menu-text\">Vue Webgulp</li>\n      <li><a v-link=\"{name: 'home'}\">Home</a></li>\n    \n    </ul>\n  </div>\n  <div class=\"top-bar-right\">\n    <ul class=\"menu\">\n\n    </ul>\n  </div>\n</div>\n";
+	module.exports = "\n  <div class=\"top-bar\">\n  <div class=\"top-bar-left\">\n    <ul class=\"dropdown menu\" data-dropdown-menu>\n      <li class=\"menu-text\">Vue </li>\n      <li><a v-link=\"{name: 'login'}\">Login</a></li>\n      <li><a v-link=\"{name: 'loginLocal'}\">Login Local</a></li>\n\n      <li><a v-link=\"{name: 'register'}\">Register</a></li>\n    </ul>\n  </div>\n  <div class=\"top-bar-right\">\n    <ul class=\"menu\">\n\n    </ul>\n  </div>\n</div>\n";
 
 /***/ },
 /* 34 */
@@ -14736,7 +14738,7 @@
 
 	var __vue_script__, __vue_template__
 	__vue_script__ = __webpack_require__(36)
-	__vue_template__ = __webpack_require__(37)
+	__vue_template__ = __webpack_require__(38)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
@@ -14744,7 +14746,7 @@
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/Home.vue"
+	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/Login.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -14754,27 +14756,288 @@
 
 /***/ },
 /* 36 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";Object.defineProperty(exports,"__esModule",{value:true});//
-	// <script>
-	exports.default={name:"Home"};// </script>
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
+	// properties that will be used in it
+	credentials:{email:''},error:''};},methods:{name:"Login",submit:function submit(){var credentials={email:this.credentials.email};// We need to pass the component's this context
+	// to properly make use of http in the auth service
+	_auth2.default.login(this,credentials,'dashboard');}}};// </script>
+	//
+	//
 	//
 	// <template>
-	//     <div class="row">
-	//       <div class="medium-8 medium-offset-2 columns">
-	//         <h1>Congratulations your app is working!</h1>
-	//         <h4>Now navigate around to find out more</h4>
+	//   <div class=class="bg-login">
+	//     <div class="login">
+	//   <div class="large-4 large-centered columns login-form-holder">
+	//
+	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+	//
+	//     <div class="login-box">
+	//       <div class="row">
+	//         <div class="large-12 columns">
+	//           <form>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+	//                   <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" />
+	//                 </div>
+	//
+	//               </div>
+	//             </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 large-centered columns">
+	//                 <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
+	//               </div>
+	//             </div>
+	//           </form>
+	//         </div>
 	//       </div>
 	//     </div>
+	//   </div>
+	//   </div>
+	//   </div>
 	// </template>
 	//
+	// <script>
 
 /***/ },
 /* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _app=__webpack_require__(1);// Check the user's auth status when the app
+	// loads to account for page refreshing
+	var api="http://clean.api";exports.default={// User object will let us check authentication status
+	user:{authenticated:false},// Send a request to the login URL and save the returned JWT
+	login:function login(context,creds,redirect){context.$http.get(api+'/doSSO/'+creds.email).then(function(response){console.log(response.data.data.redirectUrl);},function(response){//error
+	if(response.data.error=="User Not Found, Register Required"){_app.router.go('register');context.error=response.data.error;}else{context.error=response.data.error;}});},register:function register(context,creds,redirect){}};
+
+/***/ },
+/* 38 */
 /***/ function(module, exports) {
 
-	module.exports = "\n    <div class=\"row\">\n      <div class=\"medium-8 medium-offset-2 columns\">\n        <h1>Congratulations your app is working!</h1>\n        <h4>Now navigate around to find out more</h4>\n      </div>\n    </div>\n";
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(40)
+	__vue_template__ = __webpack_require__(41)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/Register.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
+	// properties that will be used in it
+	credentials:{email:'',password:''},error:''};},methods:{name:"Register",submit:function submit(){var credentials={email:this.credentials.email,password:this.credentials.password};// We need to pass the component's this context
+	// to properly make use of http in the auth service
+	_auth2.default.register(this,credentials,'dashboard');}}};// </script>
+	//
+	// <template>
+	//   <div class=class="bg-login">
+	//     <div class="login">
+	//   <div class="large-4 large-centered columns login-form-holder">
+	//
+	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+	//
+	//     <div class="login-box">
+	//       <div class="row">
+	//         <div class="large-12 columns">
+	//           <form>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+	//                   <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" />
+	//                 </div>
+	//
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+	//                 <input class="input-group-field" type="password" v-model="credentials.password" placeholder="Password" />
+	//                 </div>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 large-centered columns">
+	//                 <input type="submit" class="button expanded" @click="submit()" value="Sign In"/>
+	//               </div>
+	//             </div>
+	//           </form>
+	//         </div>
+	//       </div>
+	//     </div>
+	//   </div>
+	//   </div>
+	//   </div>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.email\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.password\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <input id=\"checkbox3\" type=\"checkbox\"><label for=\"checkbox3\">remember me</label>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\" value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(43)
+	__vue_template__ = __webpack_require__(44)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/LoginLocal.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _auth=__webpack_require__(37);var _auth2=_interopRequireDefault(_auth);function _interopRequireDefault(obj){return obj&&obj.__esModule?obj:{default:obj};}exports.default={data:function data(){return{// We need to initialize the component with any
+	// properties that will be used in it
+	credentials:{firstName:'',lastName:'',email:''},error:''};},methods:{name:"loginLocal",submit:function submit(){var credentials={firstName:this.credentials.firstName,password:this.credentials.lastName,email:this.credentials.email};// We need to pass the component's this context
+	// to properly make use of http in the auth service
+	_auth2.default.register(this,credentials,'dashboard');}}};// </script>
+	//
+	// <template>
+	//   <div class=class="bg-login">
+	//     <div class="login">
+	//   <div class="large-4 large-centered columns login-form-holder">
+	//
+	//     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+	//
+	//     <div class="login-box">
+	//       <div class="row">
+	//         <div class="large-12 columns">
+	//           <form>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+	//                   <input class="input-group-field" type="text" v-model="credentials.firstName" placeholder="Username" />
+	//                 </div>
+	//
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+	//                 <input class="input-group-field" type="password" v-model="credentials.lastName" placeholder="Password" />
+	//                 </div>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 columns">
+	//                 <div class="input-group">
+	//                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+	//                 <input class="input-group-field" type="password" v-model="credentials.email" placeholder="Password" />
+	//                 </div>
+	//               </div>
+	//             </div>
+	//             <div class="row">
+	//               <div class="large-12 large-centered columns">
+	//                 <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
+	//               </div>
+	//             </div>
+	//           </form>
+	//         </div>
+	//       </div>
+	//     </div>
+	//   </div>
+	//   </div>
+	//   </div>
+	// </template>
+	//
+	// <script>
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	module.exports = "\n  <div class=class=\"bg-login\">\n    <div class=\"login\">\n  <div class=\"large-4 large-centered columns login-form-holder\">\n\n    <h1 class=\"title\">Clean <sup class=\"version\">beta 3.0</sup> </h1>\n\n    <div class=\"login-box\">\n      <div class=\"row\">\n        <div class=\"large-12 columns\">\n          <form>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-home\"> </i> </span>\n                  <input class=\"input-group-field\" type=\"text\" v-model=\"credentials.firstName\" placeholder=\"Username\" />\n                </div>\n\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.lastName\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 columns\">\n                <div class=\"input-group\">\n                  <span class=\"input-group-label\"> <i class=\"fa fa-key\"> </i> </span>\n                <input class=\"input-group-field\" type=\"password\" v-model=\"credentials.email\" placeholder=\"Password\" />\n                </div>\n              </div>\n            </div>\n            <div class=\"row\">\n              <div class=\"large-12 large-centered columns\">\n                <input type=\"submit\" class=\"button expanded\" @click=\"submit()\"  value=\"Sign In\"/>\n              </div>\n            </div>\n          </form>\n        </div>\n      </div>\n    </div>\n  </div>\n  </div>\n  </div>\n";
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(46)
+	__vue_template__ = __webpack_require__(47)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Users/Mateo/Desktop/WirelessAnalytics/develop/clean-frontend/scripts/components/Dashboard.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	"use strict";Object.defineProperty(exports,"__esModule",{value:true});// <template>
+	//
+	//
+	//
+	// </template>
+	//
+	// <script>
+	exports.default={name:"Dashboard"};// </script>
+	//
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	module.exports = "\n\n\n\n";
 
 /***/ }
 /******/ ]);

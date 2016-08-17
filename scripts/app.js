@@ -3,22 +3,38 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 
 import App from './components/App.vue'
-import Home from './components/Home.vue'
-
+import Login from './components/Login.vue'
+import Register from './components/Register.vue'
+import LoginLocal from './components/LoginLocal.vue'
+import Dashboard from './components/Dashboard.vue'
 
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
 
 // Set up a new router
-var router = new Router()
+export var router = new Router()
 
 // Route config
 router.map({
-  '/home':{
-    name: 'home',
-    component: Home
-  }
+  '/login':{
+    name: 'login',
+    component: Login
+  },
+  '/register':{
+    name: 'register',
+    component: Register
+  },
+  '/loginLocal':{
+    name: 'loginLocal',
+    component: LoginLocal
+  },
+  '/dashboard':{
+    name: 'ldashboard',
+    component: Dashboard
+  },
+
+
 
 })
 
@@ -29,7 +45,7 @@ router.beforeEach(function () {
 
 // If no route is matched redirect home
 router.redirect({
-  '*': '/home'
+  '*': '/login'
 })
 
 // Start up our app

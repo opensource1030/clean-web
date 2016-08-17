@@ -90,6 +90,9 @@ var gulp = require('gulp');
 var $           = require('gulp-load-plugins')();
 var webpack = require('webpack-stream');
 var browserSync = require('browser-sync').create();
+
+
+
 var sass        = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var reload      = browserSync.reload;
@@ -99,7 +102,28 @@ var batch = require('gulp-batch');
 var connect = require('gulp-connect');
 var copy = require('gulp-copy');
 var gulpSequence = require('gulp-sequence');
+const plugins = require('./bs-config').plugins;
+var url = require('url'); // https://www.npmjs.org/package/url
+var proxyMiddleware = require('http-proxy-middleware');// https://www.npmjs.org/package/proxy-middleware
+var browserSync = require('browser-sync'); // https://www.npmjs.org/package/browser-sync
 
+
+gulp.task('browser-sync', function() {
+
+
+
+    browserSync({
+        open: true,
+        port: 3000,
+        server: {
+            baseDir: "./"
+
+        }
+    });
+    gulp.watch("./styles/**//*.scss", ['sass']);
+    gulp.watch("*.html").on('change', browserSync.reload)
+
+});
 // Run webpack
 gulp.task('webpack', function(){
   return gulp.src('src/app.js')
@@ -108,13 +132,7 @@ gulp.task('webpack', function(){
     .pipe(connect.reload());
 });
 
-// Run the webserver
-gulp.task('webserver', function() {
-  connect.server({
-    livereload: true,
-    root: 'dest'
-  });
-});
+
 
 // Copy index.html file
 gulp.task('build.index', function(){
@@ -129,7 +147,7 @@ gulp.task('copyimg', function() {
             interlaced: true,
             svgoPlugins: [ {removeViewBox:false}, {removeUselessStrokeAndFill:false} ]
         }))
-        .pipe(gulp.dest('./dest/images/'));
+        .pipe(gulp.dest('dest/images/'));
 });
 
 var onError = function(err) {
@@ -153,5 +171,7 @@ gulp.task('sass', function() {
     .pipe(browserSync.stream({match: '**//*.css'}))
 });
 
+
+
 // Default task
-gulp.task('default', gulpSequence(['copyimg','webpack','webserver', 'sass','build.index']));
+gulp.task('default', gulpSequence(['copyimg','webpack','browser-sync', 'sass','build.index']));
