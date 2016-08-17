@@ -131,6 +131,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
   bottom: 0;
   padding: 3px 0 13px;
   position: absolute;
+  z-index: 999;
   .text-copyright{
     color: #aeaeae;
     float: left;
