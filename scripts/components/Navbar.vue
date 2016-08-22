@@ -21,6 +21,7 @@
 import auth from './../api/auth'
 export default {
     name: "Navbar",
+
   data() {
     return {
       user: auth.user
@@ -30,6 +31,8 @@ export default {
     logout() {
       auth.logout()
     }
+
+
   }
 }
 </script>

@@ -16,7 +16,7 @@ Vue.use(Resource)
 // Set up a new router
 export var router = new Router();
 
-
+auth.checkAuth();
 
 
 // Route config
@@ -55,9 +55,10 @@ router.beforeEach(function (transition) {
   if (transition.to.auth && !auth.user.authenticated) {
     transition.redirect('/login')
   }
-
+else{
 
     transition.next()
+  }
 
 })
 

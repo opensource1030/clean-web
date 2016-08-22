@@ -12,6 +12,7 @@ export default {
 
  },
 
+
  // Send a request to the login URL and save the returned JWT
 login(context, creds, redirect) {
 
@@ -53,6 +54,10 @@ singleSignOn(context,creds,redirect){
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
                //  Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
+
+               setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
+
+
                     router.go('../'+redirect);
 
 
@@ -89,7 +94,7 @@ loginLocal(context,creds,redirect){
                   //console.log(response.data);
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
-
+                   setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
                     router.go('../'+redirect);
 
 
@@ -110,16 +115,17 @@ logout() {
     router.go('/');
   },
 
+
 checkAuth() {
     var jwt = localStorage.getItem('token')
 
     if(jwt) {
       this.user.authenticated = true
-      return true;
+
     }
     else {
       this.user.authenticated = false
-      return false;
+
     }
   },
 
