@@ -8,7 +8,7 @@ import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
 import Dashboard from './components/Dashboard.vue'
-
+import auth from './api/auth.js'
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
@@ -35,7 +35,8 @@ router.map({
   },
   '/dashboard':{
     name: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    auth: true
   },
   '/sso/:id':{
     name: 'sso',
@@ -49,6 +50,15 @@ router.map({
 // For every new route scroll to the top of the page
 router.beforeEach(function () {
   window.scrollTo(0, 0)
+})
+router.beforeEach(function (transition) {
+  if (transition.to.auth && !auth.user.authenticated) {
+    transition.redirect('/login')
+  }
+
+
+    transition.next()
+
 })
 
 
