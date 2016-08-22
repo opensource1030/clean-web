@@ -6,7 +6,7 @@ module.exports =  {
   ],
   output: {
     path: "/dest/js",
-    publicPath: "/dest/",
+     publicPath: '/dest/images/',
     filename: "bundle.js"
   },
   watch: true,

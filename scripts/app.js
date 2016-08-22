@@ -3,6 +3,7 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 
 import App from './components/App.vue'
+import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
@@ -13,7 +14,10 @@ Vue.use(Router)
 Vue.use(Resource)
 
 // Set up a new router
-export var router = new Router()
+export var router = new Router();
+
+
+
 
 // Route config
 router.map({
@@ -33,6 +37,10 @@ router.map({
     name: 'dashboard',
     component: Dashboard
   },
+  '/sso/:id':{
+    name: 'sso',
+    component: Sso
+  },
 
 
 
@@ -43,10 +51,13 @@ router.beforeEach(function () {
   window.scrollTo(0, 0)
 })
 
+
+
 // If no route is matched redirect home
 router.redirect({
-  '*': '/login'
+ '*': '/login'
 })
+
 
 // Start up our app
 router.start(App, '#app')

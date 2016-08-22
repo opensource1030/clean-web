@@ -149,6 +149,10 @@ gulp.task('copyimg', function() {
         }))
         .pipe(gulp.dest('dest/images/'));
 });
+gulp.task('icons', function() {
+    return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
+        .pipe(gulp.dest('./dest/fonts'))
+});
 
 var onError = function(err) {
     console.log(err.message);
@@ -174,4 +178,4 @@ gulp.task('sass', function() {
 
 
 // Default task
-gulp.task('default', gulpSequence(['copyimg','webpack','browser-sync', 'sass','build.index']));
+gulp.task('default', gulpSequence(['copyimg','icons','webpack','browser-sync', 'sass','build.index']));

@@ -1,12 +1,17 @@
 
 
 <template>
+  <div>
   <div class=class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-    <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
-    <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+    <img src="/dest/images/wa_logo.png" alt="Wireless Analytics">
+    <div style="color:black">
+          {{error}}
 
+</div>
+
+    <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
@@ -33,6 +38,7 @@
   </div>
   </div>
   </div>
+</div>
 </template>
 
 <script>

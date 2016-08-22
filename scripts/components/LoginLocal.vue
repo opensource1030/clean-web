@@ -2,9 +2,14 @@
   <div class=class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-      <img src="../../dest/images/wa_logo.png" alt="Wireless Analytics">
+    <img src="/dest/images/wa_logo.png" alt="Wireless Analytics">
+    <div style="color:black">
+          {{error}}
+
+</div>
+
     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
-    <h3 class="error">{{error}}<h3>
+
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
@@ -13,7 +18,7 @@
               <div class="large-12 columns">
                 <div class="input-group">
                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
-                  <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" />
+                  <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" readonly/>
                 </div>
 
               </div>
@@ -47,13 +52,16 @@
 
 <script>
 import auth from './../api/auth';
+
 export default {
+    name: "loginLocal",
+
 data() {
   return {
     // We need to initialize the component with any
     // properties that will be used in it
     credentials: {
-      email: '',
+      email: localStorage.getItem('email'),
       password:''
 
     },
@@ -61,7 +69,7 @@ data() {
   }
 },
 methods: {
-    name: "loginLocal",
+
   submit() {
     var credentials = {
       email: this.credentials.email,
