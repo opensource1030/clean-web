@@ -31,8 +31,6 @@ export default {
     logout() {
       auth.logout()
     }
-
-
   }
 }
 </script>

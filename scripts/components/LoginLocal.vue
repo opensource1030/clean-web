@@ -3,10 +3,15 @@
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
     <img src="/dest/images/wa_logo.png" alt="Wireless Analytics">
-    <div style="color:black">
-          {{error}}
+<div v-if="error" v-show="error">
 
+
+
+<div   class="alert callout" data-closable>
+<h5>{{error}}</h5>
 </div>
+  </div>
+
 
     <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
 
@@ -51,6 +56,7 @@
 </template>
 
 <script>
+
 import auth from './../api/auth';
 
 export default {

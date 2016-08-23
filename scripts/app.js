@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
-
+import $j  from 'jquery'
 import App from './components/App.vue'
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
@@ -9,6 +9,7 @@ import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
 import Dashboard from './components/Dashboard.vue'
 import auth from './api/auth.js'
+
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
@@ -17,6 +18,7 @@ Vue.use(Resource)
 export var router = new Router();
 
 auth.checkAuth();
+
 
 
 // Route config
