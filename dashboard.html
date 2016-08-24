@@ -189,8 +189,8 @@
                   <div class="row support-form-container">
                     <div class="medium-12 columns">
                       <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                        <select id="supportOption" class="user-actions" name="supportOption" required>
-                          <option value="husker">-- Choose an issue ---</option>
+                        <select id="supportOption" class="user-actions required" name="supportOption" required>
+                          <option disabled value=" " selected>-- Choose an issue ---</option>
                           <option value="IRE1-1">Troubleshooting</option>
                           <option value="IRE1-2">Plan Change</option>
                           <option value="IRE1-3">Email Service</option>
@@ -296,13 +296,18 @@
                       </div>
                       <div class="medium-12 columns">
                         <label for="description"><span class="form-title">Description</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Please explain the question or problem in detail, and let us know how you'd like to be contacted."><i class="fa fa-question-circle"> </i> </span>
-                          <textarea rows="3" name="description" id="description" required> </textarea>
+                          <textarea rows="3" name="description" id="description"  required> </textarea>
                         </label>
                       </div>
                     </div>
                   </div>
                   <div class="form-footer">
                     <button type="submit"  class="button btn-submit ">Submit Ticket</button>
+                  </div>
+                  <div class="tiny reveal" id="modal" data-reveal>
+                    <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
                 </form>
               </div>
@@ -597,7 +602,14 @@
 
     })
     $('#menu').slicknav();
+    var $modal = $('#modal');
     $("#support-form").validate({
+      rules: {
+        "description": {
+          required:true,
+          minlength:8
+        }
+      },
       submitHandler: function(form) {
         var formData = $(form).serializeObject();
         console.log(formData);
@@ -606,10 +618,11 @@
           method: 'EZV_CreateRequest',
           data:formData ,
           success: function (soapResponse) {
-            alert('Request sent');
+            $modal.addClass('is-success').append("<p>Request cannot be sent</p>").foundation('open');
+            $('#support-form')[0].reset();
           },
           error: function (SOAPResponse) {
-            alert('Cannot  sent request');
+            $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
           },
           parts: {
             Account: '50005',
@@ -640,6 +653,7 @@
     })
     $('#btn-close').click(function(){
       $('.support-form-holder').hide(200);
+      $('#support-form')[0].reset();
     })
     $(document).keyup(function(e) {
       if (e.keyCode == 27) $('#btn-close').click();

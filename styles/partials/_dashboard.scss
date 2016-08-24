@@ -465,14 +465,24 @@ a.btn-provision:hover .support-form-holder{
   top: 0;
   z-index: 9;
   height: 100%;
+  .columns{
+    position: relative;
+  }
   label{
     color:#444;
-    position: relative;
     &.error{
-      color: $brand-red;
+      background: $brand-red;
+      color: $white;
       position: absolute;
-      bottom: -22px;
+      bottom: 0px;
       font-size: 0.9em;
+      line-height: 1.3rem;
+      font-style: italic;
+      width: 93%;
+      left: 15px;
+      padding: 0 0.4rem;
+      margin: 0;
+      z-index: 99;
     }
   }
   .form-header{
@@ -554,5 +564,15 @@ margin: 0;
   position: absolute;
   .mix{
     display: none;
+  }
+}
+#modal{
+  &.is-error{
+    background: $brand-red;
+    color: $white;
+  }
+  &.is-success{
+    background: $brand-green;
+    color: $white;
   }
 }
