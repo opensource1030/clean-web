@@ -14,7 +14,6 @@
     "front-end",
     "framework",
     "web"
-
   ],
   "license": "MIT",
   "ignore": [
@@ -33,6 +32,7 @@
     "slicknav": "^1.0.7",
     "highcharts": "^4.2.6",
     "font-awesome": "fontawesome#^4.6.3",
-    "matchHeight": "matchheight#^0.7.0"
+    "matchHeight": "matchheight#^0.7.0",
+    "jquery-validation": "^1.15.1"
   }
 }

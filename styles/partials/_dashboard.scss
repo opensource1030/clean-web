@@ -467,6 +467,13 @@ a.btn-provision:hover .support-form-holder{
   height: 100%;
   label{
     color:#444;
+    position: relative;
+    &.error{
+      color: $brand-red;
+      position: absolute;
+      bottom: -22px;
+      font-size: 0.9em;
+    }
   }
   .form-header{
     padding:1.15385rem;

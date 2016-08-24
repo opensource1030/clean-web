@@ -185,7 +185,7 @@
                   <h2>Ticket Information</h2>
                   <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
                 </div>
-                <form id="support-form" data-abide="ajax" novalidate="novalidate">
+                <form id="support-form" method="post">
                   <div class="row support-form-container">
                     <div class="medium-12 columns">
                       <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
@@ -302,7 +302,7 @@
                     </div>
                   </div>
                   <div class="form-footer">
-                    <button type="submit"  class="button btn-submit " disabled>Submit Ticket</button>
+                    <button type="submit"  class="button btn-submit ">Submit Ticket</button>
                   </div>
                 </form>
               </div>
@@ -417,6 +417,8 @@
 <script src="vendor/matchHeight/dist/jquery.matchHeight-min.js"></script>
 <script src="vendor/jquery.soap/jquery.soap.js"></script>
 <script src="vendor/jquery-serialize-object/dist/jquery.serialize-object.min.js"></script>
+<script src="vendor/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="vendor/jquery-validation/dist/additional-methods.min.js"></script>
 
 
 <script>
@@ -595,6 +597,30 @@
 
     })
     $('#menu').slicknav();
+    $("#support-form").validate({
+      submitHandler: function(form) {
+        var formData = $(form).serializeObject();
+        console.log(formData);
+        $.soap({
+          url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
+          method: 'EZV_CreateRequest',
+          data:formData ,
+          success: function (soapResponse) {
+            alert('Request sent');
+          },
+          error: function (SOAPResponse) {
+            alert('Cannot  sent request');
+          },
+          parts: {
+            Account: '50005',
+            Login: 'CLEANWebServices',
+            Pass: 'CLEANWebServices',
+            Catalog_GUID: 'simple',
+          },
+
+        });
+      }
+    });
   });
 
   //filter
@@ -621,11 +647,10 @@
 
 
   });
-  $('#support-form').on('valid.fndtn.abide', function() {
 
-  });
-  $('#support-form').on('submit', function() {
-    var formData = $('#support-form').serializeObject();
+  /*$('#support-form').on('submit', function() {
+    $(".mix").detach();
+    var formData = $(this).serializeObject();
     console.log(formData);
     $.soap({
       url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
@@ -634,13 +659,10 @@
       data:formData ,
 
       success: function (soapResponse) {
-        // do stuff with soapResponse
-        // if you want to have the response as JSON use soapResponse.toJSON();
-        // or soapResponse.toString() to get XML string
-        // or soapResponse.toXML() to get XML DOM
+        alert('Request sent');
       },
       error: function (SOAPResponse) {
-        // show error
+        alert('Cannot  sent request');
       },
       parts: {
         Account: '50005',
@@ -650,7 +672,34 @@
       },
 
     });
-  });
+  });*/
+  /*$('#support-form').on('submit', function() {
+    $(this).on('valid.fndtn.abide', function () {
+      var formData = $('#support-form').serializeObject();
+      console.log(formData);
+      $.soap({
+        url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
+        method: 'EZV_CreateRequest',
+
+        data:formData ,
+
+        success: function (soapResponse) {
+          alert('Request sent');
+        },
+        error: function (SOAPResponse) {
+          alert('Cannot  sent request');
+        },
+        parts: {
+          Account: '50005',
+          Login: 'CLEANWebServices',
+          Pass: 'CLEANWebServices',
+          Catalog_GUID: 'simple',
+        },
+
+      });
+    });
+
+  });*/
 /*  $("#support-form").submit(function(e) {
     var formData = $('#support-form').serializeObject();
     console.log(formData);
