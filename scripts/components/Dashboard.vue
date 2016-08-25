@@ -3,7 +3,7 @@
     <section  class="menu-left">
       <a href="#" class="icon-close"> <i class="fa fa-bars "> </i> </a>
       <ul id="menu" class="sidebar-menu">
-        <li class="logo"> <img src="../../dest/images/clients/tfs/logo.png" alt="logo" title="Client Logo"> </li>
+        <li class="logo"> <img src="/dest/images/clients/tfs/logo.png" alt="logo" title="Client Logo"> </li>
         <li class="menu-title">
           <a href="#">
             <i class="fa fa-home"></i> <span>Home</span>
@@ -88,8 +88,8 @@
       </ul>
       <div class="nav-poweredby">
         <span class="text-copyright">Powered By</span>
-        <img class="img-full" src="../../images/wa_logo.png" alt="Wireless Analytics">
-        <img class="img-collapse" src="../../images/logo.jpg" alt="Wireless Analytics">
+       <img class="img-full" src="/dest/images/wa_logo.png" alt="Wireless Analytics">
+        <img class="img-collapse" src="/dest/images/logo.jpg" alt="Wireless Analytics">
       </div>
     </section>
     <div class="content-right" >
@@ -256,8 +256,13 @@
 </template>
 
 <script>
+
+
 export default {
-  name: "Dashboard"
+  name: "Dashboard",
+  
+
+
 }
 
 </script>
