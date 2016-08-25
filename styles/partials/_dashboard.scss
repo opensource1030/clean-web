@@ -526,22 +526,22 @@ a.btn-provision:hover .support-form-holder{
     display: block;
     font-size: 1.07692rem;
     font-weight: normal;
-line-height: 1.8;
-margin: 0;
+    line-height: 1.8;
+    margin: 0;
 
-}
-.has-tip{
-  line-height: 1rem;
-  &.is-required{
-    color:$brand-red;
-    border-color:$brand-red;
-    font-size: 1.1rem;
-    font-weight: 700;
   }
-  .fa-question-circle{
-    color:$brand-blue;
+  .has-tip{
+    line-height: 1rem;
+    &.is-required{
+      color:$brand-red;
+      border-color:$brand-red;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .fa-question-circle{
+      color:$brand-blue;
+    }
   }
-}
   .fieldset{
     padding: 0 0.53846rem;
     margin: 0 0 1.23077rem;
