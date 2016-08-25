@@ -178,8 +178,8 @@
           </header>
           <div class="box-content">
             <div class="action-button">
-              <a class="button btn-provision " href="#">Request Provision</a>
-              <a class="button" href="#">Get Support</a>
+              <a class="button " href="#">Request Provision</a>
+              <a class="button btn-provision" href="#">Get Support</a>
               <div class="support-form-holder">
                 <div class="form-header">
                   <h2>Ticket Information</h2>
@@ -357,17 +357,15 @@
                   <td>N/A</td>
                   <td>
                     <select class="user-actions">
-                      <option value="husker">-- Choose an issue ---</option>
-                      <option value="starbuck">Troubleshooting</option>
-                      <option value="hotdog">Plan Change</option>
-                      <option value="email-service">Email Service</option>
-                      <option value="Billing">Billing &amp; allocations</option>
-                      <option value="Activation">Activation</option>
-                      <option value="International">International Request</option>
-                      <option value="apollo">Other</option>
+                      <option disabled value=" " selected>-- Choose an issue ---</option>
+                      <option value="IRE1-1">Troubleshooting</option>
+                      <option value="IRE1-2">Plan Change</option>
+                      <option value="IRE1-3">Email Service</option>
+                      <option value="ALR4-4">Billing &amp; allocations</option>
+                      <option value="IRE1-5">Activation</option>
+                      <option value="IRE1-6">International Request</option>
+                      <option value="IRE0-7">Other</option>
                     </select>
-                    <a class="button btn-next" href="#"> <i class="fa fa-long-arrow-right"> </i> </a>
-
                   </td>
                 </tr>
 
@@ -638,7 +636,7 @@
 
   //filter
   $(function(){
-    var $select = $('.user-actions'),
+    var $select = $('#support-form .user-actions'),
             $images =  $('.mix');
 
     $select.on('change', function() {
@@ -646,7 +644,13 @@
       $images.show(200).not(value).hide();
     });
 
+    var $selectOption = $('.wireless-overview .user-actions');
 
+    $selectOption.on('change', function() {
+      var value1 = $(this).val();
+      $('.btn-provision').click();
+      $select.prop('value',value1);
+    });
 
     $('.btn-provision').click(function(){
       $('.support-form-holder').show(200);
@@ -654,6 +658,7 @@
     $('#btn-close').click(function(){
       $('.support-form-holder').hide(200);
       $('#support-form')[0].reset();
+      $selectOption.prop('selectedIndex',0);
     })
     $(document).keyup(function(e) {
       if (e.keyCode == 27) $('#btn-close').click();
