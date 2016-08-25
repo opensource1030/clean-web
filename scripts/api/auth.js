@@ -50,7 +50,7 @@ singleSignOn(context,creds,redirect){
 
                         })
        .then((response) => {
-                //  console.log(response.data);
+              //   console.log(response.data);
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
                //  Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
@@ -91,7 +91,7 @@ loginLocal(context,creds,redirect){
 
                         })
        .then((response) => {
-                  //console.log(response.data);
+                console.log(response.data);
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
                    setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
