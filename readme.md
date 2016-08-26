@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/WirelessAnalytics/clean-frontend.svg?style=svg)](https://circleci.com/gh/WirelessAnalytics/clean-frontend)
+
 # Installation Process
 
 - **Install gulp and bower globally**
