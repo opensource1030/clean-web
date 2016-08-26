@@ -14,8 +14,8 @@
           <form>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
-                  <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+                <div class="input-group bg-orange">
+                  <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
                   <input class="input-group-field" type="text" v-model="credentials.firstName" placeholder="First Name" />
                 </div>
 
@@ -23,15 +23,15 @@
             </div>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
-                  <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+                <div class="input-group bg-orange">
+                  <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
                 <input class="input-group-field" type="password" v-model="credentials.lastName" placeholder="Last Name" />
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
+                <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
                 <input class="input-group-field" type="email" v-model="credentials.email" placeholder="email" readonly/>
                 </div>

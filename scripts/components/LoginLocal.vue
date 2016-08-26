@@ -5,15 +5,18 @@
     <img src="/dest/images/wa_logo.png" alt="Wireless Analytics">
 <div v-if="error" v-show="error">
 
-
-
-<div   class="alert callout" data-closable>
-<h5>{{error}}</h5>
+<div   class="callout is-error" data-closable>
+  <div class="container">
+    <h5>{{error}}</h5>
+  </div>
+  <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
   </div>
 
 
-    <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+    <h1 class="title">Clean <sup class="version">beta.3.11</sup> </h1>
 
     <div class="login-box">
       <div class="row">
@@ -21,8 +24,8 @@
           <form>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
-                  <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
+                <div class="input-group bg-orange">
+                  <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
                   <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" readonly/>
                 </div>
 
@@ -30,7 +33,7 @@
             </div>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
+                <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
                 <input class="input-group-field" type="password" v-model="credentials.password" placeholder="Password" />
                 </div>
