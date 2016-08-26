@@ -2,7 +2,11 @@ import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $j  from 'jquery'
+//foundation js
+require('../vendor/foundation-sites/dist/foundation')
+$j(document).foundation();
 import App from './components/App.vue'
+
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'

@@ -20,7 +20,7 @@
 
 }
 .bg-login{
-  background: material-color('blue-grey','400') ;
+  background: $bg-login ;
 }
 .grid-box{
   margin-bottom: 2.5rem;
@@ -287,7 +287,21 @@
   fill:transparent !important;
 }
 .login{
-  background: transparent !important;
+  .callout{
+    position: fixed;
+    top:0;
+    width: 100%;
+    left: 0;
+    h5{
+      text-align:center;
+    }
+    .close-button{
+      color:$gainsboro;
+      &:hover{
+        color:$white;
+      }
+    }
+  }
   input{
     font-size: 1rem;
   }
@@ -566,7 +580,7 @@ a.btn-provision:hover .support-form-holder{
     display: none;
   }
 }
-#modal{
+.callout{
   &.is-error{
     background: $brand-red;
     color: $white;
