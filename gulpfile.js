@@ -24,7 +24,7 @@ require('laravel-elixir-vueify');
 
 gulp.task('js', function () {
     elixir(function (mix) {
-        mix.browserify('./app/app.js', 'dist/js/bundle.js');
+        mix.browserify('./app/app.js', './dist/js/bundle.js');
     });
 });
 
@@ -83,6 +83,5 @@ gulp.task('copyimg', function () {
 
 
 // bundling js with browserify and watchify
-gulp.task('build', ['js', 'icons', 'sass', 'copyimg']);
+gulp.task('default', gulpSequence('js', 'icons', 'sass', 'copyimg'));
 
-gulp.task('default', gulpSequence('build', 'serve'));
