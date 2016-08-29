@@ -11,7 +11,7 @@
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
-          <form>
+          <form  v-on:submit.prevent="submit()">
             <div class="row">
               <div class="large-12 columns">
                 <div class="input-group bg-orange">
@@ -39,7 +39,7 @@
             </div>
             <div class="row">
               <div class="large-12 large-centered columns">
-                <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
+                <input type="submit" class="button expanded"   value="Sign In"/>
               </div>
             </div>
           </form>

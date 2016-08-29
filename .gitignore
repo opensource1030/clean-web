@@ -22,4 +22,5 @@ testem.log
 /.capistrano
 .DS_Store
 .idea
-gitflow
+gitflowlog
+/log/
