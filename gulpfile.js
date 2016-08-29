@@ -21,6 +21,7 @@ var elixir = require('laravel-elixir');
 elixir.config.js.browserify.watchify.options.poll = true;
 
 require('laravel-elixir-vueify');
+
 gulp.task('js', function () {
     elixir(function (mix) {
         mix.browserify('./scripts/app.js', 'dest/js/bundle.js');
@@ -36,7 +37,7 @@ var onError = function (err) {
 var config = {
     sassPath: './styles',
     bowerDir: './vendor'
-}
+};
 
 
 gulp.task('sass', function () {
@@ -54,6 +55,7 @@ gulp.task('icons', function () {
     return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
         .pipe(gulp.dest('./dest/fonts'))
 });
+
 // Static Server + watching scss/html files
 gulp.task('serve', ['sass'], function () {
 
