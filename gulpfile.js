@@ -18,7 +18,7 @@ var babel = require('gulp-babel');
 var prod = gutil.env.prod;
 var gulpSequence = require('gulp-sequence');
 var elixir = require('laravel-elixir');
-elixir.config.js.browserify.watchify.options.poll = true;
+//elixir.config.js.browserify.watchify.options.poll = true;
 
 require('laravel-elixir-vueify');
 gulp.task('js', function () {
@@ -63,8 +63,9 @@ gulp.task('serve', ['sass'], function () {
 
     gulp.watch("./styles/**/*.scss", ['sass']);
     gulp.watch("./scripts/*.js", ['js']);
-    gulp.watch("*.html").on('change', browserSync.reload);
-    gulp.watch("./scripts/**/*.vue").on('change', browserSync.reload);
+  //  gulp.watch("*.html").on('change', browserSync.reload);
+  //  gulp.watch("./scripts/**/*.vue").on('change', browserSync.reload);
+  //  gulp.watch("./scripts/**/*.js").on('change', browserSync.reload);
 
 });
 

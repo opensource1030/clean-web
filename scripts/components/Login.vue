@@ -11,16 +11,14 @@
       <div class="container">
         <h5>{{error}}</h5>
       </div>
-      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-        <span aria-hidden="true">&times;</span>
-      </button>
+
     </div>
       </div>
     <h1 class="title">Clean <sup class="version">beta.3.11</sup> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
-          <form>
+          <form   v-on:submit.prevent="submit()">
             <div class="large-12 columns">
               <div class="input-group bg-orange">
                 <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
@@ -28,7 +26,7 @@
               </div>
             </div>
             <div class="large-12 large-centered columns">
-              <input type="submit" class="button expanded" @click="submit()"  value="Sign In"/>
+              <input type="submit" class="button expanded"  value="Sign In"/>
             </div>
           </form>
         </div>
