@@ -3,8 +3,8 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $j  from 'jquery'
 //foundation js
-require('../vendor/foundation-sites/dist/foundation')
-$j(document).foundation();
+//require('../vendor/foundation-sites/dist/foundation')
+//$j(document).foundation();
 import App from './components/App.vue'
 
 import Sso  from './components/Sso.vue'

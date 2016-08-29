@@ -20,7 +20,7 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
      "laravel-elixir": "^4.0.0",
-    "laravel-elixir-vueify": "^1.0.0"	
+    "laravel-elixir-vueify": "^1.0.0"
   },
   "dependencies": {
     "gulp-imagemin": "^3.0.2",

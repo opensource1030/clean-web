@@ -15,6 +15,11 @@ export default {
 
  // Send a request to the login URL and save the returned JWT
 login(context, creds, redirect) {
+  if( creds.email=="" ||creds.email==null){
+      context.error="Empty email";
+
+  }
+  else{
 
   context.$http.get(api+'/doSSO/'+creds.email+'/?redirectToUrl=http://localhost:3000/%23!/sso/').then((response) => {
 
@@ -22,10 +27,17 @@ login(context, creds, redirect) {
 
         }, (response) => {
 
+
             if(response.data.error==="User Not Found, Register Required"){
                   //console.log(response.data.error);
                     context.error=response.data.error
                    router.go('register');
+            }
+            else if(response.data.error==="Invalid Email"){
+              context.error=response.data.error;
+            }
+            else if(response.status==404){
+              context.error="Server Error"
             }
             else{
               //console.log(response.data.error);
@@ -37,6 +49,7 @@ login(context, creds, redirect) {
 
 
         });
+      }
 },
 
 singleSignOn(context,creds,redirect){
