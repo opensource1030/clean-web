@@ -12,9 +12,9 @@ module Slackistrano
     end
 
     # Supress updating message.
-    def payload_for_updating
-      nil
-    end
+    #def payload_for_updating
+     # nil
+    #end
 
     # Supress reverting message.
     def payload_for_reverting
