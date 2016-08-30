@@ -24,7 +24,7 @@ require('laravel-elixir-vueify');
 
 gulp.task('js', function () {
     elixir(function (mix) {
-        mix.browserify('./scripts/app.js', 'dest/js/bundle.js');
+        mix.browserify('./app/app.js', 'dist/js/bundle.js');
     });
 });
 
@@ -35,9 +35,9 @@ var onError = function (err) {
 };
 
 var config = {
-    sassPath: './styles',
+    sassPath: './app/styles',
     bowerDir: './vendor'
-}
+};
 
 
 gulp.task('sass', function () {
@@ -47,37 +47,38 @@ gulp.task('sass', function () {
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'ie >= 9']
         }))
-        .pipe(gulp.dest('./dest/css'))
+        .pipe(gulp.dest('./dist/css'))
         .pipe(browserSync.stream({match: '**/*.css'}))
 });
 
 gulp.task('icons', function () {
     return gulp.src(config.bowerDir + '/font-awesome/fonts/**.*')
-        .pipe(gulp.dest('./dest/fonts'))
+        .pipe(gulp.dest('./dist/fonts'))
 });
+
 // Static Server + watching scss/html files
 gulp.task('serve', ['sass'], function () {
 
     browserSync.init({
-        server: "./"
+        server: "./dist"
     });
 
-    gulp.watch("./styles/**/*.scss", ['sass']);
-    gulp.watch("./scripts/*.js", ['js']);
-   gulp.watch("*.html").on('change', browserSync.reload);
-   gulp.watch("./scripts/**/*.vue").on('change', browserSync.reload);
-    gulp.watch("./scripts/**/*.js").on('change', browserSync.reload);
+    gulp.watch("./app/styles/**/*.scss", ['sass']);
+    gulp.watch("./app/**/*.js", ['js']);
+  //  gulp.watch("*.html").on('change', browserSync.reload);
+  //  gulp.watch("./scripts/**/*.vue").on('change', browserSync.reload);
+  //  gulp.watch("./scripts/**/*.js").on('change', browserSync.reload);
 
 });
 
 gulp.task('copyimg', function () {
-    gulp.src('./images/**/*.{gif,jpg,png}')
+    gulp.src('./app/images/**/*.{gif,jpg,png}')
         .pipe(imagemin({
             progressive: true,
             interlaced: true,
             svgoPlugins: [{removeViewBox: false}, {removeUselessStrokeAndFill: false}]
         }))
-        .pipe(gulp.dest('./dest/images/'));
+        .pipe(gulp.dest('./dist/images/'));
 });
 
 

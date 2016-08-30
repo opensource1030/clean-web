@@ -2,11 +2,12 @@ import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $j  from 'jquery'
+import NProgress from 'nprogress'
+
 //foundation js
 //require('../vendor/foundation-sites/dist/foundation')
 //$j(document).foundation();
 import App from './components/App.vue'
-
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
@@ -19,9 +20,21 @@ Vue.use(Router)
 Vue.use(Resource)
 
 // Set up a new router
-export var router = new Router();
+export var router = new Router(
+
+
+);
 
 auth.checkAuth();
+
+Vue.http.interceptors.push((request, next) => {
+  NProgress.inc(0.2)
+  next((response)=>{
+    NProgress.done();
+ });
+});
+
+
 
 
 
@@ -54,20 +67,21 @@ router.map({
 })
 
 // For every new route scroll to the top of the page
-router.beforeEach(function () {
+router.beforeEach(({ next }) => {
   window.scrollTo(0, 0)
-})
-router.beforeEach(function (transition) {
-  if (transition.to.auth && !auth.user.authenticated) {
-    transition.redirect('/login')
-  }
-else{
+  NProgress.start()
 
-    transition.next()
-  }
-
+  next()
 })
 
+
+
+
+
+
+router.afterEach(() => {
+  NProgress.done()
+})
 
 
 // If no route is matched redirect home

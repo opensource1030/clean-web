@@ -1,5 +1,6 @@
 import {router} from '../app'
 import Vue from 'vue'
+import config from './../../config/config'
 // Check the user's auth status when the app
 // loads to account for page refreshing
 const api="http://clean.api";
@@ -21,7 +22,7 @@ login(context, creds, redirect) {
   }
   else{
 
-  context.$http.get(api+'/doSSO/'+creds.email+'/?redirectToUrl=http://localhost:3000/%23!/sso/').then((response) => {
+  context.$http.get(config.urlApi+'/doSSO/'+creds.email+'/?redirectToUrl=http://localhost:3000/%23!/sso/').then((response) => {
 
           window.location.href =response.data.data.redirectUrl;
 
@@ -54,11 +55,11 @@ login(context, creds, redirect) {
 
 singleSignOn(context,creds,redirect){
 
-  context.$http.post(api+'/oauth/access_token',
+  context.$http.post(config.urlApi+'/oauth/access_token',
                       {
                         grant_type: 'sso',
-                        client_id:'g73hhd8j3bhcuhdbbs88e4wd',
-                        client_secret:'786wndkd8iu4nn49ixjndfodsde33',
+                        client_id:config.client_id,
+                        client_secret:config.client_secret,
                         uuid:creds
 
                         })
@@ -94,7 +95,7 @@ loginLocal(context,creds,redirect){
   }
   else{
 
-  context.$http.post(api+'/oauth/access_token',
+  context.$http.post(config.urlApi+'/oauth/access_token',
                       {
                         grant_type: 'password',
                         client_id:'g73hhd8j3bhcuhdbbs88e4wd',
