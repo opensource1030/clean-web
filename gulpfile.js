@@ -83,6 +83,4 @@ gulp.task('copyimg', function () {
 
 
 // bundling js with browserify and watchify
-gulp.task('build', ['js', 'icons', 'sass', 'copyimg']);
-
-gulp.task('default', gulpSequence('build', 'serve'));
+gulp.task('default', gulpSequence('js', 'icons', 'sass', 'copyimg'));
