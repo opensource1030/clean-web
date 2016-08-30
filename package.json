@@ -21,6 +21,7 @@
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+
     "laravel-elixir": "^4.0.0",
     "laravel-elixir-vueify": "^1.0.6",
     "vinyl-buffer": "^1.0.0",
@@ -31,7 +32,7 @@
   "dependencies": {
     "jquery": "^2.1.4",
     "vue": "^1.0.11",
-    "vue-resource": "^0.6.0",
+    "vue-resource": "^0.9.3",
     "vue-router": "^0.7.7"
   },
   "browser": {
