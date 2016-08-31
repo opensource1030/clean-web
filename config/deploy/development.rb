@@ -1,6 +1,6 @@
 role :app, %w{204.156.175.49}
 
-set :stage, :develop
+set :stage, :development
 set :branch, 'develop'
 set :deploy_to, '/home/deploy/webapps/app'
 
