@@ -8,7 +8,7 @@
 <h5>{{error}}</h5>
 </div>
   </div>
-    <h1 class="title">Clean <sup class="version">beta 3.0</sup> </h1>
+    <h1 class="title">Clean <sup class="version">v4.0.0</sup> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">

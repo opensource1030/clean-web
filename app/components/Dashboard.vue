@@ -9,6 +9,11 @@
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
+
+        <li class="menu-title">
+          <a @click="logout()"  v-if="user.authenticated" >Logout</a>
+        </li>
+        
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i>
