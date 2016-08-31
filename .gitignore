@@ -26,3 +26,4 @@ testem.log
 gitflowlog
 /log/
 /vendor/
+/config/config.js
