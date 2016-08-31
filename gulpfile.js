@@ -14,13 +14,23 @@ var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
+var rename = require('gulp-rename');
 var babel = require('gulp-babel');
-var prod = gutil.env.prod;
+var filesExist = require('files-exist');
 var gulpSequence = require('gulp-sequence');
 var elixir = require('laravel-elixir');
+var env  = gutil.env.env || 'local';
+
+
+
 elixir.config.js.browserify.watchify.options.poll = true;
 elixir.config.js.browserify.options.debug = true;
 require('laravel-elixir-vueify');
+
+var jsConf = [
+     './config/config.'+env+'.js'
+];
+
 
 gulp.task('js', function () {
     elixir(function (mix) {
@@ -56,8 +66,16 @@ gulp.task('icons', function () {
         .pipe(gulp.dest('./dist/fonts'))
 });
 
+gulp.task('config', function () {
+
+  return gulp.src(filesExist(jsConf, { exceptionMessage: 'The environment specified has no config file' }))
+    .pipe(rename('config.js'))
+    .pipe(gulp.dest('./config'));
+
+});
+
 // Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function () {
+gulp.task('serve', ['config','sass'], function () {
 
     browserSync.init({
         server: "./dist"
@@ -83,4 +101,4 @@ gulp.task('copyimg', function () {
 
 
 // bundling js with browserify and watchify
-gulp.task('default', gulpSequence('js', 'icons', 'sass', 'copyimg'));
+gulp.task('default', gulpSequence('config','js', 'icons', 'sass', 'copyimg'));
