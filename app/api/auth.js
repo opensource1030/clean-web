@@ -22,7 +22,7 @@ login(context, creds, redirect) {
   }
   else{
 
-  context.$http.get(config.urlApi+'/doSSO/'+creds.email+'/?redirectToUrl='+config.url+'/%23!/sso/').then((response) => {
+  context.$http.get(config.urlApi+'/doSSO/'+creds.email+'/?redirectToUrl='+config.url+'/%23!/sso').then((response) => {
 
           window.location.href =response.data.data.redirectUrl;
 
