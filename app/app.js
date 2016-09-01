@@ -31,10 +31,6 @@ Vue.http.interceptors.push((request, next) => {
  });
 });
 
-
-
-
-
 // Route config
 router.map({
   '/login':{
@@ -80,9 +76,6 @@ else{
   }
 })
 
-
-
-
 router.afterEach(() => {
   NProgress.done()
 })
@@ -90,9 +83,8 @@ router.afterEach(() => {
 
 // If no route is matched redirect home
 router.redirect({
- '*': '/login'
+ '*': '/dashboard'
 })
-
 
 // Start up our app
 router.start(App, '#app')

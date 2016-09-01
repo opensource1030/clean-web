@@ -126,7 +126,7 @@ logout() {
     localStorage.removeItem('token')
     this.user.authenticated = false
 
-    router.go('/');
+    router.go('login');
   },
 
 
@@ -149,11 +149,5 @@ checkAuth() {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     }
     }
-
-
-
-
-
-
 
 }

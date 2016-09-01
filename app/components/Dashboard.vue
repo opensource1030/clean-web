@@ -13,7 +13,7 @@
         <li class="menu-title">
           <a @click="logout()"  v-if="user.authenticated" >Logout</a>
         </li>
-        
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i>
@@ -36,7 +36,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-o"></i> Charge</a></li>
-            <li><a href="#"><i class="fa fa-circle-o"></i> Data</a></li>
+            <li><a href="#"><i class="fa fa-circle-o"></i> Dasta</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> International</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> Usage</a></li>
             <li><a href="#"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
@@ -261,11 +261,19 @@
 </template>
 
 <script>
-
-
+import auth from './../api/auth'
 export default {
   name: "Dashboard",
-  
+  data() {
+    return {
+      user: auth.user
+    }
+  },
+  methods: {
+    logout() {
+      auth.logout()
+    }
+  }
 
 
 }
