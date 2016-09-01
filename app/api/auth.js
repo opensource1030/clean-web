@@ -37,15 +37,18 @@ login(context, creds, redirect) {
             else if(response.data.error==="Invalid Email"){
               context.error=response.data.error;
             }
-            else if(response.status==404){
-              context.error="Server Error"
-            }
-            else{
+
+            else if(response.data.erro=="User Found, Password Required"){
               //console.log(response.data.error);
               router.go('loginLocal');
               localStorage.removeItem("email");
 
               localStorage.setItem('email',creds.email);
+            }
+            else{
+                context.error="Server Error"
+
+
             }
 
 
@@ -76,6 +79,8 @@ singleSignOn(context,creds,redirect){
 
 
       }, (response) => {
+
+                context.error="Server error";
 
       });
 
