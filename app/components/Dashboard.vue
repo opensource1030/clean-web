@@ -126,61 +126,8 @@
 
       <!-- end of top nav -->
       <div class="clearfix"></div>
-      <nav aria-label="You are here:" role="navigation">
-        <ul class="breadcrumbs for-clean">
-          <li><a href="#"><i class="fa fa-home"> </i></a></li>
-          <li>
-            <span class="show-for-sr">Current: </span> Dashboard
-          </li>
-        </ul>
-      </nav>
-    <div class="column large-12">
-      <div class="default callout client-info" data-closable>
-        <h2>Thermo Fisher Wireless Portal</h2>
-        Welcome to the Thermo Fisher wireless support portal. On this site you can review your recent wireless usage and charges, place requests for wireless devices and services, and get assistance should you require troubleshooting or support for your company-owned wireless device.
-        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
-      <div class="clearfix"></div>
-      <div class="large-6 columns" >
-        <div class="grid-box" data-mh="box1">
-          <header class="box-heading">
-            <h2>contact support</h2>
-          </header>
-          <div class="box-content">
-            <div class="box-content-holder">
-              <p>There Are 3 Easy Ways To Get Support:  </p>
-            </div>
-            <ul class="icon-list">
-              <li><i class="fa fa-envelope"> </i> <a href="mailto:support@company.com">support@company.com</a> </li>
-              <li><i class="fa fa-phone"> </i> <a href="tel:800-55-1212">(800)-55-1212</a> </li>
-              <li><i class="fa fa-question"> </i> <a href="tel:800-55-1212">Submit a support request</a> </li>
-            </ul>
-            <span class="note">For a detailed summary of the support options available please click <a href="#">HERE</a>. </span>
-          </div>
-        </div>
-      </div>
-      <div class="large-6 columns" >
-        <div class="grid-box" data-mh="box1">
-          <header class="box-heading">
-            <h2> support resources</h2>
-          </header>
-          <div class="box-content">
-            <div class="action-button">
-              <a class="button " href="#">Request Provision</a>
-              <a class="button" href="#">Get Support</a>
-            </div>
-            <ul class="icon-list">
-              <li><i class="fa fa-users"> </i> <a href="#">Wireless Telecom Administrators</a> </li>
-              <li><i class="fa fa-file-o"> </i> <a href="#">International Roaming Rate Sheet</a> </li>
-              <li><i class="fa fa-file-o"> </i> <a href="#">Wireless Service Policy</a> </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
+      <breadcrumb></breadcrumb>
+      <client-info> </client-info>
       <div class="large-12 columns">
         <div class="grid-box">
           <header class="box-heading">
@@ -257,12 +204,15 @@
 
 <script>
 
+  import Breadcrumb from './Breadcrumb.vue'
+  import ClientInfo from './ClientInfo.vue'
 
 export default {
   name: "Dashboard",
-  
-
-
+  components: {
+    Breadcrumb,
+    ClientInfo
+  }
 }
 
 </script>
