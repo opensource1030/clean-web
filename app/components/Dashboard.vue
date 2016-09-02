@@ -9,6 +9,11 @@
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
+
+        <li class="menu-title">
+          <a @click="logout()"  v-if="user.authenticated" >Logout</a>
+        </li>
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i>
@@ -203,12 +208,25 @@
 </template>
 
 <script>
+import auth from './../api/auth'
 
   import Breadcrumb from './Breadcrumb.vue'
   import ClientInfo from './ClientInfo.vue'
 
 export default {
   name: "Dashboard",
+  data() {
+    return {
+      user: auth.user
+    }
+  },
+  methods: {
+    logout() {
+      auth.logout()
+    }
+  }
+
+
   components: {
     Breadcrumb,
     ClientInfo

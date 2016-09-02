@@ -20,10 +20,7 @@ Vue.use(Router)
 Vue.use(Resource)
 
 // Set up a new router
-export var router = new Router(
-
-
-);
+export var router = new Router();
 
 auth.checkAuth();
 
@@ -33,10 +30,6 @@ Vue.http.interceptors.push((request, next) => {
     NProgress.done();
  });
 });
-
-
-
-
 
 // Route config
 router.map({
@@ -74,10 +67,14 @@ router.beforeEach(({ next }) => {
   next()
 })
 
-
-
-
-
+router.beforeEach(function (transition) {
+  if (transition.to.auth && !auth.user.authenticated) {
+    transition.redirect('/login')
+  }
+else{
+    transition.next()
+  }
+})
 
 router.afterEach(() => {
   NProgress.done()
@@ -86,9 +83,8 @@ router.afterEach(() => {
 
 // If no route is matched redirect home
 router.redirect({
- '*': '/login'
+ '*': '/dashboard'
 })
-
 
 // Start up our app
 router.start(App, '#app')

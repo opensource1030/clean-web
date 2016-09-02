@@ -28,7 +28,7 @@ deployment:
   development:
     branch: develop
     commands:
-      - bundle exec cap develop deploy
+      - bundle exec cap development deploy
 
 
   staging:

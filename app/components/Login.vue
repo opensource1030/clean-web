@@ -1,5 +1,3 @@
-
-
 <template>
   <div>
   <div class=class="bg-login">
@@ -14,7 +12,7 @@
 
     </div>
       </div>
-    <h1 class="title">Clean <sup class="version">beta.3.11</sup> </h1>
+    <h1 class="title">CLEAN <sup class="version">v4.0.0</sup> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
