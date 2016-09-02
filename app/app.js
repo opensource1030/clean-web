@@ -3,10 +3,8 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $j  from 'jquery'
 import NProgress from 'nprogress'
-
-//foundation js
-//require('../vendor/foundation-sites/dist/foundation')
-//$j(document).foundation();
+require('../vendor/foundation-sites/dist/foundation')
+$j(document).foundation();
 import App from './components/App.vue'
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
@@ -47,8 +45,7 @@ router.map({
   },
   '/dashboard':{
     name: 'dashboard',
-    component: Dashboard,
-    auth: true
+    component: Dashboard
   },
   '/sso/:id':{
     name: 'sso',

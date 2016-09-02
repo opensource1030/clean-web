@@ -4,8 +4,8 @@
 
   <div class="column large-12">
     <div class="default callout client-info" data-closable>
-      <h2>  {{data.object.title }}</h2>
-      <p> {{data.object.content }} </p>
+      <h2>  {{data.value }}</h2>
+      <p> {{data.object.header.value }} </p>
       <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
         <span aria-hidden="true">&times;</span>
       </button>
@@ -56,15 +56,15 @@
 var urlAPI = 'https://api.cosmicjs.com/v1/clean/object/tfs-dashboard?pretty=true';
 export default {
     name: "ClientInfo",
-    ready (){
+   /* ready (){
       this.$http.get(urlAPI).then((response) => {
         this.$set('data', response.json());
-       /* this.response = response.data.object;*/
+       /!* this.response = response.data.object;*!/
       }, (response) => {
 
 
       });
-    },
+    },*/
   data(){
       return{
         data : ''
