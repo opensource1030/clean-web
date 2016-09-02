@@ -38,7 +38,7 @@ login(context, creds, redirect) {
               context.error=response.data.error;
             }
 
-            else if(response.data.erro=="User Found, Password Required"){
+            else if(response.data.error=="User Found, Password Required"){
               //console.log(response.data.error);
               router.go('loginLocal');
               localStorage.removeItem("email");

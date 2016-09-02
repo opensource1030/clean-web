@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import Router from 'vue-router'
-import $j  from 'jquery'
+import $  from 'jquery'
 import NProgress from 'nprogress'
 
 //foundation js
@@ -13,6 +13,7 @@ import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
 import Dashboard from './components/Dashboard.vue'
+import Navbar from './components/Navbar.vue'
 import auth from './api/auth.js'
 
 // Install plugins
@@ -54,7 +55,10 @@ router.map({
     name: 'sso',
     component: Sso
   },
-
+  '/navbar':{
+    name: 'navbar',
+    component: Navbar
+  },
 
 
 })

@@ -1,9 +1,14 @@
-$.sidebarMenu = function(menu) {
+require('../../vendor/foundation-sites/dist/foundation')
+  require('../modules/classie')
+
+  var $j = require('jquery');
+
+$j.sidebarMenu = function(menu) {
   var animationSpeed = 300;
-  
-  $(menu).on('click', 'li a', function(e) {
-    var $this = $(this);
-    var checkElement = $this.next();
+
+  $j(menu).on('click', 'li a', function(e) {
+    var $jthis = $j(this);
+    var checkElement = $jthis.next();
 
     if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
       checkElement.slideUp(animationSpeed, function() {
@@ -15,13 +20,13 @@ $.sidebarMenu = function(menu) {
     //If the menu is not visible
     else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
       //Get the parent menu
-      var parent = $this.parents('ul').first();
+      var parent = $jthis.parents('ul').first();
       //Close all open menus within the parent
       var ul = parent.find('ul:visible').slideUp(animationSpeed);
       //Remove the menu-open class from the parent
       ul.removeClass('menu-open');
       //Get the parent li
-      var parent_li = $this.parent("li");
+      var parent_li = $jthis.parent("li");
 
       //Open the target menu and add the menu-open class
       checkElement.slideDown(animationSpeed, function() {
@@ -37,3 +42,9 @@ $.sidebarMenu = function(menu) {
     }
   });
 }
+$j(document).foundation();
+    $j.sidebarMenu($j('.sidebar-menu'));
+    $j('.icon-close').click(function(){
+      $j('.menu-left').toggleClass('test');
+      $j('.content-right').toggleClass('test')
+    });
