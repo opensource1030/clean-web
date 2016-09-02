@@ -143,19 +143,14 @@
   </div>
 
 
-<pre> {{ clean | json }} </pre>
-
 </template>
 
 <script>
-  import config from './../../config/config'
 import auth from './../api/auth'
   import Breadcrumb from './Breadcrumb.vue'
-/*  import ClientInfo from './ClientInfo.vue'*/
   import Sidemenu from './Sidemenu.vue'
 
-/*var Api = config.urlApi+'/api/companies/'+config.client_id;*/
-var Api = 'https://api.cosmicjs.com/v1/clean/object/tfs-dashboard?pretty=true';
+var Api = 'https://api.cosmicjs.com/v1/clean/object/thermo-fisher?pretty=true';
 export default {
   name: "Dashboard",
   ready (){

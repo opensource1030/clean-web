@@ -3,8 +3,10 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $j  from 'jquery'
 import NProgress from 'nprogress'
-require('../vendor/foundation-sites/dist/foundation')
-$j(document).foundation();
+
+//foundation js
+//require('../vendor/foundation-sites/dist/foundation')
+//$j(document).foundation();
 import App from './components/App.vue'
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
@@ -26,7 +28,7 @@ Vue.http.interceptors.push((request, next) => {
   NProgress.inc(0.2)
   next((response)=>{
     NProgress.done();
- });
+  });
 });
 
 // Route config
@@ -45,7 +47,8 @@ router.map({
   },
   '/dashboard':{
     name: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    auth: true
   },
   '/sso/:id':{
     name: 'sso',
@@ -68,7 +71,7 @@ router.beforeEach(function (transition) {
   if (transition.to.auth && !auth.user.authenticated) {
     transition.redirect('/login')
   }
-else{
+  else{
     transition.next()
   }
 })
@@ -80,7 +83,7 @@ router.afterEach(() => {
 
 // If no route is matched redirect home
 router.redirect({
- '*': '/dashboard'
+  '*': '/dashboard'
 })
 
 // Start up our app
