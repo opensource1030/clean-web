@@ -1,5 +1,4 @@
 
-
 <template>
 
   <nav aria-label="You are here:" role="navigation">
@@ -13,6 +12,7 @@
 </template>
 <script>
 /*import auth from './../api/auth'*/
+
 export default {
     name: "Breadcrumb"
 }
