@@ -29,7 +29,7 @@ Vue.http.interceptors.push((request, next) => {
   NProgress.inc(0.2)
   next((response)=>{
     NProgress.done();
- });
+  });
 });
 
 // Route config
@@ -75,7 +75,7 @@ router.beforeEach(function (transition) {
   if (transition.to.auth && !auth.user.authenticated) {
     transition.redirect('/login')
   }
-else{
+  else{
     transition.next()
   }
 })
@@ -87,7 +87,7 @@ router.afterEach(() => {
 
 // If no route is matched redirect home
 router.redirect({
- '*': '/dashboard'
+  '*': '/dashboard'
 })
 
 // Start up our app
