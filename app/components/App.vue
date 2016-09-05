@@ -1,13 +1,20 @@
 <script>
 //imports
 
-import Navbar from './Navbar.vue'
-
+import Sidemenu from './Sidemenu.vue'
+import foo from './Footer.vue'
+import auth from './../api/auth'
   export default {
     name: "App",
 
     components: {
-      Navbar
+      Sidemenu,
+      foo
+    },
+    data() {
+      return {
+        user: auth.user
+      }
     }
 
   }
@@ -16,8 +23,11 @@ import Navbar from './Navbar.vue'
 <template>
    <div id="app">
 
-
+ <div class="off-canvas-wrapper">
+    <sidemenu  v-if="user.authenticated" > </sidemenu>
   <router-view></router-view>
+    <foo  v-if="user.authenticated"   ></foo>
+    </div>
 
 </div>
 </template>
