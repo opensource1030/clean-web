@@ -1,7 +1,4 @@
 <template>
-
-
-
     <div class="content-right" >
     <div class="expanded row">
 
