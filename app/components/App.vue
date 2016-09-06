@@ -1,6 +1,7 @@
 <script>
 //imports
 
+
 import Sidemenu from './Sidemenu.vue'
 import foo from './Footer.vue'
 import auth from './../api/auth'
@@ -24,7 +25,7 @@ import auth from './../api/auth'
    <div id="app">
 
  <div class="off-canvas-wrapper">
-    <sidemenu  v-if="user.authenticated" > </sidemenu>
+    <sidemenu   > </sidemenu>
   <router-view></router-view>
     <foo  v-if="user.authenticated"   ></foo>
     </div>
