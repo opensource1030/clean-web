@@ -27,3 +27,5 @@ gitflowlog
 /log/
 /vendor/
 /config/config.js
+.idea/
+.DS_Store 11.43.07
