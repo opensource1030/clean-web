@@ -12,7 +12,6 @@
       <li class="menu-title">
         <a @click="logout()"  v-if="user.authenticated" >Logout</a>
       </li>
-
       <li class="treeview">
         <a href="#">
           <i class="fa fa-dashboard"></i>
@@ -20,9 +19,9 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu" style="display: none;">
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp?access_token="><i class="fa fa-circle-o"></i> Trends</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp?access_token="><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp?access_token="><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -32,15 +31,15 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp"><i class="fa fa-circle-o"></i> Charge</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp"><i class="fa fa-circle-o"></i> Data</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp"><i class="fa fa-circle-o"></i> International</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp"><i class="fa fa-circle-o"></i> Usage</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
-          <li><a href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp?access_token="><i class="fa fa-circle-o"></i> Charge</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp?access_token="><i class="fa fa-circle-o"></i> Data</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp?access_token="><i class="fa fa-circle-o"></i> International</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp?access_token="><i class="fa fa-circle-o"></i> Usage</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp?access_token="><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
+          <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp?access_token="><i class="fa fa-circle-o"></i> Zero Usage</a></li>
         </ul>
       </li>
-      <li><a href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
+      <li><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp?access_token="><i class="fa fa-phone"></i> <span>Support</span></a></li>
 
 
     </ul>
@@ -69,6 +68,7 @@ export default {
     }
   },
     ready () {
+
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
 
