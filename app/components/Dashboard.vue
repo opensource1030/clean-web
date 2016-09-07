@@ -15,7 +15,7 @@
       <!-- end of top nav -->
       <div class="clearfix"></div>
       <breadcrumb></breadcrumb>
-      <clientinfo> </clientinfo>
+      <client-Info> </client-Info>
 
         <piechart> </piechart>
         <trendchart> </trendchart>
@@ -33,7 +33,7 @@
   import auth from './../api/auth'
   require('../modules/dashboard-chart')
   import Breadcrumb from './Breadcrumb.vue'
-  import Clientinfo from './Clientinfo.vue'
+  import ClientInfo from './ClientInfo.vue'
   import Morphsearch from './Morphsearch.vue'
   import Piechart from './Piechart.vue'
   import Trendchart from './Trendchart.vue'
@@ -43,11 +43,11 @@
     components: {
       Breadcrumb,
       Morphsearch,
-      Clientinfo,
+      ClientInfo,
       Piechart,
       Trendchart
 
-    },
+    }
 
 
   }

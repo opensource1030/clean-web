@@ -3,6 +3,7 @@ import Resource from 'vue-resource'
 import Router from 'vue-router'
 import $  from 'jquery'
 import NProgress from 'nprogress'
+import Breadcrumb from 'vue-breadcrumbs'
 
 //foundation js
 require('../vendor/foundation-sites/dist/foundation')
@@ -19,6 +20,7 @@ import auth from './api/auth.js'
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
+Vue.use(Breadcrumb)
 
 // Set up a new router
 export var router = new Router();
@@ -49,6 +51,7 @@ router.map({
   '/dashboard':{
     name: 'dashboard',
     component: Dashboard,
+    breadcrumb: 'Dashboard',
     auth: true
   },
   '/sso/:id':{
