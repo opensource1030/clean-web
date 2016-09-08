@@ -67,19 +67,23 @@ export default {
     }
   },
     ready () {
-      setTimeout (function () {
-        $('.page-link a').attr('href', function(index, href) {
+      $('.page-link a').one('mouseenter', function(){
+
+        $(this).attr('href', function(index, href) {
           var token = localStorage.token;
           var param = 'access_token='+ token;
 
           if (href.charAt(href.length - 1) === '?') //Very unlikely
-            return href + param;
+            return ;
           else if (href.indexOf('?') > 0)
             return href + '&' + param;
           else
             return href + '?' + param;
         });
-      }, 1000);
+
+
+
+      })
 
 
       $.sidebarMenu = function(menu) {
