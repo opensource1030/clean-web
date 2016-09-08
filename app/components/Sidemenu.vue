@@ -67,17 +67,28 @@ export default {
     }
   },
     ready () {
-      $('.page-link a').attr('href', function(index, href) {
-        var token = localStorage.token;
-        var param = 'access_token='+ token;
+        var intervalId = setInterval(function(){
+          var token = localStorage.token;
+          $('.page-link a').attr('href', function(index, href) {
 
-        if (href.charAt(href.length - 1) === '?') //Very unlikely
-          return ;
-        else if (href.indexOf('?') > 0)
-          return href + '&' + param;
-        else
-          return href + '?' + param;
-      });
+            var param = 'access_token='+ token;
+
+            if (href.charAt(href.length - 1) === '?') //Very unlikely
+              return href + param;
+            else if (href.indexOf('?') > 0)
+              return href + '&' + param;
+            else
+              return href + '?' + param;
+
+
+          });
+          if(token !== undefined){
+            clearInterval(intervalId);
+            console.log('cleared');
+          }
+        }, 2000);
+
+
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
 
