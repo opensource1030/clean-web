@@ -68,7 +68,7 @@ export default {
   },
     ready () {
       $('.page-link a').attr('href', function(index, href) {
-        var param = 'access_token='+ localStorage.getItem('token');
+        var param = 'access_token='+ localStorage.token;
 
         if (href.charAt(href.length - 1) === '?') //Very unlikely
           return href + param;
