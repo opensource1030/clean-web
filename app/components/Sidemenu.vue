@@ -67,25 +67,17 @@ export default {
     }
   },
     ready () {
-      $('.page-link a').one('mouseenter', function(){
+      $('.page-link a').attr('href', function(index, href) {
+        var token = localStorage.token;
+        var param = 'access_token='+ token;
 
-        $(this).attr('href', function(index, href) {
-          var token = localStorage.token;
-          var param = 'access_token='+ token;
-
-          if (href.charAt(href.length - 1) === '?') //Very unlikely
-            return ;
-          else if (href.indexOf('?') > 0)
-            return href + '&' + param;
-          else
-            return href + '?' + param;
-        });
-
-
-
-      })
-
-
+        if (href.charAt(href.length - 1) === '?') //Very unlikely
+          return ;
+        else if (href.indexOf('?') > 0)
+          return href + '&' + param;
+        else
+          return href + '?' + param;
+      });
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
 
