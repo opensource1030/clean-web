@@ -8,7 +8,10 @@
           <morphsearch> </morphsearch>
         </div>
         <div class="large-4">
-
+          <button class="button" type="button" data-toggle="example-dropdown-1">Hoverable Dropdown</button>
+          <div class="dropdown-pane" id="example-dropdown-1" data-dropdown data-hover="true" data-hover-pane="true">
+            Just some junk that needs to be said. Or not. Your choice.
+          </div>
         </div>
       </section>
 
@@ -47,6 +50,9 @@
       Piechart,
       Trendchart
 
+    },
+    ready(){
+      $(document).foundation();
     }
 
 
