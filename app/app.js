@@ -4,9 +4,12 @@ import Router from 'vue-router'
 import $  from 'jquery'
 import NProgress from 'nprogress'
 
+
+
 //foundation js
 require('../vendor/foundation-sites/dist/foundation')
 $(document).foundation();
+//initial routes
 import App from './components/App.vue'
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
@@ -14,11 +17,16 @@ import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
 import Dashboard from './components/Dashboard.vue'
 import Sidemenu from './components/Sidemenu.vue'
+//auth router
 import auth from './api/auth.js'
+//views
+import Devices from './components/views/Devices.vue'
+
 
 // Install plugins
 Vue.use(Router)
 Vue.use(Resource)
+
 
 // Set up a new router
 export var router = new Router();
@@ -51,6 +59,11 @@ router.map({
     component: Dashboard,
     auth: true
   },
+  '/devices':{
+    name:'devices',
+    component: Devices
+
+      },
   '/sso/:id':{
     name: 'sso',
     component: Sso
