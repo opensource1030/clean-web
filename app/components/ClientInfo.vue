@@ -2,12 +2,10 @@
 <template>
 
   <div class="column large-12">
-    <div class="default callout client-info" data-closable>
+    <div class="default callout client-info" >
       <h2 v-if="clean.object" >  {{clean.object.title }}</h2>
       <div v-if="clean.object"> {{{clean.object.metafields[3].value }}} </div>
-      <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-        <span aria-hidden="true">&times;</span>
-      </button>
+
     </div>
   </div>
   <div class="clearfix"></div>
