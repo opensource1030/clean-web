@@ -67,16 +67,19 @@ export default {
     }
   },
     ready () {
-      $('.page-link a').attr('href', function(index, href) {
-        var param = 'access_token='+ localStorage.token;
+      setTimeout (function () {
+        $('.page-link a').attr('href', function(index, href) {
+          var token = localStorage.token;
+          var param = 'access_token='+ token;
 
-        if (href.charAt(href.length - 1) === '?') //Very unlikely
-          return href + param;
-        else if (href.indexOf('?') > 0)
-          return href + '&' + param;
-        else
-          return href + '?' + param;
-      });
+          if (href.charAt(href.length - 1) === '?') //Very unlikely
+            return href + param;
+          else if (href.indexOf('?') > 0)
+            return href + '&' + param;
+          else
+            return href + '?' + param;
+        });
+      }, 1000);
 
 
       $.sidebarMenu = function(menu) {
