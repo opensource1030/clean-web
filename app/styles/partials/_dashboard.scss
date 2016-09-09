@@ -288,6 +288,9 @@
 }
 .login{
   .callout{
+    &.fixed-top{
+      position: fixed;
+    }
     position: fixed;
     top:0;
     width: 100%;
@@ -588,5 +591,8 @@ a.btn-provision:hover .support-form-holder{
   &.is-success{
     background: $brand-green;
     color: $white;
+  }
+  &.for-dashboard{
+    @extend .is-error;
   }
 }
