@@ -110,7 +110,7 @@ loginLocal(context,creds,redirect){
 
                         })
        .then((response) => {
-                console.log(response.data);
+
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
                    setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
@@ -118,8 +118,9 @@ loginLocal(context,creds,redirect){
 
 
       }, (response) => {
-          if(response.data.message){
-          context.error=response.data.message;
+
+          if(response.data.errors.message){
+          context.error=response.data.errors.message;
         }
         else{
               context.error="Unexpected server error. Please contact the administrator.";
