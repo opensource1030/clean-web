@@ -86,12 +86,16 @@
     },
     data(){
       return {
-        data: {}
+        data: {},
+        user: auth.user
       }
     },
     methods:{
       dropmenu: function(){
 
+      },
+      logout() {
+        auth.logout()
       }
 
     }

@@ -52,17 +52,6 @@ import auth from './../api/auth'
 
 export default {
   name: "Sidemenu",
-  data() {
-    return {
-      user: auth.user
-    }
-  },
-
-  methods: {
-    logout() {
-      auth.logout()
-    }
-  },
     ready () {
         var intervalId = setInterval(function(){
           var token = localStorage.token;
