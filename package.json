@@ -24,6 +24,7 @@
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "initial-js": "^0.3.4",
     "laravel-elixir": "^4.0.0",
     "laravel-elixir-vueify": "^1.0.6",
     "nprogress": "^0.2.0",

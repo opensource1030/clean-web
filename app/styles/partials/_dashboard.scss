@@ -26,7 +26,7 @@
   p:empty {
     display: none;
   }
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.8rem;
   /*  border:1px solid rgba(0, 0, 0, 0.09);*/
   background: $white;
   @include css3(border-radius,0);
@@ -53,7 +53,7 @@
       padding: 0.7rem 1rem 1rem;
     }
     &-holder{
-      padding: 1rem;
+      padding: 1rem 1rem 0;
       p{
         margin-bottom: 0;
         &:first-child{
@@ -453,7 +453,6 @@
 }
 .content-right{
   padding-left: 200px;
-  padding-bottom: 40px;
   &.test{
     padding-left:50px ;
   }
@@ -601,5 +600,44 @@ a.btn-provision:hover .support-form-holder{
   &.is-success{
     background: $brand-green;
     color: $white;
+  }
+}
+.img-avatar{
+  height: 47px;
+  width: 47px;
+  @include css3(border-radius,50%);
+  background: $silver;
+
+}
+.profile{
+  .greeting{
+    font-weight: 600;
+  }
+  ul{
+    @extend %listreset;
+    li{
+      padding: 1rem 0;
+      &:first-child{
+        padding-top: 0;
+      }
+      &:last-child{
+        padding-bottom: 0;
+      }
+    }
+  }
+  .dropdown-pane{
+    max-width:200px ;
+    top:87px !important;
+    &:before{
+      content:'';
+      position:absolute;
+      top:-11px;
+      right:0;
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 10px solid $medium-gray;
+    }
   }
 }

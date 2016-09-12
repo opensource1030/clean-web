@@ -3,8 +3,8 @@
 
   <div class="column large-12">
     <div class="default callout client-info" >
-      <h2 v-if="clean.object" >  {{clean.object.title }}</h2>
-      <div v-if="clean.object"> {{{clean.object.metafields[3].value }}} </div>
+      <h2 v-if="client.object" >  {{client.object.title }}</h2>
+      <div v-if="client.object"> {{{client.object.metafields[3].value }}} </div>
 
     </div>
   </div>
@@ -15,16 +15,16 @@
         <h2>contact support</h2>
       </header>
       <div class="box-content">
-        <div class="box-content-holder" v-if="clean.object">
-          {{{clean.object.metafields[0].value }}}
+        <div class="box-content-holder" v-if="client.object">
+          {{{client.object.metafields[0].value }}}
         </div>
       </div>
     </div>
   </div>
   <div class="large-6 columns" >
-    <div class="grid-box" data-mh="box1" v-if="clean.object">
+    <div class="grid-box" data-mh="box1" v-if="client.object">
       <header class="box-heading">
-        <h2> {{ clean.object.metafields[1].title }}</h2>
+        <h2> {{ client.object.metafields[1].title }}</h2>
       </header>
       <div class="box-content">
         <div class="action-button" id="action-buttons">
@@ -162,7 +162,7 @@
             </form>
           </div>
         </div>
-        {{{  clean.object.metafields[1].value }}}
+        {{{  client.object.metafields[1].value }}}
       </div>
     </div>
   </div>
@@ -229,7 +229,7 @@
 
     ready(){
       this.$http.get(Api).then((response) => {
-        this.$set('clean', response.json());
+        this.$set('client', response.json());
         /* this.response = response.data.object;*/
 
       }, (response) => {
@@ -239,7 +239,7 @@
     },
     data(){
       return {
-        clean: {}
+        client: {}
       }
     },
     methods:{
