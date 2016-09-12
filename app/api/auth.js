@@ -118,14 +118,17 @@ loginLocal(context,creds,redirect){
 
 
       }, (response) => {
-
-          if(response.data.errors.message){
-          context.error=response.data.errors.message;
-        }
-        else{
+                  console.log(response);
+              if(response.status==500){
               context.error="Unexpected server error. Please contact the administrator.";
 
+
+              }
+
+          else{
+          context.error=response.data.errors.message;
         }
+
 
 
       });
