@@ -1,6 +1,12 @@
 .top-bar-section{
-  padding: 20px 20px 20px 40px;
+  padding:19px 20px 14px 40px;
   background: $white;
 /*  border-bottom: 1px material-color('grey','300') solid;*/
+
+}
+@media screen and (max-width: $medium){
+  .top-bar-section{
+   padding: 20px 10px;
+  }
 
 }

@@ -299,3 +299,6 @@ input[type="search"] {
     padding-bottom: 300px !important;
   }
 }
+@media screen and (max-width: $medium) {
+ .morphsearch{width: auto;}
+}
