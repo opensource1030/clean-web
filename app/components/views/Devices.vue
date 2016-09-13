@@ -2,7 +2,7 @@
 <div class="content-right" >
   <div id="device">
 <div class="header"></div>
-
+<div class="expanded row">
 
      <div class="small-12 columns titles" >
       <h4>Manage Devices<h4>
@@ -133,7 +133,10 @@
                     </div>
                       </div>
                     <div class="carrrier child">
+                        <span style="font-weight: bold;">  Availability:</span><br>
+                        <span>Provaider</span>
                       <ul>
+
                       <li>at</li>
                         <li>movistar</li>
                           <li>vodafone</li>
@@ -142,6 +145,8 @@
 
                     </div>
                     <div class="capacity child">
+                      <br>
+                      <span>Provaider</span>
                       <ul>
                       <li>at</li>
                         <li>movistar</li>
@@ -151,6 +156,8 @@
 
                     </div>
                     <div class="style child">
+                        <br>
+                      <span>Provaider</span>
                       <ul>
                       <li>at</li>
                         <li>movistar</li>
@@ -171,7 +178,7 @@
   </div>
 </div>
 </div>
-
+</div>
 
 </template>
 <script>
