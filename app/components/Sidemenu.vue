@@ -15,7 +15,7 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu" style="display: none;">
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
+          <li class="page-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
           <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
           <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
@@ -52,28 +52,27 @@ import auth from './../api/auth'
 
 export default {
   name: "Sidemenu",
-  data() {
-    return {
-      user: auth.user
-    }
-  },
-
-  methods: {
-    logout() {
-      auth.logout()
-    }
-  },
     ready () {
-      $('.page-link a').attr('href', function(index, href) {
-        var param = 'access_token='+ localStorage.getItem('token');
+        var intervalId = setInterval(function(){
+          var token = localStorage.token;
+          $('.page-link a').attr('href', function(index, href) {
 
-        if (href.charAt(href.length - 1) === '?') //Very unlikely
-          return href + param;
-        else if (href.indexOf('?') > 0)
-          return href + '&' + param;
-        else
-          return href + '?' + param;
-      });
+            var param = 'access_token='+ token;
+
+            if (href.charAt(href.length - 1) === '?') //Very unlikely
+              return href + param;
+            else if (href.indexOf('?') > 0)
+              return href + '&' + param;
+            else
+              return href + '?' + param;
+
+
+          });
+          if(token !== undefined){
+            clearInterval(intervalId);
+            console.log('cleared');
+          }
+        }, 2000);
 
 
       $.sidebarMenu = function(menu) {

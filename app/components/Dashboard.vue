@@ -1,5 +1,8 @@
 <template>
   <div class="content-right" >
+    <div class="alert callout for-dashboard" data-closable style="display:none;">
+      <h5>You will now be redirected to this section in our legacy app</h5>
+    </div>
     <div class="expanded row">
 
       <!-- top nav -->
@@ -24,7 +27,9 @@
 
         <piechart> </piechart>
         <trendchart> </trendchart>
+
     </div>
+
   </div>
 
 
@@ -55,28 +60,42 @@
 
     },
     ready(){
+      $('.page-link a').each(function(e){
+        $(this).click(function(e){
+          var link = this.href;
+          e.preventDefault();
+          $('.for-dashboard').show(100);
+          setTimeout(function() {
+            $('.for-dashboard').hide(100);
+              window.location=link;
+          }, 2000);
+        })
 
-      this.$http.get(Api).then((response) => {
-        this.$set('data', response.json());
-        setTimeout(function(){
-          $(document).foundation();
-          $('.img-avatar').initial();
-        },300);
+      })
+        this.$http.get(Api).then((response) => {
+            this.$set('data', response.json());
+            setTimeout(function(){
+                $(document).foundation();
+                $('.img-avatar').initial();
+            },300);
 
 
-      }, (response) => {
+        }, (response) => {
 
-      });
-
+        });
     },
     data(){
       return {
-        data: {}
+        data: {},
+        user: auth.user
       }
     },
     methods:{
       dropmenu: function(){
 
+      },
+      logout() {
+        auth.logout()
       }
 
     }
