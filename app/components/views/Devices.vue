@@ -133,7 +133,10 @@
                     </div>
                       </div>
                     <div class="carrrier child">
+                        <span style="font-weight: bold;">  Availability:</span><br>
+                        <span>Provaider</span>
                       <ul>
+
                       <li>at</li>
                         <li>movistar</li>
                           <li>vodafone</li>
@@ -142,6 +145,8 @@
 
                     </div>
                     <div class="capacity child">
+                      <br>
+                      <span>Provaider</span>
                       <ul>
                       <li>at</li>
                         <li>movistar</li>
@@ -151,6 +156,8 @@
 
                     </div>
                     <div class="style child">
+                        <br>
+                      <span>Provaider</span>
                       <ul>
                       <li>at</li>
                         <li>movistar</li>
