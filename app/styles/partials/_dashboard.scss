@@ -390,7 +390,6 @@
     display: none;
   }
   position: fixed;
-  z-index: 9;
   width: 200px;
   background: #434A4F;
   height: 100%;
@@ -471,6 +470,7 @@
   border-color:rgba(0, 0, 0, 0.10);
   border:none;
   padding: 0;
+  z-index: -1;
   font-size: 0.9125rem;
   h2{
     font-size: 1.6rem;
