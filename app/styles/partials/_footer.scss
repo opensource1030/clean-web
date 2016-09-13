@@ -1,4 +1,5 @@
-#footer{
+footer{
+  #footer{
   .copyright{
     a{
       color:$body-font-color;
@@ -7,12 +8,13 @@
     }
   }
   background: $brand-dark;
-  bottom: 0;
+
   color: $white;
-  left: 0;
+
   padding: 1.13846rem;
 
   text-align: right;
   width: 100%;
-  z-index: 8;
+}
+
 }

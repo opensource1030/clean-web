@@ -26,9 +26,11 @@ import auth from './../api/auth'
 
  <div class="off-canvas-wrapper">
     <sidemenu   > </sidemenu>
+
   <router-view></router-view>
     <foo  v-if="user.authenticated"   ></foo>
     </div>
+      </div>
 
-</div>
+
 </template>
