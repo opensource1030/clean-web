@@ -1,7 +1,4 @@
-html, body , .container, #app ,.content-right{
-  height: 100%;
-  width: 100%;
-}
+
 #device{
   height:100%;
 background:$white-smoke;
@@ -145,11 +142,5 @@ height:130px;
   opacity: 0;
   position: absolute; /* important for removal move to work */
 }
-
-
-
-
-
-
 
 }

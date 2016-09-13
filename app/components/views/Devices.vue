@@ -2,7 +2,7 @@
 <div class="content-right" >
   <div id="device">
 <div class="header"></div>
-
+<div class="expanded row">
 
      <div class="small-12 columns titles" >
       <h4>Manage Devices<h4>
@@ -171,7 +171,7 @@
   </div>
 </div>
 </div>
-
+</div>
 
 </template>
 <script>
