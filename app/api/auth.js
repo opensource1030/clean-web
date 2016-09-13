@@ -46,7 +46,7 @@ login(context, creds, redirect) {
               localStorage.setItem('email',creds.email);
             }
             else{
-                context.error="Server Error"
+                context.error="Unexpected server error. Please contact the administrator."
 
 
             }
@@ -80,7 +80,7 @@ singleSignOn(context,creds,redirect){
 
       }, (response) => {
 
-                context.error="Server error";
+                context.error="Unexpected server error. Please contact the administrator.";
 
       });
 
@@ -106,11 +106,11 @@ loginLocal(context,creds,redirect){
                         client_id:config.client_id,
                         client_secret:config.client_secret,
                         username:creds.email,
-                        password:creds.password,
+                        password:creds.password
 
                         })
        .then((response) => {
-                console.log(response.data);
+
                     this.user.authenticated=true;
                    localStorage.setItem('token', response.data.access_token);
                    setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
@@ -118,8 +118,16 @@ loginLocal(context,creds,redirect){
 
 
       }, (response) => {
-          console.log(response.data.message);
-          context.error=response.data.message;
+                  console.log(response);
+              if(response.status==500){
+              context.error="Unexpected server error. Please contact the administrator.";
+
+
+              }
+
+          else{
+          context.error=response.data.errors.message;
+        }
 
 
 

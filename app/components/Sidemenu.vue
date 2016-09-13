@@ -8,9 +8,6 @@
           <i class="fa fa-home"></i> <span>Home</span>
         </a>
       </li>
-      <li class="menu-title">
-        <a @click="logout()"  v-if="user.authenticated" >Logout</a>
-      </li>
       <li class="treeview">
         <a href="/dashboard">
           <i class="fa fa-dashboard"></i>
@@ -18,7 +15,7 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu" style="display: none;">
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
+          <li class="page-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
           <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
           <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
@@ -55,17 +52,6 @@ import auth from './../api/auth'
 
 export default {
   name: "Sidemenu",
-  data() {
-    return {
-      user: auth.user
-    }
-  },
-
-  methods: {
-    logout() {
-      auth.logout()
-    }
-  },
     ready () {
         var intervalId = setInterval(function(){
           var token = localStorage.token;

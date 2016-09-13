@@ -23,7 +23,10 @@
   background: $bg-login ;
 }
 .grid-box{
-  margin-bottom: 2.5rem;
+  p:empty {
+    display: none;
+  }
+  margin-bottom: 1.8rem;
   /*  border:1px solid rgba(0, 0, 0, 0.09);*/
   background: $white;
   @include css3(border-radius,0);
@@ -50,7 +53,7 @@
       padding: 0.7rem 1rem 1rem;
     }
     &-holder{
-      padding: 1rem;
+      padding: 1rem 1rem 0;
       p{
         margin-bottom: 0;
       }
@@ -70,6 +73,13 @@
     }
     a{
       font-weight: 400;
+    }
+  }
+  ul{
+    margin: 0 0 0 2rem;
+    list-style-position: inside;
+    li{
+      border-bottom: none;
     }
   }
 }
@@ -288,6 +298,9 @@
 }
 .login{
   .callout{
+    &.fixed-top{
+      position: fixed;
+    }
     position: fixed;
     top:0;
     width: 100%;
@@ -440,7 +453,6 @@
 }
 .content-right{
   padding-left: 200px;
-  padding-bottom: 40px;
   &.test{
     padding-left:50px ;
   }
@@ -457,12 +469,12 @@
   font-weight: 300;
   border-color:rgba(0, 0, 0, 0.10);
   border:none;
-  padding: 0.875rem 1.5rem 0.875rem 0.875rem;
+  padding: 0.375rem 0.2rem 0 0.575rem;
   font-size: 0.9125rem;
   h2{
     font-size: 1.8rem;
     font-weight: 600;
-    margin: 0 0 0.7rem;
+    margin: 0 0 0.5rem;
   }
 }
 a.btn-provision:hover .support-form-holder{
@@ -588,5 +600,47 @@ a.btn-provision:hover .support-form-holder{
   &.is-success{
     background: $brand-green;
     color: $white;
+  }
+  &.for-dashboard{
+    @extend .is-error;
+  }
+}
+.img-avatar{
+  height: 47px;
+  width: 47px;
+  @include css3(border-radius,50%);
+  background: $silver;
+
+}
+.profile{
+  .greeting{
+    font-weight: 600;
+  }
+  ul{
+    @extend %listreset;
+    li{
+      padding: 1rem 0;
+      &:first-child{
+        padding-top: 0;
+      }
+      &:last-child{
+        padding-bottom: 0;
+      }
+    }
+  }
+  .dropdown-pane{
+    max-width:200px ;
+    top:87px !important;
+    &:before{
+      content:'';
+      position:absolute;
+      top:-11px;
+      right:0;
+      width: 0;
+      height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-bottom: 10px solid $medium-gray;
+    }
   }
 }
