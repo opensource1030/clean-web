@@ -22,6 +22,7 @@ import Sidemenu from './components/Sidemenu.vue'
 import auth from './api/auth.js'
 //views
 import Devices from './components/views/Devices.vue'
+import Device from './components/views/Device.vue'
 
 
 // Install plugins
@@ -64,9 +65,17 @@ router.map({
   },
   '/devices':{
     name:'devices',
-    component: Devices
+    component: Devices,
+    },
+    '/device/:id': {
+      name:'device',
+      component: Device
 
-      },
+    },
+    '/device': {
+      name:'device',
+      component: Device
+    },
   '/sso/:id':{
     name: 'sso',
     component: Sso

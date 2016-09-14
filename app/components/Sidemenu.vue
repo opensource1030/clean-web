@@ -1,6 +1,6 @@
 <template>
   <section  class="menu-left">
-    <a href="#" class="icon-close"> <i class="fa fa-bars "> </i> </a>
+    <a   class="icon-close"> <i class="fa fa-bars "> </i> </a>
     <ul id="menu" class="sidebar-menu">
       <li class="logo"> <img src="/images/clients/tfs/logo.png" alt="logo" title="Client Logo"> </li>
       <li class="menu-title">
@@ -21,7 +21,7 @@
         </ul>
       </li>
       <li class="treeview">
-        <a href="#">
+        <a  href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
           <i class="fa fa-angle-down pull-right"></i>

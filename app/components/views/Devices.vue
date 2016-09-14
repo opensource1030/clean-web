@@ -1,6 +1,6 @@
 <template>
 <div class="content-right" >
-  <div id="device">
+  <div id="devices">
 <div class="header"></div>
 <div class="expanded row">
 
