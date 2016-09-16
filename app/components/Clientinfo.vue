@@ -36,6 +36,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script>
   var Api = 'https://api.cosmicjs.com/v1/clean/object/thermo-fisher?pretty=true';
@@ -45,6 +46,8 @@
     ready(){
       this.$http.get(Api).then((response) => {
         this.$set('client', response.json());
+
+
         /* this.response = response.data.object;*/
 
       }, (response) => {
@@ -57,7 +60,9 @@
         client: {}
       }
     }
+
   }
+
 
 
 </script>
