@@ -157,13 +157,10 @@
           </div>
         </form>
       </div>
-
       <div class="clearfix"></div>
         <piechart> </piechart>
         <trendchart> </trendchart>
-
     </div>
-
   </div>
 
 
