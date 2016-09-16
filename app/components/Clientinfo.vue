@@ -46,8 +46,6 @@
     ready(){
       this.$http.get(Api).then((response) => {
         this.$set('client', response.json());
-
-
         /* this.response = response.data.object;*/
 
       }, (response) => {
