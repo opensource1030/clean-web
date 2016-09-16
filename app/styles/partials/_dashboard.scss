@@ -543,6 +543,9 @@ a.btn-provision:hover .support-form-holder{
     bottom:0;
     width: 100%;
     left: 0;
+    .button{
+      margin-bottom: 0;
+    }
 
   }
   .form-title{
@@ -593,7 +596,8 @@ a.btn-provision:hover .support-form-holder{
     display: none;
   }
 }
-.callout{
+.callout,
+#modal{
   &.is-error{
     background: $brand-red;
     color: $white;

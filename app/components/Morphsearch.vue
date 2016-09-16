@@ -25,7 +25,6 @@
 <script>
 /*import auth from './../api/auth'*/
 require('../modules/classie')
-
 export default {
     name: "Morphsearch",
   ready(){

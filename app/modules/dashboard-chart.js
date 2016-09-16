@@ -6,58 +6,6 @@ var Highcharts = require('../../vendor/highcharts/highcharts.js');
 
 
 $(function () {
-    /*$('#dash-spend').highcharts({
-     title: {
-     text: 'Spend by Carrier'
-     },
-     chart: {
-     backgroundColor: "#F5F5F5"
-     },
-     xAxis: {
-     categories: ['Nov. 2015', 'Dec. 2015', 'Jan. 2016', 'Feb. 2016']
-     },
-     credits: {
-     enabled: false
-     },
-     labels: {
-     items: [{
-     html: 'Average Spends',
-     style: {
-     left: '50px',
-     top: '18px',
-     color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-     }
-     }]
-     },
-     series: [
-     {
-     type: 'column',
-     name: 'ATT',
-     data: [87, 24.87, 65.86, 87.24]
-     },
-     {
-     type: 'column',
-     name: 'Verizon',
-     data: [37, 21.87, 43.86, 32.24]
-     },
-     {
-     type: 'column',
-     name: 'Sprint',
-     data: [97, 44.87, 44.86, 74.24]
-     },
-     {
-     type: 'spline',
-     name: 'Average',
-     data: [55, 45, 35, 33.24],
-     marker: {
-     lineWidth: 2,
-     lineColor: Highcharts.getOptions().colors[3],
-     fillColor: 'white'
-     }
-     }]
-     });
-     });
-     */
 
     $('#spend-category').highcharts({
         chart: {
