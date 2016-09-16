@@ -14,7 +14,7 @@
 
   <div class="small-12 columns" >
 
-      <table   >
+      <table   class="responsive">
         <thead>
           <tr>
             <th >
@@ -280,10 +280,6 @@ export default {
 
           }
         ]
-
-
-
-
 
       }
     }

@@ -156,50 +156,118 @@ height:130px;
 }
 
 #device{
-  height:100%;
-  button.accordion {
-      background-color: #eee;
-      color: #444;
-      cursor: pointer;
-      padding: 18px;
-      width: 100%;
-      border: none;
-      text-align: left;
-      outline: none;
-      font-size: 15px;
-      transition: 0.4s;
+  .header{
+  padding: 1.8rem;
+  background:$white;
+
+  }
+  .titles{
+
+    background:$ghost;
+  h4{
+    font-size: 18px;
+    font-weight: 700;
+      padding:0rem  3.2rem;
+
   }
 
-  button.accordion.active, button.accordion:hover {
-      background-color: #ddd;
   }
 
-  button.accordion:after {
-      content: '\02795';
-      font-size: 13px;
-      color: #777;
-      float: right;
-      margin-left: 5px;
+  a:hover{
+    color:$black;
+  }
+.devicename{
+  label{
+    padding: 0rem 3.2rem;
+  }
+}
+.acordeon{
+list-style-type: none;
+.accordion-title {
+position: inherit;
+
+}
+.prices{
+  .filterprices{
+    width: 30%;
+  position: absolute;
+  margin:-3.8rem;
+  right: 8%;
+
+  select{
+      display: inline-block;
+      width:initial;
+      border:0px ;
+      outline:0px;
+      background-color: inherit;
   }
 
-  button.accordion.active:after {
-      content: "\2796";
+  }
+}
+
+.acordeon-item{
+  margin:2rem;
+  background-color:$iron ;
+  a{
+    font-weight: 600;
+  }
+.overview{
+
+  .phoneImg{
+      height: 150px;
+
+      }
+.button {
+    font-weight: 700;
+    border-radius: 0.5rem;
+}
+
+}
+.modifications{
+.button{
+  font-size: 13px;
+  margin: 1.8rem -1rem;
+  border-radius: 0.5rem;
+}
+.checkbox{
+  margin-left: 2.5rem;
+}
+
+}
+
+.carriers{
+input[type=checkbox]{  display:none; }
+.imagescheck{
+  label{
+    display: inline-block;
   }
 
-  div.panel {
-      padding: 0 18px;
-      background-color: white;
-      max-height: 0;
-      overflow: hidden;
-      transition: 0.6s ease-in-out;
-      opacity: 0;
-  }
+}
 
-  div.panel.show {
-      opacity: 1;
-      max-height: 500px;
-  }
+}
+.companies{
+.button{
+  margin: 2rem 2rem;
+  padding: 1rem 3rem;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 0.5rem;
+}
+ul{
+  list-style-type: none;
+  line-height: 2.58rem;
+  li{
 
+  }
+}
+
+}
+
+
+}
+
+
+}
 
 
 }
