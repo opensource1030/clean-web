@@ -42,13 +42,12 @@
     <div class="nav-poweredby">
       <span class="text-copyright">Powered By</span>
       <img class="img-full" src="/images/wa_logo.png" alt="Wireless Analytics">
-      <img class="img-collapse" src="/images/logo.jpg" alt="Wireless Analytics">
+      <img class="img-collapse" src="/images/logo.png" alt="Wireless Analytics">
     </div>
   </section>
 </template>
   <script>
 import auth from './../api/auth'
-        require('../modules/classie')
 
 export default {
   name: "Sidemenu",
@@ -70,7 +69,6 @@ export default {
           });
           if(token !== undefined){
             clearInterval(intervalId);
-            console.log('cleared');
           }
         }, 2000);
 

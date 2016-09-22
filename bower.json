@@ -24,7 +24,8 @@
     "tests"
   ],
   "devDependencies": {
-    "foundation-sites": "~6.2.3"
+    "foundation-sites": "~6.2.3",
+    "jquery.soap": "^1.6.9"
   },
   "dependencies": {
     "motion-ui": "^1.2.2",
@@ -33,6 +34,7 @@
     "highcharts": "^4.2.6",
     "font-awesome": "fontawesome#^4.6.3",
     "matchHeight": "matchheight#^0.7.0",
-    "jquery-validation": "^1.15.1"
+    "jquery-validation": "^1.15.1",
+    "jquery-serialize-object": "^2.5.0"
   }
 }
