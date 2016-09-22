@@ -1,6 +1,6 @@
 <template>
 <div class="content-right" >
-  <div id="device">
+  <div id="devices">
 <div class="header"></div>
 <div class="expanded row">
 
@@ -14,7 +14,7 @@
 
   <div class="small-12 columns" >
 
-      <table   >
+      <table   class="responsive">
         <thead>
           <tr>
             <th >
@@ -280,10 +280,6 @@ export default {
 
           }
         ]
-
-
-
-
 
       }
     }
