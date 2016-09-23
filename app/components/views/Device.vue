@@ -206,15 +206,15 @@
               </tr>
             </tbody>
 <tbody>
-  <tr  v-for="price in priceTable" track-by="$index">
-    <td ><div class="price">{{price.price}}</div></td>
-    <td><div class="price">{{price.price}}</div></td>
-    <td><div class="price">{{price.price}}</div></td>
-    <td><div class="price">{{price.price}}</div></td>
-    <td><div class="features">{{price.capacity}}</div></td>
-  <td><div class="features">{{price.style}}</div></td>
-    <td><div class="features">{{price.carrier}}</div></td>
-    <td style=" font-weight: bold;"><div class="features">{{price.name}}</div></td>
+  <tr  v-for="p in priceTable" track-by="$index">
+    <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="number"     ></div></td>
+    <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="number"></div></td>
+    <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="number"></div></td>
+    <td><div class="price">{{p.price}}</div></td>
+    <td><div class="features">{{p.capacity}}</div></td>
+  <td><div class="features">{{p.style}}</div></td>
+    <td><div class="features">{{p.carrier}}</div></td>
+    <td style=" font-weight: bold;"><div class="features">{{p.name}}</div></td>
   </tr>
 
 </tbody>
@@ -270,20 +270,31 @@ export default {
 
 
 
-if(this.compa.length>0){
+if(this.compa.length>0 || this.style.length>0 || this.capacity.length>0 || this.carrierss.length>0 ){
   this.price=[]
   var style=[];
+
+
+
    for (let i = 0; i < this.compa.length ; i++) {
+     this.company=this.compa[i];
 
            for (var j = 0; j < this.style.length; j++) {
 
-                    this.price.push(this.compa[i]);
-                 this.price[j] = Object.assign({}, this.price[j], { style: this.style[j],capacity:this.capacity[j],carrier:this.carrierss[j]});
+                 for (var c=0; c<this.capacity.length;  c++){
 
+                   for(var ca=0; ca<this.carrierss.length; ca++){
 
-                             }
+                      this.company = Object.assign({}, this.company, { style: this.style[j],capacity:this.capacity[c],carrier:this.carrierss[ca]});
+                        this.price.push(this.company);
+
+                   }
+
+                 }
 
                 }
+}
+
 
                 return this.price;
 }
@@ -365,12 +376,16 @@ else{
 
              image: "http://apple.universia.es/wp-content/uploads/2014/09/iPhone-6-oro-555-741.jpg",
              carrierss:[],
+             priceValue:[],
              style:[],
              capacity:[],
              compa:[],
              price:[],
              gigas:'',
              color:'',
+             company:{},
+             sty:{},
+
              error:'',
              show:false,
              shadow:"initial",
@@ -430,9 +445,6 @@ else{
                 ]
 
              },
-             jsonPrices:{}
-
-
 
 
 
