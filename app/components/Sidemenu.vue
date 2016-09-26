@@ -59,6 +59,7 @@ var apiUrl = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/users/'+ 19 + '?i
 export default {
   name: "Sidemenu",
     ready () {
+    console.log(userId);
       this.$http.get(apiUrl).then((response) => {
         var info = response.data.included[0].attributes.logo;
         this.$http.get(info).then((response) => {
