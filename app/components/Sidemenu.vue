@@ -2,7 +2,11 @@
   <section  class="menu-left">
     <a href="#" class="icon-close"> <i class="fa fa-bars "> </i> </a>
     <ul id="menu" class="sidebar-menu">
-      <li class="logo"> <img src="/images/clients/tfs/logo.png" alt="logo" title="Client Logo"> </li>
+      <li class="logo" v-if="company.object">
+
+        <img v-bind:src='company.object.metafields[0].url' alt="logo" title="Client Logo">
+
+      </li>
       <li class="menu-title">
         <a href="javascript:;">
           <i class="fa fa-home"></i> <span>Home</span>
@@ -45,13 +49,24 @@
       <img class="img-collapse" src="/images/logo.png" alt="Wireless Analytics">
     </div>
   </section>
+
 </template>
   <script>
-import auth from './../api/auth'
 
+import auth from './../api/auth'
+var apiUrl = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/users/19?include=company';
 export default {
   name: "Sidemenu",
     ready () {
+      this.$http.get(apiUrl).then((response) => {
+        var info = response.data.included[0].attributes.logo;
+        this.$http.get(info).then((response) =>{
+          this.$set('company', response.json());
+        })
+
+      }, (response) => {
+
+      });
         var intervalId = setInterval(function(){
           var token = localStorage.token;
           $('.page-link a').attr('href', function(index, href) {
@@ -122,6 +137,13 @@ export default {
 
 
 
+  },
+  data (){
+    return {
+      company: { },
+
+
+    }
   }
 }
   </script>
