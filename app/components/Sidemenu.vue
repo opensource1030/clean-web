@@ -1,6 +1,6 @@
 <template>
   <section  class="menu-left">
-    <a href="#" class="icon-close"> <i class="fa fa-bars "> </i> </a>
+    <a   class="icon-close"> <i class="fa fa-bars "> </i> </a>
     <ul id="menu" class="sidebar-menu">
       <li class="logo" v-if="company.object">
 
@@ -25,7 +25,7 @@
         </ul>
       </li>
       <li class="treeview">
-        <a href="#">
+        <a  href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
           <i class="fa fa-angle-down pull-right"></i>
