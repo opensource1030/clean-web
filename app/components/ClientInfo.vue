@@ -39,14 +39,17 @@
 
 </template>
 <script>
-  var Api = 'https://api.cosmicjs.com/v1/clean/object/thermo-fisher?pretty=true';
+
+  var Url = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/contents/1/';
   export default {
     name: "ClientInfo",
 
     ready(){
-      this.$http.get(Api).then((response) => {
-        this.$set('client', response.json());
-        /* this.response = response.data.object;*/
+      this.$http.get(Url).then((response) => {
+        var clientinfo = response.data.data.attributes.content;
+        this.$http.get(clientinfo).then((response) => {
+          this.$set('client', response.json());
+        })
 
       }, (response) => {
 

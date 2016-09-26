@@ -52,15 +52,16 @@
 
 </template>
   <script>
-
+    import config from './../../config/config'
 import auth from './../api/auth'
-var apiUrl = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/users/19?include=company';
+var userId = config.client_id;
+var apiUrl = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/users/'+ 19 + '?include=company';
 export default {
   name: "Sidemenu",
     ready () {
       this.$http.get(apiUrl).then((response) => {
         var info = response.data.included[0].attributes.logo;
-        this.$http.get(info).then((response) =>{
+        this.$http.get(info).then((response) => {
           this.$set('company', response.json());
         })
 

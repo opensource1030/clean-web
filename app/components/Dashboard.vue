@@ -170,7 +170,7 @@
 
 <script>
 
-  var Api = 'https://api.cosmicjs.com/v1/clean/object/thermo-fisher?pretty=true';
+  var Api = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/contents/1/';
   import auth from './../api/auth'
   require('../modules/dashboard-chart')
   require('initial-js');
@@ -213,70 +213,73 @@
         })
 
       });
-        this.$http.get(Api).then((response) => {
-            this.$set('data', response.json());
-            setTimeout(function(){
-                $(document).foundation();
-                $('.img-avatar').initial();
-              var $select = $('#support-form .user-actions'),
-                      $images =  $('.mix');
+      this.$http.get(Api).then((response) => {
+                var clientinfo = response.data.data.attributes.content;
+                this.$http.get(clientinfo).then((response) => {
+                  this.$set('data', response.json());
+                  setTimeout(function () {
+                    $(document).foundation();
+                    $('.img-avatar').initial();
+                    var $select = $('#support-form .user-actions'),
+                            $images = $('.mix');
 
-              $select.on('change', function() {
-                var value = '.' + $(this).val();
-                $images.show(200).not(value).hide();
-              });
+                    $select.on('change', function () {
+                      var value = '.' + $(this).val();
+                      $images.show(200).not(value).hide();
+                    });
 
-              var $selectOption = $('.wireless-overview .user-actions');
+                    var $selectOption = $('.wireless-overview .user-actions');
 
-              $selectOption.on('change', function() {
-                var value1 = $(this).val();
-                $('.btn-provision').click();
-                $select.prop('value',value1);
-              });
+                    $selectOption.on('change', function () {
+                      var value1 = $(this).val();
+                      $('.btn-provision').click();
+                      $select.prop('value', value1);
+                    });
 
-              $('.btn-provision').click(function(){
-                $('.support-form-holder').show(200);
-              })
-              $('#btn-close').click(function(){
-                $('.support-form-holder').hide(200);
-                $('#support-form')[0].reset();
-                $selectOption.prop('selectedIndex',0);
-              })
-              $(document).keyup(function(e) {
-                if (e.keyCode == 27) $('#btn-close').click();
-              });
-              var $modal = $('#modal');
-              $("#support-form").validate({
-                rules: {
-                  "description": {
-                    required:true,
-                    minlength:8
-                  }
-                },
-                submitHandler: function(form) {
-                  var formData = $(form).serializeObject();
-                  $.soap({
-                    url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
-                    method: 'EZV_CreateRequest',
-                    data:formData ,
-                    success: function (soapResponse) {
-                      $modal.addClass('is-success').append("<p>Request cannot be sent</p>").foundation('open');
+                    $('.btn-provision').click(function () {
+                      $('.support-form-holder').show(200);
+                    })
+                    $('#btn-close').click(function () {
+                      $('.support-form-holder').hide(200);
                       $('#support-form')[0].reset();
-                    },
-                    error: function (SOAPResponse) {
-                      $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
-                    },
-                    parts: {
-                      Account: '50005',
-                      Login: 'CLEANWebServices',
-                      Pass: 'CLEANWebServices',
-                      Catalog_GUID: 'simple',
-                    },
+                      $selectOption.prop('selectedIndex', 0);
+                    })
+                    $(document).keyup(function (e) {
+                      if (e.keyCode == 27) $('#btn-close').click();
+                    });
+                    var $modal = $('#modal');
+                    $("#support-form").validate({
+                      rules: {
+                        "description": {
+                          required: true,
+                          minlength: 8
+                        }
+                      },
+                      submitHandler: function (form) {
+                        var formData = $(form).serializeObject();
+                        $.soap({
+                          url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
+                          method: 'EZV_CreateRequest',
+                          data: formData,
+                          success: function (soapResponse) {
+                            $modal.addClass('is-success').append("<p>Request cannot be sent</p>").foundation('open');
+                            $('#support-form')[0].reset();
+                          },
+                          error: function (SOAPResponse) {
+                            $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
+                          },
+                          parts: {
+                            Account: '50005',
+                            Login: 'CLEANWebServices',
+                            Pass: 'CLEANWebServices',
+                            Catalog_GUID: 'simple',
+                          },
 
-                  });
-                }
-              });
-            },300);
+                        });
+                      }
+                    });
+                  }, 300);
+                })
 
 
         }, (response) => {
