@@ -54,12 +54,12 @@
   <script>
     import config from './../../config/config'
 import auth from './../api/auth'
-var userId = config.client_id;
+var apiLink = config.urlApi;
 var apiUrl = 'http://dev.api.wirelessanalytics.com/companies/'+ 16 +'?include=contents';
 export default {
   name: "Sidemenu",
     ready () {
-    console.log(userId);
+    console.log(apiLink);
       this.$http.get(apiUrl).then((response) => {
         var info = response.data.included[1].attributes.content;
         this.$http.get(info).then((response) => {
