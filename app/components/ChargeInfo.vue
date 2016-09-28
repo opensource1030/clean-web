@@ -63,7 +63,7 @@
 </template>
 <script>
 
-  var Api ='http://dev.api.wirelessanalytics.com/users/18?include=allocations';
+  var Api ='http://dev.api.wirelessanalytics.com/users/120601?include=allocations';
 
 export default {
     name: "ChargeInfo",
