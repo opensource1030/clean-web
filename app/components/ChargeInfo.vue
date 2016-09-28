@@ -63,12 +63,12 @@
 </template>
 <script>
 
-  var Api = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/';
+  var Api ='http://dev.api.wirelessanalytics.com/users/18?include=allocations';
 
 export default {
     name: "ChargeInfo",
   ready(){
-    this.$http.get(Api+'users/18?include=allocations').then((response) => {
+    this.$http.get(Api).then((response) => {
       this.$set('allocation', response.json());
 
 
