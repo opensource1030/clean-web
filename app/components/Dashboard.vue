@@ -170,7 +170,7 @@
 
 <script>
 
-  var Api = 'http://dev.api.wirelessanalytics.com/companies/'+ 16 +'?include=contents';
+  import config from './../../config/config'
   import auth from './../api/auth'
   require('../modules/dashboard-chart')
   require('initial-js');
@@ -213,7 +213,7 @@
         })
 
       });
-      this.$http.get(Api).then((response) => {
+      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
                 var clientinfo = response.data.included[0].attributes.content;
                 this.$http.get(clientinfo).then((response) => {
                   this.$set('data', response.json());

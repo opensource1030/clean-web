@@ -39,13 +39,12 @@
 
 </template>
 <script>
-
-  var Url = 'http://dev.api.wirelessanalytics.com/companies/'+ 16 +'?include=contents';
+  import config from './../../config/config'
   export default {
     name: "ClientInfo",
 
     ready(){
-      this.$http.get(Url).then((response) => {
+      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
         var clientinfo = response.data.included[0].attributes.content;
         this.$http.get(clientinfo).then((response) => {
           this.$set('client', response.json());

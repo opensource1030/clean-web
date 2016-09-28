@@ -62,13 +62,12 @@
 
 </template>
 <script>
-
-  var Api ='http://dev.api.wirelessanalytics.com/users/120601?include=allocations';
+  import config from './../../config/config'
 
 export default {
     name: "ChargeInfo",
   ready(){
-    this.$http.get(Api).then((response) => {
+    this.$http.get(config.urlApi+'/users/120601?include=allocations').then((response) => {
       this.$set('allocation', response.json());
 
 
