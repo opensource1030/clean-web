@@ -1,291 +1,227 @@
 <template>
-<div class="content-right" >
-  <div id="devices">
-<div class="header"></div>
-<div class="expanded row">
+<div class="content-right">
+    <div id="devices">
+        <div class="header"></div>
+        <div class="expanded row">
 
-     <div class="small-12 columns titles" >
-      <h4>Manage Devices<h4>
-        </div>
-        <div class="small-12 columns" >
-        <a class="button">Add device</a>
-            </div>
+            <div class="small-12 columns titles">
+                <h4>Manage Devices<h4>
+          </div>
+          <div class="small-12 columns" >
+            <a class="button" href="#!/device"  >Add device</a>
+          </div>
 
 
-  <div class="small-12 columns" >
+          <div class="small-12 columns" >
 
-      <table   class="responsive">
-        <thead>
-          <tr>
-            <th >
-          </th>
-            <th ><select class="form-control" v-model="type" >
-              <option value="" selected>Device Type</option>
-              <option v-for="item in items"  :value="item.id" >{{item.type}}</option>
+            <table   class="responsive">
+              <thead>
+                <tr>
+                  <th >
+                  </th>
+                  <th ><select class="form-control" v-model="type" >
+                    <option value="" selected>Device Type</option>
+                    <option v-for="item in items"  :value="item.id" >{{item.type}}</option>
 
-          </select></th>
-            <th >
-              <select class="form-control" v-model="manufactured" >
-                <option value="" selected>Manufactured</option>
-                <option v-for="item in items"  :value="item.id">{{item.manufactured}}</option>
+                  </select></th>
+                  <th >
+                    <select class="form-control" v-model="manufactured" >
+                      <option value="" selected>Manufactured</option>
+                      <option v-for="item in items"  :value="item.id">{{item.manufactured}}</option>
 
-            </select> </th>
-            <th ><select class="form-control" v-model="price" >
-              <option value="" selected>Price</option>
-              <option v-for="item in items"  :value="item.id">{{item.price}}</option>
+                    </select> </th>
+                    <th ><select class="form-control" v-model="price" >
+                      <option value="" selected>Price</option>
+                      <option v-for="item in items"  :value="item.id">{{item.price}}</option>
 
-          </select></th>
-            <th ><select class="form-control" v-model="os" >
-              <option value="" selected>OS</option>
-              <option v-for="item in items"  :value="item.id">{{item.os}}</option>
+                    </select></th>
+                    <th ><select class="form-control" v-model="os" >
+                      <option value="" selected>OS</option>
+                      <option v-for="item in items"  :value="item.id">{{item.os}}</option>
 
-          </select></th>
-            <th ><select class="form-control" v-model="carrier" >
-              <option value="" selected>Carrier</option>
-              <option v-for="item in items"  :value="item.id">{{item.carrier}}</option>
+                    </select></th>
+                    <th ><select class="form-control" v-model="carrier" >
+                      <option value="" selected>Carrier</option>
+                      <option v-for="item in items"  :value="item.id">{{item.carrier}}</option>
 
-          </select></th>
-            <th ><select class="form-control" v-model="capacity" >
-              <option value="" selected>Capacity</option>
-              <option v-for="item in items"  :value="item.id">{{item.capacity}}</option>
+                    </select></th>
+                    <th ><select class="form-control" v-model="capacity" >
+                      <option value="" selected>Capacity</option>
+                      <option v-for="item in items"  :value="item.id">{{item.capacity}}</option>
 
-          </select></th>
-            <th ><select class="form-control" v-model="style" >
-              <option value="" selected>Style</option>
-              <option v-for="item in items"  :value="item.id">{{item.style}}</option>
+                    </select></th>
+                    <th ><select class="form-control" v-model="style" >
+                      <option value="" selected>Style</option>
+                      <option v-for="item in items"  :value="item.id">{{item.style}}</option>
 
-          </select></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="filter">
-              <td><div></div></td>
-            <td><div>{{type}}</div></td>
-            <td ><div>{{manufactured}}</div></td>
-            <td  ><div>{{price}}</div></td>
-            <td  ><div>{{os}}</div></td>
-            <td ><div>{{carrier}}</div></td>
-            <td ><div>{{capacity}}</div></td>
-            <td  ><div>{{style}}</div></td>
-          </tr>
-        </tbody>
-        <tbody  v-for="item in items"  >
-          <tr    :class="{ 'active': item.show,'desactive': item.show  }"   @click="setActive($index)" >
-            <td> <a href="device?{{ item.id }}">manage</a></td>
-            <td style="font-weight: bold;" >   {{item.name}}</td>
-            <td >{{item.manufactured}}</td>
-            <td  >{{item.price}}</td>
-            <td  >{{item.os}}</td>
-            <td >{{item.carrier}}</td>
-            <td >{{item.capacity}}</td>
-            <td  >{{item.style}}</td>
-          </tr>
-            <tr  >
-              <td v-show="item.show" transition="item"  class="detail" colspan="8" >
+                    </select></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="filter">
+                    <td><div></div></td>
+                    <td><div>{{type}}</div></td>
+                    <td ><div>{{manufactured}}</div></td>
+                    <td  ><div>{{price}}</div></td>
+                    <td  ><div>{{os}}</div></td>
+                    <td ><div>{{carrier}}</div></td>
+                    <td ><div>{{capacity}}</div></td>
+                    <td  ><div>{{style}}</div></td>
+                  </tr>
+                </tbody>
+                <tbody  v-for="device in devices"  >
+                  <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive($index)" >
+                    <td> <a href="#!/device/{{ device.id }}">manage</a></td>
+                    <td style="font-weight: bold;" >  {{device.name}} </td>
+                    <td >android</td>
+                             <td  >300$</td>
+                             <td v-if="device.hide" >ios</td><td v-else>  </td>
+                             <td v-if="device.hide" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
+                             <td v-if="device.hide"  > </td><td v-else>  </td>
+                             <td v-if="device.hide"  ></td><td v-else>  </td>
+                  </tr>
+                  <tr  >
+                    <td v-show="device.show" transition="device"  class="detail" colspan="8" >
 
-                  <div class="details">
-                    <div class="child"></div>
-                  <div class="options child">
-                    <ul>
-                      Unlocked
-                        <li>Space grey,64Gb</li>
-                          <li>White,64Gb</li>
-                            <li>Space Grey 128GB</li>
-                              <li>Space Grey 128GB</li>
-                              <li>Space Grey 128GB</li>
-                    </ul>
-                    <ul>
-                      ATT
-                        <li>Space grey,64Gb</li>
-                          <li>White,64Gb</li>
-                            <li>Space Grey 128GB</li>
-                              <li>Space Grey 128GB</li>
-                              <li>Space Grey 128GB</li>
-                    </ul>
-                  </div>
-                  <div class="prices child">
-                    <br>
-                      <ul>
-                      <li>399$</li>
-                        <li>499$</li>
-                          <li>599$</li>
-                            <li>600$</li>
-                            <li>999$</li>
+                      <div class="details">
+                        <div class="child"></div>
+                        <div class="options child">
+                          <ul v-for="carrier in device.carriers"  track-by="$index" >
+                            {{carrier.name}}
+                            <li v-for="price in device.priceName | filterBy carrier.name in 'carrier' " track-by="$index" >{{price.style}}, {{price.capacity}}</li>
 
-                  </ul>
-                  <br>
-                    <ul>
-                    <li>399$</li>
-                      <li>499$</li>
-                        <li>599$</li>
-                          <li>600$</li>
-                          <li>999$</li>
+                          </ul>
 
-                </ul>
-                </div>
-                <div class="os child">
-                <div class="image">
-                  <img class="thumbnail" src="http://soncosasmias.com/wp-content/uploads/2015/11/iPhone-6-SonCosasMias.jpg" alt="Photo Iphone 6" width="100" height="00" />
-                </div>
+                        </div>
+                        <div class="prices child">
+                          <div class="listPrice" v-for="carrier in device.carriers"  track-by="$index" >
 
-                    <div class="information">
-                      Apple iPhone Model 6 Network Unlocked 16GB Colour Space Grey Network Technology GSM / EDGE / UMTS / HSPA+ / DC-HSDPA / LTE Band UMTS/HSPA+/DC-HSDPA 850/900/1900/2100 GSM/EDGE 850/900/1800/1900 Style Smartphone Operating System iOS Camera Resolution 8.0MP Battery Battery Capacity 1810 mAh Display Display Technology Retina HD Screen Size 4.7"
-                    </div>
+                          <ul>
+                            <li   v-for="price in device.prices | filterBy carrier.id in 'carrierId'  "  track-by="$index" >{{price.priceRetail}}$</li>
+
+                          </ul>
+                          <br>
+                        </div>
+
+                        </div>
+
+                        <div class="os child"   :class="{ 'up': device.show}"  >
+                          <div class="image">
+                            <img   src="http://soncosasmias.com/wp-content/uploads/2015/11/iPhone-6-SonCosasMias.jpg" alt="Photo Iphone 6" width="100" height="00" />
+                          </div>
+
+                          <div class="information">
+                            <span style="font-weight: bold;" >Technical Information</span><br>
+                            {{device.properties}}
+
+
+                          </div>
+                        </div>
+                        <div class="carrrier child"  :class="{ 'up': device.show}" >
+                          <span style="font-weight: bold;">  Availability:</span><br>
+                          <span>Provider</span>
+                          <ul>
+
+                            <li v-for="carrier in device.carriers">{{carrier.name}}</li>
+
+
+                          </ul>
+
+                        </div>
+                        <div class="capacity child" :class="{ 'up': device.show}"  >
+                          <br>
+                          <span>Capacity</span>
+                          <ul>
+                            <li>at</li>
+
+
+                          </ul>
+
+                        </div>
+                        <div class="style child" :class="{ 'up': device.show}"  >
+                          <br>
+                          <span>Style</span>
+                          <ul>
+                            <li>at</li>
+
+
+                          </ul>
+
+                        </div>
                       </div>
-                    <div class="carrrier child">
-                        <span style="font-weight: bold;">  Availability:</span><br>
-                        <span>Provaider</span>
-                      <ul>
 
-                      <li>at</li>
-                        <li>movistar</li>
-                          <li>vodafone</li>
 
-                  </ul>
+                    </td>
 
-                    </div>
-                    <div class="capacity child">
-                      <br>
-                      <span>Provaider</span>
-                      <ul>
-                      <li>at</li>
-                        <li>movistar</li>
-                          <li>vodafone</li>
+                  </tr>
 
-                  </ul>
+                </tbody>
+              </table>
 
-                    </div>
-                    <div class="style child">
-                        <br>
-                      <span>Provaider</span>
-                      <ul>
-                      <li>at</li>
-                        <li>movistar</li>
-                          <li>vodafone</li>
-
-                  </ul>
-
-                    </div>
-                  </div>
-
-              </td>
-
-            </tr>
-
-        </tbody>
-      </table>
-
-  </div>
-</div>
-</div>
-</div>
-
+            </div>
+          </div>
+        </div>
+      </div>
 </template>
 <script>
 import Vue from 'vue'
 import VueAnimatedList from 'vue-animated-list'
 Vue.use(VueAnimatedList)
 
+import devices from './../../api/device/devices';
 
 
 export default {
     name: "Devices",
 
-    created(){
+    created() {
+      devices.getDevices(this);
 
 
     },
-
-
-    ready(){
-
-
-
-
-
-
+    ready() {
 
     },
-    methods: {
-      setActive: function(index) {
+  methods: {
+        setActive: function(index) {
 
 
-        this.active = index;
+            this.active = index;
+            this.devices[this.active].hide = !this.devices[this.active].hide;
 
-        if(this.items[this.active].show==true){
-              this.items[this.active].show=false;
+            if (this.devices[this.active].show == true) {
+                this.devices[this.active].show = false;
+
+
+            } else {
+
+                for (var i = 0; i < this.devices.length; i++) {
+                    if (this.devices[this.active] == this.devices[i]) {
+                        this.devices[this.active].show = true;
+
+
+                    } else {
+                        this.devices[i].show = false;
+
+                    }
+                }
+            }
+
 
 
         }
-        else{
-
-              for (var i = 0; i < this.items.length ; i++) {
-                  if(this.items[this.active]==this.items[i]){
-                      this.items[this.active].show=true;
-
-
-                      }else{
-                            this.items[i].show=false;
-
-                            }
-                            }
-        }
-
-
-
-      }
 
     },
-    computed: {
-     activeItem: function(){
-       return this.items[this.active];
-     }
-   },
+
     data() {
+        return {
+            active:0,
+            devices:[]
 
 
-
-      return {
-
-
-
-        active: 0,
-          items:[
-            {
-              id:1,
-              name:'iphone',
-              type:'mobile',
-              manufactured:'apple',
-              price:'400',
-              os:'ios',
-              carrier:'atm',
-              capacity:'16',
-              style:'white',
-              show:false,
-              description:'holaaaaaaaaaaa'
-
-            },
-          {
-            id:2,
-            name:'galaxy',
-            type:'tablet',
-            manufactured:'samsung',
-            price:'400',
-            os:'android',
-            carrier:'any',
-            capacity:'32',
-            style:'white',
-            show:false,
-            description:'adiossssss'
-
-          }
-        ]
-
-      }
+        }
     }
 
 
 }
-
-
 </script>
