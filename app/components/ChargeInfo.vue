@@ -62,13 +62,12 @@
 
 </template>
 <script>
-
-  var Api = 'http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io/';
+  import config from './../../config/config'
 
 export default {
     name: "ChargeInfo",
   ready(){
-    this.$http.get(Api+'users/18?include=allocations').then((response) => {
+    this.$http.get(config.urlApi+'/users/120601?include=allocations').then((response) => {
       this.$set('allocation', response.json());
 
 

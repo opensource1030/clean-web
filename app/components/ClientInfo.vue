@@ -39,14 +39,16 @@
 
 </template>
 <script>
-  var Api = 'https://api.cosmicjs.com/v1/clean/object/thermo-fisher?pretty=true';
+  import config from './../../config/config'
   export default {
     name: "ClientInfo",
 
     ready(){
-      this.$http.get(Api).then((response) => {
-        this.$set('client', response.json());
-        /* this.response = response.data.object;*/
+      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
+        var clientinfo = response.data.included[0].attributes.content;
+        this.$http.get(clientinfo).then((response) => {
+          this.$set('client', response.json());
+        })
 
       }, (response) => {
 
