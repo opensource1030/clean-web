@@ -6,37 +6,120 @@ import auth from './../auth.js'
 
 
 
+
+
 export default {
 
+  carriersCheck:{
+    data:[]
+  },
+  companiesCheck:{
+    data:[]
+  },
+  modificationsCheck:{
+    data:[]
+  },
+
+
+
     getDataDevice(context,id){
-              context.$http.get(config.urlApi + '/devices/'+id+'?include=modifications,carriers,companies,prices').then((response) => {
+
+              context.$http.get(config.urlApi + '/devices/'+id, {
+                  params:{include:'modifications,carriers,companies,prices'}
+
+              }).then((response) => {
+
+                      event = store.sync(response.data)
+
+                      console.log(event.prices);
+                       context.$set('priceData',event.prices)
+                      this.modificationCheck(context,event.modifications)
+                      this.carrierCheck(context,event.carriers)
+                      this.companyCheck(context,event.companies)
+                      context.$set('modifications', this.modificationsCheck);
+                        context.$set('companies', this.companiesCheck);
+                       context.$set('carriers', this.carriersCheck);
 
 
 
-                  console.log(response.data);
-
-
-
-
-
-
-            }, {
-                // Attach the JWT header
-                headers: auth.getAuthHeader()
             },
-
             (response) => {
 
             });
 
 
     },
+    carrierCheck(context,carriersD){
+
+      var i=0;
+ for(let carrier of this.carriersCheck.data){
+                carrier.check='';
+          for(let carrierData of carriersD){
+                if(carrier.id==carrierData.id){
+                  carrier.check='checked';
+                    context.changeStatusCarrier('active',i);
+                    break;
+                }
+          }
+          i++;
+    }
+  //   context.carriers=[];
+
+   },
+   companyCheck(context,companiesD){
+
+
+for(let company of this.companiesCheck.data){
+               company.check='';
+         for(let companyData of companiesD){
+               if(company.id==companyData.id){
+                 company.check='checked';
+
+                   break;
+               }
+         }
+
+   }
+    context.companies=[];
+
+  },
+  modificationCheck(context,modificationsD){
+
+
+for(let modification of this.modificationsCheck.data){
+              modification.check='';
+        for(let modificationData of modificationsD){
+              if(modification.id==modificationData.id){
+                modification.check='checked';
+
+                  break;
+              }
+        }
+
+  }
+   context.modifications=[];
+
+ },
+
 
 
     getDevice(context) {
 
-        context.$http.get(config.urlApi + '/modifications?page=1').then((response) => {
-                context.$set('modifications', response.json());
+        context.$http.get(config.urlApi + '/modifications',{
+
+            params:{page:1}
+
+        }).then((response) => {
+
+
+                for(let modification of response.data.data){
+
+                         this.modificationsCheck.data.push(modification);
+
+
+                 }
+                 context.$set('modifications', response.json());
+
             }, {
                 // Attach the JWT header
                 headers: auth.getAuthHeader()
@@ -45,16 +128,38 @@ export default {
             (response) => {
 
             });
-        context.$http.get(config.urlApi + '/carriers?page=1').then((response) => {
-                context.$set('carriers', response.json());
-            }, {
+        context.$http.get(config.urlApi + '/carriers', {
 
-                headers: auth.getAuthHeader()
+            params:{page:1,'filter[active]':1}
+
+        }).then((response) => {
+
+
+
+               for(let carrier of response.data.data){
+
+                        this.carriersCheck.data.push(carrier);
+
+
+                }
+                context.$set('carriers', response.json());
             },
             (response) => {});
 
-        context.$http.get(config.urlApi + '/companies?page=1').then((response) => {
-                context.$set('companies', response.json());
+        context.$http.get(config.urlApi + '/companies',{
+
+            params:{'page[10]':1,'filter[active]':1}
+
+        }).then((response) => {
+
+                for(let company of response.data.data){
+
+                         this.companiesCheck.data.push(company);
+
+
+                 }
+  context.$set('companies', response.json());
+
             },
 
             {
@@ -139,9 +244,6 @@ export default {
                  { "type": "modifications", "id" : m.id }
 
 
-
-            console.log(mData[index]);
-
 });
 
     return mData;
@@ -195,4 +297,6 @@ export default {
 
 
   }
+
+
 }

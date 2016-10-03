@@ -77,8 +77,8 @@
                              <td  >300$</td>
                              <td v-if="device.hide" >ios</td><td v-else>  </td>
                              <td v-if="device.hide" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
-                             <td v-if="device.hide"  > </td><td v-else>  </td>
-                             <td v-if="device.hide"  ></td><td v-else>  </td>
+                             <td v-if="device.hide"  ><div  v-for="capacity in device.modifications  | filterBy 'capacity' in 'modType'"  > {{capacity.value}}</div> </td><td v-else>  </td>
+                             <td v-if="device.hide"  > <div  v-for="style in device.modifications  | filterBy 'style' in 'modType'"  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
                     <td v-show="device.show" transition="device"  class="detail" colspan="8" >
@@ -132,7 +132,7 @@
                           <br>
                           <span>Capacity</span>
                           <ul>
-                            <li>at</li>
+                            <li v-for="capacity in device.modifications | filterBy 'capacity' in 'modType' ">{{capacity.value}}</li>
 
 
                           </ul>
@@ -142,7 +142,7 @@
                           <br>
                           <span>Style</span>
                           <ul>
-                            <li>at</li>
+                          <li v-for="style in device.modifications | filterBy 'style' in 'modType' ">{{style.value}}</li>
 
 
                           </ul>
