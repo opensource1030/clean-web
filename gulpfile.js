@@ -22,11 +22,11 @@ var elixir = require('laravel-elixir');
 var env  = gutil.env.env || 'local';
 
 require('laravel-elixir-vueify');
-
+elixir.config.js.browserify.watchify.options.poll = true;
+elixir.config.js.browserify.options.debug = true;
 gulp.task('watch', ['sass'] ,function () {
 
-    elixir.config.js.browserify.watchify.options.poll = true;
-    elixir.config.js.browserify.options.debug = true;
+
 
     if (gutil.env._.indexOf('watch') > -1) {
         //  Add the browserify HMR plugin

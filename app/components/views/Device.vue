@@ -85,9 +85,9 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="capacitys in modifications.data | filterBy 'capacity' in 'attributes.type'"  track-by="$index">
+                        <div class="checkbox" v-for="capacitys in modifications.data | filterBy 'capacity' in 'attributes.modType'" >
                           <label  >
-                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity" >
+                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity" :checked="capacitys.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{capacitys.attributes.value}}
                           </label>
@@ -106,9 +106,9 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="styles in modifications.data | filterBy 'style' in 'attributes.type'"  track-by="$index" >
+                        <div class="checkbox" v-for="styles in modifications.data | filterBy 'style' in 'attributes.modType'"  >
                           <label>
-                            <input type="checkbox"   :value="styles" id="st" v-model="vStyles" >
+                            <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{styles.attributes.value}}
                           </label>
@@ -123,10 +123,10 @@
                   <a href="#" class="accordion-title" @click="showFalse()" >Carriers</a>
                   <div class="accordion-content carriers"  data-tab-content   v-f-accordion>
                     <div class="imagescheck">
-                      <div class="crop"  v-for="carrier in carriers.data | filterBy 1 in 'attributes.active'"  >
+                      <div class="crop"  v-for="carrier in carriers.data"  >
 
-                        <label   class="static"  :style="{ backgroundImage: 'url(' +  + ')' }"  >
-                          <input type="checkbox"    @click="t('active',$index)" :value="carrier"  :style="{ backgroundImage: 'url(' +  + ')' }"   v-model="vCarriers"   >
+                        <label   class="static"    >
+                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',$index)"  v-model="vCarriers"   :checked="carrier.check" >
 
                         </label>
                       </div>
@@ -157,9 +157,9 @@
                     </div>
                     <div class="row">
                       <div class="small-4 columns"  >
-                        <div class="checkbox"  v-for="company in companies.data | filterBy 1 in 'attributes.active' "   >
+                        <div class="checkbox"  v-for="company in companies.data  "   >
                           <label>
-                            <input  @click=""   type="checkbox"   :value="company" id="commpa" v-model="vCompanies"  >
+                            <input    type="checkbox"   :value="company" id="commpa" v-model="vCompanies" :checked="company.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{company.attributes.name}}
                           </label>
@@ -167,7 +167,7 @@
 
                       </div>
 
-                      <div class="small-2  small-offset-1   columns">
+                <!--      <div class="small-2  small-offset-1   columns">
                         <ul style=" font-weight: bold;"    >
                           <li v-for="company in json.companies"   >{{company.price}}</li>
 
@@ -184,7 +184,7 @@
                           <li v-for="company in json.companies"  >{{company.code}}</li>
 
                         </ul>
-                      </div>
+                      </div>-->
                     </div>
 
                   </div>
@@ -226,10 +226,10 @@
                       </tbody>
                       <tbody>
                         <tr  v-for="p in priceTable" track-by="$index">
-                          <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="" @keyup="updateRetail($index,$event)"  ></div></td>
-                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value=""  @keyup="updateOne($index,$event)"  ></div></td>
-                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text" :value="" @keyup="updateTwo($index,$event)"  ></div></td>
-                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="" @keyup="updateOwn($index,$event)"  ></div></td>
+                          <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceRetail" @keyup="updateRetail($index,$event)"  ></div></td>
+                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.price1"  @keyup="updateOne($index,$event)"  ></div></td>
+                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text" :value="p.price2" @keyup="updateTwo($index,$event)"  ></div></td>
+                          <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceOwn" @keyup="updateOwn($index,$event)"  ></div></td>
                           <td><div class="features">{{p.capacity.attributes.value}}</div></td>
                           <td><div class="features">{{p.style.attributes.value}}</div></td>
                           <td><div class="features">{{p.carrier.attributes.presentation}}</div></td>
@@ -271,18 +271,100 @@ Vue.directive('f-accordion', {
 export default {
     name: "Device",
     created(){
+        device.getDevice(this);
         this.id = this.$route.params.id;
-       if(this.id!=null ){
-       device.getDataDevice(this,this.id)
-     }
 
-       device.getDevice(this);
+        if(this.id!=null ){
+
+        device.getDataDevice(this,this.id)
+      }
 
 
-    },
+   },
     computed: {
         priceTable: function() {
 
+
+              if(this.priceData.length>0 && this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0 ){
+                var pricess=[];
+                var companiess=[];
+                var a = false;
+                for(let price of this.priceData){
+                  var i=0;
+                  for(let companys of this.vCompanies){
+                    var  co=false;
+                          if(companys.id==price.companyId){
+                            price = Object.assign({}, price, {
+                              attributes:{name:companys.attributes.name},
+                            });
+                            co=true;
+                        companiess=this.vCompanies.slice(i,1)
+                            break;
+                          }
+                          i++;
+                  }
+                  i=0;
+                  for(let styles of this.vStyles ){
+                    var st =false;
+                      if(styles.id==price.styleId){
+                        price = Object.assign({}, price, {
+                          style:styles,
+
+                        });
+                        //delete styles;
+                        st=true;
+                        break;
+                      }
+                    }
+                    for(let capacitys of this.vCapacity){
+                    var  cy=false;
+                      if(capacitys.id==price.capacityId){
+                        price = Object.assign({}, price, {
+                          capacity:capacitys,
+                        });
+                      //  delete capacitys;
+                          cy=true;
+                          break;
+                      }
+                    }
+
+
+
+                  for(let carriers of this.vCarriers){
+                    var ca=false;
+                    if(carriers.id==price.carrierId){
+                      price = Object.assign({}, price, {
+                        carrier:carriers,
+
+                      });
+                      //  delete carriers;
+                      ca=true;
+                      break;
+                    }
+
+                  }
+                  if(ca==true && cy==true && st==true && co==true){
+                      pricess.push(price);
+                  }
+
+
+
+                }
+
+              
+
+
+
+
+
+                return pricess;
+
+
+
+
+
+              }
+            else{
             if (this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0) {
                 this.price = []
 
@@ -301,21 +383,19 @@ export default {
                                     carrier: carriers,
 
                                 });
-                              console.log("hola")
                                 this.price.push(this.company);
 
                             }
-
                         }
-
                     }
                 }
-
                 return this.price;
-            } else {
+
+            }
+             else {
                 return '';
             }
-
+            }
 
         },
 
@@ -328,6 +408,9 @@ export default {
        device.addDevice(this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d)
 
         },
+        onChange:function(){
+        console.log("hola")
+      },
 
        updateRetail:function(i,e){
 
@@ -390,8 +473,10 @@ this.pricePost.$set(i, extending);
             };
             reader.readAsDataURL(file);
         },
-        t: function(className,index) {
+        changeStatusCarrier: function(className,index) {
+
           var el = document.getElementsByClassName('static')[index]
+
             el.classList.toggle(className)
 
         },
@@ -447,7 +532,7 @@ this.pricePost.$set(i, extending);
             },
             /*add modifications*/
             id:null,
-
+            priceData:[],
             gigas: '',
             color: '',
             /*Api arrays*/

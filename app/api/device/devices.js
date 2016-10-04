@@ -10,7 +10,7 @@ export default {
 
     getDevices(context) {
 
-        context.$http.get(config.urlApi + '/devices?page=3&include=modifications,carriers,companies,prices').then((response) => {
+        context.$http.get(config.urlApi + '/devices?page=1&include=modifications,carriers,companies,prices').then((response) => {
 
                         event = store.sync(response.data)
 
