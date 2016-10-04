@@ -22,18 +22,18 @@
               <th width="20%"> Actions for this line</th>
             </tr>
 
-              <template v-for="item in allocation.included">
+              <template v-for="item in allocation.allocations">
                 <tr>
-                <td>{{ item.attributes.bill_month }}</td>
-                <td v-if="allocation">{{ allocation.data.attributes.first_name }}</td>
-                <td><a href="tel:{{ item.attributes.mobile_number }}">{{ item.attributes.mobile_number }}</a></td>
-                <td>{{ item.attributes.carrier }}</td>
-                <td>{{ item.attributes.device }}</td>
-                <td>{{ item.attributes.allocated_charge }}</td>
-                <td>{{ item.attributes.usage_charge }}</td>
-                <td>{{ item.attributes.service_plan_charge }}</td>
-                <td>{{ item.attributes.other_charge }}</td>
-                <td>{{ item.attributes.last_ugrade }}</td>
+                <td>{{ item.bill_month }}</td>
+                <td v-if="allocation">{{ allocation.first_name }}</td>
+                <td><a href="tel:{{ item.mobile_number }}">{{ item.mobile_number }}</a></td>
+                <td>{{ item.carrier }}</td>
+                <td>{{ item.device }}</td>
+                <td>{{ item.allocated_charge }}</td>
+                <td>{{ item.usage_charge }}</td>
+                <td>{{ item.service_plan_charge }}</td>
+                <td>{{ item.other_charge }}</td>
+                <td>{{ item.last_upgrade }}</td>
                   <td>
                     <select class="user-actions" >
                       <option disabled value=" " selected>-- Choose an issue ---</option>
@@ -63,13 +63,17 @@
 </template>
 <script>
   import config from './../../config/config'
+  var {Store} = require('yayson')()
+  var    store = new Store()
 
 export default {
     name: "ChargeInfo",
   ready(){
-    this.$http.get(config.urlApi+'/users/120601?include=allocations').then((response) => {
-      this.$set('allocation', response.json());
 
+    this.$http.get(config.urlApi+'/users/'+localStorage.userId+'?include=allocations').then((response) => {
+      event = store.sync(response.data);
+
+      this.$set('allocation', event)
 
     }, (response) => {
 

@@ -39,20 +39,33 @@
 
 </template>
 <script>
+  var {Store} = require('yayson')()
+  var    store = new Store()
   import config from './../../config/config'
   export default {
     name: "ClientInfo",
 
     ready(){
-      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
-        var clientinfo = response.data.included[0].attributes.content;
-        this.$http.get(clientinfo).then((response) => {
-          this.$set('client', response.json());
-        })
+      this.$http.get(config.urlApi + '/users/'+ localStorage.userId +'?include=company.contents', {
 
-      }, (response) => {
+      }).then((response) => {
+
+        event = store.sync(response.data);
+        var cosmicdata = event.company.contents[0].content;
+        console.log(cosmicdata);
+
+        this.$http.get(cosmicdata, {
+
+        }).then((response) => {
+
+          this.$set('client', response.data);
+
+
+        });
+
 
       });
+
 
     },
     data(){

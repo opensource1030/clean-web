@@ -57,8 +57,7 @@ import auth from './../api/auth'
 export default {
   name: "Sidemenu",
     ready () {
-
-      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
+      this.$http.get(config.urlApi+'/users/'+ localStorage.userId +'?include=company.contents').then((response) => {
         var info = response.data.included[1].attributes.content;
         this.$http.get(info).then((response) => {
           this.$set('company', response.json());
@@ -69,6 +68,7 @@ export default {
       });
         var intervalId = setInterval(function(){
           var token = localStorage.token;
+          var id = localStorage.userId;
           $('.page-link a').attr('href', function(index, href) {
 
             var param = 'access_token='+ token;

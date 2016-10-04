@@ -68,8 +68,11 @@ singleSignOn(context,creds,redirect){
                         })
        .then((response) => {
               //   console.log(response.data);
+                    localStorage.setItem('userId', response.data.user_id);
+                    localStorage.setItem('token', response.data.access_token);
                     this.user.authenticated=true;
-                   localStorage.setItem('token', response.data.access_token);
+
+
                //  Vue.http.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
 
                setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
@@ -110,9 +113,11 @@ loginLocal(context,creds,redirect){
 
                         })
        .then((response) => {
-
+                    localStorage.setItem('userId', response.data.user_id);
+                    localStorage.setItem('token', response.data.access_token);
                     this.user.authenticated=true;
-                   localStorage.setItem('token', response.data.access_token);
+
+
                    setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
                     router.go('../'+redirect);
 
