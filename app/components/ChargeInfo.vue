@@ -72,7 +72,7 @@ export default {
   ready(){
 
     this.$http.get(config.urlApi+'/users/'+localStorage.userId+'?include=company,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
-      event = store.sync(response.data);
+      var event = store.sync(response.data);
 
       this.$set('allocation', event)
 
