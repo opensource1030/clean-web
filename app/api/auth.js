@@ -68,8 +68,10 @@ singleSignOn(context,creds,redirect){
                         })
        .then((response) => {
               //   console.log(response.data);
-                    localStorage.setItem('userId', response.data.user_id);
-                    localStorage.setItem('token', response.data.access_token);
+           setTimeout(function(){
+               localStorage.setItem('userId', response.data.user_id);
+               localStorage.setItem('token', response.data.access_token);
+           },1000);
                     this.user.authenticated=true;
 
 
@@ -113,8 +115,11 @@ loginLocal(context,creds,redirect){
 
                         })
        .then((response) => {
-                    localStorage.setItem('userId', response.data.user_id);
-                    localStorage.setItem('token', response.data.access_token);
+           setTimeout(function(){
+               localStorage.setItem('userId', response.data.user_id);
+               localStorage.setItem('token', response.data.access_token);
+           },1000);
+
                     this.user.authenticated=true;
 
 
