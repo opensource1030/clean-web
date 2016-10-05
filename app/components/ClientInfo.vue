@@ -42,6 +42,7 @@
   var {Store} = require('yayson')()
   var    store = new Store()
   import config from './../../config/config'
+  import auth from './../api/auth'
   export default {
     name: "ClientInfo",
 
