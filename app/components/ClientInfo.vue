@@ -52,7 +52,6 @@
 
         event = store.sync(response.data);
         var cosmicdata = event.company.contents[0].content;
-        console.log(cosmicdata);
 
         this.$http.get(cosmicdata, {
 
