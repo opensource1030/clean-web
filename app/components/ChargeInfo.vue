@@ -70,7 +70,7 @@ export default {
     name: "ChargeInfo",
   ready(){
 
-    this.$http.get(config.urlApi+'/users/'+localStorage.userId+'?include=allocations').then((response) => {
+    this.$http.get(config.urlApi+'/users/'+localStorage.userId+'?include=company,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
       event = store.sync(response.data);
 
       this.$set('allocation', event)
