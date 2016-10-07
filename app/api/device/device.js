@@ -2,14 +2,11 @@ import {router} from './../../app'
 import Vue from 'vue'
 import config from './../../../config/config'
 import auth from './../auth.js'
-
-
-
-
-
+var {Store} = require('yayson')()
+var    store = new Store()
 
 export default {
-
+/*-------------------------------update device-----------------*/
   carriersCheck:{
     data:[]
   },
@@ -20,27 +17,76 @@ export default {
     data:[]
   },
 
+  updateDevice(id,context,price,style,capacity,carriers,companies,device,image){
+    context.$http.put(config.urlApi + '/devices/'+id, {
+
+     "data" : {
+           "type" : "devices",
+           "attributes" : {
+               "name" : device.name,
+               "properties" : device.description,
+               "deviceTypeId" : device.type,
+               "statusId" : 1,
+               "identification" : device.id
+           },
+           "relationships" : {
+               "modifications" : {
+                   "data" : this.modificationsJson(capacity,style)
+               },
+               "carriers" : {
+                   "data" : this.carriersJson(carriers)
+               },
+               "companies" : {
+                   "data" : this.companiesJson(companies)
+               },
+               "prices" : {
+                   "data" : this.pricesUpdateJson(price)
+               },
+               "images" : {
+                   "data" : [
+                      { "type": "images", "id" : image.id }
+                   ]
+               }
+
+           }
+       }
+
+        })
+        .then((response) => {
 
 
+            console.log(response.data);
+
+        }, (response) => {});
+
+
+
+
+  },
     getDataDevice(context,id){
 
               context.$http.get(config.urlApi + '/devices/'+id, {
-                  params:{include:'modifications,carriers,companies,prices'}
+                  params:{include:'modifications,carriers,companies,prices,images'}
 
               }).then((response) => {
 
                       event = store.sync(response.data)
+                      console.log(event.images);
+                    context.image.url=config.urlApi+'/images/'+event.images[0].id;
+                    context.image.id=event.images[0].id;
 
-                      console.log(event.prices);
+                    context.d.name=event.name;
+                    context.d.description=event.properties;
+                    context.d.id=event.identification;
+                    context.d.type=event.deviceTypeId;
+                         context.$set('carriers', this.carriersCheck);
                        context.$set('priceData',event.prices)
                       this.modificationCheck(context,event.modifications)
                       this.carrierCheck(context,event.carriers)
                       this.companyCheck(context,event.companies)
                       context.$set('modifications', this.modificationsCheck);
                         context.$set('companies', this.companiesCheck);
-                       context.$set('carriers', this.carriersCheck);
-
-
+                        context.checkcarrier();
 
             },
             (response) => {
@@ -57,7 +103,7 @@ export default {
           for(let carrierData of carriersD){
                 if(carrier.id==carrierData.id){
                   carrier.check='checked';
-                    context.changeStatusCarrier('active',i);
+
                     break;
                 }
           }
@@ -100,42 +146,44 @@ for(let modification of this.modificationsCheck.data){
    context.modifications=[];
 
  },
-
+/*---------------------------------create device---------------------------------------*/
 
 
     getDevice(context) {
+
+      context.$http.get(config.urlApi + '/devicetypes',{
+
+          params:{page:1}
+
+      }).then((response) => {
+
+               context.$set('deviceType', response.json());
+
+          },
+          (response) => {
+
+          });
 
         context.$http.get(config.urlApi + '/modifications',{
 
             params:{page:1}
 
         }).then((response) => {
-
-
                 for(let modification of response.data.data){
-
                          this.modificationsCheck.data.push(modification);
-
 
                  }
                  context.$set('modifications', response.json());
 
-            }, {
-                // Attach the JWT header
-                headers: auth.getAuthHeader()
             },
-
             (response) => {
 
             });
+
+
         context.$http.get(config.urlApi + '/carriers', {
-
             params:{page:1,'filter[active]':1}
-
         }).then((response) => {
-
-
-
                for(let carrier of response.data.data){
 
                         this.carriersCheck.data.push(carrier);
@@ -187,7 +235,7 @@ for(let modification of this.modificationsCheck.data){
             }, (response) => {});
     },
 
-    addDevice(context,price,style,capacity,carriers,companies,device){
+    addDevice(context,price,style,capacity,carriers,companies,device,image){
 
       context.$http.post(config.urlApi + '/devices', {
 
@@ -196,7 +244,7 @@ for(let modification of this.modificationsCheck.data){
              "attributes" : {
                  "name" : device.name,
                  "properties" : device.description,
-                 "deviceTypeId" : 1,
+                 "deviceTypeId" : device.type,
                  "statusId" : 1,
                  "identification" : device.id
              },
@@ -212,6 +260,11 @@ for(let modification of this.modificationsCheck.data){
                  },
                  "prices" : {
                      "data" : this.pricesJson(price)
+                 },
+                 "images" : {
+                     "data" : [
+                        { "type": "images", "id" : image.id }
+                     ]
                  }
              }
          }
@@ -283,17 +336,53 @@ for(let modification of this.modificationsCheck.data){
             "capacityId": p.capacity.id,
             "styleId": p.style.id,
             "carrierId": p.carrier.id,
-            "companyId": p.id,
+            "companyId": p.company.id,
             "priceRetail": p.retail,
             "price1": p.priceOne,
             "price2": p.priceTwo,
-            "priceOwn": p.priceOwn
+            "priceOwn": p.Own
         }
 
 
       });
 
       return mData;
+
+
+  },
+  pricesUpdateJson(price){
+    var mData=[]
+    price.forEach(function (p, index) {
+      mData[index]=
+        {
+            "type": "prices",
+            "id":p.id,
+            "capacityId": p.capacity.id,
+            "styleId": p.style.id,
+            "carrierId": p.carrier.id,
+            "companyId": p.company.id,
+            "priceRetail": p.retail,
+            "price1": p.priceOne,
+            "price2": p.priceTwo,
+            "priceOwn": p.Own
+        }
+
+
+      });
+
+      return mData;
+
+
+  },
+
+  createImage(context,file){
+        context.$http.post(config.urlApi + '/images',file)
+
+        .then((response) => {
+            context.image.url='http://'+response.data.data.links.self;
+            context.image.id=response.data.data.id;
+
+        }, (response) => {});
 
 
   }

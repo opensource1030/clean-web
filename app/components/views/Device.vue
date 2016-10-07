@@ -24,7 +24,7 @@
                   <div class="accordion-content overview"  data-tab-content   v-f-accordion>
                     <div class="row">
                       <div class="small-2 columns">
-                        <img class="phoneImg" :src="image" alt="Photo Iphone 6" />
+                        <img class="phoneImg" :src="image.url" alt="Photo Devices" />
 
                         <label for="FileUpload" class="button large" >Upload File</label>
                         <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
@@ -35,11 +35,9 @@
                           <input type="text" placeholder="" :value="d.id" v-model="d.id">
                         </label>
                         <label>Device Type
-                          <select>
-                            <option value="husker">Husker</option>
-                            <option value="starbuck">Starbuck</option>
-                            <option value="hotdog">Hot Dog</option>
-                            <option value="apollo">Apollo</option>
+                          <select v-model="d.type">
+                            <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
+
                           </select>
                         </label>
 
@@ -147,11 +145,11 @@
                     <div class="row">
                       <div class="small-6 columns find">
                         <label id="bl" >Find Company
-                          <input type="text" placeholder="Google">
+                          <input type="text" placeholder="Google"  v-model="companyFilter" >
                         </label>
                       </div>
                       <div class="small-6 columns">
-                        <a id="bl" class="button secondary">Find Company</a>
+                        <a id="bl" class="button secondary"  >Find Company</a>
                       </div>
 
                     </div>
@@ -192,21 +190,21 @@
                 <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
                   <a  href="#"  class="accordion-title" @click="toggle()"  >   Prices  </a>
                   <div class="filterprices" v-show="show">
-                    <select class="form-control"  >
+                    <select class="form-control" v-model="filter.capacity" >
                       <option value="" selected>Capacity</option>
-                      <option value=""></option>
+                      <option  v-for="capacity in vCapacity" :value="capacity.attributes.value" >{{capacity.attributes.value}}</option>
                     </select>
-                    <select class="form-control"  >
+                    <select class="form-control"  v-model="filter.style">
                       <option value="" selected>Style</option>
-                      <option value=""></option>
+                      <option value="" v-for="style in vStyles" :value="style.attributes.value"  >{{style.attributes.value}}</option>
                     </select>
-                    <select class="form-control"  >
+                    <select class="form-control" v-model="filter.carrier" >
                       <option value="" selected>Carrier</option>
-                      <option value=""></option>
+                      <option value="" v-for="carrier in vCarriers" :value="carrier.attributes.presentation" >{{carrier.attributes.presentation}}</option>
                     </select>
-                    <select class="form-control"  >
+                    <select class="form-control"  v-model="filter.company">
                       <option value="" selected>Company</option>
-                      <option value=""></option>
+                      <option  v-for="company in vCompanies"   :value="company.attributes.name">{{company.attributes.name}}</option>
                     </select>
 
                   </div>
@@ -218,14 +216,14 @@
                           <td><div>1 year contact</div></td>
                           <td ><div>2 years contract</div></td>
                           <td  ><div>Pay by own</div></td>
-                          <td  ><div></div></td>
-                          <td ><div></div></td>
-                          <td ><div></div></td>
-                          <td  ><div></div></td>
+                          <td  ><div>{{filter.capacity}}</div></td>
+                          <td ><div>{{filter.style}}</div></td>
+                          <td ><div>{{filter.carrier}}</div></td>
+                          <td  ><div>{{filter.company}}</div></td>
                         </tr>
                       </tbody>
                       <tbody>
-                        <tr  v-for="p in priceTable" track-by="$index">
+                        <tr  v-for="p in findByPrices(priceTable,filter) " track-by="$index">
                           <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceRetail" @keyup="updateRetail($index,$event)"  ></div></td>
                           <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.price1"  @keyup="updateOne($index,$event)"  ></div></td>
                           <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text" :value="p.price2" @keyup="updateTwo($index,$event)"  ></div></td>
@@ -233,7 +231,7 @@
                           <td><div class="features">{{p.capacity.attributes.value}}</div></td>
                           <td><div class="features">{{p.style.attributes.value}}</div></td>
                           <td><div class="features">{{p.carrier.attributes.presentation}}</div></td>
-                          <td style=" font-weight: bold;"><div class="features">{{p.attributes.name}}</div></td>
+                          <td style=" font-weight: bold;"><div class="features">{{p.company.attributes.name}}</div></td>
                         </tr>
                       </tbody>
 
@@ -253,6 +251,7 @@
 <script>
 import Vue from 'vue'
 import device from './../../api/device/device';
+import { findByPrices} from './../filters.js'
 
 Vue.directive('f-accordion', {
 
@@ -268,16 +267,26 @@ Vue.directive('f-accordion', {
     }
 });
 
+
 export default {
     name: "Device",
     created(){
-        device.getDevice(this);
+        device.getDevice(this,this.companyFilter);
         this.id = this.$route.params.id;
 
-        if(this.id!=null ){
+           if(this.id!=null ){
 
-        device.getDataDevice(this,this.id)
-      }
+           device.getDataDevice(this,this.id)
+
+
+
+        }
+
+
+
+   },
+   ready(){
+
 
 
    },
@@ -286,24 +295,23 @@ export default {
 
 
               if(this.priceData.length>0 && this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0 ){
-                var pricess=[];
-                var companiess=[];
+               this.pricess=[];
                 var a = false;
                 for(let price of this.priceData){
-                  var i=0;
+
                   for(let companys of this.vCompanies){
                     var  co=false;
                           if(companys.id==price.companyId){
                             price = Object.assign({}, price, {
-                              attributes:{name:companys.attributes.name},
+                              company:companys,
                             });
                             co=true;
-                        companiess=this.vCompanies.slice(i,1)
+
                             break;
                           }
-                          i++;
+
                   }
-                  i=0;
+
                   for(let styles of this.vStyles ){
                     var st =false;
                       if(styles.id==price.styleId){
@@ -311,24 +319,23 @@ export default {
                           style:styles,
 
                         });
-                        //delete styles;
+
                         st=true;
                         break;
                       }
                     }
                     for(let capacitys of this.vCapacity){
+
                     var  cy=false;
                       if(capacitys.id==price.capacityId){
                         price = Object.assign({}, price, {
                           capacity:capacitys,
                         });
-                      //  delete capacitys;
+
                           cy=true;
                           break;
                       }
                     }
-
-
 
                   for(let carriers of this.vCarriers){
                     var ca=false;
@@ -337,39 +344,22 @@ export default {
                         carrier:carriers,
 
                       });
-                      //  delete carriers;
                       ca=true;
                       break;
                     }
 
                   }
                   if(ca==true && cy==true && st==true && co==true){
-                      pricess.push(price);
+                      this.pricess.push(price);
                   }
 
 
 
                 }
 
-              
-
-
-
-
-
-                return pricess;
-
-
-
-
-
-              }
-            else{
-            if (this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0) {
-                this.price = []
 
                 for (let companies of  this.vCompanies) {
-                    this.company = companies;
+
 
                     for (let styles of this.vStyles) {
 
@@ -381,6 +371,60 @@ export default {
                                     style: styles,
                                     capacity: capacitys,
                                     carrier: carriers,
+                                    company:companies,
+                                    id:0,
+                                    priceRetail:0,
+                                    price1:0,
+                                    price2:0,
+                                    priceOwn:0
+
+
+                                });
+                              this.price.push(this.company);
+
+                            }
+                        }
+                    }
+                }
+
+                for (let pri of this.price){
+                  var b=true;
+                    for(let p of this.pricess){
+                      if(JSON.stringify(pri.style)==JSON.stringify(p.style) && JSON.stringify(pri.capacity)==JSON.stringify(p.capacity) && JSON.stringify(pri.company)==JSON.stringify(p.company) && JSON.stringify(pri.carrier)==JSON.stringify(p.carrier)){
+                        b=false;
+                          break;
+                      }
+                    }
+                    if(b==true){
+                      this.pricess.push(pri);
+                    }
+                }
+
+                return this.pricess;
+
+              }
+            else{
+            if (this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0) {
+                this.price = []
+
+                for (let companies of  this.vCompanies) {
+
+                    for (let styles of this.vStyles) {
+
+                        for (let capacitys of this.vCapacity) {
+
+                            for (let carriers of this.vCarriers) {
+
+                                this.company = Object.assign({}, this.company, {
+                                  style: styles,
+                                  capacity: capacitys,
+                                  carrier: carriers,
+                                  company:companies,
+                                  priceRetail:0,
+                                  price1:0,
+                                  price2:0,
+                                  priceOwn:0
+
 
                                 });
                                 this.price.push(this.company);
@@ -403,18 +447,39 @@ export default {
     },
 
     methods: {
+   findByPrices,
         submit:function(){
+        if(this.id!=null ){
 
-       device.addDevice(this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d)
+            device.updateDevice(this.id,this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);
+
+
+        }
+else{
+
+       device.addDevice(this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);
+}
+        },
+        checkcarrier:function(){
+          var vm=this;
+          this.$nextTick(function() {
+              var i=0;
+              for(let carrier of vm.carriers.data){
+                    if(carrier.check=='checked'){
+                      vm.changeStatusCarrier('active',i);
+
+                    }
+
+                i++;
+              }
+               });
 
         },
-        onChange:function(){
-        console.log("hola")
-      },
 
        updateRetail:function(i,e){
 
          var value = e.target.value;
+         console.log(value);
      var price = this.pricePost[i];
      var extending = Object.assign( {}, price, {retail: value} );
      this.pricePost.$set(i, extending);
@@ -440,39 +505,43 @@ updateOwn:function(i,e){
 
   var value = e.target.value;
 var price = this.pricePost[i];
-var extending = Object.assign( {}, price, {priceOwn: value} );
+var extending = Object.assign( {}, price, {Own: value} );
 this.pricePost.$set(i, extending);
 
 },
         toggle: function() {
             this.show = !this.show;
+  this.pricePost=[];
+            if(this.id!=null){
+
+              for(let price of this.pricess){
+                      console.log(price)
+                    this.pricePost.push(price);
+
+              }
+
+
+            }else{
 
             for(let price of this.price){
                   this.pricePost.push(price);
 
             }
+          }
 
         },
         showFalse: function() {
+
             this.show = false;
         },
 
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-                return;
-            this.createImage(files[0]);
+                var formData = new FormData();
+                formData.append('filename', files[0]);
+                device.createImage(this,formData);
         },
-        createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var vm = this;
 
-            reader.onload = (e) => {
-                vm.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
         changeStatusCarrier: function(className,index) {
 
           var el = document.getElementsByClassName('static')[index]
@@ -519,16 +588,24 @@ this.pricePost.$set(i, extending);
 
         return {
               /*image default device*/
-            image: "http://apple.universia.es/wp-content/uploads/2014/09/iPhone-6-oro-555-741.jpg",
+            image: {
+                url:"images/logo.jpg",
+                id:0
+            },
             /*Values checkboxes*/
             vCarriers: [],
             vStyles: [],
             vCompanies:[],
             vCapacity:[],
+            /*filter */
+            filter:{capacity:'',style:'',carrier:'',company:''},
+            companyFilter:'*',
+
             d:{
               name:'',
               description:'',
-              id:null
+              id:null,
+              type:0
             },
             /*add modifications*/
             id:null,
@@ -539,11 +616,13 @@ this.pricePost.$set(i, extending);
             carriers: [],
             companies: [],
             modifications:[],
+            deviceType:[],
             /*paginations*/
             pageCarriers:1,
             pageCompanies:1,
             /*table price*/
             price: [],
+            pricess:[],
             pricePost:[],
             company: {},
             /*errors*/

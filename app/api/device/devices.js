@@ -2,6 +2,7 @@ import {router} from './../../app'
 import Vue from 'vue'
 import config from './../../../config/config'
 import auth from './../auth.js'
+
 var {Store} = require('yayson')()
 var    store = new Store()
 
@@ -10,20 +11,27 @@ export default {
 
     getDevices(context) {
 
-        context.$http.get(config.urlApi + '/devices?page=1&include=modifications,carriers,companies,prices').then((response) => {
+        context.$http.get(config.urlApi + '/devices?page=3&include=modifications,carriers,companies,prices,images').then((response) => {
 
                         event = store.sync(response.data)
 
                     var    devices=[];
 
                         for(let device of event){
+
+
+
                           device = Object.assign({}, device, {
                               show: false,
                               hide:true,
-                              priceName:[]
+                              priceName:[],
+                              image:config.urlApi+'/images/'+device.images[0].id
+
                           });
 
                           for(let price of device.prices){
+
+
 
                             for(let company of device.companies){
                                     if(company.id==price.companyId){
