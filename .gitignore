@@ -1,31 +1,8 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/tmp
-/dist/*
-!/dist/index.html
-
-
-# dependencies
-/node_modules
-vendor/*
-!/vendor/.gitignore
-
-
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage/*
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/.capistrano
 .DS_Store
+node_modules/
+dist/
+npm-debug.log
+test/unit/coverage
+test/e2e/reports
+selenium-debug.log
 .idea
-gitflowlog
-/log/
-/vendor/
-/config/config.js
-.idea/
-.DS_Store 11.43.07

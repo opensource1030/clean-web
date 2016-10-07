@@ -1,38 +1,25 @@
-[![CircleCI](https://circleci.com/gh/WirelessAnalytics/clean-frontend.svg?style=svg)](https://circleci.com/gh/WirelessAnalytics/clean-frontend)
+# CLEAN Web App
 
-# Installation Process
+## Build Setup
 
-- **Install gulp and bower globally**
-    - *gulp* : 
-    
-    ```
-    npm install -g gulp
-    ```
-    - *bower* :
-     ```
-    npm install -g bower
-    ```
-- **Install all project dependencies**
- 
-    ``` 
-    npm install
-    ```
-- **Install front end packages**
+``` bash
+# install dependencies
+npm install
 
-    ```
-    bower install
-    ```
-- **To build the Front End**  ( It will automatically run the html in default browser and started to watch changes )
-     ```
-        gulp
-    ```
-    
-   
+# serve with hot reload at localhost:8080
+npm run dev
 
-**Note: In case of _EACCES: permission denied_ issue for bower:**
+# build for production with minification
+npm run build
 
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
-sudo chown -R $USER:$GROUP ~/.npm
-sudo chown -R $USER:$GROUP ~/.config
 
-```
+For detailed explanation on how things work, checkout the [webpack guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
