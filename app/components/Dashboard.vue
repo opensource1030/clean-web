@@ -200,7 +200,6 @@
     },
     ready(){
 
-
       $('.page-link a').each(function(e){
         $(this).click(function(e){
           var link = this.href;
@@ -213,7 +212,7 @@
         })
 
       });
-      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
+      this.$http.get(config.urlApi+'/users/'+ localStorage.userId +'?include=company.contents').then((response) => {
                 var clientinfo = response.data.included[0].attributes.content;
                 this.$http.get(clientinfo).then((response) => {
                   this.$set('data', response.json());

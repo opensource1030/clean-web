@@ -52,23 +52,34 @@
 
 </template>
   <script>
+    var {Store} = require('yayson')()
+    var    store = new Store()
     import config from './../../config/config'
 import auth from './../api/auth'
 export default {
   name: "Sidemenu",
     ready () {
+      this.$http.get(config.urlApi + '/users/'+ localStorage.userId +'?include=company.contents', {
 
-      this.$http.get(config.urlApi+'/companies/'+ 16 +'?include=contents').then((response) => {
-        var info = response.data.included[1].attributes.content;
-        this.$http.get(info).then((response) => {
-          this.$set('company', response.json());
-        })
+      }).then((response) => {
 
-      }, (response) => {
+        var event = store.sync(response.data);
+        var cosmicdata = event.company.contents[1].content;
+
+        this.$http.get(cosmicdata, {
+
+        }).then((response) => {
+
+          this.$set('company', response.data);
+
+
+        });
+
 
       });
         var intervalId = setInterval(function(){
           var token = localStorage.token;
+          var id = localStorage.userId;
           $('.page-link a').attr('href', function(index, href) {
 
             var param = 'access_token='+ token;
