@@ -1,5 +1,6 @@
 <template>
-  <div class=class="bg-login">
+    <div>
+  <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
       <img src="/images/wa_logo.png" alt="Wireless Analytics">
@@ -49,6 +50,7 @@
   </div>
   </div>
   </div>
+</div>
 </template>
 
 <script>

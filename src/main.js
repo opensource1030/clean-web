@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
-import Router from 'vue-router'
-import $  from 'jquery'
+import VueRouter from 'vue-router'
+import 'script!jquery'
 import NProgress from 'nprogress'
 import Breadcrumb from 'vue-breadcrumbs'
 
@@ -11,7 +11,7 @@ import 'script!foundation-sites'
 
 $(document).foundation();
 //initial routes
-import App from './components/App.vue'
+import App from './app.vue'
 import Sso  from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
@@ -21,18 +21,17 @@ import Sidemenu from './components/Sidemenu.vue'
 //auth router
 import auth from './api/auth.js'
 //views
-import Devices from './components/views/Devices.vue'
-import Device from './components/views/Device.vue'
+
 
 
 // Install plugins
-Vue.use(Router)
+Vue.use(VueRouter)
 Vue.use(Resource)
 Vue.use(Breadcrumb)
 
 
 // Set up a new router
-export var router = new Router();
+
 
 auth.checkAuth();
 
@@ -42,67 +41,42 @@ Vue.http.interceptors.push((request, next) => {
         NProgress.done();
     });
 });
+const routes= [
+  { path: '/login', component:Login,name:'login' },
+  { path: '/register', component: Register },
+  { path: '/loginLocal', component: LoginLocal },
+    { path: '/dashboard', component: Dashboard,meta: { requiresAuth: true } },
+    { path: '/sso/:id', component: Sso },
+        { path: '/sidemenu', component: Sidemenu },
+        { path: '*', redirect: '/dashboard' }
+]
 
 // Route config
-router.map({
-    '/login':{
-        name: 'login',
-        component: Login
-    },
-    '/register':{
-        name: 'register',
-        component: Register
-    },
-    '/loginLocal':{
-        name: 'loginLocal',
-        component: LoginLocal
-    },
-    '/dashboard':{
-        name: 'dashboard',
-        component: Dashboard,
-        breadcrumb: 'Dashboard',
-        auth: true
-    },
-    '/devices':{
-        name:'devices',
-        component: Devices,
-    },
-    '/device/:id': {
-        name:'device',
-        component: Device
-
-    },
-    '/device': {
-        name:'device',
-        component: Device
-    },
-    '/sso/:id':{
-        name: 'sso',
-        component: Sso
-    },
-    '/sidemenu':{
-        name: 'sidemenu',
-        component: Sidemenu
-    },
+ const router = new VueRouter({
+  mode: 'history',
+  routes
 
 
 })
 
 // For every new route scroll to the top of the page
-router.beforeEach(({ next }) => {
+router.beforeEach(( to,from,next ) => {
     window.scrollTo(0, 0)
     NProgress.start()
 
     next()
 })
 
-router.beforeEach(function (transition) {
-    if (transition.to.auth && !auth.user.authenticated) {
-        transition.redirect('/login')
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+    const authUser = auth.user.authenticated;
+    if (authUser==true) {
+      next()
+    } else {
+      next({name:'login'})
     }
-    else{
-        transition.next()
-    }
+  }
+  next()
 })
 
 router.afterEach(() => {
@@ -111,9 +85,10 @@ router.afterEach(() => {
 
 
 // If no route is matched redirect home
-router.redirect({
-    '*': '/dashboard'
-})
+
 
 // Start up our app
-router.start(App, '#app')
+new Vue({
+  router
+
+}).$mount('#app')

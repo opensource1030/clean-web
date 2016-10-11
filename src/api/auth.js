@@ -1,7 +1,9 @@
-import {router} from 'vue-router'
+import Vue from 'vue'
 
 // Check the user's auth status when the app
 // loads to account for page refreshing
+
+
 
 export default {
   // User object will let us check authentication status
@@ -29,7 +31,8 @@ login(context, creds, redirect) {
             if(response.data.error==="User Not Found, Register Required"){
                   //console.log(response.data.error);
                     context.error=response.data.error
-                   router.go('register');
+                      context.$router.push({name: 'register'})
+
             }
             else if(response.data.error==="Invalid Email"){
               context.error=response.data.error;
@@ -37,7 +40,7 @@ login(context, creds, redirect) {
 
             else if(response.data.error=="User Found, Password Required"){
               //console.log(response.data.error);
-              router.go('loginLocal');
+              context.$router.push({name: 'loginLocal'})
               localStorage.removeItem("email");
 
               localStorage.setItem('email',creds.email);
@@ -75,7 +78,7 @@ singleSignOn(context,creds,redirect){
                setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
 
 
-                    router.go('../'+redirect);
+                  context.$router.push({name: redirect})
 
 
       }, (response) => {
@@ -116,7 +119,7 @@ loginLocal(context,creds,redirect){
 
 
                    setTimeout( ()=> {this.logout();},response.data.expires_in*1000);
-                    router.go('../'+redirect);
+                      context.$router.push({name: redirect})
 
 
       }, (response) => {
@@ -141,7 +144,7 @@ logout() {
     localStorage.removeItem('token')
     this.user.authenticated = false
 
-    router.go('login');
+    this.$router.push({name:'login'})
   },
 
 
