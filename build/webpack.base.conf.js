@@ -28,6 +28,8 @@ module.exports = {
   },
   module: {
     preLoaders: [
+
+
       {
         test: /\.vue$/,
         loader: 'eslint',
@@ -42,6 +44,7 @@ module.exports = {
       }
     ],
     loaders: [
+
       {
         test: /\.vue$/,
         loader: 'vue'
@@ -71,18 +74,17 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+        {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
       }
+
+
     ]
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
-  },
-  vue: {
-    loaders: utils.cssLoaders(),
-    postcss: [
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
-    ]
   }
+
 }

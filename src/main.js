@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 import 'script!jquery'
 import NProgress from 'nprogress'
 import Breadcrumb from 'vue-breadcrumbs'
-
+import './styles/app.scss'
 //foundation js
 import 'script!what-input'
 import 'script!foundation-sites'
