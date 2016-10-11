@@ -89,6 +89,7 @@ router.afterEach(() => {
 
 // Start up our app
 new Vue({
-  router
+  router,
+  render: h => h(App)
 
 }).$mount('#app')
