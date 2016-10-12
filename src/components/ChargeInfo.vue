@@ -1,5 +1,6 @@
 
 <template>
+  <div>
   <div class="large-12 columns">
     <div class="grid-box">
       <header class="box-heading">
@@ -26,7 +27,7 @@
                 <tr>
                 <td>{{ item.bill_month }}</td>
                 <td v-if="allocation">{{ allocation.first_name }}</td>
-                <td><a href="tel:{{ item.mobile_number }}">{{ item.mobile_number }}</a></td>
+                <td><!--<a href="tel:{{ item.mobile_number }}">{{ item.mobile_number }}</a>--></td>
                 <td>{{ item.carrier }}</td>
                 <td>{{ item.device }}</td>
                 <td>{{ item.allocated_charge }}</td>
@@ -59,22 +60,22 @@
     </div>
   </div>
   <div class="clearfix"></div>
+</div>
 
 </template>
 <script>
-  import config from './../../config/config'
   import auth from './../api/auth'
   var {Store} = require('yayson')()
   var    store = new Store()
 
 export default {
     name: "ChargeInfo",
-  ready(){
+  created(){
 
     this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=company,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
       var event = store.sync(response.data);
 
-      this.$set('allocation', event)
+      this.set('allocation', event)
 
     }, (response) => {
 

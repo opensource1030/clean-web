@@ -11,7 +11,7 @@
           <morphsearch> </morphsearch>
         </div>
         <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <img class="img-avatar" data-name="{{data.object.title }}" alt="name"> <span class="greeting">Hi, {{data.object.title }}</span></a> </div>
+              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <img class="img-avatar" :data-name="data.object.title" alt="name"> <span class="greeting">Hi, {{data.object.title }}</span></a> </div>
           <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
             <ul>
               <li><a @click="logout()"  v-if="user.authenticated" >Logout</a></li>
@@ -170,15 +170,14 @@
 
 <script>
 
-  import config from './../../config/config'
+
   import auth from './../api/auth'
   require('../modules/dashboard-chart')
   require('initial-js');
-  require('../../vendor/matchHeight/jquery.matchHeight');
-  require('../../vendor/jquery.soap/jquery.soap');
-  require('../../vendor/jquery-serialize-object/jquery.serialize-object');
-  require('../../vendor/jquery-validation/dist/jquery.validate');
-  require('../../vendor/jquery-validation/dist/additional-methods');
+  require('jquery-match-height');
+  require('jquery.soap');
+  require('jquery-validation');
+
   import Breadcrumb from './Breadcrumb.vue'
   import ClientInfo from './ClientInfo.vue'
   import ChargeInfo from './ChargeInfo.vue'
@@ -198,7 +197,7 @@
 
 
     },
-    ready(){
+    created(){
 
       $('.page-link a').each(function(e){
         $(this).click(function(e){

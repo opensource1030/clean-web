@@ -22,7 +22,7 @@ export default {
         error: ''
       }
     },
-  ready: function() {
+  created: function() {
     var id = this.$route.params.id;
     auth.singleSignOn(this,id,'dashboard');
 

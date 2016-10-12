@@ -10,16 +10,17 @@ module.exports = {
   output: {
     path: config.build.assetsRoot,
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
-    filename: '[name].js'
+    filename: 'build.js'
   },
   resolve: {
-    extensions: ['', '.js', '.vue'],
+    extensions: [ '','.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      'vue': 'vue/dist/vue.common.js',
+      'vue': 'vue/dist/vue.js',
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components')
+
     }
   },
   resolveLoader: {
@@ -27,6 +28,8 @@ module.exports = {
   },
   module: {
     preLoaders: [
+
+
       {
         test: /\.vue$/,
         loader: 'eslint',
@@ -41,6 +44,7 @@ module.exports = {
       }
     ],
     loaders: [
+
       {
         test: /\.vue$/,
         loader: 'vue'
@@ -70,18 +74,17 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+        {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'sass']
       }
+
+
     ]
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
-  },
-  vue: {
-    loaders: utils.cssLoaders(),
-    postcss: [
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
-    ]
   }
+
 }

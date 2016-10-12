@@ -75,10 +75,10 @@
                     <td style="font-weight: bold;" >  {{device.name}} </td>
                     <td >android</td>
                              <td  >300$</td>
-                             <td v-if="device.hide" >ios</td><td v-else>  </td>
-                             <td v-if="device.hide" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
-                             <td v-if="device.hide"  ><div  v-for="capacity in device.modifications  | filterBy 'capacity' in 'modType'"  > {{capacity.value}}</div> </td><td v-else>  </td>
-                             <td v-if="device.hide"  > <div  v-for="style in device.modifications  | filterBy 'style' in 'modType'"  > {{style.value}}</div></td><td v-else>  </td>
+                             <td v-if="device.show!=true" >ios</td><td v-else>  </td>
+                             <td v-if="device.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
+                             <td v-if="device.show!=true"  ><div  v-for="capacity in device.modifications  | filterBy 'capacity' in 'modType'"  > {{capacity.value}}</div> </td><td v-else>  </td>
+                             <td v-if="device.show!=true"  > <div  v-for="style in device.modifications  | filterBy 'style' in 'modType'"  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
                     <td v-show="device.show" transition="device"  class="detail" colspan="8" >
@@ -107,7 +107,7 @@
 
                         <div class="os child"   :class="{ 'up': device.show}"  >
                           <div class="image">
-                            <img   src="http://soncosasmias.com/wp-content/uploads/2015/11/iPhone-6-SonCosasMias.jpg" alt="Photo Iphone 6" width="100" height="00" />
+                            <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
                           </div>
 
                           <div class="information">
@@ -167,61 +167,36 @@
 import Vue from 'vue'
 import VueAnimatedList from 'vue-animated-list'
 Vue.use(VueAnimatedList)
-
 import devices from './../../api/device/devices';
-
-
 export default {
     name: "Devices",
-
     created() {
       devices.getDevices(this);
-
-
     },
     ready() {
-
     },
   methods: {
         setActive: function(index) {
-
-
             this.active = index;
             this.devices[this.active].hide = !this.devices[this.active].hide;
-
             if (this.devices[this.active].show == true) {
                 this.devices[this.active].show = false;
-
-
             } else {
-
                 for (var i = 0; i < this.devices.length; i++) {
                     if (this.devices[this.active] == this.devices[i]) {
                         this.devices[this.active].show = true;
-
-
                     } else {
                         this.devices[i].show = false;
-
                     }
                 }
             }
-
-
-
         }
-
     },
-
     data() {
         return {
             active:0,
             devices:[]
-
-
         }
     }
-
-
 }
 </script>

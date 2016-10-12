@@ -1,10 +1,10 @@
 
 <template>
-
+<div>
   <div class="column large-12">
     <div class="default callout client-info" >
       <h2 v-if="client.object" >  {{client.object.title }}</h2>
-      <div v-if="client.object"> {{{client.object.metafields[3].value }}} </div>
+      <div v-if="client.object"> {{client.object.metafields[3].value }} </div>
 
     </div>
   </div>
@@ -16,7 +16,7 @@
       </header>
       <div class="box-content">
         <div class="box-content-holder" v-if="client.object">
-          {{{client.object.metafields[0].value }}}
+          {{client.object.metafields[0].value }}
         </div>
       </div>
     </div>
@@ -32,21 +32,21 @@
           <a class="button btn-provision"  href="#">Get Support</a>
 
         </div>
-        {{{  client.object.metafields[1].value }}}
+        {{  client.object.metafields[1].value }}
       </div>
     </div>
   </div>
+</div>
 
 </template>
 <script>
   var {Store} = require('yayson')()
   var    store = new Store()
-  import config from './../../config/config'
   import auth from './../api/auth'
   export default {
     name: "ClientInfo",
 
-    ready(){
+    created(){
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
 
       }).then((response) => {
@@ -58,7 +58,7 @@
 
         }).then((response) => {
 
-          this.$set('client', response.data);
+          this.set('client', response.data);
 
 
         });

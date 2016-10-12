@@ -9,7 +9,7 @@ export default {
     name: "Footer",
 
 
-    ready(){
+    created(){
 
 
     }

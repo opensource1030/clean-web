@@ -1,4 +1,4 @@
-require('../../vendor/foundation-sites/dist/foundation')
+require('foundation.sites')
   require('../modules/classie')
 
   var $j = require('jquery');

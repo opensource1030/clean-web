@@ -1,6 +1,6 @@
 
 <template>
-
+ <div>
   <div id="morphsearch" class="morphsearch">
     <form class="morphsearch-form">
       <input class="morphsearch-input" type="search" placeholder="What can we help you with?" title="What can we help you with?"/>
@@ -11,23 +11,22 @@
       <div id="helpjuice_js_widget_content">
         <img src='//helpjuice.com/images/cube-theme/loading.gif' class="helpjuice-loading-spinner" />
       </div>
-      <script>
-        var helpjuice_account_url = "https://wirelessanalytics.helpjuice.com/";
-      </script>
-      <script src="//s3.amazonaws.com/assets.helpjuice.com/helpjuice.min.js"></script>
+
+  
       <!-- End of Helpjuice knowledge base code -->
 
 
     </div><!-- /morphsearch-content -->
     <span class="morphsearch-close"></span>
-  </div><!-- /morphsearch -->
+  </div>
+</div><!-- /morphsearch -->
 </template>
 <script>
 /*import auth from './../api/auth'*/
 require('../modules/classie')
 export default {
     name: "Morphsearch",
-  ready(){
+  created(){
     (function() {
       var isAnimating;
       var morphSearch = document.getElementById( 'morphsearch' ),

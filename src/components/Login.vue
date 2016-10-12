@@ -1,9 +1,9 @@
 <template>
-  <div>
-  <div class=class="bg-login">
+<div>
+  <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-    <img src="/images/wa_logo.png" alt="Wireless Analytics">
+    <img src="/src/images/wa_logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
       <div class="container">
@@ -34,11 +34,13 @@
   </div>
   </div>
 </div>
+
 </template>
 
 <script>
 import auth from './../api/auth';
 export default {
+  name: "Login",
 data() {
   return {
     // We need to initialize the component with any
@@ -51,15 +53,10 @@ data() {
   }
 },
 methods: {
-    name: "Login",
-  submit() {
-    var credentials = {
-      email: this.credentials.email
 
-    }
-    // We need to pass the component's this context
-    // to properly make use of http in the auth service
-    auth.login(this, credentials, 'dashboard')
+  submit() {
+
+    auth.login(this, this.credentials.email, 'dashboard')
   }
 }
 
