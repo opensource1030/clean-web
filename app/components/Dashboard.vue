@@ -258,6 +258,9 @@
                         var formData = $(form).serializeObject();
                         $.soap({
                           url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
+                          HTTPHeaders: {                                  // additional http headers send with the $.ajax call, will be given to $.ajax({ headers: })
+                            'Access-Control-Allow-Origin': 'dev.wirelessanalytics.com'
+                          },
                           method: 'EZV_CreateRequest',
                           data: formData,
                           success: function (soapResponse) {
@@ -267,12 +270,21 @@
                           error: function (SOAPResponse) {
                             $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
                           },
+                          statusCode: {                                   // callback functions based on statusCode
+                            404: function() {
+                              console.log('404 Not Found');
+                            },
+                            200: function() {
+                              console.log('200 OK');
+                            }
+                          },
                           parts: {
                             Account: '50005',
                             Login: 'CLEANWebServices',
                             Pass: 'CLEANWebServices',
-                            Catalog_GUID: 'simple',
+                            Catalog_GUID: '',
                           },
+                          enableLogging: true
 
                         });
                       }
