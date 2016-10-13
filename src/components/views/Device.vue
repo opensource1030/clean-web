@@ -484,7 +484,7 @@ this.pricePost.$set(i, extending);
         return {
               /*image default device*/
             image: {
-                url:"images/logo.jpg",
+                url:"/assets/logo.png",
                 id:0
             },
             /*Values checkboxes*/
