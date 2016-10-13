@@ -21,7 +21,7 @@ login(context, creds, redirect) {
   }
   else{
 
-  context.$http.get(process.env.URL_API+'/doSSO/'+creds.email+'/?redirectToUrl='+process.env.URL+'/%23!/sso').then((response) => {
+  context.$http.get(process.env.URL_API+'/doSSO/'+creds.email+'/?redirectToUrl='+process.env.URL+'/sso').then((response) => {
 
           window.location.href =response.data.data.redirectUrl;
 
@@ -40,7 +40,7 @@ login(context, creds, redirect) {
 
             else if(response.data.error=="User Found, Password Required"){
               //console.log(response.data.error);
-              context.$router.push({name: 'loginLocal'})
+              context.$router.push({name: 'loginlocal'})
               localStorage.removeItem("email");
 
               localStorage.setItem('email',creds.email);

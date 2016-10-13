@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="content-right">
     <div class="full-height row">
       <div id="device">
@@ -75,7 +76,7 @@
 
 
                             <label style=" font-weight: bold;" >Capacity
-                              <input type="text" :value=""  v-model="gigas" placeholder="Custom">
+                              <input type="text" :value="gigas"  v-model="gigas" placeholder="Custom">
                             </label>
                           </div>
                           <div class="small-6 columns">
@@ -83,7 +84,7 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="capacitys in modifications.data | filterBy 'capacity' in 'attributes.modType'" >
+                        <div class="checkbox" v-for="capacitys in modifications.data " >
                           <label  >
                             <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity" :checked="capacitys.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
@@ -96,7 +97,7 @@
                         <div class="row">
                           <div class="small-6 columns">
                             <label style=" font-weight: bold;" >Style
-                              <input type="text" :value="" v-model="color" placeholder="Custom">
+                              <input type="text" :value="color" v-model="color" placeholder="Custom">
                             </label>
                           </div>
                           <div class="small-6 columns">
@@ -104,7 +105,7 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="styles in modifications.data | filterBy 'style' in 'attributes.modType'"  >
+                        <div class="checkbox" v-for="styles in modifications.data"  >
                           <label>
                             <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
@@ -188,19 +189,19 @@
                   <a  href="#"  class="accordion-title" @click="toggle()"  >   Prices  </a>
                   <div class="filterprices" v-show="show">
                     <select class="form-control" v-model="filter.capacity" >
-                      <option value="" selected>Capacity</option>
+                      <option value="" filter.capacity>Capacity</option>
                       <option  v-for="capacity in vCapacity" :value="capacity.attributes.value" >{{capacity.attributes.value}}</option>
                     </select>
                     <select class="form-control"  v-model="filter.style">
-                      <option value="" selected>Style</option>
+                      <option value="" filter.style>Style</option>
                       <option value="" v-for="style in vStyles" :value="style.attributes.value"  >{{style.attributes.value}}</option>
                     </select>
                     <select class="form-control" v-model="filter.carrier" >
-                      <option value="" selected>Carrier</option>
+                      <option value="" filter.carrier>Carrier</option>
                       <option value="" v-for="carrier in vCarriers" :value="carrier.attributes.presentation" >{{carrier.attributes.presentation}}</option>
                     </select>
                     <select class="form-control"  v-model="filter.company">
-                      <option value="" selected>Company</option>
+                      <option value="" filter.company>Company</option>
                       <option  v-for="company in vCompanies"   :value="company.attributes.name">{{company.attributes.name}}</option>
                     </select>
 
@@ -220,7 +221,7 @@
                         </tr>
                       </tbody>
                       <tbody>
-                        <tr  v-for="p in findByPrices(priceTable,filter) " track-by="$index">
+                        <tr  v-for="p in findByPrices(priceTable,filter) " >
                           <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceRetail" @keyup="updateRetail($index,$event)"  ></div></td>
                           <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.price1"  @keyup="updateOne($index,$event)"  ></div></td>
                           <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text" :value="p.price2" @keyup="updateTwo($index,$event)"  ></div></td>
@@ -244,16 +245,16 @@
             </div>
           </div>
         </div>
+      </div>
 </template>
 <script>
 import Vue from 'vue'
 import device from './../../api/device/device';
 import { findByPrices} from './../filters.js'
 Vue.directive('f-accordion', {
-    bind: function() {
-        var self = this;
+    bind: function(el) {
         Vue.nextTick(function() {
-            $(self.el).foundation();
+            $(el).foundation();
         })
     }
 });
@@ -265,8 +266,6 @@ export default {
            if(this.id!=null ){
            device.getDataDevice(this,this.id)
         }
-   },
-   ready(){
    },
     computed: {
         priceTable: function() {
@@ -485,7 +484,7 @@ this.pricePost.$set(i, extending);
         return {
               /*image default device*/
             image: {
-                url:"images/logo.jpg",
+                url:"/assets/logo.png",
                 id:0
             },
             /*Values checkboxes*/

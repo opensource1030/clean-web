@@ -3,7 +3,7 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-      <img src="/images/wa_logo.png" alt="Wireless Analytics">
+      <img src="/assets/wa_logo.png" alt="Wireless Analytics">
 
       <div style="color:black">
             {{error}}

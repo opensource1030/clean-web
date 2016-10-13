@@ -45,8 +45,8 @@
     </ul>
     <div class="nav-poweredby">
       <span class="text-copyright">Powered By</span>
-      <img class="img-full" src="/images/wa_logo.png" alt="Wireless Analytics">
-      <img class="img-collapse" src="/images/logo.png" alt="Wireless Analytics">
+      <img class="img-full" src="/assets/wa_logo.png" alt="Wireless Analytics">
+      <img class="img-collapse" src="/assets/logo.png" alt="Wireless Analytics">
     </div>
   </section>
 
@@ -69,13 +69,15 @@ export default {
 
         }).then((response) => {
 
-          this.set('company', response.data);
+          this.$set('company', response.data);
 
 
         });
 
 
       });
+    },
+    mounted(){
         var intervalId = setInterval(function(){
           var token = localStorage.token;
           var id = localStorage.userId;

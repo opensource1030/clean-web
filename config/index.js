@@ -31,7 +31,7 @@ module.exports = {
   }
   ,
   local: {
-    env: require('./dev.env'),
+    env: require('./local.env'),
     port: 8080,
     assetsSubDirectory: 'assets',
     assetsPublicPath: '/',

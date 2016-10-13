@@ -41,7 +41,7 @@
 </template>
 <script>
   var {Store} = require('yayson')()
-  var    store = new Store()
+  var  store = new Store()
   import auth from './../api/auth'
   export default {
     name: "ClientInfo",
@@ -58,7 +58,7 @@
 
         }).then((response) => {
 
-          this.set('client', response.data);
+          this.$set('client', response.data);
 
 
         });

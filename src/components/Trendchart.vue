@@ -18,7 +18,7 @@
 
 export default {
     name: "Trendchart",
-  ready(){
+  mounted(){
     $('#trend-category').highcharts({
       chart: {
         height: 300,

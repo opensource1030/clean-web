@@ -21,7 +21,8 @@ import Sidemenu from './components/Sidemenu.vue'
 //auth router
 import auth from './api/auth.js'
 //views
-
+import Devices from './components/views/Devices.vue'
+import Device from './components/views/Device.vue'
 
 
 // Install plugins
@@ -43,20 +44,21 @@ Vue.http.interceptors.push((request, next) => {
 });
 const routes= [
   { path: '/login', component:Login,name:'login' },
-  { path: '/register', component: Register },
-  { path: '/loginLocal', component: LoginLocal },
-    { path: '/dashboard', component: Dashboard,meta: { requiresAuth: true } },
-    { path: '/sso/:id', component: Sso },
-        { path: '/sidemenu', component: Sidemenu },
-        { path: '*', redirect: '/dashboard' }
+  { path: '/register', component: Register,name:'register' },
+  { path: '/loginLocal', component: LoginLocal,name:'loginlocal' },
+    { path: '/dashboard', component: Dashboard,breadcrumb:'Dashboard',meta: { requiresAuth: true },name:'dashboard' },
+    { path: '/sso/:id', component: Sso,name:'sso' },
+    { path: '/sidemenu', component: Sidemenu },
+    {path: '/devices',component:Devices,name:'devices',meta: { requiresAuth: true }},
+    {path: '/device/:id',component:Device,name:'device',meta: { requiresAuth: true }},
+    {path: '/device',component:Device,name:'device',meta: { requiresAuth: true }},
+    { path: '*', redirect: '/dashboard' }
 ]
 
 // Route config
  const router = new VueRouter({
   mode: 'history',
   routes
-
-
 })
 
 // For every new route scroll to the top of the page

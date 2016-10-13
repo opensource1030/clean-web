@@ -4,13 +4,13 @@
   </footer>
 </template>
 <script>
-require('../modules/footer')
+
 export default {
     name: "Footer",
 
 
-    created(){
-
+    mounted(){
+require('../modules/footer')
 
     }
 }

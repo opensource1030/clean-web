@@ -18,7 +18,7 @@
 
 export default {
     name: "Piechart",
-  created(){
+  mounted(){
     $('#spend-category').highcharts({
       chart: {
         type: 'pie',

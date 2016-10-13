@@ -172,11 +172,12 @@
 
 
   import auth from './../api/auth'
-  require('../modules/dashboard-chart')
+
   require('initial-js');
   require('jquery-match-height');
   require('jquery.soap');
   require('jquery-validation');
+  require('highcharts');
 
   import Breadcrumb from './Breadcrumb.vue'
   import ClientInfo from './ClientInfo.vue'
@@ -197,7 +198,7 @@
 
 
     },
-    created(){
+    mounted(){
 
       $('.page-link a').each(function(e){
         $(this).click(function(e){
