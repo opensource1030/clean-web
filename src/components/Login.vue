@@ -3,7 +3,7 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-    <img src="/src/images/wa_logo.png" alt="Wireless Analytics">
+    <img src="/assets/wa_logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
       <div class="container">
@@ -56,7 +56,9 @@ methods: {
 
   submit() {
 
-    auth.login(this, this.credentials.email, 'dashboard')
+
+
+    auth.login(this,this.credentials, 'dashboard')
   }
 }
 

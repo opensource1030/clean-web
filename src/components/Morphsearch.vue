@@ -12,7 +12,7 @@
         <img src='//helpjuice.com/images/cube-theme/loading.gif' class="helpjuice-loading-spinner" />
       </div>
 
-  
+
       <!-- End of Helpjuice knowledge base code -->
 
 
@@ -26,7 +26,7 @@
 require('../modules/classie')
 export default {
     name: "Morphsearch",
-  created(){
+  mounted(){
     (function() {
       var isAnimating;
       var morphSearch = document.getElementById( 'morphsearch' ),
