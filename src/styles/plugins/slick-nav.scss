@@ -1,4 +1,6 @@
 @import "node_modules/slicknav/scss/slicknav";
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
 .slicknav_nav {
   a,
   .slicknav_row{

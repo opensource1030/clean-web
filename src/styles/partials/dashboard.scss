@@ -1,3 +1,5 @@
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
 .filter{
   padding: rem-calc(10) rem-calc(15) rem-calc(35) ;
   .username{
@@ -642,7 +644,7 @@ a.btn-provision:hover .support-form-holder{
       height: 0;
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
-      border-bottom: 10px solid $medium-gray;
+      border-bottom: 10px solid gray;
     }
   }
 }
