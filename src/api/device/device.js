@@ -78,13 +78,13 @@ export default {
                     context.d.description=event.properties;
                     context.d.id=event.identification;
                     context.d.type=event.deviceTypeId;
-                         context.$set('carriers', this.carriersCheck);
-                       context.$set('priceData',event.prices)
+                         context.carriers= this.carriersCheck;
+                       context.priceData=event.prices;
                       this.modificationCheck(context,event.modifications)
                       this.carrierCheck(context,event.carriers)
                       this.companyCheck(context,event.companies)
-                      context.$set('modifications', this.modificationsCheck);
-                        context.$set('companies', this.companiesCheck);
+                      context.modifications= this.modificationsCheck;
+                        context.companies= this.companiesCheck;
                         context.checkcarrier();
 
             },
@@ -156,7 +156,8 @@ for(let modification of this.modificationsCheck.data){
 
       }).then((response) => {
 
-               context.$set('deviceType', response.json());
+              context.deviceType= response.data;
+
 
           },
           (response) => {
@@ -172,7 +173,8 @@ for(let modification of this.modificationsCheck.data){
                          this.modificationsCheck.data.push(modification);
 
                  }
-                 context.$set('modifications', response.json());
+              context.modifications= response.data;
+            
 
             },
             (response) => {
@@ -189,7 +191,7 @@ for(let modification of this.modificationsCheck.data){
 
 
                 }
-                context.$set('carriers', response.json());
+            context.carriers= response.data;
             },
             (response) => {});
 
@@ -205,7 +207,8 @@ for(let modification of this.modificationsCheck.data){
 
 
                  }
-  context.$set('companies', response.json());
+
+context.companies =response.data;
 
             },
 

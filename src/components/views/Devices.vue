@@ -69,16 +69,16 @@
                     <td  ><div>{{style}}</div></td>
                   </tr>
                 </tbody>
-                <tbody  v-for="device in devices"  >
-                  <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive($index)" >
+                <tbody  v-for="(device, index) in devices"  >
+                  <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
                     <td><!-- <a href="#!/device/{{ device.id }}">manage</a>--></td>
                     <td style="font-weight: bold;" >  {{device.name}} </td>
                     <td >android</td>
                              <td  >300$</td>
                              <td v-if="device.show!=true" >ios</td><td v-else>  </td>
                              <td v-if="device.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
-                             <td v-if="device.show!=true"  ><div  v-for="capacity in device.modifications "  > {{capacity.value}}</div> </td><td v-else>  </td>
-                             <td v-if="device.show!=true"  > <div  v-for="style in device.modifications  "  > {{style.value}}</div></td><td v-else>  </td>
+                             <td v-if="device.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
+                             <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
                     <td v-show="device.show" transition="device"  class="detail" colspan="8" >
@@ -165,7 +165,7 @@
 </template>
 <script>
 import Vue from 'vue'
-
+import { filterByModificationsd} from './../filters.js'
 import devices from './../../api/device/devices';
 export default {
     name: "Devices",
@@ -173,8 +173,10 @@ export default {
       devices.getDevices(this);
     },
   methods: {
+      filterByModificationsd,
         setActive: function(index) {
             this.active = index;
+            console.log(this.devices[index]);
             this.devices[this.active].hide = !this.devices[this.active].hide;
             if (this.devices[this.active].show == true) {
                 this.devices[this.active].show = false;

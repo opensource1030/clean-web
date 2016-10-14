@@ -84,7 +84,7 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="capacitys in modifications.data " >
+                        <div class="checkbox" v-for="capacitys in filterByModifications(modifications.data,'capacity') " >
                           <label  >
                             <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity" :checked="capacitys.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
@@ -105,7 +105,7 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="styles in modifications.data"  >
+                        <div class="checkbox" v-for="styles in filterByModifications(modifications.data,'style')"  >
                           <label>
                             <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
@@ -250,7 +250,7 @@
 <script>
 import Vue from 'vue'
 import device from './../../api/device/device';
-import { findByPrices} from './../filters.js'
+import { findByPrices,filterByModifications} from './../filters.js'
 Vue.directive('f-accordion', {
     bind: function(el) {
         Vue.nextTick(function() {
@@ -383,6 +383,7 @@ export default {
     },
     methods: {
    findByPrices,
+  filterByModifications,
         submit:function(){
         if(this.id!=null ){
             device.updateDevice(this.id,this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);

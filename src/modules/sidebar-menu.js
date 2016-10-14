@@ -1,7 +1,9 @@
-require('foundation.sites')
+/*  var $j = require('jquery');
+
+require('foundation-sites')
   require('../modules/classie')
 
-  var $j = require('jquery');
+
 
 $j.sidebarMenu = function(menu) {
   var animationSpeed = 300;
@@ -48,3 +50,4 @@ $j(document).foundation();
       $j('.menu-left').toggleClass('test');
       $j('.content-right').toggleClass('test')
     });
+*/
