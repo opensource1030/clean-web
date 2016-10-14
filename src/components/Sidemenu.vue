@@ -69,7 +69,7 @@ export default {
 
         }).then((response) => {
 
-          this.$set('company', response.data);
+          this.company =response.data;
 
 
         });

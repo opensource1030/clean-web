@@ -1,14 +1,31 @@
 //
 // filters.js
 //
-
 function filterBy(list, value) {
   return list.filter(function(item) {
     return item.indexOf(value) > -1;
   });
 }
 
+function filterByModifications(list, value) {
+  return list.filter(function(item) {
+    return item.attributes.modType.indexOf(value) > -1;
+  });
+}
+function filterByModificationsd(list, value) {
+  return list.filter(function(item) {
+    return item.modType.indexOf(value) > -1;
+  });
+}
+
 function findBy(list,value){
+      return list.filter(function(item){
+              return  item==value;
+
+      })
+
+}
+function findByCapacity(list,value){
       return list.filter(function(item){
               return  item==value;
 
@@ -68,4 +85,4 @@ function reverse(value) {
   return value.split('').reverse().join('');
 }
 
-export {filterBy, reverse, findByPrices,findBy}
+export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd}

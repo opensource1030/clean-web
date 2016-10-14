@@ -10,24 +10,34 @@ export default {
 
     getDevices(context) {
 
-        context.$http.get(process.env.URL_API + '/devices?page=3&include=modifications,carriers,companies,prices,images').then((response) => {
+        context.$http.get(process.env.URL_API + '/devices?page=1&include=modifications,carriers,companies,prices,images').then((response) => {
 
                         event = store.sync(response.data)
 
                     var    devices=[];
 
                         for(let device of event){
+                              if(device.images.length>0){
+                                device = Object.assign({}, device, {
+                                    show: false,
+                                    hide:true,
+                                    priceName:[],
+                                    image:process.env.URL_API+'/images/'+device.images[0].id
 
+                                });
+
+
+                              }else{
 
 
                           device = Object.assign({}, device, {
                               show: false,
                               hide:true,
                               priceName:[],
-                              image:process.env.URL_API+'/images/'+device.images[0].id
+                              image:'/assets/logo.png'
 
                           });
-
+                        }
                           for(let price of device.prices){
 
 
@@ -81,7 +91,7 @@ export default {
                         }
 
 
-                          context.$set('devices', devices);
+                          context.devices= devices;
 
 
             },

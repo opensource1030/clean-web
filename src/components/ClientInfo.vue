@@ -58,7 +58,7 @@
 
         }).then((response) => {
 
-          this.$set('client', response.data);
+          this.client= response.data;
 
 
         });
