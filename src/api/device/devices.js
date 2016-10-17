@@ -4,7 +4,7 @@ import auth from './../auth.js'
 
 var {Store} = require('yayson')()
 var    store = new Store()
-
+import {filterByFilters} from './../../components/filters.js';
 export default {
           device:{},
 
@@ -14,6 +14,21 @@ export default {
             params:{include:'modifications,carriers,companies,prices,images',page:page}
 
         }).then((response) => {
+
+              let prices=    filterByFilters(response.data.included,'prices');
+              context.filterPrice=prices
+              let modifications=    filterByFilters(response.data.included,'modifications');
+
+              context.filterModifications=modifications;
+                let deviceTypes=    filterByFilters(response.data.included,'devicetypes');
+
+              context.filterDeviceType=deviceTypes;
+
+                  let carriers=    filterByFilters(response.data.included,'carriers');
+                    context.filterCarriers=carriers;
+
+
+
 
                         event = store.sync(response.data)
 

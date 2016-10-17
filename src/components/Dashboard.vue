@@ -172,13 +172,11 @@
 
 
   import auth from './../api/auth'
-
   require('initial-js');
   require('jquery-match-height');
   require('jquery.soap');
   require('jquery-validation');
   require('highcharts');
-
   import Breadcrumb from './Breadcrumb.vue'
   import ClientInfo from './ClientInfo.vue'
   import ChargeInfo from './ChargeInfo.vue'
