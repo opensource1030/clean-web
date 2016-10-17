@@ -27,7 +27,7 @@
                 <tr>
                 <td>{{ item.bill_month }}</td>
                 <td v-if="allocation">{{ allocation.first_name }}</td>
-                <td><!--<a href="tel:{{ item.mobile_number }}">{{ item.mobile_number }}</a>--></td>
+                <td><a  v-bind="{ href: 'tel:'}">{{ item.mobile_number }}</a></td>
                 <td>{{ item.carrier }}</td>
                 <td>{{ item.device }}</td>
                 <td>{{ item.allocated_charge }}</td>

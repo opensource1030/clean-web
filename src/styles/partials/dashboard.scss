@@ -63,6 +63,27 @@
         }
       }
     }
+    &.coming-soon{
+      position: relative;
+      &:before{
+        background: transparentize($smoke,.1);
+        content: "Coming Soon";
+        font-size: 25px;
+        font-weight: 600;
+        height: 100%;
+        left: 0;
+        line-height: 300px;
+        padding-top: 0;
+        position: absolute;
+        text-align: center;
+        text-shadow: 0 0 5px #fff;
+        text-transform: uppercase;
+        top: 0;
+        width: 100%;
+        z-index: 5;
+
+      }
+    }
   }
 
 }
@@ -470,8 +491,8 @@
 .client-info{
   font-weight: 300;
   border-color:rgba(0, 0, 0, 0.10);
+  padding: 0 0 0 1rem;
   border:none;
-  padding: 0;
   z-index: -1;
   font-size: 0.9125rem;
   h2{
@@ -492,7 +513,7 @@ a.btn-provision:hover .support-form-holder{
   width: 430px;
   position: fixed;
   top: 0;
-  z-index: 9;
+  z-index: 99;
   height: 100%;
   .columns{
     position: relative;

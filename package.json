@@ -26,6 +26,7 @@
     "sass-material-colors": "0.0.5",
     "slicknav": "^1.0.8",
     "vue": "^2.0.1",
+    "vue-avatar": "^2.0.0",
     "vue-breadcrumbs": "^0.3.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",

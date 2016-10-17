@@ -5,9 +5,12 @@ import 'script!jquery'
 import NProgress from 'nprogress'
 import Breadcrumb from 'vue-breadcrumbs'
 import './styles/app.scss'
+import './../node_modules/font-awesome/scss/font-awesome.scss'
 //foundation js
 import 'script!what-input'
 import 'script!foundation-sites'
+
+
 
 $(document).foundation();
 //initial routes
@@ -29,6 +32,7 @@ import Device from './components/views/Device.vue'
 Vue.use(VueRouter)
 Vue.use(Resource)
 Vue.use(Breadcrumb)
+
 
 
 // Set up a new router

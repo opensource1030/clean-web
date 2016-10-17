@@ -5,7 +5,7 @@
       <header class="box-heading">
         <h2>Trend by Category- Custom</h2>
       </header>
-      <div class="box-content">
+      <div class="box-content coming-soon">
         <div id="trend-category">
 
         </div>
