@@ -8,9 +8,12 @@ var    store = new Store()
 export default {
           device:{},
 
-    getDevices(context) {
+    getDevices(context,page) {
 
-        context.$http.get(process.env.URL_API + '/devices?page=1&include=modifications,carriers,companies,prices,images').then((response) => {
+        context.$http.get(process.env.URL_API + '/devices', {
+            params:{include:'modifications,carriers,companies,prices,images',page:page}
+
+        }).then((response) => {
 
                         event = store.sync(response.data)
 
