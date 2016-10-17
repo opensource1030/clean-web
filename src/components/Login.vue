@@ -40,7 +40,7 @@
 <script>
 import auth from './../api/auth';
 export default {
-  name: "Login",
+  
 data() {
   return {
     // We need to initialize the component with any
@@ -55,8 +55,6 @@ data() {
 methods: {
 
   submit() {
-
-
 
     auth.login(this,this.credentials, 'dashboard')
   }

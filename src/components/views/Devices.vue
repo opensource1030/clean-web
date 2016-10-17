@@ -14,7 +14,7 @@
 
           <div class="small-12 columns" >
 
-            <table   class="responsive">
+            <table  id="devices-table">
               <thead>
                 <tr>
                   <th >
@@ -165,12 +165,17 @@
 </template>
 <script>
 import Vue from 'vue'
-import { filterByModificationsd} from './../filters.js'
+import { filterByModificationsd} from './../filters.js';
+
 import devices from './../../api/device/devices';
+
 export default {
     name: "Devices",
     created() {
-      devices.getDevices(this);
+      bus.$on('#devices-table', function(page) {
+      devices.getDevices(this,page);
+});
+
     },
   methods: {
       filterByModificationsd,

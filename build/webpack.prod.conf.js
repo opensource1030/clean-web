@@ -15,8 +15,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assetsPath('file.js'),
-    chunkFilename: utils.assetsPath('chunkfile.js')
+    filename: utils.assetsPath('build.js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
 
   plugins: [
