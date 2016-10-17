@@ -23,7 +23,8 @@
 </template>
 <script>
 /*import auth from './../api/auth'*/
-require('../modules/classie')
+var classie = require('../modules/classie');
+
 export default {
     name: "Morphsearch",
   mounted(){

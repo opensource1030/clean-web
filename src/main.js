@@ -10,6 +10,8 @@ import './../node_modules/font-awesome/scss/font-awesome.scss'
 import 'script!what-input'
 import 'script!foundation-sites'
 
+
+
 $(document).foundation();
 //initial routes
 import App from './app.vue'
@@ -30,6 +32,7 @@ import Device from './components/views/Device.vue'
 Vue.use(VueRouter)
 Vue.use(Resource)
 Vue.use(Breadcrumb)
+
 
 
 // Set up a new router
