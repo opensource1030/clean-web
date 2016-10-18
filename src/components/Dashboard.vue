@@ -166,25 +166,15 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-
-
-  import auth from './../api/auth'
-  require('initial-js');
-  require('jquery-match-height');
-  require('jquery.soap');
-  require('jquery-validation');
-  require('highcharts');
-=======
   var {Store} = require('yayson')()
   var  store = new Store()
+  require('script!jquery');
   require('script!jquery.soap');
   require('../modules/jquery.serialize-object');
   require('script!jquery-validation');
   require('highcharts');
   import auth from './../api/auth'
   import Avatar from 'vue-avatar/dist/Avatar'
->>>>>>> c824a4bcb68ac1d8f216806dc4be18d262168d66
   import Breadcrumb from './Breadcrumb.vue'
   import ClientInfo from './ClientInfo.vue'
   import ChargeInfo from './ChargeInfo.vue'
