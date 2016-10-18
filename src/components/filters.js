@@ -6,6 +6,11 @@ function filterBy(list, value) {
     return item.indexOf(value) > -1;
   });
 }
+function filterByFilters(list, value) {
+  return list.filter(function(item) {
+    return item.type.indexOf(value) > -1;
+  });
+}
 
 function filterByModifications(list, value) {
   return list.filter(function(item) {
@@ -85,4 +90,4 @@ function reverse(value) {
   return value.split('').reverse().join('');
 }
 
-export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd}
+export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd,filterByFilters}

@@ -168,6 +168,7 @@
 <script>
   var {Store} = require('yayson')()
   var  store = new Store()
+  require('script!jquery');
   require('script!jquery.soap');
   require('../modules/jquery.serialize-object');
   require('script!jquery-validation');

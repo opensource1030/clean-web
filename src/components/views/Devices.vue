@@ -21,38 +21,38 @@
                   </th>
                   <th ><select class="form-control" v-model="type" >
                     <option value="" type>Device Type</option>
-                    <option v-for="item in items"  :value="item.id" >{{item.type}}</option>
+                    <option v-for="item in filterDeviceType"  :value="item.id" >{{item.attributes.class}}</option>
 
                   </select></th>
                   <th >
                     <select class="form-control" v-model="manufactured" >
                       <option value="" manufactured>Manufactured</option>
-                      <option v-for="item in items"  :value="item.id">{{item.manufactured}}</option>
+                      <option v-for="item in filterDeviceType"  :value="item.id">{{item.attributes.make}}</option>
 
                     </select> </th>
                     <th ><select class="form-control" v-model="price" >
                       <option value="" price>Price</option>
-                      <option v-for="item in items"  :value="item.id">{{item.price}}</option>
+                      <option v-for="item in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="os" >
                       <option value="" os>OS</option>
-                      <option v-for="item in items"  :value="item.id">{{item.os}}</option>
+                      <option v-for="item in filterDeviceType" :key="item.attributes.deviceOS" :value="item.id"   >{{item.attributes.deviceOS}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="carrier" >
                       <option value="" carrier>Carrier</option>
-                      <option v-for="item in items"  :value="item.id">{{item.carrier}}</option>
+                      <option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="capacity" >
                       <option value="" capacity>Capacity</option>
-                      <option v-for="item in items"  :value="item.id">{{item.capacity}}</option>
+                      <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="style" >
                       <option value="" style>Style</option>
-                      <option v-for="item in items"  :value="item.id">{{item.style}}</option>
+                      <option v-for="item in filterByModifications(filterModifications,'style')"  :value="item.id">{{item.attributes.value}}</option>
 
                     </select></th>
                   </tr>
@@ -165,20 +165,21 @@
 </template>
 <script>
 import Vue from 'vue'
-import { filterByModificationsd} from './../filters.js';
+import { filterByModificationsd,filterByModifications} from './../filters.js';
 
 import devices from './../../api/device/devices';
 
 export default {
     name: "Devices",
     created() {
-      bus.$on('#devices-table', function(page) {
-      devices.getDevices(this,page);
-});
+    /*  bus.$on('#devices-table', function(page) {*/
+      devices.getDevices(this,1);
+/*});*/
 
     },
   methods: {
       filterByModificationsd,
+      filterByModifications,
         setActive: function(index) {
             this.active = index;
             console.log(this.devices[index]);
@@ -199,8 +200,21 @@ export default {
     data() {
         return {
             active:0,
-            devices:[]
+            devices:[],
+            filterModifications:[],
+            filterDeviceType:[],
+            filterPrice:[],
+            filterCarriers:[],
+            type:'',
+            manufactured:'',
+            os:'',
+            carrier:'',
+            capacity:'',
+            style:'',
+            price:''
+
         }
     }
+
 }
 </script>
