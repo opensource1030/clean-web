@@ -115,6 +115,10 @@
 
 
                       </div>
+
+                    </div>
+                    <div class="row">
+                        <pagination :pagination="pagination" :callback="loadData"></pagination>
                     </div>
                   </div>
                 </li>
@@ -132,11 +136,9 @@
 
 
                     </div>
-        <ul class="pagination" role="navigation" aria-label="Pagination">
-  <li class="pagination-previous"><a>Previus</a></li>
-  <li >Page <div class="current" >1</div> of <div class="current" >3</div> </li>
-  <li class="pagination-next"><a>Next</a></li>
-</ul>
+                    <div class="row">
+                        <pagination :pagination="pagination" :callback="loadData"></pagination>
+                    </div>
 
                   </div>
                 </li>
@@ -164,6 +166,8 @@
                           </label>
                         </div>
 
+
+
                       </div>
 
                 <!--      <div class="small-2  small-offset-1   columns">
@@ -182,7 +186,9 @@
                         </ul>
                       </div>-->
                     </div>
-
+                    <div class="row">
+                        <pagination :pagination="pagination" :callback="loadData"></pagination>
+                    </div>
                   </div>
                 </li>
                 <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
@@ -250,6 +256,7 @@
 <script>
 import Vue from 'vue'
 import device from './../../api/device/device';
+import Pagination from '../pagination'
 import { findByPrices,filterByModifications} from './../filters.js'
 Vue.directive('f-accordion', {
     bind: function(el) {
@@ -259,9 +266,11 @@ Vue.directive('f-accordion', {
     }
 });
 export default {
-    name: "Device",
+    components: {
+   pagination: Pagination
+ },
     created(){
-        device.getDevice(this,this.companyFilter);
+    device.getDevice(this,this.pagination.current_page);
         this.id = this.$route.params.id;
            if(this.id!=null ){
            device.getDataDevice(this,this.id)
@@ -384,6 +393,11 @@ export default {
     methods: {
    findByPrices,
   filterByModifications,
+      loadData(){
+
+            device.getDevice(this,this.pagination.current_page);
+
+      },
         submit:function(){
         if(this.id!=null ){
             device.updateDevice(this.id,this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);
@@ -496,6 +510,14 @@ this.pricePost.$set(i, extending);
             /*filter */
             filter:{capacity:'',style:'',carrier:'',company:''},
             companyFilter:'*',
+            pagination:{
+              current_page:1,
+              total_pages:null,
+              count:null,
+              total:null,
+              per_page:25
+            },
+
             d:{
               name:'',
               description:'',

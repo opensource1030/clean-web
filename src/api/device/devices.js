@@ -8,27 +8,21 @@ import {filterByFilters} from './../../components/filters.js';
 export default {
           device:{},
 
-    getDevices(context,page) {
+    getDevices(context,pages) {
 
         context.$http.get(process.env.URL_API + '/devices', {
-            params:{include:'modifications,carriers,companies,prices,images',page:page}
+            params:{include:'modifications,carriers,companies,prices,images',page:pages/*,filter[][like]:deviceType*/}
 
         }).then((response) => {
-
-              let prices=    filterByFilters(response.data.included,'prices');
+    context.pagination=response.data.meta.pagination;
+            let prices=    filterByFilters(response.data.included,'prices');
               context.filterPrice=prices
-              let modifications=    filterByFilters(response.data.included,'modifications');
-
+            /*  let modifications=    filterByFilters(response.data.included,'modifications');
               context.filterModifications=modifications;
                 let deviceTypes=    filterByFilters(response.data.included,'devicetypes');
-
               context.filterDeviceType=deviceTypes;
-
                   let carriers=    filterByFilters(response.data.included,'carriers');
-                    context.filterCarriers=carriers;
-
-
-
+                    context.filterCarriers=carriers;*/
 
                         event = store.sync(response.data)
 
@@ -46,7 +40,6 @@ export default {
 
 
                               }else{
-
 
                           device = Object.assign({}, device, {
                               show: false,
@@ -75,9 +68,8 @@ export default {
                                   price = Object.assign({}, price, {
                                     style:modification.value,
                                   });
-
                                 }
-                                if(modification.id==price.capacityId){
+                              else if(modification.id==price.capacityId){
                                   price = Object.assign({}, price, {
                                     capacity:modification.value,
                                   });
@@ -109,7 +101,7 @@ export default {
                         }
 
 
-                          context.devices= devices;
+                         context.devices= devices;
 
 
             },
@@ -121,6 +113,48 @@ export default {
             (response) => {
 
             });
+          },
+
+          getDevice(context) {
+
+            context.$http.get(process.env.URL_API + '/devicetypes',{
+
+                params:{page:1}
+
+            }).then((response) => {
+
+                    context.filterDeviceType= response.data.data;
+
+
+                },
+                (response) => {
+
+                });
+
+              context.$http.get(process.env.URL_API + '/modifications',{
+
+                  params:{page:1}
+
+              }).then((response) => {
+
+                    context.filterModifications= response.data.data;
+
+
+                  },
+                  (response) => {
+
+                  });
+
+
+              context.$http.get(process.env.URL_API + '/carriers', {
+                  params:{page:1,'filter[active]':1}
+              }).then((response) => {
+
+                  context.filterCarriers= response.data.data;
+                  },
+                  (response) => {});
+
+
           }
 
 

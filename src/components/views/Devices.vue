@@ -37,7 +37,7 @@
                     </select></th>
                     <th ><select class="form-control" v-model="os" >
                       <option value="" os>OS</option>
-                      <option v-for="item in filterDeviceType" :key="item.attributes.deviceOS" :value="item.id"   >{{item.attributes.deviceOS}}</option>
+                      <option v-for="item in filterDeviceType"  :value="item.id"   >{{item.attributes.deviceOS}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="carrier" >
@@ -157,29 +157,40 @@
 
                 </tbody>
               </table>
-
+<pagination :pagination="pagination" :callback="loadData"></pagination>
             </div>
+
           </div>
+
         </div>
       </div>
 </template>
 <script>
 import Vue from 'vue'
 import { filterByModificationsd,filterByModifications} from './../filters.js';
-
+import Pagination from '../pagination'
 import devices from './../../api/device/devices';
 
 export default {
-    name: "Devices",
+    components: {
+   pagination: Pagination
+ },
     created() {
     /*  bus.$on('#devices-table', function(page) {*/
-      devices.getDevices(this,1);
-/*});*/
+
+/*});*/  devices.getDevice(this);
 
     },
   methods: {
       filterByModificationsd,
       filterByModifications,
+      loadData(){
+        devices.getDevices(this,this.pagination.current_page);
+
+
+
+      },
+
         setActive: function(index) {
             this.active = index;
             console.log(this.devices[index]);
@@ -204,6 +215,13 @@ export default {
             filterModifications:[],
             filterDeviceType:[],
             filterPrice:[],
+            pagination:{
+              current_page:1,
+              total_pages:null,
+              count:null,
+              total:null,
+              per_page:25
+            },
             filterCarriers:[],
             type:'',
             manufactured:'',

@@ -54,7 +54,7 @@ const routes= [
     { path: '/sso/:id', component: Sso,name:'sso' },
     { path: '/sidemenu', component: Sidemenu },
     {path: '/devices',component:Devices,name:'devices',meta: { requiresAuth: true }},
-    {path: '/device/:id',component:Device,name:'device',meta: { requiresAuth: true }},
+    {path: '/device/:id',component:Device,name:'devicem',meta: { requiresAuth: true }},
     {path: '/device',component:Device,name:'device',meta: { requiresAuth: true }},
     { path: '*', redirect: '/dashboard' }
 ]

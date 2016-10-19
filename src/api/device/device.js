@@ -148,11 +148,11 @@ for(let modification of this.modificationsCheck.data){
 /*---------------------------------create device---------------------------------------*/
 
 
-    getDevice(context) {
+    getDevice(context,page) {
 
       context.$http.get(process.env.URL_API + '/devicetypes',{
 
-          params:{page:1}
+          params:{page:page}
 
       }).then((response) => {
 
@@ -166,7 +166,7 @@ for(let modification of this.modificationsCheck.data){
 
         context.$http.get(process.env.URL_API + '/modifications',{
 
-            params:{page:1}
+            params:{page:page}
 
         }).then((response) => {
                 for(let modification of response.data.data){
@@ -174,7 +174,7 @@ for(let modification of this.modificationsCheck.data){
 
                  }
               context.modifications= response.data;
-            
+
 
             },
             (response) => {
@@ -183,7 +183,7 @@ for(let modification of this.modificationsCheck.data){
 
 
         context.$http.get(process.env.URL_API + '/carriers', {
-            params:{page:1,'filter[active]':1}
+            params:{page:page,'filter[active]':1}
         }).then((response) => {
                for(let carrier of response.data.data){
 
@@ -197,10 +197,10 @@ for(let modification of this.modificationsCheck.data){
 
         context.$http.get(process.env.URL_API + '/companies',{
 
-            params:{'page[10]':1,'filter[active]':1}
+            params:{'page':page,'filter[active]':1}
 
         }).then((response) => {
-
+context.pagination=response.data.meta.pagination;
                 for(let company of response.data.data){
 
                          this.companiesCheck.data.push(company);
