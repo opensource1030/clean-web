@@ -201,10 +201,12 @@
   $('.page-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
+      var $modalredirect = $('#modal');
       e.preventDefault();
-      $('.for-dashboard').show(100);
+      $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
       setTimeout(function() {
         $('.for-dashboard').hide(100);
+        $modalredirect.foundation('close');
         window.location=link;
       }, 2000);
     });
