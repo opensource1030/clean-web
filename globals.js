@@ -1,5 +1,5 @@
 var args = require('minimist')(process.argv);
-var localStorage = require ('localstorage')
+
 var globalSite = ''
 
 function getSite() {
