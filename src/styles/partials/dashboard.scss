@@ -414,6 +414,7 @@
   }
   position: fixed;
   width: 200px;
+  z-index: 99;
   background: #434A4F;
   height: 100%;
   left: 0;
@@ -476,6 +477,7 @@
 }
 .content-right{
   padding-left: 200px;
+  padding-bottom: 50px;
   &.test{
     padding-left:50px ;
   }
