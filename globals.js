@@ -1,5 +1,4 @@
 var args = require('minimist')(process.argv);
-
 var globalSite = ''
 
 function getSite() {

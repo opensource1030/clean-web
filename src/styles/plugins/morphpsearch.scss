@@ -178,8 +178,8 @@ input[type="search"] {
     top: 0;
     left: 50%;
     border-radius: 3px;
-    opacity: 0.2;
-    background: #000;
+    opacity: 0.7;
+    background: $white;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
@@ -191,8 +191,8 @@ input[type="search"] {
     top: 0;
     left: 50%;
     border-radius: 3px;
-    opacity: 0.2;
-    background: #000;
+    opacity: 0.7;
+    background: $white;
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
@@ -295,7 +295,7 @@ input[type="search"] {
     min-height: 1000px !important;
     height: 100% !important;
     width: 100%;
-    margin-top: -29px !important;
+    margin-top: 0 !important;
     overflow: scroll;
     max-height: 10000px !important;
     padding-bottom: 300px !important;

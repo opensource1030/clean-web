@@ -5,11 +5,5 @@ import Login from 'src/components/Login.vue'
 describe('Login.vue', () => {
 it('Render Login Component', () => {
 const vm = new Vue(Login).$mount();
-
-
-  
-
-
-
  })
 })

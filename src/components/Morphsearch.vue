@@ -9,7 +9,7 @@
     <div class="morphsearch-content">
       <!-- Helpjuice Knowledge base code -->
       <div id="helpjuice_js_widget_content">
-        <img src='//helpjuice.com/images/cube-theme/loading.gif' class="helpjuice-loading-spinner" />
+        <iframe src="http://w-analytics.helpscoutdocs.com/"> </iframe>
       </div>
 
 
