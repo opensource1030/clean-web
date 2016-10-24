@@ -1,5 +1,5 @@
 <template>
-  <div>
+
   <div class="content-right">
     <div class="full-height row">
       <div id="device">
@@ -37,7 +37,8 @@
                         </label>
                         <label>Device Type
                           <select v-model="d.type">
-                            <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
+
+                            <option v-for="devicet in deviceType.data"   :value="devicet.id" d.type>{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
 
                           </select>
                         </label>
@@ -84,9 +85,10 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="capacitys in filterByModifications(modifications.data,'capacity') " >
+                        <div class="checkbox" v-for="capacitys in mCapacity "  >
                           <label  >
-                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity" :checked="capacitys.check" >
+
+                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity"   v-bind:true-value="capacitys.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{capacitys.attributes.value}}
                           </label>
@@ -105,7 +107,7 @@
                           </div>
                         </div>
 
-                        <div class="checkbox" v-for="styles in filterByModifications(modifications.data,'style')"  >
+                        <div class="checkbox" v-for="styles in mStyle"  >
                           <label>
                             <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
@@ -122,10 +124,10 @@
                   <a href="#" class="accordion-title" @click="showFalse()" >Carriers</a>
                   <div class="accordion-content carriers"  data-tab-content   v-f-accordion>
                     <div class="imagescheck">
-                      <div class="crop"  v-for="carrier in carriers.data"  >
+                      <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
 
-                        <label   class="static"    >
-                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',$index)"  v-model="vCarriers"   :checked="carrier.check" >
+                        <label   class="static" :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + carrier.images[0].id +')',backgroundSize:'124px,124px' }"   >
+                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',index)"  v-model="vCarriers"   :checked="carrier.check" >
 
                         </label>
                       </div>
@@ -156,9 +158,9 @@
                     </div>
                     <div class="row">
                       <div class="small-4 columns"  >
-                        <div class="checkbox"  v-for="company in companies.data  "   >
+                        <div class="checkbox"  v-for="(company,index) in companies.data "   >
                           <label>
-                            <input    type="checkbox"   :value="company" id="commpa" v-model="vCompanies" :checked="company.check" >
+                            <input    type="checkbox"    :id="'comp'+index" v-model="company.check"   >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{company.attributes.name}}
                           </label>
@@ -185,7 +187,7 @@
 
                   </div>
                 </li>
-                <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
+               <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
                   <a  href="#"  class="accordion-title" @click="toggle()"  >   Prices  </a>
                   <div class="filterprices" v-show="show">
                     <select class="form-control" v-model="filter.capacity" >
@@ -198,7 +200,7 @@
                     </select>
                     <select class="form-control" v-model="filter.carrier" >
                       <option value="" filter.carrier>Carrier</option>
-                      <option value="" v-for="carrier in vCarriers" :value="carrier.attributes.presentation" >{{carrier.attributes.presentation}}</option>
+                      <option value="" v-for="carrier in vCarriers" :value="carrier.presentation" >{{carrier.presentation}}</option>
                     </select>
                     <select class="form-control"  v-model="filter.company">
                       <option value="" filter.company>Company</option>
@@ -228,7 +230,7 @@
                           <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceOwn" @keyup="updateOwn($index,$event)"  ></div></td>
                           <td><div class="features">{{p.capacity.attributes.value}}</div></td>
                           <td><div class="features">{{p.style.attributes.value}}</div></td>
-                          <td><div class="features">{{p.carrier.attributes.presentation}}</div></td>
+                          <td><div class="features">{{p.carrier.presentation}}</div></td>
                           <td style=" font-weight: bold;"><div class="features">{{p.company.attributes.name}}</div></td>
                         </tr>
                       </tbody>
@@ -246,6 +248,8 @@
           </div>
         </div>
       </div>
+    </div>
+
 </template>
 <script>
 import Vue from 'vue'
@@ -261,14 +265,52 @@ Vue.directive('f-accordion', {
 export default {
     name: "Device",
     created(){
-        device.getDevice(this,this.companyFilter);
+        device.getDevice(this,1);
         this.id = this.$route.params.id;
            if(this.id!=null ){
            device.getDataDevice(this,this.id)
         }
    },
     computed: {
-        priceTable: function() {
+      mCapacity(){
+        let value='capacity';
+
+        return this.modifications.data.filter(function(item) {
+          return item.attributes.modType.indexOf(value) > -1;
+        });
+
+      },
+      mStyle(){
+        let value='style';
+        return this.modifications.data.filter(function(item) {
+          return item.attributes.modType.indexOf(value) > -1;
+        });
+
+      },
+      vStyles(){
+        return  this.mStyle.filter(style => {
+          return style.check;
+        })
+      },
+      vCapacity(){
+        return this.mCapacity.filter(capacity => {
+          return capacity.check;
+        })
+
+      },
+
+      vCompanies() {
+     return this.companies.data.filter(company => {
+       return company.check;
+     })
+   },
+
+vCarriers() {
+return this.carriers.data.filter(carrier => {
+ return carrier.check;
+})
+},
+       priceTable() {
               if(this.priceData.length>0 && this.vCompanies.length > 0 && this.vStyles.length > 0 && this.vCapacity.length > 0 && this.vCarriers.length > 0 ){
                this.pricess=[];
                 var a = false;
@@ -378,12 +420,11 @@ export default {
              else {
                 return '';
             }
-            }
+          }
         },
     },
     methods: {
    findByPrices,
-  filterByModifications,
         submit:function(){
         if(this.id!=null ){
             device.updateDevice(this.id,this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);
@@ -397,7 +438,7 @@ else{
           this.$nextTick(function() {
               var i=0;
               for(let carrier of vm.carriers.data){
-                    if(carrier.check=='checked'){
+                    if(carrier.check==true){
                       vm.changeStatusCarrier('active',i);
                     }
                 i++;
@@ -442,6 +483,12 @@ this.pricePost.$set(i, extending);
                   this.pricePost.push(price);
             }
           }
+        },
+        changeStatusCompany:function(index){
+            this.companies.data[index].check = !this.companies.data[index].check;
+            console.log(this.companies.data[index].check);
+
+
         },
         showFalse: function() {
             this.show = false;
@@ -490,9 +537,7 @@ this.pricePost.$set(i, extending);
             },
             /*Values checkboxes*/
             vCarriers: [],
-            vStyles: [],
-            vCompanies:[],
-            vCapacity:[],
+
             /*filter */
             filter:{capacity:'',style:'',carrier:'',company:''},
             companyFilter:'*',
@@ -508,7 +553,7 @@ this.pricePost.$set(i, extending);
             gigas: '',
             color: '',
             /*Api arrays*/
-            carriers: [],
+            carriers: {data:[]},
             companies: [],
             modifications:[],
             deviceType:[],
@@ -523,6 +568,8 @@ this.pricePost.$set(i, extending);
             /*errors*/
             error: '',
             /*css modificacions*/
+            checked:true,
+            unchecked:false,
             show: false,
             shadow: "initial",
         }

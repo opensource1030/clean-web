@@ -13,15 +13,25 @@ function filterByFilters(list, value) {
 }
 
 function filterByModifications(list, value) {
+    if(list!=null){
+
   return list.filter(function(item) {
     return item.attributes.modType.indexOf(value) > -1;
   });
+}
+return ;
 }
 function filterByModificationsd(list, value) {
   return list.filter(function(item) {
     return item.modType.indexOf(value) > -1;
   });
 }
+function filterByCarrier(list, value) {
+  return list.filter(function(item) {
+    return item.id.indexOf(value) > -1;
+  });
+}
+
 
 function findBy(list,value){
       return list.filter(function(item){
@@ -65,7 +75,7 @@ function findByPrices(list, filter) {
 
                 if(filter.carrier!=""){
 
-                      mostrar=mostrar && filter.carrier==item.carrier.attributes.presentation;
+                      mostrar=mostrar && filter.carrier==item.carrier.presentation;
 
                 }
                 if(filter.company!=""){
@@ -90,4 +100,4 @@ function reverse(value) {
   return value.split('').reverse().join('');
 }
 
-export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd,filterByFilters}
+export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd,filterByFilters,filterByCarrier}

@@ -84,7 +84,9 @@ export default {
                       this.carrierCheck(context,event.carriers)
                       this.companyCheck(context,event.companies)
                       context.modifications= this.modificationsCheck;
+
                         context.companies= this.companiesCheck;
+                        context.vCompanies=this.companiesCheck;
                         context.checkcarrier();
 
             },
@@ -98,10 +100,13 @@ export default {
 
       var i=0;
  for(let carrier of this.carriersCheck.data){
-                carrier.check='';
+
+              carrier.check=false;
+
           for(let carrierData of carriersD){
                 if(carrier.id==carrierData.id){
-                  carrier.check='checked';
+
+                carrier.check=true;
 
                     break;
                 }
@@ -115,10 +120,10 @@ export default {
 
 
 for(let company of this.companiesCheck.data){
-               company.check='';
+               company.check=false;
          for(let companyData of companiesD){
                if(company.id==companyData.id){
-                 company.check='checked';
+                 company.check=true;
 
                    break;
                }
@@ -132,10 +137,10 @@ for(let company of this.companiesCheck.data){
 
 
 for(let modification of this.modificationsCheck.data){
-              modification.check='';
+              modification.check=false;
         for(let modificationData of modificationsD){
               if(modification.id==modificationData.id){
-                modification.check='checked';
+                modification.check=true;
 
                   break;
               }
@@ -148,11 +153,11 @@ for(let modification of this.modificationsCheck.data){
 /*---------------------------------create device---------------------------------------*/
 
 
-    getDevice(context) {
+    getDevice(context,page) {
 
       context.$http.get(process.env.URL_API + '/devicetypes',{
 
-          params:{page:1}
+          params:{page:page}
 
       }).then((response) => {
 
@@ -166,7 +171,7 @@ for(let modification of this.modificationsCheck.data){
 
         context.$http.get(process.env.URL_API + '/modifications',{
 
-            params:{page:1}
+            params:{page:page}
 
         }).then((response) => {
                 for(let modification of response.data.data){
@@ -174,7 +179,7 @@ for(let modification of this.modificationsCheck.data){
 
                  }
               context.modifications= response.data;
-            
+
 
             },
             (response) => {
@@ -183,24 +188,28 @@ for(let modification of this.modificationsCheck.data){
 
 
         context.$http.get(process.env.URL_API + '/carriers', {
-            params:{page:1,'filter[active]':1}
+            params:{page:page,'filter[active]':1,include:'images'}
         }).then((response) => {
-               for(let carrier of response.data.data){
+                        event = store.sync(response.data);
+                        console.log(event);
+                        //process.env.URL_API
+
+               for(let carrier of event){
 
                         this.carriersCheck.data.push(carrier);
 
 
                 }
-            context.carriers= response.data;
+            context.carriers.data= event;
             },
             (response) => {});
 
         context.$http.get(process.env.URL_API + '/companies',{
 
-            params:{'page[10]':1,'filter[active]':1}
+            params:{'page':page,'filter[active]':1}
 
         }).then((response) => {
-
+context.pagination=response.data.meta.pagination;
                 for(let company of response.data.data){
 
                          this.companiesCheck.data.push(company);
@@ -211,11 +220,6 @@ for(let modification of this.modificationsCheck.data){
 context.companies =response.data;
 
             },
-
-            {
-                headers: auth.getAuthHeader()
-            },
-
             (response) => {
 
             });
