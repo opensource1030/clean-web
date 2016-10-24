@@ -8,11 +8,11 @@
     max-width: 45%;
     display: block;
     padding-bottom: 8px;
-    border-bottom: 1px rgba($smoke,0.3) solid;
+    border-bottom: 1px rgba($brand-dark,0.6) solid;
   }
 }
 .login{
-  background: $bg-login;
+  background: lighten($bg-login,30%);
   position: fixed;
   width: 100%;
   height: 100%;
@@ -27,21 +27,22 @@
 .title{
   font-size: 35px;
   letter-spacing: 5px;
-  text-shadow: 0 0 15px rgba($smoke,0.7);
-  font-weight: 700;
-  margin: 0 0 0.5rem;
+  /*text-shadow: 0 0 15px rgba($smoke,0.7);*/
   padding: 0;
   text-align: center;
   text-transform: uppercase;
   .version{
-    color: rgba($smoke,0.4);
-    font-size: 15px;
+    color: rgba($brand-blue,0.8);
+    font-size: 20px;
     text-transform: lowercase;
     display: inline-block;
     vertical-align: bottom;
     padding-bottom: 0.9rem;
     font-weight: 700;
     @include css3(text-shadow,none);
+  }
+  img{
+    max-width: 90%;
   }
 }
 .by{

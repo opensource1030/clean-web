@@ -4,7 +4,7 @@
   <div class="column large-12">
     <div class="default callout client-info" >
       <h2 v-if="client.object" >  {{client.object.title }}</h2>
-      <div v-if="client.object" v-html="client.object.metafields[3].value" >  </div>
+      <div v-if="client.object" v-html="client.object.metafields[2].value" >  </div>
 
     </div>
   </div>
