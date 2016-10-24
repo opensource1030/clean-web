@@ -8,7 +8,7 @@
                 <h4>Manage Devices<h4>
           </div>
           <div class="small-12 columns" >
-            <a class="button" href="#!/device"  >Add device</a>
+            <a class="button" href="/device"  >Add device</a>
           </div>
 
 
@@ -21,7 +21,7 @@
                   </th>
                   <th ><select class="form-control" v-model="type" >
                     <option value="" type>Device Type</option>
-                    <option v-for="item in filterDeviceType"  :value="item.id" >{{item.attributes.class}}</option>
+                    <option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>
 
                   </select></th>
                   <th >
@@ -71,7 +71,7 @@
                 </tbody>
                 <tbody  v-for="(device, index) in devices"  >
                   <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
-                    <td><!-- <a href="#!/device/{{ device.id }}">manage</a>--></td>
+                    <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{device.name}} </td>
                     <td >android</td>
                              <td  >300$</td>
@@ -97,7 +97,7 @@
                           <div class="listPrice" v-for="carrier in device.carriers"  :key="carrier.id" >
 
                           <ul>
-                            <li   v-for="price in device.prices   "  :key="price.id" >{{price.priceRetail}}$</li>
+                            <li   v-for="price in filterByCarrier(device.prices,'carrierId' )  "  :key="price.id" >{{price.priceRetail}}$</li>
 
                           </ul>
                           <br>
@@ -132,7 +132,7 @@
                           <br>
                           <span>Capacity</span>
                           <ul>
-                            <li v-for="capacity in device.modifications  ">{{capacity.value}}</li>
+                            <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
 
 
                           </ul>
@@ -142,7 +142,7 @@
                           <br>
                           <span>Style</span>
                           <ul>
-                          <li v-for="style in device.modifications  ">{{style.value}}</li>
+                          <li v-for="style in filterByModificationsd(device.modifications,'style')  ">{{style.value}}</li>
 
 
                           </ul>
@@ -167,8 +167,8 @@
 </template>
 <script>
 import Vue from 'vue'
-import { filterByModificationsd,filterByModifications} from './../filters.js';
 import Pagination from '../pagination'
+import { filterByModificationsd,filterByModifications,filterByCarrier} from './../filters.js';
 import devices from './../../api/device/devices';
 
 export default {
@@ -184,12 +184,16 @@ export default {
   methods: {
       filterByModificationsd,
       filterByModifications,
+
       loadData(){
         devices.getDevices(this,this.pagination.current_page);
 
 
 
       },
+
+
+      filterByCarrier,
 
         setActive: function(index) {
             this.active = index;
