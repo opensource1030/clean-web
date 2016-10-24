@@ -88,7 +88,7 @@
                         <div class="checkbox" v-for="capacitys in mCapacity "  >
                           <label  >
 
-                            <input type="checkbox"  :value="capacitys" id="modi" v-model="capacity.check" >
+                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity"   v-bind:true-value="capacitys.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{capacitys.attributes.value}}
                           </label>
@@ -109,7 +109,7 @@
 
                         <div class="checkbox" v-for="styles in mStyle"  >
                           <label>
-                            <input type="checkbox"  :value="styles"  id="st" v-model="styles.check" >
+                            <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{styles.attributes.value}}
                           </label>
@@ -117,10 +117,6 @@
 
 
                       </div>
-
-                    </div>
-                    <div class="row">
-                        <pagination :pagination="pagination" :callback="loadData"></pagination>
                     </div>
                   </div>
                 </li>
@@ -130,17 +126,19 @@
                     <div class="imagescheck">
                       <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
 
-                        <label   class="static"   >
-                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',index)"  v-model="carrier.check"   >
+                        <label   class="static" :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + carrier.images[0].id +')',backgroundSize:'124px,124px' }"   >
+                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',index)"  v-model="vCarriers"   :checked="carrier.check" >
 
                         </label>
                       </div>
 
 
                     </div>
-                    <div class="row">
-                        <pagination :pagination="pagination" :callback="loadData"></pagination>
-                    </div>
+        <ul class="pagination" role="navigation" aria-label="Pagination">
+  <li class="pagination-previous"><a>Previus</a></li>
+  <li >Page <div class="current" >1</div> of <div class="current" >3</div> </li>
+  <li class="pagination-next"><a>Next</a></li>
+</ul>
 
                   </div>
                 </li>
@@ -168,8 +166,6 @@
                           </label>
                         </div>
 
-
-
                       </div>
 
                 <!--      <div class="small-2  small-offset-1   columns">
@@ -188,9 +184,7 @@
                         </ul>
                       </div>-->
                     </div>
-                    <div class="row">
-                        <pagination :pagination="pagination" :callback="loadData"></pagination>
-                    </div>
+
                   </div>
                 </li>
                <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
@@ -260,7 +254,6 @@
 <script>
 import Vue from 'vue'
 import device from './../../api/device/device';
-import Pagination from '../pagination'
 import { findByPrices,filterByModifications} from './../filters.js'
 Vue.directive('f-accordion', {
     bind: function(el) {
@@ -270,14 +263,9 @@ Vue.directive('f-accordion', {
     }
 });
 export default {
-    components: {
-   pagination: Pagination
- },
+    name: "Device",
     created(){
-
-    device.getDevice(this,this.pagination.current_page);
-
-
+        device.getDevice(this,1);
         this.id = this.$route.params.id;
            if(this.id!=null ){
            device.getDataDevice(this,this.id)
@@ -286,20 +274,18 @@ export default {
     computed: {
       mCapacity(){
         let value='capacity';
-          if(this.modifications==[]){
-        return this.modifications.data.filter(function(item) {
 
+        return this.modifications.data.filter(function(item) {
           return item.attributes.modType.indexOf(value) > -1;
         });
-}
+
       },
       mStyle(){
         let value='style';
-        if(this.modifications==[] ){
         return this.modifications.data.filter(function(item) {
           return item.attributes.modType.indexOf(value) > -1;
         });
-}
+
       },
       vStyles(){
         return  this.mStyle.filter(style => {
@@ -439,15 +425,6 @@ return this.carriers.data.filter(carrier => {
     },
     methods: {
    findByPrices,
-
-
-      loadData(){
-
-            device.getDevice(this,this.pagination.current_page);
-
-      },
-
-
         submit:function(){
         if(this.id!=null ){
             device.updateDevice(this.id,this,this.pricePost,this.vStyles,this.vCapacity,this.vCarriers,this.vCompanies,this.d,this.image);
@@ -564,14 +541,6 @@ this.pricePost.$set(i, extending);
             /*filter */
             filter:{capacity:'',style:'',carrier:'',company:''},
             companyFilter:'*',
-            pagination:{
-              current_page:1,
-              total_pages:null,
-              count:null,
-              total:null,
-              per_page:25
-            },
-
             d:{
               name:'',
               description:'',
