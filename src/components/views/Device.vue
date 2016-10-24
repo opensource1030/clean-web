@@ -88,7 +88,7 @@
                         <div class="checkbox" v-for="capacitys in mCapacity "  >
                           <label  >
 
-                            <input type="checkbox"  :value="capacitys" id="modi" v-model="vCapacity"   v-bind:true-value="capacitys.check" >
+                            <input type="checkbox"  :value="capacitys" id="modi" v-model="capacity.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{capacitys.attributes.value}}
                           </label>
@@ -109,7 +109,7 @@
 
                         <div class="checkbox" v-for="styles in mStyle"  >
                           <label>
-                            <input type="checkbox"  :value="styles"  id="st" v-model="vStyles" :checked="styles.check">
+                            <input type="checkbox"  :value="styles"  id="st" v-model="styles.check" >
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{styles.attributes.value}}
                           </label>
@@ -130,8 +130,8 @@
                     <div class="imagescheck">
                       <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
 
-                        <label   class="static" :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + carrier.images[0].id +')',backgroundSize:'124px,124px' }"   >
-                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',index)"  v-model="vCarriers"   :checked="carrier.check" >
+                        <label   class="static"   >
+                          <input type="checkbox"  :value="carrier"   @click="changeStatusCarrier('active',index)"  v-model="carrier.check"   >
 
                         </label>
                       </div>
@@ -286,18 +286,20 @@ export default {
     computed: {
       mCapacity(){
         let value='capacity';
-
+          if(this.modifications==[]){
         return this.modifications.data.filter(function(item) {
+
           return item.attributes.modType.indexOf(value) > -1;
         });
-
+}
       },
       mStyle(){
         let value='style';
+        if(this.modifications==[] ){
         return this.modifications.data.filter(function(item) {
           return item.attributes.modType.indexOf(value) > -1;
         });
-
+}
       },
       vStyles(){
         return  this.mStyle.filter(style => {

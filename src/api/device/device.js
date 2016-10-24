@@ -71,8 +71,8 @@ export default {
 
                       event = store.sync(response.data)
                       console.log(event.images);
-                    context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
-                    context.image.id=event.images[0].id;
+                  //  context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
+                  //  context.image.id=event.images[0].id;
 
                     context.d.name=event.name;
                     context.d.description=event.properties;
