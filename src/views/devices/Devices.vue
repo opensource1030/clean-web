@@ -1,16 +1,15 @@
 <template>
-<div class="content-right">
+  <div class="content-right">
     <div id="devices">
-        <div class="header"></div>
-        <div class="expanded row">
+      <div class="header"></div>
+      <div class="expanded row">
 
-            <div class="small-12 columns titles">
-                <h4>Manage Devices<h4>
+        <div class="small-12 columns titles">
+          <h4>Manage Devices<h4>
           </div>
           <div class="small-12 columns" >
-            <a class="button" href="#!/device"  >Add device</a>
+            <a class="button" href="/device"  >Add device</a>
           </div>
-
 
           <div class="small-12 columns" >
 
@@ -21,7 +20,7 @@
                   </th>
                   <th ><select class="form-control" v-model="type" >
                     <option value="" type>Device Type</option>
-                    <option v-for="item in filterDeviceType"  :value="item.id" >{{item.attributes.class}}</option>
+                    <option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>
 
                   </select></th>
                   <th >
@@ -37,7 +36,7 @@
                     </select></th>
                     <th ><select class="form-control" v-model="os" >
                       <option value="" os>OS</option>
-                      <option v-for="item in filterDeviceType" :key="item.attributes.deviceOS" :value="item.id"   >{{item.attributes.deviceOS}}</option>
+                      <option v-for="item in filterDeviceType"  :value="item.id"   >{{item.attributes.deviceOS}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="carrier" >
@@ -71,14 +70,14 @@
                 </tbody>
                 <tbody  v-for="(device, index) in devices"  >
                   <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
-                    <td><!-- <a href="#!/device/{{ device.id }}">manage</a>--></td>
+                    <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{device.name}} </td>
                     <td >android</td>
-                             <td  >300$</td>
-                             <td v-if="device.show!=true" >ios</td><td v-else>  </td>
-                             <td v-if="device.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
-                             <td v-if="device.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
-                             <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
+                    <td  >300$</td>
+                    <td v-if="device.show!=true" >ios</td><td v-else>  </td>
+                    <td v-if="device.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
+                    <td v-if="device.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
+                    <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
                     <td v-show="device.show" transition="device"  class="detail" colspan="8" >
@@ -96,12 +95,12 @@
                         <div class="prices child">
                           <div class="listPrice" v-for="carrier in device.carriers"  :key="carrier.id" >
 
-                          <ul>
-                            <li   v-for="price in device.prices   "  :key="price.id" >{{price.priceRetail}}$</li>
+                            <ul>
+                              <li   v-for="price in filterByCarrier(device.prices,'carrierId' )  "  :key="price.id" >{{price.priceRetail}}$</li>
 
-                          </ul>
-                          <br>
-                        </div>
+                            </ul>
+                            <br>
+                          </div>
 
                         </div>
 
@@ -113,18 +112,13 @@
                           <div class="information">
                             <span style="font-weight: bold;" >Technical Information</span><br>
                             {{device.properties}}
-
-
                           </div>
                         </div>
                         <div class="carrrier child"  :class="{ 'up': device.show}" >
                           <span style="font-weight: bold;">  Availability:</span><br>
                           <span>Provider</span>
                           <ul>
-
                             <li v-for="carrier in device.carriers">{{carrier.name}}</li>
-
-
                           </ul>
 
                         </div>
@@ -132,8 +126,7 @@
                           <br>
                           <span>Capacity</span>
                           <ul>
-                            <li v-for="capacity in device.modifications  ">{{capacity.value}}</li>
-
+                            <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
 
                           </ul>
 
@@ -142,79 +135,22 @@
                           <br>
                           <span>Style</span>
                           <ul>
-                          <li v-for="style in device.modifications  ">{{style.value}}</li>
-
-
+                            <li v-for="style in filterByModificationsd(device.modifications,'style')  ">{{style.value}}</li>
                           </ul>
-
                         </div>
                       </div>
-
-
                     </td>
 
                   </tr>
 
                 </tbody>
               </table>
-
+              <pagination :pagination="pagination" :callback="loadData"></pagination>
             </div>
+
           </div>
+          
         </div>
       </div>
 </template>
-<script>
-import Vue from 'vue'
-import { filterByModificationsd,filterByModifications} from './../filters.js';
-
-import devices from './../../api/device/devices';
-
-export default {
-    name: "Devices",
-    created() {
-    /*  bus.$on('#devices-table', function(page) {*/
-      devices.getDevices(this,1);
-/*});*/
-
-    },
-  methods: {
-      filterByModificationsd,
-      filterByModifications,
-        setActive: function(index) {
-            this.active = index;
-            console.log(this.devices[index]);
-            this.devices[this.active].hide = !this.devices[this.active].hide;
-            if (this.devices[this.active].show == true) {
-                this.devices[this.active].show = false;
-            } else {
-                for (var i = 0; i < this.devices.length; i++) {
-                    if (this.devices[this.active] == this.devices[i]) {
-                        this.devices[this.active].show = true;
-                    } else {
-                        this.devices[i].show = false;
-                    }
-                }
-            }
-        }
-    },
-    data() {
-        return {
-            active:0,
-            devices:[],
-            filterModifications:[],
-            filterDeviceType:[],
-            filterPrice:[],
-            filterCarriers:[],
-            type:'',
-            manufactured:'',
-            os:'',
-            carrier:'',
-            capacity:'',
-            style:'',
-            price:''
-
-        }
-    }
-
-}
-</script>
+<script  src="./devices.js" lang="babel"  ></script>
