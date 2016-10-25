@@ -2,102 +2,102 @@
 // filters.js
 //
 function filterBy(list, value) {
-  return list.filter(function(item) {
+  return list.filter(function (item) {
     return item.indexOf(value) > -1;
   });
 }
+
 function filterByFilters(list, value) {
-  return list.filter(function(item) {
+  return list.filter(function (item) {
     return item.type.indexOf(value) > -1;
   });
 }
 
 function filterByModifications(list, value) {
-    if(list!=null){
+  if (list != null) {
 
-  return list.filter(function(item) {
-    return item.attributes.modType.indexOf(value) > -1;
-  });
+    return list.filter(function (item) {
+      return item.attributes.modType.indexOf(value) > -1;
+    });
+  }
+
+  return;
 }
-return ;
-}
+
 function filterByModificationsd(list, value) {
-  return list.filter(function(item) {
+  return list.filter(function (item) {
     return item.modType.indexOf(value) > -1;
   });
 }
+
 function filterByCarrier(list, value) {
-  return list.filter(function(item) {
+  return list.filter(function (item) {
     return item.id.indexOf(value) > -1;
   });
 }
 
+function findBy(list, value) {
+  return list.filter(function (item) {
+          return item == value;
 
-function findBy(list,value){
-      return list.filter(function(item){
-              return  item==value;
-
-      })
+        });
 
 }
-function findByCapacity(list,value){
-      return list.filter(function(item){
-              return  item==value;
 
-      })
+function findByCapacity(list, value) {
+  return list.filter(function (item) {
+          return item == value;
+
+        });
 
 }
 
 function findByPrices(list, filter) {
 
-        if(list.length>0){
+  if (list.length > 0) {
 
-          if(filter.style=="" && filter.capacity=="" && filter.carrier=="" && filter.company==""){
+    if (filter.style == '' && filter.capacity == '' && filter.carrier == '' && filter.company == '') {
 
-            return list;
-          }
+      return list;
+    }
 
+    return list.filter(function (item) {
+              var mostrar = true;
+              if (filter.capacity != '') {
 
+                mostrar = mostrar && filter.capacity == item.capacity.attributes.value;
 
-    return  list.filter(function(item) {
-                var mostrar=true;
-                if(filter.capacity!=""){
+              }
 
-                      mostrar=mostrar && filter.capacity==item.capacity.attributes.value;
+              if (filter.style != '') {
 
-                }
+                mostrar = mostrar && filter.style == item.style.attributes.value;
 
-                if(filter.style!=""){
+              }
 
-                      mostrar=mostrar && filter.style==item.style.attributes.value;
+              if (filter.carrier != '') {
 
-                }
+                mostrar = mostrar && filter.carrier == item.carrier.presentation;
 
-                if(filter.carrier!=""){
+              }
 
-                      mostrar=mostrar && filter.carrier==item.carrier.presentation;
+              if (filter.company != '') {
 
-                }
-                if(filter.company!=""){
+                mostrar = mostrar && filter.company == item.company.attributes.name;
 
-                      mostrar=mostrar && filter.company==item.company.attributes.name;
+              }
 
-                }
+              return mostrar;
 
-                return mostrar
+            });
 
-          });
-
+  } else {
+    return '';
+  }
 }
-
-else{
-  return ''
-}
-}
-
 
 function reverse(value) {
   return value.split('').reverse().join('');
 }
 
-export {filterBy, reverse, findByPrices,findBy,filterByModifications,filterByModificationsd,filterByFilters,filterByCarrier}
+export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier};

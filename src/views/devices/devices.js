@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Pagination from './../../components/pagination'
+import Vue from 'vue';
+import Pagination from './../../components/pagination';
 import {
   filterByModificationsd,
   filterByModifications,
@@ -10,7 +10,7 @@ import devices from './../../api/device/devices';
 export default {
 
   components: {
-    pagination: Pagination
+    pagination: Pagination,
   },
   created() {
     /*  bus.$on('#devices-table', function(page) {*/
@@ -19,6 +19,7 @@ export default {
     devices.getDevice(this);
 
   },
+
   methods: {
     filterByModificationsd,
     filterByModifications,
@@ -26,14 +27,11 @@ export default {
     loadData() {
       devices.getDevices(this, this.pagination.current_page);
 
-
-
     },
-
 
     filterByCarrier,
 
-    setActive: function(index) {
+    setActive: function (index) {
       this.active = index;
       console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
@@ -48,7 +46,7 @@ export default {
           }
         }
       }
-    }
+    },
   },
   data() {
     return {
@@ -62,7 +60,7 @@ export default {
         total_pages: null,
         count: null,
         total: null,
-        per_page: 25
+        per_page: 25,
       },
       filterCarriers: [],
       type: '',
@@ -71,9 +69,9 @@ export default {
       carrier: '',
       capacity: '',
       style: '',
-      price: ''
+      price: '',
 
-    }
-  }
+    };
+  },
 
-}
+};
