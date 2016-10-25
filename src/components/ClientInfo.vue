@@ -27,7 +27,7 @@
       </header>
       <div class="box-content">
         <div class="action-button" id="action-buttons">
-          <a class="button" href="javascript:;">Request Provision</a>
+          <a class="button" href="http://app.wirelessanalytics.com/helpdesk/r_1.asp" target="_blank">Request Provision</a>
           <a class="button btn-provision"  href="#">Get Support</a>
 
         </div>
