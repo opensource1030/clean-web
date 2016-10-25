@@ -53,11 +53,6 @@ module.exports = function (config) {
         browsers: ['PhantomJS'],
         frameworks: ['mocha', 'sinon-chai'],
         reporters: ['spec', 'coverage', 'progress'],
-        junitReporter: {
-            outputDir: '../../$CIRCLE_ARTIFACTS/',
-            useBrowserName: false,
-            outputFile: 'test-results.xml'
-        },
         files: ['./index.js'],
         preprocessors: {
             './index.js': ['webpack', 'sourcemap']
