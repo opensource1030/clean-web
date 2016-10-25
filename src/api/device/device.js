@@ -1,6 +1,6 @@
-import {
-  router
-} from './../../app'
+// import {
+//   router
+// } from 'vue-router'
 import Vue from 'vue'
 import auth from './../auth.js'
 var {
