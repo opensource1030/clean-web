@@ -27,7 +27,7 @@ module Slackistrano
       {
         attachments: [{
           color: 'good',
-          title: 'CLEAN WEB Deployed :boom::bangbang:',
+          title: 'CLEAN Web App Deployed :boom::rocket:',
           fields: [{
             title: 'Environment',
             value: stage,

@@ -14,7 +14,7 @@ import 'script!foundation-sites'
 
 $(document).foundation();
 //initial routes
-import App from './app.vue'
+import App from './App.vue'
 import Sso from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
