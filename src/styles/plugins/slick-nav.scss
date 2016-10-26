@@ -1,0 +1,41 @@
+@import "node_modules/slicknav/scss/slicknav";
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
+.slicknav_nav {
+  a,
+  .slicknav_row{
+    margin: 2px 0;
+    @include css3(border-radius,0);
+    &:hover{
+      background: $black;
+      color:$white;
+      @include css3(border-radius,0);
+
+    }
+  }
+  .slicknav_arrow{
+    float: right;
+  }
+  .menu-title{
+    margin: 2px 5px;
+    padding: 5px 10px;
+  }
+}
+.slicknav_menu{
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
+    .top-bar-section{
+      padding-bottom: 0;
+    }
+    li{
+
+      &.logo{
+        display: none;
+      }
+    }
+    .fa-angle-down{
+      display: none;
+    }
+  }
+}

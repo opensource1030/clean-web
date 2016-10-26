@@ -1,36 +1,29 @@
-# Installation Process
+# CLEAN Web App
 
-- **Install gulp and bower globally**
-    - *gulp* : 
-    
-    ```
-    npm install -g gulp
-    ```
-    - *bower* :
-     ```
-    npm install -g bower
-    ```
-- **Install all project dependencies**
- 
-    ``` 
-    npm install
-    ```
-- **Install front end packages**
+## Build Setup
 
-    ```
-    bower install
-    ```
-- **To build the Front End**  ( It will automatically run the html in default browser and started to watch changes )
-     ```
-        gulp
-    ```
-    
-   
+``` bash
+# install dependencies
+npm install
 
-**Note: In case of _EACCES: permission denied_ issue for bower:**
+# serve with hot reload at localhost:8080
+npm run dev
 
+# build for production with minification
+npm run build
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
-sudo chown -R $USER:$GROUP ~/.npm
-sudo chown -R $USER:$GROUP ~/.config
 
-```
+For detailed explanation on how things work, checkout the [webpack guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+[![Code Climate](https://codeclimate.com/repos/580f8280bcefe9007c001de8/badges/ab683df30958d894650a/gpa.svg)](https://codeclimate.com/repos/580f8280bcefe9007c001de8/feed)
+
+[![Test Coverage](https://codeclimate.com/repos/580f8280bcefe9007c001de8/badges/ab683df30958d894650a/coverage.svg)](https://codeclimate.com/repos/580f8280bcefe9007c001de8/coverage)

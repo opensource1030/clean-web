@@ -1,25 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dest
-/tmp
-
-# dependencies
-/node_modules
-/bower_components
-vendor/*
-!/vendor/.gitignore
-
-
-
-# misc
-/gitflow
-/.sass-cache
-/connect.lock
-/coverage/*
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/.capistrano
 .DS_Store
-.idea
+node_modules/
+dist/
+npm-debug.log
+test/unit/coverage
+test/e2e/reports
+selenium-debug.log
+.idea/*
+$CIRCLE_ARTIFACTS
+

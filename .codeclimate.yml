@@ -1,0 +1,23 @@
+engines:
+  eslint:
+    enabled: true
+    config:
+      extensions:
+      - .es6
+      - .js
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+
+ratings:
+  paths:
+  - "src/**"
+  - "test/unit/**"
+  - "**.es6"
+  - "**.js"
+
+exclude_paths:
+- node_modules/**/*
+- dist/**/*

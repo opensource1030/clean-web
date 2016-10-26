@@ -1,0 +1,18 @@
+@import "plugins/material-color";
+@import "base/clean-variables";
+@import "base/base";
+@import "mixins/other-mixin";
+
+
+@import "plugins/slick-nav";
+@import "plugins/morphpsearch";
+@import "mixins/other-mixin";
+@import "modules/all-modules";
+
+@import "partials/dashboard";
+@import "partials/sidebar-menu";
+@import "partials/footer";
+@import "partials/devices";
+@import "partials/nprogress";
+
+.w1{overflow: hidden;}
