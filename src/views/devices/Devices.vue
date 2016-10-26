@@ -149,8 +149,8 @@
             </div>
 
           </div>
-          
+
         </div>
       </div>
 </template>
-<script  src="./devices.js" lang="babel"  ></script>
+<script  src="./devices.crtl.js" lang="babel"  ></script>

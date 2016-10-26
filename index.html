@@ -10,5 +10,21 @@
 
 </div>
 
+<!-- Integration code of onboardX -->
+<script type="text/javascript">
+window.onboardX = {
+  'onepage' : false, //true if your app is single page application type
+  'obx_domain' : 'onboardx.com', //don't change
+  'app': 'K69Qyz', //don't change
+  'email':'dummy@onboardx.com', //required
+  'name':'Louis', //required
+  'signed_up':1771129444, //required (timestamp)
+  //optional parameters
+  'plan_type':'trial',
+  'anything':44
+};
+(function(o,b,x){ var a=o.createElement(b);a.type="text/javascript";a.async=!0;a.src=x;var s=o.getElementsByTagName(b)[0];s.parentNode.insertBefore(a,s);})(document,"script","//cdn."+window.onboardX.obx_domain+"/obx.js");
+</script>
+
 </body>
 </html>

@@ -6,43 +6,42 @@ module.exports = {
     props: {
         pagination: {
             type: Object,
-            required: true
-        },
+            required: true,
+          },
         callback: {
             type: Function,
-            required: true
-        }
+            required: true,
+          },
 
-
-    },
-    created(){
-      this.init()
+      },
+    created() {
+      this.init();
 
     },
 
     methods: {
-        init(){
+        init() {
           this.callback();
         },
 
-        next(page){
-          if(this.pagination.current_page==this.pagination.total_pages){
-            this.current_page=this.pagination.total_pages;
+        next(page) {
+          if (this.pagination.current_page == this.pagination.total_pages) {
+            this.current_page = this.pagination.total_pages;
 
-          }else{
-            this.pagination.current_page=page+1;
+          }else {
+            this.pagination.current_page = page + 1;
             this.callback();
           }
         },
-        previusPage(page){
-          if(this.pagination.current_page==1){
-            this.pagination.current_page=1;
-          }else{
-          this.pagination.current_page=page-1;
-          this.callback();
-        }
-        }
 
+        previusPage(page) {
+          if (this.pagination.current_page == 1) {
+            this.pagination.current_page = 1;
+          }else {
+            this.pagination.current_page = page - 1;
+            this.callback();
+          }
+        },
 
-    }
-};
+      },
+  };
