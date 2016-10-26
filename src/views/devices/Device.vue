@@ -214,4 +214,4 @@
           </div>
         </div>
 </template>
-<script src="./device.js" lang="babel"  ></script>
+<script src="./device.crtl.js" lang="babel"  ></script>
