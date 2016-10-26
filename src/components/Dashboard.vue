@@ -22,7 +22,19 @@
 
       <!-- end of top nav -->
       <div class="clearfix"></div>
-      <breadcrumb></breadcrumb>
+      <nav class="level app-levelbar">
+        <div class="level-left">
+          <div class="level-item">
+            <h3 class="subtitle is-5">
+              <strong>{{ name }}</strong>
+            </h3>
+          </div>
+        </div>
+
+        <div class="level-right is-hidden-mobile">
+          <breadcrumb :list="list"><breadcrumb>
+        </div>
+      </nav>
       <client-Info> </client-Info>
       <div class="clearfix"></div>
       <charge-Info> </charge-Info>
@@ -175,7 +187,7 @@
   require('highcharts');
   import auth from './../api/auth'
   import Avatar from 'vue-avatar/dist/Avatar'
-  import Breadcrumb from './Breadcrumb.vue'
+  import Breadcrumb from 'vue-bulma-breadcrumb'
   import ClientInfo from './ClientInfo.vue'
   import ChargeInfo from './ChargeInfo.vue'
   import Morphsearch from './Morphsearch.vue'
@@ -195,6 +207,17 @@
 
 
     },
+
+
+ computed: {
+   name () {
+     return this.$route.name
+   },
+
+   list () {
+     return this.$route.matched
+   }
+ },
 
     mounted(){
 
