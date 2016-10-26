@@ -45,8 +45,8 @@
     </ul>
     <div class="nav-poweredby">
       <span class="text-copyright">Powered By</span>
-      <img class="img-full" src="/assets/wa_logo.png" alt="Wireless Analytics">
-      <img class="img-collapse" src="/assets/logo.png" alt="Wireless Analytics">
+      <img class="img-full" src="./../assets/wa-logo.png" alt="Wireless Analytics">
+      <img class="img-collapse" src="./../assets/logo.png" alt="Wireless Analytics">
     </div>
   </section>
 

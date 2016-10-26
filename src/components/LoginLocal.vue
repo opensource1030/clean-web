@@ -3,7 +3,7 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-    <img src="/assets/wa_logo.png" alt="Wireless Analytics">
+    <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
 <div v-if="error" v-show="error">
 <div   class="is-error callout" data-closable>
 <h5>{{error}}</h5>

@@ -302,7 +302,7 @@ export default {
     return {
       /*image default device*/
       image: {
-        url: "/assets/logo.png",
+        url: "./../assets/logo.png",
         id: 0
       },
       /*filter */
