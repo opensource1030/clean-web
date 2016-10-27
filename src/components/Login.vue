@@ -2,7 +2,7 @@
 <div>
   <div class="bg-login">
     <div class="login">
-  <div class="large-4 large-centered columns login-form-holder">
+  <div class="large-4 large-centered medium-8 medium-centered  columns login-form-holder">
     <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
@@ -12,12 +12,12 @@
 
     </div>
       </div>
-    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><sup class="version"> v4.0.0</sup> </h1>
+    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><span class="version"> v4.0.0</span> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
           <form   v-on:submit.prevent="submit()">
-            <div class="large-12 columns">
+            <div class="large-12  columns">
               <div class="input-group bg-orange">
                 <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
                 <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" />
