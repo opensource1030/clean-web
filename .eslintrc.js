@@ -2,19 +2,12 @@ module.exports = {
   root: true,
   parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module',
-    ecmaVersion: 6,
+    sourceType: 'module'
   },
-  env: {
-    browser: true,
-    node: true,
-  },
-
-  // using AirBnB's sensible rules
-  extends: 'airbnb-base',
+  // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
 
   // required to lint *.vue files
   plugins: [
-    'html',
-  ],
-};
+    'html'
+  ]
+}
