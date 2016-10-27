@@ -4,8 +4,18 @@ machine:
 
 dependencies:
   override:
-    - npm install 
+    - npm install
 test:
   override:
   - npm run unit
-  - CODECLIMATE_REPO_TOKEN=$CodeClimateToken ./node_modules/.bin/codeclimate-test-reporter < test/unit/coverage/lcov.info
+
+deployment:
+  development:
+    branch: master
+    commands:
+      - bundle exec cap development deploy
+
+general:
+  branches:
+    ignore:
+      - gh-pages # list of branches to ignore

@@ -53,7 +53,7 @@ export default {
               show: false,
               hide: true,
               priceName: [],
-              image: '/assets/logo.png',
+              image: './../assets/logo.png'
 
             });
           }

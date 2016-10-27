@@ -3,7 +3,7 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered columns login-form-holder">
-    <img src="/assets/wa_logo.png" alt="Wireless Analytics">
+    <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
       <div class="container">
@@ -12,7 +12,7 @@
 
     </div>
       </div>
-    <h1 class="title"><img src="/assets/clean-platform.png" alt="Clean Platform"><sup class="version">v4.0.0</sup> </h1>
+    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><sup class="version"> v4.0.0</sup> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
@@ -40,7 +40,7 @@
 <script>
 import auth from './../api/auth';
 export default {
-  
+
 data() {
   return {
     // We need to initialize the component with any

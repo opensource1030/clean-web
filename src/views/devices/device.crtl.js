@@ -335,8 +335,8 @@ export default {
     return {
       /*image default device*/
       image: {
-        url: '/assets/logo.png',
-        id: 0,
+        url: "./../assets/logo.png",
+        id: 0
       },
       /*filter */
       filter: {
