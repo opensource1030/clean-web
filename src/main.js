@@ -3,7 +3,6 @@ import Resource from 'vue-resource'
 import VueRouter from 'vue-router'
 import 'script!jquery'
 import NProgress from 'nprogress'
-import Breadcrumb from 'vue-breadcrumbs'
 import './styles/app.scss'
 import './../node_modules/font-awesome/scss/font-awesome.scss'
 //foundation js
@@ -13,25 +12,13 @@ import 'script!foundation-sites'
 
 
 $(document).foundation();
-//initial routes
-import App from './App.vue'
-import Sso from './components/Sso.vue'
-import Login from './components/Login.vue'
-import Register from './components/Register.vue'
-import LoginLocal from './components/LoginLocal.vue'
-import Dashboard from './components/Dashboard.vue'
-import Sidemenu from './components/Sidemenu.vue'
-//auth router
-import auth from './api/auth.js'
-//views
-import Devices from './views/devices/Devices.vue'
-import Device from './views/devices/Device.vue'
+
 
 
 // Install plugins
 Vue.use(VueRouter)
 Vue.use(Resource)
-Vue.use(Breadcrumb)
+
 
 
 
@@ -46,58 +33,7 @@ Vue.http.interceptors.push((request, next) => {
     NProgress.done();
   });
 });
-const routes = [{
-  path: '/login',
-  component: Login,
-  name: 'login'
-}, {
-  path: '/register',
-  component: Register,
-  name: 'register'
-}, {
-  path: '/loginLocal',
-  component: LoginLocal,
-  name: 'loginlocal'
-}, {
-  path: '/dashboard',
-  component: Dashboard,
-  breadcrumb: 'Dashboard',
-  meta: {
-    requiresAuth: true
-  },
-  name: 'dashboard'
-}, {
-  path: '/sso/:id',
-  component: Sso,
-  name: 'sso'
-}, {
-  path: '/sidemenu',
-  component: Sidemenu
-}, {
-  path: '/devices',
-  component: Devices,
-  name: 'devices',
-  meta: {
-    requiresAuth: true
-  }
-}, {
-  path: '/device/:id',
-  component: Device,
-  name: 'devicem',
-  meta: {
-    requiresAuth: true
-  }
-}, {
-  path: '/device',
-  component: Device,
-  name: 'device',
-  meta: {
-    requiresAuth: true
-  }
-}, {
-  path: '*',
-  redirect: '/dashboard'
-}]
+
 
 // Route config
 const router = new VueRouter({
