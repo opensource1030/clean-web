@@ -5,7 +5,7 @@ module Slackistrano
     # The #ops channel must exist prior.
     def channels_for(action)
       if action == :failed
-        "#dev-ops"
+        "#dev-lobby"
       else
         super
       end

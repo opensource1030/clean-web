@@ -1,5 +1,4 @@
 role :app, %w{204.156.175.49}
-# role :app, %w{10.1.20.25}
 
 set :stage, :development
 set :branch, 'master'
