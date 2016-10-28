@@ -20,7 +20,7 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/images'),
       'components': path.resolve(__dirname, '../src/components'),
-      'views': path.resolve(__dirname, '../src/components/views')
+      'views': path.resolve(__dirname, '../src/views')
 
     }
   },
