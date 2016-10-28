@@ -14,7 +14,7 @@
               <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="data.object.title"></avatar> <span class="greeting"> Hi, {{ data.object.title }}</span></a> </div>
           <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
             <ul>
-              <li><a @click="logout()"  v-if="user.authenticated" >Logout</a></li>
+              <li><a @click="logout()"  v-if="user.authenticated" href="/login">Logout</a></li>
             </ul>
           </div>
         </div>

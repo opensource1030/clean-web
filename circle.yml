@@ -4,6 +4,7 @@ machine:
 
 dependencies:
   override:
+    - bundle install
     - npm install
 test:
   override:

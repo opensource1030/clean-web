@@ -1,12 +1,13 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
-.for-clean{
+.app-levelbar{
   background: $snow;
   color: #8c92a3;
   font-size: 12px;
   margin-bottom: 0.5rem;
+  padding: 13px 14px 2px 55px;
   /*  border-bottom: 1px material-color('grey','300') solid;*/
-  padding: 14px 14px 13px 55px;
+
   li{
     color: #8c92a3;
     font-size: rem-calc(12);
@@ -20,9 +21,26 @@
       position: relative;
       top: 1px;
     }
+    /*&:first-child{
+      &:before{
+        font-family: FontAwesome;
+        content: '';
+        display: inline-block;
+        margin-right: 0.5rem;
+      }
+
+    }*/
   }
   > * a {
     color: #8c92a3;
   }
+  .subtitle{
+    float: left;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin:0;
+    color: $charcoal;
+  }
 
 }
+

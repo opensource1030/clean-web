@@ -9,7 +9,8 @@
       <div class="box-content no-pad">
         <div class="wireless-overview">
           <table width="100%" class="responsive">
-            <tbody><tr>
+            <tbody>
+            <tr>
               <th>Bill Month</th>
               <th>User Name</th>
               <th>Mobile Number</th>
@@ -23,12 +24,12 @@
               <th width="20%"> Actions for this line</th>
             </tr>
 
-              <template v-for="item in allocation.allocations">
-                <tr>
+              <template  v-for="item in allocation.allocations">
+                <tr v-if="allocation">
                 <td>{{ item.bill_month }}</td>
                 <td v-if="allocation">{{ allocation.first_name }}</td>
                 <td><a  v-bind="{ href: 'tel:'}">{{ item.mobile_number }}</a></td>
-                <td>{{ item.carrier }}</td>
+                <td>{{ item.carrier }} fdamzvv</td>
                 <td>{{ item.device }}</td>
                 <td>{{ item.allocated_charge }}</td>
                 <td>{{ item.usage_charge }}</td>
@@ -48,10 +49,24 @@
                     </select>
                   </td>
                 </tr>
+
               </template>
+            <template>
+            <tr v-if="allocation">
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+              <td> - </td>
+            </tr>
 
-
-
+</template>
 
 
             </tbody></table>

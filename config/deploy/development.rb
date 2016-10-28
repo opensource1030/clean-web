@@ -1,7 +1,7 @@
 role :app, %w{204.156.175.49}
 
 set :stage, :development
-set :branch, 'feature/deployment-configuration'
+set :branch, 'master'
 set :deploy_to, '/home/deploy/webapps/app'
 
 set :log_level, :debug

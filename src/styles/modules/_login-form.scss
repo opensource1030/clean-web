@@ -4,7 +4,7 @@
   margin-top:100px;
   color:$white;
   > img{
-    margin: 0 auto 5px;
+    margin: 0 auto 8px;
     max-width: 45%;
     display: block;
     padding-bottom: 8px;
@@ -32,17 +32,19 @@
   text-align: center;
   text-transform: uppercase;
   .version{
-    color: rgba($brand-blue,0.8);
-    font-size: 20px;
+    color: rgba($brand-blue,0.4);
+    font-size: 16px;
+    letter-spacing: 8px;
     text-transform: lowercase;
-    display: inline-block;
+    display: block;
     vertical-align: bottom;
-    padding-bottom: 0.9rem;
-    font-weight: 700;
+    padding-bottom: 0.2rem;
     @include css3(text-shadow,none);
   }
   img{
-    max-width: 90%;
+    max-width: 47%;
+    display: block;
+    margin: 0 auto 0.6rem;
   }
 }
 .by{

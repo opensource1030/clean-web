@@ -81,9 +81,10 @@ export default {
         var intervalId = setInterval(function(){
           var token = localStorage.token;
           var id = localStorage.userId;
+          var email = localStorage.email;
           $('.page-link a').attr('href', function(index, href) {
 
-            var param = 'access_token='+ token;
+            var param = 'access_token='+ token + 'email=' + email;
 
             if (href.charAt(href.length - 1) === '?') //Very unlikely
               return href + param;
