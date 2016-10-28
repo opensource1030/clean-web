@@ -1,6 +1,6 @@
 # config valid only for current version of Capistrano
-set :application, 'clean-frontend'
-set :repo_url, 'git@github.com:WirelessAnalytics/clean-frontend.git'
+set :application, 'clean-web'
+set :repo_url, 'git@github.com:WirelessAnalytics/clean-web.git'
 
 # Slack Notifications
 set :slackistrano, {
@@ -10,7 +10,6 @@ set :slackistrano, {
     token: "xoxp-2153660998-7383443462-7449051621-4e69f4",
     channel:'#dev-lobby'
 }
-
 # Compile
 namespace :ops do
 
