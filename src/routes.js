@@ -23,7 +23,6 @@ import AddDevice from './views/employees/AddDevice.vue'
 import AddService from './views/employees/AddService.vue'
 import UpdateProfile from './views/employees/UpdateProfile.vue'
 
-
 /**
  * The routes
  *

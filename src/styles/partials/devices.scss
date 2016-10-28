@@ -54,6 +54,14 @@
                 height: 130px;
             }
         }
+    }
+
+    .active {
+        background-color: #F0EEDD;
+    }
+    .act {
+        background-color: #F0EEDD;
+    }
 
         .information {
             position: absolute;
@@ -182,7 +190,7 @@
             margin: 2rem;
             background-color: $iron;
 
-          
+
 
             .overview {
                 .phoneImg {
