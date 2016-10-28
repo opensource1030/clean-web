@@ -8,22 +8,16 @@ import './../node_modules/font-awesome/scss/font-awesome.scss'
 //foundation js
 import 'script!what-input'
 import 'script!foundation-sites'
-
-
+import App from './App.vue'
+import auth from './api/auth.js'
 
 $(document).foundation();
-
-
 
 // Install plugins
 Vue.use(VueRouter)
 Vue.use(Resource)
 
-
-
-
-// Set up a new router
-
+// Set auth
 
 auth.checkAuth();
 
@@ -34,19 +28,18 @@ Vue.http.interceptors.push((request, next) => {
   });
 });
 
-
+import routes from './routes';
 // Route config
 const router = new VueRouter({
   mode: 'history',
   routes
 })
-
 // For every new route scroll to the top of the page
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
   NProgress.start()
-
   next()
+
 })
 
 router.beforeEach((to, from, next) => {
@@ -66,10 +59,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   NProgress.done()
 })
-
-
-// If no route is matched redirect home
-
 
 // Start up our app
 new Vue({

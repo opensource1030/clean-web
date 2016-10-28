@@ -105,9 +105,6 @@ export default {
 
         context.devices = devices;
 
-      }, {
-        // Attach the JWT header
-        headers: auth.getAuthHeader(),
       },
 
       (response) => {
