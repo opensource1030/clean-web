@@ -30,7 +30,6 @@
             </h3>
           </div>
         </div>
-
         <div class="level-right is-hidden-mobile">
           <breadcrumb :list="list"><breadcrumb>
         </div>
@@ -193,7 +192,6 @@
   import Morphsearch from './Morphsearch.vue'
   import Piechart from './Piechart.vue'
   import Trendchart from './Trendchart.vue'
-
   export default {
     name: "Dashboard",
     components: {
@@ -204,23 +202,16 @@
       Piechart,
       Trendchart,
       Avatar
-
-
     },
-
-
  computed: {
    name () {
      return this.$route.name
    },
-
    list () {
      return this.$route.matched
    }
  },
-
     mounted(){
-
   $('.page-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
@@ -235,36 +226,26 @@
     });
     });
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
-
       }).then((response) => {
-
         var event = store.sync(response.data);
         var clientdata = event.company.contents[0].content;
-
         this.$http.get(clientdata, {
-
         }).then((response) => {
-
           this.data= response.data;
           setTimeout(function(){
             $(document).foundation();
           /*  $('.img-avatar').initial();*/
-            var $select = $('#support-form .user-actions'),
-                    $images = $('.mix');
-
+            var $select = $('#support-form .user-actions'), $images = $('.mix');
             $select.on('change', function () {
               var value = '.' + $(this).val();
               $images.show(200).not(value).hide();
             });
-
             var $selectOption = $('.wireless-overview .user-actions');
-
             $selectOption.on('change', function () {
               var value1 = $(this).val();
               $('.btn-provision').click();
               $select.prop('value', value1);
             });
-
             $('.btn-provision').click(function () {
               $('.support-form-holder').show(200);
             })
@@ -303,27 +284,17 @@
                     Pass: 'CLEANWebServices',
                     Catalog_GUID: 'simple',
                   },
-
                 });
               }
             });
           },300);
         });
-
-
       });
-
-
-
     },
     methods:{
       logout() {
         auth.logout()
-      },
-      fetchData : function(){
-
       }
-
     },
     data(){
       return {
@@ -331,8 +302,6 @@
         user: auth.user
       }
     }
-
-
   }
 
 
