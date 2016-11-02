@@ -180,6 +180,7 @@
   var {Store} = require('yayson')()
   var  store = new Store()
   require('script!jquery');
+  require('script!jquery-match-height');
   require('script!jquery.soap');
   require('../modules/jquery.serialize-object');
   require('script!jquery-validation');
@@ -209,9 +210,12 @@
    },
    list () {
      return this.$route.matched
-   }
+   },
+
+
  },
     mounted(){
+
   $('.page-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
@@ -235,6 +239,12 @@
           setTimeout(function(){
             $(document).foundation();
           /*  $('.img-avatar').initial();*/
+            $('.grid-box').matchHeight({
+              byRow: true,
+              property: 'height',
+              target: null,
+              remove: false
+            });
             var $select = $('#support-form .user-actions'), $images = $('.mix');
             $select.on('change', function () {
               var value = '.' + $(this).val();
@@ -294,6 +304,16 @@
     methods:{
       logout() {
         auth.logout()
+      },
+      grid(){
+        $(function() {
+          $('.grid-box').matchHeight({
+            byRow: true,
+            property: 'height',
+            target: null,
+            remove: false
+          });
+        });
       }
     },
     data(){
