@@ -28,19 +28,19 @@
   p:empty {
     display: none;
   }
-  margin-bottom: 1.4rem;
+  margin-bottom: rem-calc(15);
   /*  border:1px solid rgba(0, 0, 0, 0.09);*/
-  background: $white;
+  background: #FDFDFF;
   @include css3(border-radius,0);
   .box-heading{
-    background: $brand-dark;
+    background: $brand-orange;
     border-bottom:1px solid rgba(0, 0, 0, 0.04);
     padding:0.3rem 0.6rem;
     h2{
       /*   color: rgba(57, 67, 76, 1);*/
-      color: #fff;
-      font-size: 1.3rem;
-      font-weight: 600;
+      color: $black;
+      font-size: 0.9rem;
+      font-weight: 500;
       margin: 0;
       text-transform: capitalize;
 
@@ -55,7 +55,7 @@
       padding: 0.7rem 1rem 1rem;
     }
     &-holder{
-      padding: 0.7rem 0.6rem 0;
+      padding: 0.7rem 0.6rem ;
       p{
         margin-bottom: 0;
         &:first-child{
@@ -95,7 +95,8 @@
     padding-left: 0;
     border-bottom:1px solid $smoke;
     .fa{
-      margin-right: 18px;
+      margin-right: rem-calc(10);
+      font-size: rem-calc(13);
     }
     a{
       font-weight: 400;
@@ -132,11 +133,11 @@
     }
     th{
       background: $white;
-      line-height: 1.125rem;
-      font-weight: 700;
+      line-height: 1.110rem;
+      font-weight: 600;
       border-bottom:1px rgba(108, 122, 134, 0.08) solid;
       text-align: left;
-      padding: 0.7rem 0.56667rem;
+      padding: 0.1rem 0.56667rem;
     }
     td{
       padding: 0.53333rem 0.56667rem 0.56667rem;
@@ -174,13 +175,12 @@
   }
 }
 .action-button{
-  padding:1rem 0.2rem;
+  padding:0  0 1rem;
   position: relative;
   .button{
     font-weight: 600;
     margin-bottom: 0;
     padding:0.475rem 0.8rem 0.5375rem;
-    font-size: 14px;
   }
 }
 .search-container{
@@ -415,12 +415,13 @@
   position: fixed;
   width: 200px;
   z-index: 99;
-  background: #434A4F;
+  background: $sidebar-bg;
   height: 100%;
   left: 0;
   .icon-close{
     position: absolute;
-    right: -27px;
+    right: -25px;
+    font-size: 0.8rem;
     top: 90px;
     padding: 1px 9px;
     background: #2E3337;
@@ -430,7 +431,7 @@
   &.test{
     width: 50px;
     .icon-close{
-      top:52px;
+      top:45px;
     }
     .sidebar-menu{
       > li {
@@ -497,8 +498,9 @@
   border:none;
   z-index: -1;
   font-size: 0.9125rem;
+  background: transparent;
   h2{
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 600;
     margin: 0 0 0.2rem;
   }
@@ -658,6 +660,7 @@ a.btn-provision:hover .support-form-holder{
   .dropdown-pane{
     max-width:200px ;
     top:87px !important;
+    padding: 0.6rem;
     &:before{
       content:'';
       position:absolute;
@@ -670,4 +673,7 @@ a.btn-provision:hover .support-form-holder{
       border-bottom: 10px solid gray;
     }
   }
+}
+.btn-round{
+  @include css3(border-radius,6px);
 }
