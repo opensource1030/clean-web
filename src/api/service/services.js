@@ -17,6 +17,8 @@ export default {
       },
 
     }).then((response) => {
+      context.loading=false;
+      context.showtable=true;
 
     let   event = store.sync(response.data);
         context.pagination = response.data.meta.pagination;
@@ -27,7 +29,6 @@ export default {
               show: false,
               hide: true,
             });
-
 
                 services.push(service);
           }

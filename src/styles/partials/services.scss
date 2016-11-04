@@ -1,0 +1,127 @@
+@import "../base/clean-variables";
+#tables{
+.load{
+text-align: center;
+height: 0rem;
+}
+.upService{
+  margin: -3.5rem;
+  width: 15rem;
+
+}
+.listPlan{
+          margin-top: 4.920rem;
+}
+
+  .detailsService {
+      display: -webkit-flex;
+      display: flex;
+
+      .childService {
+          text-align: left;
+          -webkit-flex-grow: 0;
+          -webkit-flex-shrink: 0;
+          -webkit-flex-basis: 13.2%;
+          flex-grow: 0;
+          flex-basis: 13.2%;
+      }
+
+      .childService:nth-of-type(1) {
+          -webkit-flex-basis: 7.9%;
+          flex-basis: 7.9%;
+      }
+
+      .childService:nth-of-type(2) {
+          -webkit-flex-basis: 38.14%;
+          flex-basis: 38.14%;
+
+          ul {
+              list-style-type: none;
+          }
+      }
+      .childService:nth-of-type(3) {
+          -webkit-flex-basis: 7%;
+          flex-basis: 7%;
+      }
+
+
+      .plans {
+              .serviceType{
+
+              }
+
+          ul {
+              list-style-type: none;
+          }
+      }
+
+
+    }
+
+
+
+}
+#service {
+    .header {
+        padding: 1.8rem;
+        background: $white;
+    }
+    .status{
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+    h6{
+      text-align: right;
+      margin-top: 2.5rem;
+
+    }
+    label{
+      color:$base;
+    }
+
+    .titles {
+        background: $ghost;
+
+        h4 {
+            font-size: 18px;
+            font-weight: 700;
+            padding: 0 3.2rem;
+        }
+    }
+
+    #button {
+        margin: 0.5rem 3rem;
+        border-radius: 0.5rem;
+    }
+
+    .accordion-title:focus,
+    .accordion-title:hover {
+        background-color: #F4A536!important;
+        color: black;
+    }
+    .accordion-content {
+  display: inherit;
+
+}
+
+
+
+    .is-active {
+        background-color: #F4A536 !important;
+    }
+
+    .acordeon {
+        list-style-type: none;
+
+        .accordion-title {
+            position: inherit;
+        }
+
+
+
+        .acordeon-item {
+            margin: 2rem;
+            background-color: $iron;
+}
+    }
+}

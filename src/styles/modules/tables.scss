@@ -1,0 +1,94 @@
+@import "../base/clean-variables";
+#tables {
+    height: 100%;
+    background: $white-smoke;
+
+    .header {
+        padding: 1.8rem;
+        background: $white;
+    }
+
+    .titles {
+        padding: 0.7rem 2rem;
+        background: $ghost;
+
+        h4 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+    }
+
+    .button {
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding: 0.875rem 2.75rem 0.9375rem;
+        font-size: 17px;
+        border-radius: 0.5rem;
+        margin: 2rem 1rem;
+    }
+
+    select {
+        border: 0;
+        outline: 0;
+        background-color: inherit;
+      width: 80%;
+    }
+    .up{
+          margin-top: -2.8rem;
+    }
+
+    table {
+       margin: 0 1rem 0rem 0rem;
+
+        thead {
+            background-color: #F4A536;
+
+            th {
+                padding: 0;
+
+            }
+        }
+
+        tbody {
+            .filter {
+                background-color: #F0EEDD;
+
+                td {
+                    padding: 0 8px;
+
+                    div {
+                        overflow: hidden;
+                    }
+                }
+            }
+
+            tr:hover {
+                background-color: #F0EEDD;
+                cursor: pointer;
+            }
+
+            tr {
+                .detail {
+                    padding-bottom: 3em;
+                    background-color: #f0eedd;
+                }
+
+                td {
+                    padding-bottom: 1em;
+
+
+                    }
+                }
+            }
+        }
+
+
+    .active {
+        background-color: #F0EEDD;
+    }
+    .act {
+        background-color: #F0EEDD;
+    }
+
+
+}

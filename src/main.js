@@ -27,7 +27,7 @@ Vue.http.interceptors.push((request, next) => {
     NProgress.done();
   });
 });
-
+//import routes
 import routes from './routes';
 // Route config
 const router = new VueRouter({

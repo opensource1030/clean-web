@@ -1,168 +1,67 @@
 @import "../base/clean-variables";
-#devices {
-    height: 100%;
-    background: $white-smoke;
+#tables{
+.details {
+    display: -webkit-flex;
+    display: flex;
 
-    .header {
-        padding: 1.8rem;
-        background: $white;
+    .child {
+        text-align: left;
+        -webkit-flex-grow: 0;
+        -webkit-flex-shrink: 0;
+        -webkit-flex-basis: 13.2%;
+        flex-grow: 0;
+        flex-basis: 13.2%;
     }
 
-    .titles {
-        padding: 0.7rem 2rem;
-        background: $ghost;
+    .child:nth-of-type(1) {
+        -webkit-flex-basis: 7.9%;
+        flex-basis: 7.9%;
+    }
 
-        h4 {
-            font-size: 18px;
-            font-weight: 700;
+    .child:nth-of-type(2) {
+        -webkit-flex-basis: 38.14%;
+        flex-basis: 38.14%;
+
+        ul {
+            list-style-type: none;
+        }
+    }
+    .child:nth-of-type(3) {
+        -webkit-flex-basis: 7%;
+        flex-basis: 7%;
+    }
+    .child:nth-of-type(4) {
+        -webkit-flex-basis: 10%;
+        flex-basis: 11.7%;
+    }
+
+    .prices {
+              .listPrice{
+                margin-top: 0.69rem;
+
+              }
+
+        ul {
+            list-style-type: none;
         }
     }
 
-    .button {
-        font-weight: 700;
-        margin-bottom: 20px;
-        padding: 0.875rem 2.75rem 0.9375rem;
-        font-size: 17px;
-        border-radius: 0.5rem;
-        margin: 2rem 1rem;
-    }
+    .os {
+        .image {
+            height: 160px;
 
-    select {
-        border: 0;
-        outline: 0;
-        background-color: inherit;
-      width: 80%;
-    }
-    .up{
-          margin-top: -2.8rem;
-    }
-
-    table {
-       margin: 0 1rem 0rem 0rem;
-
-        thead {
-            background-color: #F4A536;
-
-            th {
-                padding: 0;
-
+            img {
+                height: 130px;
             }
         }
 
-        tbody {
-            .filter {
-                background-color: #F0EEDD;
-
-                td {
-                    padding: 0 8px;
-
-                    div {
-                        overflow: hidden;
-                    }
-                }
-            }
-
-            tr:hover {
-                background-color: #F0EEDD;
-                cursor: pointer;
-            }
-
-            tr {
-                .detail {
-                    padding-bottom: 3em;
-                }
-
-                td {
-                    padding-bottom: 1em;
-
-                    .details {
-                        display: -webkit-flex;
-                        display: flex;
-
-                        .child {
-                            text-align: left;
-                            -webkit-flex-grow: 0;
-                            -webkit-flex-shrink: 0;
-                            -webkit-flex-basis: 13.2%;
-                            flex-grow: 0;
-                            flex-basis: 13.2%;
-                        }
-
-                        .child:nth-of-type(1) {
-                            -webkit-flex-basis: 7.9%;
-                            flex-basis: 7.9%;
-                        }
-
-                        .child:nth-of-type(2) {
-                            -webkit-flex-basis: 38.14%;
-                            flex-basis: 38.14%;
-
-                            ul {
-                                list-style-type: none;
-                            }
-                        }
-                        .child:nth-of-type(3) {
-                            -webkit-flex-basis: 7%;
-                            flex-basis: 7%;
-                        }
-                        .child:nth-of-type(4) {
-                            -webkit-flex-basis: 10%;
-                            flex-basis: 11.7%;
-                        }
-
-                        .prices {
-                                  .listPrice{
-                                    margin-top: 0.69rem;
-
-                                  }
-
-                            ul {
-                                list-style-type: none;
-                            }
-                        }
-
-                        .os {
-                            .image {
-                                height: 160px;
-
-                                img {
-                                    height: 130px;
-                                }
-                            }
-
-                            .information {
-                                position: absolute;
-                                width: 37%;
-                                margin-top: -1em;
-                            }
-                        }
-                    }
-                }
-            }
+        .information {
+            position: absolute;
+            width: 37%;
+            margin-top: -1em;
         }
     }
-
-    .active {
-        background-color: #F0EEDD;
-    }
-    .act {
-        background-color: #F0EEDD;
-    }
-
-    .device-transition {
-        transition: opacity 0.3s ease;
-        background-color: #F0EEDD;
-    }
-
-    .device-enter {
-        opacity: 0;
-    }
-
-    .device-leave {
-        opacity: 0;
-        position: absolute;
-        /* important for removal move to work */
-    }
+  }
 }
 
 #device {

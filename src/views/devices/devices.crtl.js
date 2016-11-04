@@ -70,6 +70,8 @@ export default {
       capacity: '',
       style: '',
       price: '',
+      loading:true,
+      loadtable:false
 
     };
   },

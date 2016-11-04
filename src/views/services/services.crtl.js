@@ -35,17 +35,16 @@ export default {
 
     setActive: function (index) {
       this.active = index;
-      console.log(this.services[this.active]);
       this.services[this.active].hide = !this.services[this.active].hide;
       if (this.services[this.active].show == true) {
         this.services[this.active].show = false;
       } else {
         this.services[this.active].show =true;
-        console.log(this.services[this.active].id, true);
+
         for (var i = 0; i < this.services.length; i++) {
           if (this.services[this.active].id != this.services[i].id) {
             this.services[i].show = false;
-            console.log(this.services[i].id, false);
+
           }
         }
       }
@@ -73,7 +72,9 @@ export default {
       carriers: '',
       cost: '',
       details:'',
-      carrier:''
+      carrier:'',
+      loading: true,
+      showtable:false
 
 
     };

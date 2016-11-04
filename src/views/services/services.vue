@@ -1,6 +1,6 @@
 <template>
   <div class="content-right">
-    <div id="devices">
+    <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
 
@@ -13,28 +13,30 @@
 
           <div class="small-12 columns" >
 
-            <table  id="devices-table">
+            <table  >
               <thead>
                 <tr>
 
                   <th ><select class="form-control" v-model="status" >
-                    <option value="" status>Status</option>
+                    <option value="" type>Status</option>
                     <!--<option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>-->
 
                   </select></th>
                   <th >
                     <select class="form-control" v-model="plans" >
-                      <option value="" plans>87Plans</option>
+                      <option value="" manufactured>87Plans</option>
                 <!--      <option v-for="item in filterDeviceType"  :value="item.id">{{item.attributes.make}}</option>-->
 
                     </select> </th>
                     <th ><select class="form-control" v-model="details" >
-                      <option value="" details>Details</option>
-                  <!--      <option v-for="item in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>-->
+                      <option value="" price>Details</option>
+                  <!--      <option v-for="ite
+
+                 in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>-->
 
                     </select></th>
                     <th ><select class="form-control" v-model="codePlan" >
-                      <option value="" codePlan>Plan Code</option>
+                      <option value="" os>Plan Code</option>
                   <!--    <option v-for="item in filterDeviceType"  :value="item.id"   >{{item.attributes.deviceOS}}</option>-->
 
                     </select></th>
@@ -44,14 +46,14 @@
 
                     </select></th>
                     <th ><select class="form-control" v-model="cost" >
-                      <option value="" cost>Cost</option>
+                      <option value="" capacity>Cost</option>
                     <!--  <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>-->
 
                     </select></th>
 
                   </tr>
                 </thead>
-                <tbody>
+                <tbody  v-show="showtable"  >
                   <tr class="filter">
                     <td ><div>{{status}}</div></td>
                     <td  ><div>{{plans}}</div></td>
@@ -62,40 +64,73 @@
                   </tr>
                 </tbody>
                 <tbody  v-for="(service, index) in services"  >
-                  <tr    :class="{ 'act': service.show,'des': service.show  }"   @click="setActive(index)" >
+                  <tr    :class="{ 'active': service.show,'desactive': service.show  }"   @click="setActive(index)" >
           <!--          <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>-->
-                    <td  >   <div class="checkbox"    >
-                        <label>
-                          <input    type="checkbox"    >
-                          <span class="custom-checkbox"><i class="icon-check"></i></span>
-                          Enabled
-                        </label>
-                      </div> </td>
+                    <td  >
+                      <label>
+                      {{service.status}}
+                      </label>
+                 </td>
                     <td style="font-weight: bold;" >{{service.title}}</td>
                     <td  ></td>
                     <td> {{service.planCode}} </td>
-                    <td  > carrier</td>
-                    <td  >{{service.cost}}</td>
+                    <td  >{{service.carriers[0].presentation}}</td>
+                    <td style="font-weight: bold;" >${{service.cost}} </td>
 
                   </tr>
                   <tr  >
-                    <td v-show="service.show" transition="service"  class="detail" colspan="8" >
-                          <div class="details">
-                              <div class="child"></div>
-                                <div class="child"></div>
+                    <td v-show="service.show"   class="detail" colspan="8" >
 
-                      </div>
+                      <div class="detailsService">
+                        <div class="childService"></div>
+                        <div class="options childService">
+                          <ul  >
+                            <li>Minutes</li>
+                            <li>Data</li>
+                            <li>SMA</li>
+                            <li>International Minutes</li>
+                            <li>International Data</li>
+                            <li>International SMS</li>
+                            <li><a  v-bind="{ href: '/service/'+service.id}">Manage Plan</a></li>
+                          </ul>
+
+                        </div>
+                        <div class="plans childService">
+                      <div class="serviceType"  :class="{ 'upService': service.show}">
+                              <label>Roamding minutes,Data</label>
+
+                          </div>
+                          <div class="listPlan"  >
+
+                            <ul>
+                              <li>{{service.domesticMinutes}}</li>
+                              <li>{{service.domesticData}}mb</li>
+                              <li>{{service.domesticMessages}}</li>
+                              <li>{{service.internationalMinutes}}</li>
+                              <li>{{service.internationalData}}mb</li>
+                              <li>{{service.internationalMessages}}</li>
+
+
+                            </ul>
+                            <br>
+                          </div>
+
+                        </div>
+
+
 
                     </td>
 
                   </tr>
-
-
+                      </div>
                 </tbody>
               </table>
-              
+
+              <div class="load">
+                  <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
+                </div>
           </div>
-<pagination :pagination="pagination" :callback="loadData"></pagination>
+            <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
         </div>
       </div>
 </template>
