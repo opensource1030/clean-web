@@ -238,7 +238,8 @@ export default {
       var extending = Object.assign({}, price, {
         retail: value,
       });
-      this.pricePost.$set(i, extending);
+
+       Vue.set(this.pricePost, i, extending)
     },
 
     updateOne: function (i, e) {
@@ -247,7 +248,7 @@ export default {
       var extending = Object.assign({}, price, {
         priceOne: value,
       });
-      this.pricePost.$set(i, extending);
+           Vue.set(this.pricePost, i, extending)
     },
 
     updateTwo: function (i, e) {
@@ -256,7 +257,7 @@ export default {
       var extending = Object.assign({}, price, {
         priceTwo: value,
       });
-      this.pricePost.$set(i, extending);
+     Vue.set(this.pricePost, i, extending)
     },
 
     updateOwn: function (i, e) {
@@ -265,7 +266,7 @@ export default {
       var extending = Object.assign({}, price, {
         Own: value,
       });
-      this.pricePost.$set(i, extending);
+       Vue.set(this.pricePost, i, extending)
     },
 
     toggle: function () {
