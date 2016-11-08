@@ -178,7 +178,11 @@
                     </div>
                     <div class="small-2 columns">
                       <label>Add Ons
+<<<<<<< HEAD
                         <input type="text" placeholder=""  :value="addon.description" v-model="addon.description" @keyup="updateName(index,$event)" >
+=======
+                        <input type="text" placeholder=""  :value="addon.name"  @keyup="updateName(index,$event)" >
+>>>>>>> CP-1611 add addons without api an fixed errors devices
                       </label>
                     </div>
                     <div class="small-2 columns">
@@ -188,7 +192,11 @@
                     </div>
                     <div class="small-2 columns">
                       <label>Add Ons
+<<<<<<< HEAD
                         <input type="text" placeholder=""  :value="addon.cost" v-model="addon.cost"  @keyup="updatePrice(index,$event)"  >
+                      </label>
+=======
+                        <input type="text" placeholder=""  :value="addon.price"   @keyup="updatePrice(index,$event)"  >
                       </label>
 
                     </div>
@@ -202,10 +210,36 @@
 
                     </div>
 
+
+
+                      </div>
+                    </div>
+
+
+
+              </li>
+
+
+>>>>>>> CP-1611 add addons without api an fixed errors devices
+
+                    </div>
+                    <div class="small-4 columns">
+                      <a  class="button" @click="hideAndPush(index)" id="button" v-show="addon.add" >
+                              <i class="fa fa-plus fa-2x" ></i>
+                      </a>
+                      <a  class="button" @click="deleteAddOns(index)" id="button"   v-show="addon.delete" >
+                            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                      </a>
+
+                    </div>
+
+<<<<<<< HEAD
                       </div>
                     </div>
 
               </li>
+=======
+>>>>>>> CP-1611 add addons without api an fixed errors devices
 
               </ul>
         </div>
