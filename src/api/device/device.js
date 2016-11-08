@@ -84,7 +84,7 @@ export default {
         context.d.name = event.name;
         context.d.description = event.properties;
         context.d.id = event.identification;
-        context.d.type = event.devicetypes.id;
+        context.d.type = event.devicetypes[0].id;
 
         context.carriers = this.carriersCheck;
         context.priceData = event.prices;
@@ -259,7 +259,7 @@ export default {
       data: {
         type: 'modifications',
         attributes: {
-          type: obj.type,
+          modType: obj.type,
           value: obj.value,
         },
       },

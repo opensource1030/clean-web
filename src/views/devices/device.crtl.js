@@ -99,6 +99,7 @@ export default {
                 company: companys,
               });
               co = true;
+
               break;
             }
           }
@@ -145,6 +146,7 @@ export default {
           for (let styles of this.vStyles) {
             for (let capacitys of this.vCapacity) {
               for (let carriers of this.vCarriers) {
+
                 this.company = Object.assign({}, this.company, {
                   style: styles,
                   capacity: capacitys,
@@ -156,7 +158,9 @@ export default {
                   price2: 0,
                   priceOwn: 0,
                 });
+
                 this.price.push(this.company);
+
               }
             }
           }
@@ -172,7 +176,9 @@ export default {
           }
 
           if (b == true) {
+                if(pri.company.check!=false && pri.capacity!=false && pri.style!=false && pri.company!=false){
             this.pricess.push(pri);
+          }
           }
         }
 
@@ -181,8 +187,16 @@ export default {
         if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
           this.price = [];
           for (let companies of this.vCompanies) {
+
+            if(companies.check==false){
+
+            }
             for (let styles of this.vStyles) {
+              if(styles.check==false){
+
+              }
               for (let capacitys of this.vCapacity) {
+
                 for (let carriers of this.vCarriers) {
                   this.company = Object.assign({}, this.company, {
                     style: styles,
@@ -209,7 +223,7 @@ export default {
   },
   methods: {
     findByPrices,
-    submit: function () {
+    submit() {
       if (this.id != null) {
         device.updateDevice(this.id, this, this.pricePost, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       } else {
@@ -217,7 +231,7 @@ export default {
       }
     },
 
-    checkcarrier: function () {
+    checkcarrier() {
       var vm = this;
       this.$nextTick(function () {
         var i = 0;
@@ -231,7 +245,7 @@ export default {
       });
     },
 
-    updateRetail: function (i, e) {
+    updateRetail(i, e) {
       var value = e.target.value;
       console.log(value);
       var price = this.pricePost[i];
@@ -242,7 +256,7 @@ export default {
        Vue.set(this.pricePost, i, extending)
     },
 
-    updateOne: function (i, e) {
+    updateOne(i, e) {
       var value = e.target.value;
       var price = this.pricePost[i];
       var extending = Object.assign({}, price, {
@@ -251,7 +265,7 @@ export default {
            Vue.set(this.pricePost, i, extending)
     },
 
-    updateTwo: function (i, e) {
+    updateTwo(i, e) {
       var value = e.target.value;
       var price = this.pricePost[i];
       var extending = Object.assign({}, price, {
@@ -260,7 +274,7 @@ export default {
      Vue.set(this.pricePost, i, extending)
     },
 
-    updateOwn: function (i, e) {
+    updateOwn(i, e) {
       var value = e.target.value;
       var price = this.pricePost[i];
       var extending = Object.assign({}, price, {
@@ -269,7 +283,7 @@ export default {
        Vue.set(this.pricePost, i, extending)
     },
 
-    toggle: function () {
+    toggle() {
       this.show = !this.show;
       this.pricePost = [];
       if (this.id != null) {
@@ -284,13 +298,13 @@ export default {
       }
     },
 
-    changeStatusCompany: function (index) {
+    changeStatusCompany (index) {
       this.companies.data[index].check = !this.companies.data[index].check;
       console.log(this.companies.data[index].check);
 
     },
 
-    showFalse: function () {
+    showFalse () {
       this.show = false;
     },
 
@@ -301,16 +315,17 @@ export default {
       device.createImage(this, formData);
     },
 
-    changeStatusCarrier: function (className, index) {
+    changeStatusCarrier(className, index) {
       var el = document.getElementsByClassName('static')[index];
       el.classList.toggle(className);
     },
 
-    capacit: function () {
+    capacit () {
       if (this.gigas == '' || this.gigas == null) {
         this.error = 'Incorrect value Capacity';
       } else {
         this.error = '';
+        
         var addModification = {
           value: this.gigas,
           type: 'capacity',
@@ -319,7 +334,7 @@ export default {
       }
     },
 
-    colors: function () {
+    colors () {
       if (this.color == '' || this.color == null) {
         this.error = 'Incorrect value Style';
       } else {
@@ -351,7 +366,7 @@ export default {
         name: '',
         description: '',
         id: null,
-        type: '',
+        type: null,
       },
       /*add modifications*/
       id: null,

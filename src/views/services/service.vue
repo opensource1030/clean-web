@@ -161,10 +161,56 @@
 
                         </div>
                       </div>
-
-
-
                 </li>
+              </li>
+              <li class="acordeon-item  " >
+                <a  class="accordion-title"   >Add Ons</a>
+                <div class="accordion-content "  >
+                  <div class="row" v-for="(addon,index) in addons">
+                    <div class="small-2 columns">
+                    <h6>
+
+                      Name</h6>
+                    </div>
+                    <div class="small-2 columns">
+                      <label>Add Ons
+                        <input type="text" placeholder=""  :value="addon.name"  @keyup="updateName(index,$event)" >
+                      </label>
+                    </div>
+                    <div class="small-2 columns">
+                    <h6>
+
+                      Price</h6>
+                    </div>
+                    <div class="small-2 columns">
+                      <label>Add Ons
+                        <input type="text" placeholder=""  :value="addon.price"   @keyup="updatePrice(index,$event)"  >
+                      </label>
+
+                    </div>
+                    <div class="small-4 columns">
+                      <a  class="button" @click="hideAndPush(index)" id="button" v-show="addon.add" >
+                              <i class="fa fa-plus fa-2x" ></i>
+                      </a>
+                      <a  class="button" @click="deleteAddOns(index)" id="button"   v-show="addon.delete" >
+                            <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                      </a>
+
+                    </div>
+
+
+
+                      </div>
+                    </div>
+
+
+
+              </li>
+
+
+
+
+
 
               </ul>
         </div>

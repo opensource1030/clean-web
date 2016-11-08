@@ -12,6 +12,7 @@ export default {
       }
 
   },
+
   data() {
     return {
       id:null,
@@ -35,6 +36,19 @@ export default {
               sms:''
         },
         carriers:[],
+        addons:[
+              {
+                name:'',
+                price:'',
+                add:true,
+                delete:false
+
+
+              }
+
+        ]
+
+
 
 
 
@@ -48,6 +62,38 @@ export default {
             service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan);
           }
 
+        },
+        hideAndPush(index){
+            this.addons[index].add = false;
+            this.addons[index].delete=true;
+        this.addons.push({ name:'',price:'',add:true,delete:false });
+
+
+
+        },
+        deleteAddOns(index){
+          this.addons.splice(index,1);
+            this.addons[index].delete=false;
+            this.addons[index].add=true;
+
+        },
+        updateName(i,e){
+          var value = e.target.value;
+          var addon = this.addons[i];
+          var extending = Object.assign({}, addon, {
+            name: value,
+          });
+           Vue.set(this.addons, i, extending)
+
+        },
+        updatePrice(i,e){
+          var value = e.target.value;
+          var price = this.addons[i];
+          var extending = Object.assign({}, addon, {
+            price: value,
+          });
+           Vue.set(this.addons, i, extending)
+         
         }
 
 
