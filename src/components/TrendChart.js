@@ -1,3 +1,8 @@
+import auth from './../api/auth'
+import Vue from 'vue'
+var {Store,} = require('yayson')();
+var store = new Store();
+
 import { Line } from 'vue-chartjs'
 
 export default Line.extend({
@@ -6,10 +11,10 @@ export default Line.extend({
     },
     data () {
         return {
-            labels_3: ['May', 'June', 'Jule', 'August', 'September', 'October', 'November'],
             data_3: [
-                [65, 59, 90, 81, 56, 55, 40],
-                [28, 48, 40, 19, 88, 27, 45]
+                [25, 40, 50],
+                [28, 48, 40],
+                [10, 55, 30]
             ],
             options_3: {
                 tooltips: {
@@ -18,15 +23,16 @@ export default Line.extend({
             },
             backgroundColor_3: [
                 'rgba(31, 200, 219, 1)',
-                'rgba(151, 205, 118, 1)'
+                'rgba(151, 205, 118, 1)',
+                'rgba(90, 100, 40, 1)'
             ],
-            series: ['Product A', 'Product B']
+            series: ['Usage Charge', 'Service Plan Charges','Other Charges']
         }
     },
     computed: {
         seriesData () {
             let data = {
-                labels: this.labels_3
+                labels: this.getMonths()
             }
             data.datasets = this.series.map((e, i) => {
                 return {
@@ -39,6 +45,24 @@ export default Line.extend({
                 }
             })
             return data;
+        }
+    },
+    methods: {
+        getMonths: function(){
+                let date = new Date();
+                //subttract 3 months
+                date.setMonth(0 - 4);
+                let monthArray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                let menuMonths = new Array();
+                let count = 3;
+                let buffer = 10;
+                while (count > 0) {
+                    var month = monthArray[date.getMonth()];
+                    menuMonths.push(month);
+                    date.setMonth(date.getMonth() + 1);
+                    count -= 1;
+                }
+                return menuMonths;
         }
     }
 })
