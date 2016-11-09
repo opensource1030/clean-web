@@ -17,6 +17,12 @@ import Device from './views/devices/Device.vue'
 import Services from './views/services/Services.vue'
 import Service from './views/services/Service.vue'
 
+//routes Employees
+import Profile from './views/employees/Profile.vue'
+import AddDevice from './views/employees/AddDevice.vue'
+import AddService from './views/employees/AddService.vue'
+import UpdateProfile from './views/employees/UpdateProfile.vue'
+
 
 /**
  * The routes
@@ -109,6 +115,42 @@ export default [
     requiresAuth: true
   }
 },
+//Employees
+
+{
+  path: '/profile',
+  component: Profile,
+  name: 'profile',
+  meta: {
+    requiresAuth: true
+  }
+
+},
+{
+  path: '/updateprofile/:id',
+  component: UpdateProfile,
+  name: 'UpdateProfile',
+  meta: {
+    requiresAuth: true
+  }
+},
+ {
+  path: '/addservice',
+  component: AddService,
+  name: 'addService',
+  meta: {
+    requiresAuth: true
+  }
+},
+{
+ path: '/adddevice',
+ component: AddDevice,
+ name: 'AddDevice',
+ meta: {
+   requiresAuth: true
+ }
+},
+
 //redirect
  {
   path: '*',

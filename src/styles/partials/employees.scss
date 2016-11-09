@@ -1,0 +1,67 @@
+#updateEmployee{
+
+      .status{
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+      h6{
+        text-align: right;
+        margin-top: 2.5rem;
+
+      }
+      label{
+        color:$base;
+      }
+
+      .titles {
+          background: $ghost;
+
+          h4 {
+              font-size: 18px;
+              font-weight: 700;
+              padding: 0 3.2rem;
+          }
+      }
+
+      #buttonUpdate {
+        margin: -3.5rem 2rem;
+        float:right;
+          border-radius: 0.5rem;
+      }
+
+      .accordion-title:focus,
+      .accordion-title:hover {
+          background-color: #F4A536!important;
+          color: black;
+      }
+      .accordion-content {
+    display: inherit;
+
+  }
+
+
+
+      .is-active {
+          background-color: #F4A536 !important;
+      }
+
+      .acordeon {
+          list-style-type: none;
+
+          .accordion-title {
+              position: inherit;
+          }
+
+
+
+          .acordeon-item {
+              margin: 2rem;
+              background-color: $iron;
+  }
+      }
+
+
+
+
+
+}
