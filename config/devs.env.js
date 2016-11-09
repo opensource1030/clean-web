@@ -1,5 +1,5 @@
 module.exports = {
-  NODE_ENV: '"production"',
+  NODE_ENV: '"productionDev"',
   URL_API: '"http://dev.api.wirelessanalytics.com/"',
   URL: '"http://beta.wirelessanalytics.com/"',
   CLIENT_ID: '"g73hhd8j3bhcuhdbbs88e4wd"',
