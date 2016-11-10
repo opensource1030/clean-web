@@ -4,15 +4,22 @@
         font-size: 1.5rem;
         margin-top: 2rem;
       }
-      h6{
-        text-align: right;
-        margin-top: 2.5rem;
 
-      }
       label{
-        color:$base;
-      }
 
+      }
+      ul {
+          list-style-type: none;
+          margin-left: inherit;
+      }
+      .sub{
+        font-size: 0.8rem;
+        margin-top:1rem;
+      }
+      .radio .sub{
+        display: block;
+        margin-top: -0.4rem;
+      }
       .titles {
           background: $ghost;
 
