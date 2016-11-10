@@ -1,7 +1,7 @@
 var merge = require('webpack-merge')
-var prodEnv = require('./dev.env')
+var Env = require('./local.env')
 
-module.exports = merge(prodEnv, {
+module.exports = merge(Env, {
   NODE_ENV: '"local"',
   URL_API: '"http://lfce85j83fdtoxhkw.stoplight-proxy.io/"', // stoplight.io mock server
   URL:'"http://localhost:8080"',
