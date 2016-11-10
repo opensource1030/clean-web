@@ -6,16 +6,14 @@ var store = new Store();
 import { Line } from 'vue-chartjs'
 
 export default Line.extend({
+        props:["datas"],
     mounted () {
+          this.data_3=this.datas()
         this.renderChart(this.seriesData, this.options_3)
     },
     data () {
         return {
-            data_3: [
-                [25, 40, 50],
-                [28, 48, 40],
-                [10, 55, 30]
-            ],
+          data_3: null,
             options_3: {
                 tooltips: {
                     mode: 'label'
@@ -66,4 +64,3 @@ export default Line.extend({
         }
     }
 })
->>>>>>> chart api call
