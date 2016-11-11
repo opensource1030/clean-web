@@ -1,73 +1,99 @@
+@import "../base/clean-variables";
 #updateEmployee{
+      label{
+        color:$aluminum ;
 
+      }
+    }
+    #profile{
+      ul {
+          list-style-type: none;
+          margin-left: inherit;
+      }
+      .thumbnail{
+        height:150px;
+        width:150px
+      }
       .status{
         font-size: 1.5rem;
         margin-top: 2rem;
       }
 
-      label{
+
+      .price,h6,.monthy{
+            display: inline;
 
       }
-      ul {
-          list-style-type: none;
-          margin-left: inherit;
+      .device{
+        margin-top:2rem;
       }
+      .upgrade{
+            margin-top: -1rem;
+      }
+      .request{
+        margin-top:3rem;
+
+      }
+
       .sub{
         font-size: 0.8rem;
         margin-top:1rem;
       }
-      .radio .sub{
+      .radio {
+        .sub
+        {
         display: block;
         margin-top: -0.4rem;
       }
-      .titles {
-          background: $ghost;
 
-          h4 {
-              font-size: 18px;
-              font-weight: 700;
-              padding: 0 3.2rem;
-          }
       }
-
       #buttonUpdate {
         margin: -3.5rem 2rem;
         float:right;
           border-radius: 0.5rem;
       }
 
-      .accordion-title:focus,
-      .accordion-title:hover {
-          background-color: #F4A536!important;
-          color: black;
-      }
-      .accordion-content {
-    display: inherit;
+}
+#addService{
+  .radio {
+    .sub
+    {
+    display: block;
+    margin-top: -0.3rem;
+  }
 
+  }
+  .subGrey
+  {
+  display: block;
+  margin: -0.3rem 0.3rem;
+  font-size: 0.75rem;
+    color:$aluminum ;
+}
+
+  .code{
+    color:$aluminum ;
+
+  }
+  .price{
+
+    margin: 0 0 0.70909rem;
   }
 
 
 
-      .is-active {
-          background-color: #F4A536 !important;
-      }
 
-      .acordeon {
-          list-style-type: none;
-
-          .accordion-title {
-              position: inherit;
-          }
-
-
-
-          .acordeon-item {
-              margin: 2rem;
-              background-color: $iron;
+}
+#addDevice{
+  .thumbnail{
+    height: 130px;
+    width:150px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 200ms ease-out;
   }
-      }
-
-
+  .price{
+      margin: 0 10rem;
+  }
 
 
 

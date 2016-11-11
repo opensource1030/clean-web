@@ -2,7 +2,7 @@
 
   <div class="content-right">
     <div class="full-height row">
-      <div id="updateEmployee">
+      <div id="profile">
 
         <div class="expanded row">
 
@@ -61,10 +61,10 @@
                   <a  class="accordion-title"   >My Services</a>
                   <div class="accordion-content" >
 
-                    <div class="row">
+                    <div class="row ">
                           <div class="small-3 columns">
                             <div >
-                                  <img   src="./../../assets/wa-logo.png" aria-hidden=true alt="Photo Iphone 6" width="200px" height="800px" class="custom-thumbnail-class" />
+                                  <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
 </div>
 
                           </div>
@@ -86,7 +86,9 @@
                           <div class="small-3 columns">
                             <div class="row">
 
-                                <h6>$64.09 </h6> <label> monthly</label>
+                              <div class="price">
+                          <h6>$64.09 </h6> <label class="monthy"> monthly</label>
+                        </div>
 
                             </div>
                             <div class="row">
@@ -107,10 +109,10 @@
 
 
                     </div>
-                    <div class="row">
+                    <div class="row device">
                           <div class="small-3 columns">
                             <div >
-                                  <img   src="./../../assets/wa-logo.png" aria-hidden=true alt="Photo Iphone 6" width="200px" height="800px" class="custom-thumbnail-class" />
+                                  <img  class="thumbnail" src="./../../assets/wa-logo.png" />
 </div>
 
                           </div>
@@ -131,9 +133,9 @@
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
-
-                                <h6>$64.09 </h6> <label> monthly</label>
-
+                                    <div class="price">
+                                <h6>$64.09 </h6> <label class="monthy"> monthly</label>
+                              </div>
                             </div>
                             <div class="row">
                             <ul>
@@ -153,7 +155,7 @@
                                 </div>
                                 <div class="row">
                                       <a class="button expand" @click="save()" >Upgrade Device</a>
-                                      <label>Upgrade will be available in 3 months</label>
+                                      <label class="upgrade" >Upgrade will be available in 3 months</label>
                                     </div>
 
 
@@ -165,7 +167,7 @@
                     <div class="row">
                           <div class="small-3 columns">
                             <div >
-                                  <img   src="./../../assets/wa-logo.png" aria-hidden=true alt="Photo Iphone 6" width="200px" height="800px" class="custom-thumbnail-class" />
+                                  <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
 </div>
 
                           </div>
@@ -188,12 +190,13 @@
                                         <span class="sub">headphones,chargers,bags</span>
 
                           </div>
+                          <div class="radio">
+                                  <input type="radio"  value="Red" id="customRequest" required><label for="customRequest">Custom Request</label>
+                                          <span class="sub">something special</span>
+                          </div>
 
                             </div>
-                            <div class="radio">
-                                    <input type="radio"  value="Red" id="customRequest" required><label for="customRequest">Custom Request</label>
-                                            <span class="sub">something special</span>
-                            </div>
+
 
 
 
@@ -201,7 +204,7 @@
 
                           <div class="small-3 columns">
                             <div class="row">
-                                  <a class="button expand" @click="save()" >Request Device</a>
+                                  <a class="button expand request" @click="save()" >Request Device</a>
                                 </div>
 
 
