@@ -227,7 +227,7 @@
               </ul>
         </div>
       </div>
-        <a class="button large" @click="save()" id="button">Save Profile</a>
+      
     </div>
   </div>
 </div>
