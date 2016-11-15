@@ -48,7 +48,7 @@
     },
     methods:{
       fetchData : function(){
-        this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
+        this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
 
         }).then((response) => {
 
