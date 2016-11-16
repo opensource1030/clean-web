@@ -372,7 +372,7 @@ addService(context,serviceDetails,domesticPlan,internationalPlan,addons){
   })
     .then((response) => {
 
-      console.log(response.data);
+      context.$router.push({name: 'services'});
 
     }, (response) => {
     });

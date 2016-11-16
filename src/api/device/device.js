@@ -60,7 +60,7 @@ export default {
     })
       .then((response) => {
 
-        console.log(response.data);
+        context.$router.push({name: 'devices'});
 
       }, (response) => {
       });
@@ -310,7 +310,7 @@ export default {
     })
       .then((response) => {
 
-        console.log(response.data);
+          context.$router.push({name: 'devices'});
 
       }, (response) => {
       });
