@@ -90,7 +90,7 @@
 </div>
 <div class="small-2 columns">
   <label>Amount
-    <input type="text" placeholder=""  :value="domesticPlan.minutes" v-model="domesticPlan.minutes">
+    <input type="text" placeholder=""  :value="domesticPlan.minutes.value" v-model="domesticPlan.minutes.value">
   </label>
 </div>
 <div class="small-2 columns">
@@ -100,7 +100,7 @@
 </div>
 <div class="small-2 columns">
   <label>Amount
-    <input type="text" placeholder=""  :value="domesticPlan.data" v-model="domesticPlan.data">
+    <input type="text" placeholder=""  :value="domesticPlan.data.value" v-model="domesticPlan.data.value">
   </label>
 
 </div>
@@ -111,11 +111,13 @@
 </div>
 <div class="small-2 columns">
   <label>Amount
-    <input type="text" placeholder=""  :value="domesticPlan.sms" v-model="domesticPlan.sms">
+    <input type="text" placeholder=""  :value="domesticPlan.sms.value" v-model="domesticPlan.sms.value">
   </label>
 
 </div>
                         </div>
+
+
                       </div>
 
 
@@ -132,7 +134,7 @@
                       </div>
                       <div class="small-2 columns">
                         <label>Amount
-                          <input type="text" placeholder=""  :value="internationalPlan.minutes" v-model="internationalPlan.minutes">
+                          <input type="text" placeholder=""  :value="internationalPlan.minutes.value" v-model="internationalPlan.minutes.value">
                         </label>
                       </div>
                       <div class="small-2 columns">
@@ -142,7 +144,7 @@
                       </div>
                       <div class="small-2 columns">
                         <label>Amount
-                          <input type="text" placeholder=""  :value="internationalPlan.data" v-model="internationalPlan.data">
+                          <input type="text" placeholder=""  :value="internationalPlan.data.value" v-model="internationalPlan.data.value">
                         </label>
 
                       </div>
@@ -153,13 +155,15 @@
                       </div>
                       <div class="small-2 columns">
                         <label>Amount
-                          <input type="text" placeholder=""  :value="internationalPlan.sms" v-model="internationalPlan.sms">
+                          <input type="text" placeholder=""  :value="internationalPlan.sms.value" v-model="internationalPlan.sms.value">
                         </label>
 
                       </div>
 
 
-                        </div>
+                    </div>
+
+
                       </div>
                 </li>
               </li>
@@ -174,7 +178,7 @@
                     </div>
                     <div class="small-2 columns">
                       <label>Add Ons
-                        <input type="text" placeholder=""  :value="addon.name"  @keyup="updateName(index,$event)" >
+                        <input type="text" placeholder=""  :value="addon.description" v-model="addon.description" @keyup="updateName(index,$event)" >
                       </label>
                     </div>
                     <div class="small-2 columns">
@@ -184,7 +188,7 @@
                     </div>
                     <div class="small-2 columns">
                       <label>Add Ons
-                        <input type="text" placeholder=""  :value="addon.price"   @keyup="updatePrice(index,$event)"  >
+                        <input type="text" placeholder=""  :value="addon.cost" v-model="addon.cost"  @keyup="updatePrice(index,$event)"  >
                       </label>
 
                     </div>
@@ -198,21 +202,20 @@
 
                     </div>
 
-
-
                       </div>
                     </div>
 
-
-
               </li>
 
-
-
-
-
-
               </ul>
+        </div>
+      </div>
+      <div v-if="error" v-show="error">
+        <div   class="is-error callout" data-closable >
+          <div class="container">
+            <h5>{{error}}</h5>
+          </div>
+
         </div>
       </div>
         <a  class="button large" @click="save()" id="button">Save Changes</a>

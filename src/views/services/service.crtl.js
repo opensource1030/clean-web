@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       id:null,
+      error:'',
         serviceDetails:{
               title:'',
               carrierId:null,
@@ -25,24 +26,24 @@ export default {
               description:''
         },
         domesticPlan:{
-              minutes:'',
-              data:'',
-              sms:''
+              minutes:{value:''},
+
+              data:{value:''},
+              sms:{value:''},
 
         },
         internationalPlan:{
-              minutes:'',
-              data:'',
-              sms:''
+              minutes:{value:''},
+              data:{value:''},
+              sms:{value:''},
         },
         carriers:[],
         addons:[
               {
-                name:'',
-                price:'',
+                description:'',
+                cost:'',
                 add:true,
-                delete:false
-
+                delete:false,
 
               }
 
@@ -57,43 +58,45 @@ export default {
   methods:{
         save(){
           if (this.id != null) {
-            service.updateService(this.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan);
+            service.updateService(this.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan,this.addons);
           } else {
-            service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan);
+
+            service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan,this.addons);
           }
 
         },
         hideAndPush(index){
             this.addons[index].add = false;
             this.addons[index].delete=true;
-        this.addons.push({ name:'',price:'',add:true,delete:false });
-
+                if(this.id!=null){
+                    this.addons.push({ id:0,description:'',cost:'',add:true,delete:false });
+                }
+            else{
+        this.addons.push({ description:'',cost:'',add:true,delete:false });
+}
 
 
         },
         deleteAddOns(index){
           this.addons.splice(index,1);
-            this.addons[index].delete=false;
-            this.addons[index].add=true;
-
         },
         updateName(i,e){
           var value = e.target.value;
           var addon = this.addons[i];
           var extending = Object.assign({}, addon, {
-            name: value,
+          description: value,
           });
            Vue.set(this.addons, i, extending)
 
         },
         updatePrice(i,e){
           var value = e.target.value;
-          var price = this.addons[i];
+          var addon = this.addons[i];
           var extending = Object.assign({}, addon, {
-            price: value,
+            cost: value,
           });
            Vue.set(this.addons, i, extending)
-         
+
         }
 
 

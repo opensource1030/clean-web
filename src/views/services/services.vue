@@ -103,12 +103,12 @@
                           <div class="listPlan"  >
 
                             <ul>
-                              <li>{{service.domesticMinutes}}</li>
-                              <li>{{service.domesticData}}mb</li>
-                              <li>{{service.domesticMessages}}</li>
-                              <li>{{service.internationalMinutes}}</li>
-                              <li>{{service.internationalData}}mb</li>
-                              <li>{{service.internationalMessages}}</li>
+                              <li  >{{findByService(service.serviceitems,"voice","domestic").value}}</li>
+                              <li>{{findByService(service.serviceitems,"data","domestic").value}} mb</li>
+                              <li>{{findByService(service.serviceitems,"messaging","domestic").value}}</li>
+                              <li>{{findByService(service.serviceitems,"voice","international").value}}</li>
+                              <li>{{findByService(service.serviceitems,"data","international").value}}  mb</li>
+                              <li>{{findByService(service.serviceitems,"messaging","international").value}}</li>
 
 
                             </ul>

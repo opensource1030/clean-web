@@ -10,7 +10,7 @@ height: 0rem;
 
 }
 .listPlan{
-          margin-top: 4.920rem;
+          margin-top: 5.6rem;
 }
 
   .detailsService {
@@ -72,9 +72,12 @@ height: 0rem;
     }
     h6{
       text-align: right;
-      margin-top: 2.5rem;
+      margin-top: 2.0rem;
 
     }
+    .fa-2x {
+    font-size: 1rem;
+}
     label{
       color:$base;
     }
@@ -90,8 +93,9 @@ height: 0rem;
     }
 
     #button {
-        margin: 1.5rem 5rem;
-        border-radius: 0.5rem;
+      margin: 0.9rem 3.2rem;
+      border-radius: 0.5rem;
+
     }
 
     .accordion-title:focus,

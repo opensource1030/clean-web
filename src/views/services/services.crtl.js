@@ -4,7 +4,8 @@ import Pagination from './../../components/pagination';
 import {
   filterByModificationsd,
   filterByModifications,
-  filterByCarrier
+  filterByCarrier,
+  findByService
 } from './../../components/filters.js';
 import services from './../../api/service/services';
 
@@ -25,6 +26,7 @@ export default {
   methods: {
     filterByModificationsd,
     filterByModifications,
+    findByService,
 
     loadData() {
       services.getServices(this, this.pagination.current_page);
