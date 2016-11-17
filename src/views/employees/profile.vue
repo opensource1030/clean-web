@@ -7,7 +7,7 @@
         <div class="expanded row">
 
             <div class="small-12 columns" >
-
+ 
               <ul  class="acordeon" >
                 <li class="acordeon-item  is-active" >
                   <a  class="accordion-title"   >Personal Information</a>
@@ -227,7 +227,7 @@
               </ul>
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>

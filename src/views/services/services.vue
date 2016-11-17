@@ -12,7 +12,7 @@
           </div>
 
           <div class="small-12 columns" >
-
+ 
             <table  >
               <thead>
                 <tr>
