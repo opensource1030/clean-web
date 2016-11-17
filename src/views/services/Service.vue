@@ -12,7 +12,7 @@
 
 
             <div class="small-12 columns" >
- 
+
               <ul  class="acordeon" >
                 <li class="acordeon-item  is-active" >
                   <a  class="accordion-title"   >Plan Details</a>
