@@ -232,10 +232,12 @@
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
         var event = store.sync(response.data);
+          if(event.companies.contents){
         var clientdata = event.companies.contents[0].content;
         this.$http.get(clientdata, {
         }).then((response) => {
           this.data= response.data;
+
           setTimeout(function(){
             $(document).foundation();
           /*  $('.img-avatar').initial();*/
@@ -299,6 +301,7 @@
             });
           },300);
         });
+      }
       });
     },
     methods:{

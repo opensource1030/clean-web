@@ -63,6 +63,7 @@ export default {
       }).then((response) => {
 
         var event = store.sync(response.data);
+            if(event.companies.contents){
         var cosmicdata = event.companies.contents[1].content;
 
         this.$http.get(cosmicdata, {
@@ -73,7 +74,7 @@ export default {
 
 
         });
-
+}
 
       });
     },

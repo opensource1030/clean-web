@@ -24,7 +24,7 @@
               <th width="20%"> Actions for this line</th>
             </tr>
             </thead>
-              <tbody v-if="allocation.allocations.length > 0">
+              <tbody v-if="allocation">
                 <template v-for="item in allocation.allocations">
                 <tr>
                 <td>{{ item.bill_month }}</td>
@@ -90,7 +90,7 @@ export default {
     name: "ChargeInfo",
   created(){
 
-    this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
+    this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[companies.currentBillMonth]').then((response) => {
       var event = store.sync(response.data);
       this.allocation= event;
 
