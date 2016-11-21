@@ -9,7 +9,8 @@ export default {
 
 data(){
     return {
-        
+      color:'#A9A9A9',
+
         personalInfo:{
                 fullName:'',
                 division:'',
@@ -39,7 +40,19 @@ data(){
 
     }
 },
-methods(){
+methods:{
+
+  updateProfile(id){
+      this.$router.push({ name: 'UpdateProfile', params: { id:id }})
+
+
+
+
+  },
+  addService(){
+      this.$router.push({name:'addService'})
+
+  }
 
 }
 

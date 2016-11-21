@@ -42,7 +42,7 @@
 
 
                               </div>
-                                <a class="button expand" @click="save()" id="buttonUpdate">Update Profile</a>
+                                <a class="button expand" @click="updateProfile(1)" id="buttonUpdate">Update Profile</a>
                               <div class="row">
                                 <div class="small-3   columns ">
                                   <label >531-242-4212</label>
@@ -61,7 +61,7 @@
                   <a  class="accordion-title"   >My Services</a>
                   <div class="accordion-content" >
 
-                    <div class="row ">
+        <!--            <div class="row ">
                           <div class="small-3 columns">
                             <div >
                                   <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
@@ -108,8 +108,8 @@
                           </div>
 
 
-                    </div>
-                    <div class="row device">
+                    </div>-->
+    <!--                <div class="row device">
                           <div class="small-3 columns">
                             <div >
                                   <img  class="thumbnail" src="./../../assets/wa-logo.png" />
@@ -118,7 +118,7 @@
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
-                                <h6>AT&T</h6>
+                                <h6>Request New service</h6>
 
                             </div>
                             <div class="row">
@@ -163,17 +163,69 @@
 
 
 
+                    </div>-->
+
+                    <div class="row ">
+                          <div class="small-3 columns">
+                            <div >
+                                  <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
+              </div>
+
+                          </div>
+                          <div class="small-6 columns">
+                            <div class="row">
+                                <h6>Request New Service</h6>
+
+                            </div>
+                            <div class="row">
+                          <div class="radio">
+                                  <input type="radio"  value="Red" id="subsidedDevice" required><label for="subsidedDevice">As a New Service</label>
+                                  <span  class="sub">new mobile number</span>
+                          </div>
+                          <div class="radio">
+                                  <input type="radio" value="Red" id="payByYourself" required><label for="payByYourself">Liability Change</label>
+                                          <span class="sub" >transfer your presonal-liable mobile numbre to a corporate-liable account keep same carrier</span>
+                          </div>
+                          <div class="radio">
+                                  <input type="radio"  value="Red" id="accesories" required><label for="accesories">Line Port + Liability Change</label>
+                                        <span class="sub">transfer your personal-liable mobile numbre to a corporate-lable account and switch carriers</span>
+
+                          </div>
+                          <div class="radio">
+                                  <input type="radio"  value="Red" id="customRequest" required><label for="customRequest">Line Port</label>
+                                          <span class="sub">switch your corporate-liable mobile number to a different carrier</span>
+                          </div>
+
+                            </div>
+
+
+
+
+                          </div>
+
+                          <div class="small-3 columns">
+                            <div class="row">
+                                  <a class="button expand request"   @click="addService()" >Request Service</a>
+                                </div>
+
+
+
+                          </div>
+
+
+
                     </div>
-                    <div class="row">
+
+                    <div class="row margin">
                           <div class="small-3 columns">
                             <div >
                                   <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
 </div>
 
                           </div>
-                          <div class="small-3 columns">
+                          <div class="small-6 columns">
                             <div class="row">
-                                <h6>AT&T</h6>
+                                <h6>Request New Device</h6>
 
                             </div>
                             <div class="row">
@@ -204,7 +256,7 @@
 
                           <div class="small-3 columns">
                             <div class="row">
-                                  <a class="button expand request" @click="save()" >Request Device</a>
+                                  <a class="button expand request" @click="save()"   v-bind:style="{ backgroundColor: color }" >Request Device</a>
                                 </div>
 
 
