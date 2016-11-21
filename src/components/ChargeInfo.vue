@@ -24,7 +24,7 @@
               <th width="20%"> Actions for this line</th>
             </tr>
             </thead>
-              <tbody v-if="allocation">
+              <tbody v-if="allocation && allocation.allocations && allocation.allocations.length > 0">
                 <template v-for="item in allocation.allocations">
                 <tr>
                 <td>{{ item.bill_month }}</td>

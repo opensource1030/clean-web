@@ -55,8 +55,10 @@
         }).then((response) => {
 
           var event = store.sync(response.data);
-          if(event.companies.contents){
-          var cosmicdata = event.companies.contents[0].content;
+
+          if(event.companies.length>0){
+
+          var cosmicdata = event.companies[0].contents[0].content;
 
           this.$http.get(cosmicdata, {
 

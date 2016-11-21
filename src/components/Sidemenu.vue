@@ -63,18 +63,18 @@ export default {
       }).then((response) => {
 
         var event = store.sync(response.data);
-            if(event.companies.contents){
-        var cosmicdata = event.companies.contents[1].content;
+        if(event.companies.length>0){
+            var cosmicdata = event.companies[0].contents[1].content;
+              console.log(cosmicdata);
+            this.$http.get(cosmicdata, {
 
-        this.$http.get(cosmicdata, {
-
-        }).then((response) => {
-
-          this.company =response.data;
+            }).then((response) => {
+                console.log(response);
+              this.company =response.data;
 
 
-        });
-}
+            });
+          }
 
       });
     },
