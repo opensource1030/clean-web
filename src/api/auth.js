@@ -47,7 +47,7 @@ export default {
 
   singleSignOn(context, creds, redirect) {
 
-    context.$http.post(process.env.URL_API + '/oauth/access_token',
+    context.$http.post(process.env.URL_API + '/oauth/token',
       {
         grant_type: 'sso',
         client_id: process.env.CLIENT_ID,
@@ -87,7 +87,7 @@ export default {
 
     } else {
 
-      context.$http.post(process.env.URL_API + '/oauth/access_token',
+      context.$http.post(process.env.URL_API + '/oauth/token',
         {
           grant_type: 'password',
           client_id: process.env.CLIENT_ID,
