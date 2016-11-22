@@ -57,7 +57,7 @@ export default {
       })
       .then((response) => {
         //   console.log(response.data);
-        localStorage.setItem('userId', 4);
+        localStorage.setItem('userId', 18);
         localStorage.setItem('token', response.body.access_token);
         this.user.authenticated = true;
 
@@ -97,7 +97,7 @@ export default {
 
         })
         .then((response) => {
-          localStorage.setItem('userId', 4);
+          localStorage.setItem('userId', 18);
           localStorage.setItem('token', response.body.access_token);
           this.user.authenticated = true;
 
