@@ -11,30 +11,9 @@ data(){
     return {
       color:'#A9A9A9',
 
-        personalInfo:{
-                fullName:'',
-                division:'',
-                position:'',
-                sMail:'',
-                email:'',
-                cost:'',
-                officePhone:'',
-                office:''
+      service:{},
+      device:{},
 
-        },
-        shippingAddress:{
-            name:'',
-            address:'',
-            attn:'',
-            city:'',
-            state:'',
-            phone:'',
-            country:'',
-            postalCode:''
-
-
-
-        }
 
 
 
@@ -51,6 +30,13 @@ methods:{
   },
   addService(){
       this.$router.push({name:'addService'})
+
+  },
+  addDevice(){
+      if(this.service){
+          this.$router.push({name:'addDevice'})  
+      }
+
 
   }
 
