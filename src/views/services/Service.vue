@@ -53,7 +53,7 @@
                     <div class="small-8 columns">
                       <label>Carriers
                         <select v-model="serviceDetails.carrierId">
-                          <option value=""  >Select Carrier</option>
+                          <option :value="null"  >Select Carrier</option>
                           <option v-for="carrier in carriers"   :value="carrier.id" >{{carrier.presentation}}</option>
 
                         </select>

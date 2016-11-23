@@ -14,55 +14,72 @@ import {
 
 export default {
 
+  checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context){
 
-updateService(id,context,serviceDetails,domesticPlan,internationalPlan,addons){
-  let status="";
 
-  if(domesticPlan.minutes.value=="" || domesticPlan.minutes.value==null  || domesticPlan.data.value=="" || domesticPlan.data.value==null || domesticPlan.sms.value=="" || domesticPlan.sms.value==null  || internationalPlan.minutes.value=="" || internationalPlan.minutes.value==null
-  ||  internationalPlan.data.value=="" || internationalPlan.data.value==null || internationalPlan.sms.value=="" || internationalPlan.sms.value==null)
-    {
-      context.error="Error Empty Values";
+    if(domesticPlan.minutes.value=="" || domesticPlan.minutes.value==null  || domesticPlan.data.value=="" || domesticPlan.data.value==null || domesticPlan.sms.value=="" || domesticPlan.sms.value==null  || internationalPlan.minutes.value=="" || internationalPlan.minutes.value==null
+    ||  internationalPlan.data.value=="" || internationalPlan.data.value==null || internationalPlan.sms.value=="" || internationalPlan.sms.value==null)
+      {
+        context.error="Error Empty Values";
 
+           return false;
+      }
+
+        context.error="";
+        let items=[];
+        domesticPlan.minutes.domain="domestic";
+        domesticPlan.data.domain="domestic";
+        domesticPlan.sms.domain="domestic";
+        domesticPlan.minutes.category="voice";
+        domesticPlan.data.category="data";
+        domesticPlan.sms.category="messaging";
+
+        items.push(domesticPlan.minutes);
+        items.push(domesticPlan.data);
+        items.push(domesticPlan.sms);
+
+        internationalPlan.minutes.domain="international";
+        internationalPlan.data.domain="international";
+        internationalPlan.sms.domain="international";
+        internationalPlan.minutes.category="voice";
+        internationalPlan.data.category="data";
+        internationalPlan.sms.category="messaging";
+
+
+        items.push(internationalPlan.minutes);
+        items.push(internationalPlan.data);
+        items.push(internationalPlan.sms)
+
+    for(let addon of addons){
+      if(addon.description!="" || addon.description!=null || addon.cost!=null || addon.description!=""){
+          items.push(addon);
+
+      }
 
     }
-    else{
-          context.error="";
-        if(serviceDetails.status==true){
-          status="Enabled"
-        }else{
-          status="Disabled"
-        }
-            let items=[];
-            domesticPlan.minutes.domain="domestic";
-            domesticPlan.data.domain="domestic";
-            domesticPlan.sms.domain="domestic";
-            domesticPlan.minutes.category="voice";
-            domesticPlan.data.category="data";
-            domesticPlan.sms.category="messaging";
 
-            items.push(domesticPlan.minutes);
-            items.push(domesticPlan.data);
-            items.push(domesticPlan.sms);
-
-            internationalPlan.minutes.domain="international";
-            internationalPlan.data.domain="international";
-            internationalPlan.sms.domain="international";
-            internationalPlan.minutes.category="voice";
-            internationalPlan.data.category="data";
-            internationalPlan.sms.category="messaging";
+    return items;
 
 
-            items.push(internationalPlan.minutes);
-            items.push(internationalPlan.data);
-            items.push(internationalPlan.sms)
+  },
 
-        for(let addon of addons){
-          if(addon.description!="" || addon.description!=null || addon.cost!=null || addon.description!=""){
-              items.push(addon);
 
-          }
+updateService(id,context,serviceDetails,domesticPlan,internationalPlan,addons){
 
-        }
+
+let plan =  this.checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context);
+
+let status="";
+
+    if(serviceDetails.status==true){
+      status="Enabled"
+    }else{
+      status="Disabled"
+    }
+
+
+    if(plan==true){
+
   context.$http.put(process.env.URL_API + '/services/' + id, {
 
     "data": {
@@ -300,53 +317,20 @@ itemJson(items){
 },
 
 addService(context,serviceDetails,domesticPlan,internationalPlan,addons){
-            let status="";
 
-            if(domesticPlan.minutes.value=="" || domesticPlan.minutes.value==null  || domesticPlan.data.value=="" || domesticPlan.data.value==null || domesticPlan.sms.value=="" || domesticPlan.sms.value==null  || internationalPlan.minutes.value=="" || internationalPlan.minutes.value==null
-            ||  internationalPlan.data.value=="" || internationalPlan.data.value==null || internationalPlan.sms.value=="" || internationalPlan.sms.value==null)
-              {
-                context.error="Error Empty Values";
+  let status="";
 
-
-              }
-              else{
-                    context.error="";
-                  if(serviceDetails.status==true){
-                    status="Enabled"
-                  }else{
-                    status="Disabled"
-                  }
-                      let items=[];
-                      domesticPlan.minutes.domain="domestic";
-                      domesticPlan.data.domain="domestic";
-                      domesticPlan.sms.domain="domestic";
-                      domesticPlan.minutes.category="voice";
-                      domesticPlan.data.category="data";
-                      domesticPlan.sms.category="messaging";
-
-                      items.push(domesticPlan.minutes);
-                      items.push(domesticPlan.data);
-                      items.push(domesticPlan.sms);
-
-                      internationalPlan.minutes.domain="international";
-                      internationalPlan.data.domain="international";
-                      internationalPlan.sms.domain="international";
-                      internationalPlan.minutes.category="voice";
-                      internationalPlan.data.category="data";
-                      internationalPlan.sms.category="messaging";
+      if(serviceDetails.status==true){
+        status="Enabled"
+      }else{
+        status="Disabled"
+      }
 
 
-                      items.push(internationalPlan.minutes);
-                      items.push(internationalPlan.data);
-                      items.push(internationalPlan.sms)
-                  for(let addon of addons){
-                    if(addon.description!="" || addon.description!=null || addon.cost!=null || addon.description!=""){
-                        items.push(addon);
+let items =  this.checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context);
 
-                    }
 
-                  }
-
+ if(items!=true){
 
   context.$http.post(process.env.URL_API + '/services', {
 

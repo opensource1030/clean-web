@@ -282,7 +282,6 @@ export default {
           properties: device.description,
           deviceTypeId: device.type,
           statusId: 1,
-          identification: device.id,
         },
         relationships: {
           modifications: {
