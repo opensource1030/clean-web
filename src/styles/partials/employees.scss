@@ -10,6 +10,11 @@
       }
     }
     #profile{
+
+      .accordion-content {
+      display: inherit;
+
+      }
       ul {
           list-style-type: none;
           margin-left: inherit;

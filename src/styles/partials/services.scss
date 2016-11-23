@@ -62,6 +62,12 @@ height: 0rem;
 
 }
 #service {
+
+  .accordion-content {
+  display: inherit;
+
+  }
+
     .header {
         padding: 1.8rem;
         background: $white;
