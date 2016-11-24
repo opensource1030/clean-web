@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import auth from './../auth.js';
+import Service from './../../models/Service';
+
 
 
 var {
@@ -16,15 +18,9 @@ export default {
 
   checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context){
 
-
-    if(domesticPlan.minutes.value=="" || domesticPlan.minutes.value==null  || domesticPlan.data.value=="" || domesticPlan.data.value==null || domesticPlan.sms.value=="" || domesticPlan.sms.value==null  || internationalPlan.minutes.value=="" || internationalPlan.minutes.value==null
-    ||  internationalPlan.data.value=="" || internationalPlan.data.value==null || internationalPlan.sms.value=="" || internationalPlan.sms.value==null)
+    if(domesticPlan.minutes.value!=""  && domesticPlan.data.value!=""   && domesticPlan.sms.value!=""   && internationalPlan.minutes.value!=""
+     &&  internationalPlan.data.value!=""   && internationalPlan.sms.value!="" )
       {
-        context.error="Error Empty Values";
-
-           return false;
-      }
-
         context.error="";
         let items=[];
         domesticPlan.minutes.domain="domestic";
@@ -50,15 +46,26 @@ export default {
         items.push(internationalPlan.data);
         items.push(internationalPlan.sms)
 
-    for(let addon of addons){
-      if(addon.description!="" || addon.description!=null || addon.cost!=null || addon.description!=""){
+        for(let addon of addons){
+        if(addon.description!=""  &&  addon.cost!=""){
           items.push(addon);
+          console.log(addon.id)
+
+        }
+
+        }
+
+        return items;
+
+
 
       }
 
-    }
 
-    return items;
+
+    context.error="Error Empty Values";
+
+       return false;
 
 
   },
@@ -66,8 +73,14 @@ export default {
 
 updateService(id,context,serviceDetails,domesticPlan,internationalPlan,addons){
 
+  console.log(addons)
+
+
+
 
 let plan =  this.checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context);
+
+console.log(plan)
 
 let status="";
 
@@ -77,28 +90,20 @@ let status="";
       status="Disabled"
     }
 
+    let service = new Service("services", id, status, serviceDetails.title,
+     serviceDetails.code, serviceDetails.cost,serviceDetails.description ,serviceDetails.carrierId)
 
-    if(plan==true){
 
-  context.$http.put(process.env.URL_API + '/services/' + id, {
+    if(plan!=false){
 
-    "data": {
-        "type": "services",
-        "id":id,
-        "attributes": {
-            "status" : status,
-            "title": serviceDetails.title,
-            "planCode": serviceDetails.code,
-            "cost": serviceDetails.cost,
-            "description": serviceDetails.description,
-            "carrierId" : serviceDetails.carrierId
-        },
-        "relationships": {
-            "serviceitems": {
-                "data": this.itemUpdateJson(items,id),
-            }
-        }
-}
+
+      service.itemUpdateJson(plan,service);
+    console.log(  service.toJSON())
+
+/*  context.$http.patch(process.env.URL_API + '/services/' + id, {
+
+    "data":service.toJSON()
+
 
 
 
@@ -114,6 +119,7 @@ let status="";
     }, (response) => {
 
     });
+    */
 }
 
 
@@ -133,10 +139,10 @@ getDataService(context,id){
         console.log(event);
           if(event.status==="Enabled"){
             context.serviceDetails.status=true;
-            console.log(context.serviceDetails.status);
+
           }  else{
             context.serviceDetails.status=false;
-            console.log(context.serviceDetails.status);
+
           }
       context.serviceDetails.title = event.title;
       context.serviceDetails.code = event.planCode;
@@ -177,146 +183,9 @@ getDataService(context,id){
 
 
 },
-itemUpdateJson(items,id){
-
-  var mData = [];
-  items.forEach(function (item, index) {
-
-            console.log(item.id);
-          if(item.domain!=undefined){
-              if(item.category=='voice'){
-
-          mData[index] =
-              {
-                    serviceId:id,
-                  id:item.id,
-                  category: 'voice',
-                 description:'',
-                 value: item.value,
-                 unit: 'minutes',
-                 cost: 0,
-                domain: item.domain
-              }
-            }
-        else if(item.category=='data'){
-
-        mData[index] =        {
-                    serviceId:id,
-                  id:item.id,
-                  category:'data',
-                  description:'',
-                  value: item.value,
-                  unit: 'Gb',
-                  cost: 0,
-                  domain: item.domain
-                }
-              }
-              else{
-            mData[index] =      {
-                  serviceId:id,
-                  id:item.id,
-                  category: 'messaging',
-                  description:'',
-                  value: item.value,
-                  unit: 'messages',
-                  cost: 0,
-                  'domain': item.domain
-              }
-}
-
-
-
-          }
-          else{
-
-            mData[index]=  {
-                    serviceId:id,
-                  'id':item.id,
-                  'category': 'addon',
-                  'description': item.description,
-                  'value': 0,
-                  'unit': '',
-                  'cost': item.cost,
-                  'domain': ''
-              }
-
-
-
-
-          }
-
-  });
-
-  return mData;
-
-},
-itemJson(items){
-
-  var mData = [];
-  items.forEach(function (item, index) {
-          if(item.domain!=undefined){
-
-              if(item.category=='voice'){
-          mData[index] =
-              {  category: 'voice',
-                 description:'',
-                 value: item.value,
-                 unit: 'minutes',
-                 cost: 0,
-                domain: item.domain
-              }
-
-            }
-            else if(item.category=='data'){
-              mData[index] =    {
-
-                  category: 'data',
-                  description:'',
-                  value: item.value,
-                  unit: 'Gb',
-                  cost: 0,
-                  domain: item.domain
-                }
-              }
-              else{
-                mData[index] =    {
-
-                  category: 'messaging',
-                  description:'',
-                  value: item.value,
-                  unit: 'messages',
-                  cost: 0,
-                  'domain': item.domain
-              }
-}
-
-
-
-          }
-          else{
-
-            mData[index]=  {
-
-                  'category': 'addon',
-                  'description': item.description,
-                  'value': 0,
-                  'unit': '',
-                  'cost': item.cost,
-                  'domain': ''
-              }
-
-
-
-
-          }
-
-  });
-
-  return mData;
-
-},
 
 addService(context,serviceDetails,domesticPlan,internationalPlan,addons){
+let id= null;
 
   let status="";
 
@@ -325,33 +194,18 @@ addService(context,serviceDetails,domesticPlan,internationalPlan,addons){
       }else{
         status="Disabled"
       }
-
+let service = new Service("services", id, status, serviceDetails.title,
+ serviceDetails.code, serviceDetails.cost,serviceDetails.description ,serviceDetails.carrierId)
 
 let items =  this.checkPlan(serviceDetails,domesticPlan,internationalPlan,addons,context);
 
+ if(items!=false){
 
- if(items!=true){
+    service.itemJson(items,service);
 
   context.$http.post(process.env.URL_API + '/services', {
 
-
-
-      "data": {
-          "type": "services",
-          "attributes": {
-              "status" : status,
-              "title": serviceDetails.title,
-              "planCode": serviceDetails.code,
-              "cost": serviceDetails.cost,
-              "description": serviceDetails.description,
-              "carrierId" : serviceDetails.carrierId
-          },
-          "relationships": {
-              "serviceitems": {
-                  "data": this.itemJson(items),
-              }
-          }
-  }
+      "data": service.toJSON()
 
   })
     .then((response) => {
@@ -361,7 +215,6 @@ let items =  this.checkPlan(serviceDetails,domesticPlan,internationalPlan,addons
     }, (response) => {
     });
   }
-
 
 },
 getCarrier(context){
