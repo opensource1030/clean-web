@@ -57,14 +57,16 @@ export default {
       })
       .then((response) => {
         //   console.log(response.data);
-        localStorage.setItem('userId', 18);
+
+        localStorage.setItem('userId', response.body.user_id);
+
         localStorage.setItem('token', response.body.access_token);
         this.user.authenticated = true;
 
 
         setTimeout(()=> {
           this.logout();
-        }, response.body.expires_in * 1000);
+        }, response.data.expires_in * 1000);
 
         context.$router.push({name: redirect});
 
@@ -97,13 +99,15 @@ export default {
 
         })
         .then((response) => {
-          localStorage.setItem('userId', 18);
+
+          localStorage.setItem('userId', response.body.user_id);
+
           localStorage.setItem('token', response.body.access_token);
           this.user.authenticated = true;
 
           setTimeout(()=> {
             this.logout();
-          }, response.body.expires_in * 1000);
+          }, response.data.expires_in * 1000);
           context.$router.push({name: redirect});
 
         }, (response) => {
@@ -113,7 +117,7 @@ export default {
             context.error = context.error + ' Please contact the administrator.';
 
           } else {
-        context.error= "Unautorized"
+            context.error = response.data.errors.message;
           }
 
         });
