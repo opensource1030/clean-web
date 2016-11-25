@@ -75,16 +75,10 @@ export default {
     if (plan != false) {
 
       service.itemUpdateJson(plan, service);
-      console.log(service.toJSON())
 
-      /*  context.$http.patch(process.env.URL_API + '/services/' + id, {
+    context.$http.patch(process.env.URL_API + '/services/' + id, {
 
     "data":service.toJSON()
-
-
-
-
-
 
 
   })
@@ -96,7 +90,7 @@ export default {
     }, (response) => {
 
     });
-    */
+
     }
 
   },

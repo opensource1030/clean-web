@@ -1,8 +1,7 @@
-// import {
-//   router
-// } from 'vue-router'
+
 import Vue from 'vue';
 import auth from './../auth.js';
+import Device from './../../models/Device'
 
 var {
   Store,
@@ -22,40 +21,21 @@ export default {
   },
 
   updateDevice(id, context, price, style, capacity, carriers, companies, device, image) {
-    context.$http.put(process.env.URL_API + '/devices/' + id, {
+      console.log(deviceObj)
+      let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
+      console.log(deviceObj)
+      deviceObj.modificationsJson(capacity,style,deviceObj);
+      deviceObj.carriersJson(carriers,deviceObj);
+      deviceObj.companiesJson(companies,deviceObj);
+      deviceObj.pricesJson(price,deviceObj);
 
-      data: {
-        type: 'devices',
-        attributes: {
-          name: device.name,
-          properties: device.description,
-          deviceTypeId: device.type,
-          statusId: 1,
-          identification: device.id,
-        },
-        relationships: {
-          modifications: {
-            data: this.modificationsJson(capacity, style),
-          },
-          carriers: {
-            data: this.carriersJson(carriers),
-          },
-          companies: {
-            data: this.companiesJson(companies),
-          },
-          prices: {
-            data: this.pricesUpdateJson(price),
-          },
-          images: {
-            data: [{
-              type: 'images',
-              id: image.id,
-            },
-            ],
-          },
 
-        },
-      },
+
+
+    context.$http.patch(process.env.URL_API + '/devices/' + id, {
+
+      data: deviceObj.toJSON()
+
 
     })
       .then((response) => {
@@ -273,38 +253,15 @@ export default {
 
   addDevice(context, price, style, capacity, carriers, companies, device, image) {
 
+    let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
+    deviceObj.modificationsJson(capacity,style,deviceObj);
+    deviceObj.carriersJson(carriers,deviceObj);
+    deviceObj.companiesJson(companies,deviceObj);
+    deviceObl.pricesUpdateJson(price,deviceObj);
+
     context.$http.post(process.env.URL_API + '/devices', {
 
-      data: {
-        type: 'devices',
-        attributes: {
-          name: device.name,
-          properties: device.description,
-          deviceTypeId: device.type,
-          statusId: 1,
-        },
-        relationships: {
-          modifications: {
-            data: this.modificationsJson(capacity, style),
-          },
-          carriers: {
-            data: this.carriersJson(carriers),
-          },
-          companies: {
-            data: this.companiesJson(companies),
-          },
-          prices: {
-            data: this.pricesJson(price),
-          },
-          images: {
-            data: [{
-              type: 'images',
-              id: image.id,
-            },
-            ],
-          },
-        },
-      },
+      data: deviceObj.toJSON()
 
     })
       .then((response) => {
@@ -313,102 +270,6 @@ export default {
 
       }, (response) => {
       });
-
-  },
-
-  modificationsJson(capacity, style) {
-    var modifications = [];
-    var mData = [];
-
-    for (let c of capacity) {
-      modifications.push(c);
-
-    }
-
-    for (let sty of style) {
-      modifications.push(sty);
-    }
-
-    modifications.forEach(function (m, index) {
-      mData[index] = {
-        type: 'modifications',
-        id: m.id,
-      };
-
-    });
-
-    return mData;
-
-  },
-
-  carriersJson(carriers) {
-    var mData = [];
-    carriers.forEach(function (c, index) {
-      mData[index] = {
-        type: 'carriers',
-        id: c.id,
-      };
-
-    });
-
-    return mData;
-
-  },
-
-  companiesJson(companies) {
-    var mData = [];
-    companies.forEach(function (c, index) {
-      mData[index] = {
-        type: 'companies',
-        id: c.id,
-      };
-
-    });
-
-    return mData;
-
-  },
-
-  pricesJson(price) {
-    var mData = [];
-    price.forEach(function (p, index) {
-      mData[index] = {
-        type: 'prices',
-        capacityId: p.capacity.id,
-        styleId: p.style.id,
-        carrierId: p.carrier.id,
-        companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own,
-      };
-
-    });
-
-    return mData;
-
-  },
-
-  pricesUpdateJson(price) {
-    var mData = [];
-    price.forEach(function (p, index) {
-      mData[index] = {
-        type: 'prices',
-        id: p.id,
-        capacityId: p.capacity.id,
-        styleId: p.style.id,
-        carrierId: p.carrier.id,
-        companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own,
-      };
-
-    });
-
-    return mData;
 
   },
 
