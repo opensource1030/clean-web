@@ -1,29 +1,23 @@
-
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
-import {
-  filterByModificationsd,
-  filterByModifications,
-  filterByCarrier,
-  findByService
-} from './../../components/filters.js';
+import {filterByModificationsd, filterByModifications, filterByCarrier, findByService} from './../../components/filters.js';
 import services from './../../api/service/services';
 
 export default {
-  name:'Services',
+  name : 'Services',
 
-  components: {
-    pagination: Pagination,
+  components : {
+    pagination: Pagination
   },
   created() {
     /*  bus.$on('#services-table', function(page) {*/
 
     /*});*/
-  //  services.getDevice(this);
+    //  services.getDevice(this);
 
   },
 
-  methods: {
+  methods : {
     filterByModificationsd,
     filterByModifications,
     findByService,
@@ -35,13 +29,13 @@ export default {
 
     filterByCarrier,
 
-    setActive: function (index) {
+    setActive: function(index) {
       this.active = index;
       this.services[this.active].hide = !this.services[this.active].hide;
       if (this.services[this.active].show == true) {
         this.services[this.active].show = false;
       } else {
-        this.services[this.active].show =true;
+        this.services[this.active].show = true;
 
         for (var i = 0; i < this.services.length; i++) {
           if (this.services[this.active].id != this.services[i].id) {
@@ -50,7 +44,7 @@ export default {
           }
         }
       }
-    },
+    }
   },
   data() {
     return {
@@ -59,27 +53,25 @@ export default {
       filterStatus: [],
       filterPlans: [],
       filterCodePlan: [],
-      filterCarriers:[],
-      filterCost:[],
+      filterCarriers: [],
+      filterCost: [],
       pagination: {
         current_page: 1,
         total_pages: null,
         count: null,
         total: null,
-        per_page: 25,
+        per_page: 25
       },
       status: '',
       plans: '',
       codePlan: '',
       carriers: '',
       cost: '',
-      details:'',
-      carrier:'',
+      details: '',
+      carrier: '',
       loading: true,
-      showtable:false
-
+      showtable: false
 
     };
-  },
-
+  }
 };

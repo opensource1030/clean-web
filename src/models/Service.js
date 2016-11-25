@@ -17,42 +17,36 @@ export default class Service {
 
     items.forEach(function(item, index) {
 
+      if (item.category == 'voice') {
+        service.serviceItems.push({
+          category: 'voice',
+          description: '',
+          value: item.value,
+          unit: 'minutes',
+          cost: 0,
+          domain: item.domain
+        })
+      } else if (item.category == 'data') {
+        service.serviceItems.push({
 
+          category: 'data',
+          description: '',
+          value: item.value,
+          unit: 'Gb',
+          cost: 0,
+          domain: item.domain
+        })
+      } else if (item.category == 'messaging') {
+        service.serviceItems.push({
 
-
-        if (item.category == 'voice') {
-          service.serviceItems.push({
-            category: 'voice',
-            description: '',
-            value: item.value,
-            unit: 'minutes',
-            cost: 0,
-            domain: item.domain
-          })
-        } else if (item.category == 'data') {
-          service.serviceItems.push({
-
-            category: 'data',
-            description: '',
-            value: item.value,
-            unit: 'Gb',
-            cost: 0,
-            domain: item.domain
-          })
-        } else  if (item.category == 'messaging'){
-          service.serviceItems.push({
-
-            category: 'messaging',
-            description: '',
-            value: item.value,
-            unit: 'messages',
-            cost: 0,
-            'domain': item.domain
-          })
-        }
-
-       else {
-
+          category: 'messaging',
+          description: '',
+          value: item.value,
+          unit: 'messages',
+          cost: 0,
+          'domain': item.domain
+        })
+      } else {
 
         service.serviceItems.push({
 
@@ -74,42 +68,39 @@ export default class Service {
 
     items.forEach(function(item, index) {
 
+      if (item.category == 'voice') {
 
-        if (item.category == 'voice') {
+        service.serviceItems.push({
+          id: item.id,
+          category: 'voice',
+          description: '',
+          value: item.value,
+          unit: 'minutes',
+          cost: 0,
+          domain: item.domain
+        })
+      } else if (item.category == 'data') {
 
-          service.serviceItems.push({
-            id: item.id,
-            category: 'voice',
-            description: '',
-            value: item.value,
-            unit: 'minutes',
-            cost: 0,
-            domain: item.domain
-          })
-        } else if (item.category == 'data') {
-
-          service.serviceItems.push({
-            id: item.id,
-            category: 'data',
-            description: '',
-            value: item.value,
-            unit: 'Gb',
-            cost: 0,
-            domain: item.domain
-          })
-        } else if (item.category == 'messaging') {
-          service.serviceItems.push({
-            id: item.id,
-            category: 'messaging',
-            description: '',
-            value: item.value,
-            unit: 'messages',
-            cost: 0,
-            'domain': item.domain
-          })
-        }
-
-       else {
+        service.serviceItems.push({
+          id: item.id,
+          category: 'data',
+          description: '',
+          value: item.value,
+          unit: 'Gb',
+          cost: 0,
+          domain: item.domain
+        })
+      } else if (item.category == 'messaging') {
+        service.serviceItems.push({
+          id: item.id,
+          category: 'messaging',
+          description: '',
+          value: item.value,
+          unit: 'messages',
+          cost: 0,
+          'domain': item.domain
+        })
+      } else {
 
         service.serviceItems.push({
           'id': item.id,
