@@ -5,13 +5,13 @@ export default {
   name:'UpdateProfile',
   created(){
         this.id = this.$route.params.id;
+
+        employee.dataEmployee(this,this.id);
   },
 
 data(){
     return {
               id:null,
-
-
         personalInfo:{
                 fullName:'',
                 division:'',
@@ -37,7 +37,7 @@ data(){
 
         }
 
-          
+
 
     }
 },

@@ -33,8 +33,11 @@ methods:{
 
   },
   addDevice(){
-      if(this.service){
-          this.$router.push({name:'addDevice'})  
+      if(Object.keys(this.service).length != 0 ){
+          this.$router.push({name:'addDevice'})
+      }
+      else{
+
       }
 
 

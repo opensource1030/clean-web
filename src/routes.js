@@ -144,7 +144,7 @@ export default [
 {
  path: '/adddevice',
  component: AddDevice,
- name: 'AddDevice',
+ name: 'addDevice',
  meta: {
    requiresAuth: true
  }

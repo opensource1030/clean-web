@@ -66,9 +66,24 @@
 
                   </div>
                   <div class="small-6 columns">
+                    <div class="row">
                     <label>Office
                       <input type="text" placeholder="" :value="personalInfo.office" v-model="personalInfo.office">
                     </label>
+                  </div>
+                  <div class="row">
+
+                    <div class="checkbox"  >
+                      <label>
+                        <input type="checkbox"    id="st" >
+                        <span class="custom-checkbox"><i class="icon-check"></i></span>
+                        Ship to custom address
+                      </label>
+                    </div>
+
+                    </div>
+
+                  </div>
 
                   </div>
                 </div>
