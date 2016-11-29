@@ -17,7 +17,7 @@ export default {
 
     } else {
 
-      context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '/?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
+      context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
         localStorage.setItem('email', creds.email);
         window.location.href = response.data.data.redirectUrl;
 
