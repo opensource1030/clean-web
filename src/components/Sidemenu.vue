@@ -49,8 +49,8 @@
       <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
       </ul>
         <ul class="treeview-menu">
-          <li class="page-link"><a  class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+          <li class="page-link"><a  class="admin" target="_blank" v-bind="{ href: '/devices'}"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+          <li class="page-link"><a class="admin" target="_blank" v-bind="{ href: '/services'}"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
           <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
         </ul>
       </li>
