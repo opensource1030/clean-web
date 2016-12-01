@@ -215,7 +215,6 @@
 
  },
     mounted(){
-
   $('.page-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
@@ -233,7 +232,6 @@
       }).then((response) => {
 
         var event = store.sync(response.data);
-        
           if(event.companies.length>0){
         var clientdata = event.companies[0].contents[0].content;
         this.$http.get(clientdata, {

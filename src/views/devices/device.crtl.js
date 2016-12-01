@@ -10,7 +10,7 @@ Vue.directive('f-accordion', {
 });
 export default {
   name : 'Device',
-  created() {
+  beforeCreate() {
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
