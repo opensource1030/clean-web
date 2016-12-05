@@ -1,0 +1,113 @@
+@import "../base/clean-variables";
+#updateEmployee{
+      label{
+        color:$aluminum ;
+
+      }
+      #button {
+          margin: 0.5rem 3rem;
+          border-radius: 0.5rem;
+      }
+    }
+    #profile{
+
+      .accordion-content {
+      display: inherit;
+
+      }
+      ul {
+          list-style-type: none;
+          margin-left: inherit;
+      }
+      .thumbnail{
+        height:150px;
+        width:150px
+      }
+      .status{
+        font-size: 1.5rem;
+        margin-top: 2rem;
+      }
+
+
+      .price,h6,.monthy{
+            display: inline;
+
+      }
+      .device{
+        margin-top:2rem;
+      }
+      .upgrade{
+            margin-top: -1rem;
+      }
+      .request{
+        margin:2rem;
+
+      }
+      .margin{
+        margin-top: 3.5rem;
+
+      }
+
+      .sub{
+        font-size: 0.8rem;
+        margin-top:1rem;
+      }
+      .radio {
+        .sub
+        {
+        display: block;
+        margin-top: -0.6rem;
+      }
+
+      }
+      #buttonUpdate {
+        margin: -3.5rem 2rem;
+        float:right;
+          border-radius: 0.5rem;
+      }
+
+}
+#addService{
+  .radio {
+    .sub
+    {
+    display: block;
+    margin-top: -0.3rem;
+  }
+
+  }
+  .subGrey
+  {
+  display: block;
+  margin: -0.3rem 0.3rem;
+  font-size: 0.75rem;
+    color:$aluminum ;
+}
+
+  .code{
+    color:$aluminum ;
+
+  }
+  .price{
+
+    margin: 0 0 0.70909rem;
+  }
+
+
+
+
+}
+#addDevice{
+  .thumbnail{
+    height: 130px;
+    width:150px;
+    box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 200ms ease-out;
+  }
+  .price{
+      margin: 0 10rem;
+  }
+
+
+
+}

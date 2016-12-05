@@ -180,6 +180,7 @@
   var {Store} = require('yayson')()
   var  store = new Store()
   require('script!jquery');
+  require('script!jquery-match-height');
   require('script!jquery.soap');
   require('../modules/jquery.serialize-object');
   require('script!jquery-validation');
@@ -209,9 +210,12 @@
    },
    list () {
      return this.$route.matched
-   }
+   },
+
+
  },
     mounted(){
+
   $('.page-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
@@ -225,16 +229,24 @@
       }, 2000);
     });
     });
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
         var event = store.sync(response.data);
-        var clientdata = event.company.contents[0].content;
+          if(event.companies.length>0){
+        var clientdata = event.companies[0].contents[0].content;
         this.$http.get(clientdata, {
         }).then((response) => {
           this.data= response.data;
+
           setTimeout(function(){
             $(document).foundation();
           /*  $('.img-avatar').initial();*/
+            $('.grid-box').matchHeight({
+              byRow: true,
+              property: 'height',
+              target: null,
+              remove: false
+            });
             var $select = $('#support-form .user-actions'), $images = $('.mix');
             $select.on('change', function () {
               var value = '.' + $(this).val();
@@ -289,11 +301,22 @@
             });
           },300);
         });
+      }
       });
     },
     methods:{
       logout() {
         auth.logout()
+      },
+      grid(){
+        $(function() {
+          $('.grid-box').matchHeight({
+            byRow: true,
+            property: 'height',
+            target: null,
+            remove: false
+          });
+        });
       }
     },
     data(){

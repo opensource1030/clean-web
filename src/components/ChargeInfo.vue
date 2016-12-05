@@ -9,7 +9,7 @@
       <div class="box-content no-pad">
         <div class="wireless-overview">
           <table width="100%" class="responsive">
-            <tbody>
+            <thead>
             <tr>
               <th>Bill Month</th>
               <th>User Name</th>
@@ -23,18 +23,19 @@
               <th> Last Upgrade Date</th>
               <th width="20%"> Actions for this line</th>
             </tr>
-
-              <template  v-for="item in allocation.allocations">
-                <tr v-if="allocation">
+            </thead>
+              <tbody v-if="allocation && allocation.allocations && allocation.allocations.length > 0">
+                <template v-for="item in allocation.allocations">
+                <tr>
                 <td>{{ item.bill_month }}</td>
                 <td v-if="allocation">{{ allocation.first_name }}</td>
                 <td><a  v-bind="{ href: 'tel:'}">{{ item.mobile_number }}</a></td>
-                <td>{{ item.carrier }} fdamzvv</td>
+                <td>{{ item.carrier }} </td>
                 <td>{{ item.device }}</td>
-                <td>{{ item.allocated_charge }}</td>
-                <td>{{ item.usage_charge }}</td>
-                <td>{{ item.service_plan_charge }}</td>
-                <td>{{ item.other_charge }}</td>
+                <td> ${{ item.allocated_charge }}</td>
+                <td>${{ item.usage_charge }}</td>
+                <td>${{ item.service_plan_charge }}</td>
+                <td>${{ item.other_charge }}</td>
                 <td>{{ item.last_upgrade }}</td>
                   <td>
                     <select class="user-actions" >
@@ -49,27 +50,29 @@
                     </select>
                   </td>
                 </tr>
+                </template>
+              </tbody>
+            <tbody v-else>
+              <tr >
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+                <td> - </td>
+              </tr>
+              </tbody>
 
-              </template>
-            <template>
-            <tr v-if="allocation">
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-              <td> - </td>
-            </tr>
-
-</template>
 
 
-            </tbody></table>
+
+
+            </table>
         </div>
       </div>
     </div>
@@ -89,7 +92,6 @@ export default {
 
     this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
       var event = store.sync(response.data);
-
       this.allocation= event;
 
     }, (response) => {

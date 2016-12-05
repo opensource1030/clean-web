@@ -1,16 +1,12 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
-import {
-  filterByModificationsd,
-  filterByModifications,
-  filterByCarrier
-} from './../../components/filters.js';
+import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
 import devices from './../../api/device/devices';
 
 export default {
 
-  components: {
-    pagination: Pagination,
+  components : {
+    pagination: Pagination
   },
   created() {
     /*  bus.$on('#devices-table', function(page) {*/
@@ -20,7 +16,7 @@ export default {
 
   },
 
-  methods: {
+  methods : {
     filterByModificationsd,
     filterByModifications,
 
@@ -31,7 +27,7 @@ export default {
 
     filterByCarrier,
 
-    setActive: function (index) {
+    setActive: function(index) {
       this.active = index;
       console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
@@ -46,7 +42,7 @@ export default {
           }
         }
       }
-    },
+    }
   },
   data() {
     return {
@@ -60,7 +56,7 @@ export default {
         total_pages: null,
         count: null,
         total: null,
-        per_page: 25,
+        per_page: 25
       },
       filterCarriers: [],
       type: '',
@@ -70,8 +66,9 @@ export default {
       capacity: '',
       style: '',
       price: '',
+      loading: true,
+      loadtable: false
 
     };
-  },
-
+  }
 };

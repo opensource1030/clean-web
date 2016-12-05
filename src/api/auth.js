@@ -17,7 +17,7 @@ export default {
 
     } else {
 
-      context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '/?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
+      context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
         localStorage.setItem('email', creds.email);
         window.location.href = response.data.data.redirectUrl;
 
@@ -47,7 +47,7 @@ export default {
 
   singleSignOn(context, creds, redirect) {
 
-    context.$http.post(process.env.URL_API + '/oauth/access_token',
+    context.$http.post(process.env.URL_API + '/oauth/token',
       {
         grant_type: 'sso',
         client_id: process.env.CLIENT_ID,
@@ -57,8 +57,10 @@ export default {
       })
       .then((response) => {
         //   console.log(response.data);
-        localStorage.setItem('userId', response.data.user_id);
-        localStorage.setItem('token', response.data.access_token);
+
+        localStorage.setItem('userId', response.body.user_id);
+
+        localStorage.setItem('token', response.body.access_token);
         this.user.authenticated = true;
 
 
@@ -87,7 +89,7 @@ export default {
 
     } else {
 
-      context.$http.post(process.env.URL_API + '/oauth/access_token',
+      context.$http.post(process.env.URL_API + '/oauth/token',
         {
           grant_type: 'password',
           client_id: process.env.CLIENT_ID,
@@ -97,8 +99,10 @@ export default {
 
         })
         .then((response) => {
-          localStorage.setItem('userId', response.data.user_id);
-          localStorage.setItem('token', response.data.access_token);
+
+          localStorage.setItem('userId', response.body.user_id);
+
+          localStorage.setItem('token', response.body.access_token);
           this.user.authenticated = true;
 
           setTimeout(()=> {

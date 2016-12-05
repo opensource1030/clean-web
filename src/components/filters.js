@@ -43,6 +43,20 @@ function findBy(list, value) {
         });
 
 }
+function findByService(list,category,domain ) {
+let item=list.filter(function (item) {
+          return item.category == category && item.domain == domain;
+
+        });
+          return item[0];
+}
+function findByAddons(list,category,domain ) {
+return list.filter(function (item) {
+          return item.category == category && item.domain == domain;
+
+        });
+
+}
 
 function findByCapacity(list, value) {
   return list.filter(function (item) {
@@ -100,4 +114,4 @@ function reverse(value) {
   return value.split('').reverse().join('');
 }
 
-export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier};
+export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findByService,findByAddons};

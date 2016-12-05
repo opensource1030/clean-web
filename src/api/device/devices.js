@@ -23,6 +23,8 @@ export default {
       },
 
     }).then((response) => {
+      context.loading=false;
+      context.loadtable=true;
         context.pagination = response.data.meta.pagination;
         let prices = filterByFilters(response.data.included, 'prices');
         context.filterPrice = prices;
@@ -105,9 +107,6 @@ export default {
 
         context.devices = devices;
 
-      }, {
-        // Attach the JWT header
-        headers: auth.getAuthHeader(),
       },
 
       (response) => {

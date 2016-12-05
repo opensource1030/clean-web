@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700');
 // foundation color
 $white       : #FFFFFF;
 $ghost       : #FAFAFA;
@@ -18,20 +20,25 @@ $tuatara     : #444444;
 $oil         : #333333;
 $jet         : #222222;
 $black       : #000000;
-
+$light-gray: #e6e6e6;
+$medium-gray: #cacaca;
+$dark-gray: #8a8a8a;
 
 // body
-$global-font-size : 13px;
-$body-background : $white;
-$body-font-family : 'Open Sans', sans-serif;
+$global-font-size : 1.1rem;
+$body-background : #F5F4F6;
+$body-font-family : 'Crimson Text', serif;
+$header-font-family : 'Montserrat', sans-serif;
 $body-font-color : #01203F;
 
-$brand-orange: #f26922;
+$brand-orange:  #F49C20;
 $brand-green: #17BCBC;
 $brand-dark : #434A4F;
 $brand-red:#d9534f;
 $brand-blue:#003465;
 $bg-login : #4D86C5;
+$button-blue: #4185DE;
+$sidebar-bg: #292D32;
 
 //breakpoint
 $small: 0;
@@ -44,7 +51,7 @@ $large: 1440;
 $breadcrumbs-item-margin : 0.45rem;
 
 $foundation-palette: (
-        primary: $brand-orange,
+        primary: $button-blue,
         secondary: #777,
         success: #46C35F,
         warning: #FF7721,
@@ -59,4 +66,21 @@ $accordion-background:$smoke ;
 $accordion-plusminus:false;
 $accordion-item-color:$black;
 
-$accordion-item-padding:1.65rem 1rem
+$accordion-item-padding:1.65rem 1rem;
+
+//gutter
+$grid-column-gutter: 20px;
+
+
+
+
+// We use these to control border styles
+$thumb-border-style: solid;
+$thumb-border-width: 6px;
+$thumb-border-color: $black;
+$thumb-box-shadow: 0 0 0 1px rgba($black,.2);
+$thumb-box-shadow-hover: 0 0 6px 1px rgba($brand-orange,0.5);
+
+// Radius and transition speed for thumbs
+$thumb-radius: $brand-orange;
+$thumb-transition-speed: 200ms;
