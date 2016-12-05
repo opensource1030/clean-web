@@ -9,7 +9,9 @@ export default class Employee {
     this.supervisorEmail = supervisorEmail;
     this.udls = [];
     this.active=false;
+    this.relationships={};
     this.shippingAddress={};
+    this.udlValues=[];
   }
 
 
@@ -34,10 +36,36 @@ export default class Employee {
           employee.udls.push(udl)
 
         }
-
-
-
     }
+
+  setAddresUpdate(address,employee){
+console.log(address)
+    employee.relationships = Object.assign({}, employee.relationships, {
+      address: {
+        data:address
+      },
+
+    });
+
+
+  }
+    setUdlValues(udls,employee){
+          for(let udl of udls){
+          employee.udlValues.push( {
+            "type": "udlvalues",
+            "id": parseInt(udl.selected)
+          })
+          }
+          employee.relationships = Object.assign({}, employee.relationships, {
+            udlvalues: {
+              data:employee.udlValues
+            },
+
+          });
+
+          console.log(employee.relationships)
+    }
+
 
     setShippingAdress(addres,employee){
         employee.shippingAddress=addres;
@@ -48,7 +76,22 @@ export default class Employee {
 
     }
 
-  
+    toJSON() {
+         return {
+           type:"users",
+          id:parseInt(this.id),
+           attributes: {
+             first_name: this.firstName,
+             lastName: this.lastName,
+             email: this.email,
+             alternateEmail:this.alternateEmail,
+             supervisor_email:this.supervisorEmail,
+          },
+          relationships:this.relationships
+
+         };
+       }
+
 
 
 
