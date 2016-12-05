@@ -1,0 +1,29 @@
+@import "../base/clean-variables";
+
+.accordion-title:focus,
+.accordion-title:hover {
+    background-color: #F4A536!important;
+    color: black;
+}
+
+
+.is-active {
+    background-color: #F4A536 !important;
+}
+
+.acordeon {
+    list-style-type: none;
+
+    .accordion-title {
+        position: inherit;
+        font-size: 1rem;
+font-weight: 600;
+    }
+
+
+
+    .acordeon-item {
+        margin: 2rem;
+        background-color: $iron;
+}
+}

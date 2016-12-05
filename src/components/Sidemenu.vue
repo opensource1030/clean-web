@@ -39,6 +39,44 @@
           <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
         </ul>
       </li>
+      <li class="treeview">
+        <a  href="#">
+          <i class="fa fa-list-alt"></i>
+          <span>PROCUREMENTS</span>
+          <i class="fa fa-angle-down pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+      <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
+      </ul>
+        <ul class="treeview-menu">
+          <li class="page-link"><a  class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a  href="#">
+          <i class="fa fa-th-large"></i>
+          <span>PACKAGES</span>
+          <i class="fa fa-angle-down pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Create Package</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a  href="#">
+          <i class="fa fa-tasks"></i>
+          <span>PRESETS</span>
+          <i class="fa fa-angle-down pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Device</a></li>
+          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> App</a></li>
+          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Addresses</a></li>
+
+        </ul>
+      </li>
       <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
 
 
@@ -58,22 +96,23 @@ import auth from './../api/auth'
 export default {
   name: "Sidemenu",
     created () {
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
 
       }).then((response) => {
 
         var event = store.sync(response.data);
-        var cosmicdata = event.company.contents[1].content;
+        if(event.companies.length>0){
+            var cosmicdata = event.companies[0].contents[1].content;
+              console.log(cosmicdata);
+            this.$http.get(cosmicdata, {
 
-        this.$http.get(cosmicdata, {
-
-        }).then((response) => {
-
-          this.company =response.data;
+            }).then((response) => {
+                console.log(response);
+              this.company =response.data;
 
 
-        });
-
+            });
+          }
 
       });
     },

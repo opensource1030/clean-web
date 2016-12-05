@@ -117,6 +117,19 @@ $sidebar-menu-hover-border-color: #3c8dbc;
           width: auto;
         }
       }
+      .admin {
+        padding: 5px 5px 5px 30px;
+        display: block;
+
+        color: $sidebar-menu-submenu-color;
+        > .fa {
+          width: 20px;
+        }
+        > .fa-angle-left,
+        > .fa-angle-down {
+          width: auto;
+        }
+      }
       > a:hover{
         color: $brand-orange;
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="content-right">
-    <div id="devices">
+    <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
 
@@ -56,7 +56,7 @@
                     </select></th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody v-show="showtable" >
                   <tr class="filter">
                     <td><div></div></td>
                     <td><div>{{type}}</div></td>
@@ -145,9 +145,12 @@
 
                 </tbody>
               </table>
-              <pagination :pagination="pagination" :callback="loadData"></pagination>
-            </div>
 
+              <div class="load">
+                  <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
+                </div>
+            </div>
+              <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
           </div>
 
         </div>

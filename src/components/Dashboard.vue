@@ -229,13 +229,15 @@
       }, 2000);
     });
     });
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=company.contents', {
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
         var event = store.sync(response.data);
-        var clientdata = event.company.contents[0].content;
+          if(event.companies.length>0){
+        var clientdata = event.companies[0].contents[0].content;
         this.$http.get(clientdata, {
         }).then((response) => {
           this.data= response.data;
+
           setTimeout(function(){
             $(document).foundation();
           /*  $('.img-avatar').initial();*/
@@ -299,6 +301,7 @@
             });
           },300);
         });
+      }
       });
     },
     methods:{

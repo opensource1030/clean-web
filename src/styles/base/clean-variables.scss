@@ -70,3 +70,17 @@ $accordion-item-padding:1.65rem 1rem;
 
 //gutter
 $grid-column-gutter: 20px;
+
+
+
+
+// We use these to control border styles
+$thumb-border-style: solid;
+$thumb-border-width: 6px;
+$thumb-border-color: $black;
+$thumb-box-shadow: 0 0 0 1px rgba($black,.2);
+$thumb-box-shadow-hover: 0 0 6px 1px rgba($brand-orange,0.5);
+
+// Radius and transition speed for thumbs
+$thumb-radius: $brand-orange;
+$thumb-transition-speed: 200ms;
