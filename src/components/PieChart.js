@@ -8,15 +8,12 @@ var store = new Store();
 export default Pie.extend({
 
     mounted () {
-        this.renderChart(this.pieData, this.options_3);
+        this.renderChart(this.pieData, this.options);
     },
     data () {
         return {
-            labels: ['Usage Charge', 'Service Plan Charges','Other Charges'], // I want to put data from api call
-            data: [1, 15, 27.4], // I want to put data from api call
-            options: {
-                segmentShowStroke: false
-            },
+            labels: ['data_category', 'other_category','unknown_category','voice_category'],
+            data: '', // I want to put data from api call
             backgroundColor: [
                 '#1fc8db',
                 '#fce473',
@@ -24,13 +21,14 @@ export default Pie.extend({
                 '#ed6c63',
                 '#97cd76'
             ],
-            options_3: {
+            options: {
                 tooltips: {
                     mode: 'label'
                 },
                 legend :{
                     position: 'bottom'
-                }
+                },
+                segmentShowStroke: false
             }
         }
     },
@@ -40,7 +38,7 @@ export default Pie.extend({
                 labels: this.labels
             }
              data.datasets= [{
-                    data: this.data,
+                    data: this.test(),
                     backgroundColor: this.backgroundColor
                 }]
             return data;
@@ -48,6 +46,8 @@ export default Pie.extend({
         }
     },
     methods: {
-
+       test (){
+           return [1, 15, 27.4,32.40]
+       }
     }
 })
