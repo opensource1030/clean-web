@@ -68,7 +68,12 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &.logo{
       padding: 10px 9px 10px 8px;
       background: $white;
+      height:72px;
+      text-align: center;
       /*border-right:1px #37474F solid;*/
+      img{
+        max-height: 52px;
+      }
     }
   }
   li > a > .fa-angle-down {

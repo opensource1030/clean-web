@@ -103,14 +103,9 @@ export default {
         var event = store.sync(response.data);
         if(event.companies.length>0){
             var cosmicdata = event.companies[0].contents[1].content;
-              console.log(cosmicdata);
             this.$http.get(cosmicdata, {
-
             }).then((response) => {
-                console.log(response);
               this.company =response.data;
-
-
             });
           }
 
@@ -180,11 +175,32 @@ export default {
         });
       }
       $(this.$el).foundation();
-          $.sidebarMenu($('.sidebar-menu'));
-          $('.icon-close').click(function(){
-            $('.menu-left').toggleClass('test');
-            $('.content-right').toggleClass('test')
-          });
+      $.sidebarMenu($('.sidebar-menu'));
+
+      if($.cookie("isMenuActive") == 1)
+      {
+        $('.menu-left').addClass("test");
+        $('.content-right').addClass("test");
+      }
+
+      $(".icon-close").click(function() {
+        if($(".menu-left").hasClass("test")  == true)
+        {
+          //button was active, de-activate it and update cookie
+          $(".menu-left").removeClass("test");
+          $(".content-right").removeClass("test");
+          $.cookie("isMenuActive", "0");
+        }
+        else
+        {
+          //button is not active. add active class and update cookie.
+          $(".menu-left").addClass("test");
+          $(".content-right").addClass("test");
+          $.cookie("isMenuActive", "1");
+
+        }
+      });
+
 
 
 
