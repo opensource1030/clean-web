@@ -19,9 +19,9 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu" style="display: none;">
-          <li class="page-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
+          <li class="redirect-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -31,53 +31,53 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp"><i class="fa fa-circle-o"></i> Charge</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp"><i class="fa fa-circle-o"></i> Data</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp"><i class="fa fa-circle-o"></i> International</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp"><i class="fa fa-circle-o"></i> Usage</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
-          <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp"><i class="fa fa-circle-o"></i> Charge</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp"><i class="fa fa-circle-o"></i> Data</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp"><i class="fa fa-circle-o"></i> International</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp"><i class="fa fa-circle-o"></i> Usage</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
+          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
         </ul>
       </li>
       <li class="treeview">
-        <a  href="#">
+        <a  href="javascript:;">
           <i class="fa fa-list-alt"></i>
           <span>PROCUREMENTS</span>
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-      <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
+      <li ><a  href=""><i class="fa fa-circle-o"></i>Admin</a></li>
       </ul>
         <ul class="treeview-menu">
-          <li class="page-link"><a  class="admin" target="_blank" v-bind="{ href: '/devices'}"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-          <li class="page-link"><a class="admin" target="_blank" v-bind="{ href: '/services'}"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
-          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
+          <li ><a  class="admin"  v-bind="{ href: '/devices'}"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+          <li ><a class="admin"  v-bind="{ href: '/services'}"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+          <li ><a class="admin"  href="javascript:;"><i class="fa fa-circle-o"></i> Configuration</a></li>
         </ul>
       </li>
       <li class="treeview">
-        <a  href="#">
+        <a  href="javascript:;">
           <i class="fa fa-th-large"></i>
           <span>PACKAGES</span>
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Create Package</a></li>
+          <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i> Create Package</a></li>
         </ul>
       </li>
       <li class="treeview">
-        <a  href="#">
+        <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>PRESETS</span>
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Device</a></li>
-          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> App</a></li>
-          <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i> Addresses</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Device</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> App</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Addresses</a></li>
 
         </ul>
       </li>
-      <li class="page-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
+      <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
 
 
     </ul>
@@ -116,7 +116,7 @@ export default {
           var token = localStorage.token;
           var id = localStorage.userId;
           var email = localStorage.email;
-          $('.page-link a').attr('href', function(index, href) {
+          $('.redirect-link a').attr('href', function(index, href) {
 
             var param = 'access_token='+ token + '&email=' + email;
 
@@ -126,7 +126,6 @@ export default {
               return href + '&' + param;
             else
               return href + '?' + param;
-
 
           });
           if(token !== undefined){
