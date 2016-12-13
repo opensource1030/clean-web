@@ -27,7 +27,7 @@ export default {
 
     setActive: function(index) {
       this.active = index;
-      console.log(this.devices[index]);
+    //  console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
       if (this.devices[this.active].show == true) {
         this.devices[this.active].show = false;

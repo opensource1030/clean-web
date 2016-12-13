@@ -31,8 +31,9 @@ function filterByModificationsd(list, value) {
 }
 
 function filterByCarrier(list, value) {
+
   return list.filter(function (item) {
-    return item.id.indexOf(value) > -1;
+      return item.carrierId == value;
   });
 }
 

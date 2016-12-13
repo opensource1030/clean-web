@@ -101,7 +101,7 @@ export default {
           }
 
           devices.push(device);
-          console.log(device);
+        //  console.log(device);
 
         }
 

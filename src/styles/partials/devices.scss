@@ -69,13 +69,16 @@
             margin-top: -1em;
         }
     }
-  
+
 }
 
 #device {
     .header {
         padding: 1.8rem;
         background: $white;
+    }
+    .button{
+        margin: 0 0 1rem 3rem;
     }
 
     .titles {
@@ -99,6 +102,7 @@
     .devicename {
         label {
             padding: 0 3.2rem;
+            margin:1rem 0 0 0;
         }
     }
 
@@ -121,14 +125,15 @@
                       height: 0.5rem;
                           }
 
-                          .input-group-field {
-                border-radius: 0;
+            .input-group-field {
+                  border-radius: 0;
                   height: 2.3rem;
-                width: 5rem;
-                text-align: right;
+                  width: 2.8rem;
+                  text-align: right;
             }
             .input-group-label{
                   border: 0rem solid #cacaca;
+                      padding: 0 0.5rem;
             }
 
 
@@ -177,8 +182,6 @@
                     text-align: right;
                     width: 12%;
 
-
-
                     .features {
                         margin: 1rem 1.6rem;
                     }
@@ -213,7 +216,7 @@
             .modifications {
                 .button {
                     font-size: 13px;
-                    margin: 1.8rem -1rem;
+                    margin: 1.4rem -0.5rem;
                     border-radius: 0.5rem;
                 }
 
@@ -259,8 +262,8 @@
 
             .companies {
                 .button {
-                    margin: 2rem;
-                    padding: 1rem 3rem;
+                    margin: 1.2rem;
+                    padding: 0.8rem 2.5rem;
                     font-weight: 800;
                     font-size: 14px;
                     border-radius: 0.5rem;
