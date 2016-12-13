@@ -4,7 +4,7 @@ import Employee from './../../models/Employee';
 
 var {Store} = require('yayson')();
 var store = new Store();
-const result = JSON.parse(localStorage.getItem("userProfile"));
+var result = JSON.parse(localStorage.getItem("userProfile"));
 var employee = new Employee(result.id, result.firstName, result.lastName, result.email, result.alternateEmail, result.supervisorEmail)
 
 export default {
