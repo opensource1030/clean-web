@@ -215,7 +215,7 @@
 
  },
     mounted(){
-  $('.page-link a').each(function(e){
+  $('.redirect-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
       var $modalredirect = $('#modal');
