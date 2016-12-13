@@ -4,12 +4,13 @@ import Employee from './../../models/Employee';
 
 var {Store} = require('yayson')();
 var store = new Store();
-var result = JSON.parse(localStorage.getItem("userProfile"));
-var employee = new Employee(result.id, result.firstName, result.lastName, result.email, result.alternateEmail, result.supervisorEmail)
+
 
 export default {
 
   dataEmployee(context) {
+    var result = JSON.parse(localStorage.getItem("userProfile"));
+    var employee = new Employee(result.id, result.firstName, result.lastName, result.email, result.alternateEmail, result.supervisorEmail)
 
     context.$http.get(process.env.URL_API + '/companies/' + result.companyId, {}).then((response) => {
 
