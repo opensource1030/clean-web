@@ -10,14 +10,12 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-  import PieData from './../api/piedata'
   import Vue from 'vue'
-
-
+  import PieData from './../api/piedata'
   import TrendChart from './TrendChart'
   export default {
     components: { TrendChart },
@@ -26,22 +24,18 @@
         return{
           data:null
         }
-
     },
+
     methods:{
-          callback(){
-                //API CALL IN THE FILE ./../api/piedata 
-              //  PieData.get(this,this.data)
-       return  this.data=[
-        [25, 40, 50],
-        [28, 48, 40],
-        [10, 55, 30]
-      ];
-
-
-          }
-
+      callback() {
+        //API CALL IN THE FILE ./../api/piedata 
+        //  PieData.get(this,this.data)
+        return  this.data=[
+          [25, 40, 50],
+          [28, 48, 40],
+          [10, 55, 30]
+        ];
+      }
     }
-
   }
 </script>
