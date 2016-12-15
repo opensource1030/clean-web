@@ -215,8 +215,8 @@
       },
     },
 
-    mounted(){
-      $('.redirect-link a').each(function(e){
+    mounted() {
+      $('.page-link a').each(function(e){
         $(this).click(function(e){
           var link = this.href;
           var $modalredirect = $('#modal');
@@ -229,6 +229,7 @@
           }, 2000);
         });
       });
+
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
 
@@ -317,7 +318,7 @@
             _.sumBy(event.allocations, 'voice_category'),
           ]);
 
-          // console.log(event.allocations);
+          console.log(event.allocations);
           // console.log(this.piechartData);
         }
       });
