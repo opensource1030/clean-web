@@ -3,7 +3,7 @@ import service from './../../api/service/service';
 
 export default {
   name : 'Services',
-  created() {
+    beforeCreate() {
     service.getCarrier(this);
     this.id = this.$route.params.id;
     if (this.id != null) {

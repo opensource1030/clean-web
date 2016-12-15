@@ -215,8 +215,7 @@
 
  },
     mounted(){
-
-  $('.page-link a').each(function(e){
+  $('.redirect-link a').each(function(e){
     $(this).click(function(e){
       var link = this.href;
       var $modalredirect = $('#modal');
@@ -231,6 +230,7 @@
     });
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
+
         var event = store.sync(response.data);
           if(event.companies.length>0){
         var clientdata = event.companies[0].contents[0].content;

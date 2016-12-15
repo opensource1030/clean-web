@@ -7,7 +7,7 @@
         <div class="expanded row">
 
             <div class="small-12 columns" >
- 
+
               <ul  class="acordeon" >
                 <li class="acordeon-item  is-active" >
                   <a  class="accordion-title"   >Personal Information</a>
@@ -179,20 +179,20 @@
                             </div>
                             <div class="row">
                           <div class="radio">
-                                  <input type="radio"  value="Red" id="subsidedDevice" required><label for="subsidedDevice">As a New Service</label>
+                                  <input type="radio" name="service" value="a" id="subsidedDevice" required><label for="subsidedDevice">As a New Service</label>
                                   <span  class="sub">new mobile number</span>
                           </div>
                           <div class="radio">
-                                  <input type="radio" value="Red" id="payByYourself" required><label for="payByYourself">Liability Change</label>
+                                  <input type="radio" name="service" value="b" id="payByYourself" required><label for="payByYourself">Liability Change</label>
                                           <span class="sub" >transfer your presonal-liable mobile numbre to a corporate-liable account keep same carrier</span>
                           </div>
                           <div class="radio">
-                                  <input type="radio"  value="Red" id="accesories" required><label for="accesories">Line Port + Liability Change</label>
+                                  <input type="radio" name="service" value="R" id="accesories" required><label for="accesories">Line Port + Liability Change</label>
                                         <span class="sub">transfer your personal-liable mobile numbre to a corporate-lable account and switch carriers</span>
 
                           </div>
                           <div class="radio">
-                                  <input type="radio"  value="Red" id="customRequest" required><label for="customRequest">Line Port</label>
+                                  <input type="radio" name="service" value="d" id="customRequest" required><label for="customRequest">Line Port</label>
                                           <span class="sub">switch your corporate-liable mobile number to a different carrier</span>
                           </div>
 
@@ -256,7 +256,7 @@
 
                           <div class="small-3 columns">
                             <div class="row">
-                                  <a class="button expand request" @click="save()"   v-bind:style="{ backgroundColor: color }" >Request Device</a>
+                                  <a class="button expand request" @click="addDevice()"   v-bind:style="{ backgroundColor: color }" >Request Device</a>
                                 </div>
 
 
