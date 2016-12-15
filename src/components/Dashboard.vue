@@ -169,9 +169,8 @@
         </form>
       </div>
       <div class="clearfix"></div>
-      {{ user }}
-        <piechart> </piechart>
-        <trendchart> </trendchart>
+        <piechart :data="piechartData"></piechart>
+        <trendchart></trendchart>
     </div>
   </div>
 
@@ -186,6 +185,7 @@
   require('../modules/jquery.serialize-object');
   require('script!jquery-validation');
   require('highcharts');
+  import _ from 'lodash';
   import auth from './../api/auth'
   import Avatar from 'vue-avatar/dist/Avatar'
   import Breadcrumb from 'vue-bulma-breadcrumb'
@@ -205,15 +205,18 @@
       Trendchart,
       Avatar
     },
- computed: {
-   name () {
-     return this.$route.name
-   },
-   list () {
-     return this.$route.matched
-   },
 
+    computed: {
+      name() {
+        return this.$route.name
+      },
 
+      list() {
+        return this.$route.matched
+      },
+    },
+
+<<<<<<< HEAD
  },
     mounted(){
   $('.redirect-link a').each(function(e){
@@ -229,82 +232,117 @@
       }, 2000);
     });
     });
+=======
+    mounted() {
+      $('.page-link a').each(function(e){
+        $(this).click(function(e){
+          var link = this.href;
+          var $modalredirect = $('#modal');
+          e.preventDefault();
+          $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
+          setTimeout(function() {
+            $('.for-dashboard').hide(100);
+            $modalredirect.foundation('close');
+            window.location=link;
+          }, 2000);
+        });
+      });
+
+>>>>>>> integrate api to pie-chart
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
 
         var event = store.sync(response.data);
-          if(event.companies.length>0){
-        var clientdata = event.companies[0].contents[0].content;
-        this.$http.get(clientdata, {
-        }).then((response) => {
-          this.data= response.data;
+        if (event.companies.length>0) {
+          var clientdata = event.companies[0].contents[0].content;
+          this.$http.get(clientdata, {
+          }).then((response) => {
+            this.data= response.data;
+            setTimeout(function(){
+              $(document).foundation();
+              // $('.img-avatar').initial();
+              $('.grid-box').matchHeight({
+                byRow: true,
+                property: 'height',
+                target: null,
+                remove: false
+              });
 
-          setTimeout(function(){
-            $(document).foundation();
-          /*  $('.img-avatar').initial();*/
-            $('.grid-box').matchHeight({
-              byRow: true,
-              property: 'height',
-              target: null,
-              remove: false
-            });
-            var $select = $('#support-form .user-actions'), $images = $('.mix');
-            $select.on('change', function () {
-              var value = '.' + $(this).val();
-              $images.show(200).not(value).hide();
-            });
-            var $selectOption = $('.wireless-overview .user-actions');
-            $selectOption.on('change', function () {
-              var value1 = $(this).val();
-              $('.btn-provision').click();
-              $select.prop('value', value1);
-            });
-            $('.btn-provision').click(function () {
-              $('.support-form-holder').show(200);
-            })
-            $('#btn-close').click(function () {
-              $('#support-form')[0].reset();
-              $('.support-form-holder').hide(200);
-              $selectOption.prop('selectedIndex', 0);
-            })
-            $(document).keyup(function (e) {
-              if (e.keyCode == 27) $('#btn-close').click();
-            });
-            var $modal = $('#modal');
-            $("#support-form").validate({
-              rules: {
-                "description": {
-                  required: true,
-                  minlength: 8
+              var $select = $('#support-form .user-actions'), $images = $('.mix');
+              $select.on('change', function () {
+                var value = '.' + $(this).val();
+                $images.show(200).not(value).hide();
+              });
+
+              var $selectOption = $('.wireless-overview .user-actions');
+              $selectOption.on('change', function () {
+                var value1 = $(this).val();
+                $('.btn-provision').click();
+                $select.prop('value', value1);
+              });
+
+              $('.btn-provision').click(function () {
+                $('.support-form-holder').show(200);
+              });
+
+              $('#btn-close').click(function () {
+                $('#support-form')[0].reset();
+                $('.support-form-holder').hide(200);
+                $selectOption.prop('selectedIndex', 0);
+              });
+
+              $(document).keyup(function (e) {
+                if (e.keyCode == 27) $('#btn-close').click();
+              });
+
+              var $modal = $('#modal');
+              $("#support-form").validate({
+                rules: {
+                  "description": {
+                    required: true,
+                    minlength: 8
+                  }
+                },
+                submitHandler: function (form) {
+                  var formData = $(form).serializeObject();
+                  $.soap({
+                    url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
+                    method: 'EZV_CreateRequest',
+                    data: formData,
+                    success: function (soapResponse) {
+                      $modal.addClass('is-success').append("<p>Request cannot be sent</p>").foundation('open');
+                      $('#support-form')[0].reset();
+                    },
+                    error: function (SOAPResponse) {
+                      $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
+                    },
+                    parts: {
+                      Account: '50005',
+                      Login: 'CLEANWebServices',
+                      Pass: 'CLEANWebServices',
+                      Catalog_GUID: 'simple',
+                    },
+                  });
                 }
-              },
-              submitHandler: function (form) {
-                var formData = $(form).serializeObject();
-                $.soap({
-                  url: 'https://wa.easyvista.com:443/WebService/SmoBridge.php/',
-                  method: 'EZV_CreateRequest',
-                  data: formData,
-                  success: function (soapResponse) {
-                    $modal.addClass('is-success').append("<p>Request cannot be sent</p>").foundation('open');
-                    $('#support-form')[0].reset();
-                  },
-                  error: function (SOAPResponse) {
-                    $modal.addClass('is-error').append("<p>Request cannot be sent</p>").foundation('open');
-                  },
-                  parts: {
-                    Account: '50005',
-                    Login: 'CLEANWebServices',
-                    Pass: 'CLEANWebServices',
-                    Catalog_GUID: 'simple',
-                  },
-                });
-              }
-            });
-          },300);
-        });
-      }
+              });
+            },300);
+          });
+        }
+
+        if (event.allocations.length > 0) {
+          this.$set(this, 'piechartData', [
+            _.sumBy(event.allocations, 'data_category'),
+            _.sumBy(event.allocations, 'other_category'),
+            _.sumBy(event.allocations, 'unknown_category'),
+            _.sumBy(event.allocations, 'voice_category'),
+          ]);
+
+          console.log(event.allocations);
+          // console.log(this.piechartData);
+        }
       });
     },
+
     methods:{
       logout() {
         auth.logout()
@@ -320,16 +358,13 @@
         });
       }
     },
+
     data(){
       return {
         data: {},
-        user: auth.user
+        user: auth.user,
+        piechartData: [],
       }
     }
   }
-
-
-
-
-
 </script>
