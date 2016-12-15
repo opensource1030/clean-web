@@ -12,20 +12,30 @@ export default {
     var result = JSON.parse(localStorage.getItem("userProfile"));
     var employee = new Employee(result.id, result.firstName, result.lastName, result.email, result.alternateEmail, result.supervisorEmail)
 
-    context.$http.get(process.env.URL_API + '/companies/' + result.companyId, {}).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies/' + result.companyId, {
+      params: {
+      include:'udls'
+      },
 
-      if (result.address != null) {
-        employee.setShippingAdress(result.address[0], employee)
+
+    }).then((response) => {
+
+
+      if (result.address.length != 0) {
         employee.setActive(true, employee)
+          employee.setShippingAdress(result.address[0], employee)
+      }else{
+        employee.setActive(false, employee)
       }
       let event = store.sync(response.data);
-      console.log(event);
 
-      if (result.udlvalues != null && event.udls != null) {
+
+      if (result.udlvalues!= undefined && event.udls.length != 0) {
         employee.setUdl(result.udlvalues, event.udls, employee);
+
       }
 
-      context.uiemployee = employee;
+     context.uiemployee = employee;
 
     }, (response) => {});
 

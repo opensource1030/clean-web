@@ -156,11 +156,14 @@ export default {
 
   userData(context){
 
-    context.$http.get(process.env.URL_API + '/users/me' , {
+    context.$http.get(process.env.URL_API + '/users/me' ,{
+         headers: this.getAuthHeader(),
+         include:'udlvalues'
 
     }).then((response) => {
-      
+
           let  event = store.sync(response.data);
+          console.log(event)
      localStorage.setItem('userProfile', JSON.stringify(event));
 
     }, (response) => {});

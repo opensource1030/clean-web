@@ -56,8 +56,8 @@
 
 
 
-             <div class="row" >
-                <div class="small-6 columns " v-for="udl in uiemployee.udls" >
+             <div class="row"  >
+                <div class="small-6 columns "v-if="uiemployee.udls.lenght!=0" v-for="udl in uiemployee.udls" >
 
                   <label>{{udl.label}}
                     <select v-model="udl.selected" >
