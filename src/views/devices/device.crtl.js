@@ -150,7 +150,6 @@ export default {
             }
           }
         }
-  console.log("fdfd")
         return this.pricess;
       } else {
         if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
@@ -178,7 +177,6 @@ export default {
               }
             }
           }
-          console.log("fdfd")
           return this.price;
         } else {
           return '';
@@ -210,10 +208,7 @@ export default {
       });
     },
     findCompany(){
-
         device.filterCompanies(this,this.page,this.companyFilter);
-
-
     },
 
     findById(relationships, price, priceId, type) {
@@ -232,51 +227,6 @@ export default {
       return false;
     },
 
-    updateRetail(i, e) {
-
-      console.log(e);
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {retail: value});
-
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateOne(i, e) {
-      var value = e.target.value;
-      console.log(value);
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {priceOne: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateTwo(i, e) {
-      var value = e.target.value;
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {priceTwo: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateOwn(i, e) {
-      var value = e.target.value;
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {Own: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    toggle() {
-      this.show = !this.show;
-      this.pricePost = [];
-      if (this.id != null) {
-        for (let price of this.pricess) {
-          console.log(price);
-          this.pricePost.push(price);
-        }
-      } else {
-        for (let price of this.price) {
-          this.pricePost.push(price);
-        }
-      }
-    },
 
     changeStatusCompany(index) {
       this.companies.data[index].check = !this.companies.data[index].check;

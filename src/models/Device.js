@@ -1,7 +1,8 @@
 export default class Device {
 
-  constructor(type, id, name, properties, deviceTypeId, statusId, imageId) {
+  constructor(type, id,identification, name, properties, deviceTypeId, statusId, imageId) {
     this.id = id;
+    this.identification=identification;
     this.type = type;
     this.name = name;
     this.properties = properties;
@@ -94,12 +95,13 @@ export default class Device {
   toJSON() {
     return {
       type: this.type,
+      id:this.id,
       attributes: {
         name: this.name,
         properties: this.properties,
         deviceTypeId: this.deviceTypeId,
         statusId: 1,
-        identification: this.id
+        identification: this.identification,
       },
       relationships: {
         modifications: {

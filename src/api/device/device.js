@@ -23,7 +23,7 @@ export default {
 
   updateDevice(id, context, price, style, capacity, carriers, companies, device, image) {
 
-      let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
+      let deviceObj = new Device('devices',id, device.id, device.name, device.description, device.type, 1, image.id);
     if(capacity.length===0 && style.length===0 && carrriers.length===0 && companies.length===0 && price.length===0){
       context.showModal=true;
     }else{
@@ -258,7 +258,8 @@ export default {
 
   addDevice(context, price, style, capacity, carriers, companies, device, image) {
 
-  let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
+
+  let deviceObj = new Device('devices',null,device.id, device.name, device.description, device.type, 1, image.id);
     if(capacity.length===0 && style.length===0 && carriers.length===0 && companies.length===0 && price.length===0){
       context.showModal=true;
     }else{
