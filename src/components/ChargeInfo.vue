@@ -24,34 +24,34 @@
               <th width="20%"> Actions for this line</th>
             </tr>
             </thead>
-              <tbody v-if="allocation && allocation.allocations && allocation.allocations.length > 0">
-                <template v-for="item in allocation.allocations">
-                <tr>
-                <td>{{ item.bill_month }}</td>
-                <td v-if="allocation">{{ allocation.first_name }}</td>
-                <td><a  v-bind="{ href: 'tel:'}">{{ item.mobile_number }}</a></td>
-                <td>{{ item.carrier }} </td>
-                <td>{{ item.device }}</td>
-                <td> ${{ item.allocated_charge }}</td>
-                <td>${{ item.usage_charge }}</td>
-                <td>${{ item.service_plan_charge }}</td>
-                <td>${{ item.other_charge }}</td>
-                <td>{{ item.last_upgrade }}</td>
-                  <td>
-                    <select class="user-actions" >
-                      <option disabled value=" " selected>-- Choose an issue ---</option>
-                      <option value="IRE1-1">Troubleshooting</option>
-                      <option value="IRE1-2">Plan Change</option>
-                      <option value="IRE1-3">Email Service</option>
-                      <option value="ALR4-4">Billing &amp; allocations</option>
-                      <option value="IRE1-5">Activation</option>
-                      <option value="IRE1-6">International Request</option>
-                      <option value="IRE0-7">Other</option>
-                    </select>
-                  </td>
-                </tr>
-                </template>
-              </tbody>
+            <tbody v-if="allocation && allocation.allocations && allocation.allocations.length > 0">
+            <template v-for="item in allocation.allocations">
+              <tr>
+                <td v-html="item.bill_month ? item.bill_month : '0000-00-00'  "> </td>
+                <td v-if="allocation"  v-html="allocation.first_name ? allocation.first_name : '-' "> </td>
+                <td><a  v-bind="{ href: 'tel:'}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' ">{{ item.mobile_number }}</a></td>
+                <td v-html="item.carrier ? item.carrier : '-'  "> </td>
+                <td v-html="item.device ? item.device : '-'  "> </td>
+                <td v-html="item.allocated_charge ? '$'+ item.allocated_charge : '$0' "> </td>
+                <td v-html="item.usage_charge ? '$'+ item.usage_charge : '$0' "> </td>
+                <td v-html="item.service_plan_charge ? '$'+ item.service_plan_charge : '$0' "> </td>
+                <td v-html="item.other_charge ? '$'+ item.other_charge : '$0' " > </td>
+                <td v-html="item.last_upgrade ? item.last_upgrade : '0000-00-00' "> </td>
+                <td>
+                  <select class="user-actions" >
+                    <option disabled value=" " selected>-- Choose an issue ---</option>
+                    <option value="IRE1-1">Troubleshooting</option>
+                    <option value="IRE1-2">Plan Change</option>
+                    <option value="IRE1-3">Email Service</option>
+                    <option value="ALR4-4">Billing &amp; allocations</option>
+                    <option value="IRE1-5">Activation</option>
+                    <option value="IRE1-6">International Request</option>
+                    <option value="IRE0-7">Other</option>
+                  </select>
+                </td>
+              </tr>
+            </template>
+            </tbody>
             <tbody v-else>
               <tr >
                 <td> - </td>
@@ -67,11 +67,6 @@
                 <td> - </td>
               </tr>
               </tbody>
-
-
-
-
-
             </table>
         </div>
       </div>
@@ -89,15 +84,14 @@
 export default {
     name: "ChargeInfo",
   created(){
-
     this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
       var event = store.sync(response.data);
       this.allocation= event;
+      console.log(event);
 
     }, (response) => {
 
     });
-
   },
   data(){
     return {
