@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import device from './../../api/device/device';
 import {findByPrices, filterByModifications} from './../../components/filters.js';
+import modal from './../../components/modal.vue';
+import inputValidate from './../../components/inputValidate.vue'
+
 Vue.directive('f-accordion', {
   bind: function(el) {
     Vue.nextTick(function() {
@@ -10,7 +13,12 @@ Vue.directive('f-accordion', {
 });
 export default {
   name : 'Device',
+  components: {
+    modal,
+  inputValidate
+  },
   beforeCreate() {
+
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
@@ -142,7 +150,7 @@ export default {
             }
           }
         }
-
+  console.log("fdfd")
         return this.pricess;
       } else {
         if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
@@ -170,7 +178,7 @@ export default {
               }
             }
           }
-
+          console.log("fdfd")
           return this.price;
         } else {
           return '';
@@ -182,9 +190,9 @@ export default {
     findByPrices,
     submit() {
       if (this.id != null) {
-        device.updateDevice(this.id, this, this.pricePost, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       } else {
-        device.addDevice(this, this.pricePost, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+        device.addDevice(this, this.price, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       }
     },
 
@@ -201,6 +209,13 @@ export default {
         }
       });
     },
+    findCompany(){
+
+        device.filterCompanies(this,this.page,this.companyFilter);
+
+
+    },
+
     findById(relationships, price, priceId, type) {
 
       for (let relation of relationships) {
@@ -218,8 +233,8 @@ export default {
     },
 
     updateRetail(i, e) {
-      var value = e.target.value;
-      console.log(value);
+
+      console.log(e);
       var price = this.pricePost[i];
       var extending = Object.assign({}, price, {retail: value});
 
@@ -228,6 +243,7 @@ export default {
 
     updateOne(i, e) {
       var value = e.target.value;
+      console.log(value);
       var price = this.pricePost[i];
       var extending = Object.assign({}, price, {priceOne: value});
       Vue.set(this.pricePost, i, extending)
@@ -325,7 +341,7 @@ export default {
         carrier: '',
         company: ''
       },
-      companyFilter: '*',
+      companyFilter: '',
       d: {
         name: '',
         description: '',
@@ -343,6 +359,7 @@ export default {
       },
       companies: [],
       modifications: [],
+      showModal:false,
       deviceType: [],
       /*paginations*/
       pageCarriers: 1,

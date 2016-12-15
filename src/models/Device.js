@@ -61,10 +61,10 @@ export default class Device {
         styleId: p.style.id,
         carrierId: p.carrier.id,
         companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own
+        priceRetail: p.priceRetail,
+        price1: p.price1,
+        price2: p.price2,
+        priceOwn: p.priceOwn
       })
 
     });
@@ -81,10 +81,10 @@ export default class Device {
         styleId: p.style.id,
         carrierId: p.carrier.id,
         companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own
+        priceRetail: p.priceRetail,
+        price1: p.price1,
+        price2: p.price2,
+        priceOwn: p.priceOwn
       })
 
     });

@@ -5,13 +5,17 @@
       <div id="device">
         <div class="header"></div>
         <div class="expanded row">
+          <modal v-if="showModal" @close="showModal = false">
+
+    <h3 slot="body">Errors fields</h3>
+  </modal>
 
           <div class="small-12 columns titles">
             <h4>Manage Devices<h4>
             </div>
 
             <div class="medium-6 columns devicename">
-              <label>Title
+              <label>Device Name
                 <input type="text" placeholder="" :value="d.name" v-model="d.name" >
               </label>
             </div>
@@ -72,7 +76,7 @@
                           <div class="small-6 columns">
 
                             <label style=" font-weight: bold;" >Capacity
-                              <input type="text" :value="gigas"  v-model="gigas" placeholder="Custom">
+                              <inputValidate  placeholder="Custom"   v-model="gigas"></inputValidate>
                             </label>
                           </div>
                           <div class="small-6 columns">
@@ -84,6 +88,7 @@
                           <label  >
 
                             <input type="checkbox"   id="modi" v-model="capacitys.check" >
+
                             <span class="custom-checkbox"><i class="icon-check"></i></span>
                             {{capacitys.attributes.value}}
                           </label>
@@ -137,7 +142,7 @@
                             </label>
                           </div>
                           <div class="small-6 columns">
-                            <a id="bl" class="button secondary"  >Find Company</a>
+                            <a id="bl" class="button secondary" @click="findCompany()" >Find Company</a>
                           </div>
 
                         </div>
@@ -193,10 +198,10 @@
                           </tbody>
                           <tbody>
                             <tr  v-for="(p,index) in findByPrices(priceTable,filter) " >
-                              <td ><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceRetail" @keyup="updateRetail(index,$event)"  ></div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.price1"  @keyup="updateOne(index,$event)"  ></div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text" :value="p.price2" @keyup="updateTwo(index,$event)"  ></div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><input class="input-group-field" type="text"  :value="p.priceOwn" @keyup="updateOwn(index,$event)"  ></div></td>
+                              <td ><div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field"  v-model="p.priceRetail"    ></inputValidate>  </div></td>
+                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price1"    ></inputValidate>  </div></td>
+                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price2"    ></inputValidate></div></td>
+                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.priceOwn"    ></inputValidate></div></td>
                               <td><div class="features">{{p.capacity.attributes.value}}</div></td>
                               <td><div class="features">{{p.style.attributes.value}}</div></td>
                               <td><div class="features">{{p.carrier.presentation}}</div></td>
