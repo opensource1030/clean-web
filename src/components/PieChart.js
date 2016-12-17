@@ -1,5 +1,3 @@
-import Vue from 'vue'
-import auth from './../api/auth'
 import { Pie, reactiveProp } from 'vue-chartjs'
 var {
   Store,
