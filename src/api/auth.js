@@ -1,4 +1,8 @@
 import Vue from 'vue';
+var {
+  Store,
+} = require('yayson')();
+var store = new Store();
 
 // Check the user's auth status when the app
 // loads to account for page refreshing
@@ -7,7 +11,12 @@ export default {
   // User object will let us check authentication status
   user: {
     authenticated: false,
-
+    id:null,
+    firstName:'',
+    lastName:'',
+    email:'',
+    alternateEmail:'',
+    supervisorEmail:''
   },
 
   // Send a request to the login URL and save the returned JWT
@@ -62,6 +71,7 @@ export default {
 
         localStorage.setItem('token', response.body.access_token);
         this.user.authenticated = true;
+        this.userData(context);
 
 
         setTimeout(()=> {
@@ -103,6 +113,7 @@ export default {
           localStorage.setItem('userId', response.body.user_id);
 
           localStorage.setItem('token', response.body.access_token);
+          this.userData(context);
           this.user.authenticated = true;
 
           setTimeout(()=> {
@@ -141,6 +152,24 @@ export default {
       this.user.authenticated = false;
 
     }
+  },
+
+  userData(context){
+
+    context.$http.get(process.env.URL_API + '/users/me' ,{
+         headers: this.getAuthHeader(),
+         include:'udlvalues'
+
+    }).then((response) => {
+
+          let  event = store.sync(response.data);
+          console.log(event)
+     localStorage.setItem('userProfile', JSON.stringify(event));
+
+    }, (response) => {});
+
+
+
   },
 
   // The object to be passed as a header for authenticated requests

@@ -1,5 +1,9 @@
 @import "../base/clean-variables";
 #updateEmployee{
+  .accordion-content {
+  display: inherit;
+
+  }
       label{
         color:$aluminum ;
 
@@ -7,6 +11,15 @@
       #button {
           margin: 0.5rem 3rem;
           border-radius: 0.5rem;
+      }
+      .checkbox{
+        margin: 1.8rem 3.5rem;
+          label{
+              color:$black;
+              font-size: 1rem;
+
+          }
+
       }
     }
     #profile{
@@ -68,6 +81,10 @@
 
 }
 #addService{
+  .accordion-content {
+  display: inherit;
+
+  }
   .radio {
     .sub
     {
@@ -98,6 +115,10 @@
 
 }
 #addDevice{
+  .accordion-content {
+  display: inherit;
+
+  }
   .thumbnail{
     height: 130px;
     width:150px;

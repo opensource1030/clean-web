@@ -9,14 +9,6 @@ export default {
   components : {
     pagination: Pagination
   },
-  created() {
-    /*  bus.$on('#services-table', function(page) {*/
-
-    /*});*/
-    //  services.getDevice(this);
-
-  },
-
   methods : {
     filterByModificationsd,
     filterByModifications,

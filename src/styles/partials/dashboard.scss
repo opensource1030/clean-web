@@ -434,7 +434,7 @@
   &.test{
     width: 50px;
     .icon-close{
-      top:45px;
+      top:72px;
     }
     .sidebar-menu{
       > li {
@@ -446,6 +446,11 @@
         &.header{
           display: none;
         }
+        .treeview-menu{
+          .fa-angle-down{
+            display: block;
+          }
+        }
       }
       li.logo{
         padding: 10px 2px 10px 2px;
@@ -454,10 +459,13 @@
 
     .treeview-menu.menu-open {
       position: absolute;
-
+      left:98%;
+      top:0;
       min-width: 170px;
       z-index: 9999;
-
+      > li > a{
+        padding-left: 0;
+      }
       .treeview-menu.menu-open{
         position: static;
       }

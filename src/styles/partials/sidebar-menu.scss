@@ -68,7 +68,11 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &.logo{
       padding: 10px 9px 10px 8px;
       background: $white;
-      /*border-right:1px #37474F solid;*/
+      height:72px;
+      text-align: center;
+      img{
+        max-height: 52px;
+      }
     }
   }
   li > a > .fa-angle-down {
@@ -110,20 +114,8 @@ $sidebar-menu-hover-border-color: #3c8dbc;
 
         color: $sidebar-menu-submenu-color;
         > .fa {
-          width: 20px;
-        }
-        > .fa-angle-left,
-        > .fa-angle-down {
-          width: auto;
-        }
-      }
-      .admin {
-        padding: 5px 5px 5px 30px;
-        display: block;
-
-        color: $sidebar-menu-submenu-color;
-        > .fa {
-          width: 20px;
+          width: 15px;
+          font-size: 14px;
         }
         > .fa-angle-left,
         > .fa-angle-down {
@@ -155,11 +147,6 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     margin-right: 13px;
     margin-top: 10px;
     text-transform: uppercase;
-  }
-  img{
-   /* -webkit-filter: grayscale(1);
-    filter: grayscale(1);*/
-
   }
   .img-full{
     float: left;

@@ -11,128 +11,137 @@
               <ul  class="acordeon" >
                 <li class="acordeon-item  is-active" >
                   <a  class="accordion-title"   >Personal Information</a>
-                  <div class="accordion-content overview"  >
-                    <div class="row">
+                  <div class="accordion-content overview" v-if="uiemployee!=null" >
+                    <div class="row"  >
 
                       <div class="small-6   columns ">
-                        <label>Full Name
-                          <input type="text" placeholder=""   :value="personalInfo.fullName" v-model="personalInfo.fullName" >
+                        <label>First Name
+                          <input type="text" placeholder=""   :value="uiemployee.firstName" v-model="uiemployee.firstName" >
                         </label>
 
                       </div>
 
 
                       <div class="small-6 columns">
-                        <label>Division
-                          <input type="text" placeholder=""  :value="personalInfo.division" v-model="personalInfo.division">
+                        <label>Last Name
+                          <input type="text" placeholder=""  :value="uiemployee.lastName" v-model="uiemployee.lastName">
                         </label>
 
                       </div>
                     </div>
                       <div class="row">
                       <div class="small-6 columns">
-                        <label>Position
-                          <input type="text" placeholder="" :value="personalInfo.position" v-model="personalInfo.position">
+                        <label>Email
+                          <input type="text" placeholder="" :value="uiemployee.email" v-model="uiemployee.email">
                         </label>
 
                       </div>
                       <div class="small-6 columns">
-                        <label>Supervisor Mail
-                          <input type="text" placeholder="" :value="personalInfo.sMail" v-model="personalInfo.sMail">
+                        <label>Alternate Email
+                          <input type="text" placeholder="" :value="uiemployee.alternateEmail" v-model="uiemployee.alternateEmail">
                         </label>
 
                       </div>
                     </div>
                     <div class="row">
                     <div class="small-6 columns">
-                      <label>Email
-                        <input type="text" placeholder="" :value="personalInfo.email" v-model="personalInfo.email">
+                      <label>Supervisor Mail
+                        <input type="text" placeholder="" :value="uiemployee.supervisorEmail" v-model="uiemployee.supervisorEmail">
                       </label>
 
                     </div>
-                    <div class="small-6 columns">
-                      <label>Cost Center
-                        <input type="text" placeholder="" :value="personalInfo.cost" v-model="personalInfo.cost">
-                      </label>
 
-                    </div>
-                  </div>
 
-                  <div class="row">
-                  <div class="small-6 columns">
-                    <label>Office Phone
-                      <input type="text" placeholder="" :value="personalInfo.officePhone" v-model="personalInfo.officePhone">
-                    </label>
+             </div>
 
-                  </div>
-                  <div class="small-6 columns">
-                    <label>Office
-                      <input type="text" placeholder="" :value="personalInfo.office" v-model="personalInfo.office">
-                    </label>
 
-                  </div>
+
+             <div class="row"  >
+                <div class="small-6 columns "v-if="uiemployee.udls.lenght!=0" v-for="udl in uiemployee.udls" >
+
+                  <label>{{udl.label}}
+                    <select v-model="udl.selected" >
+                      <option v-for="values in udl.udlvalues" :value="values.id" >{{values.name}}</option>
+                    </select>
+                  </label>
+
+             </div>
+             <div class="small-6 columns">
+
+               <div class="checkbox"  >
+                 <label>
+                   <input type="checkbox"    id="st" v-model="uiemployee.active" >
+                   <span class="custom-checkbox"><i class="icon-check"></i></span>
+                   Ship to custom address
+                 </label>
+               </div>
+
+               </div>
+
                 </div>
 
 
                 </li>
 
-                <li class="acordeon-item  " >
+                <li class="acordeon-item  " v-if="  uiemployee!=null  && uiemployee.active==true"  >
                   <a  class="accordion-title"   >Shipping Address</a>
                   <div class="accordion-content "  >
                     <div class="row">
-                    <div class="small-6 columns">
+             <div class="small-6 columns">
                       <label>Name
-                        <input type="text" placeholder="" :value="shippingAddress.name" v-model="shippingAddress.name">
+                        <input type="text" placeholder="" :value="uiemployee.shippingAddress.name" v-model="uiemployee.shippingAddress.name">
                       </label>
 
                     </div>
                     <div class="small-6 columns">
                       <label>Address
-                        <input type="text" placeholder="" :value="shippingAddress.address" v-model="shippingAddress.address">
+                        <input type="text" placeholder="" :value="uiemployee.shippingAddress.address" v-model="uiemployee.shippingAddress.address">
                       </label>
 
                     </div>
                   </div>
                   <div class="row">
                   <div class="small-6 columns">
-                    <label>Attn.
-                      <input type="text" placeholder="" :value="shippingAddress.attn" v-model="shippingAddress.attn">
+                   <label>Attn.
+                      <input type="text" placeholder="" :value="uiemployee.shippingAddress.attn" v-model="uiemployee.shippingAddress.attn">
                     </label>
 
                   </div>
+
                   <div class="small-3 columns">
                     <label>City
-                      <input type="text" placeholder="" :value="shippingAddress.city" v-model="shippingAddress.city">
+                      <input type="text" placeholder="" :value="uiemployee.shippingAddress.city" v-model="uiemployee.shippingAddress.city">
                     </label>
 
                   </div>
                   <div class="small-3 columns">
                     <label>State
-                      <input type="text" placeholder="" :value="shippingAddress.state" v-model="shippingAddress.state">
+                      <input type="text" placeholder="" :value="uiemployee.shippingAddress.state" v-model="uiemployee.shippingAddress.state">
                     </label>
 
                   </div>
                 </div>
                 <div class="row">
                 <div class="small-6 columns">
-                  <label>Phone
-                    <input type="text" placeholder="" :value="shippingAddress.phone" v-model="shippingAddress.phone">
+                <label>Phone
+                    <input type="text" placeholder="" :value="uiemployee.shippingAddress.phone" v-model="uiemployee.shippingAddress.phone">
                   </label>
 
                 </div>
                 <div class="small-3 columns">
                   <label>Country
-                    <input type="text" placeholder="" :value="shippingAddress.country" v-model="shippingAddress.country">
+                    <input type="text" placeholder="" :value="uiemployee.shippingAddress.country" v-model="uiemployee.shippingAddress.country">
                   </label>
 
                 </div>
                 <div class="small-3 columns">
                   <label>Postal Code
-                    <input type="text" placeholder="" :value="shippingAddress.postalCode" v-model="shippingAddress.postalCode">
+                    <input type="text" placeholder="" :value="uiemployee.shippingAddress.postalCode" v-model="uiemployee.shippingAddress.postalCode">
                   </label>
 
                 </div>
               </div>
+
                       </div>
 
                 </li>

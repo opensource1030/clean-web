@@ -8,10 +8,8 @@ export default {
   components : {
     pagination: Pagination
   },
-  created() {
-    /*  bus.$on('#devices-table', function(page) {*/
-
-    /*});*/
+  beforeCreate() {
+  
     devices.getDevice(this);
 
   },
