@@ -44,7 +44,7 @@
 
     computed: {
       pieData() {
-        // console.log('child computed', this.chartData);
+        console.log('piechartData', this.data);
         let data = {
           labels: this.labels
         };
