@@ -337,7 +337,7 @@
             _.sumBy(event.allocations, 'voice_category'),
           ]);
 
-          console.log(event.allocations);
+          // console.log(event.allocations);
           // console.log(this.piechartData);
         }
       });
