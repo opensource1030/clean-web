@@ -173,7 +173,6 @@
         <trendchart></trendchart>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -215,21 +214,21 @@
         return this.$route.matched
       },
     },
-  },
-  mounted(){
-    $('.redirect-link a').each(function(e){
-      $(this).click(function(e){
-        var link = this.href;
-        var $modalredirect = $('#modal');
-        e.preventDefault();
-        $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
-        setTimeout(function() {
-          $('.for-dashboard').hide(100);
-          $modalredirect.foundation('close');
-          window.location=link;
-        }, 2000);
+
+    mounted(){
+      $('.redirect-link a').each(function(e){
+        $(this).click(function(e){
+          var link = this.href;
+          var $modalredirect = $('#modal');
+          e.preventDefault();
+          $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
+          setTimeout(function() {
+            $('.for-dashboard').hide(100);
+            $modalredirect.foundation('close');
+            window.location=link;
+          }, 2000);
+        });
       });
-    });
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
 
