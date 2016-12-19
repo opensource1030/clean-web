@@ -94,6 +94,17 @@
     var {Store} = require('yayson')()
     var    store = new Store()
 import auth from './../api/auth'
+import Permision from './permisions'
+import Vue from 'vue';
+Vue.directive('permission', {
+  update: function(el,value)
+  {
+if (Permision.hasPerm(value)==false){el.style.display = 'none'}
+else{
+  el.style.display = 'block';
+}
+}
+})
 export default {
   name: "Sidemenu",
     created () {
