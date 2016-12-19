@@ -46,13 +46,13 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li ><a  href="javascript:;"><i class="fa fa-circle-o"></i>Admin <i class="fa fa-angle-down pull-right"></i> </a>
-              <ul class="treeview-menu">
-                  <li ><a    v-bind="{ href: '/devices'}"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-                  <li ><a   v-bind="{ href: '/services'}"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
-                  <li ><a   href="javascript:;"><i class="fa fa-circle-o"></i> Configuration</a></li>
-              </ul>
-          </li>
+
+      <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
+      </ul>
+        <ul class="treeview-menu">
+          <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+          <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
         </ul>
       </li>
       <li class="treeview">
@@ -94,6 +94,21 @@
     var {Store} = require('yayson')()
     var    store = new Store()
 import auth from './../api/auth'
+import Permision from './permisions'
+import Vue from 'vue';
+Vue.directive('permission', {
+  update: function(el,value)
+  {
+if (Permision.hasPerm(value)==false){el.style.display = 'none'}
+else{
+
+  el.style.display = 'block';
+}
+}
+
+})
+
+
 export default {
   name: "Sidemenu",
     created () {
@@ -114,6 +129,8 @@ export default {
       });
     },
     mounted(){
+
+
         var intervalId = setInterval(function(){
           var token = localStorage.token;
           var id = localStorage.userId;
