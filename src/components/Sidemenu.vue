@@ -50,8 +50,8 @@
       <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
       </ul>
         <ul class="treeview-menu">
-          <li class="page-link"  v-permission="'admin'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-          <li class="page-link" v-permission="'user'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+          <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+          <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
           <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
         </ul>
       </li>

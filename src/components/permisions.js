@@ -4,21 +4,28 @@ export default {
   {
     let perms = process.env.FEATURES;
     let found = false;
-    for (let [key,perm] of Object.entries(perms)) {
-      //  console.log( Object.keys( perm),perm.users)
-      this.checkUser(perm.users)
-      if (this.checkUser(perm.users) == true) {
 
-        found = true;
+    for (let [k,v]of Object.entries(perms)) {
+      var users = false;
 
-      } else if (perm.type == value.value && this.checkUser(perm.users) != true) {
+      if (v.hasOwnProperty('users') == true) {
+        if (k == value.value) {
+          users = this.checkUser(v.users)
+        }
+        if (users == true) {
 
-        if (perm.enabled == true) {
           found = true
+        }
+      }  if (k == value.value && users != true) {
 
+        if (v.enabled == true) {
+
+          found = true
         }
 
       }
+      //console.log(k,value.value ,users)
+
     }
 
     return found;
@@ -27,11 +34,21 @@ export default {
 
   checkUser(perm) {
 
-    for (let [key,user] of Object.entries(perm)) {
-        console.log(user)
-      if (user.username == localStorage.email) {
-        if (user.enabled == true) {
-          return true;
+    for (let [key,enabled]of Object.entries(perm)) {
+
+      if (key.startsWith("*") == true) {
+        let emailApi = this.cutEmail(localStorage.email);
+        let email = this.cutEmail(key)
+
+        if (email == emailApi && enabled == true) {
+
+          return true
+        }
+
+      } else {
+        if (key == localStorage.email && enabled == true) {
+
+          return true
         }
 
       }
@@ -39,6 +56,13 @@ export default {
     }
     return false;
 
+  },
+  cutEmail(email) {
+    let first = email.search("@");
+    let end = email.charAt(email.length - 1)
+    let last = email.lastIndexOf(end);
+
+    return email.slice(first, last + 1);
   }
 
 }
