@@ -226,8 +226,6 @@ export default {
       }
       return false;
     },
-
-
     changeStatusCompany(index) {
       this.companies.data[index].check = !this.companies.data[index].check;
       console.log(this.companies.data[index].check);

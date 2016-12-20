@@ -2,12 +2,15 @@ import Vue from 'vue';
 import Pagination from './../../components/pagination';
 import {filterByModificationsd, filterByModifications, filterByCarrier, findByService} from './../../components/filters.js';
 import services from './../../api/service/services';
+import modal from './../../components/modal.vue';
 
 export default {
   name : 'Services',
 
   components : {
-    pagination: Pagination
+    pagination: Pagination,
+    modal: modal
+
   },
   methods : {
     filterByModificationsd,
@@ -15,6 +18,7 @@ export default {
     findByService,
 
     loadData() {
+
       services.getServices(this, this.pagination.current_page);
 
     },
@@ -62,7 +66,9 @@ export default {
       details: '',
       carrier: '',
       loading: true,
-      showtable: false
+      showtable: false,
+      showModal: false,
+      error:''
 
     };
   }

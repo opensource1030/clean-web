@@ -3,6 +3,11 @@
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
+        <modal v-if="showModal" @close="showModal = false">
+
+              <h3 slot="body">{{error}}</h3>
+
+                </modal>
 
         <div class="small-12 columns titles">
           <h4>Service Plans<h4>
@@ -12,7 +17,7 @@
           </div>
 
           <div class="small-12 columns" >
- 
+
             <table  >
               <thead>
                 <tr>

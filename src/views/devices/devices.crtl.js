@@ -2,11 +2,13 @@ import Vue from 'vue';
 import Pagination from './../../components/pagination';
 import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
 import devices from './../../api/device/devices';
+import modal from './../../components/modal.vue';
 
 export default {
 
   components : {
-    pagination: Pagination
+    pagination: Pagination,
+    modal:modal
   },
   beforeCreate() {
   
@@ -65,7 +67,10 @@ export default {
       style: '',
       price: '',
       loading: true,
-      loadtable: false
+      loadtable: false,
+      error:'',
+      showModal:false
+
 
     };
   }

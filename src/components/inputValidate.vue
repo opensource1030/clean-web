@@ -13,11 +13,11 @@ export default {
       props:['value'],
       methods:{
         updateValue: function (value) {
-          console.log(value)
+        
              var formattedValue = value
                // Remove whitespace on either side
                .trim()
-               // Shorten to 2 decimal places
+               // Shorten to 4 decimal places
                .slice(0, value.indexOf('.') + 5)
              // If the value was not already normalized,
              // manually override it to conform

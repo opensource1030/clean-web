@@ -39,7 +39,7 @@
                         </label>
                         <label>Device Type
                           <select v-model="d.type">
-                            <option value=""  >Select Type</option>
+                            <option :value="null"  >Select Type</option>
                             <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
 
                           </select>
@@ -80,6 +80,13 @@
                             </label>
                           </div>
                           <div class="small-6 columns">
+
+                              <select >
+
+                                <option  ></option>
+                              </select>
+
+                            </label>
                             <a   @click="capacit()"class="button tiny">Add</a>
                           </div>
                         </div>
