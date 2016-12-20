@@ -87,8 +87,6 @@ export default {
     this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
       var event = store.sync(response.data);
       this.allocation= event;
-      console.log(event);
-
     }, (response) => {
 
     });
