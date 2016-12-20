@@ -113,8 +113,10 @@ export default {
         var event = store.sync(response.data);
         if(event.companies.length>0){
             var cosmicdata = event.companies[0].contents[1].content;
+
             this.$http.get(cosmicdata, {
             }).then((response) => {
+
               this.company =response.data;
             });
           }

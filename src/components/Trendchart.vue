@@ -1,86 +1,99 @@
-
 <template>
-  <div class="large-6 columns">
-    <div class="grid-box" data-mh="box2">
-      <header class="box-heading">
-        <h2>Trend by Category- Custom</h2>
-      </header>
-      <div class="box-content coming-soon">
-        <div id="trend-category">
-
+  <div>
+    <div class="large-6 columns">
+      <div class="grid-box" data-mh="box2">
+        <header class="box-heading">
+          <h2>Trend By Category- Custom</h2>
+        </header>
+        <div class="box-content coming-soon">
+          <trend-chart  :chartData="seriesData" :options="options" :height="200"></trend-chart>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
-/*import auth from './../api/auth'*/
+  import Vue from 'vue'
+  import PieData from './../api/piedata'
+  import TrendChart from './TrendChart'
+  export default {
+    components: { TrendChart },
 
-export default {
-    name: "Trendchart",
-  mounted(){
-    $('#trend-category').highcharts({
-      chart: {
-        height: 300,
-        width: 500
-      },
-      title: false,
-      xAxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        gridLineWidth: 1
-      },
-      credits: {enabled: false},
-      yAxis: {
-        labels: {
-          format: '${value}',
+    // props: ['data'],
+    // props: {
+    //   data: {
+    //     default: () => {
+    //       return [
+    //         [25, 40, 50],
+    //         [28, 48, 40],
+    //         [10, 55, 30]
+    //       ];
+    //     }
+    //   }
+    // },
+
+    beforeCreate() {
+      PieData.getCharts(this);
+    },
+
+    data() {
+      return {
+        data: [],
+        backgroundColor: [
+          'rgba(31, 200, 219, 1)',
+          'rgba(151, 205, 118, 1)',
+          'rgba(90, 100, 40, 1)'
+        ],
+        series: ['Usage Charge', 'Service Plan Charges', 'Other Charges'],
+        options: {
+          tooltips: {
+            mode: 'label'
+          },
+          legend :{
+            position: 'bottom'
+          },
         },
-        title: false,
-        plotLines: [{
-          value: 0,
-          width: 1,
-          color: '#808080'
-        }],
-        gridLineWidth: 1
-      },
-      tooltip: {
-        valuePrefix: '$'
-      },
-      colors: [
-        '#F7C37E', '#FF7E81', '#A87BEA', '#A8DEFF', '#ABF1A3', '#66D6A0'],
-      legend: {
-        enabled: true,
-        layout: 'vertical',
-        align: 'right',
-        width: 150,
-        verticalAlign: 'middle',
-        useHTML: true,
-        labelFormatter: function () {
-          return '<div style="text-align: left; width:80px;display: inline-block">' + this.name + '</div> <div class="clearfix" style="margin-bottom: 10px;"></div>';
-        }
-      },
-      series: [{
-        name: 'Voice',
-        data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-      }, {
-        name: 'Data',
-        data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
-      }, {
-        name: 'Messaging',
-        data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
-      }, {
-        name: 'Taxes',
-        data: [3.9, 4.0, 5.2, 7.4, 9.9, 12.2, 15.0, 18.6, 14.2, 10.3, 6.6, 4.8]
-      }, {
-        name: 'Equipment',
-        data: [4.9, 5.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-      }, {
-        name: 'Other',
-        data: [6.9, 6.2, 7.7, 3.5, 17.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
       }
-      ]
+    },
 
-    })
+    computed: {
+      seriesData() {
+        console.log('trendchartData', this.data);
+        let data = {
+          labels: this.getMonths()
+        }
+        data.datasets = this.series.map((e, i) => {
+          return {
+            data: this.data[i] || [],
+            label: this.series[i],
+            borderColor: this.backgroundColor[i].replace(/1\)$/, '.5)'),
+            pointBackgroundColor: this.backgroundColor[i],
+            backgroundColor: this.backgroundColor[i].replace(/1\)$/, '.5)'),
+            pointHoverRadius: 8
+          };
+        });
+        return data;
+      }
+    },
+
+    methods: {
+      getMonths() {
+        let date = new Date();
+        //subttract 3 months
+        date.setMonth(0 - 4);
+        let monthArray = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+        let menuMonths = new Array();
+        let count = 3;
+        let buffer = 10;
+        while (count > 0) {
+          var month = monthArray[date.getMonth()];
+          menuMonths.push(month);
+          date.setMonth(date.getMonth() + 1);
+          count -= 1;
+        }
+        return menuMonths;
+      }
+    }
   }
-}
 </script>
