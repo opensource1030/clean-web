@@ -24,7 +24,7 @@
           <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li   class="treeview">
         <a  href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -39,7 +39,7 @@
           <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li v-permission="'Procurements'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-list-alt"></i>
           <span>PROCUREMENTS</span>
@@ -55,7 +55,7 @@
           </li>
         </ul>
       </li>
-      <li class="treeview">
+      <li v-permission="'Packages'" class="treeview"  >
         <a  href="javascript:;">
           <i class="fa fa-th-large"></i>
           <span>PACKAGES</span>
@@ -65,7 +65,7 @@
           <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i> Create Package</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li  v-permission="'Presets'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>PRESETS</span>
