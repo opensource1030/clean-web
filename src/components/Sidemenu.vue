@@ -46,13 +46,13 @@
           <i class="fa fa-angle-down pull-right"></i>
         </a>
         <ul class="treeview-menu">
-
-      <li class="page-link"><a target="_blank" href=""><i class="fa fa-circle-o"></i>Admin</a></li>
-      </ul>
-        <ul class="treeview-menu">
-          <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-          <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
-          <li class="page-link"><a class="admin" target="_blank" href=""><i class="fa fa-circle-o"></i> Configuration</a></li>
+          <li ><a  href="javascript:;"><i class="fa fa-circle-o"></i>Admin <i class="fa fa-angle-down pull-right"></i> </a>
+              <ul class="treeview-menu">
+                <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+                <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+                  <li ><a   href="javascript:;"><i class="fa fa-circle-o"></i> Configuration</a></li>
+              </ul>
+          </li>
         </ul>
       </li>
       <li class="treeview">
@@ -101,21 +101,15 @@ Vue.directive('permission', {
   {
 if (Permision.hasPerm(value)==false){el.style.display = 'none'}
 else{
-
   el.style.display = 'block';
 }
 }
-
 })
-
-
 export default {
   name: "Sidemenu",
     created () {
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
-
       }).then((response) => {
-
         var event = store.sync(response.data);
         if(event.companies.length>0){
             var cosmicdata = event.companies[0].contents[1].content;
@@ -125,48 +119,37 @@ export default {
               this.company =response.data;
             });
           }
-
       });
     },
     mounted(){
-
-
         var intervalId = setInterval(function(){
           var token = localStorage.token;
           var id = localStorage.userId;
           var email = localStorage.email;
           $('.redirect-link a').attr('href', function(index, href) {
-
             var param = 'access_token='+ token + '&email=' + email;
-
             if (href.charAt(href.length - 1) === '?') //Very unlikely
               return href + param;
             else if (href.indexOf('?') > 0)
               return href + '&' + param;
             else
               return href + '?' + param;
-
           });
           if(token !== undefined){
             clearInterval(intervalId);
           }
         }, 2000);
-
-
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
-
         $(menu).on('click', 'li a', function(e) {
           var $this = $(this);
           var checkElement = $this.next();
-
           if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
             checkElement.slideUp(animationSpeed, function() {
               checkElement.removeClass('menu-open');
             });
             checkElement.parent("li").removeClass("active");
           }
-
           //If the menu is not visible
           else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
             //Get the parent menu
@@ -177,7 +160,6 @@ export default {
             ul.removeClass('menu-open');
             //Get the parent li
             var parent_li = $this.parent("li");
-
             //Open the target menu and add the menu-open class
             checkElement.slideDown(animationSpeed, function() {
               //Add the class active to the parent li
@@ -194,13 +176,11 @@ export default {
       }
       $(this.$el).foundation();
       $.sidebarMenu($('.sidebar-menu'));
-
       if($.cookie("isMenuActive") == 1)
       {
         $('.menu-left').addClass("test");
         $('.content-right').addClass("test");
       }
-
       $(".icon-close").click(function() {
         if($(".menu-left").hasClass("test")  == true)
         {
@@ -215,20 +195,12 @@ export default {
           $(".menu-left").addClass("test");
           $(".content-right").addClass("test");
           $.cookie("isMenuActive", "1");
-
         }
       });
-
-
-
-
-
   },
   data (){
     return {
       company: { },
-
-
     }
   }
 }
