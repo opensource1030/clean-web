@@ -170,7 +170,7 @@ input[type="search"] {
   height: 36px;
   position: absolute;
   right: 1em;
-  top: 1em;
+  top: 0.2em;
   overflow: hidden;
   text-indent: 100%;
   cursor: pointer;
@@ -187,7 +187,7 @@ input[type="search"] {
     left: 50%;
     border-radius: 3px;
     opacity: 0.7;
-    background: $white;
+    background: $black;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
@@ -200,7 +200,7 @@ input[type="search"] {
     left: 50%;
     border-radius: 3px;
     opacity: 0.7;
-    background: $white;
+    background: $black;
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
   }
@@ -271,7 +271,7 @@ input[type="search"] {
 
 }
 @media screen and (max-width: 970px){
-  #helpjuice_js_widget_content{
+  #knowledge-base-content{
     iframe {
       width: 97% !important;
     }
@@ -298,12 +298,12 @@ input[type="search"] {
     display: none !important;
   }
 }
-#helpjuice_js_widget_content{
+#knowledge-base-content{
   iframe{
     min-height: 1000px !important;
     height: 100% !important;
-    width: 100%;
-    margin-top: 0 !important;
+    width: 97%;
+    margin-top: -9px !important;
     overflow: scroll;
     max-height: 10000px !important;
     padding-bottom: 300px !important;

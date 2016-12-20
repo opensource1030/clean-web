@@ -8,12 +8,12 @@
     </form>
     <div class="morphsearch-content">
       <!-- Helpjuice Knowledge base code -->
-      <div id="helpjuice_js_widget_content">
-        <iframe src="http://w-analytics.helpscoutdocs.com/"> </iframe>
+      <div id="knowledge-base-content">
+        <iframe src="https://clean.helpdocs.com/"> </iframe>
       </div>
 
 
-      <!-- End of Helpjuice knowledge base code -->
+      <!-- End of  knowledge base code -->
 
 
     </div><!-- /morphsearch-content -->
