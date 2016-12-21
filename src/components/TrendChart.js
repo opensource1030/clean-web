@@ -1,9 +1,9 @@
-import { Line, reactiveProp } from 'vue-chartjs'
+import { Line, mixins } from 'vue-chartjs'
 var {Store,} = require('yayson')();
 var store = new Store();
 
 export default Line.extend({
-  mixins: [reactiveProp],
+  mixins: [mixins.reactiveProp],
 
   props: ['chartData', 'options'],
 
