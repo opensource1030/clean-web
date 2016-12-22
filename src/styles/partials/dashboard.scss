@@ -528,7 +528,7 @@ a.btn-provision:hover .support-form-holder{
   width: 430px;
   position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 9;
   height: 100%;
   .columns{
     position: relative;
@@ -547,7 +547,7 @@ a.btn-provision:hover .support-form-holder{
       left: 15px;
       padding: 0 0.4rem;
       margin: 0;
-      z-index: 99;
+      z-index: 9;
     }
   }
   .form-header{
@@ -627,7 +627,7 @@ a.btn-provision:hover .support-form-holder{
   height: 100%;
   margin-top: 210px;
   overflow-y: scroll;
-  padding-top: 128px;
+  padding-top: 156px;
   background: #F9F9F9;
   position: absolute;
   .mix{
@@ -643,6 +643,9 @@ a.btn-provision:hover .support-form-holder{
   &.is-success{
     background: $brand-green;
     color: $white;
+  }
+  .close-button{
+    color:$white;
   }
 }
 .img-avatar{
