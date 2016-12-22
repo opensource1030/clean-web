@@ -15,10 +15,7 @@ export default {
   chart: [],
 
   getCharts(context) {
-    context.$http.get(process.env.URL_API+'/users/' + localStorage.userId, {
-      params: {
-        include: 'allocations',
-      },
+    context.$http.get(process.env.URL_API+'/users/' + localStorage.userId +'?include=companies,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:3]', {
     }).then((response) => {
       var event = store.sync(response.data);
 

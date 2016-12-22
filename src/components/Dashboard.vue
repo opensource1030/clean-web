@@ -229,7 +229,7 @@
           }, 2000);
         });
       });
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:3]', {
       }).then((response) => {
 
         var event = store.sync(response.data);
@@ -309,7 +309,7 @@
           });
         }
 
-        if (event.allocations.length > 0) {
+        if (event.allocations && event.allocations.length > 0) {
           this.$set(this, 'piechartData', [
             _.sumBy(event.allocations, 'data_category'),
             _.sumBy(event.allocations, 'other_category'),
