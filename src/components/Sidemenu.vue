@@ -83,6 +83,7 @@
 
         </ul>
       </li>
+      <li class="page-link"><a target="_blank" href="/settings"><i class="fa fa-gear"></i> <span>Settings</span></a></li>
       <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
 
 
