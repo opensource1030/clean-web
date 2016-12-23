@@ -212,46 +212,51 @@
           }, 2000);
         });
       });
-        this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
-        }).then((response) => {
-            var event = store.sync(response.data);
-            if(event.companies.length>0){
-                var clientdata = event.companies[0].contents[0].content;
-                this.$http.get(clientdata, {
-                }).then((response) => {
-                    this.data= response.data;
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:3]', {
+      }).then((response) => {
 
-                    setTimeout(function(){
-                        $(document).foundation();
-                        /*  $('.img-avatar').initial();*/
-                        $('.grid-box').matchHeight({
-                            byRow: true,
-                            property: 'height',
-                            target: null,
-                            remove: false
-                        });
-                        var $select = $('#support-form .user-actions'), $images = $('.mix');
-                        $select.on('change', function () {
-                            /*var value = '.' + $(this).val();
-                             $images.show(200).not(value).hide();*/
-                        });
-                        var $selectOption = $('.wireless-overview .user-actions');
-                        $selectOption.on('change', function () {
-                            var value1 = $(this).val();
-                            $('.btn-provision').click();
-                            $select.prop('value', value1);
-                        });
-                        $('.btn-provision').click(function () {
-                            $('.support-form-holder').show(200);
-                        })
-                        $('#btn-close').click(function () {
-                            $('#support-form')[0].reset();
-                            $('.support-form-holder').hide(200);
-                            $selectOption.prop('selectedIndex', 0);
-                        })
-                        $(document).keyup(function (e) {
-                            if (e.keyCode == 27) $('#btn-close').click();
-                        });
+        var event = store.sync(response.data);
+        if (event.companies.length>0) {
+          var clientdata = event.companies[0].contents[0].content;
+          this.$http.get(clientdata, {
+          }).then((response) => {
+            this.data= response.data;
+            setTimeout(function(){
+              $(document).foundation();
+              // $('.img-avatar').initial();
+              $('.grid-box').matchHeight({
+                byRow: true,
+                property: 'height',
+                target: null,
+                remove: false
+              });
+
+              var $select = $('#support-form .user-actions'), $images = $('.mix');
+              $select.on('change', function () {
+                var value = '.' + $(this).val();
+                $images.show(200).not(value).hide();
+              });
+
+              var $selectOption = $('.wireless-overview .user-actions');
+              $selectOption.on('change', function () {
+                var value1 = $(this).val();
+                $('.btn-provision').click();
+                $select.prop('value', value1);
+              });
+
+              $('.btn-provision').click(function () {
+                $('.support-form-holder').show(200);
+              });
+
+              $('#btn-close').click(function () {
+                $('#support-form')[0].reset();
+                $('.support-form-holder').hide(200);
+                $selectOption.prop('selectedIndex', 0);
+              });
+
+              $(document).keyup(function (e) {
+                if (e.keyCode == 27) $('#btn-close').click();
+              });
 
 
                         $("#support-form").validate({
@@ -307,6 +312,17 @@
                     },300);
                 });
             }
+          if (event.allocations && event.allocations.length > 0) {
+              this.$set(this, 'piechartData', [
+                  _.sumBy(event.allocations, 'data_category'),
+                  _.sumBy(event.allocations, 'other_category'),
+                  _.sumBy(event.allocations, 'unknown_category'),
+                  _.sumBy(event.allocations, 'voice_category'),
+              ]);
+
+              // console.log(event.allocations);
+              // console.log(this.piechartData);
+          }
         });
     },
     methods:{
@@ -333,4 +349,3 @@
     }
   }
 </script>
-

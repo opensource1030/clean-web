@@ -3,7 +3,7 @@
     <div class="large-6 columns">
       <div class="grid-box" data-mh="box2">
         <header class="box-heading">
-          <h2>Spend By Category- Custom</h2>
+          <h2>Spend By Category</h2>
         </header>
         <div class="box-content coming-soon">
           <pie-chart :chartData="pieData" :options="options" :height="200" > </pie-chart>
