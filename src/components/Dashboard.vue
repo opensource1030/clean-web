@@ -46,7 +46,7 @@
           <div class="row support-form-container">
             <div class="medium-12 columns">
               <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                <select id="supportOption" class="user-actions required" name="subject" required>
+                <select id="tags" class="user-actions required" name="tags" required>
                   <option disabled value=" " selected>-- Choose an issue ---</option>
                   <option value="hd-trobleshooting">Troubleshooting</option>
                   <option value="hd-plan-change">Plan Change</option>
@@ -255,7 +255,7 @@
                                 var company = "wirelessanalytics";
                                 var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
                                 var json = {
-                                     "assignedTo":107784,
+                                     "assignedTo":59063,
                                      "inboxId":1778,
                                     "subject": $('#subject').val(),
                                     "customerEmail": $('#recipient_email').val(),
@@ -264,6 +264,7 @@
                                     "message":$('#description').val(),
                                     "source": "clean-dashboard",
                                     "status" : "active",
+                                    /*"tags" : $('#tags').val(),*/
                                     "priority" : $('input[name=priority]:checked', '#support-form').val()
 
                                 };
