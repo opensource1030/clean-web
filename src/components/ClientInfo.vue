@@ -29,7 +29,7 @@
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
           <a class="button btn-round" href="/profile" target="_blank">Request Provision</a>
-          <a class="button btn-provision btn-round"  href="#">Get Support</a>
+          <a class="button btn-provision btn-round"  href="javascript:;">Get Support</a>
 
         </div>
         <div v-html="client.object.metafields[1].value "> </div>
