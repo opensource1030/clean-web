@@ -24,7 +24,7 @@
           <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li   class="treeview">
         <a  href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -39,7 +39,7 @@
           <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li v-permission="'Procurements'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-list-alt"></i>
           <span>PROCUREMENTS</span>
@@ -48,14 +48,14 @@
         <ul class="treeview-menu">
           <li ><a  href="javascript:;"><i class="fa fa-circle-o"></i>Admin <i class="fa fa-angle-down pull-right"></i> </a>
               <ul class="treeview-menu">
-                  <li ><a    v-bind="{ href: '/devices'}"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-                  <li ><a   v-bind="{ href: '/services'}"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
+                <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
+                <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
                   <li ><a   href="javascript:;"><i class="fa fa-circle-o"></i> Configuration</a></li>
               </ul>
           </li>
         </ul>
       </li>
-      <li class="treeview">
+      <li v-permission="'Packages'" class="treeview"  >
         <a  href="javascript:;">
           <i class="fa fa-th-large"></i>
           <span>PACKAGES</span>
@@ -65,7 +65,7 @@
           <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i> Create Package</a></li>
         </ul>
       </li>
-      <li class="treeview">
+      <li  v-permission="'Presets'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>PRESETS</span>
@@ -94,22 +94,32 @@
     var {Store} = require('yayson')()
     var    store = new Store()
 import auth from './../api/auth'
+import Permision from './permisions'
+import Vue from 'vue';
+Vue.directive('permission', {
+  update: function(el,value)
+  {
+if (Permision.hasPerm(value)==false){el.style.display = 'none'}
+else{
+  el.style.display = 'block';
+}
+}
+})
 export default {
   name: "Sidemenu",
     created () {
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
-
       }).then((response) => {
-
         var event = store.sync(response.data);
         if(event.companies.length>0){
             var cosmicdata = event.companies[0].contents[1].content;
+
             this.$http.get(cosmicdata, {
             }).then((response) => {
+
               this.company =response.data;
             });
           }
-
       });
     },
     mounted(){
@@ -118,37 +128,29 @@ export default {
           var id = localStorage.userId;
           var email = localStorage.email;
           $('.redirect-link a').attr('href', function(index, href) {
-
             var param = 'access_token='+ token + '&email=' + email;
-
             if (href.charAt(href.length - 1) === '?') //Very unlikely
               return href + param;
             else if (href.indexOf('?') > 0)
               return href + '&' + param;
             else
               return href + '?' + param;
-
           });
           if(token !== undefined){
             clearInterval(intervalId);
           }
         }, 2000);
-
-
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
-
         $(menu).on('click', 'li a', function(e) {
           var $this = $(this);
           var checkElement = $this.next();
-
           if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
             checkElement.slideUp(animationSpeed, function() {
               checkElement.removeClass('menu-open');
             });
             checkElement.parent("li").removeClass("active");
           }
-
           //If the menu is not visible
           else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
             //Get the parent menu
@@ -159,7 +161,6 @@ export default {
             ul.removeClass('menu-open');
             //Get the parent li
             var parent_li = $this.parent("li");
-
             //Open the target menu and add the menu-open class
             checkElement.slideDown(animationSpeed, function() {
               //Add the class active to the parent li
@@ -176,13 +177,11 @@ export default {
       }
       $(this.$el).foundation();
       $.sidebarMenu($('.sidebar-menu'));
-
       if($.cookie("isMenuActive") == 1)
       {
         $('.menu-left').addClass("test");
         $('.content-right').addClass("test");
       }
-
       $(".icon-close").click(function() {
         if($(".menu-left").hasClass("test")  == true)
         {
@@ -197,20 +196,12 @@ export default {
           $(".menu-left").addClass("test");
           $(".content-right").addClass("test");
           $.cookie("isMenuActive", "1");
-
         }
       });
-
-
-
-
-
   },
   data (){
     return {
       company: { },
-
-
     }
   }
 }

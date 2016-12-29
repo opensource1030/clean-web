@@ -4,4 +4,41 @@ module.exports = {
   URL: '"http://dev.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
+  FEATURES: {
+    "Procurements": {
+        enabled: true,
+        users: {
+            "user@mail.com": true,
+            "*@email.com": true
+        }
+    },
+    "Packages": {
+        enabled: true,
+        users: {
+            "user@mail.com": true,
+            "*@email.com": true
+        }
+    },
+    "Presets": {
+        enabled: true,
+        users: {
+            "user@mail.com": true,
+            "*@email.com": true
+        }
+    },
+    "ManageDevices": {
+        enabled: true,
+        users: {
+            "user@mail.com": true,
+            "*@email.com": true
+        }
+    },
+    "ManageServices": {
+        enabled: true,
+        users: {
+            "user@mail.com": true,
+            "*@wa.com": true
+        }
+    }
+}
 };

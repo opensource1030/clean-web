@@ -40,13 +40,11 @@
                 <td>
                   <select class="user-actions" >
                     <option disabled value=" " selected>-- Choose an issue ---</option>
-                    <option value="IRE1-1">Troubleshooting</option>
-                    <option value="IRE1-2">Plan Change</option>
-                    <option value="IRE1-3">Email Service</option>
-                    <option value="ALR4-4">Billing &amp; allocations</option>
-                    <option value="IRE1-5">Activation</option>
-                    <option value="IRE1-6">International Request</option>
-                    <option value="IRE0-7">Other</option>
+                    <option value="hd-trobleshooting">Troubleshooting</option>
+                    <option value="hd-plan-change">Plan Change</option>
+                    <option value="hd-email-service">Email Service</option>
+                    <option value="hd-billing-allocations">Billing &amp; allocations</option>
+                    <option value="hd-other">Other</option>
                   </select>
                 </td>
               </tr>
@@ -84,11 +82,9 @@
 export default {
     name: "ChargeInfo",
   created(){
-    this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,allocations&filter[allocations.billMonth]=[company.currentBillMonth]').then((response) => {
+    this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]').then((response) => {
       var event = store.sync(response.data);
       this.allocation= event;
-      console.log(event);
-
     }, (response) => {
 
     });

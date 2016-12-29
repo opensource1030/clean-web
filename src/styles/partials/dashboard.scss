@@ -54,6 +54,9 @@
       font-weight: 600;
       padding: 0.7rem 1rem 1rem;
     }
+    canvas{
+      max-width: 100%;
+    }
     &-holder{
       padding: 0.7rem 0.6rem ;
       p{
@@ -67,7 +70,7 @@
       position: relative;
       &:before{
         background: transparentize($smoke,.1);
-        content: "Coming Soon";
+        content: none;
         font-size: 25px;
         font-weight: 600;
         height: 100%;
@@ -525,7 +528,7 @@ a.btn-provision:hover .support-form-holder{
   width: 430px;
   position: fixed;
   top: 0;
-  z-index: 99;
+  z-index: 9;
   height: 100%;
   .columns{
     position: relative;
@@ -544,11 +547,11 @@ a.btn-provision:hover .support-form-holder{
       left: 15px;
       padding: 0 0.4rem;
       margin: 0;
-      z-index: 99;
+      z-index: 9;
     }
   }
   .form-header{
-    padding:1.15385rem;
+    padding:0.8rem;
     position: relative;
     border-bottom:1px $smoke solid;
     background: $white;
@@ -562,8 +565,8 @@ a.btn-provision:hover .support-form-holder{
     #btn-close {
       font-size: 18px;
       position: absolute;
-      right: 9px;
-      top: 6px;
+      right: 16px;
+      top: 1px;
       color:$brand-dark;
       &:hover{
         color:$brand-dark;
@@ -624,7 +627,7 @@ a.btn-provision:hover .support-form-holder{
   height: 100%;
   margin-top: 210px;
   overflow-y: scroll;
-  padding-top: 128px;
+  padding-top: 105px;
   background: #F9F9F9;
   position: absolute;
   .mix{
@@ -640,6 +643,9 @@ a.btn-provision:hover .support-form-holder{
   &.is-success{
     background: $brand-green;
     color: $white;
+  }
+  .close-button{
+    color:$white;
   }
 }
 .img-avatar{
