@@ -551,7 +551,7 @@ a.btn-provision:hover .support-form-holder{
     }
   }
   .form-header{
-    padding:1.15385rem;
+    padding:0.8rem;
     position: relative;
     border-bottom:1px $smoke solid;
     background: $white;
@@ -565,8 +565,8 @@ a.btn-provision:hover .support-form-holder{
     #btn-close {
       font-size: 18px;
       position: absolute;
-      right: 9px;
-      top: 6px;
+      right: 16px;
+      top: 1px;
       color:$brand-dark;
       &:hover{
         color:$brand-dark;
@@ -627,7 +627,7 @@ a.btn-provision:hover .support-form-holder{
   height: 100%;
   margin-top: 210px;
   overflow-y: scroll;
-  padding-top: 156px;
+  padding-top: 105px;
   background: #F9F9F9;
   position: absolute;
   .mix{
