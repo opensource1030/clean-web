@@ -39,7 +39,6 @@
       <charge-Info> </charge-Info>
       <div class="support-form-holder">
         <div class="form-header">
-          <h2>Ticket Information</h2>
           <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
         </div>
         <form id="support-form" >
@@ -77,16 +76,6 @@
                   <input type="text" placeholder="Your last name"  name="customerLastName" id="recipient_lastName" >
                 </label>
               </div>
-              <div class="medium-12 columns">
-              <label for="recipient_mobilenumber"><span class="form-title">Recipient Mobile Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
-                <input type="text" placeholder="Your mobile no." name="customerMobileNumber" id="recipient_mobilenumber"  >
-              </label>
-            </div>
-              <div class="medium-12 columns">
-                <label for="recipient_phonenumber"><span class="form-title">Recipient Phone Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
-                  <input type="text" placeholder="Your phone no." name="customerPhoneNumber" id="recipient_phonenumber"  >
-                </label>
-              </div>
               <div class="large-12 columns ">
                 <fieldset class="fieldset">
                   <legend><span class="form-title">Priority </span> </legend>
@@ -97,6 +86,27 @@
                   </div>
                 </fieldset>
               </div>
+              <div class="medium-12 columns">
+              <label for="recipient_mobilenumber"><span class="form-title">Affected Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
+                <input type="text" placeholder="Your mobile no." name="customerMobileNumber" id="recipient_mobilenumber"  >
+              </label>
+            </div>
+              <div class="large-12 columns ">
+                <fieldset class="fieldset">
+                  <legend><span class="form-title">Preferred Contact Method </span> </legend>
+                  <div class="row">
+                    <label for="email" class="column large-4 medium-4"><input type="radio" name="method" value="email" id="email" required>Email</label>
+                    <label for="phone" class="column large-4 medium-4"><input type="radio" name="method" value="phone" id="phone" required>Phone</label>
+
+                  </div>
+                </fieldset>
+              </div>
+              <div class="medium-12 columns">
+                <label for="recipient_phonenumber"><span class="form-title">Callback Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
+                  <input type="text" placeholder="Callback no." name="customerPhoneNumber" id="recipient_phonenumber"  >
+                </label>
+              </div>
+
               <div class="medium-12 columns">
                 <label for="description"><span class="form-title">Message</span>
                   <textarea rows="3" name="message" id="description"  placeholder="Your details here" required> </textarea>
@@ -261,7 +271,7 @@
                                     "customerEmail": $('#recipient_email').val(),
                                     "customerMobileNumber" : $('#recipient_mobilenumber').val(),
                                     "customerPhoneNumber" : $('#recipient_phonenumber').val(),
-                                    "message":$('#description').val(),
+                                    "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
                                     "source": "clean-dashboard",
                                     "status" : "active",
                                     /*"tags" : $('#tags').val(),*/
