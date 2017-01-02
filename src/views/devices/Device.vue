@@ -41,7 +41,7 @@
                           </div>
                             <div class="small-2   columns ">
 
-                                <select v-model="d.type">
+                                <select v-model="d.type" class="money">
                                   <option :value="null"  >USD</option>
                                   <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
 
@@ -51,7 +51,7 @@
 
                             <div class="small-4   columns">
                         <label>Device Type
-                          <select v-model="d.type">
+                          <select v-model="d.type" >
                             <option :value="null"  >Select Type</option>
                             <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
 
