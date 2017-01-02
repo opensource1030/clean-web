@@ -33,10 +33,23 @@
                         <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
                       </div>
 
-                      <div class="small-6   columns ">
-                        <label>identification
+
+                      <div class="small-3   columns ">
+                        <label>Default Price
                           <input type="text" placeholder="" :value="d.id" v-model="d.id">
                         </label>
+                          </div>
+                            <div class="small-2   columns ">
+
+                                <select v-model="d.type">
+                                  <option :value="null"  >USD</option>
+                                  <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
+
+                                </select>
+
+                            </div>
+
+                            <div class="small-4   columns">
                         <label>Device Type
                           <select v-model="d.type">
                             <option :value="null"  >Select Type</option>
@@ -44,12 +57,13 @@
 
                           </select>
                         </label>
-
                       </div>
+                    </div>
 
+                        <div class="row">
                       <div class="small-10  columns">
                         <label>Tecnical Information
-                          <textarea rows="8"  :value="d.description" v-model="d.description" ></textarea>
+                          <textarea rows="6"  :value="d.description" v-model="d.description" ></textarea>
                         </label>
                       </div>
 
