@@ -1,18 +1,20 @@
 @import "../base/clean-variables";
 footer{
   #footer{
-  .copyright{
+
     a{
-      color:$body-font-color;
-      text-decoration: underline;
+      color:$brand-orange;
+      text-decoration: none;
 
     }
-  }
-  background: $brand-dark;
+    .text-orange{
+      color: $brand-orange;
+    }
+  background: #5878B5;
 
   color: $white;
 
-  padding: 0.65rem;
+  padding: 0.95rem;
 
   text-align: right;
   width: 100%;

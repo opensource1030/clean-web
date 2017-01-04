@@ -1,13 +1,19 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
 .top-bar-section{
-  padding:10px 20px 12px 12px;
-  background: $white;
-/*  border-bottom: 1px material-color('grey','300') solid;*/
+  padding:10px 0 12px 12px;
+  position: relative;
+  background: linear-gradient(#F7F7F7, rgba($white,0.3));
+  @include css3(box-shadow,0 -1px 4px rgba($black,0.8));
   .float-right{
     > div{
       display: inline-block;
     }
+  }
+  &:after{
+    content: '';
+    display: block;
+    clear:both;
   }
 }
 @media screen and (max-width: $medium){
