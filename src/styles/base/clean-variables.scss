@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
-@import url('https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700');
 // foundation color
 $white       : #FFFFFF;
 $ghost       : #FAFAFA;
@@ -25,20 +24,24 @@ $medium-gray: #cacaca;
 $dark-gray: #8a8a8a;
 
 // body
-$global-font-size : 1.1rem;
-$body-background : #F5F4F6;
-$body-font-family : 'Crimson Text', serif;
-$header-font-family : 'Montserrat', sans-serif;
+$global-font-size : 0.82rem;
+$global-weight-normal : 300;
+$body-background : rgba(#E6EAF2,0.8);
+$body-font-family : 'Roboto', sans-serif;
+$header-font-family : 'Roboto', sans-serif;
 $body-font-color : #01203F;
 
-$brand-orange:  #F49C20;
+$brand-orange:  #FF690A;
 $brand-green: #17BCBC;
 $brand-dark : #434A4F;
 $brand-red:#d9534f;
 $brand-blue:#003465;
 $bg-login : #4D86C5;
-$button-blue: #4185DE;
+$button-blue: #1243A5;
 $sidebar-bg: #292D32;
+
+//forms
+$input-font-size : 1rem;
 
 //breakpoint
 $small: 0;

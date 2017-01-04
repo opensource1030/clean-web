@@ -2,9 +2,15 @@
 <template>
 <div>
   <div class="column large-12">
-    <div class="default callout client-info" >
-      <h2 v-if="client.object" >  {{client.object.title }}</h2>
-      <div v-if="client.object" v-html="client.object.metafields[2].value" >  </div>
+    <div class="grid-box " >
+      <div class="box-heading">
+        <h2 v-if="client.object" >  {{client.object.title }}</h2>
+      </div>
+      <div class="box-content" >
+        <div class="box-content-holder" v-if="client.object" >
+        <p v-html="client.object.metafields[2].value"> </p>
+          </div>
+      </div>
 
     </div>
   </div>
@@ -28,8 +34,8 @@
       <div class="box-content">
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
-          <a class="button btn-round" href="/profile" target="_blank">Request Provision</a>
-          <a class="button btn-provision btn-round"  href="javascript:;">Get Support</a>
+          <a class="button " href="/profile" target="_blank">Request Provision</a>
+          <a class="button btn-provision "  href="javascript:;">Get Support</a>
 
         </div>
         <div v-html="client.object.metafields[1].value "> </div>
