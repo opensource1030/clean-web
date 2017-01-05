@@ -12,7 +12,7 @@
 
     </div>
       </div>
-    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><span class="version"> v4.0.0</span> </h1>
+    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><span v-show="false" class="version"> v4.0.0</span> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">

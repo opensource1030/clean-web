@@ -22,7 +22,10 @@
 
 }
 .bg-login{
-  background: $bg-login ;
+  background: linear-gradient(#637694, #5878B5);
+}
+.login-box{
+  @include css3(box-shadow,0 0 4px $dark-gray);
 }
 .grid-box{
   p:empty {
@@ -331,6 +334,7 @@
   fill:transparent !important;
 }
 .login{
+  background: linear-gradient(#637694, #5878B5);
   .callout{
     position: fixed;
     top:0;
@@ -350,7 +354,11 @@
     font-size: 1rem;
   }
   .button{
-    background: $brand-orange;
+    background: $brand-blue;
+    font-weight: 400;
+    &:hover{
+      background: $brand-orange;
+    }
   }
   .profile{
     overflow: hidden;
