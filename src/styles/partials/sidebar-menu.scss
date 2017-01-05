@@ -2,7 +2,7 @@
 $sidebar-menu-bg: #434a4f;
 $sidebar-menu-color: lighten($sidebar-menu-bg, 80%);
 $sidebar-menu-hover-color: #fff;
-$sidebar-menu-hover-bg: #2E3337;
+$sidebar-menu-hover-bg:rgba(#FF690A,0.72);
 $sidebar-menu-hover-border-color: #fff ;
 $sidebar-menu-submenu-bg: lighten($sidebar-menu-bg, 5%);
 $sidebar-menu-submenu-color: $sidebar-menu-color;
@@ -12,20 +12,21 @@ $sidebar-menu-hover-border-color: #3c8dbc;
 .sidebar-menu {
   list-style: none;
   margin: 0;
-  font-size: 16px;
+
   padding: 0;
-  background-color: $sidebar-menu-bg;
+  background-color: transparent;
   //First Level
   > li {
     position: relative;
     margin: 0;
     padding: 0;
+    border-top:1px rgba($white,0.2) solid;
     &.menu-title{
-      background: #2E3337;
+      background:$sidebar-menu-hover-bg;
       color:$white;
        > span{
          text-transform: uppercase;
-         font-weight: 700;
+         font-weight: 500;
        }
       .fa{
         width: 20px;
@@ -34,7 +35,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     > a {
       padding: 12px 5px 12px 15px;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 500;
       display: block;
       border-left: 3px solid transparent;
       color: $sidebar-menu-color;
@@ -45,11 +46,11 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     &:hover > a, &.active > a {
       color: $sidebar-menu-hover-color;
       background: $sidebar-menu-hover-bg;
-      border-left-color: $brand-orange;
+      border-left-color: $white;
     }
     > .treeview-menu {
       margin: 0 1px;
-      background: $sidebar-menu-submenu-bg;
+      background:#5d7ab0 ;
     }
     .label,
     .badge {
@@ -67,7 +68,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     }
     &.logo{
       padding: 10px 9px 10px 8px;
-      background: $white;
+      background: linear-gradient(#F7F7F7, rgba($white,0.88));
       height:72px;
       text-align: center;
       img{
@@ -105,22 +106,29 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     padding-left: 5px;
     .treeview-menu {
       padding-left: 20px;
+      .fa-circle-o{
+        display: none;
+      }
     }
     > li {
       margin: 0;
       > a {
         padding: 5px 5px 5px 15px;
         display: block;
+        font-weight: 400;
 
         color: $sidebar-menu-submenu-color;
         > .fa {
           width: 15px;
           font-size: 14px;
+          color:transparent;
         }
         > .fa-angle-left,
         > .fa-angle-down {
           width: auto;
+          color:#fff !important;
         }
+
       }
       > a:hover{
         color: $brand-orange;
@@ -135,11 +143,12 @@ $sidebar-menu-hover-border-color: #3c8dbc;
   border-top: 1px solid rgba(204, 204, 204, 0.12);
   text-align: center;
   bottom: 0;
-  padding: 4px 0 13px;
+  padding: 2px 0 10px;
   position: absolute;
+  background-color: #5878b5;
   z-index: 999;
   .text-copyright{
-    color: #aeaeae;
+    color: $white;
     float: left;
     font-size: 10px;
     font-weight: 700;
