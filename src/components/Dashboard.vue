@@ -338,6 +338,7 @@
     data(){
       return {
         data: {},
+        version : null,
         user: auth.user,
         piechartData: [],
       }

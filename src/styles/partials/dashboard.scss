@@ -22,10 +22,17 @@
 
 }
 .bg-login{
-  background: linear-gradient(#637694, #5878B5);
+  background: $brand-blue;
+}
+.title{
+  img{
+    margin-bottom: 0.9rem;
+  }
 }
 .login-box{
   @include css3(box-shadow,0 0 4px $dark-gray);
+  margin-bottom:10px;
+
 }
 .grid-box{
   p:empty {
@@ -36,12 +43,12 @@
   background: #FDFDFF;
   @include css3(border-radius,0);
   .box-heading{
-    background: rgba($brand-orange,0.1);
-    border-bottom:1px solid rgba(0, 0, 0, 0.04);
+    background: rgba($brand-orange,0.02);
+    border-bottom:1px solid rgba(0, 0, 0, 0.06);
     padding:0.5rem 0.6rem;
     h2{
       /*   color: rgba(57, 67, 76, 1);*/
-      color: $black;
+      color: $brand-orange;
       font-size: 1.25rem;
       font-weight: 500;
       margin: 0;
@@ -187,9 +194,15 @@
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 0;
+    margin-left: 10px;
     @include css3(transition,all 0.2s ease-in-out);
+    @include css3(box-shadow, 0 2px 2px lighten($brand-blue,50%));
     &:hover{
       background-color: $brand-orange;
+      @include css3(box-shadow, 0 2px 2px lighten($brand-orange,30%));
+    }
+    &:first-child{
+      margin-left: 0;
     }
 
   }
@@ -334,7 +347,7 @@
   fill:transparent !important;
 }
 .login{
-  background: linear-gradient(#637694, #5878B5);
+  background: $brand-blue;
   .callout{
     position: fixed;
     top:0;
@@ -389,21 +402,7 @@
       text-shadow: 0 0 17px rgba(255, 255, 255, 0.5);
       margin: 0;
     }
-    small{
-      color:rgba(253, 253, 253, 0.4);
-      text-decoration: none;
-      display: inline-block;
-      @include css3(border-radius,none);
-      border:none;
-      line-height: 1.5;
-      font-size: 0.9rem;
-      padding: 2px 5px;
-      opacity: 0.4;
-      position: relative;
-      top:0;
-      letter-spacing: 5px;
-      left: 0;
-    }
+
   }
   .accordion{
     .content{
@@ -424,6 +423,16 @@
     margin-bottom: 0;
   }
 }
+.version{
+  color:rgba(253, 253, 253, 0.4);
+  line-height: 1.5;
+  font-size: 1rem;
+  letter-spacing: 5px;
+  font-weight: 400;
+  display: block;
+  text-align: center;
+
+}
 .menu-left{
   @media screen and (max-width: 800px) {
     display: none;
@@ -431,16 +440,16 @@
   position: fixed;
   width: 200px;
   z-index: 99;
-  background: linear-gradient(#637694, #5878B5);
+  background: #0c2e82;
   height: 100%;
   left: 0;
   .icon-close{
     position: absolute;
     right: -25px;
-    font-size: 0.8rem;
-    top: 90px;
-    padding: 1px 9px;
-    background: #637694;
+    font-size: 1rem;
+    top: 72px;
+    padding: 1px 7px;
+    background: $brand-blue;
     color:$white;
     @include css3(border-radius,0 3px 3px 0);
   }
@@ -453,7 +462,8 @@
       > li {
         span,
         .label,
-        .fa-angle-down{
+        .fa-plus,
+        .fa-minus{
           display: none;
         }
         &.header{
@@ -709,5 +719,5 @@ a.btn-provision:hover .support-form-holder{
   }
 }
 .btn-round{
-  @include css3(border-radius,6px);
+  @include css3(border-radius,3px);
 }

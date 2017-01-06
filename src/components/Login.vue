@@ -12,7 +12,7 @@
 
     </div>
       </div>
-    <h1 class="title"><img src="./../assets/clean-logo.png" alt="CLEAN Platform"><span v-show="false" class="version"> v4.0.0</span> </h1>
+    <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform"> </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
@@ -26,13 +26,16 @@
             <div class="large-12 large-centered columns">
               <input type="submit" class="button expanded"  value="Sign In"/>
             </div>
+
           </form>
         </div>
       </div>
     </div>
+    <span v-if="version" class="version"> {{ version }}</span>
   </div>
   </div>
   </div>
+
 </div>
 
 </template>
@@ -49,7 +52,8 @@ data() {
       email: ''
 
     },
-    error: ''
+    error: '',
+    version : '4.0.0-rc.1'
   }
 },
 methods: {
@@ -57,6 +61,15 @@ methods: {
   submit() {
 
     auth.login(this,this.credentials, 'dashboard')
+  },
+  fetchUserData : function(){
+    this.$http.get('http://dev.api.wirelessanalytics.com/', {
+
+    }).then((response) => {
+
+      var event = store.sync(response.data);
+
+    });
   }
 }
 
