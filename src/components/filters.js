@@ -71,34 +71,36 @@ function findByPrices(list, filter) {
 
   if (list.length > 0) {
 
-    if (filter.style == '' && filter.capacity == '' && filter.carrier == '' && filter.company == '') {
 
+    if (filter.style == null && filter.capacity == null && filter.carrier == null && filter.company== null ) {
+console.log("hola")
       return list;
     }
 
     return list.filter(function (item) {
+
               var mostrar = true;
-              if (filter.capacity != '') {
+              if (Object.keys(filter.capacity).length == 0) {
 
-                mostrar = mostrar && filter.capacity == item.capacity.attributes.value;
-
-              }
-
-              if (filter.style != '') {
-
-                mostrar = mostrar && filter.style == item.style.attributes.value;
+                mostrar = mostrar && filter.capacity.id == item.capacity;
 
               }
 
-              if (filter.carrier != '') {
+              if (Object.keys(filter.style).length == 0) {
 
-                mostrar = mostrar && filter.carrier == item.carrier.presentation;
+                mostrar = mostrar && filter.style.id == item.style;
 
               }
 
-              if (filter.company != '') {
+              if (Object.keys(filter.carrier).length == 0) {
 
-                mostrar = mostrar && filter.company == item.company.attributes.name;
+                mostrar = mostrar && filter.carrier.id == item.carrierId;
+
+              }
+
+              if (Object.keys(filter.company).length == 0) {
+
+                mostrar = mostrar && filter.company.id == item.companyId;
 
               }
 

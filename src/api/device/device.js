@@ -68,11 +68,12 @@ export default {
 
         context.d.name = event.name;
         context.d.description = event.properties;
-        context.d.id = event.identification;
+        context.d.id = event.defaultPrice;
         context.d.type = event.devicetypes[0].id;
-
+        context.d.make=event.make;
+        context.d.model=event.model;
         context.carriers = this.carriersCheck;
-        context.priceData = event.prices;
+        context.priceData = event.devicevariations;
         this.modificationCheck(context, event.modifications);
         this.carrierCheck(context, event.carriers);
         this.companyCheck(context, event.companies);

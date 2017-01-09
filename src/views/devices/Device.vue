@@ -43,24 +43,33 @@
 
                                 <select v-model="d.type" class="money">
                                   <option :value="null"  >USD</option>
-                                  <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
+                                  <option  ></option>
 
                                 </select>
 
                             </div>
 
-                            <div class="small-4   columns">
+                            <div class="small-4   columns margin">
                         <label>Device Type
                           <select v-model="d.type" >
                             <option :value="null"  >Select Type</option>
-                            <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.make}}---{{devicet.attributes.model}}---{{devicet.attributes.class}}</option>
+                            <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.name}}</option>
 
                           </select>
                         </label>
                       </div>
-                    </div>
+                      <div class="small-4    columns ">
+                        <label>Manufactured
+                          <input type="text" placeholder="" :value="d.make" v-model="d.make">
+                        </label>
+                          </div>
+                          <div class="small-4    columns margins">
+                            <label>Model
+                              <input type="text" placeholder="" :value="d.model" v-model="d.model">
+                            </label>
+                              </div>
 
-                        <div class="row">
+
                       <div class="small-10  columns">
                         <label>Tecnical Information
                           <textarea rows="6"  :value="d.description" v-model="d.description" ></textarea>
@@ -73,7 +82,7 @@
                 </li>
 
                 <li class="acordeon-item  " data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()"  >Modifications</a>
+                  <a href="#" class="accordion-title" @click="showFalse()"  >Atributes</a>
                   <div class="accordion-content  modifications"  data-tab-content   v-f-accordion>
                     <div class="row">
                       <div v-if="error" v-show="error">
@@ -93,15 +102,18 @@
                               <inputValidate  placeholder="Custom"   v-model="gigas"></inputValidate>
                             </label>
                           </div>
-                          <div class="small-6 columns">
+                          <div class="small-4 columns money">
 
                               <select >
 
-                                <option  ></option>
+                                <option  >GB</option>
                               </select>
 
-                            </label>
-                            <a   @click="capacit()"class="button tiny">Add</a>
+
+
+                          </div>
+                          <div class="small-2 columns end">
+                              <a   @click="capacit()"class="button tiny">Add</a>
                           </div>
                         </div>
 
@@ -119,7 +131,7 @@
                       <div class="small-4 columns end">
                         <div class="row">
                           <div class="small-6 columns">
-                            <label style=" font-weight: bold;" >Style
+                            <label style=" font-weight: bold;" >Color
                               <input type="text" :value="color" v-model="color" placeholder="Custom">
                             </label>
                           </div>
@@ -141,7 +153,7 @@
                   </div>
                 </li>
                 <li class="acordeon-item " data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()" >Carriers</a>
+                  <a href="#" class="accordion-title" @click="showFalse()" >Vendors</a>
                   <div class="accordion-content carriers"  data-tab-content   v-f-accordion>
                     <div class="imagescheck">
                       <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
@@ -183,25 +195,24 @@
                       </div>
                     </li>
                     <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
-                      <a  href="#"  class="accordion-title" @click="toggle()"  >   Prices  </a>
+                      <a  href="#"  class="accordion-title"  @click="toggle()" >   Prices  </a>
                       <div class="filterprices" v-show="show">
                         <select class="form-control" v-model="filter.capacity" >
                           <option value="" filter.capacity>Capacity</option>
-                          <option  v-for="capacity in vCapacity" :value="capacity.attributes.value" >{{capacity.attributes.value}}</option>
+                          <option  v-for="capacity in vCapacity" :value="capacity" >{{capacity.attributes.value}}</option>
                         </select>
                         <select class="form-control"  v-model="filter.style">
                           <option value="" filter.style>Style</option>
-                          <option value="" v-for="style in vStyles" :value="style.attributes.value"  >{{style.attributes.value}}</option>
+                          <option value="" v-for="style in vStyles" :value="style"  >{{style.attributes.value}}</option>
                         </select>
                         <select class="form-control" v-model="filter.carrier" >
                           <option value="" filter.carrier>Carrier</option>
-                          <option value="" v-for="carrier in vCarriers" :value="carrier.presentation" >{{carrier.presentation}}</option>
+                          <option value="" v-for="carrier in vCarriers" :value="carrier" >{{carrier.presentation}}</option>
                         </select>
                         <select class="form-control"  v-model="filter.company">
                           <option value="" filter.company>Company</option>
-                          <option  v-for="company in vCompanies"   :value="company.attributes.name">{{company.attributes.name}}</option>
+                          <option  v-for="company in vCompanies"   :value="company">{{company.attributes.name}}</option>
                         </select>
-
                       </div>
                       <div   class="accordion-content"  data-tab-content   v-f-accordion>
                         <table  >
@@ -211,22 +222,23 @@
                               <td><div>1 year contact</div></td>
                               <td ><div>2 years contract</div></td>
                               <td  ><div>Pay by own</div></td>
-                              <td  ><div>{{filter.capacity}}</div></td>
-                              <td ><div>{{filter.style}}</div></td>
-                              <td ><div>{{filter.carrier}}</div></td>
-                              <td  ><div>{{filter.company}}</div></td>
+
+                                  <td  ><div></div></td>
                             </tr>
                           </tbody>
-                          <tbody>
+                          <tbody >
                             <tr  v-for="(p,index) in findByPrices(priceTable,filter) " >
                               <td ><div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field"  v-model="p.priceRetail"    ></inputValidate>  </div></td>
                               <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price1"    ></inputValidate>  </div></td>
                               <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price2"    ></inputValidate></div></td>
                               <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.priceOwn"    ></inputValidate></div></td>
-                              <td><div class="features">{{p.capacity.attributes.value}}</div></td>
-                              <td><div class="features">{{p.style.attributes.value}}</div></td>
-                              <td><div class="features">{{p.carrier.presentation}}</div></td>
-                              <td style=" font-weight: bold;"><div class="features">{{p.company.attributes.name}}</div></td>
+                              <td><div class="features"><select v-model="p.capacity"><option :value="null" >Select Capacity</option><option v-for="c in p.capacitys" :value="c.id">{{c.attributes.value}}</option></select></div></td>
+                              <td><div class="features"><select v-model="p.style" ><option :value="null">Select Style</option><option v-for="s in p.styles" :value="s.id">{{s.attributes.value}}</option></select></div></td>
+                              <td><div class="features"><select v-model="p.carrierId"><option :value="null">Select Carrier</option><option v-for="c in p.carriers" :value="c.id">{{c.presentation}}</option></select></div></td>
+                              <td ><div class="features"><select v-model="p.companyId"><option :value="null" >Select Company</option><option v-for="co in p.companys" :value="co.id">{{co.attributes.name}}</option></select></div></td>
+                                <td ><div class="features"> <a  class="button" @click="adds()" id="button"  >
+                                              <i class="fa fa-plus" ></i>
+                                      </a></div></td>
                             </tr>
                           </tbody>
                         </table>

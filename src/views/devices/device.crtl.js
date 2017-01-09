@@ -17,7 +17,7 @@ export default {
     modal,
   inputValidate
   },
-  beforeCreate() {
+  created() {
 
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
@@ -92,97 +92,75 @@ export default {
     },
 
     priceTable() {
-      if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-        this.pricess = [];
-        var a = false;
-        for (let price of this.priceData) {
+  if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
 
-          let co = this.findById(this.vCompanies, price, price.companyId, "company")
+  this.pricess = [];
 
-          let st = this.findById(this.vStyles, price, price.styleId, "style")
-
-          let cy = this.findById(this.vCapacity, price, price.capacityId, "capacity")
-
-          let ca = this.findById(this.vCarriers, price, price.carrierId, "carrier")
-
-          if (ca == true && cy == true && st == true && co == true) {
-            this.pricess.push(price);
+  for(let price of this.priceData){
+      let capacityId=null;
+      let styleId=null;
+    for(let modi of price.modifications){
+          if(modi.modType=="capacity"){
+            capacityId=modi.id;
+          }else{
+            styleId=modi.id;
           }
 
-        }
-
-        for (let companies of this.vCompanies) {
-          for (let styles of this.vStyles) {
-            for (let capacitys of this.vCapacity) {
-              for (let carriers of this.vCarriers) {
-
-                this.company = Object.assign({}, this.company, {
-                  style: styles,
-                  capacity: capacitys,
-                  carrier: carriers,
-                  company: companies,
-                  id: 0,
-                  priceRetail: 0,
-                  price1: 0,
-                  price2: 0,
-                  priceOwn: 0
-                });
-
-                this.price.push(this.company);
-
-              }
-            }
-          }
-        }
-
-        for (let pri of this.price) {
-          var b = true;
-          for (let p of this.pricess) {
-            if (JSON.stringify(pri.style) == JSON.stringify(p.style) && JSON.stringify(pri.capacity) == JSON.stringify(p.capacity) && JSON.stringify(pri.company) == JSON.stringify(p.company) && JSON.stringify(pri.carrier) == JSON.stringify(p.carrier)) {
-              b = false;
-              break;
-            }
-          }
-
-          if (b == true) {
-            if (pri.company.check != false && pri.capacity.check != false && pri.style.check != false && pri.carrier.check != false) {
-              this.pricess.push(pri);
-            }
-          }
-        }
-        return this.pricess;
-      } else {
-        if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-          this.price = [];
-          for (let companies of this.vCompanies) {
-
-            if (companies.check == false) {}
-            for (let styles of this.vStyles) {
-              if (styles.check == false) {}
-              for (let capacitys of this.vCapacity) {
-
-                for (let carriers of this.vCarriers) {
-                  this.company = Object.assign({}, this.company, {
-                    style: styles,
-                    capacity: capacitys,
-                    carrier: carriers,
-                    company: companies,
-                    priceRetail: 0,
-                    price1: 0,
-                    price2: 0,
-                    priceOwn: 0
-                  });
-                  this.price.push(this.company);
-                }
-              }
-            }
-          }
-          return this.price;
-        } else {
-          return '';
-        }
-      }
     }
+
+    price= Object.assign({}, price, {
+      styles:this.vStyles,
+      capacitys: this.vCapacity,
+      carriers: this.vCarriers,
+      companys: this.vCompanies,
+      style:styleId,
+      capacity:capacityId,
+
+    });
+      this.pricess.push(price);
+
+  }
+
+return this.pricess;
+  }
+
+
+  else  if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+      if(this.price.length>0 && this.add==true){
+
+        this.add=false;
+      return this.price
+      }
+      else{
+
+      this.price = [];
+      this.company = Object.assign({}, this.company, {
+        styles:this.vStyles,
+        capacitys: this.vCapacity,
+        carriers: this.vCarriers,
+        companys: this.vCompanies,
+        style:null,
+        capacity:null,
+        carrierId:null,
+        companyId:null,
+        priceRetail: 0,
+        price1: 0,
+        price2: 0,
+        priceOwn: 0
+      });
+
+      this.price.push(this.company);
+
+      return this.price
+}
+}
+else{
+  return '';
+}
+
+}
+
+
   },
   methods : {
     findByPrices,
@@ -192,6 +170,28 @@ export default {
       } else {
         device.addDevice(this, this.price, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       }
+    },
+    toggle() {
+     this.show = !this.show;
+   },
+    adds(){
+      this.add=true;
+      this.company = Object.assign({}, this.company, {
+        style:this.vStyles,
+        capacity: this.vCapacity,
+        carrier: this.vCarriers,
+        company: this.vCompanies,
+        style:'',
+        capacity:'',
+        carrier:'',
+        company:'',
+        priceRetail: 0,
+        price1: 0,
+        price2: 0,
+        priceOwn: 0
+      });
+      this.price.push(this.company);
+
     },
 
     checkcarrier() {
@@ -282,18 +282,22 @@ export default {
         url: "./../assets/logo.png",
         id: 0
       },
+      add:false,
       /*filter */
       filter: {
-        capacity: '',
-        style: '',
-        carrier: '',
-        company: ''
+        capacity: {},
+        style: {},
+        carrier: {},
+        company: {}
       },
       companyFilter: '',
       d: {
         name: '',
         description: '',
         id: null,
+        make:'',
+        model:'',
+
         type: null
       },
       /*add modifications*/
