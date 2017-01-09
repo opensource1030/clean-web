@@ -16,7 +16,8 @@
         <a href="/dashboard">
           <i class="fa fa-dashboard"></i>
           <span>Dashboard</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu" style="display: none;">
           <li class="redirect-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
@@ -28,7 +29,8 @@
         <a  href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp"><i class="fa fa-circle-o"></i> Charge</a></li>
@@ -43,7 +45,8 @@
         <a  href="javascript:;">
           <i class="fa fa-list-alt"></i>
           <span>PROCUREMENTS</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li ><a  href="javascript:;"><i class="fa fa-circle-o"></i>Admin <i class="fa fa-angle-down pull-right"></i> </a>
@@ -59,7 +62,8 @@
         <a  href="javascript:;">
           <i class="fa fa-th-large"></i>
           <span>PACKAGES</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i> Create Package</a></li>
@@ -69,7 +73,8 @@
         <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>PRESETS</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Device</a></li>
