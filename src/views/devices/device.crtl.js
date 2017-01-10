@@ -93,6 +93,12 @@ export default {
 
     priceTable() {
   if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+    if(this.price.length>0 && this.add==true){
+console.log("adios")
+      this.add=false;
+    return this.pricess
+    }
+    else{
 
   this.pricess = [];
 
@@ -120,7 +126,7 @@ export default {
       this.pricess.push(price);
 
   }
-
+}
 return this.pricess;
   }
 
@@ -190,8 +196,11 @@ else{
         price2: 0,
         priceOwn: 0
       });
+      if(this.pricess.length>0){
+      this.pricess.push(this.company)
+    }else{
       this.price.push(this.company);
-
+}
     },
 
     checkcarrier() {
@@ -285,10 +294,10 @@ else{
       add:false,
       /*filter */
       filter: {
-        capacity: {},
-        style: {},
-        carrier: {},
-        company: {}
+        capacity:{},
+        style:{},
+        carrier:{},
+        company:{}
       },
       companyFilter: '',
       d: {
@@ -297,7 +306,6 @@ else{
         id: null,
         make:'',
         model:'',
-
         type: null
       },
       /*add modifications*/

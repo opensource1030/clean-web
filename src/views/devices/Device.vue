@@ -198,19 +198,19 @@
                       <a  href="#"  class="accordion-title"  @click="toggle()" >   Prices  </a>
                       <div class="filterprices" v-show="show">
                         <select class="form-control" v-model="filter.capacity" >
-                          <option value="" filter.capacity>Capacity</option>
+                          <option :value="null" >Capacity</option>
                           <option  v-for="capacity in vCapacity" :value="capacity" >{{capacity.attributes.value}}</option>
                         </select>
                         <select class="form-control"  v-model="filter.style">
-                          <option value="" filter.style>Style</option>
+                          <option :value="null" >Style</option>
                           <option value="" v-for="style in vStyles" :value="style"  >{{style.attributes.value}}</option>
                         </select>
                         <select class="form-control" v-model="filter.carrier" >
-                          <option value="" filter.carrier>Carrier</option>
+                          <option :value="null" >Carrier</option>
                           <option value="" v-for="carrier in vCarriers" :value="carrier" >{{carrier.presentation}}</option>
                         </select>
                         <select class="form-control"  v-model="filter.company">
-                          <option value="" filter.company>Company</option>
+                          <option :value="null" >Company</option>
                           <option  v-for="company in vCompanies"   :value="company">{{company.attributes.name}}</option>
                         </select>
                       </div>
@@ -219,6 +219,9 @@
                           <tbody>
                             <tr class="filter">
                               <td><div>Retail Price</div></td>
+                              <td><div>1 year contact</div></td>
+                              <td ><div>2 years contract</div></td>
+                              <td  ><div>Pay by own</div></td>
                               <td><div>1 year contact</div></td>
                               <td ><div>2 years contract</div></td>
                               <td  ><div>Pay by own</div></td>
