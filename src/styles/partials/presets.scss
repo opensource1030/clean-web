@@ -1,0 +1,81 @@
+@import "../base/clean-variables";
+#preset{
+
+.checkboxb{
+       transform: scale(1.2);
+   }
+   .titles {
+       background: $ghost;
+
+       h4 {
+           font-size: 18px;
+           font-weight: 700;
+           padding: 0 3.2rem;
+       }
+   }
+
+
+
+   .detail{
+   ul {
+     list-style-type: none;
+         margin-bottom: 3rem;
+   }
+}
+   .presetname {
+           padding: 0 4.2rem;
+           margin:0.5rem 0 0 0;
+   }
+   .search-cost {
+
+    margin-top: 0.5rem;
+
+}
+.special-button {
+     display: inline-block;
+     padding: 0.5em 0.7em;
+     border-radius: 0.5rem;
+     background-color: #1243A5;
+     color: #FFFFFF;
+     margin-top: 1.9rem;
+ }
+ .search-input {
+     height: 65%;
+ }
+ .variations {
+     input[type=checkbox] {
+         display: none;
+     }
+
+     .imagescheck {
+         .crop {
+             width: 125px;
+             height: 157px;
+             overflow: hidden;
+             display: inline-block;
+             border: 1px grey;
+
+             border-style: groove;
+             margin: 1rem 0.6rem;
+
+             label {
+                 width: 125px;
+               height: inherit;
+             }
+         }
+
+         label:hover {
+             box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
+         }
+
+         input:hover {
+             box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
+         }
+
+         .active {
+             box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
+         }
+     }
+ }
+
+}

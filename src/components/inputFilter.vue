@@ -1,46 +1,34 @@
 <template>
-<div :class="{ 'multiselect--active': isOpen}" @focus="activate()" class="multiselect">
-  <div class="multiselect__select" @mousedown.prevent="toggle()"></div>
-  <div ref="tags" class="multiselect__tags" @mousedown.prevent="toggle()">
-    <span>
-          {{field}}
-        </span>
+<div :class="{ 'multiselect--active': isOpen}"  class="multiselect">
+  <div class="multiselect__select"    @click="toggle()" ></div>
+  <div ref="tags" class="multiselect__tags" >
+    <input ref="search" type="text" v-model="search"   @change="addValue()" autocomplete="off" :placeholder="placeholder" class="multiselect__input inputFilter" />
+    <a  class="button buttonAdd" @mousedown.prevent="addValue()"  >
+            <i class="fa fa-plus fa-lg" ></i>
+    </a>
   </div>
   <transition name="multiselect">
     <ul v-show="isOpen" transition="multiselect" class="multiselect__content">
-      <input ref="search" type="text" v-model="search" @focus.prevent="activate()" @blur.prevent="deactivate()"  @keyup="filteroptions()" autocomplete="off" :placeholder="placeholder" class="multiselect__input" />
-
-      <li v-if="search=='' && search!=null" class="multiselect__element">
 
 
-        <span v-if="labelAttr==null" tabindex="0" v-for="(option,index) in options" :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" @mousedown.prevent="select(option,index)">
+
+      <li  class="multiselect__element">
+
+        <span  v-for="(option,index) in val " :key="index" class="multiselect__option"  :value="option" >
                 {{option}}
+                <a  class="button buttonDelete" @click="deleteValues(index)"    >
+                      <i class="fa fa-times fa-lg" aria-hidden="true"></i>
+                </a>
 
               </span>
-        <span v-if="labelAttr!=null && labelAttr!=''" tabindex="0" v-for="(option,index) in options" :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" @mousedown.prevent="select(option,index)">
 
-                {{option[labelAttr]}}
-
-              </span>
-      </li>
-      <li v-else class="multiselect__element">
-
-        <span v-if="labelAttr==null" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" :value="option" @mousedown.prevent="select(option,index)">
-                {{option}}
-
-              </span>
-        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
-
-                {{option[labelAttr]}}
-
-              </span>
       </li>
 
 
-      <li v-if="filter.length==0 && show==true">
+      <li v-if="val.length==0 && show==true">
 
         <span class="multiselect__option">
-              <slot name="noResult">No elements found. Consider changing the search query.</slot>
+              <slot name="noResult">No elements found.</slot>
             </span>
       </li>
     </ul>
@@ -49,22 +37,16 @@
 </template>
 
 <script>
-import multiselectMixin from './multiselectMixin'
+import inputFilterMixin from './inputFilterMixin'
 import functionsMixin from './functionsMixin'
 export default {
-  mixins: [multiselectMixin,functionsMixin],
-  name: 'vue-multiselect',
+  mixins: [inputFilterMixin,functionsMixin],
+  name: 'vue-input',
   props: {
     placeholder: {
       type: String,
-      default: 'Search '
+      default: 'Add Filter'
     },
-  },
-  computed: {
-  },
-  data() {
-    return {
-    }
   }
 }
 </script>
@@ -120,8 +102,7 @@ export default {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.multiselect__input,
-.multiselect__single {
+.inputFilter {
   position: relative;
   display: inline-block;
   min-height: 20px;
@@ -130,10 +111,10 @@ export default {
   border-radius: 5px;
   background: #fff;
   padding: 1px 0 0 5px;
-  width: calc(100%);
+  width: calc(84%);
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
 .multiselect__tag~.multiselect__input,
 .multiselect__tag~.multiselect__single {
@@ -186,18 +167,11 @@ export default {
   transition: all 0.2s ease;
   border-radius: 5px;
 }
-.multiselect__tag-icon:after {
-  content: "×";
-  color: #266d4d;
-  font-size: 14px;
-}
+
 .multiselect__tags span {
   color: #FF690A;
 }
- .multiselect__tag-icon:focus,
-.multiselect__tag-icon:hover {
-  background: #369a6e;
-}
+
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
   color: white;
@@ -294,6 +268,8 @@ export default {
   vertical-align: middle;
   position: relative;
   cursor: pointer;
+  border-style: solid;
+  border-width: 0.01rem;
 }
 .multiselect__option:after {
   top: 0;
@@ -318,6 +294,18 @@ export default {
   background: #F3F3F3;
   color: #35495E;
   font-weight: bold;
+}
+.buttonAdd{
+  margin:0.2rem;
+  display: initial !important;
+  padding: 0.6rem;
+
+}
+.buttonDelete{
+  margin: -0.4rem;
+display: initial !important;
+float: right;
+  padding: 0.6rem;
 }
 .multiselect__option--selected:after {
   content: attr(data-selected);

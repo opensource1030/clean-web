@@ -16,10 +16,10 @@
 
             <div  class="small-12 columns" >
 
-              <ul  class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
-                <li class="acordeon-item  is-active" data-accordion-item  v-f-accordion>
+              <ul  class="acordeon" data-accordion data-allow-all-closed="true" >
+                <li class="acordeon-item  is-active" data-accordion-item  >
                     <a href="#" class="accordion-title"  @click="showFalse()" >Device Overview</a>
-                    <div class="accordion-content overview"  data-tab-content   v-f-accordion>
+                    <div class="accordion-content overview"  data-tab-content   >
                       <div class="column row">
                         <div class="row">
                           <div class="small-12 large-2 columns">
@@ -76,9 +76,9 @@
                     </div>
                   </li>
 
-                <li class="acordeon-item  " data-accordion-item  v-f-accordion>
+                <li class="acordeon-item  " data-accordion-item  >
                   <a href="#" class="accordion-title" @click="showFalse()"  >Atributes</a>
-                  <div class="accordion-content  modifications"  data-tab-content   v-f-accordion>
+                  <div class="accordion-content  modifications"  data-tab-content   >
                     <div class="row">
                       <div v-if="error" v-show="error">
                         <div   class="is-error callout" data-closable >
@@ -148,12 +148,11 @@
                     </div>
                   </div>
                 </li>
-                <li class="acordeon-item " data-accordion-item  v-f-accordion>
+                <li class="acordeon-item " data-accordion-item  >
                   <a href="#" class="accordion-title" @click="showFalse()" >Vendors</a>
-                  <div class="accordion-content carriers"  data-tab-content   v-f-accordion>
+                  <div class="accordion-content carriers"  data-tab-content  >
                     <div class="imagescheck">
                       <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
-                        <!-- :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + carrier.images[0].id +')',backgroundSize:'124px,124px' }" -->
                         <label   class="static"   >
                           <input type="checkbox"     @click="changeStatusCarrier('active',index)"  v-model="carrier.check"    >
 
@@ -163,9 +162,9 @@
                   </div>
                     </li>
 
-                    <li class="acordeon-item " data-accordion-item  v-f-accordion>
+                    <li class="acordeon-item " data-accordion-item  >
                       <a href="#" class="accordion-title" @click="showFalse()"   >Companies</a>
-                      <div class="accordion-content companies"  data-tab-content   v-f-accordion>
+                      <div class="accordion-content companies"  data-tab-content  >
                         <div class="row">
                           <div class="small-6 columns find">
                             <label id="bl" >Find Company
@@ -192,7 +191,7 @@
 
                       </div>
                     </li>
-                    <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
+                    <li class="acordeon-item prices" data-accordion-item  >
                       <a  href="#"  class="accordion-title"  @click="toggle()" >   Prices  </a>
                       <div class="filterprices" v-show="show">
                         <select class="form-control" v-model="filter.capacity" >
@@ -212,7 +211,7 @@
                           <option  v-for="company in vCompanies"   :value="company">{{company.attributes.name}}</option>
                         </select>
                       </div>
-                      <div   class="accordion-content"  data-tab-content   v-f-accordion>
+                      <div   class="accordion-content"  data-tab-content   >
 
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
@@ -294,6 +293,7 @@
                       </div>
                     </li>
                   </ul>
+
                   <a  class="button large" @click="submit()" id="button">Save Changes</a>
           </div>
         </div>
