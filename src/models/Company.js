@@ -18,7 +18,6 @@ export default class Company {
         company.customFields.push({label: c.label, value: c.value})
       });
     }
-
   }
   
   toJSON() {

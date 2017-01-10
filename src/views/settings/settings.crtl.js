@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import company from './../../api/company/company';
 var {Store} = require('yayson')()
-var  store = new Store()
+var store = new Store()
 
 Vue.directive('f-accordion', {
   bind: function(el) {
@@ -24,7 +24,6 @@ export default {
         company.getDataCompany(self, self.id);
       }
     });
-    
   },
 
   computed: {
@@ -37,9 +36,11 @@ export default {
         company.updateCompany(this.id, this, this.customFields, this.d);
       }
     },
+
     showFalse() {
       this.show = false;
     },
+
     addCustomField() {
       if (this.label == '' || this.label == null) {
         this.error = 'Incorrect label';
@@ -55,6 +56,7 @@ export default {
         this.customFields.push(customField);
       }
     },
+
     removeCustomField(index) {
       this.customFields.splice(index, 1);
     }

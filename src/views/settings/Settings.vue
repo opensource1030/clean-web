@@ -1,19 +1,28 @@
 <template>
   <div class="content-right" >
-    <div id="company">
+    <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
         <div class="small-12 columns titles">
-          <h4>Settings<h4>
+          <h4>Configuration<h4>
         </div>
 
         <div class="small-12 columns" >
-          <ul  class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
+          <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
             <li class="acordeon-item  is-active" data-accordion-item  v-f-accordion>
-              <a href="#" class="accordion-title"  @click="showFalse()" >Main</a>
+              <a href="#" class="accordion-title"  @click="showFalse()">Company</a>
               <div class="accordion-content overview" data-tab-content v-f-accordion>
+                <div v-if="error" v-show="error">
+                  <div class="is-error callout" data-closable >
+                    <div class="container">
+                      <h5>{{error}}</h5>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
-                  <div class="small-6 columns ">
+                  <div class="small-6 columns">
+                    <h3>Overview</h3>
                     <label>Name
                       <input type="text" placeholder="" :value="d.name" v-model="d.name">
                     </label>
@@ -27,48 +36,52 @@
                       <input type="checkbox" v-model="d.active"> Active
                     </label>
                   </div>
-                </div>
-              </div>
-            </li>
-            <li class="acordeon-item  " data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()"  >Custom Fields</a>
-                  <div class="accordion-content  modifications"  data-tab-content   v-f-accordion>
-                    <div class="row">
-                      <div v-if="error" v-show="error">
-                        <div   class="is-error callout" data-closable >
-                          <div class="container">
-                            <h5>{{error}}</h5>
-                          </div>
 
-                        </div>
+                  <div class="small-6 columns">
+                    <h3>Custom Fields</h3>
+                    <div class="expanded row">
+                      <div class="small-5 columns">
+                        <label>Label
+                          <input type="text" :value="label" v-model="label" placeholder="Custom">
+                        </label>
                       </div>
-                      <div class="small-12 columns">
-                        <div class="row">
+                      <div class="small-5 columns">
+                        <label>Value
+                          <input type="text" :value="value" v-model="value" placeholder="Custom">
+                        </label>
+                      </div>
+                      <div class="small-2 columns">
+                        <a @click="addCustomField()" class="">Add</a>
+                      </div>
+                    </div>
 
-                          <div class="small-12 columns">
-
-                            <label style=" font-weight: bold;" >Label
-                              <input type="text" :value="label"  v-model="label" placeholder="Custom">
-                            </label>
-                            <label style=" font-weight: bold;" >Value
-                              <input type="text" :value="value"  v-model="value" placeholder="Custom">
-                            </label>
-                            <a   @click="addCustomField()"class="button tiny">Add</a>
-                          </div>
-
-                          <div v-for="(customField, index) in customFields" >
-                            <label  >{{customField.label}}
-                              <input type="text" :value="customField.value" v-model="customField.value" >
-                              <a @click="removeCustomField(index)"class="button tiny">Remove</a>
-                            </label>
-                          </div>
+                    <div v-for="(customField, index) in customFields" >
+                      <div class="expanded row">
+                        <div class="small-10 columns">
+                          <label>{{ customField.label }}
+                            <input type="text" :value="customField.value" v-model="customField.value" >
+                          </label>
+                        </div>
+                        <div class="small-2 columns">
+                          <a @click="removeCustomField(index)" class="">Remove</a>
                         </div>
                       </div>
                     </div>
                   </div>
-                </li>
+                </div>
+                <a class="button large" @click="submit()" id="button">Save Changes</a>
+              </div>
+            </li>
+            <li class="acordeon-item" data-accordion-item  v-f-accordion>
+              <a href="#" class="accordion-title" @click="showFalse()">Other</a>
+              <div class="accordion-content modifications" data-tab-content v-f-accordion>
+                <div class="row">
+                  <div class="small-12 columns">
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
-          <a class="button large" @click="submit()" id="button">Save Changes</a>
         </div>
       </div>
     </div>
