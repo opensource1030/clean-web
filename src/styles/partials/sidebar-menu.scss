@@ -29,7 +29,8 @@ $sidebar-menu-hover-border-color: #3c8dbc;
          font-weight: 500;
        }
       .fa{
-        width: 20px;
+        width: 17px;
+        color:$white;
       }
     }
     > a {
@@ -40,17 +41,26 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       border-left: 3px solid transparent;
       color: $sidebar-menu-color;
       > .fa {
-        width: 20px;
+        width: 17px;
+        color: $brand-orange;
+
+      }
+      > .fa-plus{
+        margin: 3px;
+        color:$white;
       }
     }
     &:hover > a, &.active > a {
       color: $sidebar-menu-hover-color;
       background: $sidebar-menu-hover-bg;
-      border-left-color: $white;
+      border-left-color: darken($brand-orange,5%);
+      > .fa{
+        color:$white
+      }
     }
     > .treeview-menu {
       margin: 0 1px;
-      background:#5d7ab0 ;
+      background:$brand-blue ;
     }
     .label,
     .badge {
@@ -68,7 +78,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     }
     &.logo{
       padding: 10px 9px 10px 8px;
-      background: linear-gradient(#F7F7F7, rgba($white,0.88));
+      background: linear-gradient(#F7F7F7, rgba($white,0.95));
       height:72px;
       text-align: center;
       img{
@@ -76,16 +86,21 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       }
     }
   }
-  li > a > .fa-angle-down {
+  li > a > .fa-minus {
     width: auto;
+    color:$white;
     height: auto;
     padding: 0;
     margin-right: 10px;
     margin-top: 3px;
+    display: none;
   }
   li.active {
-    > a > .fa-angle-down {
-      transform: rotate(-180deg);
+    > a > .fa-minus {
+      display: block;
+    }
+    > a > .fa-plus {
+      display: none;
     }
     > .treeview-menu {
       display: block;
@@ -125,7 +140,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
         }
         > .fa-angle-left,
         > .fa-angle-down {
-          width: auto;
+          width: 15px;
           color:#fff !important;
         }
 
@@ -145,7 +160,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
   bottom: 0;
   padding: 2px 0 10px;
   position: absolute;
-  background-color: #5878b5;
+  background-color: $brand-blue;
   z-index: 999;
   .text-copyright{
     color: $white;

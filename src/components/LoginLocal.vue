@@ -9,14 +9,14 @@
 <h5>{{error}}</h5>
 </div>
   </div>
-    <h1 class="title">Clean <sup class="version">v4.0.0</sup> </h1>
+    <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform">  </h1>
     <div class="login-box">
       <div class="row">
         <div class="large-12 columns">
           <form v-on:submit.prevent="submit()">
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
+                <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
                   <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" readonly/>
                 </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="row">
               <div class="large-12 columns">
-                <div class="input-group">
+                <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
                 <input class="input-group-field" type="password" v-model="credentials.password" placeholder="Password" />
                 </div>
@@ -45,6 +45,7 @@
         </div>
       </div>
     </div>
+    <span v-if="version" class="version"> {{ version }}</span>
   </div>
   </div>
   </div>
@@ -67,7 +68,8 @@ data() {
       password:''
 
     },
-    error: ''
+    error: '',
+    version : '4.0.0-rc.1'
   }
 },
 methods: {
