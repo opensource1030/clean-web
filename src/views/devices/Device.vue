@@ -24,65 +24,61 @@
 
               <ul  class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
                 <li class="acordeon-item  is-active" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title"  @click="showFalse()" >Device Overview</a>
-                  <div class="accordion-content overview"  data-tab-content   v-f-accordion>
-                    <div class="column row">
-                      <div class="row">
-                      <div class="small-2 columns">
-                        <img class="phoneImg" :src="image.url" alt="Photo Devices" />
-                        <label for="FileUpload" class="button large" >Upload File</label>
-                        <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
-                      </div>
-
-
-                      <div class="small-3   columns ">
-                        <label>Default Price
-                          <input type="text" placeholder="" :value="d.id" v-model="d.id">
-                        </label>
-                          </div>
-                            <div class="small-2   columns ">
-
-                                <select v-model="d.type" class="money">
-                                  <option :value="null"  >USD</option>
-                                  <option  ></option>
-
-                                </select>
-
+                    <a href="#" class="accordion-title"  @click="showFalse()" >Device Overview</a>
+                    <div class="accordion-content overview"  data-tab-content   v-f-accordion>
+                      <div class="column row">
+                        <div class="row">
+                        <div class="small-12 large-2 columns">
+                          <img class="phoneImg" :src="image.url" alt="Photo Devices" />
+                          <label for="FileUpload" class="button large" >Upload File</label>
+                          <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
+                        </div>
+                          <div class="small-12 large-10 columns">
+  <div class="row">
+                        <div class="large-3 small-12   columns ">
+                          <label>Default Price
+                            <input type="text" placeholder="" :value="d.id" v-model="d.id">
+                          </label>
                             </div>
-
-                            <div class="small-4   columns margin">
-                        <label>Device Type
-                          <select v-model="d.type" >
-                            <option :value="null"  >Select Type</option>
-                            <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.name}}</option>
-
-                          </select>
-                        </label>
-                      </div>
-
-                      <div class="small-4    columns ">
-                        <label>Manufactured
-                          <input type="text" placeholder="" :value="d.make" v-model="d.make">
-                        </label>
-                          </div>
-                          <div class="small-4    columns margins">
-                            <label>Model
-                              <input type="text" placeholder="" :value="d.model" v-model="d.model">
-                            </label>
+                              <div class="small-12 large-3   columns ">
+                                <label> <span class="hide-for-small">&nbsp; </span>
+                                  <select v-model="d.type" >
+                                    <option :value="null"  >USD</option>
+                                    <option  ></option>
+                                  </select>
+  </label>
                               </div>
-
-
-                      <div class="small-10  columns">
-                        <label>Tecnical Information
-                          <textarea rows="6"  :value="d.description" v-model="d.description" ></textarea>
-                        </label>
+                              <div class="small-12 large-6  columns ">
+                          <label>Device Type
+                            <select v-model="d.type" >
+                              <option :value="null"  >Select Type</option>
+                              <option v-for="devicet in deviceType.data"   :value="devicet.id" >{{devicet.attributes.name}}</option>
+                            </select>
+                          </label>
+                        </div>
+    <div class="clearfix"> </div>
+                        <div class="small-12 large-6    columns ">
+                          <label>Manufactured
+                            <input type="text" placeholder="" :value="d.make" v-model="d.make">
+                          </label>
+                            </div>
+                            <div class="small-12  large-6    columns ">
+                              <label>Model
+                                <input type="text" placeholder="" :value="d.model" v-model="d.model">
+                              </label>
+                              </div>
+    <div class="clearfix"> </div>
+                        <div class="small-12 large-12  columns">
+                          <label>Tecnical Information
+                            <textarea rows="6"  :value="d.description" v-model="d.description" ></textarea>
+                          </label>
+                        </div>
+  </div>
+                            </div>
                       </div>
-
                     </div>
-                  </div>
-                  </div>
-
-                </li>
+                    </div>
+                  </li>
 
                 <li class="acordeon-item  " data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()"  >Atributes</a>
