@@ -26,13 +26,27 @@ export default {
           show: false,
           hide: true
         });
-        console.log(service);
+
         services.push(service);
       }
+          if(services.carriers ==  null || services.serviceitems == null){
 
-      context.services = services;
+              context.error="Server Error";
+              context.showModal=true;
 
-    }, (response) => {});
+          }
+          else{
+              context.services = services;
+          }
+
+
+      //context.services = services;
+
+    }, (response) => {
+          context.error="Server Error";
+            context.showModal=true;
+
+    });
 
   }
 

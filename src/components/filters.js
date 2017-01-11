@@ -31,8 +31,9 @@ function filterByModificationsd(list, value) {
 }
 
 function filterByCarrier(list, value) {
+
   return list.filter(function (item) {
-    return item.id.indexOf(value) > -1;
+      return item.carrierId == value;
   });
 }
 
@@ -70,34 +71,36 @@ function findByPrices(list, filter) {
 
   if (list.length > 0) {
 
-    if (filter.style == '' && filter.capacity == '' && filter.carrier == '' && filter.company == '') {
+console.log(filter.style,filter.capacity,filter.carrier,filter.company)
+    if (filter.style == null && filter.capacity == null && filter.carrier == null && filter.company== null ) {
 
       return list;
     }
 
     return list.filter(function (item) {
+
               var mostrar = true;
-              if (filter.capacity != '') {
+              if (filter.capacity != null) {
 
-                mostrar = mostrar && filter.capacity == item.capacity.attributes.value;
-
-              }
-
-              if (filter.style != '') {
-
-                mostrar = mostrar && filter.style == item.style.attributes.value;
+                mostrar = mostrar && filter.capacity.id == item.capacity;
 
               }
 
-              if (filter.carrier != '') {
+              if (filter.style != null) {
 
-                mostrar = mostrar && filter.carrier == item.carrier.presentation;
+                mostrar = mostrar && filter.style.id == item.style;
 
               }
 
-              if (filter.company != '') {
+              if (filter.carrier != null) {
 
-                mostrar = mostrar && filter.company == item.company.attributes.name;
+                mostrar = mostrar && filter.carrier.id == item.carrierId;
+
+              }
+
+              if (filter.company != null) {
+
+                mostrar = mostrar && filter.company.id == item.companyId;
 
               }
 
