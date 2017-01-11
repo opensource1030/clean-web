@@ -71,34 +71,34 @@ function findByPrices(list, filter) {
 
   if (list.length > 0) {
 
-
+console.log(filter.style,filter.capacity,filter.carrier,filter.company)
     if (filter.style == null && filter.capacity == null && filter.carrier == null && filter.company== null ) {
-console.log("hola")
+
       return list;
     }
 
     return list.filter(function (item) {
 
               var mostrar = true;
-              if (Object.keys(filter.capacity).length == 0) {
+              if (filter.capacity != null) {
 
                 mostrar = mostrar && filter.capacity.id == item.capacity;
 
               }
 
-              if (Object.keys(filter.style).length == 0) {
+              if (filter.style != null) {
 
                 mostrar = mostrar && filter.style.id == item.style;
 
               }
 
-              if (Object.keys(filter.carrier).length == 0) {
+              if (filter.carrier != null) {
 
                 mostrar = mostrar && filter.carrier.id == item.carrierId;
 
               }
 
-              if (Object.keys(filter.company).length == 0) {
+              if (filter.company != null) {
 
                 mostrar = mostrar && filter.company.id == item.companyId;
 

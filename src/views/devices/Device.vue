@@ -20,13 +20,14 @@
               </label>
             </div>
 
-            <div class="small-12 columns" >
+            <div  class="small-12 columns" >
 
               <ul  class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
                 <li class="acordeon-item  is-active" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title"  @click="showFalse()" >Device Overview</a>
                   <div class="accordion-content overview"  data-tab-content   v-f-accordion>
-                    <div class="row">
+                    <div class="column row">
+                      <div class="row">
                       <div class="small-2 columns">
                         <img class="phoneImg" :src="image.url" alt="Photo Devices" />
                         <label for="FileUpload" class="button large" >Upload File</label>
@@ -58,6 +59,7 @@
                           </select>
                         </label>
                       </div>
+
                       <div class="small-4    columns ">
                         <label>Manufactured
                           <input type="text" placeholder="" :value="d.make" v-model="d.make">
@@ -77,6 +79,7 @@
                       </div>
 
                     </div>
+                  </div>
                   </div>
 
                 </li>
@@ -221,10 +224,10 @@
                               <td><div>Retail Price</div></td>
                               <td><div>1 year contact</div></td>
                               <td ><div>2 years contract</div></td>
-                              <td  ><div>Pay by own</div></td>
-                              <td><div>1 year contact</div></td>
-                              <td ><div>2 years contract</div></td>
-                              <td  ><div>Pay by own</div></td>
+                              <td ><div v-if="filter.capacity!=null && filter.capacity.attributes!=null" >{{filter.capacity.attributes.value}}</div></td>
+                              <td ><div v-if="filter.style!=null && filter.style.attributes!=null" >{{filter.style.attributes.value}}</div></td>
+                              <td ><div v-if="filter.carrier!=null" >{{filter.carrier.presentation}}</div></td>
+                              <td ><div v-if="filter.company!=null && filter.company.attributes!=null" >{{filter.company.attributes.name}}</div></td>
 
                                   <td  ><div></div></td>
                             </tr>
