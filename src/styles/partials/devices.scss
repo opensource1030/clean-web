@@ -126,24 +126,12 @@
         }
 
         .prices {
-          .input-group {
-                display: table;
-                  width: 100%;
-                    margin-bottom: initial;
-                      height: 0.5rem;
-                          }
-
-            .input-group-field {
-                  border-radius: 0;
-                  height: 2.3rem;
-                  width: 2.8rem;
-                  text-align: right;
-            }
-            .input-group-label{
-                  border: 0rem solid #cacaca;
-                      padding: 0 0.5rem;
-            }
-
+          img{
+            margin:1rem 0 0 0;
+          }
+          .variation{
+            font-size: 1.5rem;
+          }
 
 
             table {
@@ -206,6 +194,7 @@
             .overview {
                 .phoneImg {
                     height: 160px;
+
                 }
 
                 .button {
