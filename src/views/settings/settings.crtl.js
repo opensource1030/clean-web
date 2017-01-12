@@ -1,7 +1,8 @@
-import Vue from 'vue';
-import company from './../../api/company/company';
 var {Store} = require('yayson')()
 var store = new Store()
+import Vue from 'vue';
+import company from './../../api/company/company';
+import Breadcrumb from 'vue-bulma-breadcrumb'
 
 Vue.directive('f-accordion', {
   bind: function(el) {
@@ -12,7 +13,12 @@ Vue.directive('f-accordion', {
 });
 
 export default {
-  name: "Settings",
+  name: "Configuration",
+
+  components: {
+    Breadcrumb,
+  },
+
   beforeCreate() {
     var self = this
     
@@ -27,7 +33,9 @@ export default {
   },
 
   computed: {
-    
+    list() {
+      return this.$route.matched
+    },
   },
 
   methods : {

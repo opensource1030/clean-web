@@ -153,9 +153,9 @@ export default [
  }
 },
 {
-  path: '/settings',
+  path: '/configuration',
   component: Settings,
-  name: 'settings',
+  name: 'configuration',
   meta: {
     requiresAuth: true
   }
