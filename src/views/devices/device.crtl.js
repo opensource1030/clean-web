@@ -94,7 +94,7 @@ export default {
     priceTable() {
   if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
     if(this.price.length>0 && this.add==true){
-console.log("adios")
+
       this.add=false;
     return this.pricess
     }
@@ -145,6 +145,7 @@ return this.pricess;
         capacitys: this.vCapacity,
         carriers: this.vCarriers,
         companys: this.vCompanies,
+        imageVariations:'',
         style:null,
         capacity:null,
         carrierId:null,
@@ -190,6 +191,7 @@ else{
         style:'',
         capacity:'',
         carrier:'',
+        imageVariations:'',
         company:'',
         priceRetail: 0,
         price1: 0,
@@ -291,6 +293,10 @@ else{
         url: "./../assets/logo.png",
         id: 0
       },
+      imageVariations: {
+        url: "./../assets/logo.png",
+        id: 0
+      },
       add:false,
       /*filter */
       filter: {
@@ -326,6 +332,7 @@ else{
       pageCompanies: 1,
       /*table price*/
       price: [],
+      color:'#CCCCCC',
       pricess: [],
       pricePost: [],
       company: {},
