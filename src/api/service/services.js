@@ -5,49 +5,57 @@ var store = new Store();
 
 export default {
 
-  getServices(context, pages) {
-    var services = [];
+    getServices(context, pages) {
 
-    context.$http.get(process.env.URL_API + '/services', {
-      params: {
-        include: 'serviceitems',
-        page: pages,
-        /*,filter[][like]:deviceType*/
-      }
-    }).then((response) => {
-      context.loading = false;
-      context.showtable = true;
+        var services = [];
 
-      let event = store.sync(response.data);
-      context.pagination = response.data.meta.pagination;
+        context.$http.get(process.env.URL_API + '/services', {
+            params: {
+                include: 'serviceitems,carriers',
+                page: pages,
+                /*,filter[][like]:deviceType*/
+            }
+        }).then((response) =>
+            {
+                context.loading = false;
+                context.showtable = true;
+                let event = store.sync(response.data);
+                context.pagination = response.data.meta.pagination;
 
-      for (let service of event) {
-        service = Object.assign({}, service, {
-          show: false,
-          hide: true
-        });
+                for (let service of event) {
+                    service = Object.assign(
+                        {},
+                        service, {
+                            show: false,
+                            hide: true
+                        }
+                    );
+                    services.push(service);
+                }
 
-        services.push(service);
-      }
-          if(services.carriers ==  null || services.serviceitems == null){
+                var ok = true;
 
-              context.error="Server Error";
-              context.showModal=true;
+                for (let serv of services) {
 
-          }
-          else{
-              context.services = services;
-          }
+                    if(serv.carriers ==  null || serv.carriers.length == 0) {
+                        context.error = "Unexpected Error. Contact with the Administrator.";
+                        ok = false;
+                    } else if (serv.serviceitems == null || serv.serviceitems.length == 0){
+                        context.error = "Unexpected Error. Contact with the Administrator.";
+                        ok = false;
+                    }
 
+                    if(ok){
+                        context.services = services;
+                    } else {
+                        context.showModal = true;
+                    }
+                }
 
-      //context.services = services;
-
-    }, (response) => {
-          context.error="Server Error";
-            context.showModal=true;
-
-    });
-
-  }
-
+            }, (response) => {
+                context.error = "Response Error";
+                context.showModal = true;
+            }
+        );
+    }
 }
