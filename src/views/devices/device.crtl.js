@@ -145,7 +145,10 @@ return this.pricess;
         capacitys: this.vCapacity,
         carriers: this.vCarriers,
         companys: this.vCompanies,
-        imageVariations:'',
+        imageVariations: {
+          url: "./../assets/logo.png",
+          id: 0
+        },
         style:null,
         capacity:null,
         carrierId:null,
@@ -191,7 +194,10 @@ else{
         style:'',
         capacity:'',
         carrier:'',
-        imageVariations:'',
+        imageVariations: {
+          url: "./../assets/logo.png",
+          id: 0
+        },
         company:'',
         priceRetail: 0,
         price1: 0,
@@ -253,6 +259,13 @@ else{
       formData.append('filename', files[0]);
       device.createImage(this, formData);
     },
+    onFileChanges(e,index) {
+      var files = e.target.files || e.dataTransfer.files;
+      var formData = new FormData();
+      formData.append('filename', files[0]);
+      console.log(index)
+      device.createImageVariation(this, formData,index);
+    },
 
     changeStatusCarrier(className, index) {
       var el = document.getElementsByClassName('static')[index];
@@ -260,13 +273,14 @@ else{
     },
 
     capacit() {
-      if (this.gigas == '' || this.gigas == null) {
+      console.log(this.gigas);
+      if (this.gigas == '' || this.gigas == null || isNaN(this.gigas) ) {
         this.error = 'Incorrect value Capacity';
       } else {
         this.error = '';
-
+        console.log(this.gigas)
         var addModification = {
-          value: this.gigas,
+          value: this.gigas+this.units,
           type: 'capacity'
         };
         device.addModifications(this, addModification);
@@ -294,11 +308,14 @@ else{
         id: 0
       },
       imageVariations: {
-        url: "./../assets/logo.png",
+        url: "",
         id: 0
       },
+
+
       add:false,
       /*filter */
+
       filter: {
         capacity:{},
         style:{},
@@ -312,8 +329,12 @@ else{
         id: null,
         make:'',
         model:'',
-        type: null
+        type: null,
+        money:'USD'
+
+
       },
+      units:'gb',
       /*add modifications*/
       id: null,
       priceData: [],
@@ -332,7 +353,7 @@ else{
       pageCompanies: 1,
       /*table price*/
       price: [],
-      color:'#CCCCCC',
+      colorV:'#CCCCCC',
       pricess: [],
       pricePost: [],
       company: {},
