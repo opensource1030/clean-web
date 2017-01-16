@@ -28,11 +28,12 @@
                     <div class="accordion-content overview"  data-tab-content   v-f-accordion>
                       <div class="column row">
                         <div class="row">
-                        <div class="small-12 large-2 columns">
-                          <img class="phoneImg" :src="image.url" alt="Photo Devices" />
-                          <label for="FileUpload" class="button large" >Upload File</label>
-                          <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
-                        </div>
+                          <div class="small-12 large-2 columns">
+                        <img class="phoneImg" :src="image.url" alt="Photo Devices" />
+                        <label for="FileUpload" class="button large" >Upload File</label>
+                        <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
+                      </div>
+
                           <div class="small-12 large-10 columns">
   <div class="row">
                         <div class="large-3 small-12   columns ">
@@ -42,8 +43,10 @@
                             </div>
                               <div class="small-12 large-3   columns ">
                                 <label> <span class="hide-for-small">&nbsp; </span>
-                                  <select v-model="d.type" >
-                                    <option :value="null"  >USD</option>
+                                  <select v-model="d.money" >
+                                    <option value="USD"  >USD</option>
+                                    <option value="GBP"  >GBP</option>
+                                      <option value="EUR"  >EUR</option>
                                     <option  ></option>
                                   </select>
   </label>
@@ -103,9 +106,10 @@
                           </div>
                           <div class="small-4 columns money">
 
-                              <select >
-
-                                <option  >GB</option>
+                              <select v-model="units" >
+                                <option value="tb" >TB</option>
+                                <option value="gb" >GB</option>
+                                <option value="mb">MB</option>
                               </select>
 
 
@@ -255,9 +259,9 @@
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
                               <div class="small-12 large-2 columns">
-                                <img class="phoneImg" :src="image.url" alt="Photo Devices" />
+                                <img class="phoneImg" :src="p.imageVariations.url" alt="Photo Devices" />
 
-                                <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
+                                <input type="file" :id="'FileUpload'+index" @change="onFileChanges($event,index)"  class="show-for-sr">
                               </div>
                                 <div class="small-12 large-10 columns">
                                     <div class="row">
@@ -301,7 +305,7 @@
                   </div>
                   <div class="clearfix"> </div>
                   <div class="large-3 large-offset-2 small-12 columns">
-                  <label for="FileUpload" class="button large" >Upload File</label>
+                  <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload File</label>
                 </div>
 
                 <div clas="large-3    small-12  columns">

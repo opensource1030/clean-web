@@ -2,7 +2,9 @@
 import Vue from 'vue';
 import auth from './../auth.js';
 import Device from './../../models/Device'
-
+import {
+  filterByFilters
+} from './../../components/filters.js';
 var {
   Store,
 } = require('yayson')();
@@ -56,32 +58,39 @@ export default {
 
     context.$http.get(process.env.URL_API + '/devices/' + id, {
       params: {
-        include: 'modifications,carriers,companies,prices,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images',
       },
 
     }).then((response) => {
 
         event = store.sync(response.data);
-
+        console.log(event);
         //context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
         //  context.image.id=event.images[0].id;
 
-        context.d.name = event.name;
+       context.d.name = event.name;
         context.d.description = event.properties;
-        context.d.id = event.defaultPrice;
-        context.d.type = event.devicetypes[0].id;
+        //context.d.id = event.defaultPrice;
+       context.d.type = event.devicetypes[0].id;
         context.d.make=event.make;
         context.d.model=event.model;
+          this.carrierCheck(context,  filterByFilters(response.data.included,'carriers'));
         context.carriers = this.carriersCheck;
-        context.priceData = event.devicevariations;
-        this.modificationCheck(context, event.modifications);
-        this.carrierCheck(context, event.carriers);
-        this.companyCheck(context, event.companies);
-        context.modifications = this.modificationsCheck;
-
+        context.vCarriers=this.carriersCheck;
+        this.companyCheck(context, filterByFilters(response.data.included,'companies'));
         context.companies = this.companiesCheck;
-        context.vCompanies = this.companiesCheck;
+
+    this.modificationCheck(context, event.modifications);
+    context.modifications = this.modificationsCheck;
+
+    //
+
+        //
+      //  context.priceData = event.devicevariations;
+
         context.checkcarrier();
+
+
 
       },
 
@@ -97,10 +106,9 @@ export default {
     for (let carrier of this.carriersCheck.data) {
 
       carrier.check = false;
-
+      //  console.log(carrier)
       for (let carrierData of carriersD) {
         if (carrier.id == carrierData.id) {
-
           carrier.check = true;
 
           break;
@@ -292,6 +300,23 @@ export default {
       .then((response) => {
         context.image.url = 'http://' + response.data.data.links.self;
         context.image.id = response.data.data.id;
+
+      }, (response) => {
+      });
+
+  },
+  createImageVariation(context, file,index) {
+    context.$http.post(process.env.URL_API + '/images', file)
+
+      .then((response) => {
+        if(context.id==null){
+
+          context.price[index].imageVariations.url = 'http://' + response.data.data.links.self;
+
+        }else{
+            context.pricess[index].image.id = response.data.data.id;
+        }
+
 
       }, (response) => {
       });

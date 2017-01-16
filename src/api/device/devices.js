@@ -18,7 +18,7 @@ export default {
 
     context.$http.get(process.env.URL_API + '/devices', {
       params: {
-        include: 'modifications,carriers,companies,prices,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images',
         page: pages, /*,filter[][like]:deviceType*/
       },
 
@@ -38,6 +38,7 @@ export default {
         event = store.sync(response.data);
 
         var devices = [];
+        console.log(event);
 
 
         for (let device of event) {
@@ -61,14 +62,14 @@ export default {
           }
 
 
-              if(device.prices == null ){
-                  context.error="Server error"
+              if(device.devicevariations == null ){
+                  context.error="Unexpected error.Please contact the administrator"
                   context.showModal=true;
               }
                   else{
-          for (let price of device.prices) {
+          for (let price of device.devicevariations) {
 
-            for (let company of device.companies) {
+            for (let company of price.companies) {
               if (company.id == price.companyId) {
                 price = Object.assign({}, price, {
                   company: company.name,
@@ -91,7 +92,7 @@ export default {
 
             }
 
-            for (let carrier of device.carriers) {
+            for (let carrier of price.carriers) {
               if (carrier.id == price.carrierId) {
                 price = Object.assign({}, price, {
                   carrier: carrier.presentation,
