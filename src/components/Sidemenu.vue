@@ -8,68 +8,41 @@
 
       </li>
       <li class="menu-title">
-        <a href="javascript:;">
+        <a href="/dashboard">
           <i class="fa fa-home"></i> <span>Home</span>
         </a>
-      </li>
-      <li class="treeview">
-        <a href="/dashboard">
-          <i class="fa fa-dashboard"></i>
-          <span>Dashboard</span>
-          <i class="fa fa-angle-down pull-right"></i>
-        </a>
-        <ul class="treeview-menu" style="display: none;">
-          <li class="redirect-link"><a  href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp"><i class="fa fa-circle-o"></i> Trends</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp"><i class="fa fa-circle-o"></i> Bill Cycle</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp"><i class="fa fa-circle-o"></i> Top 10 Reports</a></li>
-        </ul>
-      </li>
-      <li   class="treeview">
-        <a  href="#">
-          <i class="fa fa-bar-chart"></i>
-          <span>Reports</span>
-          <i class="fa fa-angle-down pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp"><i class="fa fa-circle-o"></i> Charge</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp"><i class="fa fa-circle-o"></i> Data</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp"><i class="fa fa-circle-o"></i> International</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp"><i class="fa fa-circle-o"></i> Usage</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp"><i class="fa fa-circle-o"></i> Intercompany Charge</a></li>
-          <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp"><i class="fa fa-circle-o"></i> Zero Usage</a></li>
-        </ul>
       </li>
       <li v-permission="'Procurements'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-list-alt"></i>
-          <span>PROCUREMENTS</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <span>Inventory</span>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li ><a  href="javascript:;"><i class="fa fa-circle-o"></i>Admin <i class="fa fa-angle-down pull-right"></i> </a>
-              <ul class="treeview-menu">
-                <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i> Device Inventory</a></li>
-                <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Service Inventory</a></li>
-                  <li ><a   href="javascript:;"><i class="fa fa-circle-o"></i> Configuration</a></li>
-              </ul>
-          </li>
+            <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipments</a></li>
+            <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Services & Plans</a></li>
+            
         </ul>
       </li>
       <li v-permission="'Packages'" class="treeview"  >
         <a  href="javascript:;">
           <i class="fa fa-th-large"></i>
-          <span>PACKAGES</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <span>Policies</span>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i> Create Package</a></li>
+          <li ><a href="#" ><i class="fa fa-circle-o"></i>View All Policies</a></li>
+          <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i>Create a Policy</a></li>
         </ul>
       </li>
       <li  v-permission="'Presets'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
-          <span>PRESETS</span>
-          <i class="fa fa-angle-down pull-right"></i>
+          <span>Presets</span>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Device</a></li>
@@ -78,7 +51,20 @@
 
         </ul>
       </li>
-      <li class="redirect-link"><a target="_blank" href="http://app.wirelessanalytics.com/helpdesk/support.asp"><i class="fa fa-phone"></i> <span>Support</span></a></li>
+
+      <li  v-permission="'Presets'" class="treeview">
+        <a  href="javascript:;">
+          <i class="fa fa-tasks"></i>
+          <span>Configuration</span>
+          <i class="fa fa-plus pull-right"></i>
+          <i class="fa fa-minus pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="fa fa-phone"></i> <span>Support</span></a></li>
 
 
     </ul>

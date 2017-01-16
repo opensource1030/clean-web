@@ -3,6 +3,10 @@
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
+        <modal v-if="showModal" @close="showModal = false">
+
+  <h3 slot="body">{{error}}</h3>
+</modal>
 
         <div class="small-12 columns titles">
           <h4>Manage Devices<h4>
@@ -18,18 +22,18 @@
                 <tr>
                   <th >
                   </th>
-                  <th ><select class="form-control" v-model="type" >
+                  <th  width="160px"><select class="form-control" v-model="type" >
                     <option value="" type>Device Type</option>
                     <option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>
 
                   </select></th>
-                  <th >
+                  <th width="180px" >
                     <select class="form-control" v-model="manufactured" >
                       <option value="" manufactured>Manufactured</option>
                       <option v-for="item in filterDeviceType"  :value="item.id">{{item.attributes.make}}</option>
 
                     </select> </th>
-                    <th ><select class="form-control" v-model="price" >
+                    <th width="100px"><select class="form-control" v-model="price" >
                       <option value="" price>Price</option>
                       <option v-for="item in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>
 
@@ -44,7 +48,7 @@
                       <option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>
 
                     </select></th>
-                    <th ><select class="form-control" v-model="capacity" >
+                    <th width="160px"><select class="form-control" v-model="capacity" >
                       <option value="" capacity>Capacity</option>
                       <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>
 
@@ -56,7 +60,7 @@
                     </select></th>
                   </tr>
                 </thead>
-                <tbody v-show="showtable" >
+                <tbody v-show="loadtable" >
                   <tr class="filter">
                     <td><div></div></td>
                     <td><div>{{type}}</div></td>
@@ -87,7 +91,7 @@
                         <div class="options child">
                           <ul v-for="carrier in device.carriers"  :key="carrier.id" >
                             {{carrier.name}}
-                            <li v-for="price in device.priceName  " :key="price.id" >{{price.style}}, {{price.capacity}}</li>
+                            <li v-for="price in filterByCarrier(device.priceName,carrier.id)   " :key="price.id" >{{price.style}}, {{price.capacity}}</li>
 
                           </ul>
 
@@ -96,7 +100,7 @@
                           <div class="listPrice" v-for="carrier in device.carriers"  :key="carrier.id" >
 
                             <ul>
-                              <li   v-for="price in filterByCarrier(device.prices,'carrierId' )  "  :key="price.id" >{{price.priceRetail}}$</li>
+                              <li   v-for="price in filterByCarrier(device.prices,carrier.id)"  :key="price.id" >{{price.priceRetail}}$</li>
 
                             </ul>
                             <br>
@@ -150,9 +154,9 @@
                   <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
                 </div>
             </div>
-              <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
-          </div>
 
+          </div>
+<pagination :pagination="pagination" :callback="loadData" v-show="loadtable"></pagination>
         </div>
       </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="content-right" >
     <div class="alert callout for-dashboard" data-closable style="display:none;">
-      <h5>You will now be redirected to this section in our legacy app</h5>
+      <h5>You will now be redirected to this section in our legacy App</h5>
     </div>
     <div class="expanded row">
 
@@ -11,10 +11,12 @@
           <morphsearch> </morphsearch>
         </div>
         <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a> </div>
+              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> 
+              <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a></span id="release-note"></span> 
+              </div>
           <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
             <ul>
-              <li><a @click="logout()"  v-if="user.authenticated" href="/login">Logout</a></li>
+              <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
             </ul>
           </div>
         </div>
@@ -136,10 +138,7 @@
   var  store = new Store()
   require('script!jquery');
   require('script!jquery-match-height');
-  require('script!jquery.soap');
-  require('../modules/jquery.serialize-object');
   require('script!jquery-validation');
-  require('highcharts');
   import _ from 'lodash';
   import auth from './../api/auth'
   import Avatar from 'vue-avatar/dist/Avatar'
@@ -219,7 +218,6 @@
                 remove: false
               });
 
-
               var $select = $('#support-form .user-actions'), $images = $('.mix');
               $select.on('change', function () {
                 var value = '.' + $(this).val();
@@ -238,7 +236,6 @@
                 $('#recipient_firstname').val(user.firstName);
                 $('#recipient_lastName').val(user.lastName);
                 $('.support-form-holder').show(200);
-
               });
 
               $('#btn-close').click(function () {
@@ -250,8 +247,6 @@
               $(document).keyup(function (e) {
                 if (e.keyCode == 27) $('#btn-close').click();
               });
-
-
                         $("#support-form").validate({
                             rules: {
                                 "description": {
@@ -268,27 +263,24 @@
                                      "assignedTo":59063,
                                      "inboxId":1778,
                                     "subject": $('#subject').val(),
+                                    "tags[]" : $('#tags').val(),
                                     "customerEmail": $('#recipient_email').val(),
                                     "customerMobileNumber" : $('#recipient_mobilenumber').val(),
                                     "customerPhoneNumber" : $('#recipient_phonenumber').val(),
                                     "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
                                     "source": "clean-dashboard",
                                     "status" : "active",
-                                    /*"tags" : $('#tags').val(),*/
                                     "priority" : $('input[name=priority]:checked', '#support-form').val()
-
                                 };
-
-
+                              
                                 $.ajax({
                                     type: "POST",
                                     url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
                                     headers: {"Authorization": "BASIC " + window.btoa(key + ":xxx")},
-                                    /*data: jQuery.parseJSON(JSON.stringify(form.serialize())),*/
                                     data : JSON.stringify(json),
                                     processData: false,
                                     contentType: "application/json; charset=UTF-8",
-                                    success: function(){
+                                    success: function(msg){
                                         $modal.html('');
                                         $modal.removeClass('is-error').addClass('is-success').append("<h4>Request sent succefully </h4>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
                                         $('#support-form')[0].reset();
@@ -296,8 +288,6 @@
                                     error: function(XMLHttpRequest, textStatus, errorThrown) {
                                         $('#modal').html('');
                                         $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + "Please fill all the required fields with appropriate value" + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
-
-
                                     }
                                 });
 
@@ -318,7 +308,6 @@
               // console.log(this.piechartData);
           }
         });
-
     },
     methods:{
       logout() {
@@ -352,6 +341,7 @@
     data(){
       return {
         data: {},
+        version : null,
         user: auth.user,
         piechartData: [],
       }

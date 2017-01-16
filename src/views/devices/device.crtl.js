@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import device from './../../api/device/device';
 import {findByPrices, filterByModifications} from './../../components/filters.js';
+import modal from './../../components/modal.vue';
+import inputValidate from './../../components/inputValidate.vue'
+
 Vue.directive('f-accordion', {
   bind: function(el) {
     Vue.nextTick(function() {
@@ -10,7 +13,12 @@ Vue.directive('f-accordion', {
 });
 export default {
   name : 'Device',
-  beforeCreate() {
+  components: {
+    modal,
+  inputValidate
+  },
+  created() {
+
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
@@ -84,108 +92,115 @@ export default {
     },
 
     priceTable() {
-      if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-        this.pricess = [];
-        var a = false;
-        for (let price of this.priceData) {
-
-          let co = this.findById(this.vCompanies, price, price.companyId, "company")
-
-          let st = this.findById(this.vStyles, price, price.styleId, "style")
-
-          let cy = this.findById(this.vCapacity, price, price.capacityId, "capacity")
-
-          let ca = this.findById(this.vCarriers, price, price.carrierId, "carrier")
-
-          if (ca == true && cy == true && st == true && co == true) {
-            this.pricess.push(price);
-          }
-
-        }
-
-        for (let companies of this.vCompanies) {
-          for (let styles of this.vStyles) {
-            for (let capacitys of this.vCapacity) {
-              for (let carriers of this.vCarriers) {
-
-                this.company = Object.assign({}, this.company, {
-                  style: styles,
-                  capacity: capacitys,
-                  carrier: carriers,
-                  company: companies,
-                  id: 0,
-                  priceRetail: 0,
-                  price1: 0,
-                  price2: 0,
-                  priceOwn: 0
-                });
-
-                this.price.push(this.company);
-
-              }
-            }
-          }
-        }
-
-        for (let pri of this.price) {
-          var b = true;
-          for (let p of this.pricess) {
-            if (JSON.stringify(pri.style) == JSON.stringify(p.style) && JSON.stringify(pri.capacity) == JSON.stringify(p.capacity) && JSON.stringify(pri.company) == JSON.stringify(p.company) && JSON.stringify(pri.carrier) == JSON.stringify(p.carrier)) {
-              b = false;
-              break;
-            }
-          }
-
-          if (b == true) {
-            if (pri.company.check != false && pri.capacity.check != false && pri.style.check != false && pri.carrier.check != false) {
-              this.pricess.push(pri);
-            }
-          }
-        }
-
-        return this.pricess;
-      } else {
-        if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-          this.price = [];
-          for (let companies of this.vCompanies) {
-
-            if (companies.check == false) {}
-            for (let styles of this.vStyles) {
-              if (styles.check == false) {}
-              for (let capacitys of this.vCapacity) {
-
-                for (let carriers of this.vCarriers) {
-                  this.company = Object.assign({}, this.company, {
-                    style: styles,
-                    capacity: capacitys,
-                    carrier: carriers,
-                    company: companies,
-                    priceRetail: 0,
-                    price1: 0,
-                    price2: 0,
-                    priceOwn: 0
-                  });
-                  this.price.push(this.company);
-                }
-              }
-            }
-          }
-
-          return this.price;
-        } else {
-          return '';
-        }
-      }
+  if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+    if(this.price.length>0 && this.add==true){
+console.log("adios")
+      this.add=false;
+    return this.pricess
     }
+    else{
+
+  this.pricess = [];
+
+  for(let price of this.priceData){
+      let capacityId=null;
+      let styleId=null;
+    for(let modi of price.modifications){
+          if(modi.modType=="capacity"){
+            capacityId=modi.id;
+          }else{
+            styleId=modi.id;
+          }
+
+    }
+
+    price= Object.assign({}, price, {
+      styles:this.vStyles,
+      capacitys: this.vCapacity,
+      carriers: this.vCarriers,
+      companys: this.vCompanies,
+      style:styleId,
+      capacity:capacityId,
+
+    });
+      this.pricess.push(price);
+
+  }
+}
+return this.pricess;
+  }
+
+
+  else  if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+      if(this.price.length>0 && this.add==true){
+
+        this.add=false;
+      return this.price
+      }
+      else{
+
+      this.price = [];
+      this.company = Object.assign({}, this.company, {
+        styles:this.vStyles,
+        capacitys: this.vCapacity,
+        carriers: this.vCarriers,
+        companys: this.vCompanies,
+        style:null,
+        capacity:null,
+        carrierId:null,
+        companyId:null,
+        priceRetail: 0,
+        price1: 0,
+        price2: 0,
+        priceOwn: 0
+      });
+
+      this.price.push(this.company);
+
+      return this.price
+}
+}
+else{
+  return '';
+}
+
+}
+
+
   },
   methods : {
     findByPrices,
     submit() {
       if (this.id != null) {
-        device.updateDevice(this.id, this, this.pricePost, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       } else {
-        device.addDevice(this, this.pricePost, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+        device.addDevice(this, this.price, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
       }
+    },
+    toggle() {
+     this.show = !this.show;
+   },
+    adds(){
+      this.add=true;
+      this.company = Object.assign({}, this.company, {
+        style:this.vStyles,
+        capacity: this.vCapacity,
+        carrier: this.vCarriers,
+        company: this.vCompanies,
+        style:'',
+        capacity:'',
+        carrier:'',
+        company:'',
+        priceRetail: 0,
+        price1: 0,
+        price2: 0,
+        priceOwn: 0
+      });
+      if(this.pricess.length>0){
+      this.pricess.push(this.company)
+    }else{
+      this.price.push(this.company);
+}
     },
 
     checkcarrier() {
@@ -201,6 +216,10 @@ export default {
         }
       });
     },
+    findCompany(){
+        device.filterCompanies(this,this.page,this.companyFilter);
+    },
+
     findById(relationships, price, priceId, type) {
 
       for (let relation of relationships) {
@@ -216,52 +235,6 @@ export default {
       }
       return false;
     },
-
-    updateRetail(i, e) {
-      var value = e.target.value;
-      console.log(value);
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {retail: value});
-
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateOne(i, e) {
-      var value = e.target.value;
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {priceOne: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateTwo(i, e) {
-      var value = e.target.value;
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {priceTwo: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    updateOwn(i, e) {
-      var value = e.target.value;
-      var price = this.pricePost[i];
-      var extending = Object.assign({}, price, {Own: value});
-      Vue.set(this.pricePost, i, extending)
-    },
-
-    toggle() {
-      this.show = !this.show;
-      this.pricePost = [];
-      if (this.id != null) {
-        for (let price of this.pricess) {
-          console.log(price);
-          this.pricePost.push(price);
-        }
-      } else {
-        for (let price of this.price) {
-          this.pricePost.push(price);
-        }
-      }
-    },
-
     changeStatusCompany(index) {
       this.companies.data[index].check = !this.companies.data[index].check;
       console.log(this.companies.data[index].check);
@@ -318,18 +291,21 @@ export default {
         url: "./../assets/logo.png",
         id: 0
       },
+      add:false,
       /*filter */
       filter: {
-        capacity: '',
-        style: '',
-        carrier: '',
-        company: ''
+        capacity:{},
+        style:{},
+        carrier:{},
+        company:{}
       },
-      companyFilter: '*',
+      companyFilter: '',
       d: {
         name: '',
         description: '',
         id: null,
+        make:'',
+        model:'',
         type: null
       },
       /*add modifications*/
@@ -343,6 +319,7 @@ export default {
       },
       companies: [],
       modifications: [],
+      showModal:false,
       deviceType: [],
       /*paginations*/
       pageCarriers: 1,

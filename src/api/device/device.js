@@ -20,15 +20,18 @@ export default {
     data: [],
   },
 
+
   updateDevice(id, context, price, style, capacity, carriers, companies, device, image) {
-      console.log(deviceObj)
-      let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
-      console.log(deviceObj)
+
+      let deviceObj = new Device('devices',id, device.id, device.name, device.description, device.type, 1, image.id);
+    if(capacity.length===0 && style.length===0 && carrriers.length===0 && companies.length===0 && price.length===0){
+      context.showModal=true;
+    }else{
       deviceObj.modificationsJson(capacity,style,deviceObj);
       deviceObj.carriersJson(carriers,deviceObj);
       deviceObj.companiesJson(companies,deviceObj);
       deviceObj.pricesJson(price,deviceObj);
-
+}
 
 
 
@@ -43,6 +46,8 @@ export default {
         context.$router.push({name: 'devices'});
 
       }, (response) => {
+
+        context.showModal=true;
       });
 
   },
@@ -63,11 +68,12 @@ export default {
 
         context.d.name = event.name;
         context.d.description = event.properties;
-        context.d.id = event.identification;
+        context.d.id = event.defaultPrice;
         context.d.type = event.devicetypes[0].id;
-
+        context.d.make=event.make;
+        context.d.model=event.model;
         context.carriers = this.carriersCheck;
-        context.priceData = event.prices;
+        context.priceData = event.devicevariations;
         this.modificationCheck(context, event.modifications);
         this.carrierCheck(context, event.carriers);
         this.companyCheck(context, event.companies);
@@ -253,11 +259,16 @@ export default {
 
   addDevice(context, price, style, capacity, carriers, companies, device, image) {
 
-    let deviceObj = new Device('devices', device.identification, device.name, device.description, device.type, 1, image.id);
+
+  let deviceObj = new Device('devices',null,device.id, device.name, device.description, device.type, 1, image.id);
+    if(capacity.length===0 && style.length===0 && carriers.length===0 && companies.length===0 && price.length===0){
+      context.showModal=true;
+    }else{
     deviceObj.modificationsJson(capacity,style,deviceObj);
     deviceObj.carriersJson(carriers,deviceObj);
     deviceObj.companiesJson(companies,deviceObj);
-    deviceObl.pricesUpdateJson(price,deviceObj);
+    deviceObj.pricesUpdateJson(price,deviceObj);
+  }
 
     context.$http.post(process.env.URL_API + '/devices', {
 
@@ -269,6 +280,8 @@ export default {
           context.$router.push({name: 'devices'});
 
       }, (response) => {
+          context.showModal=true;
+
       });
 
   },
@@ -284,5 +297,32 @@ export default {
       });
 
   },
+  filterCompanies(context,page,companyName){
+    context.$http.get(process.env.URL_API + '/companies', {
+
+      params: {
+        page: page,
+        'filter[name][like]': companyName
+      },
+
+    }).then((response) => {
+        context.pagination = response.data.meta.pagination;
+        for (let company of response.data.data) {
+
+          this.companiesCheck.data.push(company);
+          company.check = false;
+
+        }
+
+        context.companies = response.data;
+
+      },
+
+      (response) => {
+
+      });
+
+
+  }
 
 };

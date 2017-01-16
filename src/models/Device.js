@@ -1,7 +1,8 @@
 export default class Device {
 
-  constructor(type, id, name, properties, deviceTypeId, statusId, imageId) {
+  constructor(type, id,identification, name, properties, deviceTypeId, statusId, imageId) {
     this.id = id;
+    this.identification=identification;
     this.type = type;
     this.name = name;
     this.properties = properties;
@@ -61,10 +62,10 @@ export default class Device {
         styleId: p.style.id,
         carrierId: p.carrier.id,
         companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own
+        priceRetail: p.priceRetail,
+        price1: p.price1,
+        price2: p.price2,
+        priceOwn: p.priceOwn
       })
 
     });
@@ -81,10 +82,10 @@ export default class Device {
         styleId: p.style.id,
         carrierId: p.carrier.id,
         companyId: p.company.id,
-        priceRetail: p.retail,
-        price1: p.priceOne,
-        price2: p.priceTwo,
-        priceOwn: p.Own
+        priceRetail: p.priceRetail,
+        price1: p.price1,
+        price2: p.price2,
+        priceOwn: p.priceOwn
       })
 
     });
@@ -94,12 +95,13 @@ export default class Device {
   toJSON() {
     return {
       type: this.type,
+      id:this.id,
       attributes: {
         name: this.name,
         properties: this.properties,
         deviceTypeId: this.deviceTypeId,
         statusId: 1,
-        identification: this.id
+        identification: this.identification,
       },
       relationships: {
         modifications: {

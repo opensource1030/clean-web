@@ -2,11 +2,13 @@ import Vue from 'vue';
 import Pagination from './../../components/pagination';
 import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
 import devices from './../../api/device/devices';
+import modal from './../../components/modal.vue';
 
 export default {
 
   components : {
-    pagination: Pagination
+    pagination: Pagination,
+    modal:modal
   },
   beforeCreate() {
   
@@ -27,7 +29,7 @@ export default {
 
     setActive: function(index) {
       this.active = index;
-      console.log(this.devices[index]);
+    //  console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
       if (this.devices[this.active].show == true) {
         this.devices[this.active].show = false;
@@ -65,7 +67,10 @@ export default {
       style: '',
       price: '',
       loading: true,
-      loadtable: false
+      loadtable: false,
+      error:'',
+      showModal:false
+
 
     };
   }

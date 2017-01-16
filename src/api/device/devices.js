@@ -39,6 +39,7 @@ export default {
 
         var devices = [];
 
+
         for (let device of event) {
           if (device.images.length > 0) {
             device = Object.assign({}, device, {
@@ -46,7 +47,6 @@ export default {
               hide: true,
               priceName: [],
               image: process.env.URL_API + '/images/' + device.images[0].id,
-
             });
 
           } else {
@@ -60,6 +60,12 @@ export default {
             });
           }
 
+
+              if(device.prices == null ){
+                  context.error="Server error"
+                  context.showModal=true;
+              }
+                  else{
           for (let price of device.prices) {
 
             for (let company of device.companies) {
@@ -69,7 +75,6 @@ export default {
                 });
 
               }
-
             }
 
             for (let modification of device.modifications) {
@@ -100,10 +105,12 @@ export default {
 
           }
 
+
           devices.push(device);
-          console.log(device);
+        //  console.log(device);
 
         }
+      }
 
         context.devices = devices;
 
