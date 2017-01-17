@@ -11,9 +11,8 @@
           <morphsearch> </morphsearch>
         </div>
         <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> 
-              <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a></span id="release-note"></span> 
-              </div>
+              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a> </div>
+          <div class="HW-container">  </div>
           <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
             <ul>
               <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
@@ -130,17 +129,20 @@
         <piechart :data="piechartData"></piechart>
         <trendchart></trendchart>
     </div>
+    <spent-Info></spent-Info>
   </div>
 </template>
 
 <script>
   var {Store} = require('yayson')()
   var  store = new Store()
+  window.Event = new Vue();
   require('script!jquery');
   require('script!jquery-match-height');
   require('script!jquery-validation');
   import _ from 'lodash';
   import auth from './../api/auth'
+  import Vue from 'vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import Breadcrumb from 'vue-bulma-breadcrumb'
   import ClientInfo from './ClientInfo.vue'
@@ -148,6 +150,7 @@
   import Morphsearch from './Morphsearch.vue'
   import Piechart from './Piechart.vue'
   import Trendchart from './Trendchart.vue'
+  import SpentInfo from './SpentInfo.vue'
   export default {
     name: "Dashboard",
     components: {
@@ -157,7 +160,8 @@
       ChargeInfo,
       Piechart,
       Trendchart,
-      Avatar
+      Avatar,
+      SpentInfo
     },
 
     computed: {
@@ -211,20 +215,25 @@
             this.data= response.data;
             setTimeout(function(){
               $(document).foundation();
-              $('.grid-box').matchHeight({
+              $('.eq-Hght').matchHeight({
                 byRow: true,
                 property: 'height',
                 target: null,
                 remove: false
               });
-
+              var config = {
+                selector: ".HW-container",
+                account: "JPYPKy",
+                enabled : true
+              };
+              Headway.init(config);
               var $select = $('#support-form .user-actions'), $images = $('.mix');
               $select.on('change', function () {
                 var value = '.' + $(this).val();
                 $images.show(200).not(value).hide();
               });
 
-              var $selectOption = $('.wireless-overview .user-actions');
+              var $selectOption = $('.user-actions');
               $selectOption.on('change', function () {
                 var value1 = $(this).val();
                 $('.btn-provision').click();
@@ -314,7 +323,7 @@
       },
       grid(){
         $(function() {
-          $('.grid-box').matchHeight({
+          $('.eq-Hght').matchHeight({
             byRow: true,
             property: 'height',
             target: null,
@@ -343,6 +352,7 @@
         version : null,
         user: auth.user,
         piechartData: [],
+        popOver: true
       }
     }
   }

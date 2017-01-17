@@ -16,7 +16,7 @@
   </div>
   <div class="clearfix"></div>
   <div class="large-6 columns" >
-    <div class="grid-box" data-mh="box1">
+    <div class="grid-box eq-Hght" data-mh="box1">
       <header class="box-heading">
         <h2>contact support</h2>
       </header>
@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="large-6 columns" >
-    <div class="grid-box" data-mh="box1" v-if="client.object">
+    <div class="grid-box eq-Hght" data-mh="box1" v-if="client.object">
       <header class="box-heading">
         <h2 v-html="client.object.metafields[1].title"> </h2>
       </header>
