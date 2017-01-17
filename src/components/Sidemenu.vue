@@ -65,9 +65,6 @@
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-phone"></i> <span>Support</span></a></li>
-      <li><i class="release-notes"></i></li>
-
-
     </ul>
     <div class="nav-poweredby">
       <span class="text-copyright">Powered By</span>

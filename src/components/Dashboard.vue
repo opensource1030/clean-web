@@ -263,16 +263,15 @@
                                      "assignedTo":59063,
                                      "inboxId":1778,
                                     "subject": $('#subject').val(),
-                                    "tags[]" : $('#tags').val(),
+                                    "tags" : [ $('#tags').val() ],
                                     "customerEmail": $('#recipient_email').val(),
                                     "customerMobileNumber" : $('#recipient_mobilenumber').val(),
                                     "customerPhoneNumber" : $('#recipient_phonenumber').val(),
-                                    "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
+                                    "message":$('#description').val() + ' <br/><br/>' + '<hr/>' + '<strong>Prefers:'+ ' ' + $('input[name=method]:checked', '#support-form').val() + "</strong>",
                                     "source": "clean-dashboard",
                                     "status" : "active",
                                     "priority" : $('input[name=priority]:checked', '#support-form').val()
                                 };
-                              
                                 $.ajax({
                                     type: "POST",
                                     url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
