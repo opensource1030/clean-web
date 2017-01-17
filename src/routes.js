@@ -23,6 +23,9 @@ import AddDevice from './views/employees/AddDevice.vue'
 import AddService from './views/employees/AddService.vue'
 import UpdateProfile from './views/employees/UpdateProfile.vue'
 
+//routes Settings
+import Settings from './views/settings/Settings.vue'
+
 /**
  * The routes
  *
@@ -149,7 +152,15 @@ export default [
    requiresAuth: true
  }
 },
+{
+  path: '/configuration',
+  component: Settings,
+  name: 'configuration',
+  meta: {
+    requiresAuth: true
+  }
 
+},
 //redirect
  {
   path: '*',
