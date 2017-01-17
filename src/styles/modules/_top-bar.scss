@@ -16,6 +16,10 @@
     clear:both;
   }
 }
+.HW-container{
+  float: right;
+  margin: 1rem 1rem 0;
+}
 @media screen and (max-width: $medium){
   .top-bar-section{
    padding: 20px 10px;
