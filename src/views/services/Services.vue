@@ -131,7 +131,7 @@
             <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
         </div>
-        <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
+        <pagination :pagination="pagination" :callback="loadData" v-show="showtable && loadpagination"></pagination>
       </div>
     </div>
   </div>

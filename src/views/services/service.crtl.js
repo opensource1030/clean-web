@@ -4,6 +4,7 @@ import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 
 export default {
+
     name : 'Service',
     components: {
         modal,

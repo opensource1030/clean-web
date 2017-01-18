@@ -91,14 +91,14 @@ export default {
 
         if (plan != false) {
             let serviceItems = service.itemJson(plan, service);
-
             context.$http.patch(process.env.URL_API + '/services/' + id, {
                 "data":service.toJSON()
             })
             .then((response) => {
                 context.$router.push({name: 'services'});
+                console.log(response);
             },
-            (response) => {});
+            (response) => {console.log(response);});
         }
     },
     getDataService(context, id) {
@@ -129,26 +129,13 @@ export default {
             context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
 
             //domestic service
-            let auxDMinutes = findByService(event.serviceitems, "voice", "domestic");
-            let auxDData = findByService(event.serviceitems, "data", "domestic");
-            let auxDSms = findByService(event.serviceitems, "messaging", "domestic");
-
-            if (auxDMinutes != null || auxDData != null || auxDSms != null)  {
-                context.domesticPlan.minutes = auxDMinutes;    
-                context.domesticPlan.data = auxDData;
-                context.domesticPlan.sms = auxDSms;
-            }
-
+            context.domesticPlan.minutes = findByService(event.serviceitems, "voice", "domestic");
+            context.domesticPlan.data = findByService(event.serviceitems, "data", "domestic");
+            context.domesticPlan.sms = findByService(event.serviceitems, "messaging", "domestic");
             //international service
-            let auxIMinutes = findByService(event.serviceitems, "voice", "international");
-            let auxIData = findByService(event.serviceitems, "data", "international");
-            let auxISms = findByService(event.serviceitems, "messaging", "international");
-
-            if (auxIMinutes != null || auxIData != null || auxISms != null)  {
-                context.internationalPlan.minutes = auxIMinutes;    
-                context.internationalPlan.data = auxIData;
-                context.internationalPlan.sms = auxISms;
-            }
+            context.internationalPlan.minutes = findByService(event.serviceitems, "voice", "international");
+            context.internationalPlan.data = findByService(event.serviceitems, "data", "international");
+            context.internationalPlan.sms = findByService(event.serviceitems, "messaging", "international");
 
             //addons
             let addOns = [];
@@ -165,7 +152,6 @@ export default {
             }
 
             context.reorderButtons();
-
         }, (response) => {});
     },
 
@@ -230,39 +216,5 @@ export default {
         }
 
         return items;
-    },
-    defaultFindByService(serviceitem, category, domain) {
-
-            console.log(serviceitem);
-            if (serviceitem.length == 0) {
-                if(domain == 'domestic') {
-                    if (category == 'voice') {
-
-                    } else if (category == 'data') {
-
-                    } else {
-
-                    }
-                } else {
-                    if (category == 'voice') {
-
-                    } else if (category == 'data') {
-
-                    } else {
-                        
-                    }
-                }
-                
-            } else {
-                return findByService(event.serviceitems, category, domain);
-            }
-            //domestic service
-            //context.domesticPlan.minutes = findByService(event.serviceitems, "voice", "domestic");
-            //context.domesticPlan.data = findByService(event.serviceitems, "data", "domestic");
-            //context.domesticPlan.sms = findByService(event.serviceitems, "messaging", "domestic");
-            //international service
-            //context.internationalPlan.minutes = findByService(event.serviceitems, "voice", "international");
-            //context.internationalPlan.data = findByService(event.serviceitems, "data", "international");
-            //context.internationalPlan.sms = findByService(event.serviceitems, "messaging", "international");
     }
 }
