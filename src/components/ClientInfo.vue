@@ -34,7 +34,7 @@
       <div class="box-content">
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
-          <a class="button btn-round redirect-link" href="http://app.wirelessanalytics.com/helpdesk/r_1.asp" target="_blank">Request Provision</a>
+          <a class="button btn-round redirect-link" href="http://app.wirelessanalytics.com/helpdesk/r_1.asp" target="_blank">Request a Device or Accessory</a>
           <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
 
         </div>
