@@ -8,190 +8,226 @@ import {findByService, findByAddons} from './../../components/filters.js';
 
 export default {
 
-  checkPlan(serviceDetails, domesticPlan, internationalPlan, addons, context) {
+    checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context) {
 
-    if (domesticPlan.minutes.value != "" && domesticPlan.data.value != "" && domesticPlan.sms.value != "" && internationalPlan.minutes.value != "" && internationalPlan.data.value != "" && internationalPlan.sms.value != "") {
-      context.error = "";
-      let items = [];
-      domesticPlan.minutes.domain = "domestic";
-      domesticPlan.data.domain = "domestic";
-      domesticPlan.sms.domain = "domestic";
-      domesticPlan.minutes.category = "voice";
-      domesticPlan.data.category = "data";
-      domesticPlan.sms.category = "messaging";
+        var ok = true;
 
-      items.push(domesticPlan.minutes);
-      items.push(domesticPlan.data);
-      items.push(domesticPlan.sms);
-
-      internationalPlan.minutes.domain = "international";
-      internationalPlan.data.domain = "international";
-      internationalPlan.sms.domain = "international";
-      internationalPlan.minutes.category = "voice";
-      internationalPlan.data.category = "data";
-      internationalPlan.sms.category = "messaging";
-
-      items.push(internationalPlan.minutes);
-      items.push(internationalPlan.data);
-      items.push(internationalPlan.sms)
-
-      for (let addon of addons) {
-        if (addon.description != "" && addon.cost != "") {
-          items.push(addon);
-          console.log(addon.id)
-
+        if (service.title == "" || service.title == null){
+            ok = false;
+            context.titleError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.titleError = 'border:1px solid #cacaca;';
         }
 
-      }
+        if (service.planCode == "" || service.planCode == null){
+            ok = false;
+            context.planCodeError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.planCodeError = 'border:1px solid #cacaca;';
+        }
 
-      return items;
+        if (service.cost == "" || service.cost == null){
+            ok = false;
+            context.costError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.costError = 'border:1px solid #cacaca;';
+        }
 
-    }
+        if (service.carrierId == "" || service.carrierId == null){
+            ok = false;
+            context.carrierError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.carrierError = 'border:1px solid #cacaca;';
+        }
 
-    context.error = "Error Empty Values";
+        if (domesticPlan.data.unit == "" || domesticPlan.data.unit == null){
+            ok = false;
+            context.unitDomError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.unitDomError = 'border:1px solid #cacaca;';
+        }
 
-    return false;
+        if (internationalPlan.data.unit == "" || internationalPlan.data.unit == null){
+            ok = false;
+            context.unitIntError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.unitIntError = 'border:1px solid #cacaca;';
+        }
 
-  },
+        for (let addon of addons) {
+            if (addon.description == "") { ok = false; }
+            if (addon.cost == "") { ok = false; }
+            if (addon.description == "" && addon.cost == "") { ok = true; }
+        }
 
-  updateService(id, context, serviceDetails, domesticPlan, internationalPlan, addons) {
+        if (ok) {
+          context.error = "";
+          let items = [];
 
-    console.log(addons)
+          domesticPlan.minutes.domain = "domestic";
+          domesticPlan.data.domain = "domestic";
+          domesticPlan.sms.domain = "domestic";
+          domesticPlan.minutes.category = "voice";
+          domesticPlan.data.category = "data";
+          domesticPlan.sms.category = "messaging";
 
-    let plan = this.checkPlan(serviceDetails, domesticPlan, internationalPlan, addons, context);
+          items.push(domesticPlan.minutes);
+          items.push(domesticPlan.data);
+          items.push(domesticPlan.sms);
 
-    console.log(plan)
+          internationalPlan.minutes.domain = "international";
+          internationalPlan.data.domain = "international";
+          internationalPlan.sms.domain = "international";
+          internationalPlan.minutes.category = "voice";
+          internationalPlan.data.category = "data";
+          internationalPlan.sms.category = "messaging";
 
-    let status = "";
+          items.push(internationalPlan.minutes);
+          items.push(internationalPlan.data);
+          items.push(internationalPlan.sms);
 
-    if (serviceDetails.status == true) {
-      status = "Enabled"
-    } else {
-      status = "Disabled"
-    }
+          for (let addon of addons) {
+              if (addon.description != "" && addon.cost != "") {
 
-    let service = new Service("services", id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
+                  if(addon.id == null) {
+                      addon.id = 0;
+                  }
+                  items.push(addon);
+              }
+          }
 
-    if (plan != false) {
+          return items;
+        }
 
-      service.itemUpdateJson(plan, service);
+        context.error = "Error, empty values. Please, check the inputs and complete it.";
+        return false;
+    },
 
-    context.$http.patch(process.env.URL_API + '/services/' + id, {
+    updateService(id, context, serviceDetails, domesticPlan, internationalPlan, addons) {
 
-    "data":service.toJSON()
+        let status = "";
+
+        if (serviceDetails.status == true) {
+            status = "Enabled"
+        } else {
+            status = "Disabled"
+        }
+
+        let service = new Service("services", id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
+        let plan = this.checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context);
+
+        if (plan != false) {
+            var serviceItems = service.itemJson(plan, service);
+            console.log(service.toJSON());
 
 
-  })
-    .then((response) => {
-      context.$router.push({name: 'services'});
+            context.$http.patch(process.env.URL_API + '/services/' + id, {
+                "data":service.toJSON()
+            })
+            .then((response) => {
+                context.$router.push({name: 'services'});
+                console.log(response);
+            },
+            (response) => {console.log(response);});
+        }
+    },
+    getDataService(context, id) {
 
+        context.$http.get(process.env.URL_API + '/services/' + id, {
+            params: {
+               include: 'serviceitems'
+            }
+        }).then((response) => {
 
+            context.id = id;
 
-    }, (response) => {
+            event = store.sync(response.data);
 
-    });
+            if (event.status === "Enabled") {
+              context.serviceDetails.status = true;
+            } else {
+              context.serviceDetails.status = false;
+            }
+            context.serviceDetails.title = event.title;
+            context.serviceDetails.code = event.planCode;
+            context.serviceDetails.cost = event.cost;
+            context.serviceDetails.description = event.description;
+            context.serviceDetails.carrierId = event.carriers[0].id;
 
-    }
+            context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
 
-  },
+            //domestic service
+            context.domesticPlan.minutes = findByService(event.serviceitems, "voice", "domestic");
+            context.domesticPlan.data = findByService(event.serviceitems, "data", "domestic");
+            context.domesticPlan.sms = findByService(event.serviceitems, "messaging", "domestic");
+            //international service
+            context.internationalPlan.minutes = findByService(event.serviceitems, "voice", "international");
+            context.internationalPlan.data = findByService(event.serviceitems, "data", "international");
+            context.internationalPlan.sms = findByService(event.serviceitems, "messaging", "international");
 
-  getDataService(context, id) {
+            //addons
+            let addOns = [];
+            addOns = findByAddons(event.serviceitems, "addon", "");
+            context.addons.splice(0, 1);
+            for (let addOn of addOns) {
+              addOn.delete = true;
+              addOn.add = false;
+              context.addons.push(addOn);
+            }
 
-    context.$http.get(process.env.URL_API + '/services/' + id, {
-      params: {
-        include: 'serviceitems'
-      }
-    }).then((response) => {
+            if (context.addons.length == 0) {
+                context.addAddon = true;
+            } else {
+                context.addons[context.addons.length-1].add = true;
+                context.addAddon = false;
+            }
+        }, (response) => {});
+    },
 
-      event = store.sync(response.data);
-      console.log(event);
-      if (event.status === "Enabled") {
-        context.serviceDetails.status = true;
+    addService(context, serviceDetails, domesticPlan, internationalPlan, addons) {
+        let status = "";
+        if (serviceDetails.status == true) { status = "Enabled"; } else { status = "Disabled"; }
 
-      } else {
-        context.serviceDetails.status = false;
+        let service = new Service("services", null, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
+        let items = this.checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context);
 
-      }
-      context.serviceDetails.title = event.title;
-      context.serviceDetails.code = event.planCode;
-      context.serviceDetails.cost = event.cost;
-      context.serviceDetails.description = event.description;
-      context.serviceDetails.carrierId = event.carriers[0].id;
-      //domestic service
-      context.domesticPlan.minutes = findByService(event.serviceitems, "voice", "domestic");
-      context.domesticPlan.data = findByService(event.serviceitems, "data", "domestic");
-      context.domesticPlan.sms = findByService(event.serviceitems, "messaging", "domestic");
-      //international service
-      context.internationalPlan.minutes = findByService(event.serviceitems, "voice", "international");
-      context.internationalPlan.data = findByService(event.serviceitems, "data", "international");
-      context.internationalPlan.sms = findByService(event.serviceitems, "messaging", "international");
+        if (items != false) {
+            service.itemJson(items, service);
+            context.$http.post(process.env.URL_API + '/services', {"data": service.toJSON()}).then((response) => {
+                context.$router.push({name: 'services'});
 
-      //addons
-      let addOns = []
-      addOns = findByAddons(event.serviceitems, "addon", "")
-      context.addons.splice(0, 1);
-      for (let addOn of addOns) {
+            }, (response) => {});
+        }
+    },
+    getCarrier(context) {
+      context.$http.get(process.env.URL_API + '/carriers', {
+          params: {
+              page: 1,
+              'filter[active]': 1
+          }
+      }).then((response) => {
+          event = store.sync(response.data);
+          context.carriers = event;
 
-        addOn.delete = true;
-        addOn.add = false;
-        context.addons.push(addOn);
-
-      }
-
-      context.addons.push({id: 0, description: '', cost: '', add: true, delete: false});
-
-    }, (response) => {});
-
-  },
-
-  addService(context, serviceDetails, domesticPlan, internationalPlan, addons) {
-    let id = null;
-
-    let status = "";
-
-    if (serviceDetails.status == true) {
-      status = "Enabled"
-    } else {
-      status = "Disabled"
-    }
-    let service = new Service("services", id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
-
-    let items = this.checkPlan(serviceDetails, domesticPlan, internationalPlan, addons, context);
-
-    if (items != false) {
-
-      service.itemJson(items, service);
-
-      context.$http.post(process.env.URL_API + '/services', {"data": service.toJSON()}).then((response) => {
-
-        context.$router.push({name: 'services'});
-
+          if(context.carriers.length == 0){
+              context.noCarriers = true;
+          } else {
+              context.noCarriers = false;
+          }
       }, (response) => {});
+    },
+    checkIfNoCarrierSelected (context) {
+        for (let car of context.carriers) {
+            if(car.id == context.serviceDetails.carrierId) {
+                return false;
+            }
+        }
+        return true;
     }
-
-  },
-  getCarrier(context) {
-    context.$http.get(process.env.URL_API + '/carriers', {
-
-      params: {
-        page: 1,
-        'filter[active]': 1
-
-      }
-    }).then((response) => {
-      event = store.sync(response.data);
-
-      //process.env.URL_API
-
-      /*    for (let carrier of event) {
-
-        this.carriersCheck.data.push(carrier);
-        carrier.check = false;
-
-      }*/
-
-      context.carriers = event;
-    }, (response) => {});
-
-  }
 }

@@ -12,8 +12,11 @@
         <div class="small-12 columns">
           <a class="button" href="/service">Add Plan</a>
         </div>
-        <div class="small-12 columns">
-          <table>
+        <div v-if="showtable == false && loading == false">
+          <font color="red">No Services provided. Please, click on "Add Plan" button to create the first service plan</font>
+        </div>
+        <div v-if="showtable && !loading" class="small-12 columns">
+          <table cellspacing=0 cellpadding=0>
             <thead>
               <tr>
                 <th>
@@ -24,7 +27,7 @@
                 </th>
                 <th>
                   <select class="form-control" v-model="plans">
-                    <option value="" manufactured>87Plans</option>
+                    <option value="" manufactured>Plans</option>
                     <!--<option v-for="item in filterDeviceType" :value="item.id">{{item.attributes.make}}</option>-->
                   </select>
                 </th>
@@ -43,7 +46,7 @@
                 <th>
                   <select class="form-control" v-model="carrier">
                     <option value="" carrier>Carrier</option>
-                    <!--    <option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>-->
+                    <!--<option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>-->
                   </select>
                 </th>
                 <th>
@@ -54,7 +57,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody  v-show="showtable">
+            <tbody>
               <tr class="filter">
                 <td><div>{{status}}</div></td>
                 <td><div>{{plans}}</div></td>
@@ -65,60 +68,58 @@
               </tr>
             </tbody>
             <tbody v-for="(service, index) in services">
-              <tr :class="{ 'active': service.show,'desactive': service.show }" @click="setActive(index)">
-                <!--<td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>-->
-                <td>
-                  <label>
-                    {{service.status}}
-                  </label>
+              <tr :class="{'active': service.show,'desactive': service.show}" @click="setActive(index)">
+                <!--<td><a v-bind="{ href: '/device/'+device.id}">Manage</a></td>-->
+                <td valign="top" v-if="service.status == 'Enabled'" class="textbold">{{service.status}}</td>
+                <td valign="top" v-if="service.status == 'Disabled'" >{{service.status}}</td>
+                <td valign="top">
+                  <div class="textbold">{{service.title}}</div>
                 </td>
-                <td style="font-weight: bold;">{{service.title}}</td>
-                <td></td>
-                <td>{{service.planCode}}</td>
-                <td>{{service.carriers[0].presentation}}</td>
-                <td style="font-weight: bold;">${{service.cost}} </td>
+                <td valign="top">
+                  <div class="longtext">{{service.description}}</div>
+                </td>
+                <td valign="top">{{service.planCode}}</td>
+                <td valign="top">{{service.carriers[0].presentation}}</td>
+                <td valign="top" class="textbold">${{service.cost}}</td>
               </tr>
-              <tr>
-                <td v-show="service.show" class="detail" colspan="8">
-                  <div class="detailsService">
-                    <div class="childService"></div>
-                    <div class="options childService">
-                      <ul>
-                        <li>Minutes</li>
-                        <li>Data</li>
-                        <li>SMA</li>
-                        <li>International Minutes</li>
-                        <li>International Data</li>
-                        <li>International SMS</li>
-                        <li><a v-bind="{ href: '/service/'+service.id}">Manage Plan</a></li>
-                      </ul>
-                    </div>
-                    <div class="plans childService">
-                      <div class="serviceType"  :class="{ 'upService': service.show}">
-                        <label>Roamding minutes,Data</label>
-                      </div>
-                      <div class="listPlan">
-                        <ul>
-                          <li>{{findByService(service.serviceitems,"voice","domestic").value}}</li>
-                          <li>{{findByService(service.serviceitems,"data","domestic").value}} mb</li>
-                          <li>{{findByService(service.serviceitems,"messaging","domestic").value}}</li>
-                          <li>{{findByService(service.serviceitems,"voice","international").value}}</li>
-                          <li>{{findByService(service.serviceitems,"data","international").value}}  mb</li>
-                          <li>{{findByService(service.serviceitems,"messaging","international").value}}</li>
-                        </ul>
-                        <br>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </div>
+              <tr v-if="service.show" :class="{'active': service.show,'desactive': service.show}">
+                <td></td>
+                <td valign="top">
+                  <div v-if="service.show">
+                    Minutes<br>
+                    Data<br>
+                    SMS<br>
+                    International Minutes<br>
+                    International Data<br>
+                    International SMS<br>
+                    <a v-bind="{ href: '/service/'+service.id}">Manage Plan</a><br>
+                  </div>
+                </td>
+                <td valign="top">
+                  <div v-if="findByService(service.serviceitems,'voice','domestic').value > 0">{{findByService(service.serviceitems,"voice","domestic").value}} {{findByService(service.serviceitems,'voice','domestic').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'voice','domestic').value == 0"><br></div>
+                  <div v-if="findByService(service.serviceitems,'data','domestic').value > 0">{{findByService(service.serviceitems,"data","domestic").value}} {{findByService(service.serviceitems,'data','domestic').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'data','domestic').value == 0"><br></div>
+                  <div v-if="findByService(service.serviceitems,'messaging','domestic').value > 0">{{findByService(service.serviceitems,"messaging","domestic").value}} {{findByService(service.serviceitems,'messaging','domestic').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'messaging','domestic').value == 0"><br></div>
+                  <div v-if="findByService(service.serviceitems,'voice','international').value > 0">{{findByService(service.serviceitems,"voice","international").value}} {{findByService(service.serviceitems,'voice','international').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'voice','international').value == 0"></div>
+                  <div v-if="findByService(service.serviceitems,'data','international').value > 0">{{findByService(service.serviceitems,"data","international").value}} {{findByService(service.serviceitems,'data','international').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'data','international').value == 0"><br></div>
+                  <div v-if="findByService(service.serviceitems,'messaging','international').value > 0">{{findByService(service.serviceitems,"messaging","international").value}} {{findByService(service.serviceitems,'messaging','international').unit}}<br></div>
+                  <div v-if="findByService(service.serviceitems,'messaging','international').value == 0"><br></div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
             </tbody>
           </table>
           <div class="load">
             <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
         </div>
-        <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
+        <pagination :pagination="pagination" :callback="loadData" v-show="showtable && loadpagination"></pagination>
       </div>
     </div>
   </div>

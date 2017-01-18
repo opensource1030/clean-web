@@ -1,104 +1,152 @@
 import Vue from 'vue';
 import service from './../../api/service/service';
+import modal from './../../components/modal.vue';
+import inputValidate from './../../components/inputValidate.vue'
 
 export default {
-  name : 'Service',
+    name : 'Service',
+    components: {
+        modal,
+        inputValidate
+    },
     beforeCreate() {
-    service.getCarrier(this);
-    this.id = this.$route.params.id;
-    if (this.id != null) {
-
-      service.getDataService(this, this.id);
-    }
-
-  },
-
-  data() {
-    return {
-      id: null,
-      error: '',
-      serviceDetails: {
-        title: '',
-        carrierId: null,
-        status: '',
-        code: '',
-        cost: '',
-        description: ''
-      },
-      domesticPlan: {
-        minutes: {
-          value: ''
-        },
-
-        data: {
-          value: ''
-        },
-        sms: {
-          value: ''
+        service.getCarrier(this);
+        this.id = this.$route.params.id;
+        if (this.id != null) {
+            service.getDataService(this, this.id);
         }
-      },
-      internationalPlan: {
-        minutes: {
-          value: ''
-        },
-        data: {
-          value: ''
-        },
-        sms: {
-          value: ''
+    },
+    data() {
+        return {
+            id: null,
+            error: '',
+            errorAddon: '',
+            titleError: 'border:1px solid #cacaca;',
+            planCodeError: 'border:1px solid #cacaca;',
+            costError: 'border:1px solid #cacaca;',
+            carrierError: 'border:1px solid #cacaca;',
+            noCarriers: false,
+            noCarrierMessageError: 'Error, no enabled carriers provided. Please, create or enable a carrier first.',
+            noCarrierSelected: false,
+            carrierMessageError: 'Error, no carrier selected or it may be disabled. Please, select another one.',
+            unitDomError: 'border:1px solid #cacaca;',
+            unitIntError: 'border:1px solid #cacaca;',
+            addAddon: true,
+            serviceDetails: {
+                title: '',
+                carrierId: null,
+                status: '',
+                code: '',
+                cost: '',
+                description: ''
+            },
+            domesticPlan: {
+                minutes: {
+                    value: ''
+                },
+                data: {
+                    value: '',
+                    unit: '',
+                },
+                sms: {
+                    value: ''
+                }
+            },
+            internationalPlan: {
+                minutes: {
+                    value: ''
+                },
+                data: {
+                    value: '',
+                    unit: '',
+                },
+                sms: {
+                    value: ''
+                }
+            },
+            carriers: [],
+            addons: [
+               {
+                    description: '',
+                    cost: '',
+                    add: true,
+                    delete: false,
+                    addonNameError: 'border:1px solid #cacaca;',
+                    addonPriceError: 'border:1px solid #cacaca;',
+                }
+
+            ]
         }
-      },
-      carriers: [],
-      addons: [
-        {
-          description: '',
-          cost: '',
-          add: true,
-          delete: false
+    },
+    methods : {
+        save() {
+            if (this.id != null) {
+                service.updateService(this.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
+            } else {
+                service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
+            }
+        },
+        hideAndPush(index) {
+            if (this.id != null) {
+                this.addons.push({id: "0", description: '', cost: '', add: true, delete: false});
+            } else {
+                this.addons.push({description: '', cost: '', add: true, delete: false});
+            }
+            this.reorderButtons();
+            this.addons[this.addons.length-1].add = false;
+            this.addons[this.addons.length-1].delete = false;
+        },
+        deleteAddOns(index) {
+            this.addons.splice(index, 1);
+            if (this.addons.length == 0) {
+                this.addons.push({id: this.id, description: '', cost: '', add: false, delete: false});
+            } else {
+                this.reorderButtons();
+            }
+        },
+        updateAddon(i, e, type) {
+            if (type == 'name'){
+                var value = e.target.value;
+                if (value == null || value == ''){
+                    this.addons[i].addonNameError = 'border:1px solid red;';
+                } else {
+                    var addon = this.addons[i];
+                    var extending = Object.assign({}, addon, {description: value});
+                    Vue.set(this.addons, i, extending);
+                    this.addons[i].addonNameError = 'border:1px solid #cacaca;';
+                }
+            }
+
+            if (type == 'price'){
+                var value = e.target.value;
+                if (value == null || value == ''){
+                    this.addons[i].addonPriceError = 'border:1px solid red;';
+                } else {
+                    var addon = this.addons[i];
+                    var extending = Object.assign({}, addon, {cost: value});
+                    Vue.set(this.addons, i, extending);
+                    this.addons[i].addonPriceError = 'border:1px solid #cacaca;';
+                }
+            }
+
+            if(this.addons[i].description != '' && this.addons[i].cost != '') {
+                this.addons[i].add = true;
+                this.addons[i].delete = true;
+            }
+        },
+        reorderButtons () {
+            for ( let add of this.addons) {
+                add.add = false;
+                add.delete = true;
+            }
+            this.addons[this.addons.length-1].add = true;
+        },
+        onSelectCarrier (id) {
+            if(id >= 0) {
+                this.noCarrierSelected = false;
+            } else {
+                this.noCarrierSelected = true;
+            }
         }
-
-      ]
-
     }
-  },
-  methods : {
-    save() {
-      if (this.id != null) {
-        service.updateService(this.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
-      } else {
-
-        service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
-      }
-
-    },
-    hideAndPush(index) {
-      this.addons[index].add = false;
-      this.addons[index].delete = true;
-      if (this.id != null) {
-        this.addons.push({id: 0, description: '', cost: '', add: true, delete: false});
-      } else {
-        this.addons.push({description: '', cost: '', add: true, delete: false});
-      }
-
-    },
-    deleteAddOns(index) {
-      this.addons.splice(index, 1);
-    },
-    updateName(i, e) {
-      var value = e.target.value;
-      var addon = this.addons[i];
-      var extending = Object.assign({}, addon, {description: value});
-      Vue.set(this.addons, i, extending)
-
-    },
-    updatePrice(i, e) {
-      var value = e.target.value;
-      var addon = this.addons[i];
-      var extending = Object.assign({}, addon, {cost: value});
-      Vue.set(this.addons, i, extending)
-
-    }
-
-  }
-
 }
