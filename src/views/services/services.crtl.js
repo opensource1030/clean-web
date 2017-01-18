@@ -68,6 +68,7 @@ export default {
       loading: true,
       showtable: false,
       showModal: false,
+      loadpagination: false,
       error:''
 
     };
