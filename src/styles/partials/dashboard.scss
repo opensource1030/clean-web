@@ -94,7 +94,10 @@
         top: 0;
         width: 100%;
         z-index: 5;
+      }
 
+      .pie-chart-title {
+        font-weight: 600;
       }
     }
   }
@@ -549,7 +552,7 @@ a.btn-provision:hover .support-form-holder{
   width: 430px;
   position: fixed;
   top: 0;
-  z-index: 9;
+  z-index: 999;
   height: 100%;
   .columns{
     position: relative;
@@ -720,4 +723,123 @@ a.btn-provision:hover .support-form-holder{
 }
 .btn-round{
   @include css3(border-radius,3px);
+}
+.spent-info{
+  padding: 0 0 0 10rem;
+  display: none;
+  border:none;
+  z-index: 99;
+  position: absolute;
+  background: rgba(#000,0.3);
+  height: 100%;
+  right: 0;
+  top:71px;
+  width: 100%;
+  .pop-content{
+    background: $white;
+    padding: 0.7rem 0.7rem 6rem;
+    height: 100%;
+    overflow: auto;
+  }
+  &.visible{
+    display: block;
+  }
+  .view-all{
+    padding: 0.5rem 1rem ;
+    display: block;
+  }
+}
+.list-striped{
+  .row{
+    max-width: inherit;
+  }
+  @extend %listreset;
+  overflow: hidden;
+  max-height: 279px;
+  li{
+    border-top:1px rgba(#979797,0.15) solid;
+    line-height: 3rem;
+    &:nth-child(even){
+      background:rgba(#9AAED8,0.05);
+    }
+    &:first-child{
+      border-top:none
+    }
+    &.header-row{
+      padding: 0 1rem;
+      strong{
+        font-size: 1.1rem;
+        color: $brand-orange;
+        display: block;
+        .for-pop{
+          top:11px;
+        }
+      }
+    }
+  }
+  &.all{
+    height: auto;
+    max-height: inherit;
+  }
+}
+.inline-list{
+  @extend %listreset;
+  li{
+    display: inline-block;
+  }
+}
+.user-info{
+  font-size: 20px;
+  margin-bottom: 0.7rem;
+}
+.hr-cln{
+  max-width: inherit;
+  margin: 0.7rem 0;
+}
+.pop-close{
+  float: right;
+  padding: 0.5em 0.6em;
+}
+.btn-orange{
+  background: $brand-orange;
+}
+.tooltip{
+  z-index: 9999;
+}
+.mgbtm-0{
+  margin-bottom: 0 ;
+}
+.total-row{
+  background-color:rgba($brand-orange,0.28);
+  background-image: radial-gradient($black 2%, transparent 6%),
+  radial-gradient($black 2%, transparent 6%);
+  background-size:10px 10px;
+  background-position: 0 0, 15px 15px;
+  font-size: 18px;
+  padding: 0.4rem 0;
+
+  p{
+    margin-bottom: 0;
+  }
+  margin-bottom: 1.14329rem;
+}
+.has-tip{
+  &.for-pop{
+    background: $brand-orange;
+    @include css3(border-radius,50%);
+    display: inline-block;
+    position: relative;
+    top:2px;
+    text-align: center;
+    width: 16px;
+    height: 16px;
+    .fa{
+      color:$white;
+      font-size: 13px;
+      line-height: 16px;
+      vertical-align: top;
+
+    }
+  }
+
 }

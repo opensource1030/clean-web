@@ -16,6 +16,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "dateformat": "^2.0.0",
     "font-awesome": "^4.6.3",
     "foundation-sites": "^6.2.4-rc1",
     "highcharts": "^5.0.0",

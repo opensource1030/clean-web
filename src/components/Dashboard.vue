@@ -1,7 +1,7 @@
 <template>
   <div class="content-right" >
     <div class="alert callout for-dashboard" data-closable style="display:none;">
-      <h5>You will now be redirected to this section in our legacy app</h5>
+      <h5>You will now be redirected to this section in our legacy App</h5>
     </div>
     <div class="expanded row">
 
@@ -12,6 +12,7 @@
         </div>
         <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
               <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a> </div>
+          <div class="HW-container">  </div>
           <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
             <ul>
               <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
@@ -125,20 +126,28 @@
         </form>
       </div>
       <div class="clearfix"></div>
+
+      <div>
         <piechart :data="piechartData"></piechart>
-        <trendchart></trendchart>
+        <trendchart :data="trendchartData"></trendchart>
+        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
     </div>
+    <spent-Info></spent-Info>
   </div>
 </template>
 
 <script>
   var {Store} = require('yayson')()
   var  store = new Store()
+  window.Event = new Vue();
   require('script!jquery');
   require('script!jquery-match-height');
   require('script!jquery-validation');
   import _ from 'lodash';
   import auth from './../api/auth'
+  import Vue from 'vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import Breadcrumb from 'vue-bulma-breadcrumb'
   import ClientInfo from './ClientInfo.vue'
@@ -146,6 +155,7 @@
   import Morphsearch from './Morphsearch.vue'
   import Piechart from './Piechart.vue'
   import Trendchart from './Trendchart.vue'
+  import SpentInfo from './SpentInfo.vue'
   export default {
     name: "Dashboard",
     components: {
@@ -155,7 +165,8 @@
       ChargeInfo,
       Piechart,
       Trendchart,
-      Avatar
+      Avatar,
+      SpentInfo
     },
 
     computed: {
@@ -198,9 +209,10 @@
           }, 2000);
         });
       });
+
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:3]', {
       }).then((response) => {
-
+        // console.log('response', response.data);
         var event = store.sync(response.data);
         if (event.companies.length>0) {
           var clientdata = event.companies[0].contents[0].content;
@@ -209,20 +221,25 @@
             this.data= response.data;
             setTimeout(function(){
               $(document).foundation();
-              $('.grid-box').matchHeight({
+              $('.eq-Hght').matchHeight({
                 byRow: true,
                 property: 'height',
                 target: null,
                 remove: false
               });
-
+              var config = {
+                selector: ".HW-container",
+                account: "JPYPKy",
+                enabled : true
+              };
+              // Headway.init(config);
               var $select = $('#support-form .user-actions'), $images = $('.mix');
               $select.on('change', function () {
                 var value = '.' + $(this).val();
                 $images.show(200).not(value).hide();
               });
 
-              var $selectOption = $('.wireless-overview .user-actions');
+              var $selectOption = $('.user-actions');
               $selectOption.on('change', function () {
                 var value1 = $(this).val();
                 $('.btn-provision').click();
@@ -245,66 +262,79 @@
               $(document).keyup(function (e) {
                 if (e.keyCode == 27) $('#btn-close').click();
               });
-                        $("#support-form").validate({
-                            rules: {
-                                "description": {
-                                    required: true,
-                                    minlength: 8
-                                }
-                            },
-                            submitHandler: function (form) {
-                                var form = $('#support-form');
-                                var $modal = $('#modal');
-                                var company = "wirelessanalytics";
-                                var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
-                                var json = {
-                                     "assignedTo":59063,
-                                     "inboxId":1778,
-                                    "subject": $('#subject').val(),
-                                    "customerEmail": $('#recipient_email').val(),
-                                    "customerMobileNumber" : $('#recipient_mobilenumber').val(),
-                                    "customerPhoneNumber" : $('#recipient_phonenumber').val(),
-                                    "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
-                                    "source": "clean-dashboard",
-                                    "status" : "active",
-                                    "tags[]" : $('#tags').val(),
-                                    "priority" : $('input[name=priority]:checked', '#support-form').val()
-                                };
-                                $.ajax({
-                                    type: "POST",
-                                    url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
-                                    headers: {"Authorization": "BASIC " + window.btoa(key + ":xxx")},
-                                    data : JSON.stringify(json),
-                                    processData: false,
-                                    contentType: "application/json; charset=UTF-8",
-                                    success: function(){
-                                        $modal.html('');
-                                        $modal.removeClass('is-error').addClass('is-success').append("<h4>Request sent succefully </h4>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
-                                        $('#support-form')[0].reset();
-                                    },
-                                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                        $('#modal').html('');
-                                        $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + "Please fill all the required fields with appropriate value" + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
-                                    }
-                                });
 
-                            }
-                        });
-                    },300);
-                });
-            }
-          if (event.allocations && event.allocations.length > 0) {
-              this.$set(this, 'piechartData', [
-                  _.sumBy(event.allocations, 'data_category'),
-                  _.sumBy(event.allocations, 'other_category'),
-                  _.sumBy(event.allocations, 'unknown_category'),
-                  _.sumBy(event.allocations, 'voice_category'),
-              ]);
+              $("#support-form").validate({
+                  rules: {
+                      "description": {
+                          required: true,
+                          minlength: 8
+                      }
+                  },
+                  submitHandler: function (form) {
+                      var form = $('#support-form');
+                      var $modal = $('#modal');
+                      var company = "wirelessanalytics";
+                      var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
+                      var json = {
+                           "assignedTo":59063,
+                           "inboxId":1778,
+                          "subject": $('#subject').val(),
+                          "customerEmail": $('#recipient_email').val(),
+                          "customerMobileNumber" : $('#recipient_mobilenumber').val(),
+                          "customerPhoneNumber" : $('#recipient_phonenumber').val(),
+                          "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
+                          "source": "clean-dashboard",
+                          "status" : "active",
+                          "tags[]" : $('#tags').val(),
+                          "priority" : $('input[name=priority]:checked', '#support-form').val()
+                      };
+                      $.ajax({
+                          type: "POST",
+                          url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
+                          headers: {"Authorization": "BASIC " + window.btoa(key + ":xxx")},
+                          data : JSON.stringify(json),
+                          processData: false,
+                          contentType: "application/json; charset=UTF-8",
+                          success: function(){
+                              $modal.html('');
+                              $modal.removeClass('is-error').addClass('is-success').append("<h4>Request sent succefully </h4>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+                              $('#support-form')[0].reset();
+                          },
+                          error: function(XMLHttpRequest, textStatus, errorThrown) {
+                              $('#modal').html('');
+                              $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + "Please fill all the required fields with appropriate value" + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+                          }
+                      });
+                  }
+              });
+            },300);
+          });
+        }
 
-              // console.log(event.allocations);
-              // console.log(this.piechartData);
-          }
-        });
+        // console.log('trendchartData', event.allocations);
+        if (event.allocations && event.allocations.length > 0) {
+          // this.$set(this, 'piechartData', [0, 0, 0, 0]);
+
+          // this.$set(this, 'piechartData', [
+          //   _.sumBy(event.allocations, 'service_plan_charge'),
+          //   _.sumBy(event.allocations, 'other_category') + _.sumBy(event.allocations, 'service_plan_charge'),
+          //   _.sumBy(event.allocations, 'unknown_category'),
+          //   _.sumBy(event.allocations, 'voice_category'),
+          // ]);
+
+          this.$set(this, 'trendchartData', event.allocations);
+        }
+      });
+
+      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]', {
+      }).then((response) => {
+        // console.log('response', response.data);
+        var event = store.sync(response.data);
+        // console.log('piechartData', event.allocations);
+        if (event.allocations && event.allocations.length > 0) {
+          this.$set(this, 'piechartData', event.allocations);
+        }
+      });
     },
     methods:{
       logout() {
@@ -312,7 +342,7 @@
       },
       grid(){
         $(function() {
-          $('.grid-box').matchHeight({
+          $('.eq-Hght').matchHeight({
             byRow: true,
             property: 'height',
             target: null,
@@ -340,7 +370,9 @@
         data: {},
         version : null,
         user: auth.user,
+        // allocations: [],
         piechartData: [],
+        trendchartData: [],
       }
     }
   }
