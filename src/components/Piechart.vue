@@ -101,9 +101,9 @@
         // console.log('allocation', allocation);
         var piechart_data = [
           allocation.service_plan_charge,
-          Math.round((allocation.domestic_usage_charge + allocation.domestic_data_usage + allocation.domestic_voice_usage + allocation.domestic_text_usage) * 100) / 100,
-          Math.round((allocation.intl_roam_usage_charge + allocation.int_roam_data_usage + allocation.intl_roam_voice_usage + allocation.intl_roam_text_usage) * 100) / 100,
-          Math.round((allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge + allocation.intl_ld_text_usage) * 100) / 100,
+          allocation.domestic_usage_charge,
+          allocation.intl_roam_usage_charge,
+          allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge,
           Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charges + allocation.taxes_charge) * 100) / 100
         ];
         // console.log('piechart_data', piechart_data);

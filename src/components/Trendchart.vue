@@ -146,9 +146,9 @@
             // console.log(allocation);
             return {
               service_plan_charges: allocation.service_plan_charge,
-              domestic_usage_charges: Math.round((allocation.domestic_usage_charge + allocation.domestic_data_usage + allocation.domestic_voice_usage + allocation.domestic_text_usage) * 100) / 100,
-              international_roaming_usage_charges: Math.round((allocation.intl_roam_usage_charge + allocation.int_roam_data_usage + allocation.intl_roam_voice_usage + allocation.intl_roam_text_usage) * 100) / 100,
-              internaional_long_distance_usage_charges: Math.round((allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge + allocation.intl_ld_text_usage) * 100) / 100,
+              domestic_usage_charges: allocation.domestic_usage_charge,
+              international_roaming_usage_charges: allocation.intl_roam_usage_charge,
+              internaional_long_distance_usage_charges: allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge,
               other_charges: Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charges + allocation.taxes_charge) * 100) / 100,
               bill_month: allocation.bill_month,
             }
