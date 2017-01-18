@@ -16,7 +16,7 @@
   </div>
   <div class="clearfix"></div>
   <div class="large-6 columns" >
-    <div class="grid-box" data-mh="box1">
+    <div class="grid-box eq-Hght" data-mh="box1">
       <header class="box-heading">
         <h2>contact support</h2>
       </header>
@@ -27,14 +27,14 @@
     </div>
   </div>
   <div class="large-6 columns" >
-    <div class="grid-box" data-mh="box1" v-if="client.object">
+    <div class="grid-box eq-Hght" data-mh="box1" v-if="client.object">
       <header class="box-heading">
         <h2 v-html="client.object.metafields[1].title"> </h2>
       </header>
       <div class="box-content">
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
-          <a class="button btn-round " href="/profile" target="_blank">Request Provision</a>
+          <a class="button btn-round" @click="requestProvision(client.object.title)">Request Provision</a>
           <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
 
         </div>
@@ -78,6 +78,10 @@
 
 
         });
+      },
+      requestProvision(title){
+        let clientTitle = title.toLowerCase();
+        Event.$emit('provision' , clientTitle);
       }
     },
     data(){
