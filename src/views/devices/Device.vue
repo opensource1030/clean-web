@@ -7,7 +7,7 @@
         <div class="expanded row">
           <modal v-if="showModal" @close="showModal = false">
 
-    <h3 slot="body">Errors fields</h3>
+    <h3 slot="body">{{message}}</h3>
   </modal>
 
           <div class="small-12 columns titles">
@@ -29,7 +29,7 @@
                       <div class="column row">
                         <div class="row">
                           <div class="small-12 large-2 columns">
-                        <img class="phoneImg" :src="image.url" alt="Photo Devices" />
+                        <img  class="phoneImg" :src="image.url" alt="Photo Devices" />
                         <label for="FileUpload" class="button large" >Upload File</label>
                         <input type="file" id="FileUpload" @change="onFileChange"  class="show-for-sr">
                       </div>
@@ -37,8 +37,8 @@
                           <div class="small-12 large-10 columns">
   <div class="row">
                         <div class="large-3 small-12   columns ">
-                          <label>Default Price
-                            <input type="text" placeholder="" :value="d.id" v-model="d.id">
+                          <label  >Default Price
+                            <inputValidate class="capacitys" :value="d.defaultPrice"   v-model="d.defaultPrice"></inputValidate>
                           </label>
                             </div>
                               <div class="small-12 large-3   columns ">
@@ -47,7 +47,6 @@
                                     <option value="USD"  >USD</option>
                                     <option value="GBP"  >GBP</option>
                                       <option value="EUR"  >EUR</option>
-                                    <option  ></option>
                                   </select>
   </label>
                               </div>
@@ -101,15 +100,15 @@
                           <div class="small-6 columns">
 
                             <label style=" font-weight: bold;" >Capacity
-                              <inputValidate  placeholder="Custom"   v-model="gigas"></inputValidate>
+                              <inputValidate class="capacitys" placeholder="Custom"   v-model="gigas"></inputValidate>
                             </label>
                           </div>
                           <div class="small-4 columns money">
 
                               <select v-model="units" >
-                                <option value="tb" >TB</option>
-                                <option value="gb" >GB</option>
-                                <option value="mb">MB</option>
+                                <option value="Tb" >TB</option>
+                                <option value="Gb" >GB</option>
+                                <option value="Mb">MB</option>
                               </select>
 
 
@@ -259,7 +258,7 @@
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
                               <div class="small-12 large-2 columns">
-                                <img class="phoneImg" :src="p.imageVariations.url" alt="Photo Devices" />
+                                <img class="phoneImg"  :src="p.imageVariations.url" alt="Photo Devices" />
 
                                 <input type="file" :id="'FileUpload'+index" @change="onFileChanges($event,index)"  class="show-for-sr">
                               </div>
@@ -268,25 +267,25 @@
                               <div class="large-3 small-12   columns ">
                                   <label>
                                     Retail Price
-                              <div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field" v-model="p.priceRetail"    ></inputValidate> </div>
+                              <div class="input-group"><span class="input-group-label">{{money}}</span>  <inputValidate  class="input-group-field" v-model="p.priceRetail"    ></inputValidate> </div>
                             </label>
                                   </div>
                                   <div class="large-3 small-12   columns ">
                                       <label>
                                          Price One
-                                  <div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field" v-model="p.price1"     ></inputValidate> </div>
+                                  <div class="input-group"><span class="input-group-label">{{money}}</span>  <inputValidate  class="input-group-field" v-model="p.price1"     ></inputValidate> </div>
                                 </label>
                                       </div>
                                       <div class="large-3 small-12   columns ">
                                           <label>
                                             Price Two
-                                      <div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field" v-model="p.price2"     ></inputValidate> </div>
+                                      <div class="input-group"><span class="input-group-label">{{money}}</span>  <inputValidate  class="input-group-field" v-model="p.price2"     ></inputValidate> </div>
                                     </label>
                                           </div>
                                           <div class="large-3 small-12   columns ">
                                               <label>
                                                 Price Own
-                                          <div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field" v-model="p.priceOwn"     ></inputValidate> </div>
+                                          <div class="input-group"><span class="input-group-label">{{money}}</span>  <inputValidate  class="input-group-field" v-model="p.priceOwn"     ></inputValidate> </div>
                                         </label>
                                               </div>
           <div class="clearfix"> </div>
@@ -304,11 +303,11 @@
               <div class="features"><select v-model="p.companyId" ><option :value="null" >Select Companies</option><option v-for="co in p.companys" :value="co.id" >{{co.attributes.name}}</option></select></div>
                   </div>
                   <div class="clearfix"> </div>
-                  <div class="large-3 large-offset-2 small-12 columns">
+                  <div class="large-3 large-offset-2 small-6 columns">
                   <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload File</label>
                 </div>
 
-                <div clas="large-3    small-12  columns">
+                <div clas="large-3    small-6  columns">
                   <label>
                     <strong class="variation">Add New:</strong>
                   <a  class="button" @click="adds()" id="button"  >

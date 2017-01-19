@@ -18,7 +18,7 @@ export default {
 
     context.$http.get(process.env.URL_API + '/devices', {
       params: {
-        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications',
         page: pages, /*,filter[][like]:deviceType*/
       },
 
@@ -69,6 +69,12 @@ export default {
                   else{
           for (let price of device.devicevariations) {
 
+            var max = Math.max(price.priceRetail,price.price1,price.price2,price.priceOwn);
+            device = Object.assign({}, device, {
+              pricemax: max,
+            });
+
+
             for (let company of price.companies) {
               if (company.id == price.companyId) {
                 price = Object.assign({}, price, {
@@ -78,19 +84,7 @@ export default {
               }
             }
 
-            for (let modification of device.modifications) {
-              if (modification.id == price.styleId) {
-                price = Object.assign({}, price, {
-                  style: modification.value,
-                });
-              } else if (modification.id == price.capacityId) {
-                price = Object.assign({}, price, {
-                  capacity: modification.value,
-                });
 
-              }
-
-            }
 
             for (let carrier of price.carriers) {
               if (carrier.id == price.carrierId) {
@@ -101,6 +95,8 @@ export default {
               }
 
             }
+
+
 
             device.priceName.push(price);
 
@@ -155,6 +151,22 @@ export default {
       (response) => {
 
       });
+
+      context.$http.get(process.env.URL_API + '/devicevariations', {
+
+        params: {
+          page: 1,
+        },
+
+      }).then((response) => {
+
+         context.filterPrices = response.data.data;
+
+        },
+
+        (response) => {
+
+        });
 
     context.$http.get(process.env.URL_API + '/carriers', {
       params: {

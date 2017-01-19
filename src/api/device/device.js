@@ -23,18 +23,16 @@ export default {
   },
 
 
-  updateDevice(id, context, price, style, capacity, carriers, companies, device, image) {
+  updateDevice(id, context, price, style, capacity, device, image) {
 
-      let deviceObj = new Device('devices',id, device.id, device.name, device.description, device.type, 1, image.id);
-    if(capacity.length===0 && style.length===0 && carrriers.length===0 && companies.length===0 && price.length===0){
-      context.showModal=true;
-    }else{
-      deviceObj.modificationsJson(capacity,style,deviceObj);
-      deviceObj.carriersJson(carriers,deviceObj);
-      deviceObj.companiesJson(companies,deviceObj);
-      deviceObj.pricesJson(price,deviceObj);
-}
+    let deviceObj = new Device('devices',id,device.defaultPrice, device.name, device.description, device.type, 1, image.id,device.make,device.model,device.money);
 
+    let check=  this.checkDevice(deviceObj,style,capacity,price,context,id)
+      if(check.staus==false){
+          context.message="Error in field "+check.field;
+        context.showModal=true;
+      }
+      else{
 
 
     context.$http.patch(process.env.URL_API + '/devices/' + id, {
@@ -48,9 +46,10 @@ export default {
         context.$router.push({name: 'devices'});
 
       }, (response) => {
-
+          context.message=response;
         context.showModal=true;
       });
+    }
 
   },
 
@@ -58,19 +57,23 @@ export default {
 
     context.$http.get(process.env.URL_API + '/devices/' + id, {
       params: {
-        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images',
       },
 
     }).then((response) => {
 
         event = store.sync(response.data);
-        console.log(event);
-        //context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
-        //  context.image.id=event.images[0].id;
+
+
+        context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
+         context.image.id=event.images[0].id;
 
        context.d.name = event.name;
         context.d.description = event.properties;
-        //context.d.id = event.defaultPrice;
+        context.d.currency = event.currency;
+        context.d.make=event.make;
+        context.d.model=event.model;
+        context.d.defaultPrice=event.defaultPrice;
        context.d.type = event.devicetypes[0].id;
         context.d.make=event.make;
         context.d.model=event.model;
@@ -79,14 +82,9 @@ export default {
         context.vCarriers=this.carriersCheck;
         this.companyCheck(context, filterByFilters(response.data.included,'companies'));
         context.companies = this.companiesCheck;
-
-    this.modificationCheck(context, event.modifications);
-    context.modifications = this.modificationsCheck;
-
-    //
-
-        //
-      //  context.priceData = event.devicevariations;
+        this.modificationCheck(context, event.modifications);
+        context.modifications = this.modificationsCheck;
+        context.priceData = event.devicevariations;
 
         context.checkcarrier();
 
@@ -102,7 +100,6 @@ export default {
 
   carrierCheck(context, carriersD) {
 
-    var i = 0;
     for (let carrier of this.carriersCheck.data) {
 
       carrier.check = false;
@@ -115,7 +112,7 @@ export default {
         }
       }
 
-      i++;
+
     }
   },
 
@@ -264,20 +261,106 @@ export default {
       }, (response) => {
       });
   },
+  checkDevice(device,style,capacity,price,context,id){
+          let check=true;
+        if(device.name=="" || device.name==null){
+                check=false
+                context.message="Error in field Name";
+                let  error={field:"Name",status:false}
+                  return error;
+        }
+        if(isNaN(device.defaultPrice) || device.defaultPrice=="" || device.defaultPrice==null || device.defaultPrice==0 ){
+          context.message="Error in field Default Price"
+          check=false;
+          let  error={field:"Price",status:false}
+            return error;
+        }
 
-  addDevice(context, price, style, capacity, carriers, companies, device, image) {
+        if(device.properties=="" || device.properties==null){
+            context.message="Error in field Description";
+              check=false
+              let  error={field:"Description",status:false}
+                return error;
+        }
+        if(device.deviceTypeId==null){
+          check=false;
+          let  error={field:"Device Type",status:false}
+            return error;
+        }
+        if(device.imageId==0 ){
+            context.message="Error in field Image";
+          check=false;
+          let  error={field:"Image",status:false}
+            return error;
+        }
+        if(device.make==null || device.make==""){
+          check=false;
+          let  error={field:"Manufactured",status:false}
+            return error;
+        }
+        if(device.model==null || device.model==""){
+
+          check=false;
+        let  error={field:"Model",status:false}
+          return error;
+        }
+        if(check==true && style.length===0 && capacity.length===0 ){
+
+          let  error={field:"",status:true}
+            return error;
+
+        }
+        if(price.length!=0 && check==true){
+            //  device.pricesUpdateJson(price,device);
+            let c=true;
+                  for (let p of price){
+                if(p.style==null || p.capacity==null || p.carrierId==null || p.companyId==null || (p.priceRetail==0 || isNaN(p.priceRetail)) || (p.price1==0 || isNaN(p.price1)) || (p.price2==0 || isNaN(p.price2)) || (p.priceOwn==0 || isNaN(p.priceOwn))){
+                              c=false;
+                              let  error={field:"Table Prices",status:false}
+                                return error;
+
+                    }
+                  }
+            if(c==true){
+                device.modificationsJson(capacity,style,device);
+                if(id==null){
+                device.pricesJson(price,device);
+              }else{
+                device.pricesUpdateJson(price,device)
+              }
+              let  error={field:"",status:true}
+                return error;
+            }
+        }
+        if(check==true && style.length!=0 && capacity.length==0){
+            device.modificationsJson(capacity,style,device);
+            let  error={field:"",status:true}
+              return error;
+        }
+        if(check==true && style.length==0 && capacity.length!=0){
+            device.modificationsJson(capacity,style,device);
+            let  error={field:"",status:true}
+              return error;
+        }
+        if(check==true && style.length!=0 && capacity.length!=0){
+            device.modificationsJson(capacity,style,device);
+            let  error={field:"",status:true}
+              return error;
+        }
+
+  },
 
 
-  let deviceObj = new Device('devices',null,device.id, device.name, device.description, device.type, 1, image.id);
-    if(capacity.length===0 && style.length===0 && carriers.length===0 && companies.length===0 && price.length===0){
+  addDevice(context, price, style, capacity,device, image) {
+
+  let deviceObj = new Device('devices',null,device.defaultPrice, device.name, device.description, device.type, 1, image.id,device.make,device.model,device.money);
+
+  let check=  this.checkDevice(deviceObj,style,capacity,price,context,null)
+    if(check.status==false){
+        context.message="Error in field "+check.field;
       context.showModal=true;
-    }else{
-    deviceObj.modificationsJson(capacity,style,deviceObj);
-    deviceObj.carriersJson(carriers,deviceObj);
-    deviceObj.companiesJson(companies,deviceObj);
-    deviceObj.pricesUpdateJson(price,deviceObj);
-  }
-
+    }
+    else{
     context.$http.post(process.env.URL_API + '/devices', {
 
       data: deviceObj.toJSON()
@@ -288,9 +371,11 @@ export default {
           context.$router.push({name: 'devices'});
 
       }, (response) => {
+          context.message=response;
           context.showModal=true;
 
       });
+    }
 
   },
 
@@ -310,14 +395,15 @@ export default {
 
       .then((response) => {
         if(context.id==null){
+            context.price[index].imageVariations.url = 'http://' + response.data.data.links.self;
+            context.price[index].imageVariations.id = response.data.data.id;
+}
+else{
+            context.pricess[index].imageVariations.url = 'http://' + response.data.data.links.self;
+            context.pricess[index].imageVariations.id = response.data.data.id;
 
-          context.price[index].imageVariations.url = 'http://' + response.data.data.links.self;
 
-        }else{
-            context.pricess[index].image.id = response.data.data.id;
-        }
-
-
+}
       }, (response) => {
       });
 
