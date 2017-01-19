@@ -27,6 +27,21 @@ export default {
   },
 
   computed : {
+    money(){
+        switch(this.d.money) {
+    case 'USD':
+           return '$'
+        break;
+    case 'EUR':
+          return '€'
+        break;
+    case 'GBP':
+        return '£'
+        break;
+
+}
+
+    },
     mCapacity() {
       if (this.modifications.data != null) {
         let value = 'capacity';
@@ -93,9 +108,9 @@ export default {
 
     priceTable() {
   if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-    if(this.price.length>0 && this.add==true){
-
+    if(this.pricess.length>0 && this.add==true){
       this.add=false;
+
     return this.pricess
     }
     else{
@@ -115,19 +130,30 @@ export default {
     }
 
     price= Object.assign({}, price, {
+      id:price.id,
       styles:this.vStyles,
       capacitys: this.vCapacity,
       carriers: this.vCarriers,
       companys: this.vCompanies,
       style:styleId,
       capacity:capacityId,
+      carrierId:price.carrierId,
+      companyId:price.companyId,
+      imageVariations: {
+        url: process.env.URL_API+'/images/'+price.images[0].id,
+        id: price.images[0].id
+      }
+
 
     });
       this.pricess.push(price);
 
   }
+
+
+  return this.pricess;
 }
-return this.pricess;
+
   }
 
 
@@ -153,7 +179,7 @@ return this.pricess;
         capacity:null,
         carrierId:null,
         companyId:null,
-        priceRetail: 0,
+        priceRetail: this.d.defaultPrice,
         price1: 0,
         price2: 0,
         priceOwn: 0
@@ -176,9 +202,10 @@ else{
     findByPrices,
     submit() {
       if (this.id != null) {
-        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+
+        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity,this.d, this.image);
       } else {
-        device.addDevice(this, this.price, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
+        device.addDevice(this, this.price, this.vStyles, this.vCapacity,this.d, this.image);
       }
     },
     toggle() {
@@ -186,20 +213,22 @@ else{
    },
     adds(){
       this.add=true;
+
       this.company = Object.assign({}, this.company, {
-        style:this.vStyles,
-        capacity: this.vCapacity,
-        carrier: this.vCarriers,
-        company: this.vCompanies,
-        style:'',
-        capacity:'',
-        carrier:'',
+        id:0,
+        styles:this.vStyles,
+        capacitys: this.vCapacity,
+        carriers: this.vCarriers,
+        companys: this.vCompanies,
+        style:null,
+        capacity:null,
+        carrier:null,
         imageVariations: {
           url: "./../assets/logo.png",
           id: 0
         },
-        company:'',
-        priceRetail: 0,
+        company:null,
+        priceRetail: this.d.defaultPrice,
         price1: 0,
         price2: 0,
         priceOwn: 0
@@ -266,14 +295,11 @@ else{
       console.log(index)
       device.createImageVariation(this, formData,index);
     },
-
     changeStatusCarrier(className, index) {
       var el = document.getElementsByClassName('static')[index];
       el.classList.toggle(className);
     },
-
     capacit() {
-      console.log(this.gigas);
       if (this.gigas == '' || this.gigas == null || isNaN(this.gigas) ) {
         this.error = 'Incorrect value Capacity';
       } else {
@@ -307,6 +333,7 @@ else{
         url: "./../assets/logo.png",
         id: 0
       },
+      message:'',
       imageVariations: {
         url: "",
         id: 0
@@ -326,7 +353,8 @@ else{
       d: {
         name: '',
         description: '',
-        id: null,
+        defaultPrice:null,
+        currency:'',
         make:'',
         model:'',
         type: null,
@@ -334,7 +362,7 @@ else{
 
 
       },
-      units:'gb',
+      units:'Gb',
       /*add modifications*/
       id: null,
       priceData: [],
