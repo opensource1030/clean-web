@@ -96,9 +96,8 @@ export default {
             })
             .then((response) => {
                 context.$router.push({name: 'services'});
-                console.log(response);
             },
-            (response) => {console.log(response);});
+            (response) => {});
         }
     },
     getDataService(context, id) {

@@ -7,18 +7,18 @@ import modal from './../../components/modal.vue';
 export default {
     name : 'Services',
     components : {
-        pagination,
-        modal
+        pagination: Pagination,
+        modal: modal
     },
     methods : {
+        filterByModificationsd,
+        filterByModifications,
         findByService,
-        orderFilters,
 
         loadData() {
             services.getServices(this, this.pagination.current_page);
-            services.getCarriers(this);
         },
-        
+        filterByCarrier,
         setActive: function(index) {
             this.active = index;
             this.services[this.active].hide = !this.services[this.active].hide;
