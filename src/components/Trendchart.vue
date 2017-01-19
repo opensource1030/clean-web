@@ -73,7 +73,14 @@
         ],
         options: {
           tooltips: {
-            mode: 'label'
+            mode: 'label',
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                var label = data.datasets[tooltipItem.datasetIndex].label;
+                return ' ' + label + ': $' + value.toFixed(2);
+              }
+            }
           },
           legend :{
             position: 'bottom'
