@@ -51,6 +51,7 @@ export default {
 
       context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
       context.image.id = event.images[0].id;
+      context.id=id;
 
       context.d.name = event.name;
       context.d.description = event.properties;

@@ -19,25 +19,25 @@
     }
 
     .child:nth-of-type(2) {
-        -webkit-flex-basis: 38.14%;
-            flex-basis: 32.54%;
+        -webkit-flex-basis: 34.74%;
+            flex-basis: 34.74%;
 
         ul {
             list-style-type: none;
         }
     }
     .child:nth-of-type(3) {
-        -webkit-flex-basis: 7%;
-        flex-basis: 7%;
+        -webkit-flex-basis: 10%;
+        flex-basis: 10%;
     }
     .child:nth-of-type(4) {
-        -webkit-flex-basis: 10%;
+        -webkit-flex-basis: 11.7%;
         flex-basis: 11.7%;
     }
 
     .prices {
               .listPrice{
-                    margin-top: 1.36rem;
+
 
               }
 
@@ -54,6 +54,9 @@
                 height: 130px;
             }
         }
+    }
+    .modificationc{
+      display:inline-block;
     }
 
     .active {

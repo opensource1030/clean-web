@@ -17,8 +17,8 @@ export default {
     modal,
   inputValidate
   },
-  created() {
-
+  beforeCreate() {
+    
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
