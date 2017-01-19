@@ -1,6 +1,6 @@
 export default class Service {
 
-  constructor(type, id, status, title, planCode, cost, description, carrierId) {
+  constructor(type, id, status, title, planCode, cost, description, currency, carrierId) {
     this.id = id;
     this.type = type;
     this.status = status;
@@ -9,6 +9,7 @@ export default class Service {
     this.cost = cost;
     this.description = description;
     this.carrierId = carrierId;
+    this.currency = currency;
     this.serviceItems = [];
 
   }
@@ -59,7 +60,8 @@ export default class Service {
         planCode: this.planCode,
         cost: this.cost,
         description: this.description,
-        carrierId: this.carrierId
+        carrierId: this.carrierId,
+        currency: this.currency
       },
       relationships: {
         serviceitems: {

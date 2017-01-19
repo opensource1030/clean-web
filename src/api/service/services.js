@@ -49,6 +49,7 @@ export default {
                         if(serv.title == null || serv.title == '') { serv.title = ""; }
                         if(serv.description == null || serv.description == '') { serv.description = ""; }
                         if(serv.cost == null || serv.cost == '') { serv.cost = ""; }
+                        if(serv.currency == null || serv.currency == '') { serv.currency = "USD"; }
 
                         if(serv.carriers ==  null || serv.carriers.length == 0) {
                             serv.carriers.push({ presentation : ""});
