@@ -71,7 +71,9 @@
                     <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{device.name}} </td>
                     <td >{{device.make}}</td>
+
                     <td  >{{device.defaultPrice}} {{device.currency}}</td>
+
                     <td v-if="device.show!=true" ><div  v-for="carrier in device.priceName"  > {{carrier.carrier}}</div> </td><td v-else>  </td>
                     <td v-if="device.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
                     <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
@@ -108,7 +110,9 @@
                           <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
 
                             <ul>
+
                               <li    >{{carrier.priceRetail}} {{device.currency}}</li>
+
 
                             </ul>
                             <br>
