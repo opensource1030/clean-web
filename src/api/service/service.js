@@ -14,50 +14,58 @@ export default {
 
         if (service.title == "" || service.title == null){
             ok = false;
-            context.titleError = 'border:1px solid red;';
+            context.errorsStyle.titleError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.titleError = 'border:1px solid #cacaca;';
+            context.errorsStyle.titleError = 'border:1px solid #cacaca;';
         }
 
         if (service.planCode == "" || service.planCode == null){
             ok = false;
-            context.planCodeError = 'border:1px solid red;';
+            context.errorsStyle.planCodeError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.planCodeError = 'border:1px solid #cacaca;';
+            context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
         }
 
         if (service.cost == "" || service.cost == null){
             ok = false;
-            context.costError = 'border:1px solid red;';
+            context.errorsStyle.costError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.costError = 'border:1px solid #cacaca;';
+            context.errorsStyle.costError = 'border:1px solid #cacaca;';
+        }
+
+        if (service.currency == "" || service.currency == null){
+            ok = false;
+            context.errorsStyle.currencyError = 'border:1px solid red;';
+        } else {
+            ok = ok && true;
+            context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
         }
 
         if (service.carrierId == "" || service.carrierId == null){
             ok = false;
-            context.carrierError = 'border:1px solid red;';
+            context.errorsStyle.carrierError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.carrierError = 'border:1px solid #cacaca;';
+            context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
         }
 
         if (domesticPlan.data.unit == "" || domesticPlan.data.unit == null){
             ok = false;
-            context.unitDomError = 'border:1px solid red;';
+            context.errorsStyle.unitDomError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.unitDomError = 'border:1px solid #cacaca;';
+            context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
         }
 
         if (internationalPlan.data.unit == "" || internationalPlan.data.unit == null){
             ok = false;
-            context.unitIntError = 'border:1px solid red;';
+            context.errorsStyle.unitIntError = 'border:1px solid red;';
         } else {
             ok = ok && true;
-            context.unitIntError = 'border:1px solid #cacaca;';
+            context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
         }
 
         for (let addon of addons) {
@@ -67,7 +75,7 @@ export default {
         }
 
         if (ok) {
-          context.error = "";
+          context.error = false;
           let items = [];
 
           domesticPlan.minutes.domain = "domestic";
@@ -105,7 +113,7 @@ export default {
           return items;
         }
 
-        context.error = "Error, empty values. Please, check the inputs and complete it.";
+        context.error = true;
         return false;
     },
 
@@ -119,22 +127,19 @@ export default {
             status = "Disabled"
         }
 
-        let service = new Service("services", id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
+        let service = new Service("services", id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId)
         let plan = this.checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context);
 
         if (plan != false) {
             var serviceItems = service.itemJson(plan, service);
-            console.log(service.toJSON());
-
 
             context.$http.patch(process.env.URL_API + '/services/' + id, {
                 "data":service.toJSON()
             })
             .then((response) => {
                 context.$router.push({name: 'services'});
-                console.log(response);
             },
-            (response) => {console.log(response);});
+            (response) => {});
         }
     },
     getDataService(context, id) {
@@ -154,10 +159,12 @@ export default {
             } else {
               context.serviceDetails.status = false;
             }
+
             context.serviceDetails.title = event.title;
             context.serviceDetails.code = event.planCode;
             context.serviceDetails.cost = event.cost;
             context.serviceDetails.description = event.description;
+            context.serviceDetails.currency = event.currency;
             context.serviceDetails.carrierId = event.carriers[0].id;
 
             context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
@@ -187,6 +194,11 @@ export default {
                 context.addons[context.addons.length-1].add = true;
                 context.addAddon = false;
             }
+
+            if (context.addons.length == 0) {
+                context.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
+            }
+
         }, (response) => {});
     },
 
@@ -194,7 +206,7 @@ export default {
         let status = "";
         if (serviceDetails.status == true) { status = "Enabled"; } else { status = "Disabled"; }
 
-        let service = new Service("services", null, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.carrierId)
+        let service = new Service("services", null, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId)
         let items = this.checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context);
 
         if (items != false) {

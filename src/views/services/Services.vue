@@ -7,13 +7,13 @@
           <h6 slot="body">{{error}}</h6>
         </modal>
         <div class="small-12 columns titles">
-          <h4>Service Plans<h4>
+          <h4>{{names.servicePlans}}<h4>
         </div>
         <div class="small-12 columns">
-          <a class="button" href="/service">Add Plan</a>
+          <a class="button" href="/service">{{names.addPlan}}</a>
         </div>
         <div v-if="showtable == false && loading == false">
-          <font color="red">No Services provided. Please, click on "Add Plan" button to create the first service plan</font>
+          <font color="red">{{names.noServicesFount}}</font>
         </div>
         <div v-if="showtable && !loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>
@@ -21,37 +21,37 @@
               <tr>
                 <th>
                   <select class="form-control" v-model="status">
-                    <option value="" type>Status</option>
+                    <option value="" type>{{names.status}}</option>
                     <!--<option v-for="item in filterDeviceType" :key="item.id" :value="item.id">{{item.attributes.class}}</option>-->
                   </select>
                 </th>
                 <th>
                   <select class="form-control" v-model="plans">
-                    <option value="" manufactured>Plans</option>
+                    <option value="" manufactured>{{names.plans}}</option>
                     <!--<option v-for="item in filterDeviceType" :value="item.id">{{item.attributes.make}}</option>-->
                   </select>
                 </th>
                 <th>
                   <select class="form-control" v-model="details">
-                    <option value="" price>Details</option>
+                    <option value="" price>{{names.details}}</option>
                     <!--<option v-for="ite in filterPrice" :value="item.id">{{item.attributes.price1}}</option>-->
                   </select>
                 </th>
                 <th>
                   <select class="form-control" v-model="codePlan">
-                    <option value="" os>Plan Code</option>
+                    <option value="" os>{{names.planCode}}</option>
                     <!--<option v-for="item in filterDeviceType" :value="item.id">{{item.attributes.deviceOS}}</option>-->
                   </select>
                 </th>
                 <th>
                   <select class="form-control" v-model="carrier">
-                    <option value="" carrier>Carrier</option>
+                    <option value="" carrier>{{names.carrier}}</option>
                     <!--<option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>-->
                   </select>
                 </th>
                 <th>
                   <select class="form-control" v-model="cost">
-                    <option value="" capacity>Cost</option>
+                    <option value="" capacity>{{names.cost}}</option>
                     <!--<option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>-->
                   </select>
                 </th>
@@ -80,19 +80,20 @@
                 </td>
                 <td valign="top">{{service.planCode}}</td>
                 <td valign="top">{{service.carriers[0].presentation}}</td>
-                <td valign="top" class="textbold">${{service.cost}}</td>
+                <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
               </tr>
               <tr v-if="service.show" :class="{'active': service.show,'desactive': service.show}">
                 <td></td>
                 <td valign="top">
                   <div v-if="service.show">
-                    Minutes<br>
-                    Data<br>
-                    SMS<br>
-                    International Minutes<br>
-                    International Data<br>
-                    International SMS<br>
-                    <a v-bind="{ href: '/service/'+service.id}">Manage Plan</a><br>
+                    {{names.domMinutes}}<br>
+                    {{names.domData}}<br>
+                    {{names.domSms}}<br>
+                    {{names.intMinutes}}<br>
+                    {{names.intData}}<br>
+                    {{names.intSms}}<br>
+                    <br>
+                    <h6><a v-bind="{ href: '/service/'+service.id}">{{names.managePlanButton}}</a></h6>
                   </div>
                 </td>
                 <td valign="top">
