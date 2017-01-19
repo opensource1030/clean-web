@@ -265,19 +265,18 @@ export default {
           let check=true;
         if(device.name=="" || device.name==null){
                 check=false
-                context.message="Error in field Name";
                 let  error={field:"Name",status:false}
                   return error;
         }
         if(isNaN(device.defaultPrice) || device.defaultPrice=="" || device.defaultPrice==null || device.defaultPrice==0 ){
-          context.message="Error in field Default Price"
+
           check=false;
           let  error={field:"Price",status:false}
             return error;
         }
 
         if(device.properties=="" || device.properties==null){
-            context.message="Error in field Description";
+
               check=false
               let  error={field:"Description",status:false}
                 return error;
