@@ -9,7 +9,7 @@ export default class Device {
     this.model=model;
     this.type = type;
     this.name = name;
-  
+
     this.properties = properties;
     this.deviceTypeId = deviceTypeId;
     this.statusId = statusId;
@@ -180,26 +180,3 @@ pricesJson(price, device) {
     };
   }
 }
-
-/* relationships: {
-    modifications: {
-      data: this.modifications
-    },
-    carriers: {
-      data: this.carriers
-    },
-    companies: {
-      data: this.companies
-    },
-    prices: {
-      data: this.prices
-    },
-    images: {
-      data: [
-        {
-          type: 'images',
-          id: this.imageId
-        }
-      ]
-    }
-  }*/
