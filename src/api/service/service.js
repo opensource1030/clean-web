@@ -20,6 +20,14 @@ export default {
         context.errorsStyle.unitDomError = false;
         context.errorsStyle.unitIntError = false;
 
+        context.errorsStyle.titleError = 'border:1px solid #cacaca;';
+        context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
+        context.errorsStyle.costError = 'border:1px solid #cacaca;';
+        context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
+        context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
+        context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
+        context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
+
         if (service.title == "" || service.title == null){
             ok = false;
             context.errorsStyle.titleError = true;
@@ -196,7 +204,7 @@ export default {
     },
     prepareItems(addons, domesticPlan, internationalPlan) {
         let items = [];
-        
+
         items.push(domesticPlan.minutes);
         items.push(domesticPlan.data);
         items.push(domesticPlan.sms);

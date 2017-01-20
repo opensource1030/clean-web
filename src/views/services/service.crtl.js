@@ -41,42 +41,42 @@ export default {
                 managePlan: 'Manage Plan',
                 planDetails: 'Plan Details',
                 title: 'Title',
-                titleMessage: 'Service Name',
                 planCode: 'Plan Code',
-                planCodeMessage: 'Service Code',
                 cost: 'Cost',
-                costMessage: 'Service Cost',
-                description: 'Description',
-                descriptionMessage: 'Service Descrition',
+                currency: {
+                    usd: 'USD',
+                    eur: 'EUR',
+                    gbp: 'GBP'
+                },
+                description: 'Description',       
                 carriers: 'Carriers',
-                carriersMessage: 'Service Carriers',
                 selectCarrierName: 'Select Carrier',
+                status: 'Status',
                 domesticServices: 'Domestic Services',
                 minutes: 'Minutes',
-                data: 'Data',
-                sms: 'SMS',
-                description: 'Description',
                 amount: 'Amount',
-                name: 'Name',
-                internationalServices: 'International Services',
-                status: 'Status',
-                statusMessage: 'Check this option to ENABLE the Service.',
-                addons: 'Add-ons',
-                addonsNameMessage: 'Add-ons Name',
-                addonsCostMessage: 'Add-ons Price',
-                saveChanges: 'Save Changes',
-                deleteButton: 'Delete the selected Add-on.',
-                addButton: 'Add another Add-on.',
+                data: 'Data',
                 unit: {
                     tera: 'Tb',
                     giga: 'Gb',
                     mega: 'Mb'
                 },
-                currency: {
-                    usd: 'USD',
-                    eur: 'EUR',
-                    gbp: 'GBP'
-                }
+                sms: 'SMS',
+                internationalServices: 'International Services',
+                addons: 'Add-ons',
+                name: 'Name',
+                titleMessage: 'Service Name',
+                planCodeMessage: 'Service Code',
+                costMessage: 'Service Cost',
+                descriptionMessage: 'Service Descrition',
+                carriersMessage: 'Service Carriers',
+                statusMessage: 'Check this option to ENABLE the Service.',
+                ammountMessage: 'Enter a valid number, the default value is 0',
+                addonsNameMessage: 'Add-ons Name',
+                addonsCostMessage: 'Add-ons Price',
+                deleteButton: 'Delete the selected Add-on.',
+                addButton: 'Add another Add-on.',
+                saveChanges: 'Save Changes'
             },
             serviceDetails: {
                 title: '',
@@ -200,19 +200,14 @@ export default {
         },
         reorderButtons () {
             for (let add of this.addons) {
-                if (add.description != '' && add.cost != ''){
-                    add.add = false;
-                    add.delete = true;  
-                } else {
-                    add.add = false;
-                    add.delete = false;
-                }
-
+                add.add = false;
+                add.delete = true;
             }
 
             if (this.addons[this.addons.length-1].description != '' && this.addons[this.addons.length-1].cost != '') {
                 this.addons[this.addons.length-1].add = true;
-                this.addons[this.addons.length-1].delete = true;
+            } else if (this.addons[this.addons.length-1].description == '' && this.addons[this.addons.length-1].cost == ''){
+                this.addons[this.addons.length-1].delete = false;
             }
         },
         onSelectCarrier (id) {

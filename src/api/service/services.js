@@ -198,10 +198,7 @@ export default {
 
                         i++;
                     }
-
-                    
                 }
-
             }, (response) => {}
         );
     }
