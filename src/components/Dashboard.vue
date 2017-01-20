@@ -116,7 +116,7 @@
             </div>
           </div>
           <div class="form-footer">
-            <button type="submit" class="button btn-submit "> Submit Ticket</button>
+            <button type="submit" class="button btn-submit ">Submit Ticket</button>
           </div>
           <div class="tiny reveal request-modal" id="modal" data-reveal>
             <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">

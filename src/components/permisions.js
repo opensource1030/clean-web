@@ -5,7 +5,8 @@ export default {
     let perms = process.env.FEATURES;
     let found = false;
 
-    for (let [k,v]of Object.entries(perms)) {
+    for (let [k,
+      v]of Object.entries(perms)) {
       var users = false;
 
       if (v.hasOwnProperty('users') == true) {
@@ -16,7 +17,8 @@ export default {
 
           found = true
         }
-      }  if (k == value.value && users != true) {
+      }
+      if (k == value.value && users != true) {
 
         if (v.enabled == true) {
 
@@ -34,7 +36,8 @@ export default {
 
   checkUser(perm) {
 
-    for (let [key,enabled]of Object.entries(perm)) {
+    for (let [key,
+      enabled]of Object.entries(perm)) {
 
       if (key.startsWith("*") == true) {
         let emailApi = this.cutEmail(localStorage.email);
