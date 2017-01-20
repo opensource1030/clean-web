@@ -11,7 +11,7 @@ export default {
     modal:modal
   },
   beforeCreate() {
-  
+
     devices.getDevice(this);
 
   },
@@ -50,7 +50,7 @@ export default {
       devices: [],
       filterModifications: [],
       filterDeviceType: [],
-      filterPrice: [],
+      filterPrices: [],
       pagination: {
         current_page: 1,
         total_pages: null,

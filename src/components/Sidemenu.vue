@@ -20,8 +20,8 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipments</a></li>
-            <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i> Services & Plans</a></li>
+            <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipment</a></li>
+            <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a></li>
             
         </ul>
       </li>
@@ -45,9 +45,9 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Device</a></li>
-          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> App</a></li>
-          <li><a href="javascript:;"><i class="fa fa-circle-o"></i> Addresses</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
 
         </ul>
       </li>
