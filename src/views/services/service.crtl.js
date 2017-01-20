@@ -112,7 +112,7 @@ export default {
             },
             carriers: [],
             addons: [
-               {
+                {
                     description: '',
                     cost: '',
                     add: true,
@@ -120,7 +120,6 @@ export default {
                     addonNameError: 'border:1px solid #cacaca;',
                     addonPriceError: 'border:1px solid #cacaca;',
                 }
-
             ]
         }
     },
@@ -138,17 +137,16 @@ export default {
             } else {
                 this.addons.push({description: '', cost: '', add: true, delete: false});
             }
-            this.reorderButtons();
-            this.addons[this.addons.length-1].add = false;
-            this.addons[this.addons.length-1].delete = false;
+
+            this.reorderButtons();            
         },
         deleteAddOns(index) {
             this.addons.splice(index, 1);
             if (this.addons.length == 0) {
                 this.addons.push({id: this.id, description: '', cost: '', add: false, delete: false});
-            } else {
-                this.reorderButtons();
             }
+
+            this.reorderButtons();
         },
         updateAddon(i, e, type) {
             if (type == 'name'){
@@ -175,17 +173,24 @@ export default {
                 }
             }
 
-            if(this.addons[i].description != '' && this.addons[i].cost != '') {
-                this.addons[i].add = true;
-                this.addons[i].delete = true;
-            }
+            this.reorderButtons();
         },
         reorderButtons () {
-            for ( let add of this.addons) {
-                add.add = false;
-                add.delete = true;
+            for (let add of this.addons) {
+                if (add.description != '' && add.cost != ''){
+                    add.add = false;
+                    add.delete = true;  
+                } else {
+                    add.add = false;
+                    add.delete = false;
+                }
+
             }
-            this.addons[this.addons.length-1].add = true;
+
+            if (this.addons[this.addons.length-1].description != '' && this.addons[this.addons.length-1].cost != '') {
+                this.addons[this.addons.length-1].add = true;
+                this.addons[this.addons.length-1].delete = true;
+            }
         },
         onSelectCarrier (id) {
             if(id >= 0) {
