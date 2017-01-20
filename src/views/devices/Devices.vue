@@ -24,38 +24,33 @@
                   </th>
                   <th  width="160px"><select class="form-control" v-model="type" >
                     <option value="" type>Device Type</option>
-                    <option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>
+                    <option v-for="item in filterDeviceType" :key="item.id" :value="item.attributes.name" >{{item.attributes.name}}</option>
 
                   </select></th>
                   <th width="180px" >
                     <select class="form-control" v-model="manufactured" >
                       <option value="" manufactured>Manufactured</option>
-                      <option v-for="item in filterDeviceType"  :value="item.id">{{item.attributes.make}}</option>
+                      <option v-for="item in devices"  :value="item.make">{{item.make}}</option>
 
                     </select> </th>
                     <th width="100px"><select class="form-control" v-model="price" >
                       <option value="" price>Price</option>
-                      <option v-for="item in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>
+                      <option v-for="item in devices"  :value="item.defaultPrice">{{item.defaultPrice}}</option>
 
-                    </select></th>
-                    <th ><select class="form-control" v-model="os" >
-                      <option value="" os>OS</option>
-                      <option v-for="item in filterDeviceType"  :value="item.id"   >{{item.attributes.deviceOS}}</option>
-
-                    </select></th>
+                    </select>
                     <th ><select class="form-control" v-model="carrier" >
                       <option value="" carrier>Carrier</option>
-                      <option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>
+                      <option v-for="item in filterCarriers"  :value="item.attributes.presentation">{{item.attributes.presentation}}</option>
 
                     </select></th>
                     <th width="160px"><select class="form-control" v-model="capacity" >
                       <option value="" capacity>Capacity</option>
-                      <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>
+                      <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.attributes.value">{{item.attributes.value}}</option>
 
                     </select></th>
                     <th ><select class="form-control" v-model="style" >
                       <option value="" style>Style</option>
-                      <option v-for="item in filterByModifications(filterModifications,'style')"  :value="item.id">{{item.attributes.value}}</option>
+                      <option v-for="item in filterByModifications(filterModifications,'style')"  :value="item.attributes.value">{{item.attributes.value}}</option>
 
                     </select></th>
                   </tr>
@@ -66,7 +61,6 @@
                     <td><div>{{type}}</div></td>
                     <td ><div>{{manufactured}}</div></td>
                     <td  ><div>{{price}}</div></td>
-                    <td  ><div>{{os}}</div></td>
                     <td ><div>{{carrier}}</div></td>
                     <td ><div>{{capacity}}</div></td>
                     <td  ><div>{{style}}</div></td>
@@ -76,10 +70,11 @@
                   <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
                     <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{device.name}} </td>
-                    <td >android</td>
-                    <td  >300$</td>
-                    <td v-if="device.show!=true" >ios</td><td v-else>  </td>
-                    <td v-if="device.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
+                    <td >{{device.make}}</td>
+
+                    <td  >{{device.defaultPrice}} {{device.currency}}</td>
+
+                    <td v-if="device.show!=true" ><div  v-for="carrier in device.priceName"  > {{carrier.carrier}}</div> </td><td v-else>  </td>
                     <td v-if="device.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
                     <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
@@ -89,18 +84,35 @@
                       <div class="details">
                         <div class="child"></div>
                         <div class="options child">
-                          <ul v-for="carrier in device.carriers"  :key="carrier.id" >
-                            {{carrier.name}}
-                            <li v-for="price in filterByCarrier(device.priceName,carrier.id)   " :key="price.id" >{{price.style}}, {{price.capacity}}</li>
+                          <div class="row" v-for="carrier in device.priceName"  :key="carrier.id" >
 
-                          </ul>
+                            <div class="small-6 colums end">
+                            {{carrier.carrier}}
+                          </div>
+                          <div class="small-6 colums">
+                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id" >
+
+                          {{price.value}},
+
+                        </div>
+                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id" >
+
+                          {{price.value}}
+
+                          </div>
+
+                      </div>
+                    </div>
+
 
                         </div>
                         <div class="prices child">
-                          <div class="listPrice" v-for="carrier in device.carriers"  :key="carrier.id" >
+                          <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
 
                             <ul>
-                              <li   v-for="price in filterByCarrier(device.prices,carrier.id)"  :key="price.id" >{{price.priceRetail}}$</li>
+
+                              <li    >{{carrier.priceRetail}} {{device.currency}}</li>
+
 
                             </ul>
                             <br>
@@ -122,7 +134,7 @@
                           <span style="font-weight: bold;">  Availability:</span><br>
                           <span>Provider</span>
                           <ul>
-                            <li v-for="carrier in device.carriers">{{carrier.name}}</li>
+                            <li v-for="carrier in device.priceName">{{carrier.carrier}}</li>
                           </ul>
 
                         </div>
