@@ -25,7 +25,7 @@
                     </div>
                     <div class="large-1 columns">
                       <label>{{names.cost}}
-                        <input :title="names.costMessage" type="number" min="0" :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
+                        <input :title="names.costMessage" type="number" min="0"  :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                       </label>
                     </div>
                     <div class="large-2 columns">
