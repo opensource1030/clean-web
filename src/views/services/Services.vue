@@ -3,17 +3,18 @@
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
-        <modal v-if="showModal" @close="showModal = false">
-          <h6 slot="body">{{error}}</h6>
-        </modal>
         <div class="small-12 columns titles">
           <h4>{{names.servicePlans}}<h4>
         </div>
         <div class="small-12 columns">
           <a class="button" href="/service">{{names.addPlan}}</a>
         </div>
-        <div v-if="showtable == false && loading == false">
-          <font color="red">{{names.noServicesFound}}</font>
+        <div v-if="errorNotFound">
+          <font color="red">
+            {{names.noServiceFound}}<br>
+            {{names.noCarrierFound}}<br>
+            {{names.noServiceItemFound}}<br>
+          </font>
         </div>
         <div v-if="showtable && !loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>

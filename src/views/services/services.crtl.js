@@ -61,7 +61,7 @@ export default {
             showtable: false,
             showModal: false,
             loadpagination: false,
-            error:'',
+            errorNotFound:false,
             names: {
                 servicePlans: 'Service Plans',
                 addPlan: 'Add Plan',
@@ -78,7 +78,9 @@ export default {
                 intData: 'International Data',
                 intSms: 'International SMS',
                 managePlanButton: 'Manage Plan',
-                noServicesFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan.'
+                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan.',
+                noCarrierFound: 'No Carrier Found. Please, Contact with the Administrator.',
+                noServiceItemFound: 'No ServiceItem Found. Please, Contact with the Administrator.'
             }
         };
     }

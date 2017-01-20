@@ -12,105 +12,64 @@ export default {
 
         var ok = true;
 
+        context.errorsStyle.titleError = 'border:1px solid #cacaca;';
+        context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
+        context.errorsStyle.costError = 'border:1px solid #cacaca;';
+        context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
+        context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
+        context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
+        context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
+
         if (service.title == "" || service.title == null){
             ok = false;
             context.errorsStyle.titleError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.titleError = 'border:1px solid #cacaca;';
         }
 
         if (service.planCode == "" || service.planCode == null){
             ok = false;
             context.errorsStyle.planCodeError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
         }
 
-        if (service.cost == "" || service.cost == null){
+        if (service.cost == "" || service.cost == null ){
             ok = false;
             context.errorsStyle.costError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.costError = 'border:1px solid #cacaca;';
         }
 
         if (service.currency == "" || service.currency == null){
             ok = false;
             context.errorsStyle.currencyError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
         }
 
         if (service.carrierId == "" || service.carrierId == null){
             ok = false;
             context.errorsStyle.carrierError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
         }
 
         if (domesticPlan.data.unit == "" || domesticPlan.data.unit == null){
             ok = false;
             context.errorsStyle.unitDomError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
         }
 
         if (internationalPlan.data.unit == "" || internationalPlan.data.unit == null){
             ok = false;
             context.errorsStyle.unitIntError = 'border:1px solid red;';
-        } else {
-            ok = ok && true;
-            context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
         }
 
         for (let addon of addons) {
-            if (addon.description == "") { ok = false; }
-            if (addon.cost == "") { ok = false; }
-            if (addon.description == "" && addon.cost == "") { ok = true; }
+            if(addon.description == "") {
+                if(addon.cost != "") {
+                    ok = false;
+                }
+            } else {
+                if(addon.cost == "") {
+                    ok = false;
+                }
+            }
         }
 
         if (ok) {
-          context.error = false;
-          let items = [];
-
-          domesticPlan.minutes.domain = "domestic";
-          domesticPlan.data.domain = "domestic";
-          domesticPlan.sms.domain = "domestic";
-          domesticPlan.minutes.category = "voice";
-          domesticPlan.data.category = "data";
-          domesticPlan.sms.category = "messaging";
-
-          items.push(domesticPlan.minutes);
-          items.push(domesticPlan.data);
-          items.push(domesticPlan.sms);
-
-          internationalPlan.minutes.domain = "international";
-          internationalPlan.data.domain = "international";
-          internationalPlan.sms.domain = "international";
-          internationalPlan.minutes.category = "voice";
-          internationalPlan.data.category = "data";
-          internationalPlan.sms.category = "messaging";
-
-          items.push(internationalPlan.minutes);
-          items.push(internationalPlan.data);
-          items.push(internationalPlan.sms);
-
-          for (let addon of addons) {
-              if (addon.description != "" && addon.cost != "") {
-
-                  if(addon.id == null) {
-                      addon.id = 0;
-                  }
-                  items.push(addon);
-              }
-          }
-
-          return items;
+            context.error = false;
+            return this.prepareItems(addons, domesticPlan, internationalPlan);
         }
 
         context.error = true;
@@ -236,5 +195,41 @@ export default {
             }
         }
         return true;
+    },
+    prepareItems(addons, domesticPlan, internationalPlan) {
+        let items = [];
+
+        domesticPlan.minutes.domain = "domestic";
+        domesticPlan.data.domain = "domestic";
+        domesticPlan.sms.domain = "domestic";
+        domesticPlan.minutes.category = "voice";
+        domesticPlan.data.category = "data";
+        domesticPlan.sms.category = "messaging";
+
+        items.push(domesticPlan.minutes);
+        items.push(domesticPlan.data);
+        items.push(domesticPlan.sms);
+
+        internationalPlan.minutes.domain = "international";
+        internationalPlan.data.domain = "international";
+        internationalPlan.sms.domain = "international";
+        internationalPlan.minutes.category = "voice";
+        internationalPlan.data.category = "data";
+        internationalPlan.sms.category = "messaging";
+
+        items.push(internationalPlan.minutes);
+        items.push(internationalPlan.data);
+        items.push(internationalPlan.sms);
+
+        for (let addon of addons) {
+            if (addon.description != "" && addon.cost != "") {
+                if(addon.id == null) {
+                    addon.id = 0;
+                }
+                items.push(addon);
+            }
+        }
+
+        return items;
     }
 }
