@@ -34,7 +34,7 @@
       <div class="box-content">
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
-          <a class="button btn-round" @click="requestProvision(client.object.title)">Request Provision</a>
+          <a class="button btn-round" @click="requestProvision(client.object.title)">Request a Device or Accessory</a>
           <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
 
         </div>
