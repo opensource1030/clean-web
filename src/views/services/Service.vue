@@ -15,21 +15,21 @@
                   <div class="row">
                     <div class="large-7 columns">
                       <label>{{names.title}}
-                        <input :title="names.titleMessage" :style="errorsStyle.titleError" type="text" placeholder="" :value="serviceDetails.title" v-model="serviceDetails.title">
+                        <input :title="names.titleMessage" :class="{ 'error-input': errorsStyle.titleError }" type="text" placeholder="" :value="serviceDetails.title" v-model="serviceDetails.title">
                       </label>
                     </div>
                     <div class="large-2 columns">
                       <label>{{names.planCode}}
-                        <input :title="names.planCodeMessage" :style="errorsStyle.planCodeError" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
+                        <input :title="names.planCodeMessage" :class="{ 'error-input': errorsStyle.planCodeError }" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
                       </label>
                     </div>
                     <div class="large-1 columns">
                       <label>{{names.cost}}
-                        <input :title="names.costMessage" type="number" min="0"  :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
+                        <input :title="names.costMessage" type="number" min="0"  :class="{ 'error-input': errorsStyle.costError }" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                       </label>
                     </div>
                     <div class="large-2 columns">
-                      <select class="unit" :style="errorsStyle.currencyError" v-model="serviceDetails.currency">
+                      <select class="unit" :class="{ 'error-input': errorsStyle.currencyError }" v-model="serviceDetails.currency">
                         <option value="USD">{{names.currency.usd}}</option>
                         <option value="GBP">{{names.currency.gbp}}</option>
                         <option value="EUR">{{names.currency.eur}}</option>
@@ -46,7 +46,7 @@
                 <div class="row">
                   <div class="large-8 columns">
                     <label>{{names.carriers}}
-                      <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :style="errorsStyle.carrierError" v-model="serviceDetails.carrierId">
+                      <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :class="{ 'error-input': errorsStyle.carrierError }" v-model="serviceDetails.carrierId">
                         <option :value="null">{{names.selectCarrierName}}</option>
                         <option v-if="!noCarriers" v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
                       </select>
@@ -86,7 +86,7 @@
                         </label>
                       </div>
                       <div class="large-3 columns">
-                        <select class="unit" :style="errorsStyle.unitDomError" v-model="domesticPlan.data.unit">
+                        <select class="unit" :class="{ 'error-input': errorsStyle.unitDomError }" v-model="domesticPlan.data.unit">
                           <option value="Mb">{{names.unit.mega}}</option>
                           <option value="Gb">{{names.unit.giga}}</option>
                           <option value="Tb">{{names.unit.tera}}</option>
@@ -130,7 +130,7 @@
                         </label>
                       </div>
                       <div class="large-3 columns">
-                        <select class="unit" :style="errorsStyle.unitIntError" v-model="internationalPlan.data.unit">
+                        <select class="unit" :class="{ 'error-input': errorsStyle.unitIntError }" v-model="internationalPlan.data.unit">
                           <option value="Mb">{{names.unit.mega}}</option>
                           <option value="Gb">{{names.unit.giga}}</option>
                           <option value="Tb">{{names.unit.tera}}</option>
@@ -159,7 +159,7 @@
                   </div>
                   <div class="large-4 columns">
                     <label>{{names.description}}
-                      <input :style="addon.addonNameError" :title="names.addonsNameMessage" type="text" placeholder="" :value="addon.description" v-model="addon.description" @keyup="updateAddon(index,$event,'name')">
+                      <input :class="{ 'error-input': addon.addonNameError }" :title="names.addonsNameMessage" type="text" placeholder="" :value="addon.description" v-model="addon.description" @keyup="updateAddon(index,$event,'name')">
                     </label>
                   </div>
                   <div class="large-1 large-offset-1 columns">
@@ -167,7 +167,7 @@
                   </div>
                   <div class="large-2 columns">
                     <label>{{names.amount}}
-                      <input :style="addon.addonPriceError" :title="names.addonsCostMessage" type="number" min="0" placeholder="" :value="addon.cost" v-model="addon.cost" @keyup="updateAddon(index,$event,'price')">
+                      <input :class="{ 'error-input': addon.addonPriceError }" :title="names.addonsCostMessage" type="number" min="0" placeholder="" :value="addon.cost" v-model="addon.cost" @keyup="updateAddon(index,$event,'price')">
                     </label>
                   </div>
                   <div class="large-1 columns">

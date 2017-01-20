@@ -12,47 +12,47 @@ export default {
 
         var ok = true;
 
-        context.errorsStyle.titleError = 'border:1px solid #cacaca;';
-        context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
-        context.errorsStyle.costError = 'border:1px solid #cacaca;';
-        context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
-        context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
-        context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
-        context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
+        context.errorsStyle.titleError = false;
+        context.errorsStyle.planCodeError = false;
+        context.errorsStyle.costError = false;
+        context.errorsStyle.currencyError = false;
+        context.errorsStyle.carrierError = false;
+        context.errorsStyle.unitDomError = false;
+        context.errorsStyle.unitIntError = false;
 
         if (service.title == "" || service.title == null){
             ok = false;
-            context.errorsStyle.titleError = 'border:1px solid red;';
+            context.errorsStyle.titleError = true;
         }
 
         if (service.planCode == "" || service.planCode == null){
             ok = false;
-            context.errorsStyle.planCodeError = 'border:1px solid red;';
+            context.errorsStyle.planCodeError = true;
         }
 
         if (service.cost == "" || service.cost == null ){
             ok = false;
-            context.errorsStyle.costError = 'border:1px solid red;';
+            context.errorsStyle.costError = true;
         }
 
         if (service.currency == "" || service.currency == null){
             ok = false;
-            context.errorsStyle.currencyError = 'border:1px solid red;';
+            context.errorsStyle.currencyError = true;
         }
 
         if (service.carrierId == "" || service.carrierId == null){
             ok = false;
-            context.errorsStyle.carrierError = 'border:1px solid red;';
+            context.errorsStyle.carrierError = true;
         }
 
         if (domesticPlan.data.unit == "" || domesticPlan.data.unit == null){
             ok = false;
-            context.errorsStyle.unitDomError = 'border:1px solid red;';
+            context.errorsStyle.unitDomError = true;
         }
 
         if (internationalPlan.data.unit == "" || internationalPlan.data.unit == null){
             ok = false;
-            context.errorsStyle.unitIntError = 'border:1px solid red;';
+            context.errorsStyle.unitIntError = true;
         }
 
         for (let addon of addons) {
