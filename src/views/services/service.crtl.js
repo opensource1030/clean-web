@@ -200,14 +200,19 @@ export default {
         },
         reorderButtons () {
             for (let add of this.addons) {
-                add.add = false;
-                add.delete = true;
+                if (add.description != '' && add.cost != ''){
+                    add.add = false;
+                    add.delete = true;  
+                } else {
+                    add.add = false;
+                    add.delete = false;
+                }
+
             }
 
             if (this.addons[this.addons.length-1].description != '' && this.addons[this.addons.length-1].cost != '') {
                 this.addons[this.addons.length-1].add = true;
-            } else if (this.addons[this.addons.length-1].description == '' && this.addons[this.addons.length-1].cost == ''){
-                this.addons[this.addons.length-1].delete = false;
+                this.addons[this.addons.length-1].delete = true;
             }
         },
         onSelectCarrier (id) {
