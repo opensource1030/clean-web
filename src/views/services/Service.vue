@@ -20,12 +20,12 @@
                     </div>
                     <div class="large-2 columns">
                       <label>{{names.planCode}}
-                        <input :title="names.planCodeMessage" :style="errorsStyle.planCodeError" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
+                        <input :title="names.planCodeMessage" :class="{ 'error-input': errorsStyle.planCodeError }" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
                       </label>
                     </div>
                     <div class="large-1 columns">
                       <label>{{names.cost}}
-                        <input :title="names.costMessage" type="number" min="0"  :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
+                        <input :title="names.costMessage" type="number" min="0"  :class="{ 'error-input': errorsStyle.costError }" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                       </label>
                     </div>
                     <div class="large-2 columns">
@@ -46,7 +46,7 @@
                 <div class="row">
                   <div class="large-8 columns">
                     <label>{{names.carriers}}
-                      <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :style="errorsStyle.carrierError" v-model="serviceDetails.carrierId">
+                      <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :class="{ 'error-input': errorsStyle.carrierError }" v-model="serviceDetails.carrierId">
                         <option :value="null">{{names.selectCarrierName}}</option>
                         <option v-if="!noCarriers" v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
                       </select>

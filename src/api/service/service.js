@@ -20,13 +20,13 @@ export default {
         context.errorsStyle.unitDomError = false;
         context.errorsStyle.unitIntError = false;
 
-        context.errorsStyle.titleError = 'border:1px solid #cacaca;';
-        context.errorsStyle.planCodeError = 'border:1px solid #cacaca;';
-        context.errorsStyle.costError = 'border:1px solid #cacaca;';
-        context.errorsStyle.currencyError = 'border:1px solid #cacaca;';
-        context.errorsStyle.carrierError = 'border:1px solid #cacaca;';
-        context.errorsStyle.unitDomError = 'border:1px solid #cacaca;';
-        context.errorsStyle.unitIntError = 'border:1px solid #cacaca;';
+        context.errorsStyle.titleError = false;
+        context.errorsStyle.planCodeError = false;
+        context.errorsStyle.costError = false;
+        context.errorsStyle.currencyError = false;
+        context.errorsStyle.carrierError = false;
+        context.errorsStyle.unitDomError = false;
+        context.errorsStyle.unitIntError = false;
 
         if (service.title == "" || service.title == null){
             ok = false;
