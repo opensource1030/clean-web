@@ -55,7 +55,9 @@
     // },
 
     data() {
+      var self = this;
       return {
+        currency: '$',
         // data: [],
         backgroundColor: [
           'rgba(31, 200, 219, 1)',
@@ -78,7 +80,7 @@
               label: function(tooltipItem, data) {
                 var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
                 var label = data.datasets[tooltipItem.datasetIndex].label;
-                return ' ' + label + ': $' + value.toFixed(2);
+                return ' ' + label + ': ' + self.currency + value.toFixed(2);
               }
             }
           },

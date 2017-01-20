@@ -39,7 +39,9 @@
     props: ['data'],
 
     data () {
+      var self = this;
       return {
+        currency: '$',
         labels: [
           'Service Plan Charges',
           'Domestic Usage Charges',
@@ -61,7 +63,7 @@
               label: function(tooltipItem, data) {
                 var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
                 var label = data.labels[tooltipItem.index];
-                return ' ' + label + ': $' + value.toFixed(2);
+                return ' ' + label + ': ' + self.currency + value.toFixed(2);
               }
             }
           },
