@@ -20,12 +20,12 @@
                     </div>
                     <div class="large-2 columns">
                       <label>{{names.planCode}}
-                        <input :title="names.planCodeMessage" :class="{ 'error-input': errorsStyle.planCodeError }" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
+                        <input :title="names.planCodeMessage" :style="errorsStyle.planCodeError" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
                       </label>
                     </div>
                     <div class="large-1 columns">
                       <label>{{names.cost}}
-                        <input :title="names.costMessage" type="number" min="0"  :class="{ 'error-input': errorsStyle.costError }" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
+                        <input :title="names.costMessage" type="number" min="0" :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                       </label>
                     </div>
                     <div class="large-2 columns">
