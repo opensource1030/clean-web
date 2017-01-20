@@ -28,13 +28,13 @@ export default {
             carrierMessageError: 'Error, no carrier selected or it may be disabled. Please, select another one.',
             addAddon: true,
             errorsStyle : {
-                titleError: 'border:1px solid #cacaca;',
-                planCodeError: 'border:1px solid #cacaca;',
-                costError: 'border:1px solid #cacaca;',
-                carrierError: 'border:1px solid #cacaca;',
-                unitDomError: 'border:1px solid #cacaca;',
-                unitIntError: 'border:1px solid #cacaca;',
-                currencyError: 'border:1px solid #cacaca;',
+                titleError: false,
+                planCodeError: false,
+                costError: false,
+                carrierError: false,
+                unitDomError: false,
+                unitIntError: false,
+                currencyError: false,
             },
             names: {
                 managePlan: 'Manage Plan',
@@ -117,8 +117,8 @@ export default {
                     cost: '',
                     add: true,
                     delete: false,
-                    addonNameError: 'border:1px solid #cacaca;',
-                    addonPriceError: 'border:1px solid #cacaca;',
+                    addonNameError: false,
+                    addonPriceError: false,
                 }
             ]
         }
@@ -152,24 +152,24 @@ export default {
             if (type == 'name'){
                 var value = e.target.value;
                 if (value == null || value == ''){
-                    this.addons[i].addonNameError = 'border:1px solid red;';
+                    this.addons[i].addonNameError = true;
                 } else {
                     var addon = this.addons[i];
                     var extending = Object.assign({}, addon, {description: value});
                     Vue.set(this.addons, i, extending);
-                    this.addons[i].addonNameError = 'border:1px solid #cacaca;';
+                    this.addons[i].addonNameError = false;
                 }
             }
 
             if (type == 'price'){
                 var value = e.target.value;
                 if (value == null || value == ''){
-                    this.addons[i].addonPriceError = 'border:1px solid red;';
+                    this.addons[i].addonPriceError = true;
                 } else {
                     var addon = this.addons[i];
                     var extending = Object.assign({}, addon, {cost: value});
                     Vue.set(this.addons, i, extending);
-                    this.addons[i].addonPriceError = 'border:1px solid #cacaca;';
+                    this.addons[i].addonPriceError = false;
                 }
             }
 
