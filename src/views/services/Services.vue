@@ -13,7 +13,7 @@
           <a class="button" href="/service">{{names.addPlan}}</a>
         </div>
         <div v-if="showtable == false && loading == false">
-          <font color="red">{{names.noServicesFount}}</font>
+          <font color="red">{{names.noServicesFound}}</font>
         </div>
         <div v-if="showtable && !loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>

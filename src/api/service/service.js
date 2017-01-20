@@ -183,21 +183,16 @@ export default {
             addOns = findByAddons(event.serviceitems, "addon", "");
             context.addons.splice(0, 1);
             for (let addOn of addOns) {
-              addOn.delete = true;
-              addOn.add = false;
-              context.addons.push(addOn);
-            }
-
-            if (context.addons.length == 0) {
-                context.addAddon = true;
-            } else {
-                context.addons[context.addons.length-1].add = true;
-                context.addAddon = false;
+                addOn.delete = true;
+                addOn.add = false;
+                context.addons.push(addOn);
             }
 
             if (context.addons.length == 0) {
                 context.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
             }
+
+            context.reorderButtons();
 
         }, (response) => {});
     },

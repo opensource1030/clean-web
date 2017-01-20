@@ -20,12 +20,12 @@
                     </div>
                     <div class="large-2 columns">
                       <label>{{names.planCode}}
-                        <inputValidate :title="names.planCodeMessage" :style="errorsStyle.planCodeError" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
+                        <input :title="names.planCodeMessage" :style="errorsStyle.planCodeError" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
                       </label>
                     </div>
                     <div class="large-1 columns">
                       <label>{{names.cost}}
-                        <inputValidate :title="names.costMessage" :style="errorsStyle.costError" type="text" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
+                        <input :title="names.costMessage" type="number" min="0" :style="errorsStyle.costError" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                       </label>
                     </div>
                     <div class="large-2 columns">
@@ -72,7 +72,7 @@
                       </div>
                       <div class="large-4 end columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="domesticPlan.minutes.value || 0" v-model="domesticPlan.minutes.value">
+                          <input type="number" min="0" placeholder="" :value="domesticPlan.minutes.value" v-model="domesticPlan.minutes.value">
                         </label>
                       </div>
                     </div>
@@ -82,7 +82,7 @@
                       </div>
                       <div class="large-4 columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="domesticPlan.data.value || 0" v-model="domesticPlan.data.value">
+                          <input type="number" min="0" placeholder="" :value="domesticPlan.data.value" v-model="domesticPlan.data.value">
                         </label>
                       </div>
                       <div class="large-3 columns">
@@ -99,7 +99,7 @@
                       </div>
                       <div class="large-4 end columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="domesticPlan.sms.value || 0" v-model="domesticPlan.sms.value">
+                          <input type="number" min="0" placeholder="" :value="domesticPlan.sms.value" v-model="domesticPlan.sms.value">
                         </label>
                       </div>
                     </div>
@@ -116,7 +116,7 @@
                       </div>
                       <div class="large-4 end columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="internationalPlan.minutes.value || 0" v-model="internationalPlan.minutes.value">
+                          <input type="number" min="0" placeholder="" :value="internationalPlan.minutes.value" v-model="internationalPlan.minutes.value">
                         </label>
                       </div>
                     </div>
@@ -126,7 +126,7 @@
                       </div>
                       <div class="large-4 columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="internationalPlan.data.value || 0" v-model="internationalPlan.data.value">
+                          <input type="number" min="0" placeholder="" :value="internationalPlan.data.value" v-model="internationalPlan.data.value">
                         </label>
                       </div>
                       <div class="large-3 columns">
@@ -143,7 +143,7 @@
                       </div>
                       <div class="large-4 end columns">
                         <label>{{names.amount}}
-                          <inputValidate type="text" placeholder="" :value="internationalPlan.sms.value || 0" v-model="internationalPlan.sms.value">
+                          <input type="number" min="0" placeholder="" :value="internationalPlan.sms.value" v-model="internationalPlan.sms.value">
                         </label>
                       </div>
                     </div>
@@ -167,7 +167,7 @@
                   </div>
                   <div class="large-2 columns">
                     <label>{{names.amount}}
-                      <inputValidate :style="addon.addonPriceError" :title="names.addonsCostMessage" type="text" placeholder="" :value="addon.cost" v-model="addon.cost" @keyup="updateAddon(index,$event,'price')">
+                      <input :style="addon.addonPriceError" :title="names.addonsCostMessage" type="number" min="0" placeholder="" :value="addon.cost" v-model="addon.cost" @keyup="updateAddon(index,$event,'price')">
                     </label>
                   </div>
                   <div class="large-1 columns">
