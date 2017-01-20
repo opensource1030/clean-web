@@ -28,8 +28,8 @@
             <template v-for="item in allocation.allocations">
               <tr>
                 <td v-html="item.bill_month ? item.bill_month : '0000-00-00'  "> </td>
-                <td v-if="allocation"  v-html="allocation.first_name ? allocation.first_name : '-' "> </td>
-                <td><a  v-bind="{ href: 'tel:'}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' ">{{ item.mobile_number }}</a></td>
+                <td v-if="allocation"  v-html="allocation.firstName ? allocation.firstName : '-' "> </td>
+                <td><a @click="popDetails(item.id)" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' ">{{ item.mobile_number }}</a></td>
                 <td v-html="item.carrier ? item.carrier : '-'  "> </td>
                 <td v-html="item.device ? item.device : '-'  "> </td>
                 <td v-html="item.allocated_charge ? '$'+ item.allocated_charge : '$0' "> </td>
@@ -85,6 +85,7 @@ export default {
     this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]').then((response) => {
       var event = store.sync(response.data);
       this.allocation= event;
+
     }, (response) => {
 
     });
@@ -92,6 +93,13 @@ export default {
   data(){
     return {
       allocation: {}
+    }
+  },
+  methods:{
+
+    popDetails(id){
+         let rowId = id;
+        Event.$emit('applied',rowId);
     }
   }
 }

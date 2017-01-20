@@ -18,7 +18,7 @@ export default {
 
     context.$http.get(process.env.URL_API + '/devices', {
       params: {
-        include: 'modifications,carriers,companies,prices,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications',
         page: pages, /*,filter[][like]:deviceType*/
       },
 
@@ -38,6 +38,7 @@ export default {
         event = store.sync(response.data);
 
         var devices = [];
+        console.log(event);
 
 
         for (let device of event) {
@@ -61,14 +62,20 @@ export default {
           }
 
 
-              if(device.prices == null ){
-                  context.error="Server error"
+              if(device.devicevariations == null ){
+                  context.error="Unexpected error.Please contact the administrator"
                   context.showModal=true;
               }
                   else{
-          for (let price of device.prices) {
+          for (let price of device.devicevariations) {
 
-            for (let company of device.companies) {
+            var max = Math.max(price.priceRetail,price.price1,price.price2,price.priceOwn);
+            device = Object.assign({}, device, {
+              pricemax: max,
+            });
+
+
+            for (let company of price.companies) {
               if (company.id == price.companyId) {
                 price = Object.assign({}, price, {
                   company: company.name,
@@ -77,21 +84,9 @@ export default {
               }
             }
 
-            for (let modification of device.modifications) {
-              if (modification.id == price.styleId) {
-                price = Object.assign({}, price, {
-                  style: modification.value,
-                });
-              } else if (modification.id == price.capacityId) {
-                price = Object.assign({}, price, {
-                  capacity: modification.value,
-                });
 
-              }
 
-            }
-
-            for (let carrier of device.carriers) {
+            for (let carrier of price.carriers) {
               if (carrier.id == price.carrierId) {
                 price = Object.assign({}, price, {
                   carrier: carrier.presentation,
@@ -100,6 +95,8 @@ export default {
               }
 
             }
+
+
 
             device.priceName.push(price);
 
@@ -154,6 +151,22 @@ export default {
       (response) => {
 
       });
+
+      context.$http.get(process.env.URL_API + '/devicevariations', {
+
+        params: {
+          page: 1,
+        },
+
+      }).then((response) => {
+
+         context.filterPrices = response.data.data;
+
+        },
+
+        (response) => {
+
+        });
 
     context.$http.get(process.env.URL_API + '/carriers', {
       params: {
