@@ -135,6 +135,7 @@
       <div class="clearfix"></div>
     </div>
     <spent-Info></spent-Info>
+    <legacy-Info></legacy-Info>
   </div>
 </template>
 
@@ -156,6 +157,7 @@
   import Piechart from './Piechart.vue'
   import Trendchart from './Trendchart.vue'
   import SpentInfo from './SpentInfo.vue'
+  import LegacyInfo from './LegacyInfo.vue'
   export default {
     name: "Dashboard",
     components: {
@@ -166,7 +168,8 @@
       Piechart,
       Trendchart,
       Avatar,
-      SpentInfo
+      SpentInfo,
+      LegacyInfo
     },
 
     computed: {
@@ -373,6 +376,7 @@
         // allocations: [],
         piechartData: [],
         trendchartData: [],
+        LegacyData : ''
       }
     }
   }
