@@ -4,6 +4,7 @@ module.exports = {
   URL: '"http://dev.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
+  LEGACY_URL: '"http://dev.legacy.wirelessanalytics.com"',
   FEATURES: {
     "Procurements": {
         enabled: true,
