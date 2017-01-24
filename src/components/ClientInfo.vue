@@ -34,7 +34,8 @@
       <div class="box-content">
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
-          <a class="button btn-round" @click="requestProvision(client.object.title)">Request a Device or Accessory</a>
+         <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
+            <router-link class="button btn-round" :to="{ name: 'legacyInfo', params: {client: client.object.title.toLowerCase()}}"> Request a Device or Accessory </router-link>
           <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
 
         </div>
@@ -45,53 +46,4 @@
   </div>
   </div>
 </template>
-<script>
-  var {Store} = require('yayson')()
-  var  store = new Store()
-  import auth from './../api/auth'
-  export default {
-    name: "ClientInfo",
-    created(){
-    this.fetchData();
-    },
-    methods:{
-      fetchData : function(){
-        this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
-
-        }).then((response) => {
-
-          var event = store.sync(response.data);
-
-          if(event.companies.length>0){
-
-          var cosmicdata = event.companies[0].contents[0].content;
-
-          this.$http.get(cosmicdata, {
-
-          }).then((response) => {
-
-            this.client= response.data;
-
-
-          });
-        }
-
-
-        });
-      },
-      requestProvision(title){
-        let clientTitle = title.toLowerCase();
-        Event.$emit('provision' , clientTitle);
-      }
-    },
-    data(){
-      return {
-        client: {}
-      }
-    }
-
-  }
-
-
-
-</script>
+<script src="./clientinfo.ctrl.js" lang="babel"> </script>

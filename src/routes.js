@@ -8,6 +8,7 @@ import LoginLocal from './components/LoginLocal.vue'
 //rutes main
 import Dashboard from './components/Dashboard.vue'
 import Sidemenu from './components/Sidemenu.vue'
+import ChargeInfo from './components/ChargeInfo.vue'
 
 //routes devices
 import Devices from './views/devices/Devices.vue'
@@ -25,6 +26,11 @@ import UpdateProfile from './views/employees/UpdateProfile.vue'
 
 //routes Settings
 import Settings from './views/settings/Settings.vue'
+
+//popover
+
+import SpentInfo from './components/SpentInfo.vue'
+import LegacyInfo from './components/LegacyInfo.vue'
 
 /**
  * The routes
@@ -56,7 +62,17 @@ export default [
   meta: {
     requiresAuth: true
   },
-  name: 'dashboard'
+  name: 'dashboard',
+     children : [
+         { path: 'spentinfo/:id',
+             name : 'spentInfo',
+             component: SpentInfo
+         },
+         { path: 'legacyinfo/:client',
+             name : 'legacyInfo',
+             component: LegacyInfo
+         }
+     ]
 }, {
   path: '/sso/:id',
   component: Sso,

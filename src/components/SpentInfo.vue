@@ -5,7 +5,7 @@
     <div class="pop-content" v-if="userInfo">
         <div class="expanded row">
           <div class="columns large-12">
-            <a @click="closePop()" class="button btn-orange pop-close"> <i class="fa fa-arrow-left"> </i> </a>
+            <router-link class="button btn-orange pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> </router-link>
             <ul class="inline-list ">
             <li><strong>Bill Month</strong> <span v-html="allocation.bill_month ? allocation.bill_month : '-' "></span> </li>
             <li><strong>Carrier</strong> <span v-html="allocation.carrier ? allocation.carrier : '-' "> </span> </li>
@@ -220,68 +220,4 @@
 </div>
 </transition>
 </template>
-<script>
-  import auth from './../api/auth'
-  var {Store} = require('yayson')()
-  var    store = new Store()
-
-export default {
-    name: "SpentInfo",
-  beforeCreate() {
-    Event.$on('applied', (id)=>  {
-      this.popOver = true
-      this.id = id;
-      this.$http.get(process.env.URL_API+'/allocations/'+id).then((response) => {
-        var event = store.sync(response.data);
-        this.allocation= event;
-      }, (response) => {
-
-      });
-    });
-  },
-  created(){
-
-    this.$http.get(process.env.URL_API+'/users/'+localStorage.userId).then((response) => {
-      var event = store.sync(response.data);
-      this.userInfo= event;
-    }, (response) => {
-
-    });
-
-
-
-  },
-  mounted () {
-      $(this).foundation();
-
-  },
-  computed:{
-    fullName : function () {
-      return this.userInfo.firstName + " " + this.userInfo.lastName
-    }
-
-  },
-  data(){
-    return {
-      userInfo: {},
-      allocation : {},
-      isActive: true,
-      viewText : 'All',
-      popOver : false,
-      id : ''
-
-    }
-  },
-  methods:{
-    viewToggle(){
-      var el = document.querySelector('.list-striped');
-      el.classList.toggle('all');
-      return this.active ? 'You like this' : 'Like this not'
-    },
-    closePop(){
-       this.popOver = false;
-      this.allocation = '';
-    }
-  }
-}
-</script>
+<script src="./spentinfo.ctrl.js" lang="babel"></script>
