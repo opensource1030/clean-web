@@ -1,5 +1,4 @@
 export default function supportRequest(user){
-        $(document).foundation();
         $('.eq-Hght').matchHeight({
             byRow: true,
             property: 'height',

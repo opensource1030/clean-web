@@ -68,6 +68,9 @@ export default {
                 }).then((response) => {
                     this.data= response.data;
                     setTimeout(supportRequest(this.user),300);
+                    setTimeout( function(){
+                        $(document).foundation(),400
+                    });
                 });
             }
 
