@@ -78,24 +78,10 @@
     }
     &.coming-soon{
       position: relative;
-      &:before{
-        background: transparentize($smoke,.1);
-        content: none;
-        font-size: 25px;
-        font-weight: 600;
-        height: 100%;
-        left: 0;
-        line-height: 300px;
-        padding-top: 0;
-        position: absolute;
-        text-align: center;
-        text-shadow: 0 0 5px #fff;
-        text-transform: uppercase;
-        top: 0;
-        width: 100%;
-        z-index: 5;
+      min-height: 350px;
+      .tabs-content{
+        border:none;
       }
-
       .pie-chart-title {
         font-weight: 600;
       }
@@ -740,6 +726,11 @@ a.btn-provision:hover .support-form-holder{
     padding: 0.7rem 0.7rem 6rem;
     height: 100%;
     overflow: auto;
+    .pop-heading{
+      float: left;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
   }
   &.visible{
     display: block;
@@ -798,7 +789,19 @@ a.btn-provision:hover .support-form-holder{
 }
 .pop-close{
   float: right;
-  padding: 0.5em 0.6em;
+  @include css3(box-shadow, 0 0 5px $gainsboro);
+  font-size: 1.2rem;
+  background: transparent;
+  border:1px $brand-orange solid;
+  color:$black;
+  padding: 0 0.5rem 0 0;
+  .fa{
+    padding: 0.5em;
+    color: $white;
+    background: $brand-orange;
+    margin-right: 0.2rem;
+
+  }
 }
 .btn-orange{
   background: $brand-orange;
@@ -842,4 +845,14 @@ a.btn-provision:hover .support-form-holder{
     }
   }
 
+}
+#legacy-info{
+  #header{
+    display: none;
+  }
+  border:none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow:auto;
 }
