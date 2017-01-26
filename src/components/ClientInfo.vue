@@ -35,7 +35,7 @@
         <div class="box-content-holder">
         <div class="action-button" id="action-buttons">
          <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
-            <router-link class="button btn-round" :to="{ name: 'legacyInfo', params: {client: client.object.title.toLowerCase()}}"> Request a Device or Accessory </router-link>
+            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Request a Device or Accessory </router-link>
           <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
 
         </div>

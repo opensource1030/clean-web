@@ -64,11 +64,11 @@ export default [
   },
   name: 'dashboard',
      children : [
-         { path: 'spentinfo/:id',
+         { path: 'charge/:id',
              name : 'spentInfo',
              component: SpentInfo
          },
-         { path: 'legacyinfo/:client',
+         { path: 'procurement/',
              name : 'legacyInfo',
              component: LegacyInfo
          }

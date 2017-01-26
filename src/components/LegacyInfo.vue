@@ -6,7 +6,8 @@
     <div class="pop-content" v-if="token">
         <div class="expanded row">
           <div class="columns large-12">
-              <router-link class="button btn-orange pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> </router-link>
+              <h1 class="pop-heading">  Request a Device or Accessory </h1>
+                  <router-link @click="closePop()" class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
 
             <hr class="hr-cln">
 

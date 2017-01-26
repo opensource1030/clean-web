@@ -5,7 +5,7 @@
     <div class="pop-content" v-if="userInfo">
         <div class="expanded row">
           <div class="columns large-12">
-            <router-link class="button btn-orange pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> </router-link>
+            <router-link class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
             <ul class="inline-list ">
             <li><strong>Bill Month</strong> <span v-html="allocation.bill_month ? allocation.bill_month : '-' "></span> </li>
             <li><strong>Carrier</strong> <span v-html="allocation.carrier ? allocation.carrier : '-' "> </span> </li>
@@ -73,7 +73,7 @@
               <div class="box-content">
                 <div class="box-content-holder">
                   <h6>Action for this line: </h6>
-                  <select class="user-actions" >
+                  <select id="choose-issues" class="user-actions " >
                     <option disabled value=" " selected>-- Choose an issue ---</option>
                     <option value="hd-trobleshooting">Troubleshooting</option>
                     <option value="hd-plan-change">Plan Change</option>

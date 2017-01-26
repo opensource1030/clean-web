@@ -29,7 +29,7 @@
               <tr>
                 <td v-html="item.bill_month ? item.bill_month : '0000-00-00'  "> </td>
                 <td v-if="allocation"  v-html="allocation.firstName ? allocation.firstName : '-' "> </td>
-                <td> <router-link   :to="{ name: 'spentInfo', params: {id: item.id}}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' " > {{ item.mobile_number }}  </router-link>
+                <td> <router-link class="alloc_mblnumber"   :to="{ name: 'spentInfo', params: {id: item.id}}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' " > {{ item.mobile_number }}  </router-link>
                 </td>
                 <td v-html="item.carrier ? item.carrier : '-'  "> </td>
                 <td v-html="item.device ? item.device : '-'  "> </td>

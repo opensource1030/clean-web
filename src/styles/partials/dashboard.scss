@@ -726,6 +726,11 @@ a.btn-provision:hover .support-form-holder{
     padding: 0.7rem 0.7rem 6rem;
     height: 100%;
     overflow: auto;
+    .pop-heading{
+      float: left;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
   }
   &.visible{
     display: block;
@@ -784,7 +789,19 @@ a.btn-provision:hover .support-form-holder{
 }
 .pop-close{
   float: right;
-  padding: 0.5em 0.6em;
+  @include css3(box-shadow, 0 0 5px $gainsboro);
+  font-size: 1.2rem;
+  background: transparent;
+  border:1px $brand-orange solid;
+  color:$black;
+  padding: 0 0.5rem 0 0;
+  .fa{
+    padding: 0.5em;
+    color: $white;
+    background: $brand-orange;
+    margin-right: 0.2rem;
+
+  }
 }
 .btn-orange{
   background: $brand-orange;

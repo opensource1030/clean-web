@@ -5,7 +5,6 @@ import Employee from './../../models/Employee';
 var {Store} = require('yayson')();
 var store = new Store();
 
-
 export default {
 
   dataEmployee(context) {
