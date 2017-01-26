@@ -26,19 +26,16 @@ export default {
       context.loading=false;
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
-        let prices = filterByFilters(response.data.included, 'prices');
-        context.filterPrice = prices;
-        /*  let modifications=    filterByFilters(response.data.included,'modifications');
-          context.filterModifications=modifications;
-            let deviceTypes=    filterByFilters(response.data.included,'devicetypes');
-          context.filterDeviceType=deviceTypes;
-              let carriers=    filterByFilters(response.data.included,'carriers');
-                context.filterCarriers=carriers;*/
-
         event = store.sync(response.data);
 
+        if(event.length==0){
+          context.error="No data content"
+          context.showModal=true;
+        }
+
+
         var devices = [];
-        console.log(event);
+
 
 
         for (let device of event) {
@@ -56,7 +53,7 @@ export default {
               show: false,
               hide: true,
               priceName: [],
-              image: './../assets/logo.png'
+              image: '/assets/img/logo.a521535.png'
 
             });
           }
@@ -114,6 +111,8 @@ export default {
       },
 
       (response) => {
+        context.error=response;
+        context.showModal=true;
 
       });
   },
@@ -127,8 +126,8 @@ export default {
       },
 
     }).then((response) => {
-
-        context.filterDeviceType = response.data.data;
+                event = store.sync(response.data);
+        context.filterDeviceType = event;
 
       },
 
@@ -143,8 +142,8 @@ export default {
       },
 
     }).then((response) => {
-
-        context.filterModifications = response.data.data;
+                    event = store.sync(response.data);
+        context.filterModifications = event;
 
       },
 
@@ -159,8 +158,8 @@ export default {
         },
 
       }).then((response) => {
-
-         context.filterPrices = response.data.data;
+                  event = store.sync(response.data);
+         context.filterPrices = event;
 
         },
 
@@ -174,8 +173,8 @@ export default {
         'filter[active]': 1,
       },
     }).then((response) => {
-
-        context.filterCarriers = response.data.data;
+              event = store.sync(response.data);
+        context.filterCarriers = event;
       },
 
       (response) => {});

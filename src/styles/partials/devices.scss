@@ -1,5 +1,9 @@
 @import "../base/clean-variables";
 #tables{
+  .filterBy{
+    display: inline-block;
+
+  }
 .details {
     display: -webkit-flex;
     display: flex;
@@ -12,6 +16,7 @@
         flex-grow: 0;
         flex-basis: 13.2%;
     }
+
 
     .child:nth-of-type(1) {
         -webkit-flex-basis: 7.9%;
@@ -108,7 +113,7 @@
 
     .accordion-title:focus,
     .accordion-title:hover {
-        background-color: #F4A536!important;
+        background-color: rgb(255, 138, 60)!important;
         color: black;
     }
 

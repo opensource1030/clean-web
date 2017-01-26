@@ -2,8 +2,8 @@ import Vue from 'vue';
 import auth from './../auth.js';
 import Device from './../../models/Device'
 import {filterByFilters} from './../../components/filters.js';
-var {Store} = require('yayson')();
-var store = new Store();
+const {Store} = require('yayson')();
+const store = new Store();
 
 export default {
   /*-------------------------------update device-----------------*/
@@ -48,9 +48,14 @@ export default {
     }).then((response) => {
 
       event = store.sync(response.data);
-
+        if(event.images!=null && event.images.length>0 ){
       context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
       context.image.id = event.images[0].id;
+    }
+    else{
+      context.image.url ='/assets/img/logo.a521535.png';
+    }
+
       context.id=id;
 
       context.d.name = event.name;
@@ -62,15 +67,19 @@ export default {
       context.d.type = event.devicetypes[0].id;
       context.d.make = event.make;
       context.d.model = event.model;
+
       this.carrierCheck(context, filterByFilters(response.data.included, 'carriers'));
       context.carriers = this.carriersCheck;
       context.vCarriers = this.carriersCheck;
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
+      if(event.modifications!=null && event.modifications>0){
       this.modificationCheck(context, event.modifications);
       context.modifications = this.modificationsCheck;
+    }
+        if(event.devicevariations!=null && event.devicevariations>0){
       context.priceData = event.devicevariations;
-
+}
       context.checkcarrier();
 
     }, (response) => {});
@@ -168,7 +177,7 @@ export default {
         include: 'images'
       }
     }).then((response) => {
-      event = store.sync(response.data);
+    let   event = store.sync(response.data);
       console.log(event);
 
       //process.env.URL_API

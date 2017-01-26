@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
+import Multiselect from './../../components/Multiselect.vue';
 import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
 import devices from './../../api/device/devices';
 import modal from './../../components/modal.vue';
@@ -8,7 +9,8 @@ export default {
 
   components : {
     pagination: Pagination,
-    modal:modal
+    modal:modal,
+    Multiselect:Multiselect
   },
   beforeCreate() {
 
@@ -24,7 +26,9 @@ export default {
       devices.getDevices(this, this.pagination.current_page);
 
     },
-
+    updateSelected (newSelected) {
+     this.selected = newSelected
+   },
     filterByCarrier,
 
     setActive: function(index) {
@@ -59,13 +63,12 @@ export default {
         per_page: 25
       },
       filterCarriers: [],
-      type: '',
-      manufactured: '',
-      os: '',
-      carrier: '',
-      capacity: '',
-      style: '',
-      price: '',
+      type: [],
+      manufactured: [],
+      carrier: [],
+      capacity: [],
+      style: [],
+      price: [],
       loading: true,
       loadtable: false,
       error:'',

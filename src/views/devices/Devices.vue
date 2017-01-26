@@ -22,48 +22,68 @@
                 <tr>
                   <th >
                   </th>
-                  <th  width="160px"><select class="form-control" v-model="type" >
-                    <option value="" type>Device Type</option>
-                    <option v-for="item in filterDeviceType" :key="item.id" :value="item.attributes.name" >{{item.attributes.name}}</option>
-
-                  </select></th>
+                  <th  width="160px">
+      <multiselect
+      :field="'Device Type'"
+      :options="filterDeviceType"
+      :value.sync="type"
+      :labelAttr="'name'"
+       >
+    </multiselect>
+  </th>
                   <th width="180px" >
-                    <select class="form-control" v-model="manufactured" >
-                      <option value="" manufactured>Manufactured</option>
-                      <option v-for="item in devices"  :value="item.make">{{item.make}}</option>
+                    <multiselect
+                      :field="'Manufactured'"
+                      :options="devices"
+                      :value.sync="manufactured"
+                      :labelAttr="'make'"
+                       >
+                    </multiselect> </th>
+                    <th width="100px">
+                      <multiselect
+                        :field="'Price'"
+                        :options="devices"
+                        :value.sync="price"
+                        :labelAttr="'defaultPrice'"
+                         >
+                      </multiselect>
 
-                    </select> </th>
-                    <th width="100px"><select class="form-control" v-model="price" >
-                      <option value="" price>Price</option>
-                      <option v-for="item in devices"  :value="item.defaultPrice">{{item.defaultPrice}}</option>
-
-                    </select>
-                    <th ><select class="form-control" v-model="carrier" >
-                      <option value="" carrier>Carrier</option>
-                      <option v-for="item in filterCarriers"  :value="item.attributes.presentation">{{item.attributes.presentation}}</option>
-
-                    </select></th>
-                    <th width="160px"><select class="form-control" v-model="capacity" >
-                      <option value="" capacity>Capacity</option>
-                      <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.attributes.value">{{item.attributes.value}}</option>
-
-                    </select></th>
-                    <th ><select class="form-control" v-model="style" >
-                      <option value="" style>Style</option>
-                      <option v-for="item in filterByModifications(filterModifications,'style')"  :value="item.attributes.value">{{item.attributes.value}}</option>
-
-                    </select></th>
+                    </th>
+                    <th >  <multiselect
+                        :field="'Carrier'"
+                        :options="filterCarriers"
+                        :value.sync="carrier"
+                        :labelAttr="'presentation'"
+                         >
+                      </multiselect>
+                    </th>
+                    <th width="160px">
+                      <multiselect
+                        :field="'Capacity'"
+                        :options="filterByModificationsd(filterModifications,'capacity')"
+                        :value.sync="capacity"
+                        :labelAttr="'value'"
+                         >
+                      </multiselect>
+                    </th>
+                    <th >  <multiselect
+                        :field="'Style'"
+                        :options="filterByModificationsd(filterModifications,'capacity')"
+                        :value.sync="style"
+                        :labelAttr="'value'"
+                         >
+                      </multiselect></th>
                   </tr>
                 </thead>
                 <tbody v-show="loadtable" >
                   <tr class="filter">
                     <td><div></div></td>
-                    <td><div>{{type}}</div></td>
-                    <td ><div>{{manufactured}}</div></td>
-                    <td  ><div>{{price}}</div></td>
-                    <td ><div>{{carrier}}</div></td>
-                    <td ><div>{{capacity}}</div></td>
-                    <td  ><div>{{style}}</div></td>
+                    <td><div v-for="t in type" class="filterBy" >{{t.name}} ,</div></td>
+                    <td ><div v-for="manu in manufactured" class="filterBy">{{manu.make}} ,</div></td>
+                    <td  ><div v-for="p in price" class="filterBy"  >{{p.defaultPrice}} ,</div></td>
+                    <td ><div  v-for="c in carrier" class="filterBy" >{{c.presentation}}  ,</div></td>
+                    <td ><div  v-for="capa in capacity" class="filterBy" >{{capa.value}}  ,</div></td>
+                    <td  ><div v-for="sty in style" class="filterBy" >{{sty.value}} ,</div></td>
                   </tr>
                 </tbody>
                 <tbody  v-for="(device, index) in devices"  >
