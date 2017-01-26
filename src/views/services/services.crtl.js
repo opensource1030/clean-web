@@ -1,24 +1,24 @@
 import Vue from 'vue';
-import Pagination from './../../components/pagination';
-import {filterByModificationsd, filterByModifications, filterByCarrier, findByService} from './../../components/filters.js';
+import pagination from './../../components/pagination';
+import {findByService, orderFilters} from './../../components/filters.js';
 import services from './../../api/service/services';
 import modal from './../../components/modal.vue';
 
 export default {
     name : 'Services',
     components : {
-        pagination: Pagination,
-        modal: modal
+        pagination,
+        modal
     },
     methods : {
-        filterByModificationsd,
-        filterByModifications,
         findByService,
+        orderFilters,
 
         loadData() {
             services.getServices(this, this.pagination.current_page);
+            services.getCarriers(this);
         },
-        filterByCarrier,
+        
         setActive: function(index) {
             this.active = index;
             this.services[this.active].hide = !this.services[this.active].hide;
@@ -26,23 +26,58 @@ export default {
                 this.services[this.active].show = false;
             } else {
                 this.services[this.active].show = true;
-                for (var i = 0; i < this.services.length; i++) {
+                for (let i = 0; i < this.services.length; i++) {
                     if (this.services[this.active].id != this.services[i].id) {
                         this.services[i].show = false;
                     }
                 }
             }
+        },
+        onSelectColumn: function() {
+            services.getServices(this, this.pagination.current_page);
+        },
+        setActiveCostOptions: function() {
+            if(this.search.searchShow){
+                this.search.searchShow = false;
+            } else {
+                this.search.searchShow = true;
+            }
+        },
+        searchCost: function() {
+            if(this.search.costMin <= this.search.costMax) {
+                this.search.errorCost = false;
+                this.search.searchShow = false;
+                this.search.searchFilter = true;
+                this.onSelectColumn();
+            } else {
+                this.search.errorCost = true;
+            }
+            
+        },
+        resetValuesCost: function() {
+            this.search.costMin = 0;
+            this.search.costMax = 0;
+            this.search.errorCost = false;
         }
     },
     data() {
         return {
             active: 0,
+            firstTime: true,
             services: [],
-            filterStatus: [],
-            filterPlans: [],
-            filterCodePlan: [],
-            filterCarriers: [],
-            filterCost: [],
+            loading: true,
+            showtable: false,
+            showModal: false,
+            loadpagination: false,
+            errorNotFound:false,
+            filter : {
+                status: [],
+                plans: [],
+                details: [],
+                codePlan: [],
+                carriers: [],
+                cost: [],
+            },
             pagination: {
                 current_page: 1,
                 total_pages: null,
@@ -50,18 +85,15 @@ export default {
                 total: null,
                 per_page: 25
             },
-            status: '',
-            plans: '',
-            codePlan: '',
-            carriers: '',
-            cost: '',
-            details: '',
-            carrier: '',
-            loading: true,
-            showtable: false,
-            showModal: false,
-            loadpagination: false,
-            errorNotFound:false,
+            values: {
+                status: '',
+                plans: '',
+                codePlan: '',
+                carriers: '',
+                cost: '',
+                details: '',
+                carrier: '',                
+            },
             names: {
                 servicePlans: 'Service Plans',
                 addPlan: 'Add Plan',
@@ -78,10 +110,78 @@ export default {
                 intData: 'International Data',
                 intSms: 'International SMS',
                 managePlanButton: 'Manage Plan',
-                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan.',
-                noCarrierFound: 'No Carrier Found. Please, Contact with the Administrator.',
-                noServiceItemFound: 'No ServiceItem Found. Please, Contact with the Administrator.'
-            }
-        };
+                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan.'                
+            },
+            search: {
+                firstTime: true,
+                errorCost: false,
+                errorCostMessage: 'MIN > MAX',
+                searchShow: false,
+                searchName: 'Search',
+                resetName: 'R',
+                costMinName: 'MIN Cost',
+                costMin: 0,
+                costMaxName: 'MAX Cost',
+                costMax: 0,
+                searchFilter: false,
+                costFilterMessage: '',
+            },
+            defaultServiceItems: [
+                {
+                    category: "voice",
+                    domain: "domestic",
+                    type: "service_items",
+                    unit: "minutes",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                },
+                {
+                    category: "data",
+                    domain: "domestic",
+                    type: "service_items",
+                    unit: "Gb",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                },
+                {
+                    category: "messaging",
+                    domain: "domestic",
+                    type: "service_items",
+                    unit: "messages",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                },
+                {
+                    category: "voice",
+                    domain: "international",
+                    type: "service_items",
+                    unit: "minutes",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                },
+                {
+                    category: "data",
+                    domain: "international",
+                    type: "service_items",
+                    unit: "Gb",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                },
+                {
+                    category: "messaging",
+                    domain: "international",
+                    type: "service_items",
+                    unit: "messages",
+                    value: 0,
+                    description: '',
+                    cost: 0,
+                }
+            ]
+        }
     }
-};
+}
