@@ -3,74 +3,84 @@
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
-        <div class="small-12 columns titles">
+        <div class="large-12 columns titles">
           <h4>{{names.servicePlans}}<h4>
         </div>
-        <div class="small-12 columns">
+        <div class="large-4 columns">
           <a class="button" href="/service">{{names.addPlan}}</a>
         </div>
-        <div v-if="errorNotFound">
-          <font color="red">
-            {{names.noServiceFound}}<br>
-            {{names.noCarrierFound}}<br>
-            {{names.noServiceItemFound}}<br>
-          </font>
+        <div class="large-4 columns end search-cost" v-show="search.searchShow">
+          <div class="large-4 columns" >
+            <label>{{search.costMinName}}
+              <input v-bind:class="{ 'search-input' : true, 'error-input': search.errorCost }" :value="search.costMin" v-model="search.costMin" title="The minimum cost of the Services listed below." type="number" min="0" placeholder="">
+            </label>
+          </div>
+          <div class="large-4 columns">
+            <label>{{search.costMaxName}}
+              <input v-bind:class="{ 'search-input' : true, 'error-input': search.errorCost }"  :value="search.costMax" v-model="search.costMax" title="The maximum cost of the Services listed below." type="number" min="0" placeholder="">
+            </label>
+          </div>
+          <div class="large-3 columns">
+            <a class="special-button" @click="searchCost()">{{search.searchName}}</a>
+          </div>
+          <div class="large-1 end columns">
+            <a class="special-button" @click="resetValuesCost()">{{search.resetName}}</a>
+          </div>
+          <div v-if="search.errorCost" class="error-message">{{search.errorCostMessage}}
+          </div>
         </div>
         <div v-if="showtable && !loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>
             <thead>
               <tr>
                 <th>
-                  <select class="form-control" v-model="status">
-                    <option value="" type>{{names.status}}</option>
-                    <!--<option v-for="item in filterDeviceType" :key="item.id" :value="item.id">{{item.attributes.class}}</option>-->
+                  <select @click="onSelectColumn()" class="form-control" v-model="values.status">
+                    <option value="" values.status>{{names.status}}</option>
+                    <option v-for="item in filter.status" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select class="form-control" v-model="plans">
-                    <option value="" manufactured>{{names.plans}}</option>
-                    <!--<option v-for="item in filterDeviceType" :value="item.id">{{item.attributes.make}}</option>-->
+                  <select @click="onSelectColumn()" class="form-control" v-model="values.plans">
+                    <option value="" values.plans>{{names.plans}}</option>
+                    <option v-for="item in filter.plans" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select class="form-control" v-model="details">
-                    <option value="" price>{{names.details}}</option>
-                    <!--<option v-for="ite in filterPrice" :value="item.id">{{item.attributes.price1}}</option>-->
+                  <select @click="onSelectColumn()" class="form-control" v-model="values.details">
+                    <option value="" values.details>{{names.details}}</option>
+                    <option v-for="item in filter.details" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select class="form-control" v-model="codePlan">
-                    <option value="" os>{{names.planCode}}</option>
-                    <!--<option v-for="item in filterDeviceType" :value="item.id">{{item.attributes.deviceOS}}</option>-->
+                  <select @click="onSelectColumn()" class="form-control" v-model="values.codePlan">
+                    <option value="" values.codePlan>{{names.planCode}}</option>
+                    <option v-for="item in filter.codePlan" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select class="form-control" v-model="carrier">
-                    <option value="" carrier>{{names.carrier}}</option>
-                    <!--<option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>-->
+                  <select @click="onSelectColumn()" class="form-control" v-model="values.carrier">
+                    <option value="" values.carrier>{{names.carrier}}</option>
+                    <option v-for="item in filter.carriers" :value="item">{{item.presentation}}</option>
                   </select>
                 </th>
                 <th>
-                  <select class="form-control" v-model="cost">
-                    <option value="" capacity>{{names.cost}}</option>
-                    <!--<option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>-->
-                  </select>
+                  <div position:relative class="especial" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr class="filter">
-                <td><div>{{status}}</div></td>
-                <td><div>{{plans}}</div></td>
-                <td><div>{{details}}</div></td>
-                <td><div>{{codePlan}}</div></td>
-                <td><div>{{carrier}}</div></td>
-                <td><div>{{cost}}</div></td>
+                <td><div>{{values.status}}</div></td>
+                <td><div>{{values.plans}}</div></td>
+                <td><div>{{values.details}}</div></td>
+                <td><div>{{values.codePlan}}</div></td>
+                <td><div>{{values.carrier.presentation}}</div></td>
+                <td><div v-if="search.searchFilter">{{search.costFilterMessage}}</div></td>
               </tr>
             </tbody>
+            <div v-if="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
             <tbody v-for="(service, index) in services">
               <tr :class="{'active': service.show,'desactive': service.show}" @click="setActive(index)">
-                <!--<td><a v-bind="{ href: '/device/'+device.id}">Manage</a></td>-->
                 <td valign="top" v-if="service.status == 'Enabled'" class="textbold">{{service.status}}</td>
                 <td valign="top" v-if="service.status == 'Disabled'" >{{service.status}}</td>
                 <td valign="top">

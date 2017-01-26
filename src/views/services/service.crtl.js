@@ -88,26 +88,48 @@ export default {
             },
             domesticPlan: {
                 minutes: {
-                    value: ''
+                    id : 0,
+                    domain: "domestic",
+                    category: "voice",
+                    value: 0,
+                    unit: "minutes",
                 },
                 data: {
-                    value: '',
-                    unit: '',
+                    id : 0,
+                    domain: "domestic",
+                    category: "voice",
+                    value: 0,
+                    unit: 'Gb',
                 },
                 sms: {
-                    value: ''
+                    id : 0,
+                    domain: "domestic",
+                    category: "voice",
+                    value: 0,
+                    unit: "messages",
                 }
             },
             internationalPlan: {
                 minutes: {
-                    value: ''
+                    id : 0,
+                    domain: "international",
+                    category: "voice",
+                    value: 0,
+                    unit: "minutes",
                 },
                 data: {
-                    value: '',
-                    unit: '',
+                    id : 0,
+                    domain: "international",
+                    category: "data",
+                    value: 0,
+                    unit: 'Gb',
                 },
                 sms: {
-                    value: ''
+                    id : 0,
+                    domain: "international",
+                    category: "messaging",
+                    value: 0,
+                    unit: "messages",
                 }
             },
             carriers: [],
@@ -150,24 +172,24 @@ export default {
         },
         updateAddon(i, e, type) {
             if (type == 'name'){
-                var value = e.target.value;
+                let value = e.target.value;
                 if (value == null || value == ''){
                     this.addons[i].addonNameError = true;
                 } else {
-                    var addon = this.addons[i];
-                    var extending = Object.assign({}, addon, {description: value});
+                    let addon = this.addons[i];
+                    let extending = Object.assign({}, addon, {description: value});
                     Vue.set(this.addons, i, extending);
                     this.addons[i].addonNameError = false;
                 }
             }
 
             if (type == 'price'){
-                var value = e.target.value;
+                let value = e.target.value;
                 if (value == null || value == ''){
                     this.addons[i].addonPriceError = true;
                 } else {
-                    var addon = this.addons[i];
-                    var extending = Object.assign({}, addon, {cost: value});
+                    let addon = this.addons[i];
+                    let extending = Object.assign({}, addon, {cost: value});
                     Vue.set(this.addons, i, extending);
                     this.addons[i].addonPriceError = false;
                 }
