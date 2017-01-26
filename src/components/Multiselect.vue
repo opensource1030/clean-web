@@ -1,104 +1,83 @@
 <template>
-  <div
-  :class="{ 'multiselect--active': isOpen}"
-
- @focus="activate()"
-   class="multiselect"
-   >
-      <div  class="multiselect__select"  @mousedown.prevent="toggle()"></div>
-      <div ref="tags" class="multiselect__tags" @mousedown.prevent="toggle()">
-        <span >
+<div :class="{ 'multiselect--active': isOpen}" @focus="activate()" class="multiselect">
+  <div class="multiselect__select" @mousedown.prevent="toggle()"></div>
+  <div ref="tags" class="multiselect__tags" @mousedown.prevent="toggle()">
+    <span>
           {{field}}
         </span>
-      </div>
-      <transition name="multiselect">
-        <ul
-          v-show="isOpen"
-          transition="multiselect"
+  </div>
+  <transition name="multiselect">
+    <ul v-show="isOpen" transition="multiselect" class="multiselect__content">
+      <input ref="search" type="text" v-model="search" @focus.prevent="activate()" @blur.prevent="deactivate()" @keyup.esc="deactivate()" autocomplete="off" :placeholder="placeholder" class="multiselect__input" />
 
-          class="multiselect__content">
-          <input
-            ref="search"
-            type="text"
-            v-model="search"
-            @focus.prevent="activate()"
-            @blur.prevent="deactivate()"
-            @keyup.esc="deactivate()"
-            autocomplete="off"
-            :placeholder="placeholder"
-            class="multiselect__input"/>
+      <li v-if="search==''" class="multiselect__element">
 
-            <li  v-if="search==''" class="multiselect__element" >
 
-              <span  v-if="labelAttr==null"  tabindex="0" v-for="(option,index) in options" :key="index"    class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  @mousedown.prevent="select(option,index)" >
+        <span v-if="labelAttr==null" tabindex="0" v-for="(option,index) in options" :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" @mousedown.prevent="select(option,index)">
                 {{option}}
 
               </span>
-              <span  v-if="labelAttr!=null && labelAttr!=''"  tabindex="0" v-for="(option,index) in options" :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  @mousedown.prevent="select(option,index)" >
+        <span v-if="labelAttr!=null && labelAttr!=''" tabindex="0" v-for="(option,index) in options" :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" @mousedown.prevent="select(option,index)">
+
                 {{option[labelAttr]}}
 
               </span>
-                </li>
-                  <li  v-else class="multiselect__element" >
-              <span v-if="labelAttr==null" v-for="(option,index) in filteroptions(options,search) " :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  :value="option"  @mousedown.prevent="select(option,index)" >
+      </li>
+      <li v-else class="multiselect__element">
+
+        <span v-if="labelAttr==null" v-for="(option,index) in filteroptions(options,search) " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" :value="option" @mousedown.prevent="select(option,index)">
                 {{option}}
 
               </span>
-              <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filteroptions(options,search) " :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }"  :value="option"  @mousedown.prevent="select(option,index)" >
+        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filteroptions(options,search) " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
+
                 {{option[labelAttr]}}
 
               </span>
-                </li>
+      </li>
 
-       <li v-if="filteroptions(options,search).length==0" >
-            <span class="multiselect__option">
+
+      <li v-if="filteroptions(options,search).length==0">
+
+        <span class="multiselect__option">
               <slot name="noResult">No elements found. Consider changing the search query.</slot>
             </span>
-          </li>
-        </ul>
-      </transition>
-  </div>
+      </li>
+    </ul>
+  </transition>
+</div>
 </template>
 
 <script>
- import multiselectMixin from './multiselectMixin'
-  export default {
-      mixins: [multiselectMixin],
-    name: 'vue-multiselect',
-    props: {
-      placeholder: {
-    type: String,
-    default: 'Search Option'
+import multiselectMixin from './multiselectMixin'
+export default {
+  mixins: [multiselectMixin],
+  name: 'vue-multiselect',
+  props: {
+    placeholder: {
+      type: String,
+      default: 'Search Option'
+    },
   },
-
-
-
-
-
-    },
-    computed: {
-
-    },
-    data(){
-      return{
-
-
-      }
+  computed: {
+  },
+  data() {
+    return {
     }
   }
+}
 </script>
 
 <style>
-
- .actives  {
-		background: #FF690A;
-		color: #333;
-	}
-  .highlight .multiselect__option,
-  .multiselect__option:hover  {
-  		background: #FF690A;
-  		color: #333;
-  	}
+.actives {
+  background: #FF690A;
+  color: #333;
+}
+.highlight .multiselect__option,
+.multiselect__option:hover {
+  background: #FF690A;
+  color: #333;
+}
 .multiselect,
 .multiselect__input,
 .multiselect__single {
@@ -121,7 +100,6 @@
 .multiselect:focus {
   outline: none;
 }
-
 .multiselect--active {
   z-index: 50;
   cursor: pointer;
@@ -156,8 +134,8 @@
   box-sizing: border-box;
   margin-bottom: 8px;
 }
-.multiselect__tag ~ .multiselect__input,
-.multiselect__tag ~ .multiselect__single {
+.multiselect__tag~.multiselect__input,
+.multiselect__tag~.multiselect__single {
   width: auto;
 }
 .multiselect__input:hover,
@@ -212,7 +190,10 @@
   color: #266d4d;
   font-size: 14px;
 }
-.multiselect__tag-icon:focus,
+.multiselect__tags span {
+  color: #FF690A;
+}
+ .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
   background: #369a6e;
 }
@@ -376,7 +357,11 @@
   opacity: 0;
 }
 @keyframes spinning {
-  from { transform:rotate(0) }
-  to { transform:rotate(2turn) }
+  from {
+    transform: rotate(0)
+  }
+  to {
+    transform: rotate(2turn)
+  }
 }
 </style>

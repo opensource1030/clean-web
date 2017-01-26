@@ -30,7 +30,7 @@ export default {
         context.$router.push({name: 'devices'});
 
       }, (response) => {
-        context.message = "code error    "+response.status;
+        context.message = "code error    " + response.status;
         context.showModal = true;
       });
     }
@@ -40,25 +40,23 @@ export default {
   getDataDevice(context, id) {
     let params = {
       params: {
-        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images',
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images'
       }
     };
-    if (context.companyFilter !== "" || context.companyFilter!=null ) {
-        params.params['filter[name][like]'] = context.companyFilter;
+    if (context.companyFilter !== "" || context.companyFilter != null) {
+      params.params['filter[name][like]'] = context.companyFilter;
     }
-    context.$http.get(process.env.URL_API + '/devices/' + id, params  ).then((response) => {
+    context.$http.get(process.env.URL_API + '/devices/' + id, params).then((response) => {
 
       event = store.sync(response.data);
+      if (event.images != null && event.images.length > 0) {
+        context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
+        context.image.id = event.images[0].id;
+      } else {
+        context.image.url = '/assets/img/logo.a521535.png';
+      }
 
-        if(event.images!=null && event.images.length>0 ){
-      context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
-      context.image.id = event.images[0].id;
-    }
-    else{
-      context.image.url ='/assets/img/logo.a521535.png';
-    }
-
-      context.id=id;
+      context.id = id;
 
       context.d.name = event.name;
       context.d.description = event.properties;
@@ -76,13 +74,13 @@ export default {
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
 
-      if(event.modifications!=null && event.modifications.length>0){
-      this.modificationCheck(context, event.modifications);
-      context.modifications = this.modificationsCheck;
-    }
-        if(event.devicevariations!=null && event.devicevariations.length>0){
-      context.priceData = event.devicevariations;
-}
+      if (event.modifications != null && event.modifications.length > 0) {
+        this.modificationCheck(context, event.modifications);
+        context.modifications = this.modificationsCheck;
+      }
+      if (event.devicevariations != null && event.devicevariations.length > 0) {
+        context.priceData = event.devicevariations;
+      }
       context.checkcarrier();
 
     }, (response) => {});
@@ -151,13 +149,12 @@ export default {
       params: {
         page: page,
 
-         /*,filter[][like]:deviceType*/
+        /*,filter[][like]:deviceType*/
       }
     };
-    if (context.companyFilter !== "" || context.companyFilter!=null ) {
-        params.params['filter[name][like]'] = context.companyFilter;
+    if (context.companyFilter !== "" || context.companyFilter != null) {
+      params.params['filter[name][like]'] = context.companyFilter;
     }
-
 
     context.$http.get(process.env.URL_API + '/devicetypes', {
 
@@ -194,7 +191,7 @@ export default {
         include: 'images'
       }
     }).then((response) => {
-    let   event = store.sync(response.data);
+      let event = store.sync(response.data);
       console.log(event);
 
       //process.env.URL_API
@@ -209,8 +206,7 @@ export default {
       context.carriers.data = event;
     }, (response) => {});
 
-    context.$http.get(process.env.URL_API + '/companies', params
-  ).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies', params).then((response) => {
       context.pagination = response.data.meta.pagination;
       for (let company of response.data.data) {
 
@@ -222,8 +218,6 @@ export default {
       context.companies = response.data;
 
     }, (response) => {});
-
-
 
   },
 
@@ -289,7 +283,7 @@ export default {
       return error;
     }
     if (device.imageId != 0) {
-        device.imagesJson(device);
+      device.imagesJson(device);
     }
     if (device.make == null || device.make == "") {
       check = false;

@@ -59,7 +59,6 @@ export default {
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
       let  event = store.sync(response.data);
-
         if(event.length==0){
           context.error="No data content"
           context.showModal=true;
@@ -141,6 +140,7 @@ export default {
 
       (response) => {
         context.error=response.status;
+
         context.showModal=true;
 
       });
@@ -182,6 +182,5 @@ export default {
        }
        list = context.orderFilters(list, '', order, 'asc');
    }
-
 
 };

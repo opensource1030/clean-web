@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
 import Multiselect from './../../components/Multiselect.vue';
-import {filterByModificationsd, filterByModifications, filterByCarrier,orderFilters} from './../../components/filters.js';
+import {filterByModificationsd, filterByModifications, filterByCarrier, orderFilters} from './../../components/filters.js';
 import devices from './../../api/device/devices';
 import modal from './../../components/modal.vue';
 import Filter from './../../api/filtersApi';
@@ -9,8 +9,8 @@ export default {
 
   components : {
     pagination: Pagination,
-    modal:modal,
-    Multiselect:Multiselect
+    modal: modal,
+    Multiselect: Multiselect
   },
   beforeCreate() {
     Filter.getCarriers(this);
@@ -26,13 +26,13 @@ export default {
     loadData() {
       devices.getDevices(this, this.pagination.current_page);
     },
-    updateSelected (newSelected) {
-     this.selected = newSelected
-   },
+    updateSelected(newSelected) {
+      this.selected = newSelected
+    },
     filterByCarrier,
     setActive(index) {
       this.active = index;
-    //  console.log(this.devices[index]);
+      //  console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
       if (this.devices[this.active].show == true) {
         this.devices[this.active].show = false;
@@ -47,8 +47,8 @@ export default {
       }
     },
     onSelectColumn() {
-          devices.getDevices(this, this.pagination.current_page);
-     },
+      devices.getDevices(this, this.pagination.current_page);
+    }
   },
   data() {
     return {
@@ -61,12 +61,12 @@ export default {
         total: null,
         per_page: 25
       },
-      filter:{
-        make:[],
-        price:[],
-        modifications:[],
-        carriers:[],
-        deviceType:[],
+      filter: {
+        make: [],
+        price: [],
+        modifications: [],
+        carriers: [],
+        deviceType: []
       },
       type: [],
       manufactured: [],
@@ -76,10 +76,8 @@ export default {
       price: [],
       loading: true,
       loadtable: false,
-      error:'',
-      showModal:false
-
-
+      error: '',
+      showModal: false
     };
   }
 };

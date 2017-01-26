@@ -1,10 +1,9 @@
-
-
 module.exports = {
   data() {
     return {search: '', isOpen: false, mutableValue: null}
   },
   props: {
+
     callback: {
       type: Function,
       required: true
@@ -36,7 +35,6 @@ module.exports = {
   },
   methods: {
 
-
 	   onAfterSelect(option) {
 					this.isOpen = !this.isOpen
 					this.search = ''
@@ -45,10 +43,12 @@ module.exports = {
     filteroptions(list, value) {
       let self = this
   if(this.labelAttr!=null && this.labelAttr!=""){
+
       return list.filter(function(item) {
 
         return item[self.labelAttr].toString().indexOf(value) > -1;
       });
+
     }else{
       return list.filter(function(item) {
 
