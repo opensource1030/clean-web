@@ -9,7 +9,7 @@
         <div class="large-4 columns">
           <a class="button" href="/service">{{names.addPlan}}</a>
         </div>
-        <div class="large-4 columns end search-cost" v-show="search.searchShow">
+        <div class="large-4 large-offset-4 columns end search-cost" v-show="search.searchShow">
           <div class="large-4 columns" >
             <label>{{search.costMinName}}
               <input v-bind:class="{ 'search-input' : true, 'error-input': search.errorCost }" :value="search.costMin" v-model="search.costMin" title="The minimum cost of the Services listed below." type="number" min="0" placeholder="">
@@ -26,10 +26,8 @@
           <div class="large-1 end columns">
             <a class="special-button" @click="resetValuesCost()">{{search.resetName}}</a>
           </div>
-          <div v-if="search.errorCost" class="error-message">{{search.errorCostMessage}}
-          </div>
         </div>
-        <div v-if="showtable && !loading" class="small-12 columns">
+        <div v-show="!loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>
             <thead>
               <tr>
@@ -75,14 +73,14 @@
                 <td><div>{{values.details}}</div></td>
                 <td><div>{{values.codePlan}}</div></td>
                 <td><div>{{values.carrier.presentation}}</div></td>
-                <td><div v-if="search.searchFilter">{{search.costFilterMessage}}</div></td>
+                <td><div v-show="search.searchFilter">{{search.costFilterMessage}}</div></td>
               </tr>
             </tbody>
-            <div v-if="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
+            <div v-show="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
             <tbody v-for="(service, index) in services">
               <tr :class="{'active': service.show,'desactive': service.show}" @click="setActive(index)">
-                <td valign="top" v-if="service.status == 'Enabled'" class="textbold">{{service.status}}</td>
-                <td valign="top" v-if="service.status == 'Disabled'" >{{service.status}}</td>
+                <td valign="top" v-show="service.status == 'Enabled'" class="textbold">{{service.status}}</td>
+                <td valign="top" v-show="service.status == 'Disabled'" >{{service.status}}</td>
                 <td valign="top">
                   <div class="textbold">{{service.title}}</div>
                 </td>
@@ -93,10 +91,10 @@
                 <td valign="top">{{service.carriers[0].presentation}}</td>
                 <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
               </tr>
-              <tr v-if="service.show" :class="{'active': service.show,'desactive': service.show}">
+              <tr v-show="service.show" :class="{'active': service.show,'desactive': service.show}">
                 <td></td>
                 <td valign="top">
-                  <div v-if="service.show">
+                  <div v-show="service.show">
                     {{names.domMinutes}}<br>
                     {{names.domData}}<br>
                     {{names.domSms}}<br>
@@ -108,18 +106,18 @@
                   </div>
                 </td>
                 <td valign="top">
-                  <div v-if="findByService(service.serviceitems,'voice','domestic').value > 0">{{findByService(service.serviceitems,"voice","domestic").value}} {{findByService(service.serviceitems,'voice','domestic').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'voice','domestic').value == 0"><br></div>
-                  <div v-if="findByService(service.serviceitems,'data','domestic').value > 0">{{findByService(service.serviceitems,"data","domestic").value}} {{findByService(service.serviceitems,'data','domestic').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'data','domestic').value == 0"><br></div>
-                  <div v-if="findByService(service.serviceitems,'messaging','domestic').value > 0">{{findByService(service.serviceitems,"messaging","domestic").value}} {{findByService(service.serviceitems,'messaging','domestic').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'messaging','domestic').value == 0"><br></div>
-                  <div v-if="findByService(service.serviceitems,'voice','international').value > 0">{{findByService(service.serviceitems,"voice","international").value}} {{findByService(service.serviceitems,'voice','international').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'voice','international').value == 0"></div>
-                  <div v-if="findByService(service.serviceitems,'data','international').value > 0">{{findByService(service.serviceitems,"data","international").value}} {{findByService(service.serviceitems,'data','international').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'data','international').value == 0"><br></div>
-                  <div v-if="findByService(service.serviceitems,'messaging','international').value > 0">{{findByService(service.serviceitems,"messaging","international").value}} {{findByService(service.serviceitems,'messaging','international').unit}}<br></div>
-                  <div v-if="findByService(service.serviceitems,'messaging','international').value == 0"><br></div>
+                  <div v-show="findServiceItem(service,'voice','domestic').value > 0">{{findServiceItem(service,"voice","domestic").value}} {{findServiceItem(service,'voice','domestic').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'voice','domestic').value == 0"><br></div>
+                  <div v-show="findServiceItem(service,'data','domestic').value > 0">{{findServiceItem(service,"data","domestic").value}} {{findServiceItem(service,'data','domestic').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'data','domestic').value == 0"><br></div>
+                  <div v-show="findServiceItem(service,'messaging','domestic').value > 0">{{findServiceItem(service,"messaging","domestic").value}} {{findServiceItem(service,'messaging','domestic').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'messaging','domestic').value == 0"><br></div>
+                  <div v-show="findServiceItem(service,'voice','international').value > 0">{{findServiceItem(service,"voice","international").value}} {{findServiceItem(service,'voice','international').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'voice','international').value == 0"></div>
+                  <div v-show="findServiceItem(service,'data','international').value > 0">{{findServiceItem(service,"data","international").value}} {{findServiceItem(service,'data','international').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'data','international').value == 0"><br></div>
+                  <div v-show="findServiceItem(service,'messaging','international').value > 0">{{findServiceItem(service,"messaging","international").value}} {{findServiceItem(service,'messaging','international').unit}}<br></div>
+                  <div v-show="findServiceItem(service,'messaging','international').value == 0"><br></div>
                 </td>
                 <td></td>
                 <td></td>
@@ -130,9 +128,9 @@
           <div class="load">
             <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
-        </div>
-        <pagination :pagination="pagination" :callback="loadData" v-show="showtable && loadpagination"></pagination>
+        </div>        
       </div>
+      <pagination :pagination="pagination" :callback="loadData" v-show="loadpagination"></pagination>
     </div>
   </div>
 </template>

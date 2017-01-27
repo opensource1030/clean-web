@@ -2,6 +2,7 @@ import Vue from 'vue';
 import service from './../../api/service/service';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
+import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';
 
 export default {
 
@@ -11,15 +12,14 @@ export default {
         inputValidate
     },
     beforeCreate() {
-        service.getCarrier(this);
-        this.id = this.$route.params.id;
-        if (this.id != null) {
-            service.getDataService(this, this.id);
+        if (this.$route.params.id > 0) {
+            service.getDataService(this, this.$route.params.id);
         }
     },
     data() {
         return {
-            id: null,
+            id: 0,
+            loadedContent: false,
             error: false,
             errorMessage: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.',
             errorAddon: '',
@@ -79,8 +79,9 @@ export default {
                 saveChanges: 'Save Changes'
             },
             serviceDetails: {
+                id : 0,
                 title: '',
-                carrierId: null,
+                carrierId: 0,
                 status: '',
                 code: '',
                 cost: '',
@@ -98,14 +99,14 @@ export default {
                 data: {
                     id : 0,
                     domain: "domestic",
-                    category: "voice",
+                    category: "data",
                     value: 0,
                     unit: 'Gb',
                 },
                 sms: {
                     id : 0,
                     domain: "domestic",
-                    category: "voice",
+                    category: "messaging",
                     value: 0,
                     unit: "messages",
                 }
@@ -147,15 +148,17 @@ export default {
         }
     },
     methods : {
+        findServiceItem,
+        orderFilters,
         save() {
-            if (this.id != null) {
-                service.updateService(this.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
+            if (this.serviceDetails.id > 0) {
+                service.updateService(this.serviceDetails.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
             } else {
                 service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
             }
         },
         hideAndPush(index) {
-            if (this.id != null) {
+            if (this.serviceDetails.id > 0) {
                 this.addons.push({id: "0", description: '', cost: '', add: true, delete: false});
             } else {
                 this.addons.push({description: '', cost: '', add: true, delete: false});
@@ -166,7 +169,7 @@ export default {
         deleteAddOns(index) {
             this.addons.splice(index, 1);
             if (this.addons.length == 0) {
-                this.addons.push({id: this.id, description: '', cost: '', add: false, delete: false});
+                this.addons.push({id: this.serviceDetails.id, description: '', cost: '', add: false, delete: false});
             }
 
             this.reorderButtons();

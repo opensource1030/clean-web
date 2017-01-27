@@ -47,6 +47,7 @@ export default class Service {
               domain: it.domain
           });
       }
+
       return service.serviceItems;
   }
 
