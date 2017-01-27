@@ -7,34 +7,8 @@
 <body>
 <div class="container">
     <div id="app"></div>
-
 </div>
-
-<!-- Integration code of onboardX -->
-<script type="text/javascript">
-window.onboardX = {
-  'onepage' : false, //true if your app is single page application type
-  'obx_domain' : 'onboardx.com', //don't change
-  'app': 'K69Qyz', //don't change
-  'email':'dummy@onboardx.com', //required
-  'name':'User', //required
-  'signed_up':1771129444, //required (timestamp)
-  //optional parameters
-  'plan_type':'trial',
-  'anything':44
-};
-(function(o,b,x){ var a=o.createElement(b);a.type="text/javascript";a.async=!0;a.src=x;var s=o.getElementsByTagName(b)[0];s.parentNode.insertBefore(a,s);})(document,"script","//cdn."+window.onboardX.obx_domain+"/obx.js");
-</script>
-<script src="//cdn.headwayapp.co/widget.js"></script>
-<script>
-    var config = {
-        selector: ".nothing",
-        account: "JPYPKy"
-    };
-    Headway.init(config);
-</script>
-
-
+  
 <!-- Integration code for Teamwork Desk -->
 <script>
     !(function(e) {
@@ -45,5 +19,6 @@ window.onboardX = {
         var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src=basehref+"/support/v1/contact/main.js?token="+token,r.parentNode.insertBefore(c,r),window.addEventListener("message",function(e){var t=e.data[0],a=e.data[1];switch(t){case"setContactFormHeight":document.getElementById("deskcontactwidgetframe").height=Math.min(a, window.window.innerHeight - 75)}},!1);
     })(document);
 </script>
+<!-- // End Teamwork integration-->
 </body>
 </html>
