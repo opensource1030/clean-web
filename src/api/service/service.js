@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import auth from './../auth.js';
 import Service from './../../models/Service';
+import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';
 
 const {Store} = require('yayson')();
 const store = new Store();
-import {findByService, findByAddons} from './../../components/filters.js';
 
 export default {
 
@@ -40,7 +40,7 @@ export default {
             context.errorsStyle.currencyError = true;
         }
 
-        if (service.carrierId == "" || service.carrierId == null){
+        if (service.carrierId == 0){
             ok = false;
             context.errorsStyle.carrierError = true;
         }
@@ -103,13 +103,13 @@ export default {
     },
     getDataService(context, id) {
 
-        context.$http.get(process.env.URL_API + '/services/' + id, {
+        let params = {
             params: {
-               include: 'serviceitems'
+                include: 'serviceitems,carriers'
             }
-        }).then((response) => {
+        };
 
-            context.id = id;
+        context.$http.get(process.env.URL_API + '/services/' + id, params).then((response) => {
 
             event = store.sync(response.data);
 
@@ -124,47 +124,32 @@ export default {
             context.serviceDetails.cost = event.cost;
             context.serviceDetails.description = event.description;
             context.serviceDetails.currency = event.currency;
-            context.serviceDetails.carrierId = event.carriers[0].id;
-
-            context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
+            context.serviceDetails.carrier = event.carriers[0];
+            context.serviceDetails.id = id;
 
             //domestic service
-            let auxDMinutes = findByService(event.serviceitems, "voice", "domestic");
-            let auxDData = findByService(event.serviceitems, "data", "domestic");
-            let auxDSms = findByService(event.serviceitems, "messaging", "domestic");
-
-            if (auxDMinutes != null || auxDData != null || auxDSms != null)  {
-                context.domesticPlan.minutes = auxDMinutes;    
-                context.domesticPlan.data = auxDData;
-                context.domesticPlan.sms = auxDSms;
-            }
+            context.domesticPlan.minutes = findServiceItem(event, "voice", "domestic");
+            context.domesticPlan.data = findServiceItem(event, "data", "domestic");
+            context.domesticPlan.sms = findServiceItem(event, "messaging", "domestic");
 
             //international service
-            let auxIMinutes = findByService(event.serviceitems, "voice", "international");
-            let auxIData = findByService(event.serviceitems, "data", "international");
-            let auxISms = findByService(event.serviceitems, "messaging", "international");
-
-            if (auxIMinutes != null || auxIData != null || auxISms != null)  {
-                context.internationalPlan.minutes = auxIMinutes;    
-                context.internationalPlan.data = auxIData;
-                context.internationalPlan.sms = auxISms;
-            }
-
+            context.internationalPlan.minutes = findServiceItem(event, "voice", "international");
+            context.internationalPlan.data = findServiceItem(event, "data", "international");
+            context.internationalPlan.sms = findServiceItem(event, "messaging", "international");
             //addons
             let addOns = [];
             addOns = findByAddons(event.serviceitems, "addon", "");
             context.addons.splice(0, 1);
             for (let addOn of addOns) {
-                addOn.delete = true;
-                addOn.add = false;
                 context.addons.push(addOn);
             }
 
             if (context.addons.length == 0) {
                 context.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
             }
-
+            
             context.reorderButtons();
+            this.getCarriers(context);
         }, (response) => {});
     },
 
@@ -183,26 +168,66 @@ export default {
             }, (response) => {});
         }
     },
-    getCarrier(context) {
-      context.$http.get(process.env.URL_API + '/carriers', {
-          params: {
-              page: 1,
-              'filter[active]': 1
-          }
-      }).then((response) => {
-          event = store.sync(response.data);
-          context.carriers = event;
+    getCarriers(context) {
 
-          if(context.carriers.length == 0){
-              context.noCarriers = true;
-          } else {
-              context.noCarriers = false;
-          }
-      }, (response) => {});
+        let params1 = {
+            params: {
+                'filter[active]':1,
+            }
+        };
+
+        context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
+            {
+                if(response.data.data.length == 0){
+                    context.errorNotFound = true;
+                } else {
+                    let i = response.data.meta.pagination.current_page;
+                    while (i <= response.data.meta.pagination.total_pages) {
+                        
+
+
+                        let params2 = {
+                            params: {
+                                page: i
+                            }
+                        };
+
+                        context.$http.get(process.env.URL_API + '/carriers', params2).then((response) =>
+                            {
+                                let event = store.sync(response.data);
+                                for (let carr of event) {
+                                    context.carriers.push(carr);
+                                }
+                                if(context.carriers.length == 0){
+                                    context.noCarriers = true;
+                                } else {
+                                    context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+                                    context.noCarriers = false;
+                                }
+
+                                if (response.data.meta.pagination.total == context.carriers.length) {
+                                    if(context.carriers.length == 0){
+                                        context.noCarriers = true;
+                                    } else {
+                                        context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+                                        context.noCarriers = false;
+                                    }
+                                    context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
+                                    context.loadedContent = true;
+                                }
+                            }, (response) => {}
+                        );
+
+                        i++;
+                    }
+                }
+            }, (response) => {}
+        );
     },
     checkIfNoCarrierSelected (context) {
         for (let car of context.carriers) {
-            if(car.id == context.serviceDetails.carrierId) {
+            if(car.id == context.serviceDetails.carrier.id) {
+                context.serviceDetails.carrierId = context.serviceDetails.carrier.id;
                 return false;
             }
         }
@@ -229,39 +254,5 @@ export default {
         }
 
         return items;
-    },
-    defaultFindByService(serviceitem, category, domain) {
-
-            console.log(serviceitem);
-            if (serviceitem.length == 0) {
-                if(domain == 'domestic') {
-                    if (category == 'voice') {
-
-                    } else if (category == 'data') {
-
-                    } else {
-
-                    }
-                } else {
-                    if (category == 'voice') {
-
-                    } else if (category == 'data') {
-
-                    } else {
-                        
-                    }
-                }
-                
-            } else {
-                return findByService(event.serviceitems, category, domain);
-            }
-            //domestic service
-            //context.domesticPlan.minutes = findByService(event.serviceitems, "voice", "domestic");
-            //context.domesticPlan.data = findByService(event.serviceitems, "data", "domestic");
-            //context.domesticPlan.sms = findByService(event.serviceitems, "messaging", "domestic");
-            //international service
-            //context.internationalPlan.minutes = findByService(event.serviceitems, "voice", "international");
-            //context.internationalPlan.data = findByService(event.serviceitems, "data", "international");
-            //context.internationalPlan.sms = findByService(event.serviceitems, "messaging", "international");
     }
 }

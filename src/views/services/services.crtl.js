@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import pagination from './../../components/pagination';
-import {findByService, orderFilters} from './../../components/filters.js';
+import {findServiceItem, orderFilters} from './../../components/filters.js';
 import services from './../../api/service/services';
 import modal from './../../components/modal.vue';
 
@@ -11,12 +11,11 @@ export default {
         modal
     },
     methods : {
-        findByService,
+        findServiceItem,
         orderFilters,
 
         loadData() {
             services.getServices(this, this.pagination.current_page);
-            services.getCarriers(this);
         },
         
         setActive: function(index) {
@@ -48,6 +47,12 @@ export default {
                 this.search.errorCost = false;
                 this.search.searchShow = false;
                 this.search.searchFilter = true;
+                if(this.search.costMin != 0 || this.search.costMax != 0) {
+                    this.search.costFilterMessage = this.search.costMin + ' > ' + this.search.costMax;
+                } else {
+                    this.search.costFilterMessage = '';
+                }
+
                 this.onSelectColumn();
             } else {
                 this.search.errorCost = true;
@@ -110,7 +115,7 @@ export default {
                 intData: 'International Data',
                 intSms: 'International SMS',
                 managePlanButton: 'Manage Plan',
-                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan.'                
+                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'                
             },
             search: {
                 firstTime: true,
