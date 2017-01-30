@@ -11,18 +11,18 @@
           <morphsearch> </morphsearch>
         </div>
         <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a> </div>
-          <div class="HW-container">  </div>
-          <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
+          <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' "></span></a></div>
+          <div class="HW-container"></div>
+          <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
             <ul>
               <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
             </ul>
           </div>
         </div>
       </section>
-
       <!-- end of top nav -->
       <div class="clearfix"></div>
+
       <nav class="level app-levelbar">
         <div class="level-left">
           <div class="level-item">
@@ -35,9 +35,11 @@
           <breadcrumb :list="list"></breadcrumb>
         </div>
       </nav>
-      <client-Info> </client-Info>
+
+      <client-Info></client-Info>
       <div class="clearfix"></div>
-      <charge-Info> </charge-Info>
+      <charge-Info></charge-Info>
+
       <div class="support-form-holder">
         <div class="form-header">
           <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
@@ -138,4 +140,4 @@
   </div>
 </template>
 
-<script src="./dashboard.ctrl.js" lang="babel"> </script>
+<script src="./dashboard.ctrl.js" lang="babel"></script>

@@ -1,4 +1,3 @@
-
 <template>
 <div>
   <div class="column large-12">
@@ -11,7 +10,6 @@
         <p v-html="client.object.metafields[2].value"> </p>
           </div>
       </div>
-
     </div>
   </div>
   <div class="clearfix"></div>
@@ -33,17 +31,17 @@
       </header>
       <div class="box-content">
         <div class="box-content-holder">
-        <div class="action-button" id="action-buttons">
-         <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
+          <div class="action-button" id="action-buttons">
+            <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
             <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Request a Device or Accessory </router-link>
-          <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
-
-        </div>
-        <div v-html="client.object.metafields[1].value "> </div>
+            <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
           </div>
+          <div v-html="client.object.metafields[1].value"></div>
+        </div>
       </div>
     </div>
   </div>
   </div>
 </template>
+
 <script src="./clientinfo.ctrl.js" lang="babel"> </script>

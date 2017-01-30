@@ -1,40 +1,62 @@
 @import "node_modules/slicknav/scss/slicknav";
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
+
 .slicknav_nav {
   a,
-  .slicknav_row{
+  .slicknav_row {
     margin: 2px 0;
     @include css3(border-radius,0);
-    &:hover{
+    &:hover {
       background: $black;
       color:$white;
       @include css3(border-radius,0);
 
     }
   }
-  .slicknav_arrow{
+  .slicknav_arrow {
     float: right;
   }
-  .menu-title{
+  .menu-title {
     margin: 2px 5px;
     padding: 5px 10px;
   }
 }
-.slicknav_menu{
+
+.slicknav_menu {
   display: none;
+  background-color: #0c2e82;
+
+  .slicknav_btn {
+    background-color: transparent;
+  }
+
   @media screen and (max-width: 800px) {
     display: block;
-    .top-bar-section{
+
+    .top-bar-section {
       padding-bottom: 0;
     }
-    li{
 
-      &.logo{
+    li {
+      &.logo {
         display: none;
       }
+
+      a > .fa-circle-o {
+        margin-right: 4px;
+      }
+
+      a > .fa-minus {
+        display: none !important;
+      }
+
+      a > .fa-plus {
+        display: none !important;
+      }
     }
-    .fa-angle-down{
+
+    .fa-angle-down {
       display: none;
     }
   }

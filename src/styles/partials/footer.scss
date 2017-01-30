@@ -2,25 +2,22 @@
 footer{
   background: #0C2E82;
   #footer{
+    // position: fixed;
+    z-index: 6;
+    width: 100%;
+    bottom: 0;
+    // margin-left: 200px;
+    padding: 0.95rem;
+    text-align: center;
+    color: $white;
 
     a{
       color:$brand-orange;
       text-decoration: none;
-
     }
+
     .text-orange{
       color: $brand-orange;
     }
-
-  
-  color: $white;
-  padding: 0.95rem;
-  text-align: left;
-  margin-left: 200px;
-  width: 100%;
-   // position: fixed;
-    bottom: 0;
-    z-index: 6;
-}
-
+  }
 }

@@ -1,11 +1,9 @@
 <template>
-  <section  class="menu-left">
-    <a   class="icon-close"> <i class="fa fa-bars "> </i> </a>
+  <section class="menu-left">
+    <a class="icon-close"><i class="fa fa-bars"></i></a>
     <ul id="menu" class="sidebar-menu">
       <li class="logo" v-if="company.object">
-
         <img v-bind:src='company.object.metafields[0].url' alt="logo" title="Client Logo">
-
       </li>
       <li class="menu-title">
         <a href="/dashboard">
@@ -20,9 +18,8 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipment</a></li>
-            <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a></li>
-            
+          <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipment</a></li>
+          <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a></li>
         </ul>
       </li>
       <li v-permission="'Packages'" class="treeview"  >
@@ -48,12 +45,11 @@
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
-
         </ul>
       </li>
 
-      <li  v-permission="'Presets'" class="treeview">
-        <a  href="javascript:;">
+      <li v-permission="'Presets'" class="treeview">
+        <a href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>Configuration</span>
           <i class="fa fa-plus pull-right"></i>
@@ -72,25 +68,27 @@
       <img class="img-collapse" src="./../assets/logo.png" alt="Wireless Analytics">
     </div>
   </section>
-
 </template>
-  <script>
-    var {Store} = require('yayson')()
-    var    store = new Store()
-import auth from './../api/auth'
-import Permision from './permisions'
-import Vue from 'vue';
-Vue.directive('permission', {
-  update: function(el,value)
-  {
-if (Permision.hasPerm(value)==false){el.style.display = 'none'}
-else{
-  el.style.display = 'block';
-}
-}
-})
-export default {
-  name: "Sidemenu",
+
+<script>
+  var {Store} = require('yayson')()
+  var    store = new Store()
+  import auth from './../api/auth'
+  import Permision from './permisions'
+  import Vue from 'vue';
+
+  Vue.directive('permission', {
+    update: function(el,value) {
+      if (Permision.hasPerm(value)==false){el.style.display = 'none'}
+      else{
+        el.style.display = 'block';
+      }
+    }
+  })
+
+  export default {
+    name: "Sidemenu",
+
     created () {
       this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
       }).then((response) => {
@@ -106,24 +104,26 @@ export default {
           }
       });
     },
+
     mounted(){
-        var intervalId = setInterval(function(){
-          var token = localStorage.token;
-          var id = localStorage.userId;
-          var email = localStorage.email;
-          $('.redirect-link a').attr('href', function(index, href) {
-            var param = 'access_token='+ token + '&email=' + email;
-            if (href.charAt(href.length - 1) === '?') //Very unlikely
-              return href + param;
-            else if (href.indexOf('?') > 0)
-              return href + '&' + param;
-            else
-              return href + '?' + param;
-          });
-          if(token !== undefined){
-            clearInterval(intervalId);
-          }
-        }, 2000);
+      var intervalId = setInterval(function(){
+        var token = localStorage.token;
+        var id = localStorage.userId;
+        var email = localStorage.email;
+        $('.redirect-link a').attr('href', function(index, href) {
+          var param = 'access_token='+ token + '&email=' + email;
+          if (href.charAt(href.length - 1) === '?') //Very unlikely
+            return href + param;
+          else if (href.indexOf('?') > 0)
+            return href + '&' + param;
+          else
+            return href + '?' + param;
+        });
+        if(token !== undefined){
+          clearInterval(intervalId);
+        }
+      }, 2000);
+
       $.sidebarMenu = function(menu) {
         var animationSpeed = 300;
         $(menu).on('click', 'li a', function(e) {
@@ -161,6 +161,7 @@ export default {
       }
       $(this.$el).foundation();
       $.sidebarMenu($('.sidebar-menu'));
+
       if($.cookie("isMenuActive") == 1)
       {
         $('.menu-left').addClass("test");
@@ -182,11 +183,14 @@ export default {
           $.cookie("isMenuActive", "1");
         }
       });
-  },
-  data (){
-    return {
-      company: { },
+
+      $('#menu').slicknav();
+    },
+
+    data (){
+      return {
+        company: {},
+      }
     }
   }
-}
-  </script>
+</script>

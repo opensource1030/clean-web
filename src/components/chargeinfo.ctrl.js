@@ -16,6 +16,9 @@ export default {
 
         });
     },
+    updated() {
+        $('.wireless-overview > table').cardtable();
+    },
     data(){
         return {
             allocation: {}

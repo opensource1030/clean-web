@@ -2,7 +2,7 @@ import Vue from 'vue';
 import service from './../../api/service/service';
 
 export default {
-  name : 'Services',
+  name : 'Service',
     beforeCreate() {
     service.getCarrier(this);
     this.id = this.$route.params.id;
