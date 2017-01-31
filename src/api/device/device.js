@@ -19,7 +19,7 @@ export default {
 
   updateDevice(id, context, price, style, capacity, device, image) {
 
-    let deviceObj = new Device('devices', id, device.defaultPrice, device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
+    let deviceObj = new Device('devices', id, parseInt(device.defaultPrice), device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, id)
     if (check.staus == false) {
@@ -40,14 +40,18 @@ export default {
   },
 
   getDataDevice(context, id) {
-
-    context.$http.get(process.env.URL_API + '/devices/' + id, {
+    let params = {
       params: {
-        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images'
+        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images',
       }
-    }).then((response) => {
+    };
+    if (context.companyFilter !== "" || context.companyFilter!=null ) {
+        params.params['filter[name][like]'] = context.companyFilter;
+    }
+    context.$http.get(process.env.URL_API + '/devices/' + id, params  ).then((response) => {
 
       event = store.sync(response.data);
+
         if(event.images!=null && event.images.length>0 ){
       context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
       context.image.id = event.images[0].id;
@@ -73,11 +77,12 @@ export default {
       context.vCarriers = this.carriersCheck;
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
-      if(event.modifications!=null && event.modifications>0){
+
+      if(event.modifications!=null && event.modifications.length>0){
       this.modificationCheck(context, event.modifications);
       context.modifications = this.modificationsCheck;
     }
-        if(event.devicevariations!=null && event.devicevariations>0){
+        if(event.devicevariations!=null && event.devicevariations.length>0){
       context.priceData = event.devicevariations;
 }
       context.checkcarrier();
@@ -124,9 +129,11 @@ export default {
   modificationCheck(context, modificationsD) {
 
     for (let modification of this.modificationsCheck.data) {
+
       modification.check = false;
       for (let modificationData of modificationsD) {
         if (modification.id == modificationData.id) {
+
           modification.check = true;
 
           break;
@@ -141,6 +148,18 @@ export default {
   /*---------------------------------create device---------------------------------------*/
 
   getDevice(context, page) {
+
+    let params = {
+      params: {
+        page: page,
+
+         /*,filter[][like]:deviceType*/
+      }
+    };
+    if (context.companyFilter !== "" || context.companyFilter!=null ) {
+        params.params['filter[name][like]'] = context.companyFilter;
+    }
+
 
     context.$http.get(process.env.URL_API + '/devicetypes', {
 
@@ -192,13 +211,8 @@ export default {
       context.carriers.data = event;
     }, (response) => {});
 
-    context.$http.get(process.env.URL_API + '/companies', {
-
-      params: {
-        page: page,
-        'filter[active]': 1
-      }
-    }).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies', params
+  ).then((response) => {
       context.pagination = response.data.meta.pagination;
       for (let company of response.data.data) {
 
@@ -210,6 +224,9 @@ export default {
       context.companies = response.data;
 
     }, (response) => {});
+
+
+
   },
 
   addModifications(context, obj) {
@@ -272,6 +289,9 @@ export default {
         status: false
       }
       return error;
+    }
+    if (device.imageId != 0) {
+        device.imagesJson(device);
     }
     if (device.make == null || device.make == "") {
       check = false;
@@ -355,7 +375,7 @@ export default {
   },
 
   addDevice(context, price, style, capacity, device, image) {
-
+console.log(device);
     let deviceObj = new Device('devices', null, device.defaultPrice, device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, null)
@@ -396,27 +416,5 @@ export default {
       }
     }, (response) => {});
 
-  },
-  filterCompanies(context, page, companyName) {
-    context.$http.get(process.env.URL_API + '/companies', {
-
-      params: {
-        page: page,
-        'filter[name][like]': companyName
-      }
-    }).then((response) => {
-      context.pagination = response.data.meta.pagination;
-      for (let company of response.data.data) {
-
-        this.companiesCheck.data.push(company);
-        company.check = false;
-
-      }
-
-      context.companies = response.data;
-
-    }, (response) => {});
-
   }
-
-};
+}

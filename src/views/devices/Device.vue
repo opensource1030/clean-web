@@ -173,7 +173,7 @@
                         <div class="row">
                           <div class="small-6 columns find">
                             <label id="bl" >Find Company
-                              <input type="text" placeholder="Google"  v-model="companyFilter" >
+                              <input type="text" placeholder="Search Name"  v-model="companyFilter" >
                             </label>
                           </div>
                           <div class="small-6 columns">

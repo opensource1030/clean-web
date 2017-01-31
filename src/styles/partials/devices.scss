@@ -5,63 +5,24 @@
 
   }
 .details {
-    display: -webkit-flex;
-    display: flex;
 
-    .child {
-        text-align: left;
-        -webkit-flex-grow: 0;
-        -webkit-flex-shrink: 0;
-        -webkit-flex-basis: 13.2%;
-        flex-grow: 0;
-        flex-basis: 13.2%;
+    ul {
+        list-style-type: none;
     }
 
-
-    .child:nth-of-type(1) {
-        -webkit-flex-basis: 7.9%;
-        flex-basis: 7.9%;
-    }
-
-    .child:nth-of-type(2) {
-
-        -webkit-flex-basis: 34.74%;
-            flex-basis: 34.74%;
+.pri{
+          padding-left: 2.5rem;
+}
 
 
-        ul {
-            list-style-type: none;
-        }
-    }
-    .child:nth-of-type(3) {
-        -webkit-flex-basis: 10%;
-        flex-basis: 10%;
-    }
-    .child:nth-of-type(4) {
-        -webkit-flex-basis: 11.7%;
-        flex-basis: 11.7%;
-    }
-
-    .prices {
-              .listPrice{
 
 
-              }
-
-        ul {
-            list-style-type: none;
-        }
-    }
-
-    .os {
-        .image {
-            height: 160px;
 
             img {
-                height: 130px;
+                max-width: 75%;
             }
-        }
-    }
+
+
     .modificationc{
       display:inline-block;
     }
@@ -76,7 +37,7 @@
         .information {
             position: absolute;
             width: 37%;
-            margin-top: -1em;
+          margin-top: 1em;
         }
     }
 
@@ -269,8 +230,8 @@
 
             .companies {
                 .button {
-                    margin: 1.2rem;
-                    padding: 0.8rem 2.5rem;
+                    margin: 1.5rem;
+                    padding: 01rem 2.5rem;
                     font-weight: 800;
                     font-size: 14px;
                     border-radius: 0.5rem;

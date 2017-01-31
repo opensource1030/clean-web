@@ -13,20 +13,55 @@ import {
 } from './../../components/filters.js';
 export default {
   device: {},
+  firstTime:true,
 
   getDevices(context, pages) {
 
-    context.$http.get(process.env.URL_API + '/devices', {
+    let params = {
       params: {
         include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications',
         page: pages, /*,filter[][like]:deviceType*/
-      },
+      }
+    };
 
-    }).then((response) => {
+  /*  if (context.type.length !== 0) {
+      for(let ty of type){
+        params.params['filter[status]'] = context.ty.id;
+      }
+    }*/
+    if (context.manufactured.length !== 0) {
+                for(let manu of context.manufactured){
+        params.params['filter[make][like]'] = manu.make;
+
+      }
+    }
+
+    if (context.price.length != 0) {
+            for(let pri of context.price){
+        params.params['filter[defaultPrice][like]'] = parseInt(pri.defaultPrice);
+      }
+    }
+
+  /*  if (context.carrier.length != 0) {
+        params.params['filter[planCode][like]'] = context.values.codePlan;
+    }
+
+    if (context.capacity.length != 0) {
+        params.params['filter[carrierId]'] = context.values.carrier.id;
+    }
+
+    if (context.style.length != 0) {
+        params.params['filter[cost][le]'] = context.search.costMax;
+    }
+
+  */
+
+
+    context.$http.get(process.env.URL_API + '/devices',params).then((response) => {
       context.loading=false;
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
-        event = store.sync(response.data);
+      let  event = store.sync(response.data);
 
         if(event.length==0){
           context.error="No data content"
@@ -35,8 +70,14 @@ export default {
 
 
         var devices = [];
+            if(this.firstTime){
+            for(let device of event){
 
+            context.filter.devices.push(device)
 
+            }
+                  this.firstTime=false;
+}
 
         for (let device of event) {
           if (device.images.length > 0) {
@@ -95,10 +136,10 @@ export default {
 
 
 
+
             device.priceName.push(price);
 
           }
-
 
           devices.push(device);
         //  console.log(device);

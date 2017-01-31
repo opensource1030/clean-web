@@ -1,5 +1,3 @@
-import deepClone from './utils'
-
 module.exports = {
   data() {
     return {search: '', isOpen: false, mutableValue: null}
@@ -11,6 +9,10 @@ module.exports = {
     },
     labelAttr: {
       type: String,
+      required: true
+    },
+    callback: {
+      type: Function,
       required: true
     },
     options: {
@@ -54,12 +56,11 @@ module.exports = {
 
       if (this.isOptionSelected(option)) {
         this.deselect(option)
+        this.callback();
+          this.onAfterSelect(option)
       } else {
-
-
           this.value.push(option)
-
-
+          this.callback();
         this.onAfterSelect(option)
       }
 

@@ -155,6 +155,7 @@ export default class Device {
         name: this.name,
         properties: this.properties,
         deviceTypeId: this.deviceTypeId,
+        defaultPrice:parseFloat(this.defaultPrice),
         make:this.make,
         model:this.model,
         statusId: 1,

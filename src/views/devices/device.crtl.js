@@ -18,7 +18,7 @@ export default {
   inputValidate
   },
   beforeCreate() {
-    
+
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
@@ -254,7 +254,13 @@ else{
       });
     },
     findCompany(){
-        device.filterCompanies(this,this.page,this.companyFilter);
+      if(this.id!=null){
+          device.getDataDevice(this,this.id)
+
+      }
+      else{
+      device.getDevice(this, 1);
+    }
     },
 
     findById(relationships, price, priceId, type) {

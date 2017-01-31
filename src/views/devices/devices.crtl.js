@@ -31,7 +31,7 @@ export default {
    },
     filterByCarrier,
 
-    setActive: function(index) {
+    setActive(index) {
       this.active = index;
     //  console.log(this.devices[index]);
       this.devices[this.active].hide = !this.devices[this.active].hide;
@@ -46,7 +46,10 @@ export default {
           }
         }
       }
-    }
+    },
+    onSelectColumn() {
+          devices.getDevices(this, this.pagination.current_page);
+     },
   },
   data() {
     return {
@@ -61,6 +64,12 @@ export default {
         count: null,
         total: null,
         per_page: 25
+      },
+      filter:{
+        devices:[],
+        modifications:[],
+        carriers:[],
+        deviceType:[],
       },
       filterCarriers: [],
       type: [],

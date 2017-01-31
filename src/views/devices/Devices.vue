@@ -28,23 +28,26 @@
       :options="filterDeviceType"
       :value.sync="type"
       :labelAttr="'name'"
+      :callback="onSelectColumn"
        >
     </multiselect>
   </th>
-                  <th width="180px" >
+                  <th width="100px" >
                     <multiselect
                       :field="'Manufactured'"
-                      :options="devices"
+                      :options="filter.devices"
                       :value.sync="manufactured"
                       :labelAttr="'make'"
+                      :callback="onSelectColumn"
                        >
                     </multiselect> </th>
                     <th width="100px">
                       <multiselect
                         :field="'Price'"
-                        :options="devices"
+                        :options="filter.devices"
                         :value.sync="price"
                         :labelAttr="'defaultPrice'"
+                        :callback="onSelectColumn"
                          >
                       </multiselect>
 
@@ -54,23 +57,26 @@
                         :options="filterCarriers"
                         :value.sync="carrier"
                         :labelAttr="'presentation'"
+                        :callback="onSelectColumn"
                          >
                       </multiselect>
                     </th>
                     <th width="160px">
-                      <multiselect
+                 <multiselect
                         :field="'Capacity'"
                         :options="filterByModificationsd(filterModifications,'capacity')"
                         :value.sync="capacity"
                         :labelAttr="'value'"
+                        :callback="onSelectColumn"
                          >
                       </multiselect>
                     </th>
-                    <th >  <multiselect
+                    <th > <multiselect
                         :field="'Style'"
                         :options="filterByModificationsd(filterModifications,'capacity')"
                         :value.sync="style"
                         :labelAttr="'value'"
+                        :callback="onSelectColumn"
                          >
                       </multiselect></th>
                   </tr>
@@ -99,82 +105,103 @@
                     <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
-                    <td v-show="device.show" transition="device"  class="detail" colspan="8" >
+                    <td v-show="device.show" transition="device"  class="details" colspan="8" >
 
-                      <div class="details">
-                        <div class="child"></div>
-                        <div class="options child">
-                          <div class="row" v-for="carrier in device.priceName"  :key="carrier.id" >
 
-                            <div class="small-6 colums end">
-                            {{carrier.carrier}}
+
+
+                        <div class="column row">
+
+                    <div class="row">
+                          <div class="large-6 small-6   columns ">
+                            <div class="large-3 small-3    columns ">
+
+
+                            </div>
+                            <div class="large-3 small-3    columns ">
+                              <div class="row" v-for="carrier in device.priceName"  :key="carrier.id" >
+
+                                <div class="small-6 colums end">
+                                {{carrier.carrier}}
+                              </div>
+                              <div class="small-6 colums">
+                              <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id" >
+
+                              {{price.value}},
+
+                            </div>
+                              <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id" >
+
+                              {{price.value}}
+
+                              </div>
+
                           </div>
-                          <div class="small-6 colums">
-                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id" >
-
-                          {{price.value}},
-
                         </div>
-                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id" >
 
-                          {{price.value}}
+                            </div>
+                            <div class="large-3 small-3    columns ">
 
-                          </div>
+                            </div>
+                            <div class="large-3 small-3 columns pri">
+                              <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
+
+                                <ul>
+
+                                  <li    >{{carrier.priceRetail}} {{device.currency}}</li>
+
+
+                                </ul>
+                                <br>
+                              </div>
+
+                            </div>
+
+                              </div>
+                                <div class="small-6 large-6   columns ">
+                                  <div class="large-3 small-3    columns " :class="{ 'up': device.show}">
+                                    <div class="image">
+                                      <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
+                                    </div>
+
+                                    <div class="information">
+                                      <span style="font-weight: bold;" >Technical Information</span><br>
+                                      {{device.properties}}
+                                    </div>
+
+
+                                  </div>
+                                  <div class="large-3 small-3    columns " :class="{ 'up': device.show}">
+                                    <span style="font-weight: bold;">  Availability:</span><br>
+                                    <span>Provider</span>
+                                    <ul>
+                                      <li v-for="carrier in device.priceName">{{carrier.carrier}}</li>
+                                    </ul>
+
+                                  </div>
+                                  <div class="large-3  small-3   columns " :class="{ 'up': device.show}">
+                                    <br>
+                                    <span>Capacity</span>
+                                    <ul>
+                                      <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
+
+                                    </ul>
+
+                                  </div>
+                                  <div class="large-3  small-3   columns " :class="{ 'up': device.show}">
+                                    <br>
+                                    <span>Style</span>
+                                    <ul>
+                                      <li v-for="style in filterByModificationsd(device.modifications,'style')  ">{{style.value}}</li>
+                                    </ul>
+
+                                  </div>
+                                </div>
 
                       </div>
-                    </div>
-
-
-                        </div>
-                        <div class="prices child">
-                          <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
-
-                            <ul>
-
-                              <li    >{{carrier.priceRetail}} {{device.currency}}</li>
-
-
-                            </ul>
-                            <br>
-                          </div>
-
                         </div>
 
-                        <div class="os child"   :class="{ 'up': device.show}"  >
-                          <div class="image">
-                            <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
-                          </div>
 
-                          <div class="information">
-                            <span style="font-weight: bold;" >Technical Information</span><br>
-                            {{device.properties}}
-                          </div>
-                        </div>
-                        <div class="carrrier child"  :class="{ 'up': device.show}" >
-                          <span style="font-weight: bold;">  Availability:</span><br>
-                          <span>Provider</span>
-                          <ul>
-                            <li v-for="carrier in device.priceName">{{carrier.carrier}}</li>
-                          </ul>
-
-                        </div>
-                        <div class="capacity child" :class="{ 'up': device.show}"  >
-                          <br>
-                          <span>Capacity</span>
-                          <ul>
-                            <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
-
-                          </ul>
-
-                        </div>
-                        <div class="style child" :class="{ 'up': device.show}"  >
-                          <br>
-                          <span>Style</span>
-                          <ul>
-                            <li v-for="style in filterByModificationsd(device.modifications,'style')  ">{{style.value}}</li>
-                          </ul>
-                        </div>
-                      </div>
                     </td>
 
                   </tr>
