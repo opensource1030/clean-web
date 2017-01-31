@@ -217,44 +217,6 @@
                         </select>
                       </div>
                       <div   class="accordion-content"  data-tab-content   v-f-accordion>
-                    <!--    <table  >
-                          <tbody>
-                            <tr class="filter">
-                              <td><div>Retail Price</div></td>
-                              <td><div>1 year contact</div></td>
-                              <td ><div>2 years contract</div></td>
-                              <td ><div v-if="filter.capacity!=null && filter.capacity.attributes!=null" >{{filter.capacity.attributes.value}}</div></td>
-                              <td ><div v-if="filter.style!=null && filter.style.attributes!=null" >{{filter.style.attributes.value}}</div></td>
-                              <td ><div v-if="filter.carrier!=null" >{{filter.carrier.presentation}}</div></td>
-                              <td ><div v-if="filter.company!=null && filter.company.attributes!=null" >{{filter.company.attributes.name}}</div></td>
-
-                                  <td  ><div></div></td>
-                            </tr>
-                          </tbody>
-                          <tbody >
-                            <tr  v-for="(p,index) in findByPrices(priceTable,filter) " >
-                              <td ><div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field"  v-model="p.priceRetail"    ></inputValidate>  </div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price1"    ></inputValidate>  </div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price2"    ></inputValidate></div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.priceOwn"    ></inputValidate></div></td>
-                              <td><div class="features"><select v-model="p.capacity"><option :value="null" >Select Capacity</option><option v-for="c in p.capacitys" :value="c.id">{{c.attributes.value}}</option></select></div></td>
-                              <td><div class="features"><select v-model="p.style" ><option :value="null">Select Style</option><option v-for="s in p.styles" :value="s.id">{{s.attributes.value}}</option></select></div></td>
-                              <td><div class="features"><select v-model="p.carrierId"><option :value="null">Select Carrier</option><option v-for="c in p.carriers" :value="c.id">{{c.presentation}}</option></select></div></td>
-                              <td ><div class="features"><select v-model="p.companyId"><option :value="null" >Select Company</option><option v-for="co in p.companys" :value="co.id">{{co.attributes.name}}</option></select></div></td>
-                                <td ><div class="features"> <a  class="button" @click="adds()" id="button"  >
-                                              <i class="fa fa-plus" ></i>
-                                      </a></div></td>
-                            </tr>
-                          </tbody>
-                        </table>-->
-                    <!--    <div class="row">
-                            <div class="large-3 small-12">
-
-                            </div>
-                            <div class="large-3 small-12">
-
-                            </div>-->
-
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
                               <div class="small-12 large-2 columns">
@@ -304,7 +266,7 @@
                   </div>
                   <div class="clearfix"> </div>
                   <div class="large-3 large-offset-2 small-6 columns">
-                  <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload File</label>
+                  <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload Image</label>
                 </div>
 
                 <div clas="large-3    small-6  columns">
@@ -315,17 +277,19 @@
                          </a>
                        </label>
                 </div>
+                <div clas="large-3    small-6  columns">
+                  <label v-show="p.delete"   >
+                    <strong class="variation">Delete:    </strong>
+                    <a  class="button delete" @click="deletes(index)" id="button"   >
+                          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                    </a>
+                       </label>
+                </div>
 
         </div>
                                   </div>
                             </div>
                           </div>
-
-
-
-
-
-
 
 
                       </div>

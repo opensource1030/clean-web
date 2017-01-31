@@ -1,18 +1,20 @@
+
+
 module.exports = {
   data() {
     return {search: '', isOpen: false, mutableValue: null}
   },
   props: {
+    callback: {
+      type: Function,
+      required: true
+    },
     field: {
       type: String,
       required: true
     },
     labelAttr: {
       type: String,
-      required: true
-    },
-    callback: {
-      type: Function,
       required: true
     },
     options: {
@@ -57,10 +59,9 @@ module.exports = {
       if (this.isOptionSelected(option)) {
         this.deselect(option)
         this.callback();
-          this.onAfterSelect(option)
       } else {
           this.value.push(option)
-          this.callback();
+            this.callback();
         this.onAfterSelect(option)
       }
 

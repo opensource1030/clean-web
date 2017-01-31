@@ -116,7 +116,7 @@ export default {
     else{
 
   this.pricess = [];
-
+  let first =true;
   for(let price of this.priceData){
       let capacityId=null;
       let styleId=null;
@@ -128,7 +128,7 @@ export default {
           }
 
     }
-
+    if(first==true){
     price= Object.assign({}, price, {
       id:price.id,
       styles:this.vStyles,
@@ -146,6 +146,8 @@ export default {
 
 
     });
+    first=false;
+  }
       this.pricess.push(price);
 
   }
@@ -158,6 +160,7 @@ export default {
 
 
   else  if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+
       if(this.price.length>0 && this.add==true){
 
         this.add=false;
@@ -166,6 +169,7 @@ export default {
       else{
 
       this.price = [];
+
       this.company = Object.assign({}, this.company, {
         styles:this.vStyles,
         capacitys: this.vCapacity,
@@ -182,8 +186,11 @@ export default {
         priceRetail: this.d.defaultPrice,
         price1: 0,
         price2: 0,
-        priceOwn: 0
+        priceOwn: 0,
+        delete:false
       });
+
+
 
       this.price.push(this.company);
 
@@ -231,7 +238,8 @@ else{
         priceRetail: this.d.defaultPrice,
         price1: 0,
         price2: 0,
-        priceOwn: 0
+        priceOwn: 0,
+        delete:true
       });
       if(this.pricess.length>0){
       this.pricess.push(this.company)
@@ -253,6 +261,14 @@ else{
         }
       });
     },
+    deletes(index){
+        if(this.id!=null){
+        this.pricess.splice(index, 1);
+      }else{
+          this.price.splice(index, 1);
+      }
+    },
+
     findCompany(){
       if(this.id!=null){
           device.getDataDevice(this,this.id)

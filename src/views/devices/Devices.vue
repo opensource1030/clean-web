@@ -105,7 +105,7 @@
                     <td v-if="device.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>
                   </tr>
                   <tr  >
-                    <td v-show="device.show" transition="device"  class="details" colspan="8" >
+                    <td v-show="device.show" transition="device"  class="detail" colspan="8" >
 
 
 
@@ -152,7 +152,7 @@
 
 
                                 </ul>
-                                <br>
+
                               </div>
 
                             </div>
@@ -160,14 +160,11 @@
                               </div>
                                 <div class="small-6 large-6   columns ">
                                   <div class="large-3 small-3    columns " :class="{ 'up': device.show}">
+
                                     <div class="image">
                                       <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
                                     </div>
 
-                                    <div class="information">
-                                      <span style="font-weight: bold;" >Technical Information</span><br>
-                                      {{device.properties}}
-                                    </div>
 
 
                                   </div>
@@ -199,6 +196,19 @@
                                 </div>
 
                       </div>
+                      <div class="row">
+                          <div class="small-6 large-6   columns ">
+
+                      </div>
+                          <div class="small-6 large-6   columns ">
+                            <div class="information">
+                                <span style="font-weight: bold;" >Technical Information</span><br>
+                                  {{device.properties}}
+                                    </div>
+
+                          </div>
+                    </div>
+
                         </div>
 
 
