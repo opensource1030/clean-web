@@ -21,9 +21,7 @@ export default {
             if(this.active == index) {
                 this.services[index].show = !this.services[index].show;
             } else {
-                if(this.active != -1) {
-                    this.services[this.active].show = false;
-                }
+                this.services[this.active].show = false;
                 this.services[index].show = true;
             }
             this.active = index;
@@ -68,7 +66,7 @@ export default {
     },
     data() {
         return {
-            active: -1,
+            active: 0,
             firstTime: true,
             services: [],
             addons: [],
