@@ -15,24 +15,44 @@ export default {
             }
         };
 
-        if (context.values.status !== '') {
-            params.params['filter[status]'] = context.values.status;
+        if (context.values.status != '') {
+            let aux = context.values.status;
+            if (context.values.status.length > 50) {
+                aux = aux.substring(0, 50) + '%';
+            }
+            params.params['filter[status]'] = aux;
         }
 
         if (context.values.plans != '') {
-            params.params['filter[title][like]'] = context.values.plans;
+            let aux = context.values.plans;
+            if (context.values.plans.length > 50) {
+                aux = aux.substring(0, 50) + '%';
+            }
+            params.params['filter[title][like]'] = aux;
         }
 
         if (context.values.details != '') {
-            params.params['filter[description][like]'] = context.values.details;
+            let aux = context.values.details;
+            if (context.values.details.length > 50) {
+                aux = aux.substring(0, 50) + '%';
+            }
+            params.params['filter[description][like]'] = aux;
         }
 
         if (context.values.codePlan != '') {
-            params.params['filter[planCode][like]'] = context.values.codePlan;
+            let aux = context.values.codePlan;
+            if (context.values.codePlan.length > 50) {
+                aux = aux.substring(0, 50) + '%';
+            }
+            params.params['filter[planCode][like]'] = aux;
         }
         
         if (context.values.carrier != 0) {
-            params.params['filter[carrierId]'] = context.values.carrier.id;
+            let aux = context.values.carrier;
+            if (context.values.carrier.length > 50) {
+                aux = aux.substring(0, 50) + '%';
+            }
+            params.params['filter[carrierId]'] = aux;
         }
         
         if (context.search.costMax != 0) {
@@ -47,6 +67,9 @@ export default {
             {
                 context.showtable = false;
                 context.loading = false;
+                context.errorNotFound = false;
+
+                context.services = [];
 
                 if(response.data.data.length == 0){
                     context.showtable = true;    
@@ -67,9 +90,6 @@ export default {
                         );
                         context.services.push(service);
                     }
-
-                    // Order the Services by title.
-                    //context.services = context.orderFilters(context.services, 'title', 'string', 'asc');
 
                     /*
                      *  Sometimes we don't have a carrier assigned,
@@ -213,8 +233,8 @@ export default {
     getFilters (context, list, value, order) {
 
         let aux = value;
-        if(aux.length >= 40){
-            aux = aux.substring(0, 40);
+        if(aux.length >= 50){
+            aux = aux.substring(0, 50);
             aux = aux + '...';
         }
 
