@@ -15,38 +15,39 @@ export default {
         orderFilters,
 
         loadData() {
-            services.getServices(this, this.pagination.current_page);
+            services.getServicesPage(this, this.pagination.current_page);
         },
-        
         setActive: function(index) {
-            this.active = index;
-            this.services[this.active].hide = !this.services[this.active].hide;
-            if (this.services[this.active].show == true) {
-                this.services[this.active].show = false;
+            if(this.active == index) {
+                this.services[index].show = !this.services[index].show;
             } else {
-                this.services[this.active].show = true;
-                for (let i = 0; i < this.services.length; i++) {
-                    if (this.services[this.active].id != this.services[i].id) {
-                        this.services[i].show = false;
-                    }
+                if(this.active != -1) {
+                    this.services[this.active].show = false;
+                }
+                this.services[index].show = true;
+            }
+            this.active = index;
+
+            this.addons = [];
+            for (let j = 0; j < this.services[index].serviceitems.length; j++) {
+                if( this.services[index].serviceitems[j].category == 'addon') {
+                    this.addons.push(this.services[index].serviceitems[j]);
                 }
             }
         },
+        showAddons: function() {
+            this.addonsShow = !this.addonsShow;
+        },
         onSelectColumn: function() {
-            services.getServices(this, this.pagination.current_page);
+            services.getServicesPage(this, this.pagination.current_page);
         },
         setActiveCostOptions: function() {
-            if(this.search.searchShow){
-                this.search.searchShow = false;
-            } else {
-                this.search.searchShow = true;
-            }
+            this.search.searchShow = !this.search.searchShow;
         },
         searchCost: function() {
             if(this.search.costMin <= this.search.costMax) {
                 this.search.errorCost = false;
                 this.search.searchShow = false;
-                this.search.searchFilter = true;
                 if(this.search.costMin != 0 || this.search.costMax != 0) {
                     this.search.costFilterMessage = this.search.costMin + ' > ' + this.search.costMax;
                 } else {
@@ -67,16 +68,19 @@ export default {
     },
     data() {
         return {
-            active: 0,
+            active: -1,
             firstTime: true,
             services: [],
+            addons: [],
+            addonsShow: false,
+            retrieved: 0,
             loading: true,
             showtable: false,
             showModal: false,
-            loadpagination: false,
             errorNotFound:false,
             filter : {
-                status: [],
+                status: ['Enabled', 'Disabled'],
+                services: [],
                 plans: [],
                 details: [],
                 codePlan: [],
@@ -97,7 +101,7 @@ export default {
                 carriers: '',
                 cost: '',
                 details: '',
-                carrier: '',                
+                carrier: ''
             },
             names: {
                 servicePlans: 'Service Plans',
@@ -109,11 +113,17 @@ export default {
                 carrier: 'Carrier',
                 cost: 'Cost',
                 domMinutes: 'Minutes',
+                domMinutesMessage: ' Domestic Minutes',
                 domData: 'Data',
+                domDataMessage: 'Domestic Data',
                 domSms: 'SMS',
+                domSmsMessage: 'Domestic SMS',
                 intMinutes: 'International Minutes',
+                intMinutesMessage: 'International Minutes',
                 intData: 'International Data',
+                intDataMessage: 'International Data',
                 intSms: 'International SMS',
+                intSmsMessage: 'International SMS',
                 managePlanButton: 'Manage Plan',
                 noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'                
             },

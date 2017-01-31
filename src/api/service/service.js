@@ -65,6 +65,8 @@ export default {
                     ok = false;
                 }
             }
+
+            addon.unit = serviceDetails.currency;
         }
 
         if (ok) {
@@ -136,6 +138,7 @@ export default {
             context.internationalPlan.minutes = findServiceItem(event, "voice", "international");
             context.internationalPlan.data = findServiceItem(event, "data", "international");
             context.internationalPlan.sms = findServiceItem(event, "messaging", "international");
+
             //addons
             let addOns = [];
             addOns = findByAddons(event.serviceitems, "addon", "");
@@ -147,7 +150,7 @@ export default {
             if (context.addons.length == 0) {
                 context.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
             }
-            
+
             context.reorderButtons();
             this.getCarriers(context);
         }, (response) => {});
@@ -183,8 +186,6 @@ export default {
                 } else {
                     let i = response.data.meta.pagination.current_page;
                     while (i <= response.data.meta.pagination.total_pages) {
-                        
-
 
                         let params2 = {
                             params: {
@@ -212,7 +213,9 @@ export default {
                                         context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
                                         context.noCarriers = false;
                                     }
-                                    context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
+                                    if(context.serviceDetails.id > 0) {
+                                        context.noCarrierSelected = this.checkIfNoCarrierSelected(context);
+                                    }
                                     context.loadedContent = true;
                                 }
                             }, (response) => {}

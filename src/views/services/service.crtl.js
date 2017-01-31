@@ -14,6 +14,8 @@ export default {
     beforeCreate() {
         if (this.$route.params.id > 0) {
             service.getDataService(this, this.$route.params.id);
+        } else {
+            service.getCarriers(this);
         }
     },
     data() {
@@ -139,6 +141,7 @@ export default {
                 {
                     description: '',
                     cost: '',
+                    unit: 'USD',
                     add: true,
                     delete: false,
                     addonNameError: false,
