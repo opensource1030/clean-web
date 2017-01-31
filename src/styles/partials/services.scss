@@ -7,10 +7,10 @@
     }
     .textbold {
         font-weight: bold;
+        white-space:nowrap;
     }
     .longtext {
         width:70%;
-        white-space:nowrap;
         overflow:hidden;
         text-overflow:ellipsis;
     }
@@ -88,6 +88,12 @@
                 list-style-type: none;
             }
         }
+    }
+    .inner-table {
+        padding: 0rem 0rem 0rem 0rem;
+        border-spacing: 0px;
+        line-height: 12px;
+        width: 60%
     }
 }
 
