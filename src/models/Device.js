@@ -8,7 +8,6 @@ export default class Device {
     this.model=model;
     this.type = type;
     this.name = name;
-
     this.properties = properties;
     this.deviceTypeId = deviceTypeId;
     this.statusId = statusId;
@@ -156,12 +155,10 @@ export default class Device {
         properties: this.properties,
         deviceTypeId: this.deviceTypeId,
         defaultPrice:parseFloat(this.defaultPrice),
+        currency:this.currency,
         make:this.make,
         model:this.model,
         statusId: 1,
-        identification:this.identification,
-
-        /*identification: this.identification,*/
       },
       relationships:this.relationships
     };

@@ -3,7 +3,6 @@ import device from './../../api/device/device';
 import {findByPrices, filterByModifications} from './../../components/filters.js';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
-
 Vue.directive('f-accordion', {
   bind: function(el) {
     Vue.nextTick(function() {
@@ -40,12 +39,10 @@ export default {
         break;
 
 }
-
     },
     mCapacity() {
       if (this.modifications.data != null) {
         let value = 'capacity';
-
         return this.modifications.data.filter(function(item) {
           return item.attributes.modType.indexOf(value) > -1;
         });
@@ -137,22 +134,35 @@ export default {
       companys: this.vCompanies,
       style:styleId,
       capacity:capacityId,
+      delete:false,
       carrierId:price.carrierId,
       companyId:price.companyId,
       imageVariations: {
         url: process.env.URL_API+'/images/'+price.images[0].id,
         id: price.images[0].id
       }
-
-
     });
     first=false;
+  }else{
+    price= Object.assign({}, price, {
+      id:price.id,
+      styles:this.vStyles,
+      capacitys: this.vCapacity,
+      carriers: this.vCarriers,
+      companys: this.vCompanies,
+      style:styleId,
+      capacity:capacityId,
+      delete:true,
+      carrierId:price.carrierId,
+      companyId:price.companyId,
+      imageVariations: {
+        url: process.env.URL_API+'/images/'+price.images[0].id,
+        id: price.images[0].id
+      }
+    });
   }
       this.pricess.push(price);
-
   }
-
-
   return this.pricess;
 }
 
@@ -263,6 +273,9 @@ else{
     },
     deletes(index){
         if(this.id!=null){
+          if(this.priceData[index]!=null){
+            this.priceData.splice(index,1);
+          }
         this.pricess.splice(index, 1);
       }else{
           this.price.splice(index, 1);
@@ -272,7 +285,6 @@ else{
     findCompany(){
       if(this.id!=null){
           device.getDataDevice(this,this.id)
-
       }
       else{
       device.getDevice(this, 1);
@@ -296,8 +308,6 @@ else{
     },
     changeStatusCompany(index) {
       this.companies.data[index].check = !this.companies.data[index].check;
-      console.log(this.companies.data[index].check);
-
     },
 
     showFalse() {

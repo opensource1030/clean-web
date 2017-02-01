@@ -30,19 +30,27 @@
 
             <li  v-if="search==''" class="multiselect__element" >
 
-              <span tabindex="0" v-for="(option,index) in limit(options)"  :value="option" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  @mousedown.prevent="select(option,index)" >
+              <span  v-if="labelAttr==null"  tabindex="0" v-for="(option,index) in options" :key="index"    class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  @mousedown.prevent="select(option,index)" >
+                {{option}}
+
+              </span>
+              <span  v-if="labelAttr!=null && labelAttr!=''"  tabindex="0" v-for="(option,index) in options" :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  @mousedown.prevent="select(option,index)" >
                 {{option[labelAttr]}}
 
               </span>
                 </li>
                   <li  v-else class="multiselect__element" >
-              <span  v-for="(option,index) in filteroptions(options,search) " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index === typeAheadPointer }"  :value="option"  @mousedown.prevent="select(option,index)" >
+              <span v-if="labelAttr==null" v-for="(option,index) in filteroptions(options,search) " :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }"  :value="option"  @mousedown.prevent="select(option,index)" >
+                {{option}}
+
+              </span>
+              <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filteroptions(options,search) " :key="index"  class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }"  :value="option"  @mousedown.prevent="select(option,index)" >
                 {{option[labelAttr]}}
 
               </span>
                 </li>
 
-          <li v-if="filteroptions(options,search).length==0" >
+       <li v-if="filteroptions(options,search).length==0" >
             <span class="multiselect__option">
               <slot name="noResult">No elements found. Consider changing the search query.</slot>
             </span>

@@ -15,7 +15,6 @@ module.exports = {
     },
     labelAttr: {
       type: String,
-      required: true
     },
     options: {
       type: Array,
@@ -37,9 +36,7 @@ module.exports = {
   },
   methods: {
 
-    limit(options) {
-      return options.slice(0, 10)
-    },
+
 	   onAfterSelect(option) {
 					this.isOpen = !this.isOpen
 					this.search = ''
@@ -47,10 +44,18 @@ module.exports = {
 
     filteroptions(list, value) {
       let self = this
+  if(this.labelAttr!=null && this.labelAttr!=""){
       return list.filter(function(item) {
 
         return item[self.labelAttr].toString().indexOf(value) > -1;
       });
+    }else{
+      return list.filter(function(item) {
+
+        return item.toString().indexOf(value) > -1;
+      });
+
+    }
 
     },
 

@@ -18,9 +18,7 @@ export default {
   },
 
   updateDevice(id, context, price, style, capacity, device, image) {
-
     let deviceObj = new Device('devices', id, parseInt(device.defaultPrice), device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
-
     let check = this.checkDevice(deviceObj, style, capacity, price, context, id)
     if (check.staus == false) {
       context.message = "Error in field " + check.field;
@@ -32,7 +30,7 @@ export default {
         context.$router.push({name: 'devices'});
 
       }, (response) => {
-        context.message = response;
+        context.message = "code error    "+response.status;
         context.showModal = true;
       });
     }
@@ -375,7 +373,6 @@ export default {
   },
 
   addDevice(context, price, style, capacity, device, image) {
-console.log(device);
     let deviceObj = new Device('devices', null, device.defaultPrice, device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, null)

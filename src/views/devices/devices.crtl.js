@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
 import Multiselect from './../../components/Multiselect.vue';
-import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
+import {filterByModificationsd, filterByModifications, filterByCarrier,orderFilters} from './../../components/filters.js';
 import devices from './../../api/device/devices';
 import modal from './../../components/modal.vue';
-
+import Filter from './../../api/filtersApi';
 export default {
 
   components : {
@@ -13,24 +13,23 @@ export default {
     Multiselect:Multiselect
   },
   beforeCreate() {
-
-    devices.getDevice(this);
-
+    Filter.getCarriers(this);
+    Filter.getModifications(this);
+    Filter.getDeviceTypes(this);
   },
 
   methods : {
     filterByModificationsd,
     filterByModifications,
+    orderFilters,
 
     loadData() {
       devices.getDevices(this, this.pagination.current_page);
-
     },
     updateSelected (newSelected) {
      this.selected = newSelected
    },
     filterByCarrier,
-
     setActive(index) {
       this.active = index;
     //  console.log(this.devices[index]);
@@ -55,9 +54,6 @@ export default {
     return {
       active: 0,
       devices: [],
-      filterModifications: [],
-      filterDeviceType: [],
-      filterPrices: [],
       pagination: {
         current_page: 1,
         total_pages: null,
@@ -66,12 +62,12 @@ export default {
         per_page: 25
       },
       filter:{
-        devices:[],
+        make:[],
+        price:[],
         modifications:[],
         carriers:[],
         deviceType:[],
       },
-      filterCarriers: [],
       type: [],
       manufactured: [],
       carrier: [],
