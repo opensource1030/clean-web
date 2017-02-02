@@ -63,23 +63,23 @@ import LegacyInfo from './components/LegacyInfo.vue'
     },
     name: 'dashboard',
     children : [
-      { 
+      {
         path: 'charge/:id',
         name : 'spentInfo',
         component: SpentInfo
       },
-      { 
+      {
         path: 'procurement/',
         name : 'legacyInfo',
         component: LegacyInfo
       }
     ]
-  }, 
+  },
   {
     path: '/sso/:id',
     component: Sso,
     name: 'sso'
-  }, 
+  },
   {
     path: '/sidemenu',
     component: Sidemenu
@@ -88,7 +88,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/devices',
     component: Devices,
-    name: 'devices',
+    name: 'List Devices',
     meta: {
       requiresAuth: true
     }
@@ -96,7 +96,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/device/:id',
     component: Device,
-    name: 'devicem',
+    name: 'Update Device',
     meta: {
       requiresAuth: true
     }
@@ -104,7 +104,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/device',
     component: Device,
-    name: 'device',
+    name: 'Add Device',
     meta: {
       requiresAuth: true
     }
@@ -113,7 +113,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/services',
     component: Services,
-    name: 'services',
+    name: 'List Services',
     meta: {
       requiresAuth: true
     }
@@ -121,7 +121,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/service/:id',
     component: Service,
-    name: 'service',
+    name: 'Update Service',
     meta: {
       requiresAuth: true
     }
@@ -129,7 +129,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
   {
     path: '/service',
     component: Service,
-    name: 'service',
+    name: 'Add Service',
     meta: {
       requiresAuth: true
     }
