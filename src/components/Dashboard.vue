@@ -1,41 +1,8 @@
 <template>
-  <div class="content-right" >
+<div>
     <div class="alert callout for-dashboard" data-closable style="display:none;">
       <h5>You will now be redirected to this section in our legacy App</h5>
     </div>
-    <div class="expanded row">
-
-      <!-- top nav -->
-      <section class="top-bar-section clearfix ">
-        <div class="column large-8 medium-8 small-6">
-          <morphsearch> </morphsearch>
-        </div>
-        <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-          <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' "></span></a></div>
-          <div class="HW-container"></div>
-          <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
-            <ul>
-              <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <!-- end of top nav -->
-      <div class="clearfix"></div>
-
-      <nav class="level app-levelbar">
-        <div class="level-left">
-          <div class="level-item">
-            <h3 class="subtitle is-5">
-              <strong>{{ name }}</strong>
-            </h3>
-          </div>
-        </div>
-        <div class="level-right is-hidden-mobile">
-          <breadcrumb :list="list"></breadcrumb>
-        </div>
-      </nav>
-
       <client-Info></client-Info>
       <div class="clearfix"></div>
       <charge-Info></charge-Info>
@@ -135,9 +102,9 @@
         <div class="clearfix"></div>
       </div>
       <div class="clearfix"></div>
-    </div>
+
     <router-view class="child"></router-view>
-  </div>
+</div>
 </template>
 
 <script src="./dashboard.ctrl.js" lang="babel"></script>

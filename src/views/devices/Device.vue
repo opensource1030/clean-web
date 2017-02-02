@@ -1,21 +1,15 @@
 <template>
-
-  <div class="content-right">
-    <div class="full-height row">
       <div id="device">
-        <div class="header"></div>
-        <div class="expanded row">
           <modal v-if="showModal" @close="showModal = false">
-
-    <h3 slot="body">{{message}}</h3>
+            <h3 slot="body">{{message}}</h3>
   </modal>
 
           <div class="small-12 columns titles">
             <h4>Manage Devices<h4>
             </div>
 
-            <div class="medium-6 columns devicename">
-              <label>Device Name
+            <div class="medium-6 columns ">
+              <label class="devicename"  >Device Name
                 <input type="text" placeholder="" :value="d.name" v-model="d.name" >
               </label>
             </div>
@@ -165,15 +159,17 @@
 
                         </label>
                       </div>
-
+                    </div>
+                  </div>
                     </li>
+
                     <li class="acordeon-item " data-accordion-item  v-f-accordion>
                       <a href="#" class="accordion-title" @click="showFalse()"   >Companies</a>
                       <div class="accordion-content companies"  data-tab-content   v-f-accordion>
                         <div class="row">
                           <div class="small-6 columns find">
                             <label id="bl" >Find Company
-                              <input type="text" placeholder="Search Name"  v-model="companyFilter" >
+                              <input type="text" placeholder="Google"  v-model="companyFilter" >
                             </label>
                           </div>
                           <div class="small-6 columns">
@@ -217,6 +213,7 @@
                         </select>
                       </div>
                       <div   class="accordion-content"  data-tab-content   v-f-accordion>
+
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
                               <div class="small-12 large-2 columns">
@@ -266,7 +263,7 @@
                   </div>
                   <div class="clearfix"> </div>
                   <div class="large-3 large-offset-2 small-6 columns">
-                  <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload Image</label>
+                  <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload File</label>
                 </div>
 
                 <div clas="large-3    small-6  columns">
@@ -275,14 +272,6 @@
                   <a  class="button" @click="adds()" id="button"  >
                                  <i class="fa fa-plus fa-2x" ></i>
                          </a>
-                       </label>
-                </div>
-                <div clas="large-3    small-6  columns">
-                  <label v-show="p.delete"   >
-                    <strong class="variation">Delete:    </strong>
-                    <a  class="button delete" @click="deletes(index)" id="button"   >
-                          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                    </a>
                        </label>
                 </div>
 
@@ -296,10 +285,9 @@
                     </li>
                   </ul>
                   <a  class="button large" @click="submit()" id="button">Save Changes</a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+
+
 </template>
 <script src="./device.crtl.js" lang="babel" ></script>
