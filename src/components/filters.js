@@ -222,8 +222,7 @@ function orderFilters(list, attribute, type, orderby) {
                     return b - a;
                 }
             }
-        }
-    });
+        });
 }
 
 export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters};
