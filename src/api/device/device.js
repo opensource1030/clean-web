@@ -27,7 +27,7 @@ export default {
 
       context.$http.patch(process.env.URL_API + '/devices/' + id, {data: deviceObj.toJSON()}).then((response) => {
 
-        context.$router.push({name: 'devices'});
+        context.$router.push({name: 'List Devices'});
 
       }, (response) => {
         context.message = "code error    " + response.status;
@@ -376,7 +376,7 @@ export default {
     } else {
       context.$http.post(process.env.URL_API + '/devices', {data: deviceObj.toJSON()}).then((response) => {
 
-        context.$router.push({name: 'devices'});
+        context.$router.push({name: 'List Devices'});
 
       }, (response) => {
         context.message = response;
