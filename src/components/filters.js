@@ -185,12 +185,19 @@ function reverse(value) {
  *
  */
 function orderFilters(list, attribute, type, orderby) {
-    return list.sort(function(a,b) {
+    return list.sort(function(c,d) {
         let nameA;
         let nameB;
-
+        let a;
+        let b;
         if(attribute == '') {
-
+          a=c;
+          b=d;
+        }
+        else{
+          a=c[attribute];
+          b=d[attribute];
+        }
             if (type == 'string') {
                 nameA = a.toLowerCase();
                 nameB = b.toLowerCase();
@@ -214,34 +221,6 @@ function orderFilters(list, attribute, type, orderby) {
                 } else {
                     return b - a;
                 }
-            }
-        } else {
-
-            if (type == 'string') {
-                nameA = a[attribute].toLowerCase();
-                nameB = b[attribute].toLowerCase();
-
-                if (orderby == 'asc') {
-                    // sort string ascending
-                    if (nameA < nameB) { return -1; }
-                    if (nameA > nameB) { return 1; }
-                    return 0 //default return value (no sorting)
-                } else {
-                    // sort string ascending
-                    if (nameA > nameB) { return -1; }
-                    if (nameA < nameB) { return 1; }
-                    return 0 //default return value (no sorting)
-                }
-
-            } else if (type == 'number') {
-
-                if (orderby == 'asc') {
-                    return a[attribute] - b[attribute];
-                } else {
-                    return b[attribute] - a[attribute];
-                }
-            } else {
-                // NOTHING
             }
         }
     });
