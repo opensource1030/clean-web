@@ -327,11 +327,9 @@ export default {
       }
       if (c == true) {
         device.modificationsJson(capacity, style, device);
-        if (id == null) {
           device.pricesJson(price, device);
-        } else {
-          device.pricesUpdateJson(price, device)
-        }
+
+
         let error = {
           field: "",
           status: true

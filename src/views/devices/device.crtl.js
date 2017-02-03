@@ -3,13 +3,6 @@ import device from './../../api/device/device';
 import {findByPrices, filterByModifications} from './../../components/filters.js';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
-Vue.directive('f-accordion', {
-  bind: function(el) {
-    Vue.nextTick(function() {
-      $(el).foundation();
-    });
-  }
-});
 export default {
   name : 'Device',
   components: {
@@ -104,17 +97,7 @@ export default {
     },
 
     priceTable() {
-  if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-    if(this.pricess.length>0 && this.add==true){
-      this.add=false;
-
-    return this.pricess
-    }
-    else{
-
-      if(this.pricess.length!=0){
-        this.company = Object.assign({}, this.company, {
-          styles:this.vStyles,
+        let json=  {styles:this.vStyles,
           capacitys: this.vCapacity,
           carriers: this.vCarriers,
           companys: this.vCompanies,
@@ -130,8 +113,18 @@ export default {
           price1: 0,
           price2: 0,
           priceOwn: 0,
-          delete:false
-        });
+          delete:false};
+
+  if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+    if(this.pricess.length>0 && this.add==true){
+      this.add=false;
+
+    return this.pricess
+    }
+    else{
+
+      if(this.pricess.length!=0){
+        this.company = Object.assign({}, this.company, json);
         let self=this;
         this.pricess.forEach(function(p, index) {
           Vue.set(self.pricess, index, self.company)
@@ -211,25 +204,7 @@ export default {
       }
       else{
 
-      this.company = Object.assign({}, this.company, {
-        styles:this.vStyles,
-        capacitys: this.vCapacity,
-        carriers: this.vCarriers,
-        companys: this.vCompanies,
-        imageVariations: {
-          url: "./../assets/logo.png",
-          id: 0
-        },
-        style:null,
-        capacity:null,
-        carrierId:null,
-        companyId:null,
-        priceRetail: this.d.defaultPrice,
-        price1: 0,
-        price2: 0,
-        priceOwn: 0,
-        delete:false
-      });
+      this.company = Object.assign({}, this.company, json);
 
 
       if(this.price.length==0){

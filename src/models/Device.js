@@ -56,7 +56,7 @@ export default class Device {
   pricesJson(price, device) {
 
     price.forEach(function(p, index) {
-      device.prices.push({
+      let json=  {
         type: "devicevariations",
         "attributes": {
           "priceRetail": p.priceRetail,
@@ -87,64 +87,24 @@ export default class Device {
             ]
           }
         }
-      })
-    });
-
-    device.relationships = Object.assign({}, device.relationships, {
-      devicevariations: {
-        data:device.prices
-      },
-    });
-  }
-
-  pricesUpdateJson(price, device) {
-
-    price.forEach(function(p, index) {
-      device.prices.push(
-      {
-        "type": "devicevariations",
-        "id": p.id,
-        "attributes": {
-          "priceRetail": p.priceRetail,
-          "price1": p.price1,
-          "price2": p.price2,
-          "priceOwn": p.priceOwn,
-          "deviceId": device.id,
-          "carrierId": p.carrierId,
-          "companyId": p.companyId,
-        },
-        "relationships": {
-          "images": {
-            "data": [
-              {
-                "type": "images",
-                "id": p.imageVariations.id
-              }
-            ]
-          },
-          "modifications": {
-            "data": [
-              {
-                "type": "modifications",
-                "id": p.capacity
-              },
-              {
-                "type": "modifications",
-                "id": p.style
-              }
-            ]
-          }
-        }
       }
-      );
-    });
 
+      if (p.id!=null){
+        json.id=p.id;
+      }
+      else{
+      device.prices.push(json);
+    }
+  });
     device.relationships = Object.assign({}, device.relationships, {
       devicevariations: {
         data:device.prices
       },
     });
-  }
+
+}
+
+
 
   toJSON() {
     return {
