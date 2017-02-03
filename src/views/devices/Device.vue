@@ -274,6 +274,16 @@
                          </a>
                        </label>
                 </div>
+                <div clas="large-3    small-6  columns">
+          <label v-show="p.delete"   >
+            <strong class="variation">Delete:    </strong>
+            <a  class="button delete" @click="deletes(index)" id="button"   >
+                  <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+            </a>
+               </label>
+        </div>
+
+
 
         </div>
                                   </div>

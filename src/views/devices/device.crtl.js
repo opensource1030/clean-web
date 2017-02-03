@@ -112,8 +112,37 @@ export default {
     }
     else{
 
-  this.pricess = [];
+      if(this.pricess.length!=0){
+        this.company = Object.assign({}, this.company, {
+          styles:this.vStyles,
+          capacitys: this.vCapacity,
+          carriers: this.vCarriers,
+          companys: this.vCompanies,
+          imageVariations: {
+            url: "./../assets/logo.png",
+            id: 0
+          },
+          style:null,
+          capacity:null,
+          carrierId:null,
+          companyId:null,
+          priceRetail: this.d.defaultPrice,
+          price1: 0,
+          price2: 0,
+          priceOwn: 0,
+          delete:false
+        });
+        let self=this;
+        this.pricess.forEach(function(p, index) {
+          Vue.set(self.pricess, index, self.company)
+            });
+
+
+
+
+      }
   let first =true;
+
   for(let price of this.priceData){
       let capacityId=null;
       let styleId=null;
@@ -161,8 +190,12 @@ export default {
       }
     });
   }
+  if(this.pricess.length==0){
       this.pricess.push(price);
+    }
+
   }
+
   return this.pricess;
 }
 
@@ -177,8 +210,6 @@ export default {
       return this.price
       }
       else{
-
-      this.price = [];
 
       this.company = Object.assign({}, this.company, {
         styles:this.vStyles,
@@ -201,8 +232,15 @@ export default {
       });
 
 
-
+      if(this.price.length==0){
       this.price.push(this.company);
+    }
+    else{
+    let self=this;
+      this.price.forEach(function(p, index) {
+        Vue.set(self.price, index, self.company)
+          });
+    }
 
       return this.price
 }
