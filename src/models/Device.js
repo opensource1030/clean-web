@@ -91,6 +91,7 @@ export default class Device {
 
       if (p.id!=null){
         json.id=p.id;
+      device.prices.push(json);
       }
       else{
       device.prices.push(json);
@@ -103,8 +104,6 @@ export default class Device {
     });
 
 }
-
-
 
   toJSON() {
     return {
