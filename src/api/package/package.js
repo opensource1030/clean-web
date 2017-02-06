@@ -1,328 +1,147 @@
-
 import Vue from 'vue';
 import auth from './../auth.js';
-import Device from './../../models/Device'
+import Package from './../../models/Package'
 
-var {
-  Store,
-} = require('yayson')();
+var {Store} = require('yayson')();
 var store = new Store();
 
 export default {
-  /*-------------------------------update device-----------------*/
-  carriersCheck: {
-    data: [],
-  },
-  companiesCheck: {
-    data: [],
-  },
-  modificationsCheck: {
-    data: [],
-  },
 
+    getUserInformation(context) {
 
-  updateDevice(id, context, price, style, capacity, carriers, companies, device, image) {
+        let params = {
+            params: {
 
-      let deviceObj = new Device('devices',id, device.id, device.name, device.description, device.type, 1, image.id);
-    if(capacity.length===0 && style.length===0 && carrriers.length===0 && companies.length===0 && price.length===0){
-      context.showModal=true;
-    }else{
-      deviceObj.modificationsJson(capacity,style,deviceObj);
-      deviceObj.carriersJson(carriers,deviceObj);
-      deviceObj.companiesJson(companies,deviceObj);
-      deviceObj.pricesJson(price,deviceObj);
-}
+            }
+        };
 
+        context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
 
+            event = store.sync(response.data);
+            context.package.companyId = event.companyId
 
-    context.$http.patch(process.env.URL_API + '/devices/' + id, {
-
-      data: deviceObj.toJSON()
-
-
-    })
-      .then((response) => {
-
-        context.$router.push({name: 'devices'});
-
-      }, (response) => {
-
-        context.showModal=true;
-      });
-
-  },
-
-  getDataDevice(context, id) {
-
-    context.$http.get(process.env.URL_API + '/devices/' + id, {
-      params: {
-        include: 'modifications,carriers,companies,prices,images',
-      },
-
-    }).then((response) => {
-
-        event = store.sync(response.data);
-
-        //context.image.url=process.env.URL_API+'/images/'+event.images[0].id;
-        //  context.image.id=event.images[0].id;
-
-        context.d.name = event.name;
-        context.d.description = event.properties;
-        context.d.id = event.defaultPrice;
-        context.d.type = event.devicetypes[0].id;
-        context.d.make=event.make;
-        context.d.model=event.model;
-        context.carriers = this.carriersCheck;
-        context.priceData = event.devicevariations;
-        this.modificationCheck(context, event.modifications);
-        this.carrierCheck(context, event.carriers);
-        this.companyCheck(context, event.companies);
-        context.modifications = this.modificationsCheck;
-
-        context.companies = this.companiesCheck;
-        context.vCompanies = this.companiesCheck;
-        context.checkcarrier();
-
-      },
-
-      (response) => {
-
-      });
-
-  },
-
-  carrierCheck(context, carriersD) {
-
-    var i = 0;
-    for (let carrier of this.carriersCheck.data) {
-
-      carrier.check = false;
-
-      for (let carrierData of carriersD) {
-        if (carrier.id == carrierData.id) {
-
-          carrier.check = true;
-
-          break;
-        }
-      }
-
-      i++;
-    }
-  },
-
-  companyCheck(context, companiesD) {
-
-    for (let company of this.companiesCheck.data) {
-      company.check = false;
-      for (let companyData of companiesD) {
-        if (company.id == companyData.id) {
-          company.check = true;
-
-          break;
-        }
-      }
-
-    }
-
-    context.companies = [];
-
-  },
-
-  modificationCheck(context, modificationsD) {
-
-    for (let modification of this.modificationsCheck.data) {
-      modification.check = false;
-      for (let modificationData of modificationsD) {
-        if (modification.id == modificationData.id) {
-          modification.check = true;
-
-          break;
-        }
-      }
-
-    }
-
-    context.modifications = [];
-
-  },
-  /*---------------------------------create device---------------------------------------*/
-
-  getDevice(context, page) {
-
-    context.$http.get(process.env.URL_API + '/devicetypes', {
-
-      params: {
-        page: page,
-      },
-
-    }).then((response) => {
-
-        context.deviceType = response.data;
-
-      },
-
-      (response) => {
-
-      });
-
-    context.$http.get(process.env.URL_API + '/modifications', {
-
-      params: {
-        page: page,
-      },
-
-    }).then((response) => {
-        for (let modification of response.data.data) {
-          this.modificationsCheck.data.push(modification);
-          modification.check = false;
-
-        }
-
-        context.modifications = response.data;
-
-      },
-
-      (response) => {
-
-      });
-
-    context.$http.get(process.env.URL_API + '/carriers', {
-
-      params: {
-        page: page,
-        'filter[active]': 1,
-        include: 'images',
-      },
-
-    }).then((response) => {
-        event = store.sync(response.data);
-        console.log(event);
-
-        //process.env.URL_API
-
-        for (let carrier of event) {
-
-          this.carriersCheck.data.push(carrier);
-          carrier.check = false;
-
-        }
-
-        context.carriers.data = event;
-      },
-
-      (response) => {
-      });
-
-    context.$http.get(process.env.URL_API + '/companies', {
-
-      params: {
-        page: page,
-        'filter[active]': 1,
-      },
-
-    }).then((response) => {
-        context.pagination = response.data.meta.pagination;
-        for (let company of response.data.data) {
-
-          this.companiesCheck.data.push(company);
-          company.check = false;
-
-        }
-
-        context.companies = response.data;
-
-      },
-
-      (response) => {
-
-      });
-  },
-
-  addModifications(context, obj) {
-    context.$http.post(process.env.URL_API + '/modifications', {
-
-      data: {
-        type: 'modifications',
-        attributes: {
-          modType: obj.type,
-          value: obj.value,
+            this.getUdlsFromCompanies(context, context.package.companyId);
         },
-      },
-    })
-      .then((response) => {
-        this.getDevice(context);
+        (response) => {});
+    },
 
-      }, (response) => {
-      });
-  },
+    getDataPackage(context, id) {
 
-  addDevice(context, price, style, capacity, carriers, companies, device, image) {
+        context.package.id = id;
 
+        let params = {
+            params: {
+                include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications'
+            }
+        };
 
-  let deviceObj = new Device('devices',null,device.id, device.name, device.description, device.type, 1, image.id);
-    if(capacity.length===0 && style.length===0 && carriers.length===0 && companies.length===0 && price.length===0){
-      context.showModal=true;
-    }else{
-    deviceObj.modificationsJson(capacity,style,deviceObj);
-    deviceObj.carriersJson(carriers,deviceObj);
-    deviceObj.companiesJson(companies,deviceObj);
-    deviceObj.pricesUpdateJson(price,deviceObj);
-  }
+        context.$http.get(process.env.URL_API + '/packages/' + id, params).then((response) => {
 
-    context.$http.post(process.env.URL_API + '/devices', {
+            event = store.sync(response.data);
 
-      data: deviceObj.toJSON()
+            context.id = id;
+            context.package.name = event.name;
+            context.package.type = event.type;
+            context.package.addressId = event.addressId;
+            context.package.companyId = event.companyId;
 
-    })
-      .then((response) => {
+            context.package.apps = event.apps;
+            //context.package.companies = event.companies;
+            context.package.conditions = event.conditions;
+            context.reorderButtons();
+            context.package.devicevariations = event.devicevariations;
+            context.package.services = event.services;
 
-          context.$router.push({name: 'devices'});
+            //console.log("CONTEXT.PACKAGE");
+            //console.log(context.package);
 
-      }, (response) => {
-          context.showModal=true;
+            this.getUdlsFromCompanies(context, context.package.companyId);
+        },
+        (response) => {});
+    },
 
-      });
+    getUdlsFromCompanies(context, companyId) {
 
-  },
+        let params = {
+            params: {
+                include: 'udls'
+            }
+        };
 
-  createImage(context, file) {
-    context.$http.post(process.env.URL_API + '/images', file)
+        context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
 
-      .then((response) => {
-        context.image.url = 'http://' + response.data.data.links.self;
-        context.image.id = response.data.data.id;
+            context.package.companies = store.sync(response.data);
+            //console.log(context.package.companies);
+            this.addConditionsOptions(context);
+        },
+        (response) => {});
+    },    
 
-      }, (response) => {
-      });
+    addConditionsOptions(context) {
 
-  },
-  filterCompanies(context,page,companyName){
-    context.$http.get(process.env.URL_API + '/companies', {
+        for (let udl of context.package.companies.udls) {
 
-      params: {
-        page: page,
-        'filter[name][like]': companyName
-      },
+            let vals = []
+            for (let values of udl.sections) {
+                vals.push(values.name);
+            }
 
-    }).then((response) => {
-        context.pagination = response.data.meta.pagination;
-        for (let company of response.data.data) {
+            context.conditionsFieldsOptions.push(udl.label);
 
-          this.companiesCheck.data.push(company);
-          company.check = false;
-
+            let aux = {
+                label: udl.label,
+                conditions: context.allConditions,
+                values: vals,
+            }
+            context.conditionsOptions.push(aux);
         }
 
-        context.companies = response.data;
+        //console.log("CONTEXT.CONDITIONSOPTIONS");
+        //console.log(context.conditionsOptions);
+        //console.log(context.conditionsFieldsOptions);
+        //console.log(context.package.conditions);
+        
+    },
+    createThePackage(context) {
 
-      },
+        let conditions = this.prepareConditionsForSend(context.package.conditions);
 
-      (response) => {
+        let pack = new Package(
+                context.package.id,
+                context.package.type,
+                context.package.name,
+                1, //context.package.addressId,
+                context.package.companyId,
+                conditions,
+                [], // context.package.apps,
+                [], // context.package.devicevariations,
+                [], // context.package.services
+            );
 
-      });
+        context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
+            event = store.sync(response.data);
+            //console.log(event);
+        }, (response) => {});
+    },
+    updateThePackage(context) {
+        //console.log("UPDATE");
+    },
+    prepareConditionsForSend(conditions) {
+        let conditionsFinal = [];
+        if(conditions[0].label != '') {
+            for (let cond of conditions) {
+                let aux = {
+                    id: cond.id,
+                    type: 'conditions',
+                    name: cond.label,
+                    condition: cond.condition,
+                    value: cond.value,
+                };
+                conditionsFinal.push(aux);
+            }
+        }
 
-
-  }
-
+        //console.log(conditionsFinal);
+        return conditionsFinal;
+    }
 };

@@ -1,341 +1,353 @@
 import Vue from 'vue';
-import device from './../../api/device/device';
-import {findByPrices, filterByModifications} from './../../components/filters.js';
+import packaging from './../../api/package/package';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 
 Vue.directive('f-accordion', {
-  bind: function(el) {
-    Vue.nextTick(function() {
-      $(el).foundation();
-    });
-  }
+    bind: function(el) {
+        Vue.nextTick(function() {
+            $(el).foundation();
+        });
+    }
 });
+
 export default {
-  name : 'Device',
-  components: {
-    modal,
-  inputValidate
-  },
-  created() {
-
-    device.getDevice(this, 1);
-    this.id = this.$route.params.id;
-    if (this.id != null) {
-      device.getDataDevice(this, this.id);
-    }
-  },
-
-  computed : {
-    mCapacity() {
-      if (this.modifications.data != null) {
-        let value = 'capacity';
-
-        return this.modifications.data.filter(function(item) {
-          return item.attributes.modType.indexOf(value) > -1;
-        });
-      }
-
-      return '';
+    name : 'Package',
+    components: {
+        modal,
+        inputValidate
     },
-
-    mStyle() {
-      if (this.modifications.data != null) {
-        let value = 'style';
-
-        return this.modifications.data.filter(function(item) {
-          return item.attributes.modType.indexOf(value) > -1;
-        });
-      }
-
-      return '';
-    },
-
-    vStyles() {
-      if (this.mStyle != '') {
-        return this.mStyle.filter(style => {
-          return style.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCapacity() {
-      if (this.mCapacity != '') {
-        return this.mCapacity.filter(capacity => {
-          return capacity.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCompanies() {
-      if (this.companies.data != null) {
-        return this.companies.data.filter(company => {
-          return company.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCarriers() {
-      if (this.carriers.data != null) {
-        return this.carriers.data.filter(carrier => {
-          return carrier.check;
-        });
-      }
-
-      return '';
-    },
-
-    priceTable() {
-  if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-    if(this.price.length>0 && this.add==true){
-
-      this.add=false;
-    return this.pricess
-    }
-    else{
-
-  this.pricess = [];
-
-  for(let price of this.priceData){
-      let capacityId=null;
-      let styleId=null;
-    for(let modi of price.modifications){
-          if(modi.modType=="capacity"){
-            capacityId=modi.id;
-          }else{
-            styleId=modi.id;
-          }
-
-    }
-
-    price= Object.assign({}, price, {
-      styles:this.vStyles,
-      capacitys: this.vCapacity,
-      carriers: this.vCarriers,
-      companys: this.vCompanies,
-      style:styleId,
-      capacity:capacityId,
-
-    });
-      this.pricess.push(price);
-
-  }
-}
-return this.pricess;
-  }
-
-
-  else  if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-      if(this.price.length>0 && this.add==true){
-
-        this.add=false;
-      return this.price
-      }
-      else{
-
-      this.price = [];
-      this.company = Object.assign({}, this.company, {
-        styles:this.vStyles,
-        capacitys: this.vCapacity,
-        carriers: this.vCarriers,
-        companys: this.vCompanies,
-        style:null,
-        capacity:null,
-        carrierId:null,
-        companyId:null,
-        priceRetail: 0,
-        price1: 0,
-        price2: 0,
-        priceOwn: 0
-      });
-
-      this.price.push(this.company);
-
-      return this.price
-}
-}
-else{
-  return '';
-}
-
-}
-
-
-  },
-  methods : {
-    findByPrices,
-    submit() {
-      if (this.id != null) {
-        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
-      } else {
-        device.addDevice(this, this.price, this.vStyles, this.vCapacity, this.vCarriers, this.vCompanies, this.d, this.image);
-      }
-    },
-    toggle() {
-     this.show = !this.show;
-   },
-    adds(){
-      this.add=true;
-      this.company = Object.assign({}, this.company, {
-        style:this.vStyles,
-        capacity: this.vCapacity,
-        carrier: this.vCarriers,
-        company: this.vCompanies,
-        style:'',
-        capacity:'',
-        carrier:'',
-        company:'',
-        priceRetail: 0,
-        price1: 0,
-        price2: 0,
-        priceOwn: 0
-      });
-      if(this.pricess.length>0){
-      this.pricess.push(this.company)
-    }else{
-      this.price.push(this.company);
-}
-    },
-
-    checkcarrier() {
-      var vm = this;
-      this.$nextTick(function() {
-        var i = 0;
-        for (let carrier of vm.carriers.data) {
-          if (carrier.check == true) {
-            vm.changeStatusCarrier('active', i);
-          }
-
-          i++;
+    beforeCreate() {
+        if (this.$route.params.id != null) {
+            packaging.getDataPackage(this, this.$route.params.id);
+        } else {
+            packaging.getUserInformation(this);
         }
-      });
     },
-    findCompany(){
-        device.filterCompanies(this,this.page,this.companyFilter);
-    },
+    methods : {
+        updatePackageCondition(index, value, type) {
 
-    findById(relationships, price, priceId, type) {
+            for (let aux of this.conditionsOptions) {
+                if (aux.label == value) {
+                    this.package.conditions[index].conditionsConditionsOptions = aux.conditions;
+                    this.package.conditions[index].conditionsValuesOptions = aux.values;
+                    this.package.conditions[index].labelError = false;
+                }
+            }
 
-      for (let relation of relationships) {
+            if (type == 'condition' && value != '') {
+                this.package.conditions[index].conditionError = false;
+            }
 
-        if (relation.id == priceId) {
+            if (type == 'value' && value != '') {
+                this.package.conditions[index].valueError = false;
+            }
 
-          price[type] = relation
+            this.reorderButtons();
+        },
+        pushCondition(index) {
+            this.package.conditions.push({id: "0", label: '', value: '', condition: '', add: false, delete: false});
+            this.reorderButtons();
+        },
+        deleteCondition(index) {
+            this.package.conditions.splice(index, 1);
+            if (this.package.conditions.length == 0) {
+                this.package.conditions.push({id: "0", label: '', value: '', condition: '', add: false, delete: false});
+            }
 
-          return true;
+            this.reorderButtons();
+        },
+        reorderButtons() {
+            for (let cond of this.package.conditions) {
+                cond.add = false;
+                cond.delete = true;
+            }
 
+            let aux = this.package.conditions[this.package.conditions.length-1];
+
+            if (aux.label != '' && aux.value != '' && aux.condition != '') {
+                this.package.conditions[this.package.conditions.length-1].add = true;
+            } else if (aux.label == '' && aux.value == '' && aux.condition == '') {
+                this.package.conditions[this.package.conditions.length-1].delete = false;
+            }
+        },
+        submit() {
+
+            let submitOk = true;
+
+            submitOk = submitOk && this.checkTitle();
+            submitOk = submitOk && this.checkConditions();
+            //submitOk = submitOk && this.checkServices();
+            //submitOk = submitOk && this.checkDevices();
+            //submitOk = submitOk && this.checkAddress();
+
+
+            if(submitOk) {
+                this.errors.generalError = false;
+                if (this.package.id > 0) {
+                    packaging.updateThePackage(this);
+                } else {
+                    packaging.createThePackage(this);
+                }                
+            } else {
+                this.errors.generalError = true;
+            }
+        },
+        checkTitle() {
+            let submitOk = true;
+            if (this.package.name == '') {
+                this.package.nameError = true;
+                submitOk = false;
+            } else {
+                this.package.nameError = false;
+            }
+            return submitOk;
+        },
+        checkConditions() {
+
+            let submitOk = true;
+            if(this.package.conditions[0].label != '') {
+                for (let cond of this.package.conditions) {                
+                    if (cond.label == '') {
+                        cond.labelError = true;
+                        submitOk = false;
+                    } else {
+                        cond.labelError = false;
+                    }
+                    
+                    if (cond.condition == '') {
+                        cond.conditionError = true;
+                        submitOk = false;
+                    } else {
+                        cond.conditionError = false;
+                    }
+
+                    if (cond.value == '') {
+                        cond.valueError = true;
+                        submitOk = false;
+                    } else {
+                        cond.valueError = false;
+                    }
+                }
+            }
+
+            return submitOk;
+        },
+
+        // This function allow to show/hide the different zones.
+        showAndTell(type) {
+            if (type == 'condition') {
+                this.showZones.showConditions = !this.showZones.showConditions;
+            }
+            if (type == 'service') {
+                this.showZones.showServices = !this.showZones.showServices;
+            }
+            if (type == 'device') {
+                this.showZones.showDevices = !this.showZones.showDevices;
+            }
+            if (type == 'address') {
+                this.showZones.showAddress = !this.showZones.showAddress;
+            }
         }
-
-      }
-      return false;
-    },
-    changeStatusCompany(index) {
-      this.companies.data[index].check = !this.companies.data[index].check;
-      console.log(this.companies.data[index].check);
-
     },
 
-    showFalse() {
-      this.show = false;
-    },
-
-    onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      var formData = new FormData();
-      formData.append('filename', files[0]);
-      device.createImage(this, formData);
-    },
-
-    changeStatusCarrier(className, index) {
-      var el = document.getElementsByClassName('static')[index];
-      el.classList.toggle(className);
-    },
-
-    capacit() {
-      if (this.gigas == '' || this.gigas == null) {
-        this.error = 'Incorrect value Capacity';
-      } else {
-        this.error = '';
-
-        var addModification = {
-          value: this.gigas,
-          type: 'capacity'
-        };
-        device.addModifications(this, addModification);
-      }
-    },
-
-    colors() {
-      if (this.color == '' || this.color == null) {
-        this.error = 'Incorrect value Style';
-      } else {
-        this.error = '';
-        var addModification = {
-          value: this.color,
-          type: 'style'
-        };
-        device.addModifications(this, addModification);
-      }
+    data() {
+        return {
+            package: {
+                id: 0,
+                name: '',
+                nameError: false,
+                type: 'packages',
+                addressId: 0,            
+                companyId: 0,
+                apps: [
+                    {
+                        id: 0,
+                        description: '',
+                        image: '',
+                        type: 'apps'
+                    }
+                ],
+                companies: [
+                    {
+                        active: 1,
+                        assetPath: '',
+                        currentBillMonth: '',
+                        defaultLocation: '',
+                        id: 0,
+                        isCensus: null,
+                        label: '',
+                        name: '',
+                        shortName: '',
+                        type: 'companies',
+                        udlPathRule: null,
+                        udlpath: null,
+                        udls: [
+                            {
+                                companyId: 0,
+                                id: 0,
+                                label: '',
+                                legacyUdlField: null,
+                                name: '',
+                                sections: [
+                                    {
+                                        externalId: 0,
+                                        id: 0,
+                                        name: '',
+                                        udlId: 0
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                conditions: [
+                    {
+                        id: 0,
+                        type: 'conditions',
+                        label: '',
+                        condition: '',
+                        value: '',
+                        typeCond: '',
+                        conditionsConditionsOptions: [],
+                        conditionsValuesOptions: [],
+                        add: false,
+                        delete: false,
+                        labelError: false,
+                        conditionError: false,
+                        valueError: false,
+                    }
+                ],
+                devicevariations: [
+                    {
+                        carrierId: 0,
+                        companyId: 0,
+                        deviceId: 0,
+                        id: 0,
+                        price1: 0,
+                        price2: 0,
+                        priceOwn: 0,
+                        priceRetail: 0,
+                        type: "devicevariations",
+                        devices: [
+                            {
+                                externalId: 0,
+                                id: 0,
+                                identification: 0,
+                                make: null,
+                                model: null,
+                                name: '',
+                                properties: '',
+                                statusId: 0,
+                                syncId: 0,
+                                type: 'devices',
+                            }
+                        ],
+                        modifications: [
+                            {
+                                id: 0,
+                                modType: '',
+                                type: 'modifications',
+                                unit: '',
+                                value: ''
+                            }
+                        ],
+                        carriers: [
+                            {
+                                active: 1,
+                                id: 0,
+                                locationId: 0,
+                                name: '',
+                                presentation: '',
+                                shortName: '',
+                                type: 'carriers'
+                            }
+                        ],
+                        companies: [
+                            {
+                                active: 1,
+                                assetPath: '',
+                                currentBillMonth: '',
+                                defaultLocation: '',
+                                id: 0,
+                                isCensus: null,
+                                label: '',
+                                name: '',
+                                type: 'companies',
+                                udlPathRule: null,
+                                udlpath: null,
+                                udls: [],
+                            }
+                        ]
+                    }
+                ],
+                services: [
+                    {
+                        carrierId: 0,
+                        carriers: [
+                            {
+                                active: 1,
+                                id: 0,
+                                locationId: 0,
+                                name: '',
+                                presentation: '',
+                                shortName: '',
+                                type: 'carriers'
+                            }
+                        ],
+                        cost: 0,
+                        description: '',
+                        id: 0,
+                        planCode: 0,
+                        status: 'Enabled',
+                        title: '',
+                        type: 'services'
+                    }
+                ],
+            },
+            allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+            conditionsOptions : [
+                {
+                    label: 'Supervisor?',
+                    conditions: ['equal'],
+                    values: ['Yes', 'No'],  //SELECT
+                },
+                {
+                    label: 'Hierarchy',
+                    conditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+                    values: [], // INPUT
+                },
+                {
+                    label: 'Level',
+                    conditions: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+                    values: [1,2,3,4,5,6,7,8,9,10],
+                },
+                {
+                    label: 'Country',
+                    conditions: ['contains', 'equal', 'not equal'],
+                    values: ['Spain', 'Catalonia', 'EEUU', 'Canada', 'Germany', 'United Kingdom'],
+                },
+                {
+                    label: 'State',
+                    conditions: ['contains', 'equal', 'not equal'],
+                    values: ['state1', 'state2', 'state3'],
+                },
+                {
+                    label: 'City',
+                    conditions: ['contains', 'equal', 'not equal'],
+                    values: ['Barcelona', 'New York', 'Berlin', 'London'],
+                }
+            ],
+            conditionsFieldsOptions: ['Supervisor?', 'Hierarchy', 'Level', 'Country', 'State', 'City'],
+            showZones: {
+                showConditions: true,
+                showServices: false,
+                showDevices: false,
+                showAddress: false,
+            },
+            errors : {
+                generalError : false,
+            }
+        }
     }
-  },
-  data() {
-    return {
-      /*image default device*/
-      image: {
-        url: "./../assets/logo.png",
-        id: 0
-      },
-      add:false,
-      /*filter */
-      filter: {
-        capacity:{},
-        style:{},
-        carrier:{},
-        company:{}
-      },
-      companyFilter: '',
-      d: {
-        name: '',
-        description: '',
-        id: null,
-        make:'',
-        model:'',
-        type: null
-      },
-      /*add modifications*/
-      id: null,
-      priceData: [],
-      gigas: '',
-      color: '',
-      /*Api arrays*/
-      carriers: {
-        data: []
-      },
-      companies: [],
-      modifications: [],
-      showModal:false,
-      deviceType: [],
-      /*paginations*/
-      pageCarriers: 1,
-      pageCompanies: 1,
-      /*table price*/
-      price: [],
-      pricess: [],
-      pricePost: [],
-      company: {},
-      /*errors*/
-      error: '',
-      /*css modificacions*/
-      checked: true,
-      unchecked: false,
-      show: false,
-      shadow: 'initial'
-    };
-  }
-};
+}
