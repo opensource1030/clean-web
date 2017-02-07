@@ -17,21 +17,28 @@ export default {
         modal,
         inputValidate
     },
+
     beforeCreate() {
         if (this.$route.params.id != null) {
             packaging.getDataPackage(this, this.$route.params.id);
         } else {
-            packaging.getUserInformation(this);
+            packaging.getUserInformation(this);    
         }
+        
     },
+
     methods : {
+        // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
         updatePackageCondition(index, value, type) {
 
             for (let aux of this.conditionsOptions) {
-                if (aux.label == value) {
+                if (aux.name == value) {
                     this.package.conditions[index].conditionsConditionsOptions = aux.conditions;
+                    this.package.conditions[index].condition = '';
                     this.package.conditions[index].conditionsValuesOptions = aux.values;
-                    this.package.conditions[index].labelError = false;
+                    this.package.conditions[index].value = '';
+                    this.package.conditions[index].inputType = aux.inputType;
+                    this.package.conditions[index].nameError = false;
                 }
             }
 
@@ -45,32 +52,113 @@ export default {
 
             this.reorderButtons();
         },
+        // Function that adds another empty element to the package.conditions list.
         pushCondition(index) {
-            this.package.conditions.push({id: "0", label: '', value: '', condition: '', add: false, delete: false});
+            this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
             this.reorderButtons();
         },
+        // Function that deletes the selected element from the package.conditions list.
         deleteCondition(index) {
             this.package.conditions.splice(index, 1);
             if (this.package.conditions.length == 0) {
-                this.package.conditions.push({id: "0", label: '', value: '', condition: '', add: false, delete: false});
+                this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
             }
 
             this.reorderButtons();
         },
+        // Retrieve from the package.companies.udls all the information and add it to the conditionsOptions.
+        addConditionsOptions() {
+            for (let udl of this.package.companies.udls) {
+                console.log(udl.inputType);
+
+                let vals = [];
+                if (udl.sections > 0) {
+                    for (let values of udl.sections) {
+                        vals.push(values.name);
+                    }    
+                }                
+
+                this.conditionsFieldsOptions.push(udl.name);
+
+                let condition = [];
+
+                if (udl.inputType == 'boolean') {
+                    condition = this.allConditionsForBoolean;
+                    vals = ['Yes', 'No'];
+                } else if (udl.inputType == 'number') {
+                    condition = this.allConditionsForNumber;
+                } else {
+                    // STRING (default)
+                    condition = this.allConditionsForString;
+                } 
+                
+
+                let aux = {
+                    name: udl.name,
+                    conditions: condition,
+                    values: vals,
+                    inputType: udl.inputType
+                }
+                this.conditionsOptions.push(aux);
+            }
+        },
+        // Check the package.conditions array and add to each element the information needed.
+        addOptionsToRetrievedConditions() {
+
+            if (this.package.conditions.length == 0) {
+                this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+            } else {
+                for (let cond of this.package.conditions) {
+                    cond.id = cond.id;
+                    cond.name = cond.name;
+                    cond.condition = cond.condition;
+                    cond.value = cond.value;
+                    cond.type = 'conditions';
+                    let aux = this.retrieveInformation(cond);
+                    cond.inputType = aux.inputType;
+                    cond.conditionsConditionsOptions = aux.conditions;
+                    cond.conditionsValuesOptions = aux.values;
+                    cond.add = false;
+                    cond.delete = false;
+                    cond.nameError = false;
+                    cond.conditionError = false;
+                    cond.valueError = false;
+                }
+            }            
+        },
+        // Retrieve all the information of the condition retrieved checking it from the conditionsOptions array.
+        retrieveInformation(condition) {
+            for (let opt of this.conditionsOptions) {
+                if (condition.name == opt.name) {
+                    return {
+                        inputType : opt.inputType,
+                        conditions: opt.conditions,
+                        values: opt.values
+                    }
+                }
+            }
+            return {
+                inputType : 'string',
+                conditions: this.allConditions,
+                values: []
+            }
+        },
+        // Reorder the ADD and DELETE buttons in the array of package.conditions.
         reorderButtons() {
             for (let cond of this.package.conditions) {
                 cond.add = false;
                 cond.delete = true;
             }
-
+            
             let aux = this.package.conditions[this.package.conditions.length-1];
 
-            if (aux.label != '' && aux.value != '' && aux.condition != '') {
-                this.package.conditions[this.package.conditions.length-1].add = true;
-            } else if (aux.label == '' && aux.value == '' && aux.condition == '') {
-                this.package.conditions[this.package.conditions.length-1].delete = false;
+            if (aux.name != '' && aux.value != '' && aux.condition != '') {
+                aux.add = true;
+            } else if (aux.name == '' && aux.value == '' && aux.condition == '') {
+                aux.delete = false;
             }
         },
+        // Submit all the changes.
         submit() {
 
             let submitOk = true;
@@ -93,6 +181,7 @@ export default {
                 this.errors.generalError = true;
             }
         },
+        // Check if the title has content and returns error if not.
         checkTitle() {
             let submitOk = true;
             if (this.package.name == '') {
@@ -103,16 +192,17 @@ export default {
             }
             return submitOk;
         },
+        // Check if the conditions are not empty.
         checkConditions() {
 
             let submitOk = true;
-            if(this.package.conditions[0].label != '') {
+            if(this.package.conditions[0].name != '') {
                 for (let cond of this.package.conditions) {                
-                    if (cond.label == '') {
-                        cond.labelError = true;
+                    if (cond.name == '') {
+                        cond.nameError = true;
                         submitOk = false;
                     } else {
-                        cond.labelError = false;
+                        cond.nameError = false;
                     }
                     
                     if (cond.condition == '') {
@@ -160,6 +250,31 @@ export default {
                 type: 'packages',
                 addressId: 0,            
                 companyId: 0,
+                values : {
+                    usersConditions: 0,
+                },
+                names: {
+                    managePackage: 'Manage Package',
+                    title: 'Title',
+                    employees: 'Employees',
+                    saveButton: 'Save Changes',
+                    packagePrices: {
+                        minimum: 'Min: 449.00 USD once - 28.10 USD monthly',
+                        maximum: 'Max: 649.00 USD once - 35.10 USD monthly'
+                    },
+                    conditions: {
+                        title: 'CONDITIONS',
+                        name: 'Name (select a Name first)',
+                        condition: 'Condition',
+                        value: 'Value',
+                        selectName: 'Select a Name',
+                        selectCondition: 'Select a Condition',
+                        selectValue: 'Select a Value',
+                    },
+                    errors: {
+                        textError: 'Some Fields need to be filled! Please, check the conditions!'
+                    }
+                },
                 apps: [
                     {
                         id: 0,
@@ -205,15 +320,16 @@ export default {
                     {
                         id: 0,
                         type: 'conditions',
-                        label: '',
+                        name: '',
                         condition: '',
                         value: '',
                         typeCond: '',
+                        inputType: '',
                         conditionsConditionsOptions: [],
                         conditionsValuesOptions: [],
                         add: false,
                         delete: false,
-                        labelError: false,
+                        nameError: false,
                         conditionError: false,
                         valueError: false,
                     }
@@ -306,36 +422,45 @@ export default {
                 ],
             },
             allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+            allConditionsForBoolean: ['equal'],
+            allConditionsForString: ['contains', 'equal', 'not equal'],
+            allConditionsForNumber: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
             conditionsOptions : [
                 {
-                    label: 'Supervisor?',
+                    name: 'Supervisor?',
                     conditions: ['equal'],
                     values: ['Yes', 'No'],  //SELECT
+                    inputType: 'boolean'
                 },
                 {
-                    label: 'Hierarchy',
+                    name: 'Hierarchy',
                     conditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
                     values: [], // INPUT
+                    inputType: 'string'
                 },
                 {
-                    label: 'Level',
+                    name: 'Level',
                     conditions: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
-                    values: [1,2,3,4,5,6,7,8,9,10],
+                    values: [],
+                    inputType: 'number'
                 },
                 {
-                    label: 'Country',
+                    name: 'Country',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['Spain', 'Catalonia', 'EEUU', 'Canada', 'Germany', 'United Kingdom'],
+                    inputType: 'string'
                 },
                 {
-                    label: 'State',
+                    name: 'State',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['state1', 'state2', 'state3'],
+                    inputType: 'string'
                 },
                 {
-                    label: 'City',
+                    name: 'City',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['Barcelona', 'New York', 'Berlin', 'London'],
+                    inputType: 'string'
                 }
             ],
             conditionsFieldsOptions: ['Supervisor?', 'Hierarchy', 'Level', 'Country', 'State', 'City'],

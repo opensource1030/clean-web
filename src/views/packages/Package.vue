@@ -4,57 +4,59 @@
       <div id="package">
         <div class="header"></div>
         <div class="expanded row">
-          <div class="small-12 columns titles">
-            <h4>Manage Package<h4>
+          <div class="large-12 columns titles">
+            <h4>{{package.names.managePackage}}<h4>
           </div>
-          <div class="small-6 columns titles">
-            <label>Title
-              <input :class="{ 'error-input': package.nameError }" type="text" placeholder="" :value="package.name" v-model="package.name">
-            </label>
-          </div>
-          <div class="small-4 small-offset-2 columns">
-            <table class="textbold" cellspacing=0 cellpadding=0>
-              <tr>
-                <td>Min:</td>
-                <td>449.00 USD once</td>
-                <td>28.10 USD monthly</td>
-              </tr>
-              <tr>
-                <td>Max:</td>
-                <td>649.00 USD once</td>
-                <td>35.10 USD monthly</td>
-              </tr>
-            </table>
-          </div>
+          <table class="padding" cellspacing=0 cellpadding=0>
+            <tr>
+              <td rowspan="2">
+                <label>{{package.names.title}}
+                  <input :class="{ 'error-input': package.nameError }" type="text" placeholder="" :value="package.name" v-model="package.name">
+                </label>
+              </td>
+              <td class="textbold" align="right">{{package.names.packagePrices.minimum}}</td>
+            </tr>
+            <tr>
+              <td class="textbold" align="right">{{package.names.packagePrices.maximum}}</td>
+            </tr>
+          </table>
           <div class="small-12 columns" >
             <ul class="acordeon">
               <li class="acordeon-item">
-                <a @click="showAndTell('condition')" class="accordion-title">CONDITIONS</a>
+                <a @click="showAndTell('condition')" class="accordion-title">
+                  <table class="textbold">
+                    <tr>
+                      <td>{{package.names.conditions.title}}</td>
+                      <td align="right">{{package.values.usersConditions}} {{package.names.employees}}</td>
+                    </tr>
+                  </table>
+                </a>
                 <div v-if="showZones.showConditions" class="accordion-content overview">
                   <div class="row" v-for="(condition,index) in package.conditions">
                     <div class="large-3 columns">
-                      <label>Label (select a Label first)
-                        <select :class="{ 'error-input': condition.labelError }" v-model="condition.label" @click="updatePackageCondition(index, condition.label, 'label')">
-                          <option value="" manufactured>Select a Label</option>
+                      <label>{{package.names.conditions.name}}
+                        <select :class="{ 'error-input': condition.nameError }" v-model="condition.name" @click="updatePackageCondition(index, condition.name, 'name')">
+                          <option value="" manufactured>{{package.names.conditions.selectName}}</option>
                           <option v-for="item in conditionsFieldsOptions" :value="item" >{{item}}</option>
                         </select>
                       </label>
                     </div>
-                    <div v-if="condition.label != ''" class="large-2 columns">
-                      <label>Condition
+                    <div v-if="condition.name != ''" class="large-2 columns">
+                      <label>{{package.names.conditions.condition}}
                         <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
-                          <option value="" manufactured>Select a Condition</option>
+                          <option value="" manufactured>{{package.names.conditions.selectCondition}}</option>
                           <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
                         </select>
                       </label>
                     </div>
-                    <div v-if="condition.label != ''" class="large-5 columns">
-                      <label>Value
+                    <div v-if="condition.name != ''" class="large-5 columns">
+                      <label>{{package.names.conditions.value}}
                         <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
-                          <option value="" manufactured>Select a Value</option>
+                          <option value="" manufactured>{{package.names.conditions.selectValue}}</option>
                           <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
                         </select>
-                        <input v-if="condition.conditionsValuesOptions.length == 0" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">                      
+                        <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')" />
+                        <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">
                       </label>
                     </div>
                     <div class="large-1 columns">
@@ -74,11 +76,11 @@
             <div v-if="errors.generalError">
               <div class="is-error callout" data-closable>
                 <div class="container">
-                  <h5>Some Fields need to be filled! Please, check the conditions!</h5>
+                  <h5>{{package.names.errors.textError}}</h5>
                 </div>
               </div>
             </div>
-            <a class="button large" @click="submit()" id="button">Save Changes</a>
+            <a class="button large" @click="submit()" id="button">{{package.names.saveButton}}</a>
           </div>
         </div>
       </div>

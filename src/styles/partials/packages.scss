@@ -1,102 +1,19 @@
 @import "../base/clean-variables";
 
 #tables {
-    .load {
-        text-align: center;
-        height: 0rem;
-    }
     .textbold {
         font-weight: bold;
-    }
-    .longtext {
-        width:70%;
-        overflow:hidden;
-        text-overflow:ellipsis;
-    }
-    .upService {
-        margin: -3.5rem;
-        width: 15rem;
-    }
-    .listPlan {
-        margin-top: 5.6rem;
-    }
-    table tbody tr:nth-child(even) {
-        border-bottom: 0;
-        background-color: #F0EEDD;
-    }
-    .especial {
-        font-weight:normal;
-        padding-bottom: 1.15rem;
-        padding-left: 0.7rem
-
-    }
-    .search-cost {
-        border-color: #1243A5;
-        border-style: solid;
-        border-radius: 5px;
-        margin-top: 0.5rem;
-
-    }
-    .special-button {
-        display: inline-block;
-        padding: 0.5em 0.7em;
-        border-radius: 0.5rem;
-        background-color: #1243A5;
-        color: #FFFFFF;
-        margin-top: 1.9rem;      
-    }
-    .search-input {
-        height: 65%;
-    }
-    .error-input {
-        border-color: #FF0000;
-    }
-    .error-message {
-        color: red;        
-    }
-    .detailsService {
-        display: -webkit-flex;
-        display: flex;
-        .childService {
-            text-align: left;
-            -webkit-flex-grow: 0;
-            -webkit-flex-shrink: 0;
-            -webkit-flex-basis: 13.2%;
-            flex-grow: 0;
-            flex-basis: 13.2%;
-        }
-        .childService:nth-of-type(1) {
-            -webkit-flex-basis: 7.9%;
-            flex-basis: 7.9%;
-        }
-        .childService:nth-of-type(2) {
-            -webkit-flex-basis: 38.14%;
-            flex-basis: 38.14%;
-            ul {
-                list-style-type: none;
-            }
-        }
-        .childService:nth-of-type(3) {
-            -webkit-flex-basis: 7%;
-            flex-basis: 7%;
-        }
-        .plans {
-            .serviceType{
-            }
-            ul {
-                list-style-type: none;
-            }
-        }
-    }
-    .inner-table {
-        padding: 0rem 0rem 0rem 0rem;
-        border-spacing: 0px;
-        line-height: 12px;
-        width: 60%
     }
 }
 
 #package {
+    .textbold {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+    .padding {
+        padding: 0 4rem;
+    }
     .accordion-content {
         display: inherit;
     }
