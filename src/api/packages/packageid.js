@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import auth from './../auth.js';
-import Packageid from './../../models/Packageid'
+import packageid from './../../models/Packageid'
 
 var {Store} = require('yayson')();
 var store = new Store();
@@ -18,14 +18,14 @@ export default {
         context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
 
             event = store.sync(response.data);
-            context.package.companyId = event.companyId
+            context.packages.companyId = event.companyId
 
-            this.getUdlsFromCompanies(context, context.package.companyId);
+            this.getUdlsFromCompanies(context, context.packages.companyId);
         },
         (response) => {});
     },
-    // GET PACKAGE INFORMATION.
-    getDataPackage(context, id) {
+    // GET packages INFORMATION.
+    getDataPackages(context, id) {
 
         let params = {
             params: {
@@ -37,19 +37,19 @@ export default {
 
             event = store.sync(response.data);
 
-            context.package.id = id;
-            context.package.name = event.name;
-            context.package.type = event.type;
-            //context.package.addressId = event.addressId;
-            context.package.companyId = event.companyId;
+            context.packages.id = id;
+            context.packages.name = event.name;
+            context.packages.type = event.type;
+            //context.packages.addressId = event.addressId;
+            context.packages.companyId = event.companyId;
 
-            //context.package.apps = event.apps;
-            //context.package.companies = event.companies;
-            context.package.conditions = event.conditions;
-            context.package.devicevariations = event.devicevariations;
-            context.package.services = event.services;
+            //context.packages.apps = event.apps;
+            //context.packages.companies = event.companies;
+            context.packages.conditions = event.conditions;
+            context.packages.devicevariations = event.devicevariations;
+            context.packages.services = event.services;
 
-            this.getUdlsFromCompanies(context, context.package.companyId);
+            this.getUdlsFromCompanies(context, context.packages.companyId);
             context.addOptionsToRetrievedConditions();
             context.reorderButtons();
         },
@@ -65,49 +65,49 @@ export default {
         };
 
         context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
-            context.package.companies = store.sync(response.data);
+            context.packages.companies = store.sync(response.data);
             context.addConditionsOptions();
         },
         (response) => {});
     },    
-    // CREATE PACKAGE.
-    createThePackage(context) {
+    // CREATE packages.
+    createThePackages(context) {
 
-        let conditions = this.prepareConditionsForSend(context.package.conditions);
+        let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = new Packageid(
-                context.package.id,
-                context.package.type,
-                context.package.name,
-                1, // context.package.addressId,
-                context.package.companyId,
+        let pack = new packageid(
+                context.packages.id,
+                context.packages.type,
+                context.packages.name,
+                1, // context.packages.addressId,
+                context.packages.companyId,
                 conditions,
-                [], // context.package.apps,
-                [], // context.package.devicevariations,
-                [], // context.package.services
+                [], // context.packages.apps,
+                [], // context.packages.devicevariations,
+                [], // context.packages.services
             );
 
         context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
             event = store.sync(response.data);
         }, (response) => {});
     },
-    // UPDATE PACKAGE
-    updateThePackage(context) {
-        let conditions = this.prepareConditionsForSend(context.package.conditions);
+    // UPDATE packages
+    updateThePackages(context) {
+        let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = new Packageid(
-                context.package.id,
-                context.package.type,
-                context.package.name,
-                1, //context.package.addressId,
-                context.package.companyId,
+        let pack = new packageid(
+                context.packages.id,
+                context.packages.type,
+                context.packages.name,
+                1, //context.packages.addressId,
+                context.packages.companyId,
                 conditions,
-                [], // context.package.apps,
-                [], // context.package.devicevariations,
-                [], // context.package.services
+                [], // context.packages.apps,
+                [], // context.packages.devicevariations,
+                [], // context.packages.services
             );
 
-        context.$http.patch(process.env.URL_API + '/packages/' + context.package.id, {"data": pack.toJSON()}).then((response) => {
+        context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
             event = store.sync(response.data);
         }, (response) => {});
     },

@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import packaging from './../../api/package/packageid';
+import packaging from './../../api/packages/packageid';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 
@@ -12,7 +12,7 @@ Vue.directive('f-accordion', {
 });
 
 export default {
-    name : 'Packageid',
+    name : 'package',
     components: {
         modal,
         inputValidate
@@ -20,7 +20,7 @@ export default {
 
     beforeCreate() {
         if (this.$route.params.id != null) {
-            packaging.getDataPackage(this, this.$route.params.id);
+            packaging.getDataPackages(this, this.$route.params.id);
         } else {
             packaging.getUserInformation(this);    
         }
@@ -30,45 +30,47 @@ export default {
     methods : {
         // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
         updatePackageCondition(index, value, type) {
-
+console.log(index);
+console.log(value);
+console.log(type);
             for (let aux of this.conditionsOptions) {
                 if (aux.name == value) {
-                    this.package.conditions[index].conditionsConditionsOptions = aux.conditions;
-                    this.package.conditions[index].condition = '';
-                    this.package.conditions[index].conditionsValuesOptions = aux.values;
-                    this.package.conditions[index].value = '';
-                    this.package.conditions[index].inputType = aux.inputType;
-                    this.package.conditions[index].nameError = false;
+                    this.packages.conditions[index].conditionsConditionsOptions = aux.conditions;
+                    this.packages.conditions[index].condition = '';
+                    this.packages.conditions[index].conditionsValuesOptions = aux.values;
+                    this.packages.conditions[index].value = '';
+                    this.packages.conditions[index].inputType = aux.inputType;
+                    this.packages.conditions[index].nameError = false;
                 }
             }
 
             if (type == 'condition' && value != '') {
-                this.package.conditions[index].conditionError = false;
+                this.packages.conditions[index].conditionError = false;
             }
 
             if (type == 'value' && value != '') {
-                this.package.conditions[index].valueError = false;
+                this.packages.conditions[index].valueError = false;
             }
 
             this.reorderButtons();
         },
-        // Function that adds another empty element to the package.conditions list.
+        // Function that adds another empty element to the packages.conditions list.
         pushCondition(index) {
-            this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+            this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
             this.reorderButtons();
         },
-        // Function that deletes the selected element from the package.conditions list.
+        // Function that deletes the selected element from the packages.conditions list.
         deleteCondition(index) {
-            this.package.conditions.splice(index, 1);
-            if (this.package.conditions.length == 0) {
-                this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+            this.packages.conditions.splice(index, 1);
+            if (this.packages.conditions.length == 0) {
+                this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
             }
 
             this.reorderButtons();
         },
-        // Retrieve from the package.companies.udls all the information and add it to the conditionsOptions.
+        // Retrieve from the packages.companies.udls all the information and add it to the conditionsOptions.
         addConditionsOptions() {
-            for (let udl of this.package.companies.udls) {
+            for (let udl of this.packages.companies.udls) {
                 //console.log(udl.inputType);
 
                 let vals = [];
@@ -102,13 +104,13 @@ export default {
                 this.conditionsOptions.push(aux);
             }
         },
-        // Check the package.conditions array and add to each element the information needed.
+        // Check the packages.conditions array and add to each element the information needed.
         addOptionsToRetrievedConditions() {
 
-            if (this.package.conditions.length == 0) {
-                this.package.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+            if (this.packages.conditions.length == 0) {
+                this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
             } else {
-                for (let cond of this.package.conditions) {
+                for (let cond of this.packages.conditions) {
                     cond.id = cond.id;
                     cond.name = cond.name;
                     cond.condition = cond.condition;
@@ -143,14 +145,14 @@ export default {
                 values: []
             }
         },
-        // Reorder the ADD and DELETE buttons in the array of package.conditions.
+        // Reorder the ADD and DELETE buttons in the array of packages.conditions.
         reorderButtons() {
-            for (let cond of this.package.conditions) {
+            for (let cond of this.packages.conditions) {
                 cond.add = false;
                 cond.delete = true;
             }
             
-            let aux = this.package.conditions[this.package.conditions.length-1];
+            let aux = this.packages.conditions[this.packages.conditions.length-1];
 
             if (aux.name != '' && aux.value != '' && aux.condition != '') {
                 aux.add = true;
@@ -172,10 +174,10 @@ export default {
 
             if(submitOk) {
                 this.errors.generalError = false;
-                if (this.package.id > 0) {
-                    packaging.updateThePackage(this);
+                if (this.packages.id > 0) {
+                    packaging.updateThePackages(this);
                 } else {
-                    packaging.createThePackage(this);
+                    packaging.createThePackages(this);
                 }                
             } else {
                 this.errors.generalError = true;
@@ -184,11 +186,11 @@ export default {
         // Check if the title has content and returns error if not.
         checkTitle() {
             let submitOk = true;
-            if (this.package.name == '') {
-                this.package.nameError = true;
+            if (this.packages.name == '') {
+                this.packages.nameError = true;
                 submitOk = false;
             } else {
-                this.package.nameError = false;
+                this.packages.nameError = false;
             }
             return submitOk;
         },
@@ -196,8 +198,8 @@ export default {
         checkConditions() {
 
             let submitOk = true;
-            if(this.package.conditions[0].name != '') {
-                for (let cond of this.package.conditions) {                
+            if(this.packages.conditions[0].name != '') {
+                for (let cond of this.packages.conditions) {                
                     if (cond.name == '') {
                         cond.nameError = true;
                         submitOk = false;
@@ -243,7 +245,7 @@ export default {
 
     data() {
         return {
-            package: {
+            packages: {
                 id: 0,
                 name: '',
                 nameError: false,
@@ -254,7 +256,7 @@ export default {
                     usersConditions: 0,
                 },
                 names: {
-                    managePackage: 'Manage Package',
+                    managePackage: 'Manage Packages',
                     title: 'Title',
                     employees: 'Employees',
                     saveButton: 'Save Changes',
