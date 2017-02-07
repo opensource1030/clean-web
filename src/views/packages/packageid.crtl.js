@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import packaging from './../../api/package/package';
+import packaging from './../../api/package/packageid';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 
@@ -12,7 +12,7 @@ Vue.directive('f-accordion', {
 });
 
 export default {
-    name : 'Package',
+    name : 'Packageid',
     components: {
         modal,
         inputValidate
@@ -69,7 +69,7 @@ export default {
         // Retrieve from the package.companies.udls all the information and add it to the conditionsOptions.
         addConditionsOptions() {
             for (let udl of this.package.companies.udls) {
-                console.log(udl.inputType);
+                //console.log(udl.inputType);
 
                 let vals = [];
                 if (udl.sections > 0) {
@@ -258,9 +258,12 @@ export default {
                     title: 'Title',
                     employees: 'Employees',
                     saveButton: 'Save Changes',
-                    packagePrices: {
-                        minimum: 'Min: 449.00 USD once - 28.10 USD monthly',
-                        maximum: 'Max: 649.00 USD once - 35.10 USD monthly'
+                    prices: {
+                        minimum: 'Min:', // 'Min: 449.00 USD once - 28.10 USD monthly',
+                        maximum: 'Max:', // 'Max: 649.00 USD once - 35.10 USD monthly'
+                        once: 'once',
+                        monthly: 'monthly',
+                        currency: 'USD'
                     },
                     conditions: {
                         title: 'CONDITIONS',
@@ -270,6 +273,16 @@ export default {
                         selectName: 'Select a Name',
                         selectCondition: 'Select a Condition',
                         selectValue: 'Select a Value',
+                    },
+                    services: {
+                        title: 'SERVICES',
+                        minPrice: '28.10',
+                        maxPrice: '35.10',
+                    },
+                    devices:  {
+                        title: 'DEVICES',
+                        minPrice: '449.00',
+                        maxPrice: '649.00',
                     },
                     errors: {
                         textError: 'Some Fields need to be filled! Please, check the conditions!'

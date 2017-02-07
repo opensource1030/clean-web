@@ -19,7 +19,7 @@ import Service from './views/services/Service.vue'
 
 //routes Packages
 import Packages from './views/packages/Packages.vue'
-import Package from './views/packages/Package.vue'
+import Packageid from './views/packages/Packageid.vue'
 
 //routes Employees
 import Profile from './views/employees/Profile.vue'
@@ -195,7 +195,7 @@ export default [
     },
     {
         path: '/package/:id',
-        component: Package,
+        component: Packageid,
         name: 'packageEdit',
         meta: {
             requiresAuth: true
@@ -203,7 +203,7 @@ export default [
     },
     {
         path: '/package',
-        component: Package,
+        component: Packageid,
         name: 'package',
         meta: {
             requiresAuth: true

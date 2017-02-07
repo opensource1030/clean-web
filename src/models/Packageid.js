@@ -1,4 +1,4 @@
-export default class Package {
+export default class Packageid {
 
     constructor(id, type, name, addressId, companyId, conditions, apps, devicevariations, services) {
         this.id = id;

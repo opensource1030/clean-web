@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import auth from './../auth.js';
-import Package from './../../models/Package'
+import Packageid from './../../models/Packageid'
 
 var {Store} = require('yayson')();
 var store = new Store();
@@ -75,7 +75,7 @@ export default {
 
         let conditions = this.prepareConditionsForSend(context.package.conditions);
 
-        let pack = new Package(
+        let pack = new Packageid(
                 context.package.id,
                 context.package.type,
                 context.package.name,
@@ -95,7 +95,7 @@ export default {
     updateThePackage(context) {
         let conditions = this.prepareConditionsForSend(context.package.conditions);
 
-        let pack = new Package(
+        let pack = new Packageid(
                 context.package.id,
                 context.package.type,
                 context.package.name,

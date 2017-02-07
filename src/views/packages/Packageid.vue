@@ -14,13 +14,30 @@
                   <input :class="{ 'error-input': package.nameError }" type="text" placeholder="" :value="package.name" v-model="package.name">
                 </label>
               </td>
-              <td class="textbold" align="right">{{package.names.packagePrices.minimum}}</td>
+              <td class="textbold" align="right">
+                {{package.names.prices.minimum}} 
+                {{package.names.devices.minPrice}} 
+                {{package.names.prices.currency}} 
+                {{package.names.prices.once}} - 
+                {{package.names.services.minPrice}} 
+                {{package.names.prices.currency}} 
+                {{package.names.prices.monthly}}
+              </td>
             </tr>
             <tr>
-              <td class="textbold" align="right">{{package.names.packagePrices.maximum}}</td>
+              <td class="textbold" align="right">
+                {{package.names.prices.maximum}} 
+                {{package.names.devices.maxPrice}} 
+                {{package.names.prices.currency}} 
+                {{package.names.prices.once}} - 
+                {{package.names.services.maxPrice}} 
+                {{package.names.prices.currency}} 
+                {{package.names.prices.monthly}}
+              </td>
             </tr>
           </table>
           <div class="small-12 columns" >
+<!--CONDITIONS-->
             <ul class="acordeon">
               <li class="acordeon-item">
                 <a @click="showAndTell('condition')" class="accordion-title">
@@ -73,6 +90,23 @@
                 </div>
               </li>
             </ul>
+<!--//CONDITIONS-->
+<!--SERVICE-->
+            <ul class="acordeon">
+              <li class="acordeon-item">
+                <a @click="showAndTell('service')" class="accordion-title">
+                  <table class="textbold">
+                    <tr>
+                      <td>{{package.names.services.title}}</td>
+                      <td align="right">From {{package.names.services.minPrice}} {{package.names.prices.currency}} to  {{package.names.services.maxPrice}} {{package.names.prices.currency}} {{package.names.prices.monthly}} </td>
+                    </tr>
+                  </table>
+                </a>
+
+                
+              </li>
+            </ul>
+<!--//SERVICE-->
             <div v-if="errors.generalError">
               <div class="is-error callout" data-closable>
                 <div class="container">
@@ -87,4 +121,6 @@
     </div>
   </div>
 </template>
-<script src="./package.crtl.js" lang="babel" ></script>
+<script src="./packageid.crtl.js" lang="babel" >
+  import vueSlider from 'vue-slider-component/src/vue2-slider.vue';
+</script>
