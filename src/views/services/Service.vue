@@ -1,5 +1,5 @@
 <template>
-  <div class="content-right">
+  <div>
     <div class="full-height row">
       <div id="service">
         <div class="header"></div>
