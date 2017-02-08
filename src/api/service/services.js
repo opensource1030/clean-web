@@ -110,7 +110,18 @@ export default {
                     // The first time we need to retrieve all options.
                     if (context.firstTime) {
                         this.getCarriers(context);
-                        this.getServices(context);
+                        this.getServices(context, function(context, service){
+                            if (response.data.meta.pagination.count == context.services.length) {
+                                context.services = context.orderFilters(context.services, 'title', 'string', 'asc');
+
+                                for (let serv of context.services) {
+                                    service.getFilters(context, context.status, serv.status, 'string');
+                                    service.getFilters(context, context.plans, serv.title, 'string');
+                                    service.getFilters(context, context.details, serv.description, 'string');
+                                    service.getFilters(context, context.codePlan, serv.planCode, 'number');
+                                }
+                            }
+                        });
                         context.firstTime = false;
                     }
 
@@ -156,7 +167,7 @@ export default {
                                 }
 
                                 if (callback != null) {
-                                    callback(response.data);
+                                    callback(context, this);
                                 }
                             }, (response) => {}
                         );
@@ -173,59 +184,6 @@ export default {
         Carrier.getCarriers(context, function() {
             context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
         })
-    },
-
-    getServices (context) {
-
-        let params1 = {
-            params: {}
-        };
-
-        context.$http.get(process.env.URL_API + '/services', params1).then((response) =>
-            {
-                if(response.data.data.length == 0){
-                    context.errorNotFound = true;
-                } else {
-
-                    let i = response.data.meta.pagination.current_page;
-                    while (i <= response.data.meta.pagination.total_pages) {
-
-                        let params2 = {
-                            params: {
-                                page: i
-                            }
-                        };
-
-                        context.$http.get(process.env.URL_API + '/services', params2).then((response) =>
-                            {
-                                let event = store.sync(response.data);
-
-                                for (let serv of event) {
-                                    context.services.push(serv);
-                                }
-
-                                if (response.data.meta.pagination.count == context.services.length) {
-                                    context.services = context.orderFilters(context.services, 'title', 'string', 'asc');
-
-                                    for (let serv of context.services) {
-                                        this.getFilters(context, context.status, serv.status, 'string');
-                                        this.getFilters(context, context.plans, serv.title, 'string');
-                                        this.getFilters(context, context.details, serv.description, 'string');
-                                        this.getFilters(context, context.codePlan, serv.planCode, 'number');
-                                    }
-                                }
-                            }, (response) => {}
-                        );
-
-                        if(i == response.data.meta.pagination.total_pages) {
-                            context.loading = false;
-                        }
-
-                        i++;
-                    }
-                }
-            }, (response) => {}
-        );
     },
 
     /*
