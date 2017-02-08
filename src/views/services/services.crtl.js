@@ -3,12 +3,13 @@ import pagination from './../../components/pagination';
 import {findServiceItem, orderFilters} from './../../components/filters.js';
 import services from './../../api/service/services';
 import modal from './../../components/modal.vue';
+import Multiselect from './../../components/Multiselect.vue';
 
 export default {
-    name : 'Services',
     components : {
         pagination,
-        modal
+        modal,
+        Multiselect: Multiselect
     },
     methods : {
         findServiceItem,
@@ -19,17 +20,17 @@ export default {
         },
         setActive: function(index) {
             if(this.active == index) {
-                this.services[index].show = !this.services[index].show;
+                this.servicesList[index].show = !this.servicesList[index].show;
             } else {
-                this.services[this.active].show = false;
-                this.services[index].show = true;
+                this.servicesList[this.active].show = false;
+                this.servicesList[index].show = true;
             }
             this.active = index;
 
             this.addons = [];
-            for (let j = 0; j < this.services[index].serviceitems.length; j++) {
-                if( this.services[index].serviceitems[j].category == 'addon') {
-                    this.addons.push(this.services[index].serviceitems[j]);
+            for (let j = 0; j < this.servicesList[index].serviceitems.length; j++) {
+                if( this.servicesList[index].serviceitems[j].category == 'addon') {
+                    this.addons.push(this.servicesList[index].serviceitems[j]);
                 }
             }
         },
@@ -68,7 +69,7 @@ export default {
         return {
             active: 0,
             firstTime: true,
-            services: [],
+            servicesList: [],
             addons: [],
             addonsShow: false,
             retrieved: 0,
@@ -76,30 +77,30 @@ export default {
             showtable: false,
             showModal: false,
             errorNotFound:false,
-            filter : {
-                status: ['Enabled', 'Disabled'],
-                services: [],
-                plans: [],
-                details: [],
-                codePlan: [],
-                carriers: [],
-                cost: [],
+            // Information Needed for the Selects
+            status: ['Enabled', 'Disabled'],
+            services: [],
+            plans: [],
+            details: [],
+            codePlan: [],
+            carriers: [],
+            cost: [],
+            // Selected Values
+            values: {
+                status: '',
+                plans: '', // service.title
+                codePlan: '', // service.codePlan
+                carrier: [], // carriers.presentation
+                cost: '', // service.cost
+                details: '', // service.descriptions
             },
+            // Pagination
             pagination: {
                 current_page: 1,
                 total_pages: null,
                 count: null,
                 total: null,
                 per_page: 25
-            },
-            values: {
-                status: '',
-                plans: '',
-                codePlan: '',
-                carriers: '',
-                cost: '',
-                details: '',
-                carrier: ''
             },
             names: {
                 servicePlans: 'Service Plans',
