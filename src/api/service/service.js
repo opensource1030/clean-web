@@ -141,48 +141,13 @@ export default {
 
         let ok = true;
 
-        context.errorsStyle.titleError = false;
-        context.errorsStyle.planCodeError = false;
-        context.errorsStyle.costError = false;
-        context.errorsStyle.currencyError = false;
-        context.errorsStyle.carrierError = false;
-        context.errorsStyle.unitDomError = false;
-        context.errorsStyle.unitIntError = false;
-
-        if (service.title == "" || service.title == null){
-            ok = false;
-            context.errorsStyle.titleError = true;
-        }
-
-        if (service.planCode == "" || service.planCode == null){
-            ok = false;
-            context.errorsStyle.planCodeError = true;
-        }
-
-        if (service.cost == "" || service.cost == null ){
-            ok = false;
-            context.errorsStyle.costError = true;
-        }
-
-        if (service.currency == "" || service.currency == null){
-            ok = false;
-            context.errorsStyle.currencyError = true;
-        }
-
-        if (service.carrierId == 0){
-            ok = false;
-            context.errorsStyle.carrierError = true;
-        }
-
-        if (domesticPlan.data.unit == "" || domesticPlan.data.unit == null){
-            ok = false;
-            context.errorsStyle.unitDomError = true;
-        }
-
-        if (internationalPlan.data.unit == "" || internationalPlan.data.unit == null){
-            ok = false;
-            context.errorsStyle.unitIntError = true;
-        }
+        context.errorsStyle.titleError  = (service.title == "") ? true : false;
+        context.errorsStyle.planCodeError  = (service.planCode == "") ? true : false;
+        context.errorsStyle.costError  = (service.cost == "") ? true : false;
+        context.errorsStyle.currencyError  = (service.currency == "") ? true : false;
+        context.errorsStyle.carrierError  = (service.carrierId == 0) ? true : false;
+        context.errorsStyle.unitDomError  = (domesticPlan.data.unit == "") ? true : false;
+        context.errorsStyle.unitIntError  = (internationalPlan.data.unit == "") ? true : false;
 
         for (let addon of addons) {
             if(addon.description == "") {
@@ -196,6 +161,16 @@ export default {
             }
 
             addon.unit = serviceDetails.currency;
+        }
+
+        if (context.errorsStyle.titleError || 
+            context.errorsStyle.planCodeError  ||
+            context.errorsStyle.costError  ||
+            context.errorsStyle.currencyError  ||
+            context.errorsStyle.carrierError  ||
+            context.errorsStyle.unitDomError  ||
+            context.errorsStyle.unitIntError) {
+            ok = false;
         }
 
         if (ok) {

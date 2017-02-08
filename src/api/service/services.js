@@ -65,8 +65,6 @@ export default {
             params.params['filter[cost][ge]'] = context.search.costMin;
         }
 
-        console.log(params.params);
-
         context.$http.get(process.env.URL_API + '/services', params).then((response) =>
             {
                 context.showtable = false;
