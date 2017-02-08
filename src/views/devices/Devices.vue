@@ -27,7 +27,9 @@
       :options="filter.deviceType"
       :value.sync="type"
       :labelAttr="'name'"
+      :api="'/devicetypes'"
       :callback="onSelectColumn"
+      :fieldSearch="'name'"
        >
     </multiselect>
   </th>
@@ -35,6 +37,8 @@
                     <multiselect
                       :field="'Manufactured'"
                       :options="filter.make"
+                      :api="'/devices'"
+                        :fieldSearch="'make'"
                       :value.sync="manufactured"
                       :callback="onSelectColumn"
                        >
@@ -43,9 +47,10 @@
                       <multiselect
                         :field="'Price'"
                         :options="filter.price"
+                          :fieldSearch="'defaultPrice'"
                         :value.sync="price"
+                        :api="'/devices'"
                         :callback="onSelectColumn"
-
                          >
                       </multiselect>
 
@@ -56,6 +61,8 @@
                         :field="'Carrier'"
                         :options="filter.carriers"
                         :value.sync="carrier"
+                        :fieldSearch="'presentation'"
+                        :api="'/carriers'"
                         :labelAttr="'presentation'"
                         :callback="onSelectColumn"
                          >
@@ -66,6 +73,8 @@
                         :field="'Capacity'"
                         :options="filterByModificationsd(filter.modifications,'capacity')"
                         :value.sync="capacity"
+                        :fieldSearch="'value'"
+                        :api="'/modifications'"
                         :labelAttr="'value'"
                         :callback="onSelectColumn"
                          >
@@ -76,6 +85,8 @@
                         :field="'Style'"
                         :options="filterByModificationsd(filter.modifications,'style')"
                         :value.sync="style"
+                        :api="'/modifications'"
+                        :fieldSearch="'value'"
                         :labelAttr="'value'"
                         :callback="onSelectColumn"
                          >

@@ -1,6 +1,9 @@
+
+const {Store,} = require('yayson')();
+const store = new Store();
 module.exports = {
   data() {
-    return {search: '', isOpen: false, mutableValue: null}
+    return {search: '', isOpen: false, mutableValue: null,filter:[],show:false}
   },
   props: {
 
@@ -12,6 +15,15 @@ module.exports = {
       type: String,
       required: true
     },
+    api: {
+      type: String,
+      required: true
+    },
+    fieldSearch:{
+      type:String,
+      required:true
+    },
+
     labelAttr: {
       type: String,
     },
@@ -40,22 +52,44 @@ module.exports = {
 					this.search = ''
 			},
 
-    filteroptions(list, value) {
-      let self = this
-  if(this.labelAttr!=null && this.labelAttr!=""){
+    filteroptions() {
+if(this.search=="" || this.search==null){
+        this.show=false;
 
-      return list.filter(function(item) {
+}else{
+          this.show=true;
+        let params1;
+    if(this.api=="carrirers" || this.api=="companies") {
+       params1 = {
+            params: {
+                'filter[active]':1,
+            }
+        };
+      }
+      else{
+       params1 = {
+            params: {
+            }
+        };
 
-        return item[self.labelAttr].toString().indexOf(value) > -1;
-      });
 
-    }else{
-      return list.filter(function(item) {
+      }
 
-        return item.toString().indexOf(value) > -1;
-      });
+          params1.params['filter['+this.fieldSearch+'][like]']= '%'+this.search+'%';
 
-    }
+
+            this.$http.get(process.env.URL_API + this.api, params1).then((response) =>
+                        {
+                            let event = store.sync(response.data);
+
+                              this.filter=event
+
+                        }, (response) => {}
+                    );
+
+                  }
+
+
 
     },
 

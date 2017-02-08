@@ -15,101 +15,35 @@ getCarriers (context) {
         }
     };
 
-    context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
-        {
-            if(response.data.data.length == 0){
-                context.errorNotFound = true;
-            } else {
-
-                let i = 1;
-                while (i <= response.data.meta.pagination.total_pages) {
-
-                    let params2 = {
-                        params: {
-                            page: i
-                        }
-                    };
-
-                    context.$http.get(process.env.URL_API + '/carriers', params2).then((response) =>
+  context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
                         {
-                            let event = store.sync(response.data);
-
-                            context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
+              let event = store.sync(response.data);
+                context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
                         }, (response) => {}
                     );
 
-                    i++;
-                }
 
-
-            }
-
-        }, (response) => {}
-    );
 },
 getModifications(context) {
 
 
-
-    context.$http.get(process.env.URL_API + '/modifications').then((response) =>
-        {
-
-                let i = 1;
-                while (i <= response.data.meta.pagination.total_pages) {
-
-
-                    let params2 = {
-                        params: {
-                            page: i
-                        }
-                    };
-
-                    context.$http.get(process.env.URL_API + '/modifications', params2).then((response) =>
+  context.$http.get(process.env.URL_API + '/modifications').then((response) =>
                         {
                             let event = store.sync(response.data);
-
-
-
                             context.filter.modifications =orderFilters(event, 'value', 'string', 'asc');
                         }, (response) => {}
                     );
 
-                    i++;
-                }
-
-
-        }, (response) => {}
-    );
 },
 getDeviceTypes(context) {
 
+          context.$http.get(process.env.URL_API + '/devicetypes').then((response) =>
+      {
+                let event = store.sync(response.data);
+              context.filter.deviceType = orderFilters(event, 'name', 'string', 'asc');
 
-
-    context.$http.get(process.env.URL_API + '/devicetypes').then((response) =>
-        {
-
-                let i = 1;
-                while (i <= response.data.meta.pagination.total_pages) {
-
-                    let params2 = {
-                        params: {
-                            page: i
-                        }
-                    };
-
-                    context.$http.get(process.env.URL_API + '/devicetypes', params2).then((response) =>
-                        {
-                            let event = store.sync(response.data);
-
-                            context.filter.deviceType = orderFilters(event, 'name', 'string', 'asc');
                         }, (response) => {}
                     );
 
-                    i++;
-                }
-
-
-        }, (response) => {}
-    );
 },
 }

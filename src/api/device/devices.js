@@ -16,39 +16,63 @@ export default {
     };
 
    if (context.type.length !== 0) {
-      for(let ty of context.type){
-        params.params['filter[deviceTypeId][like]'] = ty.id;
-      }
+     let aux = '';
+     for (let ty of context.type) {
+         aux = aux + ty.id + ',';
+     }
+     aux = aux.substring(0, aux.length-1);
+        params.params['filter[deviceTypeId][like]'] = aux;
+
     }
     if (context.manufactured.length !== 0) {
-                for(let manu of context.manufactured){
-        params.params['filter[make][like]'] = manu;
-
+      let aux = '';
+      for (let manu of context.manufactured) {
+          aux = aux + manu + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[make][like]'] =aux;
+
+
     }
 
     if (context.price.length != 0) {
-            for(let pri of context.price){
-        params.params['filter[defaultPrice][like]'] = parseInt(pri);
+      let aux = '';
+      for (let pri of context.price) {
+          aux = aux + pri + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[defaultPrice][like]'] = parseInt(aux);
+
     }
 
-    if (context.carrier.length != 0) {
-      for(let carr of carrier){
-        params.params['filter[devicevariations.carrierId][like]'] = carr.id;
-      }
+    if (context.carrier.length > 0) {
+          let aux = '';
+          for (let carr of context.carrier) {
+              aux = aux + carr.id + ',';
+          }
+          aux = aux.substring(0, aux.length-1);
+        params.params['filter[devicevariations.carrierId][like]'] = aux;
+
     }
 
     if (context.capacity.length != 0) {
-      for (let capa of context.capacity){
-        params.params['filter[modifications.id]'] = capa.id;
+      let aux = '';
+      for (let capa of context.capacity) {
+          aux = aux + capa.id + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[modifications.id]'] = aux;
+
     }
 
     if (context.style.length != 0) {
-      for (let sty of context.style){
-        params.params['filter[modifications.id]'] = sty.id;
+      let aux = '';
+      for (let sty of context.style) {
+          aux = aux + sty.id + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[modifications.id]'] = aux;
+
     }
 
 
