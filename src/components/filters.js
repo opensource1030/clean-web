@@ -186,38 +186,39 @@ function reverse(value) {
  */
 function orderFilters(list, attribute, type, orderby) {
     return list.sort(function(valueA,valueB) {
-        let nameA;
-        let nameB;
+        let atributeA;
+        let atributeB;
+        
         if(attribute == '') {
-            nameA = valueA;
-            nameA = valueB;
+            atributeA = valueA;
+            atributeB = valueB;
         } else {
-            nameA = valueA[attribute];
-            nameA = valueB[attribute];
+            atributeA = valueA[attribute];
+            atributeB = valueB[attribute];
         }
         
         if (type == 'string') {
-            nameA = nameA.toLowerCase();
-            nameB = nameA.toLowerCase();
+            let strA = atributeA.toLowerCase();
+            let strB = atributeB.toLowerCase();
 
             if (orderby == 'asc') {
                 // sort string ascending
-                if (nameA < nameB) { return -1; }
-                if (nameA > nameB) { return 1; }
+                if (strA < strB) { return -1; }
+                if (strA > strB) { return 1; }
                 return 0 //default return value (no sorting)
             } else {
                 // sort string ascending
-                if (nameA > nameB) { return -1; }
-                if (nameA < nameB) { return 1; }
+                if (strA > strB) { return -1; }
+                if (strA < strB) { return 1; }
                 return 0 //default return value (no sorting)
             }
 
         } else if (type == 'number') {
 
             if (orderby == 'asc') {
-                return nameA - nameB;
+                return atributeA - atributeB;
             } else {
-                return nameB - nameA;
+                return atributeB - atributeA;
             }
         }
     });

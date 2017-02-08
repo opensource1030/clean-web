@@ -6,14 +6,13 @@ import {findServiceItem, findByAddons, orderFilters} from './../../components/fi
 
 export default {
 
-    name : 'Service',
     components: {
         modal,
         inputValidate
     },
     beforeCreate() {
         if (this.$route.params.id > 0) {
-            service.getDataService(this, this.$route.params.id);
+            service.getService(this, this.$route.params.id);
         } else {
             service.getCarriers(this);
         }
@@ -90,6 +89,7 @@ export default {
                 description: '',
                 currency: ''
             },
+            services: [],
             domesticPlan: {
                 minutes: {
                     id : 0,

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import auth from './../auth.js';
+import Carrier from './../carrier/carriers';
 const {Store} = require('yayson')();
 const store = new Store();
 
@@ -46,13 +47,14 @@ export default {
             }
             params.params['filter[planCode][like]'] = aux;
         }
-        
-        if (context.values.carrier != 0) {
-            let aux = context.values.carrier;
-            if (context.values.carrier.length > 50) {
-                aux = aux.substring(0, 50) + '%';
+
+        if (context.values.carrier.length > 0) {
+            let aux = '';
+            for (let carr of context.values.carrier) {
+                aux = aux + carr.id + ',';
             }
-            params.params['filter[carrierId]'] = aux;
+            aux = aux.substring(0, aux.length-1);
+            params.params['filter[carrierId]'] = aux;         
         }
         
         if (context.search.costMax != 0) {
@@ -63,18 +65,19 @@ export default {
             params.params['filter[cost][ge]'] = context.search.costMin;
         }
 
+        console.log(params.params);
+
         context.$http.get(process.env.URL_API + '/services', params).then((response) =>
             {
                 context.showtable = false;
                 context.loading = false;
                 context.errorNotFound = false;
 
-                context.services = [];
+                context.servicesList = [];
 
                 if(response.data.data.length == 0){
                     context.showtable = true;    
                     context.errorNotFound = true;
-                    context.services = [];
                 } else {
 
                     let event = store.sync(response.data);
@@ -88,7 +91,7 @@ export default {
                                 hide: true
                             }
                         );
-                        context.services.push(service);
+                        context.servicesList.push(service);
                     }
 
                     /*
@@ -96,7 +99,7 @@ export default {
                      *  so we need to put some value to prevent an
                      *  issue loading information.
                      */
-                    for (let serv of context.services) {
+                    for (let serv of context.servicesList) {
                         if (serv.carrierId == 0) {
                             serv.carriers[0] = {
                                 presentation : ''
@@ -122,38 +125,39 @@ export default {
         );
     },
 
-    getCarriers (context) {
+    getServices(context, callback) {
 
         let params1 = {
             params: {
-                'filter[active]':1,
+
             }
         };
 
-        context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
+        context.$http.get(process.env.URL_API + '/services', params1).then((response) =>
             {
                 if(response.data.data.length == 0){
                     context.errorNotFound = true;
                 } else {
-                    
                     let i = response.data.meta.pagination.current_page;
                     while (i <= response.data.meta.pagination.total_pages) {
-                            
+
                         let params2 = {
                             params: {
                                 page: i
                             }
                         };
 
-                        context.$http.get(process.env.URL_API + '/carriers', params2).then((response) =>
+                        context.$http.get(process.env.URL_API + '/services', params2).then((response) =>
                             {
                                 let event = store.sync(response.data);
-                                   
-                                for (let carr of event) {
-                                    context.filter.carriers.push(carr);
+
+                                for (let serv of event) {
+                                    context.services.push(serv);
                                 }
 
-                                context.filter.carriers = context.orderFilters(context.filter.carriers, 'presentation', 'string', 'asc');
+                                if (callback != null) {
+                                    callback(response.data);
+                                }
                             }, (response) => {}
                         );
 
@@ -162,6 +166,13 @@ export default {
                 }
             }, (response) => {}
         );
+    },
+
+    getCarriers(context) {
+
+        Carrier.getCarriers(context, function() {
+            context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+        })
     },
 
     getServices (context) {
@@ -190,17 +201,17 @@ export default {
                                 let event = store.sync(response.data);
 
                                 for (let serv of event) {
-                                    context.filter.services.push(serv);
+                                    context.services.push(serv);
                                 }
 
-                                if (response.data.meta.pagination.count == context.filter.services.length) {
-                                    context.filter.services = context.orderFilters(context.filter.services, 'title', 'string', 'asc');
+                                if (response.data.meta.pagination.count == context.services.length) {
+                                    context.services = context.orderFilters(context.services, 'title', 'string', 'asc');
 
-                                    for (let serv of context.filter.services) {
-                                        this.getFilters(context, context.filter.status, serv.status, 'string');
-                                        this.getFilters(context, context.filter.plans, serv.title, 'string');
-                                        this.getFilters(context, context.filter.details, serv.description, 'string');
-                                        this.getFilters(context, context.filter.codePlan, serv.planCode, 'number');
+                                    for (let serv of context.services) {
+                                        this.getFilters(context, context.status, serv.status, 'string');
+                                        this.getFilters(context, context.plans, serv.title, 'string');
+                                        this.getFilters(context, context.details, serv.description, 'string');
+                                        this.getFilters(context, context.codePlan, serv.planCode, 'number');
                                     }
                                 }
                             }, (response) => {}

@@ -1,5 +1,5 @@
 <template>
-  <div class="content-right">
+  <div>
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
@@ -32,37 +32,40 @@
             <thead>
               <tr>
                 <th>
-                  <select @change="onSelectColumn()" v-model="values.status">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.status">
                     <option value="" values.status>{{names.status}}</option>
-                    <option v-for="item in filter.status" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in status" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select @change="onSelectColumn()" v-model="values.plans">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
                     <option value="" values.plans>{{names.plans}}</option>
-                    <option v-for="item in filter.plans" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in plans" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select @change="onSelectColumn()" v-model="values.details">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.details">
                     <option value="" values.details>{{names.details}}</option>
-                    <option v-for="item in filter.details" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in details" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select @change="onSelectColumn()" v-model="values.codePlan">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
                     <option value="" values.codePlan>{{names.planCode}}</option>
-                    <option v-for="item in filter.codePlan" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in codePlan" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th>
-                  <select @change="onSelectColumn()" v-model="values.carrier">
-                    <option value="" values.carrier>{{names.carrier}}</option>
-                    <option v-for="item in filter.carriers" :value="item">{{item.presentation}}</option>
-                  </select>
+                  <multiselect
+                    :field="'Carrier'"
+                    :options="carriers"
+                    :value.sync="values.carrier"
+                    :labelAttr="'presentation'"
+                    :callback="onSelectColumn">
+                  </multiselect>
                 </th>
                 <th>
-                  <div position:relative class="especial" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
+                  <div class="columnnamecost" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
                 </th>
               </tr>
             </thead>
@@ -76,8 +79,7 @@
                 <td><div>{{search.costFilterMessage}}</div></td>
               </tr>
             </tbody>
-            <div v-show="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
-            <tbody v-for="(service, index) in services">
+            <tbody v-for="(service, index) in servicesList">
               <tr :class="{'active': service.show,'desactive': !service.show}" @click="setActive(index)">
                 <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
                 <td valign="top">
@@ -156,6 +158,7 @@
               </tr>
             </tbody>
           </table>
+          <div v-show="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
           <div class="load">
             <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>

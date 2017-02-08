@@ -93,7 +93,25 @@
         padding: 0rem 0rem 0rem 0rem;
         border-spacing: 0px;
         line-height: 12px;
-        width: 60%
+        width: 60%;
+        bgcolor: "#FF0000";
+    }
+        .columnname {
+        color: #FF690A;
+        box-sizing: border-box;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 12px 0px 0px 8px;
+    }
+    .columnnamecost {
+        color: #FF690A;
+        box-sizing: border-box;
+        font-weight: bold;
+        font-size: 14px;
+        padding: 0px 40px 0px 8px;
+    }
+    .optioninblack {
+        color: black;
     }
 }
 
