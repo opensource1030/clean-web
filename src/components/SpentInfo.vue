@@ -1,8 +1,7 @@
-
 <template>
   <transition name="fade">
-  <div class="callout spent-info" v-bind:class="{ active: isActive, 'visible': popOver }">
-    <div class="pop-content" v-if="userInfo">
+    <div class="callout spent-info" v-bind:class="{ active: isActive, 'visible': popOver }">
+      <div class="pop-content" v-if="userInfo">
         <div class="expanded row">
           <div class="columns large-12">
             <router-link class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
@@ -217,7 +216,8 @@
           </div>
         </div>
       </div>
-</div>
-</transition>
+    </div>
+  </transition>
 </template>
+
 <script src="./spentinfo.ctrl.js" lang="babel"></script>

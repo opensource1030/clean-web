@@ -11,6 +11,7 @@ export default function supportRequest(user){
             enabled : true
         };
         Headway.init(config);
+    chmln.identify({uid: localStorage.userId /* A stable, unique identifier */, email: user.email, created: user.created_at /* Timestamp when the user was added to your system */})
         var $select = $('#support-form .user-actions');
         $select.on('change', function () {
             var value = '.' + $(this).val();

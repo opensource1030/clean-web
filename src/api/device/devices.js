@@ -1,45 +1,77 @@
-// import {
-//   router
-// } from './../../app'
 import Vue from 'vue';
 import auth from './../auth.js';
-
-var {
-  Store,
-} = require('yayson')();
-var store = new Store();
-import {
-  filterByFilters
-} from './../../components/filters.js';
+const {Store,} = require('yayson')();
+const store = new Store();
+import {filterByFilters} from './../../components/filters.js';
 export default {
   device: {},
-
+  firstTime:true,
   getDevices(context, pages) {
 
-    context.$http.get(process.env.URL_API + '/devices', {
+    let params = {
       params: {
         include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications',
         page: pages, /*,filter[][like]:deviceType*/
-      },
+      }
+    };
 
-    }).then((response) => {
+   if (context.type.length !== 0) {
+      for(let ty of context.type){
+        params.params['filter[deviceTypeId][like]'] = ty.id;
+      }
+    }
+    if (context.manufactured.length !== 0) {
+                for(let manu of context.manufactured){
+        params.params['filter[make][like]'] = manu;
+
+      }
+    }
+
+    if (context.price.length != 0) {
+            for(let pri of context.price){
+        params.params['filter[defaultPrice][like]'] = parseInt(pri);
+      }
+    }
+
+    if (context.carrier.length != 0) {
+      for(let carr of carrier){
+        params.params['filter[devicevariations.carrierId][like]'] = carr.id;
+      }
+    }
+
+    if (context.capacity.length != 0) {
+      for (let capa of context.capacity){
+        params.params['filter[modifications.id]'] = capa.id;
+      }
+    }
+
+    if (context.style.length != 0) {
+      for (let sty of context.style){
+        params.params['filter[modifications.id]'] = sty.id;
+      }
+    }
+
+
+
+
+    context.$http.get(process.env.URL_API + '/devices',params).then((response) => {
       context.loading=false;
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
-        let prices = filterByFilters(response.data.included, 'prices');
-        context.filterPrice = prices;
-        /*  let modifications=    filterByFilters(response.data.included,'modifications');
-          context.filterModifications=modifications;
-            let deviceTypes=    filterByFilters(response.data.included,'devicetypes');
-          context.filterDeviceType=deviceTypes;
-              let carriers=    filterByFilters(response.data.included,'carriers');
-                context.filterCarriers=carriers;*/
-
-        event = store.sync(response.data);
-
+      let  event = store.sync(response.data);
+        if(event.length==0){
+          context.error="No data content"
+          context.showModal=true;
+        }
         var devices = [];
-        console.log(event);
+            if(this.firstTime){
+            for(let device of event){
+      this.getFilters(context, context.filter.make, device.make, 'string');
+      this.getFilters(context, context.filter.price, device.defaultPrice, 'number');
 
+            }
+                  this.firstTime=false;
+}
 
         for (let device of event) {
           if (device.images.length > 0) {
@@ -56,7 +88,7 @@ export default {
               show: false,
               hide: true,
               priceName: [],
-              image: './../assets/logo.png'
+              image: '/assets/img/logo.a521535.png'
 
             });
           }
@@ -95,17 +127,10 @@ export default {
               }
 
             }
-
-
-
             device.priceName.push(price);
 
           }
-
-
           devices.push(device);
-        //  console.log(device);
-
         }
       }
 
@@ -114,72 +139,48 @@ export default {
       },
 
       (response) => {
+        context.error=response.status;
+
+        context.showModal=true;
 
       });
   },
+  /*
+    *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
+    *  Then, we order the list.
+    *  Example: this.getFilters(context, context.filter.status, serv.status, 'string');
+    *
+    *  @context: Is the Context.
+    *  @list: Is the list of the filters.
+    *  @value: Is the value that we need to insert into the list.
+    *  @order: Is the order for the orderFilters function.
+    *
+    *  @return: returns an ordered list with the values.
+    *
+    */
+   getFilters (context, list, value, order) {
 
-  getDevice(context) {
+       let aux = value;
+       if(aux.length >= 50){
+           aux = aux.substring(0, 50);
+           aux = aux + '...';
+       }
 
-    context.$http.get(process.env.URL_API + '/devicetypes', {
+       if (list.length == 0) {
+           list.push(aux)
+       } else {
+           let ok = true;
+           for (let a of list) {
+               if (a == aux) {
+                   ok = false;
+               }
+           }
 
-      params: {
-        page: 1,
-      },
-
-    }).then((response) => {
-
-        context.filterDeviceType = response.data.data;
-
-      },
-
-      (response) => {
-
-      });
-
-    context.$http.get(process.env.URL_API + '/modifications', {
-
-      params: {
-        page: 1,
-      },
-
-    }).then((response) => {
-
-        context.filterModifications = response.data.data;
-
-      },
-
-      (response) => {
-
-      });
-
-      context.$http.get(process.env.URL_API + '/devicevariations', {
-
-        params: {
-          page: 1,
-        },
-
-      }).then((response) => {
-
-         context.filterPrices = response.data.data;
-
-        },
-
-        (response) => {
-
-        });
-
-    context.$http.get(process.env.URL_API + '/carriers', {
-      params: {
-        page: 1,
-        'filter[active]': 1,
-      },
-    }).then((response) => {
-
-        context.filterCarriers = response.data.data;
-      },
-
-      (response) => {});
-
-  },
+           if (ok) {
+               list.push(aux);
+           }
+       }
+       list = context.orderFilters(list, '', order, 'asc');
+   }
 
 };

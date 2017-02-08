@@ -2,28 +2,27 @@
 
 .accordion-title:focus,
 .accordion-title:hover {
-    background-color: #F4A536!important;
-    color: black;
+    background-color: #FF690A !important;
+    color: #000000 !important;
 }
 
 
-.is-active {
-    // background-color: #F4A536 !important;
-}
 
 .acordeon {
-    list-style-type: none;
+  list-style-type: none;
 
-    .accordion-title {
-        position: inherit;
-        font-size: 1rem;
-font-weight: 600;
-    }
+  .accordion-title {
+    position: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    background: rgba(255, 105, 10, 0.0196078);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.0588235);
+    border-radius: 0;
+  }
 
+  .acordeon-item {
+    margin: 2rem;
+    background-color: #FDFDFF;
 
-
-    .acordeon-item {
-        margin: 2rem;
-        background-color: $iron;
-}
+  }
 }

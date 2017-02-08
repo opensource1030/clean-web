@@ -1,95 +1,45 @@
 @import "../base/clean-variables";
 #tables{
-.details {
-    display: -webkit-flex;
-    display: flex;
+  .filterBy{
+    display: inline-block;
 
-    .child {
-        text-align: left;
-        -webkit-flex-grow: 0;
-        -webkit-flex-shrink: 0;
-        -webkit-flex-basis: 13.2%;
-        flex-grow: 0;
-        flex-basis: 13.2%;
-    }
-
-    .child:nth-of-type(1) {
-        -webkit-flex-basis: 7.9%;
-        flex-basis: 7.9%;
-    }
-
-    .child:nth-of-type(2) {
-
-        -webkit-flex-basis: 34.74%;
-            flex-basis: 34.74%;
+  }
+  .detail {
+      ul {
+        list-style-type: none;
+      }
 
 
-        ul {
-            list-style-type: none;
-        }
-    }
-    .child:nth-of-type(3) {
-        -webkit-flex-basis: 10%;
-        flex-basis: 10%;
-    }
-    .child:nth-of-type(4) {
-        -webkit-flex-basis: 11.7%;
-        flex-basis: 11.7%;
-    }
+      .pri {
+        padding-left: 2.5rem;
+      }
 
-    .prices {
-              .listPrice{
+      .modificationc {
+        display: inline-block;
+      }
 
-
-              }
-
-        ul {
-            list-style-type: none;
-        }
-    }
-
-    .os {
-        .image {
-            height: 160px;
-
-            img {
-                height: 130px;
-            }
-        }
-    }
-    .modificationc{
-      display:inline-block;
-    }
-
-    .active {
+      .active {
         background-color: #F0EEDD;
-    }
-    .act {
+      }
+
+      .act {
         background-color: #F0EEDD;
-    }
+      }
 
-        .information {
-            position: absolute;
-            width: 37%;
-            margin-top: -1em;
-        }
+      .information {
+        margin-top: 1em;
+      }
     }
-
 }
 
 #device {
   .money{
       margin: 1.8rem 0 0 0;
   }
-  .margin{
-    margin-left: 4rem;
-  }
-  .margins{
-      margin-left: 8.6rem;
-  }
-    .header {
-        background: $white;
-    }
+  .delete{
+margin-left: 4.6rem !important;
+}
+
     .button{
         margin: 0 0 1rem 3rem;
     }
@@ -103,33 +53,11 @@
             padding: 0 3.2rem;
         }
     }
-
-    ¡
-
-    .accordion-title:focus,
-    .accordion-title:hover {
-        background-color: #F4A536!important;
-        color: black;
-    }
-
     .devicename {
-        label {
             padding: 0 3.2rem;
             margin:1rem 0 0 0;
-        }
     }
-
-    .is-active {
-        // background-color: #F4A536 !important;
-    }
-
     .acordeon {
-        list-style-type: none;
-
-        .accordion-title {
-            position: inherit;
-        }
-
         .prices {
           img{
             margin:1rem 0 0 0;
@@ -192,7 +120,7 @@
 
         .acordeon-item {
             margin: 2rem;
-            background-color: $iron;
+
 
 
 

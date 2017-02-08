@@ -3,6 +3,10 @@ import Resource from 'vue-resource'
 import VueRouter from 'vue-router'
 import 'script!jquery'
 import 'script!jquery.cookie'
+
+import './../node_modules/slicknav/dist/jquery.slicknav.js'
+import './../node_modules/stacktable.js/stacktable.js'
+
 import NProgress from 'nprogress'
 import './styles/app.scss'
 import './../node_modules/font-awesome/scss/font-awesome.scss'

@@ -19,7 +19,7 @@
                 <div class="pie-chart-title">
                   {{ title(allocation) }}
                 </div>
-                <pie-chart :chartData="pieData(allocation)" :options="options" :height="200"></pie-chart>
+                <pie-chart :chartData="pieData(allocation)" :options="options" :height="300"></pie-chart>
               </div>
             </template>
           </div>
@@ -57,6 +57,8 @@
           '#97cd76'
         ],
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           tooltips: {
             mode: 'label',
             callbacks: {

@@ -2,8 +2,8 @@ import Vue from 'vue';
 import auth from './../auth.js';
 import Device from './../../models/Device'
 import {filterByFilters} from './../../components/filters.js';
-var {Store} = require('yayson')();
-var store = new Store();
+const {Store} = require('yayson')();
+const store = new Store();
 
 export default {
   /*-------------------------------update device-----------------*/
@@ -18,9 +18,7 @@ export default {
   },
 
   updateDevice(id, context, price, style, capacity, device, image) {
-
-    let deviceObj = new Device('devices', id, device.defaultPrice, device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
-
+    let deviceObj = new Device('devices', id, parseInt(device.defaultPrice), device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
     let check = this.checkDevice(deviceObj, style, capacity, price, context, id)
     if (check.staus == false) {
       context.message = "Error in field " + check.field;
@@ -29,10 +27,10 @@ export default {
 
       context.$http.patch(process.env.URL_API + '/devices/' + id, {data: deviceObj.toJSON()}).then((response) => {
 
-        context.$router.push({name: 'devices'});
+        context.$router.push({name: 'List Devices'});
 
       }, (response) => {
-        context.message = response;
+        context.message = "code error    " + response.status;
         context.showModal = true;
       });
     }
@@ -40,18 +38,25 @@ export default {
   },
 
   getDataDevice(context, id) {
-
-    context.$http.get(process.env.URL_API + '/devices/' + id, {
+    let params = {
       params: {
         include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images'
       }
-    }).then((response) => {
+    };
+    if (context.companyFilter !== "" || context.companyFilter != null) {
+      params.params['filter[name][like]'] = context.companyFilter;
+    }
+    context.$http.get(process.env.URL_API + '/devices/' + id, params).then((response) => {
 
       event = store.sync(response.data);
+      if (event.images != null && event.images.length > 0) {
+        context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
+        context.image.id = event.images[0].id;
+      } else {
+        context.image.url = '/assets/img/logo.a521535.png';
+      }
 
-      context.image.url = process.env.URL_API + '/images/' + event.images[0].id;
-      context.image.id = event.images[0].id;
-      context.id=id;
+      context.id = id;
 
       context.d.name = event.name;
       context.d.description = event.properties;
@@ -62,15 +67,20 @@ export default {
       context.d.type = event.devicetypes[0].id;
       context.d.make = event.make;
       context.d.model = event.model;
+
       this.carrierCheck(context, filterByFilters(response.data.included, 'carriers'));
       context.carriers = this.carriersCheck;
       context.vCarriers = this.carriersCheck;
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
-      this.modificationCheck(context, event.modifications);
-      context.modifications = this.modificationsCheck;
-      context.priceData = event.devicevariations;
 
+      if (event.modifications != null && event.modifications.length > 0) {
+        this.modificationCheck(context, event.modifications);
+        context.modifications = this.modificationsCheck;
+      }
+      if (event.devicevariations != null && event.devicevariations.length > 0) {
+        context.priceData = event.devicevariations;
+      }
       context.checkcarrier();
 
     }, (response) => {});
@@ -115,9 +125,11 @@ export default {
   modificationCheck(context, modificationsD) {
 
     for (let modification of this.modificationsCheck.data) {
+
       modification.check = false;
       for (let modificationData of modificationsD) {
         if (modification.id == modificationData.id) {
+
           modification.check = true;
 
           break;
@@ -132,6 +144,17 @@ export default {
   /*---------------------------------create device---------------------------------------*/
 
   getDevice(context, page) {
+
+    let params = {
+      params: {
+        page: page,
+
+        /*,filter[][like]:deviceType*/
+      }
+    };
+    if (context.companyFilter !== "" || context.companyFilter != null) {
+      params.params['filter[name][like]'] = context.companyFilter;
+    }
 
     context.$http.get(process.env.URL_API + '/devicetypes', {
 
@@ -168,7 +191,7 @@ export default {
         include: 'images'
       }
     }).then((response) => {
-      event = store.sync(response.data);
+      let event = store.sync(response.data);
       console.log(event);
 
       //process.env.URL_API
@@ -183,13 +206,7 @@ export default {
       context.carriers.data = event;
     }, (response) => {});
 
-    context.$http.get(process.env.URL_API + '/companies', {
-
-      params: {
-        page: page,
-        'filter[active]': 1
-      }
-    }).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies', params).then((response) => {
       context.pagination = response.data.meta.pagination;
       for (let company of response.data.data) {
 
@@ -201,6 +218,7 @@ export default {
       context.companies = response.data;
 
     }, (response) => {});
+
   },
 
   addModifications(context, obj) {
@@ -264,6 +282,9 @@ export default {
       }
       return error;
     }
+    if (device.imageId != 0) {
+      device.imagesJson(device);
+    }
     if (device.make == null || device.make == "") {
       check = false;
       let error = {
@@ -306,11 +327,9 @@ export default {
       }
       if (c == true) {
         device.modificationsJson(capacity, style, device);
-        if (id == null) {
           device.pricesJson(price, device);
-        } else {
-          device.pricesUpdateJson(price, device)
-        }
+
+
         let error = {
           field: "",
           status: true
@@ -346,7 +365,6 @@ export default {
   },
 
   addDevice(context, price, style, capacity, device, image) {
-
     let deviceObj = new Device('devices', null, device.defaultPrice, device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, null)
@@ -356,7 +374,7 @@ export default {
     } else {
       context.$http.post(process.env.URL_API + '/devices', {data: deviceObj.toJSON()}).then((response) => {
 
-        context.$router.push({name: 'devices'});
+        context.$router.push({name: 'List Devices'});
 
       }, (response) => {
         context.message = response;
@@ -387,27 +405,5 @@ export default {
       }
     }, (response) => {});
 
-  },
-  filterCompanies(context, page, companyName) {
-    context.$http.get(process.env.URL_API + '/companies', {
-
-      params: {
-        page: page,
-        'filter[name][like]': companyName
-      }
-    }).then((response) => {
-      context.pagination = response.data.meta.pagination;
-      for (let company of response.data.data) {
-
-        this.companiesCheck.data.push(company);
-        company.check = false;
-
-      }
-
-      context.companies = response.data;
-
-    }, (response) => {});
-
   }
-
-};
+}

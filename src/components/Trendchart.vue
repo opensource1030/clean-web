@@ -16,7 +16,7 @@
           <div class="tabs-content" data-tabs-content="trend-tabs">
             <template v-for="(key, index) in groupDataKeys">
               <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'trend-' + index">
-                <trend-chart :chartData="seriesData(key)" :options="options" :height="200"></trend-chart>
+                <trend-chart :chartData="seriesData(key)" :options="options" :height="300"></trend-chart>
               </div>
             </template>
           </div>
@@ -74,6 +74,8 @@
           'Other Charges'
         ],
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           tooltips: {
             mode: 'label',
             callbacks: {
@@ -166,7 +168,7 @@
 
         let len = trendchart_data.length;
         if (len < 3) {
-          for (i = 0; i < (3 - len); i ++) {
+          for (let i = 0; i < (3 - len); i ++) {
             trendchart_data.unshift({
               service_plan_charges: 0,
               domestic_usage_charges: 0,

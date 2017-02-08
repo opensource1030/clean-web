@@ -30,18 +30,7 @@ export default {
         SpentInfo,
         LegacyInfo
     },
-
-    computed: {
-        name() {
-            return this.$route.name
-        },
-
-        list() {
-            return this.$route.matched
-        },
-    },
     created(){
-        this.fetchUserData();
         this.grid();
     },
     mounted(){
@@ -67,15 +56,7 @@ export default {
                 this.$http.get(clientdata, {
                 }).then((response) => {
                     this.data= response.data;
-                    setTimeout(supportRequest(this.user),300);
-                    setTimeout( function(){
-                        $(document).foundation(),400
-                    });
                 });
-            }
-
-            if (event.allocations && event.allocations.length > 0) {
-                this.$set(this, 'trendchartData', event.allocations);
             }
         });
 
@@ -84,6 +65,9 @@ export default {
             var event = store.sync(response.data);
             if (event.allocations && event.allocations.length > 0) {
                 this.$set(this, 'piechartData', event.allocations);
+            }
+            if (event.allocations && event.allocations.length > 0) {
+                this.$set(this, 'trendchartData', event.allocations);
             }
         });
     },
@@ -101,20 +85,6 @@ export default {
                 });
             });
         },
-        fetchUserData : function(){
-            this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?users', {
-
-            }).then((response) => {
-
-                var event = store.sync(response.data);
-                this.user.email= event.email;
-                this.user.firstName= event.firstName;
-                this.user.lastName= event.lastName;
-                this.user.alternateEmail= event.alternateEmail;
-                this.user.supervisorEmail= event.supervisorEmail;
-
-            });
-        }
     },
     data(){
         return {

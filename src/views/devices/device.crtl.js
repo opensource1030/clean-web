@@ -3,14 +3,6 @@ import device from './../../api/device/device';
 import {findByPrices, filterByModifications} from './../../components/filters.js';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
-
-Vue.directive('f-accordion', {
-  bind: function(el) {
-    Vue.nextTick(function() {
-      $(el).foundation();
-    });
-  }
-});
 export default {
   name : 'Device',
   components: {
@@ -18,7 +10,7 @@ export default {
   inputValidate
   },
   beforeCreate() {
-    
+
     device.getDevice(this, 1);
     this.id = this.$route.params.id;
     if (this.id != null) {
@@ -40,12 +32,10 @@ export default {
         break;
 
 }
-
     },
     mCapacity() {
       if (this.modifications.data != null) {
         let value = 'capacity';
-
         return this.modifications.data.filter(function(item) {
           return item.attributes.modType.indexOf(value) > -1;
         });
@@ -107,6 +97,24 @@ export default {
     },
 
     priceTable() {
+        let json=  {styles:this.vStyles,
+          capacitys: this.vCapacity,
+          carriers: this.vCarriers,
+          companys: this.vCompanies,
+          imageVariations: {
+            url: "./../assets/logo.png",
+            id: 0
+          },
+          style:null,
+          capacity:null,
+          carrierId:null,
+          companyId:null,
+          priceRetail: this.d.defaultPrice,
+          price1: 0,
+          price2: 0,
+          priceOwn: 0,
+          delete:false};
+
   if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
     if(this.pricess.length>0 && this.add==true){
       this.add=false;
@@ -115,7 +123,18 @@ export default {
     }
     else{
 
-  this.pricess = [];
+      if(this.pricess.length!=0){
+        this.company = Object.assign({}, this.company, json);
+        let self=this;
+        this.pricess.forEach(function(p, index) {
+          Vue.set(self.pricess, index, self.company)
+            });
+
+
+
+
+      }
+  let first =true;
 
   for(let price of this.priceData){
       let capacityId=null;
@@ -128,7 +147,7 @@ export default {
           }
 
     }
-
+    if(first==true){
     price= Object.assign({}, price, {
       id:price.id,
       styles:this.vStyles,
@@ -137,19 +156,38 @@ export default {
       companys: this.vCompanies,
       style:styleId,
       capacity:capacityId,
+      delete:false,
       carrierId:price.carrierId,
       companyId:price.companyId,
       imageVariations: {
         url: process.env.URL_API+'/images/'+price.images[0].id,
         id: price.images[0].id
       }
-
-
     });
+    first=false;
+  }else{
+    price= Object.assign({}, price, {
+      id:price.id,
+      styles:this.vStyles,
+      capacitys: this.vCapacity,
+      carriers: this.vCarriers,
+      companys: this.vCompanies,
+      style:styleId,
+      capacity:capacityId,
+      delete:true,
+      carrierId:price.carrierId,
+      companyId:price.companyId,
+      imageVariations: {
+        url: process.env.URL_API+'/images/'+price.images[0].id,
+        id: price.images[0].id
+      }
+    });
+  }
+  if(this.pricess.length==0){
       this.pricess.push(price);
+    }
 
   }
-
 
   return this.pricess;
 }
@@ -158,6 +196,7 @@ export default {
 
 
   else  if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
+
       if(this.price.length>0 && this.add==true){
 
         this.add=false;
@@ -165,27 +204,18 @@ export default {
       }
       else{
 
-      this.price = [];
-      this.company = Object.assign({}, this.company, {
-        styles:this.vStyles,
-        capacitys: this.vCapacity,
-        carriers: this.vCarriers,
-        companys: this.vCompanies,
-        imageVariations: {
-          url: "./../assets/logo.png",
-          id: 0
-        },
-        style:null,
-        capacity:null,
-        carrierId:null,
-        companyId:null,
-        priceRetail: this.d.defaultPrice,
-        price1: 0,
-        price2: 0,
-        priceOwn: 0
-      });
+      this.company = Object.assign({}, this.company, json);
 
+
+      if(this.price.length==0){
       this.price.push(this.company);
+    }
+    else{
+    let self=this;
+      this.price.forEach(function(p, index) {
+        Vue.set(self.price, index, self.company)
+          });
+    }
 
       return this.price
 }
@@ -231,7 +261,8 @@ else{
         priceRetail: this.d.defaultPrice,
         price1: 0,
         price2: 0,
-        priceOwn: 0
+        priceOwn: 0,
+        delete:true
       });
       if(this.pricess.length>0){
       this.pricess.push(this.company)
@@ -253,8 +284,24 @@ else{
         }
       });
     },
+    deletes(index){
+        if(this.id!=null){
+          if(this.priceData[index]!=null){
+            this.priceData.splice(index,1);
+          }
+        this.pricess.splice(index, 1);
+      }else{
+          this.price.splice(index, 1);
+      }
+    },
+
     findCompany(){
-        device.filterCompanies(this,this.page,this.companyFilter);
+      if(this.id!=null){
+          device.getDataDevice(this,this.id)
+      }
+      else{
+      device.getDevice(this, 1);
+    }
     },
 
     findById(relationships, price, priceId, type) {
@@ -274,8 +321,6 @@ else{
     },
     changeStatusCompany(index) {
       this.companies.data[index].check = !this.companies.data[index].check;
-      console.log(this.companies.data[index].check);
-
     },
 
     showFalse() {
