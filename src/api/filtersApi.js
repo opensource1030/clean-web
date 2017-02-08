@@ -18,7 +18,9 @@ getCarriers (context) {
   context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
                         {
               let event = store.sync(response.data);
+              if(event.lenght!=0){
                 context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
+              }
                         }, (response) => {}
                     );
 
@@ -30,7 +32,9 @@ getModifications(context) {
   context.$http.get(process.env.URL_API + '/modifications').then((response) =>
                         {
                             let event = store.sync(response.data);
+                              if(event.lenght!=0){
                             context.filter.modifications =orderFilters(event, 'value', 'string', 'asc');
+                          }
                         }, (response) => {}
                     );
 
@@ -40,8 +44,9 @@ getDeviceTypes(context) {
           context.$http.get(process.env.URL_API + '/devicetypes').then((response) =>
       {
                 let event = store.sync(response.data);
+                  if(event.lenght!=0){
               context.filter.deviceType = orderFilters(event, 'name', 'string', 'asc');
-
+                }
                         }, (response) => {}
                     );
 

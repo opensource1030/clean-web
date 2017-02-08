@@ -90,9 +90,12 @@ export default {
         var devices = [];
             if(this.firstTime){
             for(let device of event){
+              if(device.make!=null){
       this.getFilters(context, context.filter.make, device.make, 'string');
+    }
+    if(device.defaultPrice!=null){
       this.getFilters(context, context.filter.price, device.defaultPrice, 'number');
-
+}
             }
                   this.firstTime=false;
 }
