@@ -8,10 +8,10 @@
             <h4>{{names.managePlan}}</h4>
           </div>
           <div v-show="loadedContent" class="large-12 columns padding-responsive">
-            <ul class="acordeon">
-              <li class="acordeon-item is-active">
-                <a class="accordion-title">{{names.planDetails}}</a>
-                <div class="accordion-content overview padding-responsive">
+            <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
+              <li class="acordeon-item is-active" data-accordion-item  v-f-accordion>
+                <a href="#" class="accordion-title" @click="showFalse()">{{names.planDetails}}</a>
+                <div class="accordion-content overview padding-responsive" data-tab-content v-f-accordion>
                   <div class="row padding-bottop">
                   <div class="large-12 small-12 columns">
                     <div class="large-7 small-12 columns">
@@ -64,9 +64,9 @@
                   </div>
                 </div>
               </li>
-              <li class="acordeon-item">
-                <a class="accordion-title">{{names.domesticServices}}</a>
-                <div class="accordion-content padding-responsive">
+              <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <a href="#" class="accordion-title" @click="showFalse()">{{names.domesticServices}}</a>
+                <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
                   <div class="row padding-bottop">
                     <div class="large-4 small-12 columns">
                       <div class="large-6 small-4 columns">
@@ -108,9 +108,9 @@
                   </div>
                 </div>
               </li>
-              <li class="acordeon-item">
-                <a class="accordion-title">{{names.internationalServices}}</a>
-                <div class="accordion-content padding-responsive">
+              <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <a href="#" class="accordion-title" @click="showFalse()">{{names.internationalServices}}</a>
+                <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
                   <div class="row padding-bottop">
                     <div class="large-4 small-12 columns">
                       <div class="large-6 small-4 columns">
@@ -152,9 +152,9 @@
                   </div>
                 </div>
               </li>
-              <li class="acordeon-item">
-                <a class="accordion-title">{{names.addons}}</a>
-                <div class="accordion-content padding-responsive">
+              <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <a href="#" class="accordion-title" @click="showFalse()">{{names.addons}}</a>
+                <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
                   <div class="row padding-bottop" v-for="(addon,index) in addons">
                     <div class="large-5 small-12 columns">
                       <div class="large-3 small-3 columns">
