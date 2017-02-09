@@ -14,7 +14,6 @@ export default {
     methods : {
         findServiceItem,
         orderFilters,
-
         loadData() {
             services.getServicesPage(this, this.pagination.current_page);
         },
@@ -44,6 +43,7 @@ export default {
             this.search.searchShow = !this.search.searchShow;
         },
         searchCost: function() {
+
             if(this.search.costMin <= this.search.costMax) {
                 this.search.errorCost = false;
                 this.search.searchShow = false;
@@ -89,10 +89,10 @@ export default {
             values: {
                 status: '',
                 plans: '', // service.title
+                details: '', // service.descriptions
                 codePlan: '', // service.codePlan
                 carrier: [], // carriers.presentation
                 cost: '', // service.cost
-                details: '', // service.descriptions
             },
             // Pagination
             pagination: {

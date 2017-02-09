@@ -117,11 +117,11 @@
 
 #service {
     .accordion-content {
-        display: inherit;
+        // display: inherit;
     }
     .header {
         padding: 1.8rem;
-        background: $white;
+        // background: $white;
     }
     .status {
         font-size: 1.5rem;
@@ -133,7 +133,7 @@
     }
     h6{
         text-align: center;
-        margin-top: 2.18rem;
+        margin-top: 2.22rem;
     }
     .addon {
         text-align: center;
@@ -152,17 +152,17 @@
         color:$base;
     }
     .titles {
-        background: $ghost;
+        // background: $ghost;
         h4 {
             font-size: 18px;
             font-weight: 700;
-            padding: 0 3.2rem;
+            padding: 0 3.2rem; // separa el titulo (Manage Plan) de la zona izquierda.
         }
     }
     #button {
-      margin: 1.9rem 1.5rem;
-      border-radius: 0.8rem;
-      text-align:center;
+        margin: 1.9rem 1.5rem;
+        border-radius: 0.8rem;
+        text-align:center;
     }
     .accordion-title:focus,
     .accordion-title:hover {
@@ -181,11 +181,37 @@
             position: inherit;
         }
         .acordeon-item {
-            margin: 2rem;
+            //margin: 2rem;
             background-color: $iron;
         }
     }
     .error-input {
         border-color: #FF0000;
+    }
+    .padding-unit {
+        padding-top: 0.2rem;
+    }
+    .padding-description {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .padding-responsive {
+        padding: 0;
+    }
+    .ul-responsive {
+        padding: 0;
+        list-style-type: none;
+    }
+    .padding-bottop {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    ul {
+        margin: 10px;
+        color: inherit;
+    }
+    li {
+        margin: 20px;
+        color: inherit;
     }
 }

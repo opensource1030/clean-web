@@ -152,6 +152,43 @@ function reverse(value) {
 }
 
 /*
+ *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
+ *  Then, we order the list.
+ *  Example: this.getFilters(context.status, serv.status, 'string');
+ *
+ *  @list: Is the list of the filters.
+ *  @value: Is the value that we need to insert into the list.
+ *  @order: Is the order for the orderFilters function.
+ *
+ *  @return: returns an ordered list with the values.
+ *
+ */
+function getFilters(list, value, order) {
+
+    let aux = value;
+    if(aux.length >= 50){
+        aux = aux.substring(0, 50);
+        aux = aux + '...';
+    }
+
+    if (list.length == 0) {
+        list.push(aux)
+    } else {
+        let ok = true;
+        for (let a of list) {
+            if (a == aux) {
+                ok = false;
+            }
+        }
+
+        if (ok) {
+            list.push(aux);
+        }
+    }
+    return orderFilters(list, '', order, 'asc');
+}
+
+/*
  *
  *  @list: The Array of words, numbers of objects.
  *  @attribute: The attribute of the object (left '' if not): (presentation/'')
@@ -224,4 +261,4 @@ function orderFilters(list, attribute, type, orderby) {
     });
 }
 
-export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters};
+export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters, getFilters};
