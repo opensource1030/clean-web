@@ -21,41 +21,41 @@
             </label>
           </div>
           <div class="large-3 columns">
-            <a class="special-button" @change="searchCost()">{{search.searchName}}</a>
+            <a class="special-button" @click="searchCost()">{{search.searchName}}</a>
           </div>
           <div class="large-1 end columns">
-            <a class="special-button" @change="resetValuesCost()">{{search.resetName}}</a>
+            <a class="special-button" @click="resetValuesCost()">{{search.resetName}}</a>
           </div>
         </div>
         <div v-show="!loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>
             <thead>
               <tr>
-                <th>
+                <th width="8%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.status">
                     <option value="" values.status>{{names.status}}</option>
                     <option class="optioninblack" v-for="item in status" :value="item">{{item}}</option>
                   </select>
                 </th>
-                <th>
+                <th width="22%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
                     <option value="" values.plans>{{names.plans}}</option>
                     <option class="optioninblack" v-for="item in plans" :value="item">{{item}}</option>
                   </select>
                 </th>
-                <th>
+                <th width="35%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.details">
                     <option value="" values.details>{{names.details}}</option>
                     <option class="optioninblack" v-for="item in details" :value="item">{{item}}</option>
                   </select>
                 </th>
-                <th>
+                <th width="12%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
                     <option value="" values.codePlan>{{names.planCode}}</option>
                     <option class="optioninblack" v-for="item in codePlan" :value="item">{{item}}</option>
                   </select>
                 </th>
-                <th>
+                <th width="15%">
                   <multiselect
                     :field="'Carrier'"
                     :options="carriers"
@@ -64,7 +64,7 @@
                     :callback="onSelectColumn">
                   </multiselect>
                 </th>
-                <th>
+                <th width="8%">
                   <div class="columnnamecost" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
                 </th>
               </tr>

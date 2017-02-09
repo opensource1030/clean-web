@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import auth from './../auth.js';
 import Carrier from './../carrier/carriers';
+import {findServiceItem, findByAddons, orderFilters, getFilters} from './../../components/filters.js';
 const {Store} = require('yayson')();
 const store = new Store();
 
@@ -89,34 +90,34 @@ export default {
                                 hide: true
                             }
                         );
-                        context.servicesList.push(service);
-                    }
 
-                    /*
-                     *  Sometimes we don't have a carrier assigned,
-                     *  so we need to put some value to prevent an
-                     *  issue loading information.
-                     */
-                    for (let serv of context.servicesList) {
-                        if (serv.carrierId == 0) {
-                            serv.carriers[0] = {
+                        /*
+                         *  Sometimes (error) we don't have a carrier assigned,
+                         *  so we need to put some value to prevent an
+                         *  issue loading information.
+                         */
+                        if (service.carriers.length == 0) {
+                            service.carriers[0] = {
                                 presentation : ''
                             }
                         }
+
+                        context.servicesList.push(service);
                     }
 
                     // The first time we need to retrieve all options.
                     if (context.firstTime) {
                         this.getCarriers(context);
-                        this.getServices(context, function(context, service){
+
+                        this.getServices(context, function(context){
                             if (response.data.meta.pagination.count == context.services.length) {
-                                context.services = context.orderFilters(context.services, 'title', 'string', 'asc');
+                                context.services = orderFilters(context.services, 'title', 'string', 'asc');
 
                                 for (let serv of context.services) {
-                                    service.getFilters(context, context.status, serv.status, 'string');
-                                    service.getFilters(context, context.plans, serv.title, 'string');
-                                    service.getFilters(context, context.details, serv.description, 'string');
-                                    service.getFilters(context, context.codePlan, serv.planCode, 'number');
+                                    context.status = getFilters(context.status, serv.status, 'string');
+                                    context.plans = getFilters(context.plans, serv.title, 'string');
+                                    context.details = getFilters(context.details, serv.description, 'string');
+                                    context.codePlan = getFilters(context.codePlan, serv.planCode, 'number');
                                 }
                             }
                         });
@@ -165,7 +166,7 @@ export default {
                                 }
 
                                 if (callback != null) {
-                                    callback(context, this);
+                                    callback(context);
                                 }
                             }, (response) => {}
                         );
@@ -180,45 +181,7 @@ export default {
     getCarriers(context) {
 
         Carrier.getCarriers(context, function() {
-            context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+            context.carriers = orderFilters(context.carriers, 'presentation', 'string', 'asc');
         })
     },
-
-    /*
-     *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
-     *  Then, we order the list.
-     *  Example: this.getFilters(context, context.filter.status, serv.status, 'string');
-     *
-     *  @context: Is the Context.
-     *  @list: Is the list of the filters.
-     *  @value: Is the value that we need to insert into the list.
-     *  @order: Is the order for the orderFilters function.
-     *
-     *  @return: returns an ordered list with the values.
-     *
-     */
-    getFilters (context, list, value, order) {
-
-        let aux = value;
-        if(aux.length >= 50){
-            aux = aux.substring(0, 50);
-            aux = aux + '...';
-        }
-
-        if (list.length == 0) {
-            list.push(aux)
-        } else {
-            let ok = true;
-            for (let a of list) {
-                if (a == aux) {
-                    ok = false;
-                }
-            }
-
-            if (ok) {
-                list.push(aux);
-            }
-        }
-        list = context.orderFilters(list, '', order, 'asc');
-    }
 }
