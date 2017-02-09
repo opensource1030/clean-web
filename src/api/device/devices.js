@@ -2,7 +2,7 @@ import Vue from 'vue';
 import auth from './../auth.js';
 const {Store,} = require('yayson')();
 const store = new Store();
-import {filterByFilters} from './../../components/filters.js';
+import {filterByFilters, getFilters} from './../../components/filters.js';
 export default {
   device: {},
   firstTime:true,
@@ -91,10 +91,10 @@ export default {
             if(this.firstTime){
             for(let device of event){
               if(device.make!=null){
-      this.getFilters(context, context.filter.make, device.make, 'string');
+      context.filter.make = getFilters(context.filter.make, device.make, 'string');
     }
     if(device.defaultPrice!=null){
-      this.getFilters(context, context.filter.price, device.defaultPrice, 'number');
+      context.filter.price = getFilters(context.filter.price, device.defaultPrice, 'number');
 }
             }
                   this.firstTime=false;
@@ -171,43 +171,5 @@ export default {
         context.showModal=true;
 
       });
-  },
-  /*
-    *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
-    *  Then, we order the list.
-    *  Example: this.getFilters(context, context.filter.status, serv.status, 'string');
-    *
-    *  @context: Is the Context.
-    *  @list: Is the list of the filters.
-    *  @value: Is the value that we need to insert into the list.
-    *  @order: Is the order for the orderFilters function.
-    *
-    *  @return: returns an ordered list with the values.
-    *
-    */
-   getFilters (context, list, value, order) {
-
-       let aux = value;
-       if(aux.length >= 50){
-           aux = aux.substring(0, 50);
-           aux = aux + '...';
-       }
-
-       if (list.length == 0) {
-           list.push(aux)
-       } else {
-           let ok = true;
-           for (let a of list) {
-               if (a == aux) {
-                   ok = false;
-               }
-           }
-
-           if (ok) {
-               list.push(aux);
-           }
-       }
-       list = context.orderFilters(list, '', order, 'asc');
-   }
-
+  }
 };
