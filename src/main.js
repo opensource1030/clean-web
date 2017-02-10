@@ -18,6 +18,26 @@ import auth from './api/auth.js'
 
 $(document).foundation();
 
+
+// filter
+
+var moment = require('moment');
+Vue.filter('cleanDate', function(value){
+  var str = value + '';
+  return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
+});
+
+Vue.filter('formatBytes', function(value){
+  if (value === null || value === undefined){
+    return value = '-'
+  }else if(value>=1048576){
+    return (value /1048576).toFixed(2)+' MBs'
+  }
+  else{
+    return value + ' KBs'
+  }
+});
+
 // Install plugins
 Vue.use(VueRouter)
 Vue.use(Resource)

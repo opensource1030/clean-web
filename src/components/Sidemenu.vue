@@ -2,9 +2,6 @@
   <section class="menu-left">
     <a class="icon-close"><i class="fa fa-bars"></i></a>
     <ul id="menu" class="sidebar-menu">
-      <li class="logo" v-if="company.object">
-        <img v-bind:src='company.object.metafields[0].url' alt="logo" title="Client Logo">
-      </li>
       <li class="menu-title">
         <a href="/dashboard">
           <i class="fa fa-home"></i> <span>Home</span>
@@ -60,7 +57,6 @@
           <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
         </ul>
       </li>
-      <li><a href="#"><i class="fa fa-phone"></i> <span>Support</span></a></li>
     </ul>
     <div class="nav-poweredby">
       <span class="text-copyright">Powered By</span>
@@ -71,8 +67,7 @@
 </template>
 
 <script>
-  var {Store} = require('yayson')()
-  var    store = new Store()
+
   import auth from './../api/auth'
   import Permision from './permisions'
   import Vue from 'vue';
@@ -90,19 +85,7 @@
     name: "Sidemenu",
 
     created () {
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
-      }).then((response) => {
-        var event = store.sync(response.data);
-        if(event.companies.length>0){
-            var cosmicdata = event.companies[0].contents[1].content;
 
-            this.$http.get(cosmicdata, {
-            }).then((response) => {
-
-              this.company =response.data;
-            });
-          }
-      });
     },
 
     mounted(){
@@ -187,10 +170,6 @@
       $('#menu').slicknav();
     },
 
-    data (){
-      return {
-        company: {},
-      }
-    }
+
   }
 </script>

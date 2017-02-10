@@ -12,8 +12,11 @@ $color_lightred: rgba(236,90,98,1);
 /* Overlay */
 .morphsearch {
   width: 320px;
+  float: left;
+  margin-left: 2rem;
   min-height: 40px;
   background: transparent;
+  @include css3(border-radius,20px);
   z-index: 9;
 margin-top: 3px;
   -webkit-transform-origin: 100% 0;
@@ -37,6 +40,9 @@ margin-top: 3px;
     height: 100%;
     -webkit-transform: translate3d(0,3em,0);
     transform: translate3d(0,3em,0);
+    &:before{
+      content: '';
+    }
   }
   .morphsearch-input {
     font-size: 7em;
@@ -72,6 +78,7 @@ margin-top: 3px;
   }
 }
 .morphsearch-form {
+  @include css3(box-shadow, 0 0 8px $gainsboro);
   width: 100%;
   height: 40px;
   margin: 0 auto;
@@ -87,18 +94,17 @@ margin-top: 3px;
     font-family: FontAwesome;
     position: absolute;
     left: 12px;
-    top: 3px;
-    font-size: 23px;
+    top: 7px;
+    font-size: 18px;
   }
 }
 .morphsearch-input {
   width: 100%;
   height: 100%;
-  padding: 0 10% 0 45px !important ;
-  border: none;
-  background: transparent;
+  padding: 0 10% 0 38px !important ;
+  border: 1px $gainsboro solid;
+  background: $white;
   @include css3(box-shadow, none);
-
   font-size:1.2rem;
   color: $color_red;
   -webkit-transition: font-size 0.5s cubic-bezier(0.7,0,0.3,1);
@@ -310,5 +316,6 @@ input[type="search"] {
   }
 }
 @media screen and (max-width: $medium) {
- .morphsearch{width: auto;}
+ .morphsearch{width: auto; margin-left: 0;}
+
 }

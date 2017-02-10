@@ -1,7 +1,10 @@
+import Vue from 'vue'
 import auth from './../api/auth'
 import supportRequest from './support-request'
 var {Store} = require('yayson')()
 var    store = new Store()
+
+
 export default {
     name: "SpentInfo",
     created(){
@@ -21,11 +24,25 @@ export default {
     },
     mounted () {
         $('.has-tip').foundation();
-        setTimeout(supportRequest(this.user),300)
+        setTimeout(supportRequest(this.user),300);
+        $('.scrollup').click(function () {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 600);
+            $(".pop-content").scrollTop(0);
+            return false;
+        });
+
     },
     computed:{
         fullName : function () {
             return this.userInfo.firstName + " " + this.userInfo.lastName
+        },
+
+        dataPackage: function(data){
+            var data = data;
+            console.log(data);
+            return data ;
         }
 
     },
@@ -40,10 +57,15 @@ export default {
         }
     },
     methods:{
-        viewToggle(){
+        viewToggle(e){
+            e.stopPropagation();
             var el = document.querySelector('.list-striped');
             el.classList.toggle('all');
-            return this.active ? 'You like this' : 'Like this not'
+            e.target.classList.toggle('all');
+
+
+
+
         }
     }
 }

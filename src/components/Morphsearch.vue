@@ -9,7 +9,7 @@
     <div class="morphsearch-content">
       <!-- Helpjuice Knowledge base code -->
       <div id="knowledge-base-content">
-        <iframe src="https://clean.helpdocs.com/"> </iframe>
+        <iframe id="helpdocs" src="https://clean.helpdocs.com/"> </iframe>
       </div>
 
 
@@ -43,6 +43,7 @@ export default {
                 if( isOpen ) {
                   classie.remove( morphSearch, 'open' );
 
+
                   // trick to hide input text once the search overlay closes
                   // todo: hardcoded times, should be done after transition ends
                   if( input.value !== '' ) {
@@ -61,6 +62,7 @@ export default {
                   classie.add( morphSearch, 'open' );
                 }
                 isOpen = !isOpen;
+                  document.getElementById('helpdocs').src = document.getElementById('helpdocs').src
               };
 
       // events

@@ -1,4 +1,5 @@
 <script>
+
     import Sidemenu from './components/Sidemenu.vue'
     import foo from './components/Footer.vue'
     import headers from './components/header'
@@ -8,6 +9,20 @@
         name: "App",
           created(){
             this.getUser();
+
+
+        },
+        mounted(){
+            $(function() {
+                $(window).on("scroll", function() {
+                    if($(window).scrollTop() > 50) {
+                        $(".top-bar-section").addClass("sticky-top");
+                    } else {
+                        //remove the background property so it comes transparent again (defined in your css)
+                        $(".top-bar-section").removeClass("sticky-top");
+                    }
+                });
+            });
         },
 
         components: {
@@ -19,6 +34,7 @@
         data() {
             return {
                 user: auth.user,
+                company: {}
             }
         },
         methods:{
@@ -45,7 +61,7 @@
 
       <sidemenu v-if="user.authenticated"> </sidemenu>
 
-      <div class="content-right">
+      <div :class="{'content-right' : user.authenticated}" >
         <div class="expanded row">
       <headers  v-if="user.authenticated" :user="user" >  </headers>
           <div class="clearfix"></div>
