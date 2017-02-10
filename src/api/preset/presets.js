@@ -51,10 +51,7 @@ getPreset(context, pages) {
         }
 
         context.presets = presets;
-<<<<<<< HEAD
 
-=======
->>>>>>> 86b296e... CP-1659 add preset with api
 
       },
 

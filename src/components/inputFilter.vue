@@ -167,11 +167,9 @@ export default {
   transition: all 0.2s ease;
   border-radius: 5px;
 }
-
 .multiselect__tags span {
   color: #FF690A;
 }
-
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
   color: white;
@@ -283,7 +281,6 @@ export default {
   background: #41B883;
   outline: none;
   color: white;
-
 }
 .multiselect__option--highlight:after {
   content: attr(data-select);
@@ -299,7 +296,6 @@ export default {
   margin:0.2rem;
   display: initial !important;
   padding: 0.6rem;
-
 }
 .buttonDelete{
   margin: -0.4rem;

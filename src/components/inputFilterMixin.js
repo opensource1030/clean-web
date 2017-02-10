@@ -44,24 +44,8 @@ module.exports = {
         this.toggle();
         this.callback();
     },
-    activate() {
 
-     if (this.isOpen)
-        return
-
-      this.isOpen = true
-
-    },
-
-    deactivate() {
-
-      if (!this.isOpen)
-        return
-      this.isOpen = false
-
-    },
    toggle() {
-    //  this.search = "";
     this.show=true;
       this.isOpen
         ? this.deactivate()
