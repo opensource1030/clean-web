@@ -1,77 +1,27 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
-import {filterByModificationsd, filterByModifications, filterByCarrier} from './../../components/filters.js';
-import devices from './../../api/device/devices';
-import modal from './../../components/modal.vue';
 
 export default {
 
-  components : {
-    pagination: Pagination,
-    modal:modal
-  },
-  beforeCreate() {
-
-    devices.getDevice(this);
-
-  },
-
-  methods : {
-    filterByModificationsd,
-    filterByModifications,
-
-    loadData() {
-      devices.getDevices(this, this.pagination.current_page);
+    components : {
+        pagination: Pagination,
+    },
+    beforeCreate() {
 
     },
 
-    filterByCarrier,
-
-    setActive: function(index) {
-      this.active = index;
-    //  console.log(this.devices[index]);
-      this.devices[this.active].hide = !this.devices[this.active].hide;
-      if (this.devices[this.active].show == true) {
-        this.devices[this.active].show = false;
-      } else {
-        for (var i = 0; i < this.devices.length; i++) {
-          if (this.devices[this.active] == this.devices[i]) {
-            this.devices[this.active].show = true;
-          } else {
-            this.devices[i].show = false;
-          }
-        }
-      }
+    methods : {
+    
+    },
+    data() {
+        return {
+            pagination: {
+                current_page: 1,
+                total_pages: null,
+                count: null,
+                total: null,
+                per_page: 25
+            }
+        };
     }
-  },
-  data() {
-    return {
-      active: 0,
-      devices: [],
-      filterModifications: [],
-      filterDeviceType: [],
-      filterPrice: [],
-      pagination: {
-        current_page: 1,
-        total_pages: null,
-        count: null,
-        total: null,
-        per_page: 25
-      },
-      filterCarriers: [],
-      type: '',
-      manufactured: '',
-      os: '',
-      carrier: '',
-      capacity: '',
-      style: '',
-      price: '',
-      loading: true,
-      loadtable: false,
-      error:'',
-      showModal:false
-
-
-    };
-  }
 };
