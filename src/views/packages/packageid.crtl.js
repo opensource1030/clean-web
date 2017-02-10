@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import packaging from './../../api/packages/packageid';
 import modal from './../../components/modal.vue';
-import inputValidate from './../../components/inputValidate.vue'
+import inputValidate from './../../components/inputValidate.vue';
+//import vueSlider from 'vue-slider-component';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 Vue.directive('f-accordion', {
     bind: function(el) {
@@ -13,9 +15,15 @@ Vue.directive('f-accordion', {
 
 export default {
     name : 'package',
+    //el: '#slider',
     components: {
         modal,
-        inputValidate
+        inputValidate,
+        //vueSlider,
+        //Slider: window[ 'vue-easy-slider' ].Slider,
+        //SliderItem: window[ 'vue-easy-slider' ].SliderItem,
+        swiper,
+        swiperSlide
     },
 
     beforeCreate() {
@@ -26,13 +34,25 @@ export default {
         }
         
     },
-
+    computed: {
+        swiper() {
+            if (this.$refs.mySwiperA) {
+                return this.$refs.mySwiperA.swiper;
+            }
+        }
+    },
+    mounted() {
+        // you can use current swiper object to do something(swiper methods)
+        // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
+        if (this.$refs.mySwiperA) {
+            console.log('this is current swiper object', this.swiper)
+            this.swiper.slideTo(3, 1000, false);
+        }
+    },
     methods : {
         // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
         updatePackageCondition(index, value, type) {
-console.log(index);
-console.log(value);
-console.log(type);
+
             for (let aux of this.conditionsOptions) {
                 if (aux.name == value) {
                     this.packages.conditions[index].conditionsConditionsOptions = aux.conditions;
@@ -487,6 +507,67 @@ console.log(type);
             },
             errors : {
                 generalError : false,
+            },
+            //swiperOption: {
+                // 所有配置均为可选（同Swiper配置）
+                // NotNextTick is a component's own property, and if notNextTick is set to true, the component will not instantiate the swiper through NextTick, which means you can get the swiper object the first time (if you need to use the get swiper object to do what Things, then this property must be true)
+                // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象（假如你需要使用获取swiper对象来做什么事，那么这个属性一定要是true）
+                
+                //scrollbar: '.swiper-scrollbar',
+                //scrollbarHide: true,
+                //slidesPerView: 4,
+                //centeredSlides: true,
+                //spaceBetween: 30,
+                //paginationClickable: true,
+                //grabCursor: true,
+                //notNextTick: true,
+                //autoplay: 3000,
+                //direction : 'vertical',
+                
+                
+                //setWrapperSize :true,
+                //autoHeight: true,
+                //pagination : '.swiper-pagination',
+                //paginationClickable :true,
+                //prevButton:'.swiper-button-prev',
+                //nextButton:'.swiper-button-next',
+                
+                //mousewheelControl : true,
+                //observeParents:true,
+                // if you need use plugins in the swiper, you can config in here like this
+                // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
+                //debugger: true,
+                // swiper callbacks
+                // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
+                //onTransitionStart(swiper){
+                    //console.log(swiper)
+                //},
+                // more Swiper config ...
+                // ...
+            //},
+            swiperOption: {
+                pagination: '.swiper-pagination',
+                paginationClickable: true,
+                slidesPerView: 5,
+                spaceBetween: 50,
+                breakpoints: {
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 40
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30
+                    },
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 20
+                    },
+                    320: {
+                        slidesPerView: 1,
+                        spaceBetween: 10
+                    }
+                }
             }
         }
     }

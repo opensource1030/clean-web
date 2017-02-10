@@ -1,4 +1,5 @@
 <template>
+
   <div class="content-right">
     <div class="full-height row">
       <div id="package">
@@ -102,10 +103,23 @@
                     </tr>
                   </table>
                 </a>
-                <div v-if="showZones.showServices">
-                  <vue-slider ref="slider" v-model="value">
-                    <div v-for="(condition,index) in packages.conditions">{{condition.name}}</div>
-                  </vue-slider>
+                <div v-if="showZones.showServices" class="accordion-content overview">
+                  <div>
+                      <!-- swiper -->
+                      <swiper :options="swiperOption" ref="mySwiperA">
+                        <swiper-slide>Slide 1</swiper-slide>
+                        <swiper-slide>Slide 2</swiper-slide>
+                        <swiper-slide>Slide 3</swiper-slide>
+                        <swiper-slide>Slide 4</swiper-slide>
+                        <swiper-slide>Slide 5</swiper-slide>
+                        <swiper-slide>Slide 6</swiper-slide>
+                        <swiper-slide>Slide 7</swiper-slide>
+                        <swiper-slide>Slide 8</swiper-slide>
+                        <swiper-slide>Slide 9</swiper-slide>
+                        <swiper-slide>Slide 10</swiper-slide>
+                        <div class="swiper-scrollbar" slot="scrollbar"></div>
+                      </swiper>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -125,5 +139,15 @@
   </div>
 </template>
 <script src="./packageid.crtl.js" lang="babel" >
-  import vueSlider from 'vue-slider-component/src/vue2-slider.vue';
 </script>
+<style scoped>
+  .swiper-slide {
+    width: 60%;
+  }
+  .swiper-slide:nth-child(2n) {
+      width: 40%;
+  }
+  .swiper-slide:nth-child(3n) {
+      width: 20%;
+  }
+</style>

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import auth from './../auth.js';
-import packageid from './../../models/Packageid'
+import packageid from './../../models/Packageid';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 var {Store} = require('yayson')();
 var store = new Store();
@@ -50,6 +51,7 @@ export default {
             context.packages.services = event.services;
 
             this.getUdlsFromCompanies(context, context.packages.companyId);
+            this.getDeviceVariationsFromCarriers(context, context.packages.companyId);
             context.addOptionsToRetrievedConditions();
             context.reorderButtons();
         },
@@ -69,7 +71,24 @@ export default {
             context.addConditionsOptions();
         },
         (response) => {});
-    },    
+    },
+    // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+    getDeviceVariationsFromCarriers(context, companyId) {
+
+        let params = {
+            params: {
+                include: 'devicevariations'
+            }
+        };
+
+        params.params['filter[devicevariations.companyId]'] = companyId;
+
+        context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
+            event = store.sync(response.data);
+            console.log(event);
+        },
+        (response) => {});
+    },  
     // CREATE packages.
     createThePackages(context) {
 
@@ -108,8 +127,8 @@ export default {
             );
 
         context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
-            event = store.sync(response.data);
-        }, (response) => {});
+            //context.$router.push({name: 'packages'});
+        }, (response) => { });
     },
     // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
     prepareConditionsForSend(conditions) {
