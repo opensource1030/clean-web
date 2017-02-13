@@ -152,6 +152,43 @@ function reverse(value) {
 }
 
 /*
+ *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
+ *  Then, we order the list.
+ *  Example: this.getFilters(context.status, serv.status, 'string');
+ *
+ *  @list: Is the list of the filters.
+ *  @value: Is the value that we need to insert into the list.
+ *  @order: Is the order for the orderFilters function.
+ *
+ *  @return: returns an ordered list with the values.
+ *
+ */
+function getFilters(list, value, order) {
+
+    let aux = value;
+    if(aux.length >= 50){
+        aux = aux.substring(0, 50);
+        aux = aux + '...';
+    }
+
+    if (list.length == 0) {
+        list.push(aux)
+    } else {
+        let ok = true;
+        for (let a of list) {
+            if (a == aux) {
+                ok = false;
+            }
+        }
+
+        if (ok) {
+            list.push(aux);
+        }
+    }
+    return orderFilters(list, '', order, 'asc');
+}
+
+/*
  *
  *  @list: The Array of words, numbers of objects.
  *  @attribute: The attribute of the object (left '' if not): (presentation/'')
@@ -185,44 +222,43 @@ function reverse(value) {
  *
  */
 function orderFilters(list, attribute, type, orderby) {
-    return list.sort(function(c,d) {
-        let nameA;
-        let nameB;
-        let a;
-        let b;
+    return list.sort(function(valueA,valueB) {
+        let atributeA;
+        let atributeB;
+        
         if(attribute == '') {
-          a=c;
-          b=d;
+            atributeA = valueA;
+            atributeB = valueB;
+        } else {
+            atributeA = valueA[attribute];
+            atributeB = valueB[attribute];
         }
-        else{
-          a=c[attribute];
-          b=d[attribute];
-        }
-            if (type == 'string') {
-                nameA = a.toLowerCase();
-                nameB = b.toLowerCase();
+        
+        if (type == 'string') {
+            let strA = atributeA.toLowerCase();
+            let strB = atributeB.toLowerCase();
 
-                if (orderby == 'asc') {
-                    // sort string ascending
-                    if (nameA < nameB) { return -1; }
-                    if (nameA > nameB) { return 1; }
-                    return 0 //default return value (no sorting)
-                } else {
-                    // sort string ascending
-                    if (nameA > nameB) { return -1; }
-                    if (nameA < nameB) { return 1; }
-                    return 0 //default return value (no sorting)
-                }
-
-            } else if (type == 'number') {
-
-                if (orderby == 'asc') {
-                    return a - b;
-                } else {
-                    return b - a;
-                }
+            if (orderby == 'asc') {
+                // sort string ascending
+                if (strA < strB) { return -1; }
+                if (strA > strB) { return 1; }
+                return 0 //default return value (no sorting)
+            } else {
+                // sort string ascending
+                if (strA > strB) { return -1; }
+                if (strA < strB) { return 1; }
+                return 0 //default return value (no sorting)
             }
-        });
+
+        } else if (type == 'number') {
+
+            if (orderby == 'asc') {
+                return atributeA - atributeB;
+            } else {
+                return atributeB - atributeA;
+            }
+        }
+    });
 }
 
-export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters};
+export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters, getFilters};
