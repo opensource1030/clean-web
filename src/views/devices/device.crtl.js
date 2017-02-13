@@ -97,7 +97,8 @@ export default {
     },
 
     priceTable() {
-        let json=  {styles:this.vStyles,
+        let json=  {
+          styles:this.vStyles,
           capacitys: this.vCapacity,
           carriers: this.vCarriers,
           companys: this.vCompanies,
@@ -120,20 +121,17 @@ export default {
       this.add=false;
 
     return this.pricess
-    }
+  }
+
     else{
 
       if(this.pricess.length!=0){
+        this.pricess=[];
+        json.id=0;
         this.company = Object.assign({}, this.company, json);
-        let self=this;
-        this.pricess.forEach(function(p, index) {
-          Vue.set(self.pricess, index, self.company)
-            });
-
-
-
-
+        this.pricess.push(this.company)
       }
+      else{
   let first =true;
 
   for(let price of this.priceData){
@@ -183,11 +181,12 @@ export default {
       }
     });
   }
-  if(this.pricess.length==0){
+
       this.pricess.push(price);
-    }
+
 
   }
+}
 
   return this.pricess;
 }
@@ -232,7 +231,6 @@ else{
     findByPrices,
     submit() {
       if (this.id != null) {
-
         device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity,this.d, this.image);
       } else {
         device.addDevice(this, this.price, this.vStyles, this.vCapacity,this.d, this.image);
@@ -285,6 +283,7 @@ else{
       });
     },
     deletes(index){
+        this.add=true;
         if(this.id!=null){
           if(this.priceData[index]!=null){
             this.priceData.splice(index,1);
@@ -319,11 +318,8 @@ else{
       }
       return false;
     },
-    changeStatusCompany(index) {
-      this.companies.data[index].check = !this.companies.data[index].check;
-    },
 
-    showFalse() {
+  showFalse() {
       this.show = false;
     },
 
@@ -375,7 +371,7 @@ else{
     return {
       /*image default device*/
       image: {
-        url: "./../assets/logo.png",
+        url: "/assets/img/logo.a521535.png",
         id: 0
       },
       message:'',
@@ -383,11 +379,8 @@ else{
         url: "",
         id: 0
       },
-
-
       add:false,
       /*filter */
-
       filter: {
         capacity:{},
         style:{},
@@ -404,8 +397,6 @@ else{
         model:'',
         type: null,
         money:'USD'
-
-
       },
       units:'Gb',
       /*add modifications*/

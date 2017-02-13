@@ -73,8 +73,9 @@ export default {
       context.vCarriers = this.carriersCheck;
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
-
+        
       if (event.modifications != null && event.modifications.length > 0) {
+
         this.modificationCheck(context, event.modifications);
         context.modifications = this.modificationsCheck;
       }
@@ -311,8 +312,9 @@ export default {
       return error;
 
     }
+    console.log(price.length)
     if (price.length != 0 && check == true) {
-      //  device.pricesUpdateJson(price,device);
+
       let c = true;
       for (let p of price) {
         if (p.style == null || p.capacity == null || p.carrierId == null || p.companyId == null || (p.priceRetail == 0 || isNaN(p.priceRetail)) || (p.price1 == 0 || isNaN(p.price1)) || (p.price2 == 0 || isNaN(p.price2)) || (p.priceOwn == 0 || isNaN(p.priceOwn))) {
@@ -326,6 +328,7 @@ export default {
         }
       }
       if (c == true) {
+
         device.modificationsJson(capacity, style, device);
           device.pricesJson(price, device);
 
