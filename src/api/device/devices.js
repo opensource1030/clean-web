@@ -15,6 +15,7 @@ export default {
         include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications,devicevariations.images',
         page: pages, /*,filter[][like]:deviceType*/
       }
+
     };
 
     if (context.type.length !== 0) {
@@ -81,8 +82,8 @@ export default {
 
 
     context.$http.get(process.env.URL_API + '/devices',params).then((response) => {
-      context.loading=false;
-      context.loadtable=true;
+          context.loading=false;
+          context.loadtable=true;
         context.pagination = response.data.meta.pagination;
       let  event = store.sync(response.data);
         if(event.length==0){
@@ -92,13 +93,13 @@ export default {
         var devices = [];
             if(this.firstTime){
             for(let device of event){
-
               if(device.make!=null){
       context.filter.make = getFilters(context.filter.make, device.make, 'string');
     }
     if(device.defaultPrice!=null){
       context.filter.price = getFilters(context.filter.price, device.defaultPrice, 'number');
 }
+
 
             }
                   this.firstTime=false;
@@ -123,48 +124,31 @@ export default {
 
             });
           }
-
-
-              if(device.devicevariations == null ){
-                  context.error="Unexpected error.Please contact the administrator"
-                  context.showModal=true;
-              }
-                  else{
           for (let price of device.devicevariations) {
 
             var max = Math.max(price.priceRetail,price.price1,price.price2,price.priceOwn);
             device.pricemax=max
             for (let company of price.companies) {
-              if (company.id == price.companyId) {
                 price.company=company.name;
-
-              }
             }
 
             for (let carrier of price.carriers) {
-              if (carrier.id == price.carrierId) {
                 price.carrier=carrier.presentation;
-
-              }
             }
               for (let m of price.modifications) {
-
                 if (m.modType == "capacity") {
-
                   price.capacity=m.id;
-
                 }else{
-
                   price.style=m.id;
                 }
-
             }
+
           let prices= preset.checkDeviceVariations(price);
             device.priceName.push(prices);
           }
           devices.push(device);
         }
-      }
+
 
 
         context.devices = devices;
