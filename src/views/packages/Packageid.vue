@@ -53,7 +53,7 @@
                   <div class="row" v-for="(condition,index) in packages.conditions">
                     <div class="large-3 columns">
                       <label>{{packages.names.conditions.name}}
-                        <select :class="{ 'error-input': condition.nameError }" v-model="condition.name" @click="updatePackageCondition(index, condition.name, 'name')">
+                        <select :class="{ 'error-input': condition.nameError }" v-model="condition.name" @change="updatePackageCondition(index, condition.name, 'name')">
                           <option value="" manufactured>{{packages.names.conditions.selectName}}</option>
                           <option v-for="item in conditionsFieldsOptions" :value="item" >{{item}}</option>
                         </select>
