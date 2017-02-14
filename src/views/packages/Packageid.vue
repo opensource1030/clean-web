@@ -1,6 +1,6 @@
 <template>
-  <div class="content-right">
-    <div class="full-height row">
+  <div>
+    <div class="row">
       <div id="package">
         <div class="header"></div>
         <div class="expanded row">
@@ -91,38 +91,104 @@
               </li>
             </ul>
 <!--//CONDITIONS-->
-<!--SERVICE-->
+<!--PRESET-->
             <ul class="acordeon">
               <li class="acordeon-item">
-                <a @click="showAndTell('service')" class="accordion-title">
+                <a @click="showAndTell('device')" class="accordion-title">
                   <table class="textbold">
                     <tr>
-                      <td>{{packages.names.services.title}}</td>
-                      <td align="right">From {{packages.names.services.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.services.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.monthly}} </td>
+                      <td>{{packages.names.devices.title}} Presets</td>
+                      <td align="right">From {{packages.names.devices.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.devices.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.once}} </td>
                     </tr>
                   </table>
                 </a>
-                <div v-if="showZones.showServices" class="accordion-content overview">
+                <div v-if="showZones.showDevices" class="accordion-content overview">
                   <div>
-                      <!-- swiper -->
-                      <swiper :options="swiperOption" ref="mySwiperA">
-                        <swiper-slide>Slide 1</swiper-slide>
-                        <swiper-slide>Slide 2</swiper-slide>
-                        <swiper-slide>Slide 3</swiper-slide>
-                        <swiper-slide>Slide 4</swiper-slide>
-                        <swiper-slide>Slide 5</swiper-slide>
-                        <swiper-slide>Slide 6</swiper-slide>
-                        <swiper-slide>Slide 7</swiper-slide>
-                        <swiper-slide>Slide 8</swiper-slide>
-                        <swiper-slide>Slide 9</swiper-slide>
-                        <swiper-slide>Slide 10</swiper-slide>
-                        <div class="swiper-scrollbar" slot="scrollbar"></div>
-                      </swiper>
+                    <!-- PRESETS -->
+                    <div>
+                      <div class="presetstitles">Presets Available</div>
+                      <div class="presetsnoinformation" v-show="packages.presets.length == 0">
+                        <swiper :options="swiperOption">
+                          <swiper-slide v-for="no in packages.presetsnoinformation">
+                            <img class="phoneImg" :src="no.url" alt="Image" />
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div>
+                        <swiper :options="swiperOption" ref="swA">
+                          <swiper-slide v-for="(preset,index) in packages.presets">
+                            <div class="presetimage" @click="presetSelected(preset)">
+                              <div class="absolute">{{getNameIfNoImage(0, preset.name)}}</div>
+                              <img class="phoneImg" :src="getUrlOfImagePreset(preset)" alt="" />
+                            </div>
+                          </swiper-slide>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
+                        </swiper>
+                      </div>
+                    </div>
+                    <!-- DEVICE VARIATIONS -->
+                    <div v-show="packages.variablesShow.presetSelected">
+                      <hr size="10">
+                      <div class="presetstitles">Devices Available</div>
+                      <div class="presetsnoinformation" v-show="packages.devicevariationsList.length == 0">
+                        <swiper :options="swiperOption">
+                          <swiper-slide v-for="no in packages.presetsnoinformation">
+                            <img class="phoneImg" :src="no.url" alt="Image" />
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div>
+                        <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOption" ref="swB">
+                          <swiper-slide v-for="devvar in packages.devicevariationsList">
+                            <div class="devicevariationsinformation" @click="devicevariationSelected(devvar)">
+                              <img class="phoneImg" :src="getUrlOfImage(devvar.images[0].id)" alt="Image" />
+                              {{devvar.devices[0].name}} <br>
+                              {{devvar.devices[0].make}} - {{devvar.devices[0].model}} <br>
+                              {{devvar.price1}} {{devvar.devices[0].currency}}
+                            </div>
+                          </swiper-slide>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
+                        </swiper>
+                      </div>
+                    </div>
+                    <!-- DEVICE VARIATIONS SELECTED -->
+                    <div v-show="packages.variablesShow.presetSelected || packages.devicevariationsSelected.length > 0">
+                      <hr size="10">
+                      <div class="presetstitles">Devices Selected</div>
+                      <div class="presetsnoinformation" v-show="packages.devicevariationsSelected.length == 0">
+                        <swiper :options="swiperOption">
+                          <swiper-slide v-for="no in packages.presetsnoinformation">
+                            <img class="phoneImg" :src="no.url" alt="Image" />
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div>
+                        <swiper v-show="packages.devicevariationsSelected.length > 0" :options="swiperOption" ref="swC">
+                          <swiper-slide v-for="devvarsel in packages.devicevariationsSelected">
+                            <div @click="devicevariationNoSelected(devvarsel)">
+                              <div class="devicevariationspreset">{{devvarsel.preset}}</div>
+                              <div>
+                                <img class="phoneImg" :src="getUrlOfImage(devvarsel.images[0].id)" alt="Image" />
+                              </div>
+                              <div class="devicevariationsinformation">
+                                {{devvarsel.devices[0].name}} <br>
+                                {{devvarsel.devices[0].make}} - {{devvarsel.devices[0].model}} <br>
+                                {{devvarsel.price1}} {{devvarsel.devices[0].currency}}
+                              </div>
+                            </div>
+                          </swiper-slide>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
+                        </swiper>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </li>
             </ul>
-<!--//SERVICE-->
+<!--//PRESET-->
             <div v-if="errors.generalError">
               <div class="is-error callout" data-closable>
                 <div class="container">

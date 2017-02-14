@@ -90,4 +90,36 @@
     .error-input {
         border-color: #FF0000;
     }
+    .selected {
+        border-color: #21eb1f;
+        border-radius: 1rem;
+    }
+    .presetstitles {
+        font-weight: bold;
+        text-align: center;
+        font-size: 2rem;
+    }
+    .presetsnoinformation {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    .devicevariationspreset {
+        font-weight: bold;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+    .devicevariationsinformation {
+        text-align: center;
+    }
+    .presetimage {
+        position: relative;
+    }
+    .absolute {
+        font-weight: bold;
+        font-size: 2rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
 }

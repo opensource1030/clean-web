@@ -4,6 +4,7 @@ import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue';
 //import vueSlider from 'vue-slider-component';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
+import { deleteRepeated } from './../../components/filters.js';
 
 Vue.directive('f-accordion', {
     bind: function(el) {
@@ -45,11 +46,12 @@ export default {
         // you can use current swiper object to do something(swiper methods)
         // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
         if (this.$refs.mySwiperA) {
-            console.log('this is current swiper object', this.swiper)
+            //console.log('this is current swiper object', this.swiper)
             this.swiper.slideTo(3, 1000, false);
         }
     },
     methods : {
+        deleteRepeated,
         // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
         updatePackageCondition(index, value, type) {
 
@@ -188,9 +190,7 @@ export default {
             submitOk = submitOk && this.checkTitle();
             submitOk = submitOk && this.checkConditions();
             //submitOk = submitOk && this.checkServices();
-            //submitOk = submitOk && this.checkDevices();
             //submitOk = submitOk && this.checkAddress();
-
 
             if(submitOk) {
                 this.errors.generalError = false;
@@ -259,6 +259,94 @@ export default {
             if (type == 'address') {
                 this.showZones.showAddress = !this.showZones.showAddress;
             }
+        },
+        getUrlOfImagePreset(preset) {
+            if (preset.selected) {
+                return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
+            } else {
+                return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+            }
+        },
+        getUrlOfImage(id) {
+            if (id > 0) {
+                return process.env.URL_API + '/images/' + id;
+            }
+            return 'http://www.clker.com/cliparts/D/R/j/x/a/q/blank-page-md.png';
+        },
+        getNameIfNoImage(imageId, name) {
+            if (imageId == 0) {
+                return name;
+            }
+        },
+        presetSelected(preset) {
+            this.packages.variablesShow.presetSelected = true;
+            for (let pres of this.packages.presets) {
+                pres.selected = false;
+            }
+            preset.selected = true;
+
+            this.devicevariationList();
+        },
+        devicevariationSelected(devvar) {
+            devvar.selected = true;
+            this.devicevariationListSelected();
+            this.devicevariationList();
+        },
+        devicevariationNoSelected(devvar) {
+            devvar.selected = false;
+            this.devicevariationListSelected();
+            this.devicevariationList();
+        },
+        devicevariationList(){
+            for (let pres of this.packages.presets) {
+                if (pres.selected) {
+                    this.packages.devicevariationsList = [];
+                    for (let dv of pres.devicevariations) {
+                        if(!dv.selected) {
+                            this.packages.devicevariationsList.push(dv);
+                        }
+                    }
+                }
+            }
+        },
+        devicevariationListSelected() {
+            this.packages.names.devices.minPrice = 0;
+            this.packages.names.devices.maxPrice = 0;
+
+            this.packages.devicevariationsSelected = [];
+            for (let pres of this.packages.presets) {
+                for (let dv of pres.devicevariations) {
+                    if(dv.selected) {
+                        this.packages.devicevariationsSelected.push(dv);
+                        this.packages.names.prices.currency = dv.devices[0].currency;
+                    }
+                }
+            }
+            console.log(this.packages.devicevariationsSelected.length);
+            if (this.packages.devicevariationsSelected.length > 1) {
+                this.packages.devicevariationsSelected = deleteRepeated(this.packages.devicevariationsSelected, 'id', 'name', 'number', 'asc');
+            }
+            this.retrieveTheValuesOfTheDevices(this.packages.devicevariationsSelected);
+        },
+        retrieveTheValuesOfTheDevices(devicevariations) {
+            this.packages.names.devices.minPrice = 0;
+            this.packages.names.devices.maxPrice = 0;
+
+            for (let dv of devicevariations) {
+                if(this.packages.names.devices.minPrice == 0 && this.packages.names.devices.maxPrice == 0) {
+                    this.packages.names.devices.minPrice = dv.price1;
+                    this.packages.names.devices.maxPrice = dv.price1;
+                } else {
+                    if(this.packages.names.devices.minPrice > dv.price1) {
+                        this.packages.names.devices.minPrice = dv.price1;
+                    }
+                    if (this.packages.names.devices.maxPrice < dv.price1) {
+                        this.packages.names.devices.maxPrice = dv.price1;
+                    }
+                }
+            }
+
+
         }
     },
 
@@ -274,6 +362,9 @@ export default {
                 values : {
                     usersConditions: 0,
                 },
+                variablesShow: {
+                    presetSelected : false,
+                },
                 names: {
                     managePackage: 'Manage Packages',
                     title: 'Title',
@@ -288,7 +379,7 @@ export default {
                     },
                     conditions: {
                         title: 'CONDITIONS',
-                        name: 'Name (select a Name first)',
+                        name: 'Name',
                         condition: 'Condition',
                         value: 'Value',
                         selectName: 'Select a Name',
@@ -302,8 +393,8 @@ export default {
                     },
                     devices:  {
                         title: 'DEVICES',
-                        minPrice: '449.00',
-                        maxPrice: '649.00',
+                        minPrice: 0,
+                        maxPrice: 0,
                     },
                     errors: {
                         textError: 'Some Fields need to be filled! Please, check the conditions!'
@@ -336,6 +427,8 @@ export default {
                         valueError: false,
                     }
                 ],
+                carriers : [],
+                presets: [],
                 devicevariations: [
                     {
                         carrierId: 0,
@@ -351,6 +444,13 @@ export default {
                         modifications: [],
                         carriers: [],
                         companies: []
+                    }
+                ],
+                devicevariationsList: [],
+                devicevariationsSelected: [],
+                presetsnoinformation: [
+                    {
+                        url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
                     }
                 ],
                 services: [
@@ -429,56 +529,30 @@ export default {
             errors : {
                 generalError : false,
             },
-            //swiperOption: {
-                // 所有配置均为可选（同Swiper配置）
-                // NotNextTick is a component's own property, and if notNextTick is set to true, the component will not instantiate the swiper through NextTick, which means you can get the swiper object the first time (if you need to use the get swiper object to do what Things, then this property must be true)
-                // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象（假如你需要使用获取swiper对象来做什么事，那么这个属性一定要是true）
-                
-                //scrollbar: '.swiper-scrollbar',
-                //scrollbarHide: true,
-                //slidesPerView: 4,
-                //centeredSlides: true,
-                //spaceBetween: 30,
-                //paginationClickable: true,
-                //grabCursor: true,
+            swiperOption: {
                 //notNextTick: true,
                 //autoplay: 3000,
                 //direction : 'vertical',
-                
-                
-                //setWrapperSize :true,
+                //grabCursor : true,
+                setWrapperSize :true,
                 //autoHeight: true,
                 //pagination : '.swiper-pagination',
                 //paginationClickable :true,
-                //prevButton:'.swiper-button-prev',
-                //nextButton:'.swiper-button-next',
-                
+                prevButton:'.swiper-button-prev',
+                nextButton:'.swiper-button-next',
+                //scrollbar:'.swiper-scrollbar',
                 //mousewheelControl : true,
                 //observeParents:true,
-                // if you need use plugins in the swiper, you can config in here like this
-                // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
-                //debugger: true,
-                // swiper callbacks
-                // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
-                //onTransitionStart(swiper){
-                    //console.log(swiper)
-                //},
-                // more Swiper config ...
-                // ...
-            //},
-            swiperOption: {
-                pagination: '.swiper-pagination',
-                paginationClickable: true,
                 slidesPerView: 5,
-                spaceBetween: 50,
+                spaceBetween: 10,
                 breakpoints: {
                     1024: {
                         slidesPerView: 4,
-                        spaceBetween: 40
+                        spaceBetween: 30
                     },
                     768: {
                         slidesPerView: 3,
-                        spaceBetween: 30
+                        spaceBetween: 25
                     },
                     640: {
                         slidesPerView: 2,
@@ -486,7 +560,7 @@ export default {
                     },
                     320: {
                         slidesPerView: 1,
-                        spaceBetween: 10
+                        spaceBetween: 15
                     }
                 }
             }

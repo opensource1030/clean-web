@@ -189,6 +189,39 @@ function getFilters(list, value, order) {
 }
 
 /*
+ *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
+ *  Then, we order the list.
+ *  Example: this.getFilters(context.status, serv.status, 'string');
+ *
+ *  @list: Is the list of the filters.
+ *  @value: Is the value that we need to insert into the list.
+ *  @order: Is the order for the orderFilters function.
+ *
+ *  @return: returns an ordered list with the values.
+ *
+ */
+function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
+    let aux = [];
+    for (let l of list) {
+        if (aux.length == 0) {
+            aux.push(l);
+        } else {
+            let ok = true;
+            for (let a of aux) {
+                if(a[attributeFilter] == l[attributeFilter]) {
+                    ok = false;
+                }
+            }
+            if (ok) {
+                aux.push(l);
+            }
+        }
+    }
+
+    return orderFilters(aux, attributeOrder, type, order);
+}
+
+/*
  *
  *  @list: The Array of words, numbers of objects.
  *  @attribute: The attribute of the object (left '' if not): (presentation/'')

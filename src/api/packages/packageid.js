@@ -2,6 +2,7 @@ import Vue from 'vue';
 import auth from './../auth.js';
 import packageid from './../../models/Packageid';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
+import { deleteRepeated } from './../../components/filters.js';
 
 var {Store} = require('yayson')();
 var store = new Store();
@@ -51,7 +52,8 @@ export default {
             context.packages.services = event.services;
 
             this.getUdlsFromCompanies(context, context.packages.companyId);
-            this.getDeviceVariationsFromCarriers(context, context.packages.companyId);
+            this.getDeviceVariationsFromPresets(context, context.packages.companyId);
+
             context.addOptionsToRetrievedConditions();
             context.reorderButtons();
         },
@@ -73,28 +75,54 @@ export default {
         (response) => {});
     },
     // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
-    getDeviceVariationsFromCarriers(context, companyId) {
+    getDeviceVariationsFromPresets(context, companyId) {
 
         let params = {
             params: {
-                include: 'devicevariations'
+                include: 'devicevariations,devicevariations.images,devicevariations.devices'
             }
         };
 
         params.params['filter[devicevariations.companyId]'] = companyId;
 
-        context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
+        context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
             event = store.sync(response.data);
-            console.log(event);
+            context.packages.presets = [];
+            context.packages.devicevariationsSelected = [];
+            for (let pres of event) {
+
+                if (pres.devicevariations.length > 0) {
+                    // If Selected use Class.
+                    pres.selected = false;
+
+                    // If Selected "delete" from Array and put into SelectedArray
+                    // Added pres.name for swiper.
+                    for (let dvsel of pres.devicevariations) {
+                        dvsel.preset = pres.name;
+                        for (let dv of context.packages.devicevariations) {
+                            dvsel.selected = false;
+                            if (dvsel.id == dv.id) {
+                                dvsel.selected = true;
+                                context.packages.devicevariationsSelected.push(dvsel);
+                            }
+                        }
+                    }
+                    context.packages.presets.push(pres);
+                }
+            }
+            if (context.packages.devicevariationsSelected.length > 1) {
+                context.packages.devicevariationsSelected = context.deleteRepeated(context.packages.devicevariationsSelected, 'id', 'name', 'number', 'asc');
+            }
+            context.retrieveTheValuesOfTheDevices(context.packages.devicevariationsSelected);
         },
         (response) => {});
-    },  
+    },
     // CREATE packages.
     createThePackages(context) {
 
         let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1, 
+        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
             context.packages.companyId, conditions, [], [], []);
 
         context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
@@ -105,10 +133,12 @@ export default {
     updateThePackages(context) {
         let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1, 
+        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
             context.packages.companyId, conditions, [], [], []);
 
         context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
+            event = store.sync(response.data);
+            console.log(event);
             //context.$router.push({name: 'packages'});
         }, (response) => { });
     },
