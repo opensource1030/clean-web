@@ -19,7 +19,7 @@
     }
     .header {
         padding: 1.8rem;
-        background: $white;
+        //background: $white;
     }
     .status {
         font-size: 1.5rem;
@@ -50,11 +50,11 @@
         color:$base;
     }
     .titles {
-        background: $ghost;
+        //background: $ghost;
         h4 {
             font-size: 18px;
             font-weight: 700;
-            padding: 0 3.2rem;
+            padding: 0 1.8rem;
         }
         label {
             color:$base;

@@ -189,15 +189,17 @@ function getFilters(list, value, order) {
 }
 
 /*
- *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
+ *  This function receives a list of objects and different options.
  *  Then, we order the list.
- *  Example: this.getFilters(context.status, serv.status, 'string');
+ *  Example: deleteRepeated(list, attributeFilter, attributeOrder, type, order);
  *
  *  @list: Is the list of the filters.
- *  @value: Is the value that we need to insert into the list.
- *  @order: Is the order for the orderFilters function.
+ *  @attributeFilter: Is the filter attribute. (Example: Id).
+ *  @attributeOrder: Is the order attribute. (Example: another attribute like "name").
+ *  @type: The type of the attributeOrder ('number' or 'string').
+ *  @order: The order type ('asc' or 'desc').
  *
- *  @return: returns an ordered list with the values.
+ *  @return: returns an ordered list with the objects.
  *
  */
 function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
@@ -208,8 +210,10 @@ function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
         } else {
             let ok = true;
             for (let a of aux) {
-                if(a[attributeFilter] == l[attributeFilter]) {
-                    ok = false;
+                if (l.hasOwnProperty(attributeFilter) && a.hasOwnProperty(attributeFilter)) {
+                    if(a[attributeFilter] == l[attributeFilter]) {
+                        ok = false;
+                    }
                 }
             }
             if (ok) {
@@ -217,7 +221,6 @@ function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
             }
         }
     }
-
     return orderFilters(aux, attributeOrder, type, order);
 }
 
@@ -294,4 +297,4 @@ function orderFilters(list, attribute, type, orderby) {
     });
 }
 
-export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, orderFilters, getFilters};
+export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, deleteRepeated, orderFilters, getFilters};

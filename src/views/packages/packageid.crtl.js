@@ -16,24 +16,19 @@ Vue.directive('f-accordion', {
 
 export default {
     name : 'package',
-    //el: '#slider',
     components: {
         modal,
         inputValidate,
-        //vueSlider,
-        //Slider: window[ 'vue-easy-slider' ].Slider,
-        //SliderItem: window[ 'vue-easy-slider' ].SliderItem,
         swiper,
-        swiperSlide
+        swiperSlide,
     },
 
     beforeCreate() {
         if (this.$route.params.id != null) {
             packaging.getDataPackages(this, this.$route.params.id);
         } else {
-            packaging.getUserInformation(this);    
+            packaging.getUserInformation(this);
         }
-        
     },
     computed: {
         swiper() {
@@ -44,9 +39,7 @@ export default {
     },
     mounted() {
         // you can use current swiper object to do something(swiper methods)
-        // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
         if (this.$refs.mySwiperA) {
-            //console.log('this is current swiper object', this.swiper)
             this.swiper.slideTo(3, 1000, false);
         }
     },
@@ -56,7 +49,7 @@ export default {
         updatePackageCondition(index, value, type) {
 
             for (let aux of this.conditionsOptions) {
-                if (aux.name == value) {
+                if (aux.nameCond == value) {
                     this.packages.conditions[index].conditionsConditionsOptions = aux.conditions;
                     this.packages.conditions[index].condition = '';
                     this.packages.conditions[index].conditionsValuesOptions = aux.values;
@@ -78,14 +71,14 @@ export default {
         },
         // Function that adds another empty element to the packages.conditions list.
         pushCondition(index) {
-            this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+            this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
             this.reorderButtons();
         },
         // Function that deletes the selected element from the packages.conditions list.
         deleteCondition(index) {
             this.packages.conditions.splice(index, 1);
             if (this.packages.conditions.length == 0) {
-                this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+                this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
             }
 
             this.reorderButtons();
@@ -93,14 +86,12 @@ export default {
         // Retrieve from the packages.companies.udls all the information and add it to the conditionsOptions.
         addConditionsOptions() {
             for (let udl of this.packages.companies.udls) {
-                //console.log(udl.inputType);
-
                 let vals = [];
                 if (udl.sections > 0) {
                     for (let values of udl.sections) {
-                        vals.push(values.name);
-                    }    
-                }                
+                        vals.push(values.nameCond);
+                    }
+                }
 
                 this.conditionsFieldsOptions.push(udl.name);
 
@@ -114,11 +105,10 @@ export default {
                 } else {
                     // STRING (default)
                     condition = this.allConditionsForString;
-                } 
-                
+                }
 
                 let aux = {
-                    name: udl.name,
+                    nameCond: udl.name,
                     conditions: condition,
                     values: vals,
                     inputType: udl.inputType
@@ -130,11 +120,11 @@ export default {
         addOptionsToRetrievedConditions() {
 
             if (this.packages.conditions.length == 0) {
-                this.packages.conditions.push({id: "0", name: '', value: '', condition: '', add: false, delete: false});
+                this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
             } else {
                 for (let cond of this.packages.conditions) {
                     cond.id = cond.id;
-                    cond.name = cond.name;
+                    cond.nameCond = cond.nameCond;
                     cond.condition = cond.condition;
                     cond.value = cond.value;
                     cond.type = 'conditions';
@@ -148,12 +138,12 @@ export default {
                     cond.conditionError = false;
                     cond.valueError = false;
                 }
-            }            
+            }
         },
         // Retrieve all the information of the condition retrieved checking it from the conditionsOptions array.
         retrieveInformation(condition) {
             for (let opt of this.conditionsOptions) {
-                if (condition.name == opt.name) {
+                if (condition.nameCond == opt.nameCond) {
                     return {
                         inputType : opt.inputType,
                         conditions: opt.conditions,
@@ -173,12 +163,12 @@ export default {
                 cond.add = false;
                 cond.delete = true;
             }
-            
+
             let aux = this.packages.conditions[this.packages.conditions.length-1];
 
-            if (aux.name != '' && aux.value != '' && aux.condition != '') {
+            if (aux.nameCond != '' && aux.value != '' && aux.condition != '') {
                 aux.add = true;
-            } else if (aux.name == '' && aux.value == '' && aux.condition == '') {
+            } else if (aux.nameCond == '' && aux.value == '' && aux.condition == '') {
                 aux.delete = false;
             }
         },
@@ -198,7 +188,7 @@ export default {
                     packaging.updateThePackages(this);
                 } else {
                     packaging.createThePackages(this);
-                }                
+                }
             } else {
                 this.errors.generalError = true;
             }
@@ -216,17 +206,16 @@ export default {
         },
         // Check if the conditions are not empty.
         checkConditions() {
-
             let submitOk = true;
-            if(this.packages.conditions[0].name != '') {
-                for (let cond of this.packages.conditions) {                
-                    if (cond.name == '') {
+            if(this.packages.conditions[0].nameCond != '') {
+                for (let cond of this.packages.conditions) {
+                    if (cond.nameCond == '') {
                         cond.nameError = true;
                         submitOk = false;
                     } else {
                         cond.nameError = false;
                     }
-                    
+
                     if (cond.condition == '') {
                         cond.conditionError = true;
                         submitOk = false;
@@ -245,21 +234,6 @@ export default {
 
             return submitOk;
         },
-        // This function allow to show/hide the different zones.
-        showAndTell(type) {
-            if (type == 'condition') {
-                this.showZones.showConditions = !this.showZones.showConditions;
-            }
-            if (type == 'service') {
-                this.showZones.showServices = !this.showZones.showServices;
-            }
-            if (type == 'device') {
-                this.showZones.showDevices = !this.showZones.showDevices;
-            }
-            if (type == 'address') {
-                this.showZones.showAddress = !this.showZones.showAddress;
-            }
-        },
         getUrlOfImagePreset(preset) {
             if (preset.selected) {
                 return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
@@ -267,10 +241,15 @@ export default {
                 return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
             }
         },
-        getUrlOfImage(id) {
-            if (id > 0) {
-                return process.env.URL_API + '/images/' + id;
+        getUrlOfImage(object) {
+            if (object.images.length > 0 ) {
+                for (let i of object.images) {
+                    if (i.id > 0) {
+                        return process.env.URL_API + '/images/' + i.id;
+                    }
+                }
             }
+
             return 'http://www.clker.com/cliparts/D/R/j/x/a/q/blank-page-md.png';
         },
         getNameIfNoImage(imageId, name) {
@@ -280,53 +259,58 @@ export default {
         },
         presetSelected(preset) {
             this.packages.variablesShow.presetSelected = true;
+            this.packages.variablesShow.presetSelectedName = preset.name;
             for (let pres of this.packages.presets) {
                 pres.selected = false;
             }
             preset.selected = true;
+            this.devicevariationList();
+        },
+        devicevariationSelected(devvar, index) {
+            this.packages.devicevariations.push(devvar);
+            this.retrieveTheNewDevicesSelectedList();
+            this.devicevariationList();
+        },
+        devicevariationNoSelected(devvar, index) {
+            this.packages.devicevariations.splice(index,1);
+            this.retrieveTheNewDevicesSelectedList();
+            this.devicevariationList();
+        },
+        retrieveTheNewDevicesSelectedList() {
+            for (let dv of this.packages.devicevariations) {
+                dv.preset = '';
+                for (let pres of this.packages.presets) {
+                    for (let dvsel of pres.devicevariations) {
+                        if(dvsel.id == dv.id) {
+                            dv.preset = dv.preset + pres.name + ', ';
+                        }
+                    }
+                }
+                dv.preset = dv.preset.substring(0, dv.preset.length-2);
+            }
 
-            this.devicevariationList();
-        },
-        devicevariationSelected(devvar) {
-            devvar.selected = true;
-            this.devicevariationListSelected();
-            this.devicevariationList();
-        },
-        devicevariationNoSelected(devvar) {
-            devvar.selected = false;
-            this.devicevariationListSelected();
-            this.devicevariationList();
+            if (this.packages.devicevariations.length > 1) {
+                this.packages.devicevariations = deleteRepeated(this.packages.devicevariations, 'id', 'name', 'number', 'asc');
+            }
+            this.retrieveTheValuesOfTheDevices(this.packages.devicevariations);
         },
         devicevariationList(){
+            this.packages.devicevariationsList = [];
             for (let pres of this.packages.presets) {
                 if (pres.selected) {
-                    this.packages.devicevariationsList = [];
                     for (let dv of pres.devicevariations) {
-                        if(!dv.selected) {
+                        let ok = true;
+                        for (let dvsel of this.packages.devicevariations) {
+                            if (dv.id == dvsel.id) {
+                                ok = false;
+                            }
+                        }
+                        if(ok) {
                             this.packages.devicevariationsList.push(dv);
                         }
                     }
                 }
             }
-        },
-        devicevariationListSelected() {
-            this.packages.names.devices.minPrice = 0;
-            this.packages.names.devices.maxPrice = 0;
-
-            this.packages.devicevariationsSelected = [];
-            for (let pres of this.packages.presets) {
-                for (let dv of pres.devicevariations) {
-                    if(dv.selected) {
-                        this.packages.devicevariationsSelected.push(dv);
-                        this.packages.names.prices.currency = dv.devices[0].currency;
-                    }
-                }
-            }
-            console.log(this.packages.devicevariationsSelected.length);
-            if (this.packages.devicevariationsSelected.length > 1) {
-                this.packages.devicevariationsSelected = deleteRepeated(this.packages.devicevariationsSelected, 'id', 'name', 'number', 'asc');
-            }
-            this.retrieveTheValuesOfTheDevices(this.packages.devicevariationsSelected);
         },
         retrieveTheValuesOfTheDevices(devicevariations) {
             this.packages.names.devices.minPrice = 0;
@@ -345,25 +329,28 @@ export default {
                     }
                 }
             }
-
-
-        }
+        },
+        showFalse() {
+            this.show = false;
+        },
     },
 
     data() {
         return {
+            loadedContent: false,
             packages: {
                 id: 0,
                 name: '',
                 nameError: false,
                 type: 'packages',
-                addressId: 0,            
+                addressId: 0,
                 companyId: 0,
                 values : {
                     usersConditions: 0,
                 },
                 variablesShow: {
                     presetSelected : false,
+                    presetSelectedName: '',
                 },
                 names: {
                     managePackage: 'Manage Packages',
@@ -379,9 +366,9 @@ export default {
                     },
                     conditions: {
                         title: 'CONDITIONS',
-                        name: 'Name',
-                        condition: 'Condition',
-                        value: 'Value',
+                        nameCond: '',
+                        condition: '',
+                        value: '',
                         selectName: 'Select a Name',
                         selectCondition: 'Select a Condition',
                         selectValue: 'Select a Value',
@@ -393,6 +380,9 @@ export default {
                     },
                     devices:  {
                         title: 'DEVICES',
+                        presetsAvailable: 'Presets Available',
+                        devicesAvailable: 'Devices Available From ',
+                        devicesSelected: 'Devices Selected',
                         minPrice: 0,
                         maxPrice: 0,
                     },
@@ -413,7 +403,7 @@ export default {
                     {
                         id: 0,
                         type: 'conditions',
-                        name: '',
+                        nameCond: '',
                         condition: '',
                         value: '',
                         typeCond: '',
@@ -428,26 +418,13 @@ export default {
                     }
                 ],
                 carriers : [],
-                presets: [],
-                devicevariations: [
+                presets: [
                     {
-                        carrierId: 0,
-                        companyId: 0,
-                        deviceId: 0,
-                        id: 0,
-                        price1: 0,
-                        price2: 0,
-                        priceOwn: 0,
-                        priceRetail: 0,
-                        type: "devicevariations",
-                        devices: [],
-                        modifications: [],
-                        carriers: [],
-                        companies: []
+                        selected: false,
                     }
                 ],
+                devicevariations:  [],
                 devicevariationsList: [],
-                devicevariationsSelected: [],
                 presetsnoinformation: [
                     {
                         url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
@@ -483,49 +460,31 @@ export default {
             allConditionsForNumber: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
             conditionsOptions : [
                 {
-                    name: 'Supervisor?',
+                    nameCond: 'Supervisor?',
                     conditions: ['equal'],
                     values: ['Yes', 'No'],  //SELECT
                     inputType: 'boolean'
                 },
                 {
-                    name: 'Hierarchy',
-                    conditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
-                    values: [], // INPUT
-                    inputType: 'string'
-                },
-                {
-                    name: 'Level',
-                    conditions: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
-                    values: [],
-                    inputType: 'number'
-                },
-                {
-                    name: 'Country',
+                    nameCond: 'Country',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['Spain', 'Catalonia', 'EEUU', 'Canada', 'Germany', 'United Kingdom'],
                     inputType: 'string'
                 },
                 {
-                    name: 'State',
+                    nameCond: 'State',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['state1', 'state2', 'state3'],
                     inputType: 'string'
                 },
                 {
-                    name: 'City',
+                    nameCond: 'City',
                     conditions: ['contains', 'equal', 'not equal'],
                     values: ['Barcelona', 'New York', 'Berlin', 'London'],
                     inputType: 'string'
                 }
             ],
-            conditionsFieldsOptions: ['Supervisor?', 'Hierarchy', 'Level', 'Country', 'State', 'City'],
-            showZones: {
-                showConditions: true,
-                showServices: false,
-                showDevices: false,
-                showAddress: false,
-            },
+            conditionsFieldsOptions: ['Supervisor?', 'Country', 'State', 'City'],
             errors : {
                 generalError : false,
             },

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import auth from './../auth.js';
 import packageid from './../../models/Packageid';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
-import { deleteRepeated } from './../../components/filters.js';
+import { concatenateAttribute, deleteRepeated } from './../../components/filters.js';
 
 var {Store} = require('yayson')();
 var store = new Store();
@@ -31,29 +31,24 @@ export default {
 
         let params = {
             params: {
-                include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications'
+                include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images'
             }
         };
 
         context.$http.get(process.env.URL_API + '/packages/' + id, params).then((response) => {
-
             event = store.sync(response.data);
-
             context.packages.id = id;
             context.packages.name = event.name;
             context.packages.type = event.type;
             //context.packages.addressId = event.addressId;
             context.packages.companyId = event.companyId;
-
             //context.packages.apps = event.apps;
             //context.packages.companies = event.companies;
             context.packages.conditions = event.conditions;
             context.packages.devicevariations = event.devicevariations;
             context.packages.services = event.services;
-
             this.getUdlsFromCompanies(context, context.packages.companyId);
             this.getDeviceVariationsFromPresets(context, context.packages.companyId);
-
             context.addOptionsToRetrievedConditions();
             context.reorderButtons();
         },
@@ -64,13 +59,14 @@ export default {
 
         let params = {
             params: {
-                include: 'udls'
+                include: 'udls,devicevariations,devicevariations.images,devicevariations.devices'
             }
         };
 
         context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
             context.packages.companies = store.sync(response.data);
             context.addConditionsOptions();
+            this.getDeviceVariationsFromPresets(context, companyId);
         },
         (response) => {});
     },
@@ -86,34 +82,34 @@ export default {
         params.params['filter[devicevariations.companyId]'] = companyId;
 
         context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
-            event = store.sync(response.data);
-            context.packages.presets = [];
-            context.packages.devicevariationsSelected = [];
-            for (let pres of event) {
+            context.packages.presets = store.sync(response.data);
 
-                if (pres.devicevariations.length > 0) {
-                    // If Selected use Class.
-                    pres.selected = false;
-
-                    // If Selected "delete" from Array and put into SelectedArray
-                    // Added pres.name for swiper.
-                    for (let dvsel of pres.devicevariations) {
-                        dvsel.preset = pres.name;
-                        for (let dv of context.packages.devicevariations) {
-                            dvsel.selected = false;
-                            if (dvsel.id == dv.id) {
-                                dvsel.selected = true;
-                                context.packages.devicevariationsSelected.push(dvsel);
-                            }
+            let auxArray = [];
+            for (let cpdv of context.packages.companies.devicevariations) {
+                let ok = true;
+                for (let pres of context.packages.presets) {
+                    for (let dv of pres.devicevariations) {
+                        if (cpdv.id == dv.id) {
+                            ok = false;
                         }
                     }
-                    context.packages.presets.push(pres);
+                }
+                if (ok) {
+                    auxArray.push(dv);
                 }
             }
-            if (context.packages.devicevariationsSelected.length > 1) {
-                context.packages.devicevariationsSelected = context.deleteRepeated(context.packages.devicevariationsSelected, 'id', 'name', 'number', 'asc');
+
+            if(auxArray.length > 0){
+                let defaultPreset = {
+                    name: 'Default',
+                    devicevariations: [],
+                    companyId: companyId
+                };
+                context.packages.presets.push(defaultPreset);
             }
-            context.retrieveTheValuesOfTheDevices(context.packages.devicevariationsSelected);
+
+            context.retrieveTheNewDevicesSelectedList();
+            this.loadContent(context);
         },
         (response) => {});
     },
@@ -127,7 +123,9 @@ export default {
 
         context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
             event = store.sync(response.data);
+            //context.$router.push({name: 'packages'});
         }, (response) => {});
+
     },
     // UPDATE packages
     updateThePackages(context) {
@@ -138,7 +136,6 @@ export default {
 
         context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
             event = store.sync(response.data);
-            console.log(event);
             //context.$router.push({name: 'packages'});
         }, (response) => { });
     },
@@ -164,7 +161,7 @@ export default {
                 let aux = {
                     id: cond.id,
                     type: 'conditions',
-                    name: cond.name,
+                    nameCond: cond.nameCond,
                     condition: cond.condition,
                     value: cond.value,
                     inputType: cond.inputType
@@ -174,5 +171,8 @@ export default {
         }
 
         return conditionsFinal;
+    },
+    loadContent(context) {
+        context.loadedContent = true;
     }
 };

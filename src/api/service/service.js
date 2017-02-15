@@ -111,7 +111,7 @@ export default {
             if(context.carriers.length == 0){
                 context.noCarriers = true;
             } else {
-                context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+                context.carriers = orderFilters(context.carriers, 'presentation', 'string', 'asc');
                 context.noCarriers = false;
             }
 
@@ -119,7 +119,7 @@ export default {
                 if(context.carriers.length == 0){
                     context.noCarriers = true;
                 } else {
-                    context.carriers = context.orderFilters(context.carriers, 'presentation', 'string', 'asc');
+                    context.carriers = orderFilters(context.carriers, 'presentation', 'string', 'asc');
                     context.noCarriers = false;
                 }
                 if(context.serviceDetails.id > 0) {
