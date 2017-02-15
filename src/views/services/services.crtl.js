@@ -4,12 +4,14 @@ import {findServiceItem, orderFilters} from './../../components/filters.js';
 import services from './../../api/service/services';
 import modal from './../../components/modal.vue';
 import Multiselect from './../../components/Multiselect.vue';
+import searchCost from './../../components/searchCost.vue';
 
 export default {
     components : {
         pagination,
         modal,
-        Multiselect: Multiselect
+        Multiselect: Multiselect,
+        searchCost
     },
     methods : {
         findServiceItem,
@@ -42,28 +44,7 @@ export default {
         setActiveCostOptions: function() {
             this.search.searchShow = !this.search.searchShow;
         },
-        searchCost: function() {
 
-            if(this.search.costMin <= this.search.costMax) {
-                this.search.errorCost = false;
-                this.search.searchShow = false;
-                if(this.search.costMin != 0 || this.search.costMax != 0) {
-                    this.search.costFilterMessage = this.search.costMin + ' > ' + this.search.costMax;
-                } else {
-                    this.search.costFilterMessage = '';
-                }
-
-                this.onSelectColumn();
-            } else {
-                this.search.errorCost = true;
-            }
-            
-        },
-        resetValuesCost: function() {
-            this.search.costMin = 0;
-            this.search.costMax = 0;
-            this.search.errorCost = false;
-        }
     },
     data() {
         return {
@@ -72,6 +53,7 @@ export default {
             servicesList: [],
             addons: [],
             addonsShow: false,
+
             retrieved: 0,
             loading: true,
             showtable: false,
@@ -124,21 +106,15 @@ export default {
                 intSms: 'International SMS',
                 intSmsMessage: 'International SMS',
                 managePlanButton: 'Manage Plan',
-                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'                
+                noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'
             },
             search: {
                 firstTime: true,
-                errorCost: false,
-                errorCostMessage: 'MIN > MAX',
-                searchShow: false,
-                searchName: 'Search',
-                resetName: 'R',
-                costMinName: 'MIN Cost',
-                costMin: 0,
-                costMaxName: 'MAX Cost',
-                costMax: 0,
                 searchFilter: false,
                 costFilterMessage: '',
+                searchShow: false,
+                costMax: 0,
+                costMin: 0,
             },
             defaultServiceItems: [
                 {

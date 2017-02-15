@@ -8,15 +8,16 @@ export default {
   components : {
     modal: modal,
     Tables
-
   },
-  
+
   beforeCreate() {
     this.id = this.$route.params.id;
+    this.main=main;
     if (this.id != null) {
       preset.getDataPreset(this, this.id);
     }
     },
+
     created(){
         main.eventHub.$on('addvariatons', this.addVarriations)
 
@@ -30,6 +31,9 @@ export default {
       addVarriations(v){
         this.variations=[];
         this.variations=v;
+      },
+      hola(){
+        console.log("hola")
       },
 
     submit(){
@@ -74,7 +78,7 @@ export default {
         variations:[]
       },
       variations:[],
-
+      main:{},
       search: {
               firstTime: true,
               errorCost: false,

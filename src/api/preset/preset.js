@@ -110,7 +110,7 @@ checkPreset(context,preset){
       context.error="You don´t have company"
         return false;
     }
-    if(preset.variations==null && preset.variations.length==0){
+    if(preset.variations==null || preset.variations.length==0){
         context.showModal = true;
           context.error="Yo don´t have selected any devicevariations"
               return false;

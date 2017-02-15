@@ -1,16 +1,14 @@
 import Vue from 'vue';
 import Pagination from './../../components/pagination';
+import Modal from './../../components/modal';
 import presets from './../../api/preset/presets';
 
 export default {
   name:'Presets',
   components : {
-    pagination: Pagination
+    pagination: Pagination,
+    Modal
   },
-  beforeCreate() {
-
-  },
-
   methods : {
 
     loadData() {
@@ -48,6 +46,8 @@ export default {
       },
       loading: true,
       loadtable: false,
+      error: '',
+      showModal: false
     };
   }
 };

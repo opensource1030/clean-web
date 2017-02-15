@@ -10,10 +10,14 @@ export default {
     id:{
     default: null
   },
+  callback:{
+    Type:Function,
+  }
   },
   components : {
       Pagination,
-    Multiselect: Multiselect
+   Multiselect,
+
   },
   beforeCreate() {
     Filter.getCarriers(this);
@@ -30,6 +34,23 @@ export default {
     },
     updateSelected(newSelected) {
       this.selected = newSelected
+    },
+    searchCost() {
+
+        if(this.search.costMin <= this.search.costMax) {
+            this.search.errorCost = false;
+            this.search.searchShow = false;
+            if(this.search.costMin != 0 || this.search.costMax != 0) {
+                this.search.costFilterMessage = this.search.costMin + ' > ' + this.search.costMax;
+            } else {
+                this.search.costFilterMessage = '';
+            }
+
+            this.onSelectColumn();
+        } else {
+            this.search.errorCost = true;
+        }
+
     },
     filterByCarrier,
     setActive(index) {
@@ -75,18 +96,24 @@ export default {
                       }
                        i++;
                   }
-                  console.log(main.eventHub)
+
                   main.eventHub.$emit('addvariatons', this.variations)
     }
 
 
     },
+    errors(){
+
+            main.eventHub.$emit('error', this.error)
+    }
+
 
   },
   data() {
     return {
       active: 0,
       devices: [],
+      error:'',
       pagination: {
         current_page: 1,
         total_pages: null,
@@ -94,6 +121,12 @@ export default {
         total: null,
         per_page: 25
       },
+      search:{
+      costmax:0,
+      costMin:0,
+       searchShow:true,
+      costFilterMessage:''
+    },
       filter: {
         make: [],
         price: [],

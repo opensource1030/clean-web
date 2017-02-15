@@ -1,7 +1,7 @@
 <template>
       <div id="preset">
         <modal v-if="showModal" @close="showModal = false">
-          <h3 slot="body">{{message}}</h3>
+          <h3 slot="body">{{error}}</h3>
 </modal>
           <div class="small-12 columns titles">
             <h4>Create Device Preset<h4>
@@ -24,7 +24,7 @@
                 </label>
               </div>
               <div class="large-4 columns">
-                <a class="special-button" @change="searchCost()">{{search.searchName}}</a>
+                <a class="special-button" >{{search.searchName}}</a>
               </div>
 
             </div>
@@ -36,7 +36,7 @@
                   <a href="#" class="accordion-title"   >Find Devices</a>
                   <div class="accordion-content "  data-tab-content   >
                     <div class="row " id="tables">
-                        <tables :id="0" ></tables>
+                        <tables :id="0" :search="search" ></tables>
                     </div>
 
 

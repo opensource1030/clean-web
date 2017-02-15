@@ -55,11 +55,12 @@ export default {
                 aux = aux + carr.id + ',';
             }
             aux = aux.substring(0, aux.length-1);
-            params.params['filter[carrierId]'] = aux;         
+            params.params['filter[carrierId]'] = aux;
         }
-        
+
         if (context.search.costMax != 0) {
-            params.params['filter[cost][le]'] = context.search.costMax;    
+          console.log(context.search.costMax+'df')
+            params.params['filter[cost][le]'] = context.search.costMax;
         }
 
         if (context.search.costMin != 0) {
@@ -75,7 +76,7 @@ export default {
                 context.servicesList = [];
 
                 if(response.data.data.length == 0){
-                    context.showtable = true;    
+                    context.showtable = true;
                     context.errorNotFound = true;
                 } else {
 

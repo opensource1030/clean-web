@@ -29,10 +29,7 @@ export default {
      }
      if (context.manufactured.length !== 0) {
        let aux = '';
-       for (let manu of context.manufactured) {
-           aux = aux + manu + ',';
-       }
-       aux = aux.substring(0, aux.length-1);
+       aux = aux.substring(0, 50) + '%';
          params.params['filter[make][like]'] =aux;
 
 
@@ -40,10 +37,7 @@ export default {
 
      if (context.price.length != 0) {
        let aux = '';
-       for (let pri of context.price) {
-           aux = aux + pri + ',';
-       }
-       aux = aux.substring(0, aux.length-1);
+       aux = aux.substring(0, 50) + '%';
          params.params['filter[defaultPrice][like]'] = parseInt(aux);
 
      }
@@ -77,7 +71,13 @@ export default {
          params.params['filter[modifications.id]'] = aux;
 
      }
+     if (context.search.costMax != 0) {
+         params.params['filter[cost][le]'] = context.search.costMax;
+     }
 
+     if (context.search.costMin != 0) {
+         params.params['filter[cost][ge]'] = context.search.costMin;
+     }
 
 
 
@@ -88,7 +88,7 @@ export default {
       let  event = store.sync(response.data);
         if(event.length==0){
           context.error="No data content"
-          context.showModal=true;
+            context.errors();
         }
         var devices = [];
             if(this.firstTime){
@@ -157,8 +157,8 @@ export default {
 
       (response) => {
         context.error=response.status;
+        context.errors();
 
-        context.showModal=true;
 
       });
   }

@@ -1,4 +1,15 @@
 @import "../base/clean-variables";
+#tables{
+  .head{
+    padding: 1rem;
+  }
+  .variations{
+    display: inline-block !important;
+  }
+  .price{
+    margin: 0rem 0rem 0rem -1.6rem;
+  }
+}
 #preset{
 
 .checkboxb{

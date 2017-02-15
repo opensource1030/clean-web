@@ -1,5 +1,10 @@
 <template>
-    <div id="tables">
+  <div>
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="body">{{error}}</h3>
+  </modal>
+
+    <div id="tables" v-show="!loading" >
       <div class="header"></div>
         <div class="small-12 columns titles">
           <h4>Presets<h4>
@@ -15,40 +20,15 @@
                 <tr>
                   <th >
                   </th>
-                  <th ><select class="form-control"  >
-                    <option value="" > Status</option>
-                    <option   ></option>
-
-                  </select></th>
-                  <th >
-                    <select class="form-control"  >
-                      <option  >5 Presets</option>
-                      <option ></option>
-
-                    </select> </th>
-                    <th ><select class="form-control"  >
-                      <option value="" >753 Delivered</option>
-                      <option ></option>
-
-                    </select></th>
-                    <th ><select class="form-control"  >
-                      <option  >Cost: $4534534</option>
-                      <option   ></option>
-
-                    </select></th>
+                  <th ><div class="head">  Status</div></th>
+                  <th><div class="head">  5 Presets</div></th>
+                    <th > <div class="head"> 753 Delivered</div></th>
+                    <th ><div class="head">Cost: $4534534</div></th>
 
                   </tr>
                 </thead>
                 <tbody v-show="loadtable" >
                   <tr class="filter">
-                <!--    <td><div></div></td>
-                    <td><div>{{type}}</div></td>
-                    <td ><div>{{manufactured}}</div></td>
-                    <td  ><div>{{price}}</div></td>
-                    <td  ><div>{{os}}</div></td>
-                    <td ><div>{{carrier}}</div></td>
-                    <td ><div>{{capacity}}</div></td>
-                    <td  ><div>{{style}}</div></td>-->
                   </tr>
                 </tbody>
                 <tbody  v-for="(preset, index) in presets"  >
@@ -56,15 +36,36 @@
                     <td> <a  v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{preset.name}} </td>
                     <td >{{preset.devices}}</td>
-                    <td  >300$</td>
-                <!--    <td v-if="preset.show!=true" >ios</td><td v-else>  </td>
-                    <td v-if="preset.show!=true" ><div  v-for="carrier in device.carriers"  > {{carrier.name}}</div> </td><td v-else>  </td>
-                    <td v-if="preset.show!=true"  ><div  v-for="capacity in filterByModificationsd(device.modifications,'capacity') "  > {{capacity.value}}</div> </td><td v-else>  </td>
-                    <td v-if="preset.show!=true"  > <div  v-for="style in filterByModificationsd(device.modifications,'style')  "  > {{style.value}}</div></td><td v-else>  </td>-->
+                    <td  >{{preset.total}}{{preset.devicevariations[0].devices[0].currency}}</td>
+                      <td  ><label class="variations" v-for="variation in preset.devicevariations" v-if="preset.devicevariations.length-1" >    {{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}}  </label>
+                              <label class="variations" v-for="variation in preset.devicevariations" v-else >{{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}} </label>
+                      </td>
+
                   </tr>
                   <tr  >
                     <td v-show="preset.show" transition="device"  class="detail" colspan="8" >
+                      <div class="column row">
+                    <div class="row">
+                      <div class="small-6 columns">
+                        <div class="small-8 columns">
 
+                        </div>
+                        <div class="small-4 columns">
+                          <div class="price" v-for="variation in preset.devicevariations" >{{variation.priceRetail}}{{variation.devices[0].currency}}</div>
+                        </div>
+  </div>
+          <div class="small-6 columns">
+            <div class="small-6 columns">
+              <div v-for="variation in preset.devicevariations">{{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}} </div>
+            </div>
+
+              <div class="small-6 columns">
+
+              </div>
+                </div>
+                    </div>
+
+                      </div>
                     </td>
 
                   </tr>
@@ -72,13 +73,15 @@
                 </tbody>
               </table>
 
-              <div class="load">
-                  <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
-                </div>
-            </div>
 
+            </div>
+            <div class="clearfix"></div>
 
             <pagination :pagination="pagination" :callback="loadData" v-show="loadtable"></pagination>
+        </div>
+        <div class="load">
+            <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
+          </div>
         </div>
 
 </template>
