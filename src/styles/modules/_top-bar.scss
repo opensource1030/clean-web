@@ -9,7 +9,8 @@
   background: linear-gradient(#F7F7F7, rgba($white,1));
   z-index: 999;
   @include css3(box-shadow,0 -1px 4px rgba($black,0.8));
-  @include css3(transition, all 3s ease-in-out);
+  @include css3(transition, all 0.2s ease-in-out);
+
   &.sticky-top{
     /*background: linear-gradient(#fee4d7, #FEEBDF);*/
     &:after{
@@ -52,8 +53,14 @@
     &.sticky-top{
       top:54px;
     }
+    .profile{
+      padding-left: 0;
+    }
     .HW-container{
       margin: 0;
+      #HW_badge_cont{
+        width: 22px;
+      }
     }
 
   }
@@ -65,9 +72,4 @@
   float: right;
   margin: 1rem 1rem 0;
 }
-@media screen and (max-width: $medium){
-  .top-bar-section{
-   padding: 20px 10px;
-  }
 
-}

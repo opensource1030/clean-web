@@ -7,7 +7,7 @@
         <div class="expanded row">
           <div class="columns large-12">
               <h1 class="pop-heading">  Request a Device or Accessory </h1>
-                  <router-link @click="closePop()" class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
+                  <a @click="closePop()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
 
             <hr class="hr-cln">
 

@@ -1,7 +1,6 @@
 import auth from './../api/auth'
 var {Store} = require('yayson')()
 var    store = new Store()
-
 export default {
     name: "LegacyInfo",
     computed:{
@@ -19,6 +18,11 @@ export default {
     },
     methods: {
         closePop(){
+            document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
+            setTimeout(function(){
+                window.history.go(-1);
+                window.history.go(-1);
+            },2000)
 
         }
     }

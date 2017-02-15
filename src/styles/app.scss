@@ -17,3 +17,29 @@
 @import "partials/nprogress";
 
 .w1{overflow: hidden;}
+body{
+
+  &.sticky-header{
+
+    .top-bar-section{
+      &.sticky-top{
+        padding: 5px 0 7px 0;
+        .logo img{
+          max-width: 90%;
+        }
+        .logo-holder{
+          text-align: center;
+        }
+        .morphsearch{
+          margin: 6px 0 0 2rem;
+        }
+      }
+    }
+    .menu-left {
+      top:62px;
+    }
+    .nav-poweredby{
+      bottom: 62px;
+    }
+  }
+}

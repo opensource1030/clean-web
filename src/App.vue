@@ -17,9 +17,11 @@
                 $(window).on("scroll", function() {
                     if($(window).scrollTop() > 50) {
                         $(".top-bar-section").addClass("sticky-top");
+                        $('body').addClass('sticky-header');
                     } else {
                         //remove the background property so it comes transparent again (defined in your css)
                         $(".top-bar-section").removeClass("sticky-top");
+                        $('body').removeClass('sticky-header');
                     }
                 });
             });
