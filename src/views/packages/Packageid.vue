@@ -312,11 +312,51 @@
                       <div class="container">
                         <h5>{{packages.names.errors.textError}}</h5>
                       </div>
-                    </div>
+<!-- //DEVICE VARIATIONS -->
+<!-- DEVICE VARIATIONS SELECTED -->
+                      <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
+                        <hr size="10">
+                        <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
+                        <div class="presetsnoinformation" v-show="packages.devicevariations.length == 0">
+                          <swiper :options="swiperOption">
+                            <swiper-slide v-for="no in packages.presetsnoinformation">
+                              <img class="phoneImg" :src="no.url" alt="Image" />
+                            </swiper-slide>
+                          </swiper>
+                        </div>
+                        <div>
+                          <swiper v-show="packages.devicevariations.length > 0" :options="swiperOption" ref="swC">
+                            <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
+                              <div @click="devicevariationNoSelected(devvarsel, index)">
+                                <div class="devicevariationspreset">{{devvarsel.preset}}</div>
+                                <div>
+                                  <img class="phoneImg" :src="getUrlOfImage(devvarsel)" alt="Image" />
+                                </div>
+                                <div class="devicevariationsinformation">
+                                  {{devvarsel.devices[0].name}} <br>
+                                  {{devvarsel.devices[0].make}} - {{devvarsel.devices[0].model}} <br>
+                                  {{devvarsel.price1}} {{devvarsel.devices[0].currency}}
+                                </div>
+                              </div>
+                            </swiper-slide>
+                            <div class="swiper-button-prev" slot="button-prev"></div>
+                            <div class="swiper-button-next" slot="button-next"></div>
+                          </swiper>
+                        </div>
+                      </div>
+<!-- //DEVICE VARIATIONS SELECTED -->
                   </div>
-                  <a class="button large" @click="submit()" id="button">{{packages.names.saveButton}}</a>
+                </li>
+<!-- //DEVICES -->
+              </ul>
+              <div v-if="errors.generalError">
+                <div class="is-error callout" data-closable>
+                  <div class="container">
+                    <h5>{{packages.names.errors.textError}}</h5>
+                  </div>
                 </div>
               </div>
+              <a class="button large" @click="submit()" id="button">{{packages.names.saveButton}}</a>
             </div>
           </div>
         </div>

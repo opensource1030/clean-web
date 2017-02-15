@@ -225,7 +225,6 @@ function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
             }
         }
     }
-
     return orderFilters(aux, attributeOrder, type, order);
 }
 

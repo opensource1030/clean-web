@@ -39,6 +39,7 @@ export default {
       context.packages.id = id;
       context.packages.name = event.name;
       context.packages.type = event.type;
+
             //context.packages.addressId = event.addressId;
             context.packages.companyId = event.companyId;
             //context.packages.apps = event.apps;
@@ -47,6 +48,7 @@ export default {
             context.packages.services = event.services;
             this.getUdlsFromCompanies(context, context.packages.companyId);
             this.getDeviceVariationsFromPresets(context, context.packages.companyId);
+
             context.addOptionsToRetrievedConditions();
           },
           (response) => {});
@@ -65,6 +67,7 @@ export default {
       context.addConditionsOptions();
       this.getPresets(context, companyId, 1);
       this.getCarriersFromAnywhere(context, companyId);
+
     },
     (response) => {});
   },
