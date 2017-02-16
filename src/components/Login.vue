@@ -3,7 +3,6 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered medium-8 medium-centered  columns login-form-holder">
-    <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
       <div class="container">
@@ -32,6 +31,10 @@
       </div>
     </div>
     <span v-if="version" class="version"> {{ version }}</span>
+    <div class="powered-by">
+      <span>Powered By</span>
+      <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
+    </div>
   </div>
   </div>
   </div>

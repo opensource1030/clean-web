@@ -5,6 +5,7 @@ export default {
     name: "ClientInfo",
     created(){
         this.fetchData();
+
     },
     methods:{
         fetchData : function(){
@@ -23,6 +24,16 @@ export default {
                     }).then((response) => {
 
                         this.client= response.data;
+                        setTimeout(function(){
+                            $(function() {
+                                $('.eq-Hght').matchHeight({
+                                    byRow: true,
+                                    property: 'height',
+                                    target: null,
+                                    remove: false
+                                });
+                            });
+                        },200);
 
 
                     });

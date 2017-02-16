@@ -61,7 +61,7 @@ module.exports = {
   },
   data (){
     return {
-      company: {},
+      company: {}
     }
   }
 };

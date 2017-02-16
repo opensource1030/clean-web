@@ -31,7 +31,7 @@ export default {
         LegacyInfo
     },
     created(){
-        this.grid();
+
     },
     mounted(){
         $('.redirect-link a').each(function(e){
@@ -70,21 +70,13 @@ export default {
                 this.$set(this, 'trendchartData', event.allocations);
             }
         });
+
+
     },
     methods:{
         logout() {
             auth.logout()
-        },
-        grid(){
-            $(function() {
-                $('.eq-Hght').matchHeight({
-                    byRow: true,
-                    property: 'height',
-                    target: null,
-                    remove: false
-                });
-            });
-        },
+        }
     },
     data(){
         return {
