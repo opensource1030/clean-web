@@ -3,6 +3,7 @@
     <div class="alert callout for-dashboard" data-closable style="display:none;">
       <h5>You will now be redirected to this section in our legacy App</h5>
     </div>
+
       <client-Info></client-Info>
       <div class="clearfix"></div>
       <charge-Info></charge-Info>

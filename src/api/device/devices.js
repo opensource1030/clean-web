@@ -2,7 +2,7 @@ import Vue from 'vue';
 import auth from './../auth.js';
 const {Store,} = require('yayson')();
 const store = new Store();
-import {filterByFilters} from './../../components/filters.js';
+import {filterByFilters, getFilters} from './../../components/filters.js';
 export default {
   device: {},
   firstTime:true,
@@ -16,39 +16,63 @@ export default {
     };
 
    if (context.type.length !== 0) {
-      for(let ty of context.type){
-        params.params['filter[deviceTypeId][like]'] = ty.id;
-      }
+     let aux = '';
+     for (let ty of context.type) {
+         aux = aux + ty.id + ',';
+     }
+     aux = aux.substring(0, aux.length-1);
+        params.params['filter[deviceTypeId][like]'] = aux;
+
     }
     if (context.manufactured.length !== 0) {
-                for(let manu of context.manufactured){
-        params.params['filter[make][like]'] = manu;
-
+      let aux = '';
+      for (let manu of context.manufactured) {
+          aux = aux + manu + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[make][like]'] =aux;
+
+
     }
 
     if (context.price.length != 0) {
-            for(let pri of context.price){
-        params.params['filter[defaultPrice][like]'] = parseInt(pri);
+      let aux = '';
+      for (let pri of context.price) {
+          aux = aux + pri + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[defaultPrice][like]'] = parseInt(aux);
+
     }
 
-    if (context.carrier.length != 0) {
-      for(let carr of carrier){
-        params.params['filter[devicevariations.carrierId][like]'] = carr.id;
-      }
+    if (context.carrier.length > 0) {
+          let aux = '';
+          for (let carr of context.carrier) {
+              aux = aux + carr.id + ',';
+          }
+          aux = aux.substring(0, aux.length-1);
+        params.params['filter[devicevariations.carrierId][like]'] = aux;
+
     }
 
     if (context.capacity.length != 0) {
-      for (let capa of context.capacity){
-        params.params['filter[modifications.id]'] = capa.id;
+      let aux = '';
+      for (let capa of context.capacity) {
+          aux = aux + capa.id + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[modifications.id]'] = aux;
+
     }
 
     if (context.style.length != 0) {
-      for (let sty of context.style){
-        params.params['filter[modifications.id]'] = sty.id;
+      let aux = '';
+      for (let sty of context.style) {
+          aux = aux + sty.id + ',';
       }
+      aux = aux.substring(0, aux.length-1);
+        params.params['filter[modifications.id]'] = aux;
+
     }
 
 
@@ -66,9 +90,12 @@ export default {
         var devices = [];
             if(this.firstTime){
             for(let device of event){
-      this.getFilters(context, context.filter.make, device.make, 'string');
-      this.getFilters(context, context.filter.price, device.defaultPrice, 'number');
-
+              if(device.make!=null){
+      context.filter.make = getFilters(context.filter.make, device.make, 'string');
+    }
+    if(device.defaultPrice!=null){
+      context.filter.price = getFilters(context.filter.price, device.defaultPrice, 'number');
+}
             }
                   this.firstTime=false;
 }
@@ -144,43 +171,5 @@ export default {
         context.showModal=true;
 
       });
-  },
-  /*
-    *  This function receives a list and a sentence, the list is filled with the sentences that have not been insered yet.
-    *  Then, we order the list.
-    *  Example: this.getFilters(context, context.filter.status, serv.status, 'string');
-    *
-    *  @context: Is the Context.
-    *  @list: Is the list of the filters.
-    *  @value: Is the value that we need to insert into the list.
-    *  @order: Is the order for the orderFilters function.
-    *
-    *  @return: returns an ordered list with the values.
-    *
-    */
-   getFilters (context, list, value, order) {
-
-       let aux = value;
-       if(aux.length >= 50){
-           aux = aux.substring(0, 50);
-           aux = aux + '...';
-       }
-
-       if (list.length == 0) {
-           list.push(aux)
-       } else {
-           let ok = true;
-           for (let a of list) {
-               if (a == aux) {
-                   ok = false;
-               }
-           }
-
-           if (ok) {
-               list.push(aux);
-           }
-       }
-       list = context.orderFilters(list, '', order, 'asc');
-   }
-
+  }
 };

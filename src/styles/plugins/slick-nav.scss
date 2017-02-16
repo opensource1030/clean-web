@@ -33,11 +33,22 @@
 
   @media screen and (max-width: 800px) {
     display: block;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
 
     .top-bar-section {
       padding-bottom: 0;
     }
-
+     .slicknav_nav{
+       padding-top: 80px;
+     }
+    .menu-title{
+      margin: 0;
+      padding: 0;
+    }
     li {
       &.logo {
         display: none;

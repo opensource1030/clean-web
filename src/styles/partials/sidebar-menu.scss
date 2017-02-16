@@ -81,8 +81,13 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       background: linear-gradient(#F7F7F7, rgba($white,0.95));
       height:72px;
       text-align: center;
+      display: table;
       img{
         max-height: 52px;
+      }
+      .logo-holder{
+        display: table-cell;
+        vertical-align: middle;
       }
     }
   }
@@ -163,7 +168,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
 .nav-poweredby{
   border-top: 1px solid rgba(204, 204, 204, 0.12);
   text-align: center;
-  bottom: 0;
+  bottom: 72px;
   padding: 2px 0 10px;
   position: absolute;
   background-color: $brand-blue;

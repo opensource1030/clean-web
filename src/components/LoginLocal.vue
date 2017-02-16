@@ -18,7 +18,7 @@
               <div class="large-12 columns">
                 <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
-                  <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" readonly/>
+                  <input id="email" class="input-group-field" type="text" v-model="credentials.email" placeholder="Enter your company email" readonly/>
                 </div>
 
               </div>
@@ -72,6 +72,15 @@ data() {
     version : '4.0.0-rc.1'
   }
 },
+  mounted(){
+    $(function(){
+      $('#email').bind('input', function(){
+        $(this).val(function(_, v){
+          return v.replace(/\s+/g, '');
+        });
+      });
+    });
+  },
 methods: {
 
   submit() {

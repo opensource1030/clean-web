@@ -8,9 +8,9 @@
   </div>
   <transition name="multiselect">
     <ul v-show="isOpen" transition="multiselect" class="multiselect__content">
-      <input ref="search" type="text" v-model="search" @focus.prevent="activate()" @blur.prevent="deactivate()" @keyup.esc="deactivate()" autocomplete="off" :placeholder="placeholder" class="multiselect__input" />
+      <input ref="search" type="text" v-model="search" @focus.prevent="activate()" @blur.prevent="deactivate()"  @keyup="filteroptions()" autocomplete="off" :placeholder="placeholder" class="multiselect__input" />
 
-      <li v-if="search==''" class="multiselect__element">
+      <li v-if="search=='' && search!=null" class="multiselect__element">
 
 
         <span v-if="labelAttr==null" tabindex="0" v-for="(option,index) in options" :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" @mousedown.prevent="select(option,index)">
@@ -25,11 +25,11 @@
       </li>
       <li v-else class="multiselect__element">
 
-        <span v-if="labelAttr==null" v-for="(option,index) in filteroptions(options,search) " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" :value="option" @mousedown.prevent="select(option,index)">
+        <span v-if="labelAttr==null" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index }" :value="option" @mousedown.prevent="select(option,index)">
                 {{option}}
 
               </span>
-        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filteroptions(options,search) " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
+        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
 
                 {{option[labelAttr]}}
 
@@ -37,7 +37,7 @@
       </li>
 
 
-      <li v-if="filteroptions(options,search).length==0">
+      <li v-if="filter.length==0 && show==true">
 
         <span class="multiselect__option">
               <slot name="noResult">No elements found. Consider changing the search query.</slot>

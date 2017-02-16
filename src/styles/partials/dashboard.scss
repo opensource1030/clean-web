@@ -460,11 +460,12 @@
   background: #0c2e82;
   height: 100%;
   left: 0;
+  top:72px;
   .icon-close{
     position: absolute;
     right: -25px;
     font-size: 1rem;
-    top: 72px;
+    top: 0;
     padding: 1px 7px;
     background: $brand-blue;
     color:$white;
@@ -472,9 +473,6 @@
   }
   &.test{
     width: 50px;
-    .icon-close{
-      top:72px;
-    }
     .sidebar-menu{
       > li {
         span,
@@ -530,14 +528,28 @@
 .content-right{
   padding-left: 200px;
   padding-bottom: 50px;
+  padding-top: 72px;
   &.test{
     padding-left:50px ;
+    .top-bar-section .logo{
+      padding-left: 0;
+      max-width: 40px;
+    }
   }
   @media screen and (max-width: 800px) {
     padding-left: 0;
+    padding-top: 126px;
     &.test{
       padding-left: 0;
     }
+    .top-bar-section .logo{
+      position: absolute;
+      top: -54px;
+      left: 0;
+      padding: 2px 11px;
+      height: 54px;
+    }
+
   }
 }
 
@@ -752,14 +764,13 @@ a.btn-provision:hover .support-form-holder{
   padding: 0 0 0 0;
   border: none;
   background: rgba(#000,0.3);
-
+  @include css3(box-shadow,0 6px 20px $gainsboro);
   &.visible {
     display: block;
   }
-
   .pop-content{
     background: $white;
-    padding: 0.7rem 0.7rem 6rem;
+    padding: 0.7rem 0.7rem 9rem;
     height: 100%;
     overflow: auto;
     .pop-heading{
@@ -771,7 +782,31 @@ a.btn-provision:hover .support-form-holder{
 
   .view-all{
     padding: 0.5rem 1rem ;
-    display: block;
+    display: none;
+    &.show{
+      display: block;
+    }
+    &:before{
+      content:'';
+      font-family:FontAwesome;
+    }
+    &:after{
+      content:'All';
+      display: inline-block;
+      position: relative;
+      top:1px;
+    }
+    &.all{
+      &:before{
+        content:'';
+
+        font-family:FontAwesome;
+      }
+      &:after{
+        content:'Less';
+      }
+    }
+
   }
 }
 .list-striped{
@@ -780,7 +815,7 @@ a.btn-provision:hover .support-form-holder{
   }
   @extend %listreset;
   overflow: hidden;
-  max-height: 279px;
+  max-height: 119px;
   li{
     border-top:1px rgba(#979797,0.15) solid;
     line-height: 3rem;
@@ -801,10 +836,16 @@ a.btn-provision:hover .support-form-holder{
         }
       }
     }
+    &.no-val{
+      *{
+        text-decoration: line-through;
+      }
+    }
   }
   &.all{
     height: auto;
     max-height: inherit;
+
   }
 }
 .inline-list{
@@ -830,11 +871,14 @@ a.btn-provision:hover .support-form-holder{
   color:$black;
   padding: 0 0.5rem 0 0;
   .fa{
-    padding: 0.5em;
+    padding: 0.6em;
     color: $white;
     background: $brand-orange;
     margin-right: 0.2rem;
 
+  }
+  &.back-to{
+    margin-right: 11px;
   }
 }
 .btn-orange{

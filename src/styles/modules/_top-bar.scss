@@ -1,10 +1,29 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
 .top-bar-section{
-  padding:10px 0 12px 12px;
-  position: relative;
-  background: linear-gradient(#F7F7F7, rgba($white,0.3));
+  padding:10px 0 12px 0;
+  position: fixed;
+  left: 0;
+  top:0;
+  width: 100%;
+  background: linear-gradient(#F7F7F7, rgba($white,1));
+  z-index: 999;
   @include css3(box-shadow,0 -1px 4px rgba($black,0.8));
+  @include css3(transition, all 0.2s ease-in-out);
+
+  &.sticky-top{
+    /*background: linear-gradient(#fee4d7, #FEEBDF);*/
+    &:after{
+        content: '';
+        background: linear-gradient(#fee4d7, #FEEBDF);
+        height: 100%;
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+      z-index: -1;
+      }
+  }
   .float-right{
     > div{
       display: inline-block;
@@ -15,6 +34,36 @@
     display: block;
     clear:both;
   }
+  .logo{
+    float: left;
+    max-width: 180px;
+    height: 50px;
+    display: table;
+    .logo-holder{
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
+  @media screen and (max-width: 800px){
+    .logo{
+      position: absolute;
+      top:-55px;
+    }
+    top:54px;
+    &.sticky-top{
+      top:54px;
+    }
+    .profile{
+      padding-left: 0;
+    }
+    .HW-container{
+      margin: 0;
+      #HW_badge_cont{
+        width: 22px;
+      }
+    }
+
+  }
 }
 .dropdown-pane{
   z-index: 999;
@@ -23,9 +72,4 @@
   float: right;
   margin: 1rem 1rem 0;
 }
-@media screen and (max-width: $medium){
-  .top-bar-section{
-   padding: 20px 10px;
-  }
 
-}
