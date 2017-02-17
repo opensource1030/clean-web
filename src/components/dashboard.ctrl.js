@@ -57,6 +57,7 @@ export default {
                     this.data= response.data;
                 });
             }
+        }, (response) => {
         });
 
         this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]', {
@@ -68,6 +69,7 @@ export default {
             if (event.allocations && event.allocations.length > 0) {
                 this.$set(this, 'trendchartData', event.allocations);
             }
+        }, (response) => {
         });
         setTimeout(supportRequest,2500);
         chmln.identify({uid: localStorage.userId /* A stable, unique identifier */, email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */});

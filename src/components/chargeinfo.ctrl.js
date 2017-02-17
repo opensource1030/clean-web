@@ -8,12 +8,11 @@ export default {
         this.id = this.$route.params.id;
     },
     created(){
-        this.$http.get(process.env.URL_API+'/users/'+localStorage.userId+'?include=companies,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]').then((response) => {
+        this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]')
+        .then((response) => {
             var event = store.sync(response.data);
             this.allocation= event;
-
         }, (response) => {
-
         });
     },
     updated() {

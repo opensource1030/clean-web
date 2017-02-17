@@ -7,31 +7,36 @@
           <i class="fa fa-home"></i> <span>Home</span>
         </a>
       </li>
+
+      <template v-if="features.FEATURE_IN_DEVELOPMENT">
       <li v-permission="'Procurements'" class="treeview">
-        <a  href="javascript:;">
+        <a href="javascript:;">
           <i class="fa fa-list-alt"></i>
           <span>Inventory</span>
           <i class="fa fa-plus pull-right"></i>
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link"  v-permission="'ManageDevices'" ><a  class="admin" target="_blank"    href="/devices"><i class="fa fa-circle-o"></i>Equipment</a></li>
-          <li class="page-link" v-permission="'ManageServices'" ><a class="admin" target="_blank"   href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a></li>
+          <li class="page-link"  v-permission="'ManageDevices'"><a class="admin" target="_blank" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a></li>
+          <li class="page-link" v-permission="'ManageServices'"><a class="admin" target="_blank" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a></li>
         </ul>
       </li>
-      <li v-permission="'Packages'" class="treeview"  >
-        <a  href="javascript:;">
+      </template>
+
+      <li v-permission="'Packages'" class="treeview">
+        <a href="javascript:;">
           <i class="fa fa-th-large"></i>
           <span>Policies</span>
           <i class="fa fa-plus pull-right"></i>
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li ><a href="#" ><i class="fa fa-circle-o"></i>View All Policies</a></li>
-          <li ><a href="javascript:;" ><i class="fa fa-circle-o"></i>Create a Policy</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i>View All Policies</a></li>
+          <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Create a Policy</a></li>
         </ul>
       </li>
-      <li  v-permission="'Presets'" class="treeview">
+
+      <li v-permission="'Presets'" class="treeview">
         <a  href="javascript:;">
           <i class="fa fa-tasks"></i>
           <span>Presets</span>
@@ -67,7 +72,6 @@
 </template>
 
 <script>
-
   import auth from './../api/auth'
   import Permision from './permisions'
   import Vue from 'vue';
@@ -84,11 +88,15 @@
   export default {
     name: "Sidemenu",
 
-    created () {
-
+    data() {
+      return {
+        features: features
+      }
     },
 
-    mounted(){
+    mounted() {
+      console.log('features', this.features);
+
       var intervalId = setInterval(function(){
         var token = localStorage.token;
         var id = localStorage.userId;
@@ -169,7 +177,5 @@
 
       $('#menu').slicknav();
     },
-
-
   }
 </script>
