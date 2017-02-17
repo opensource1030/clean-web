@@ -34,7 +34,7 @@
           <div class="action-button" id="action-buttons">
             <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
             <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Request a Device or Accessory </router-link>
-            <a class="button btn-provision btn-round "  href="javascript:;">Get Support</a>
+            <a class="button btn-provision btn-round" href="javascript:;"  >Get Support</a>
           </div>
           <div v-html="client.object.metafields[1].value"></div>
         </div>
