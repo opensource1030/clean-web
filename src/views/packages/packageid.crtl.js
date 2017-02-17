@@ -245,7 +245,6 @@ export default {
 
             return submitOk;
         },
-
         // This function allow to show/hide the different zones.
         showAndTell(type) {
             if (type == 'condition') {
@@ -318,39 +317,7 @@ export default {
                         type: 'apps'
                     }
                 ],
-                companies: [
-                    {
-                        active: 1,
-                        assetPath: '',
-                        currentBillMonth: '',
-                        defaultLocation: '',
-                        id: 0,
-                        isCensus: null,
-                        label: '',
-                        name: '',
-                        shortName: '',
-                        type: 'companies',
-                        udlPathRule: null,
-                        udlpath: null,
-                        udls: [
-                            {
-                                companyId: 0,
-                                id: 0,
-                                label: '',
-                                legacyUdlField: null,
-                                name: '',
-                                sections: [
-                                    {
-                                        externalId: 0,
-                                        id: 0,
-                                        name: '',
-                                        udlId: 0
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ],
+                companies: [],
                 conditions: [
                     {
                         id: 0,
@@ -380,56 +347,10 @@ export default {
                         priceOwn: 0,
                         priceRetail: 0,
                         type: "devicevariations",
-                        devices: [
-                            {
-                                externalId: 0,
-                                id: 0,
-                                identification: 0,
-                                make: null,
-                                model: null,
-                                name: '',
-                                properties: '',
-                                statusId: 0,
-                                syncId: 0,
-                                type: 'devices',
-                            }
-                        ],
-                        modifications: [
-                            {
-                                id: 0,
-                                modType: '',
-                                type: 'modifications',
-                                unit: '',
-                                value: ''
-                            }
-                        ],
-                        carriers: [
-                            {
-                                active: 1,
-                                id: 0,
-                                locationId: 0,
-                                name: '',
-                                presentation: '',
-                                shortName: '',
-                                type: 'carriers'
-                            }
-                        ],
-                        companies: [
-                            {
-                                active: 1,
-                                assetPath: '',
-                                currentBillMonth: '',
-                                defaultLocation: '',
-                                id: 0,
-                                isCensus: null,
-                                label: '',
-                                name: '',
-                                type: 'companies',
-                                udlPathRule: null,
-                                udlpath: null,
-                                udls: [],
-                            }
-                        ]
+                        devices: [],
+                        modifications: [],
+                        carriers: [],
+                        companies: []
                     }
                 ],
                 services: [

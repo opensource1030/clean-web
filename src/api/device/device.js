@@ -238,133 +238,57 @@ export default {
     }, (response) => {});
   },
   checkDevice(device, style, capacity, price, context, id) {
-    let check = true;
-    if (device.name == "" || device.name == null) {
-      check = false
-      let error = {
-        field: "Name",
-        status: false
-      }
-      return error;
-    }
-    if (isNaN(device.defaultPrice) || device.defaultPrice == "" || device.defaultPrice == null || device.defaultPrice == 0) {
-
-      check = false;
-      let error = {
-        field: "Price",
-        status: false
-      }
-      return error;
-    }
-
-    if (device.properties == "" || device.properties == null) {
-
-      check = false
-      let error = {
-        field: "Description",
-        status: false
-      }
-      return error;
-    }
-    if (device.deviceTypeId == null) {
-      check = false;
-      let error = {
-        field: "Device Type",
-        status: false
-      }
-      return error;
-    }
-    if (device.imageId == 0) {
-      context.message = "Error in field Image";
-      check = false;
-      let error = {
-        field: "Image",
-        status: false
-      }
-      return error;
-    }
-    if (device.imageId != 0) {
-      device.imagesJson(device);
-    }
-    if (device.make == null || device.make == "") {
-      check = false;
-      let error = {
-        field: "Manufactured",
-        status: false
-      }
-      return error;
-    }
-    if (device.model == null || device.model == "") {
-
-      check = false;
-      let error = {
-        field: "Model",
-        status: false
-      }
-      return error;
-    }
-    if (check == true && style.length === 0 && capacity.length === 0) {
-
-      let error = {
-        field: "",
-        status: true
-      }
-      return error;
-
-    }
-    console.log(price.length)
-    if (price.length != 0 && check == true) {
-
-      let c = true;
-      for (let p of price) {
-        if (p.style == null || p.capacity == null || p.carrierId == null || p.companyId == null || (p.priceRetail == 0 || isNaN(p.priceRetail)) || (p.price1 == 0 || isNaN(p.price1)) || (p.price2 == 0 || isNaN(p.price2)) || (p.priceOwn == 0 || isNaN(p.priceOwn))) {
-          c = false;
-          let error = {
-            field: "Table Prices",
-            status: false
+      let error = { field: "", status: false };
+ 
+      if (price.length != 0) {
+          for (let p of price) {
+              if (p.style == null || p.capacity == null || p.carrierId == null || p.companyId == null || (p.priceRetail == 0 || isNaN(p.priceRetail)) || (p.price1 == 0 || isNaN(p.price1)) || (p.price2 == 0 || isNaN(p.price2)) || (p.priceOwn == 0 || isNaN(p.priceOwn))) {
+                  error.field = "Table Prices";
+              }
           }
-          return error;
-
-        }
       }
-      if (c == true) {
 
-        device.modificationsJson(capacity, style, device);
+      if (style.length === 0 || capacity.length === 0) {
+          error.field = "Attributes";
+      }
+
+      if (device.properties == "" || device.properties == null) {
+          error.field = "Tecnical Information";
+      }
+
+      if (device.model == null || device.model == "") {
+          error.field = "Model";
+      }
+
+      if (device.make == null || device.make == "") {
+          error.field = "Manufactured";
+      }
+
+      if (device.deviceTypeId == null) {
+          error.field = "Device Type";
+      }
+
+      if (isNaN(device.defaultPrice) || device.defaultPrice == "" || device.defaultPrice == null || device.defaultPrice == 0) {
+          error.field = "Default Price";
+      }
+
+      if (device.imageId == 0) {
+          error.field = "Image";
+      } else {
+          device.imagesJson(device);
+      }
+
+      if (device.name == "" || device.name == null) {
+          error.field = "Name";
+      }
+      
+      if (error.field == "") {
+          error.status = true;     
           device.pricesJson(price, device);
-
-
-        let error = {
-          field: "",
-          status: true
-        }
-        return error;
+          device.modificationsJson(capacity, style, device);
       }
-    }
-    if (check == true && style.length != 0 && capacity.length == 0) {
-      device.modificationsJson(capacity, style, device);
-      let error = {
-        field: "",
-        status: true
-      }
+ 
       return error;
-    }
-    if (check == true && style.length == 0 && capacity.length != 0) {
-      device.modificationsJson(capacity, style, device);
-      let error = {
-        field: "",
-        status: true
-      }
-      return error;
-    }
-    if (check == true && style.length != 0 && capacity.length != 0) {
-      device.modificationsJson(capacity, style, device);
-      let error = {
-        field: "",
-        status: true
-      }
-      return error;
-    }
-
   },
 
   addDevice(context, price, style, capacity, device, image) {

@@ -94,17 +94,8 @@ export default {
 
         let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = new packageid(
-                context.packages.id,
-                context.packages.type,
-                context.packages.name,
-                1, // context.packages.addressId,
-                context.packages.companyId,
-                conditions,
-                [], // context.packages.apps,
-                [], // context.packages.devicevariations,
-                [], // context.packages.services
-            );
+        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1, 
+            context.packages.companyId, conditions, [], [], []);
 
         context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
             event = store.sync(response.data);
@@ -114,21 +105,26 @@ export default {
     updateThePackages(context) {
         let conditions = this.prepareConditionsForSend(context.packages.conditions);
 
-        let pack = new packageid(
-                context.packages.id,
-                context.packages.type,
-                context.packages.name,
-                1, //context.packages.addressId,
-                context.packages.companyId,
-                conditions,
-                [], // context.packages.apps,
-                [], // context.packages.devicevariations,
-                [], // context.packages.services
-            );
+        let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1, 
+            context.packages.companyId, conditions, [], [], []);
 
         context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
             //context.$router.push({name: 'packages'});
         }, (response) => { });
+    },
+    // Prepare the Model
+    getTheModel(id, type, name, addressId, companyId, conditions, apps, devicevariations, services) {
+        return new packageid(
+                id,
+                type,
+                name,
+                addressId,
+                companyId,
+                conditions,
+                apps,
+                devicevariations,
+                services
+            );
     },
     // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
     prepareConditionsForSend(conditions) {

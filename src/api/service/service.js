@@ -139,10 +139,8 @@ export default {
 
     checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context) {
 
-        let ok = true;
-
-        context.errorsStyle.titleError  = (service.title == "") ? true : false;
-        context.errorsStyle.planCodeError  = (service.planCode == "") ? true : false;
+        context.errorsStyle.titleError = (service.title == "") ? true : false;
+        context.errorsStyle.planCodeError = (service.planCode == "") ? true : false;
         context.errorsStyle.costError  = (service.cost == "") ? true : false;
         context.errorsStyle.currencyError  = (service.currency == "") ? true : false;
         context.errorsStyle.carrierError  = (service.carrierId == 0) ? true : false;
@@ -152,34 +150,26 @@ export default {
         for (let addon of addons) {
             if(addon.description == "") {
                 if(addon.cost != "") {
-                    ok = false;
+                    context.error = true;
                 }
             } else {
                 if(addon.cost == "") {
-                    ok = false;
+                    context.error = true;
                 }
             }
 
             addon.unit = serviceDetails.currency;
         }
 
-        if (context.errorsStyle.titleError || 
-            context.errorsStyle.planCodeError  ||
-            context.errorsStyle.costError  ||
-            context.errorsStyle.currencyError  ||
-            context.errorsStyle.carrierError  ||
-            context.errorsStyle.unitDomError  ||
-            context.errorsStyle.unitIntError) {
-            ok = false;
-        }
-
-        if (ok) {
+        if (context.errorsStyle.titleError || context.errorsStyle.planCodeError  || context.errorsStyle.costError  ||
+            context.errorsStyle.currencyError  || context.errorsStyle.carrierError  || context.errorsStyle.unitDomError  ||
+            context.errorsStyle.unitIntError || context.error) {
+            context.error = true;
+            return false;
+        } else {
             context.error = false;
             return this.prepareItems(addons, domesticPlan, internationalPlan);
         }
-
-        context.error = true;
-        return false;
     },
 
     prepareItems(addons, domesticPlan, internationalPlan) {
