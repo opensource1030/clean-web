@@ -1,4 +1,3 @@
-
 module.exports = {
   NODE_ENV: '"local"',
   // stoplight.io Mock Server
@@ -38,7 +37,7 @@ module.exports = {
         }
     },
     "ManageServices": {
-        enabled: false,
+        enabled: true,
         users: {
             "user@mail.com": true,
             "*@wa.com": true
