@@ -136,16 +136,12 @@ export default {
             }
         })
     },
-
     checkPlan(service, serviceDetails, domesticPlan, internationalPlan, addons, context) {
 
         context.errorsStyle.titleError = (service.title == "") ? true : false;
         context.errorsStyle.planCodeError = (service.planCode == "") ? true : false;
         context.errorsStyle.costError  = (service.cost == "") ? true : false;
-        context.errorsStyle.currencyError  = (service.currency == "") ? true : false;
         context.errorsStyle.carrierError  = (service.carrierId == 0) ? true : false;
-        context.errorsStyle.unitDomError  = (domesticPlan.data.unit == "") ? true : false;
-        context.errorsStyle.unitIntError  = (internationalPlan.data.unit == "") ? true : false;
 
         for (let addon of addons) {
             if(addon.description == "") {
@@ -162,8 +158,7 @@ export default {
         }
 
         if (context.errorsStyle.titleError || context.errorsStyle.planCodeError  || context.errorsStyle.costError  ||
-            context.errorsStyle.currencyError  || context.errorsStyle.carrierError  || context.errorsStyle.unitDomError  ||
-            context.errorsStyle.unitIntError || context.error) {
+            context.errorsStyle.carrierError || context.error) {
             context.error = true;
             return false;
         } else {
