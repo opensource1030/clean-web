@@ -364,7 +364,8 @@
   fill:transparent !important;
 }
 .login{
-  background: $brand-blue url("../../src/assets/bg-pattern.png") repeat;
+  background: $brand-blue;
+  //url("../../src/assets/bg-pattern.png") repeat;
   .callout{
     position: fixed;
     top:0;
