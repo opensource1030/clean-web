@@ -139,6 +139,7 @@ export default {
                     cond.valueError = false;
                 }
             }
+            this.reorderButtons();
         },
         // Retrieve all the information of the condition retrieved checking it from the conditionsOptions array.
         retrieveInformation(condition) {
@@ -234,8 +235,8 @@ export default {
 
             return submitOk;
         },
-        getUrlOfImagePreset(preset) {
-            if (preset.selected) {
+        getUrlOfImageSelected(object) {
+            if (object.selected) {
                 return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
             } else {
                 return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
@@ -266,10 +267,26 @@ export default {
             preset.selected = true;
             this.devicevariationList();
         },
+        carrierSelected(carrier) {
+            this.packages.variablesShow.carrierSelected = true;
+            this.packages.variablesShow.carrierSelectedName = carrier.presentation;
+            for (let carr of this.packages.carriers) {
+                carr.selected = false;
+            }
+            carrier.selected = true;
+            this.servicesList();
+        },
         devicevariationSelected(devvar, index) {
             this.packages.devicevariations.push(devvar);
             this.retrieveTheNewDevicesSelectedList();
             this.devicevariationList();
+        },
+        serviceSelected(service, index) {
+            //this.packages.services.push(service);
+            this.packages.service = service;
+            this.packages.service.show = true;
+            //this.retrieveTheNewServicesSelectedList();
+            //this.servicesList();
         },
         devicevariationNoSelected(devvar, index) {
             this.packages.devicevariations.splice(index,1);
@@ -294,6 +311,24 @@ export default {
             }
             this.retrieveTheValuesOfTheDevices(this.packages.devicevariations);
         },
+        retrieveTheNewServicesSelectedList() {
+            for (let serv of this.packages.services) {
+                serv.carrier = '';
+                for (let carr of this.packages.carriers) {
+                    for (let servsel of carr.services) {
+                        if(servsel.id == serv.id) {
+                            serv.carrier = serv.carrier + carr.presentation + ', ';
+                        }
+                    }
+                }
+                serv.carrier = serv.carrier.substring(0, serv.carrier.length-2);
+            }
+
+            if (this.packages.services.length > 1) {
+                this.packages.services = deleteRepeated(this.packages.services, 'id', 'planCode', 'number', 'asc');
+            }
+            this.retrieveTheValuesOfTheDevices(this.packages.services);
+        },
         devicevariationList(){
             this.packages.devicevariationsList = [];
             for (let pres of this.packages.presets) {
@@ -307,6 +342,24 @@ export default {
                         }
                         if(ok) {
                             this.packages.devicevariationsList.push(dv);
+                        }
+                    }
+                }
+            }
+        },
+        servicesList(){
+            this.packages.servicesList = [];
+            for (let carr of this.packages.carriers) {
+                if (carr.selected) {
+                    for (let serv of carr.services) {
+                        let ok = true;
+                        for (let servsel of this.packages.services) {
+                            if (serv.id == servsel.id) {
+                                ok = false;
+                            }
+                        }
+                        if(ok) {
+                            this.packages.servicesList.push(serv);
                         }
                     }
                 }
@@ -329,10 +382,66 @@ export default {
                     }
                 }
             }
+            // Variable that allows the goForward to retrieve more information.
+            this.packages.retrieveMore = true;
         },
         showFalse() {
             this.show = false;
         },
+        goBack() {
+            console.log("BACK");
+        },
+        goForward() {
+            this.packages.position++;
+            console.log("FORWARD: " +
+                this.packages.position + ' - ' +
+                this.packages.position % 25 + ' - ' +
+                Math.floor(this.packages.position / 25) + ' - ' +
+                this.packages.retrieveMore
+            );
+
+            if(this.packages.position > this.packages.presets.length) {
+                this.packages.position = this.packages.presets.length;
+            }
+
+            let page = Math.floor(this.packages.position / 25);
+
+            if(this.packages.position % 25 == 0) {
+                if(this.packages.retrieveMore) {
+                    this.packages.retrieveMore = false;
+                    packaging.getDeviceVariationsFromPresets(this, this.packages.companyId, page + 1);
+
+                    if(page > 1) {
+                        this.deleteTheFirstTwentyFiveOfPresets();
+                    }
+                }
+            }
+        },
+        addMorePresetsToTheArray(presets) {
+            //console.log(presets);
+            if (this.packages.presets.length == 0) {
+                this.packages.presets = presets;
+            } else {
+                for (let pre of presets) {
+                    this.packages.presets.push(pre);
+                }
+            }
+            console.log(this.packages.presets.length);
+            this.retrieveTheNewDevicesSelectedList();
+        },
+        deleteTheFirstTwentyFiveOfPresets() {
+            let i = 0;
+            let j = this.packages.presets.length;
+            console.log("FORWARD: " + i + ' - ' + j);
+            let result = [];
+            for (let pres of this.packages.presets) {
+                if(i > 25) {
+                    result.push(pres);
+                }
+
+                i++;
+            }
+        }
     },
 
     data() {
@@ -340,6 +449,8 @@ export default {
             loadedContent: false,
             packages: {
                 id: 0,
+                position: 5,
+                retrieveMore: true,
                 name: '',
                 nameError: false,
                 type: 'packages',
@@ -349,8 +460,10 @@ export default {
                     usersConditions: 0,
                 },
                 variablesShow: {
-                    presetSelected : false,
+                    presetSelected: false,
                     presetSelectedName: '',
+                    carrierSelected: false,
+                    carrierSelectedName: '',
                 },
                 names: {
                     managePackage: 'Manage Packages',
@@ -375,6 +488,9 @@ export default {
                     },
                     services: {
                         title: 'SERVICES',
+                        carriersAvailable: 'Carriers Available',
+                        servicesAvailable: 'Services Available From ',
+                        servicesSelected: 'Services Selected',
                         minPrice: '28.10',
                         maxPrice: '35.10',
                     },
@@ -418,14 +534,11 @@ export default {
                     }
                 ],
                 carriers : [],
-                presets: [
-                    {
-                        selected: false,
-                    }
-                ],
+                presets: [],
                 devicevariations:  [],
                 devicevariationsList: [],
-                presetsnoinformation: [
+                servicesList: [],
+                noinformation: [
                     {
                         url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
                     }
@@ -451,6 +564,17 @@ export default {
                         status: 'Enabled',
                         title: '',
                         type: 'services'
+                    }
+                ],
+                service: [
+                    {
+                        show: false,
+                        title: 'EXAMPLE TITLE',
+                        planCode: 0,
+                        cost: 0,
+                        description: '',
+                        currency: '',
+                        serviceitems: [],
                     }
                 ],
             },
@@ -493,10 +617,10 @@ export default {
                 //autoplay: 3000,
                 //direction : 'vertical',
                 //grabCursor : true,
-                setWrapperSize :true,
+                //setWrapperSize :true,
                 //autoHeight: true,
-                //pagination : '.swiper-pagination',
-                //paginationClickable :true,
+                pagination : '.swiper-pagination',
+                paginationClickable :true,
                 prevButton:'.swiper-button-prev',
                 nextButton:'.swiper-button-next',
                 //scrollbar:'.swiper-scrollbar',
@@ -506,20 +630,20 @@ export default {
                 spaceBetween: 10,
                 breakpoints: {
                     1024: {
-                        slidesPerView: 4,
-                        spaceBetween: 30
+                        slidesPerView: 5,
+                        //spaceBetween: 10
                     },
                     768: {
-                        slidesPerView: 3,
-                        spaceBetween: 25
+                        slidesPerView: 5,
+                        //spaceBetween: 10
                     },
                     640: {
                         slidesPerView: 2,
-                        spaceBetween: 20
+                        //spaceBetween: 10
                     },
                     320: {
                         slidesPerView: 1,
-                        spaceBetween: 15
+                        //spaceBetween: 10
                     }
                 }
             }

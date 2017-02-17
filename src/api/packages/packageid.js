@@ -43,14 +43,12 @@ export default {
             //context.packages.addressId = event.addressId;
             context.packages.companyId = event.companyId;
             //context.packages.apps = event.apps;
-            //context.packages.companies = event.companies;
             context.packages.conditions = event.conditions;
             context.packages.devicevariations = event.devicevariations;
             context.packages.services = event.services;
             this.getUdlsFromCompanies(context, context.packages.companyId);
             this.getDeviceVariationsFromPresets(context, context.packages.companyId);
             context.addOptionsToRetrievedConditions();
-            context.reorderButtons();
         },
         (response) => {});
     },
@@ -66,49 +64,28 @@ export default {
         context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
             context.packages.companies = store.sync(response.data);
             context.addConditionsOptions();
-            this.getDeviceVariationsFromPresets(context, companyId);
+            this.getDeviceVariationsFromPresets(context, companyId, 1);
+            this.getCarriersFromAnywhere(context, companyId);
         },
         (response) => {});
     },
     // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
-    getDeviceVariationsFromPresets(context, companyId) {
+    getDeviceVariationsFromPresets(context, companyId, pages) {
+
+        console.log(pages);
 
         let params = {
             params: {
-                include: 'devicevariations,devicevariations.images,devicevariations.devices'
+                include: 'devicevariations,devicevariations.images,devicevariations.devices',
+                page: pages,
             }
         };
 
         params.params['filter[devicevariations.companyId]'] = companyId;
 
         context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
-            context.packages.presets = store.sync(response.data);
-
-            let auxArray = [];
-            for (let cpdv of context.packages.companies.devicevariations) {
-                let ok = true;
-                for (let pres of context.packages.presets) {
-                    for (let dv of pres.devicevariations) {
-                        if (cpdv.id == dv.id) {
-                            ok = false;
-                        }
-                    }
-                }
-                if (ok) {
-                    auxArray.push(dv);
-                }
-            }
-
-            if(auxArray.length > 0){
-                let defaultPreset = {
-                    name: 'Default',
-                    devicevariations: [],
-                    companyId: companyId
-                };
-                context.packages.presets.push(defaultPreset);
-            }
-
-            context.retrieveTheNewDevicesSelectedList();
+            let presets = store.sync(response.data);
+            context.addMorePresetsToTheArray(presets);
             this.loadContent(context);
         },
         (response) => {});
@@ -171,6 +148,145 @@ export default {
         }
 
         return conditionsFinal;
+    },
+    getCarriersFromAnywhere(context, companyId) {
+
+        let service1Verizon = {
+            id: 1,
+            status: 'Enabled',
+            title: 'Pooled Domestic Voice Plan',
+            planCode: '55555',
+            cost: '70',
+            description: '',
+            currency: 'USD',
+            carrierId: 1,
+            serviceitems: this.getRandomServiceItems(1),
+        };
+
+        let service2Verizon = {
+            id: 2,
+            status: 'Enabled',
+            title: 'Another Magnific Service',
+            planCode: '55333',
+            cost: '80',
+            description: '',
+            currency: 'USD',
+            carrierId: 1,
+            serviceitems: this.getRandomServiceItems(1),
+        };
+
+        let service3Verizon = {
+            id: 3,
+            status: 'Enabled',
+            title: 'Domestic Plan Service',
+            planCode: '33555',
+            cost: '110',
+            description: '',
+            currency: 'USD',
+            carrierId: 1,
+            serviceitems: this.getRandomServiceItems(1),
+        };
+
+        let image1Verizon = {
+            id: 5,
+            originalName: 'verizon.jpg',
+            filename: 'phpiicQ3z',
+            mimeType: 'image/jpeg',
+            extension: 'jpg',
+            size: 5099,
+            url: 'phpiicQ3z.jpg',
+        }
+
+        let carrierVerizon = {
+            id: 1,
+            name: 'verizon',
+            presentation: 'Verizon',
+            active: 1,
+            locationId: 236,
+            shortName: 'Ver',
+            images: [image1Verizon],
+            services: [service1Verizon, service2Verizon, service3Verizon]
+        }
+
+        context.packages.carriers = [carrierVerizon];
+    },
+    getRandomServiceItems(idService) {
+
+        let arrayServiceItems = []
+
+        let serviceitems1service = {
+            serviceId: idService,
+            category: 'voice',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'minutes',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'domestic',
+        }
+
+        arrayServiceItems.push(serviceitems1service);
+
+        let serviceitems2service = {
+            serviceId: idService,
+            category: 'data',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'Gb',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'domestic',
+        }
+
+        arrayServiceItems.push(serviceitems2service);
+
+        let serviceitems3service = {
+            serviceId: idService,
+            category: 'messaging',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'messages',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'domestic',
+        }
+
+        arrayServiceItems.push(serviceitems3service);
+
+        let serviceitems4service = {
+            serviceId: idService,
+            category: 'voice',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'minutes',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'international',
+        }
+
+        arrayServiceItems.push(serviceitems4service);
+
+        let serviceitems5service = {
+            serviceId: idService,
+            category: 'data',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'Gb',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'international',
+        }
+
+        arrayServiceItems.push(serviceitems5service);
+
+        let serviceitems6service = {
+            serviceId: idService,
+            category: 'messaging',
+            description: '',
+            value: Math.floor((Math.random() * 200) + 1),
+            unit: 'messages',
+            cost: Math.floor((Math.random() * 10) + 1),
+            domain: 'international',
+        }
+
+        arrayServiceItems.push(serviceitems6service);
+
+        return arrayServiceItems;
     },
     loadContent(context) {
         context.loadedContent = true;

@@ -62,7 +62,6 @@
         }
     }
     #button {
-      margin: 1.9rem 1.5rem;
       border-radius: 0.8rem;
       text-align:center;
     }
@@ -121,5 +120,30 @@
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
+    }
+    .servicetext {
+        font-weight: bold;
+        position: absolute;
+        top: 10%;
+        left: 10%;
+    }
+    .parent {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    .image1 {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    .image2 {
+        position: absolute;
+        top: 70%;
+        left: 60%;
+        height: auto;
+        width: auto;
+        max-width: 40%;
+        max-heigth: 40%;
     }
 }
