@@ -24,7 +24,7 @@ export default {
     },
     mounted () {
         $('.has-tip').foundation();
-        setTimeout(supportRequest(this.user),300);
+        setTimeout(supportRequest,300);
         $('.scrollup').click(function () {
             $("html, body").animate({
                 scrollTop: 0

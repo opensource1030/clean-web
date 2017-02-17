@@ -36,7 +36,7 @@ module.exports = {
     Avatar
   },
   created() {
-    supportRequest(this.user);
+
     this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
     }).then((response) => {
       var event = store.sync(response.data);
@@ -47,12 +47,20 @@ module.exports = {
         }).then((response) => {
 
           this.company =response.data;
+
         });
       }
     });
   },
   mounted() {
+
     $(document).foundation()
+    var config = {
+      selector: ".HW-container",
+      account: "JPYPKy",
+      enabled : true
+    };
+    Headway.init(config);
   },
   methods: {
     logout() {
@@ -61,7 +69,7 @@ module.exports = {
   },
   data (){
     return {
-      company: {},
+      company: {}
     }
   }
 };
