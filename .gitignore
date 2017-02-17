@@ -8,3 +8,4 @@ selenium-debug.log
 .idea/*
 $CIRCLE_ARTIFACTS
 log/
+config/local.env.js
