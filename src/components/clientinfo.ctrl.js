@@ -1,6 +1,7 @@
 var {Store} = require('yayson')()
 var  store = new Store()
 import auth from './../api/auth'
+import supportRequest from './support-request';
 export default {
     name: "ClientInfo",
     created(){
@@ -24,6 +25,7 @@ export default {
                     }).then((response) => {
 
                         this.client= response.data;
+
                         setTimeout(function(){
                             $(function() {
                                 $('.eq-Hght').matchHeight({
@@ -45,7 +47,8 @@ export default {
     },
     data(){
         return {
-            client: {}
+            client: {},
+            user : auth.user
         }
     }
 
