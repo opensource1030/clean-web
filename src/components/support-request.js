@@ -1,17 +1,13 @@
-export default function supportRequest(user){
+export default function supportRequest(){
+
         $('.eq-Hght').matchHeight({
             byRow: true,
             property: 'height',
             target: null,
             remove: false
         });
-        var config = {
-            selector: ".HW-container",
-            account: "JPYPKy",
-            enabled : true
-        };
-        Headway.init(config);
-    chmln.identify({uid: localStorage.userId /* A stable, unique identifier */, email: user.email, created: user.created_at /* Timestamp when the user was added to your system */})
+
+
         var $select = $('#support-form .user-actions');
         $select.on('change', function () {
             var value = '.' + $(this).val();
@@ -34,9 +30,9 @@ export default function supportRequest(user){
 
         });
         $('.btn-provision').click(function () {
-            $('#recipient_email').val(user.email);
-            $('#recipient_firstname').val(user.firstName);
-            $('#recipient_lastName').val(user.lastName);
+            $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
+            $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
+            $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
 
             $('.support-form-holder').show(200);
         });
