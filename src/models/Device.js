@@ -1,5 +1,6 @@
 export default class Device {
 
+
   constructor(type, id,defaultPrice,name, properties, deviceTypeId, statusId, imageId,make,model,currency) {
     this.defaultPrice=defaultPrice;
     this.id = id;

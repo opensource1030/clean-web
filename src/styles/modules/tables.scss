@@ -31,15 +31,13 @@
 
     table {
        margin: 0 1rem 0rem 0rem;
-           background: #FDFDFF;
+       background: #FDFDFF;
+       border: 1px solid rgba(151, 151, 151, 0.3);
 
         thead {
-          background: rgba(255, 105, 10, 0.02);
-border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-padding: 0.5rem 0.6rem;
--webkit-border-radius: 0;
--moz-border-radius: 0;
-border-radius: 0;
+          background: rgba($brand-orange,0.02);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          padding: 0.5rem 0.6rem;
 
             th {
                 padding: 0;

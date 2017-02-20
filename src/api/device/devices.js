@@ -29,16 +29,23 @@ export default {
      }
      if (context.manufactured.length !== 0) {
        let aux = '';
-       aux = aux.substring(0, 50) + '%';
-         params.params['filter[make][like]'] =aux;
+       for (let manu of context.manufactured) {
+           aux = aux + manu + ',';
+       }
+
+       aux = aux.substring(0, aux.length-1);
+         params.params['filter[make][like]'] =aux+'%';
 
 
      }
 
      if (context.price.length != 0) {
        let aux = '';
-       aux = aux.substring(0, 50) + '%';
-         params.params['filter[defaultPrice][like]'] = parseInt(aux);
+       for (let p of context.price) {
+           aux = aux + p + ',';
+       }
+       aux = aux.substring(0, aux.length-1);
+         params.params['filter[defaultPrice][like]'] = aux;
 
      }
 

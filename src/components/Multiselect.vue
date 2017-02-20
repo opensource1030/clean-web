@@ -29,7 +29,7 @@
                 {{option}}
 
               </span>
-        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
+        <span v-if=" labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
 
                 {{option[labelAttr]}}
 
