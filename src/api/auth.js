@@ -128,7 +128,7 @@ export default {
             context.error = context.error + ' Please contact the administrator.';
 
           } else {
-            context.error = response.data.errors.message;
+            context.error = response.body.message;
           }
 
         });
@@ -137,7 +137,11 @@ export default {
   },
 
   logout() {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userProfile');
     localStorage.removeItem('token');
+
     this.user.authenticated = false;
 
   },
