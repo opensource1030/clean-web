@@ -1,5 +1,4 @@
 <template>
-
     <div id="tables">
       <div class="header"></div>
         <div class="small-12 columns titles">
