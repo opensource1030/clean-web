@@ -1,5 +1,6 @@
 var {Store} = require('yayson')()
 var  store = new Store()
+import { format, parse } from 'libphonenumber-js'
 require('script!jquery');
 require('script!jquery-match-height');
 require('script!jquery-validation');
