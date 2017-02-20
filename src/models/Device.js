@@ -1,5 +1,6 @@
 export default class Device {
 
+
   constructor(type, id,defaultPrice,name, properties, deviceTypeId, statusId, imageId,make,model,currency) {
     this.defaultPrice=defaultPrice;
     this.id = id;
@@ -15,6 +16,38 @@ export default class Device {
     this.relationships={};
     this.modifications = [];
     this.prices = [];
+    this.json = {
+      type: "devicevariations",
+      "attributes": {
+        "priceRetail": '',
+        "price1": '',
+        "price2": '',
+        "priceOwn": '',
+        "carrierId": '',
+        "companyId": ''
+      },
+      "relationships": {
+        "images": {
+          "data": [
+            {
+              "type": "images",
+              "id": ''
+            }
+          ]
+        },
+        "modifications": {
+          "data": [
+            {
+              "type": "modifications",
+              "id": ''
+            }, {
+              "type": "modifications",
+              "id": ''
+            }
+          ]
+        }
+      }
+    }
   }
 
   modificationsJson(capacity, style, device) {
@@ -56,45 +89,23 @@ export default class Device {
   pricesJson(price, device) {
 
     price.forEach(function(p, index) {
-      let json=  {
-        type: "devicevariations",
-        "attributes": {
-          "priceRetail": p.priceRetail,
-          "price1": p.price1,
-          "price2": p.price2,
-          "priceOwn": p.priceOwn,
-          "carrierId": p.carrierId,
-          "companyId": p.companyId
-        },
-        "relationships": {
-          "images": {
-            "data": [
-              {
-                "type": "images",
-                "id": p.imageVariations.id
-              }
-            ]
-          },
-          "modifications": {
-            "data": [
-              {
-                "type": "modifications",
-                "id": p.capacity
-              }, {
-                "type": "modifications",
-                "id": p.style
-              }
-            ]
-          }
-        }
-      }
+
+      this.json.attributes.priceRetail=p.priceRetail;
+      this.json.attributes.price1=p.price1;
+      this.json.attributes.price2=p.price2;
+      this.json.attributes.priceOwn=p.priceOwn;
+      this.json.attributes.carrierId=p.carrierId;
+      this.json.attributes.companyId=p.companyId;
+      this.json.relationships.images.data[0].id=p.imageVariations.id;
+      this.json.relationships.modifications.data[0].id=p.capacity;
+      this.json.relationships.modifications.data[1].id=p.style;
 
       if (p.id!=null){
-        json.id=p.id;
-      device.prices.push(json);
+        this.json.id=p.id;
+      device.prices.push(this.json);
       }
       else{
-      device.prices.push(json);
+      device.prices.push(this.json);
     }
   });
     device.relationships = Object.assign({}, device.relationships, {

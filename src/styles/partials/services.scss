@@ -31,21 +31,7 @@
         padding-left: 0.7rem
 
     }
-    .search-cost {
-        border-color: #1243A5;
-        border-style: solid;
-        border-radius: 5px;
-        margin-top: 0.5rem;
-
-    }
-    .special-button {
-        display: inline-block;
-        padding: 0.5em 0.7em;
-        border-radius: 0.5rem;
-        background-color: #1243A5;
-        color: #FFFFFF;
-        margin-top: 1.9rem;      
-    }
+  
     .search-input {
         height: 65%;
     }
@@ -53,7 +39,7 @@
         border-color: #FF0000;
     }
     .error-message {
-        color: red;        
+        color: red;
     }
     .detailsService {
         display: -webkit-flex;
