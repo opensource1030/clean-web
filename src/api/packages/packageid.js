@@ -64,19 +64,17 @@ export default {
         context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
             context.packages.companies = store.sync(response.data);
             context.addConditionsOptions();
-            this.getDeviceVariationsFromPresets(context, companyId, 1);
+            this.getPresets(context, companyId, 1);
             this.getCarriersFromAnywhere(context, companyId);
         },
         (response) => {});
     },
     // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
-    getDeviceVariationsFromPresets(context, companyId, pages) {
-
-        console.log(pages);
+    getPresets(context, companyId, pages) {
 
         let params = {
             params: {
-                include: 'devicevariations,devicevariations.images,devicevariations.devices',
+                //include: 'devicevariations,devicevariations.images,devicevariations.devices',
                 page: pages,
             }
         };
@@ -84,9 +82,29 @@ export default {
         params.params['filter[devicevariations.companyId]'] = companyId;
 
         context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
-            let presets = store.sync(response.data);
-            context.addMorePresetsToTheArray(presets);
+            let event = store.sync(response.data);
+            context.packages.presetsPagination = response.data.meta.pagination;
+            //console.log(event);
+            context.addPresetsToTheArray(event);
             this.loadContent(context);
+        },
+        (response) => {});
+    },
+    // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+    getDeviceVariationsFromPresets(context, presetId) {
+
+        let params = {
+            params: {
+                include: 'devicevariations,devicevariations.images,devicevariations.devices'
+            }
+        };
+
+        context.$http.get(process.env.URL_API + '/presets/' + presetId, params).then((response) => {
+            let event = store.sync(response.data);
+            context.packages.devicevariationsOfPresetList = event.devicevariations;
+            //console.log(context.packages.presetsPagination);
+            //context.addPresetsToTheArray(event);
+            //this.loadContent(context);
         },
         (response) => {});
     },

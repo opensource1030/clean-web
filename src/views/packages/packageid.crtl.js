@@ -31,20 +31,51 @@ export default {
         }
     },
     computed: {
-        swiper() {
-            if (this.$refs.mySwiperA) {
-                return this.$refs.mySwiperA.swiper;
-            }
+        swiper(){
+            swPreset.on('onReachEnd', function() {
+                console.log("onReachEnd");
+            });
         }
     },
-    mounted() {
-        // you can use current swiper object to do something(swiper methods)
-        if (this.$refs.mySwiperA) {
-            this.swiper.slideTo(3, 1000, false);
-        }
-    },
+    mounted() {},
     methods : {
         deleteRepeated,
+        submit() {
+
+            let submitOk = true;
+
+            submitOk = submitOk && this.checkTitle();
+            submitOk = submitOk && this.checkConditions();
+            //submitOk = submitOk && this.checkServices();
+            //submitOk = submitOk && this.checkAddress();
+
+            if(submitOk) {
+                this.errors.generalError = false;
+                if (this.packages.id > 0) {
+                    packaging.updateThePackages(this);
+                } else {
+                    packaging.createThePackages(this);
+                }
+            } else {
+                this.errors.generalError = true;
+            }
+        },
+        // Check if the title has content and returns error if not.
+        checkTitle() {
+            let submitOk = true;
+            if (this.packages.name == '') {
+                this.packages.nameError = true;
+                submitOk = false;
+            } else {
+                this.packages.nameError = false;
+            }
+            return submitOk;
+        },
+        //------------------------------------------START CONDITIONS-------------------------------------------------------
+        //------------------------------------------START CONDITIONS-------------------------------------------------------
+        //------------------------------------------START CONDITIONS-------------------------------------------------------
+        //------------------------------------------START CONDITIONS-------------------------------------------------------
+        //------------------------------------------START CONDITIONS-------------------------------------------------------
         // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
         updatePackageCondition(index, value, type) {
 
@@ -80,7 +111,6 @@ export default {
             if (this.packages.conditions.length == 0) {
                 this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
             }
-
             this.reorderButtons();
         },
         // Retrieve from the packages.companies.udls all the information and add it to the conditionsOptions.
@@ -173,38 +203,6 @@ export default {
                 aux.delete = false;
             }
         },
-        // Submit all the changes.
-        submit() {
-
-            let submitOk = true;
-
-            submitOk = submitOk && this.checkTitle();
-            submitOk = submitOk && this.checkConditions();
-            //submitOk = submitOk && this.checkServices();
-            //submitOk = submitOk && this.checkAddress();
-
-            if(submitOk) {
-                this.errors.generalError = false;
-                if (this.packages.id > 0) {
-                    packaging.updateThePackages(this);
-                } else {
-                    packaging.createThePackages(this);
-                }
-            } else {
-                this.errors.generalError = true;
-            }
-        },
-        // Check if the title has content and returns error if not.
-        checkTitle() {
-            let submitOk = true;
-            if (this.packages.name == '') {
-                this.packages.nameError = true;
-                submitOk = false;
-            } else {
-                this.packages.nameError = false;
-            }
-            return submitOk;
-        },
         // Check if the conditions are not empty.
         checkConditions() {
             let submitOk = true;
@@ -235,6 +233,90 @@ export default {
 
             return submitOk;
         },
+        //------------------------------------------END CONDITIONS-------------------------------------------------------
+        //------------------------------------------END CONDITIONS-------------------------------------------------------
+        //------------------------------------------END CONDITIONS-------------------------------------------------------
+        //------------------------------------------END CONDITIONS-------------------------------------------------------
+        //------------------------------------------END CONDITIONS-------------------------------------------------------
+        //------------------------------------------START PRESETS--------------------------------------------------------
+        //------------------------------------------START PRESETS--------------------------------------------------------
+        //------------------------------------------START PRESETS--------------------------------------------------------
+        //------------------------------------------START PRESETS--------------------------------------------------------
+        //------------------------------------------START PRESETS--------------------------------------------------------
+        goForwardPreset() {
+            if(this.packages.presetsPagination.current_page < this.packages.presetsPagination.total_pages && this.packages.retrieveMore) {
+                let optionAux = this.packages.presetsController.option;
+                this.packages.presetsController.option = 'forward';
+
+                this.packages.retrieveMore = false;
+                if(optionAux == this.packages.presetsController.option) {
+                    packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page + 1);
+                } else {
+                    packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page + 2);
+                }
+            }
+        },
+        goBackPreset() {
+            if(this.packages.presetsPagination.current_page > 2 && this.packages.retrieveMore) {
+                let optionAux = this.packages.presetsController.option;
+                this.packages.presetsController.option = 'backward';
+
+                this.packages.retrieveMore = false;
+                if(optionAux == this.packages.presetsController.option) {
+                    packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page - 1);
+                } else {
+                    packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page - 2);
+                }
+            }
+        },
+        reloadArrowsForPresetsSwiper() {
+            if(this.$refs.swPreset.swiper.isBeginning && this.packages.presetsPagination.current_page == 1) {
+                this.packages.presetsController.goBackBoolean = false;
+            } else {
+                this.packages.presetsController.goBackBoolean = true;
+            }
+
+            if(this.$refs.swPreset.swiper.isEnd && this.packages.presetsPagination.current_page == this.packages.presetsPagination.total_pages) {
+                this.packages.presetsController.goForwardBoolean = false;
+            } else {
+                this.packages.presetsController.goForwardBoolean = true;
+            }
+        },
+        addPresetsToTheArray(presets) {
+            if (presets.length != 0) {
+                if (this.packages.presets.length == 0) {
+                    this.packages.presets = presets;
+                } else {
+                    if (this.packages.presetsController.option == 'forward') {
+                        for (let pre of presets) {
+                            this.packages.presets.push(pre);
+                        }
+                        if (this.packages.presets.length > 50) {
+                            this.deleteTheFirstTwentyFiveOfPresets();
+                        }
+                        this.$refs.swPreset.swiper._slideTo(21, 0);
+                    } else if (this.packages.presetsController.option == 'backward') {
+                        for (let pre of this.packages.presets) {
+                            presets.push(pre);
+                        }
+                        this.packages.presets = presets;
+                        if (this.packages.presets.length > 50) {
+                            this.deleteTheLastPartOfPresets();
+                        }
+                        this.$refs.swPreset.swiper._slideTo(25, 0);
+                    } else {
+                        // NOTHING
+                    }
+                }
+            }
+            this.packages.retrieveMore = true;
+        },
+        deleteTheFirstTwentyFiveOfPresets() {
+            this.packages.presets = this.packages.presets.slice(25, this.packages.presets.length);
+        },
+        deleteTheLastPartOfPresets() {
+            this.packages.presets = this.packages.presets.slice(0, 50);
+        },
         getUrlOfImageSelected(object) {
             if (object.selected) {
                 return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
@@ -259,13 +341,9 @@ export default {
             }
         },
         presetSelected(preset) {
-            this.packages.variablesShow.presetSelected = true;
-            this.packages.variablesShow.presetSelectedName = preset.name;
-            for (let pres of this.packages.presets) {
-                pres.selected = false;
-            }
-            preset.selected = true;
-            this.devicevariationList();
+            packaging.getDeviceVariationsFromPresets(this, preset.id);
+            console.log(this.packages.devicevariations);
+            this.devicevariationList(preset);
         },
         carrierSelected(carrier) {
             this.packages.variablesShow.carrierSelected = true;
@@ -282,11 +360,8 @@ export default {
             this.devicevariationList();
         },
         serviceSelected(service, index) {
-            //this.packages.services.push(service);
             this.packages.service = service;
             this.packages.service.show = true;
-            //this.retrieveTheNewServicesSelectedList();
-            //this.servicesList();
         },
         devicevariationNoSelected(devvar, index) {
             this.packages.devicevariations.splice(index,1);
@@ -329,23 +404,26 @@ export default {
             }
             this.retrieveTheValuesOfTheDevices(this.packages.services);
         },
-        devicevariationList(){
-            this.packages.devicevariationsList = [];
-            for (let pres of this.packages.presets) {
-                if (pres.selected) {
-                    for (let dv of pres.devicevariations) {
-                        let ok = true;
-                        for (let dvsel of this.packages.devicevariations) {
-                            if (dv.id == dvsel.id) {
-                                ok = false;
-                            }
-                        }
-                        if(ok) {
-                            this.packages.devicevariationsList.push(dv);
-                        }
+        devicevariationList(preset){
+            this.packages.devicevariationList = [];
+            for (let dv of this.packages.devicevariationsOfPresetList) {
+                let ok = true;
+                for (let dvsel of this.packages.devicevariations) {
+                    if (dv.id == dvsel.id) {
+                        console.log(dv.id);
+                        console.log(dvsel.id);
+                        ok = false;
                     }
                 }
+                if (ok) {
+                    this.packages.devicevariationList.push(dv);
+                }
             }
+
+            console.log(this.packages.devicevariationList);
+
+            this.packages.variablesShow.presetSelected = true;
+            this.packages.variablesShow.presetSelectedName = preset.name;
         },
         servicesList(){
             this.packages.servicesList = [];
@@ -382,65 +460,9 @@ export default {
                     }
                 }
             }
-            // Variable that allows the goForward to retrieve more information.
-            this.packages.retrieveMore = true;
         },
         showFalse() {
             this.show = false;
-        },
-        goBack() {
-            console.log("BACK");
-        },
-        goForward() {
-            this.packages.position++;
-            console.log("FORWARD: " +
-                this.packages.position + ' - ' +
-                this.packages.position % 25 + ' - ' +
-                Math.floor(this.packages.position / 25) + ' - ' +
-                this.packages.retrieveMore
-            );
-
-            if(this.packages.position > this.packages.presets.length) {
-                this.packages.position = this.packages.presets.length;
-            }
-
-            let page = Math.floor(this.packages.position / 25);
-
-            if(this.packages.position % 25 == 0) {
-                if(this.packages.retrieveMore) {
-                    this.packages.retrieveMore = false;
-                    packaging.getDeviceVariationsFromPresets(this, this.packages.companyId, page + 1);
-
-                    if(page > 1) {
-                        this.deleteTheFirstTwentyFiveOfPresets();
-                    }
-                }
-            }
-        },
-        addMorePresetsToTheArray(presets) {
-            //console.log(presets);
-            if (this.packages.presets.length == 0) {
-                this.packages.presets = presets;
-            } else {
-                for (let pre of presets) {
-                    this.packages.presets.push(pre);
-                }
-            }
-            console.log(this.packages.presets.length);
-            this.retrieveTheNewDevicesSelectedList();
-        },
-        deleteTheFirstTwentyFiveOfPresets() {
-            let i = 0;
-            let j = this.packages.presets.length;
-            console.log("FORWARD: " + i + ' - ' + j);
-            let result = [];
-            for (let pres of this.packages.presets) {
-                if(i > 25) {
-                    result.push(pres);
-                }
-
-                i++;
-            }
         }
     },
 
@@ -449,7 +471,7 @@ export default {
             loadedContent: false,
             packages: {
                 id: 0,
-                position: 5,
+                page: 1,
                 retrieveMore: true,
                 name: '',
                 nameError: false,
@@ -535,8 +557,22 @@ export default {
                 ],
                 carriers : [],
                 presets: [],
-                devicevariations:  [],
-                devicevariationsList: [],
+                presetsController: {
+                    goForwardBoolean: true,
+                    goBackBoolean: false,
+                    current_value: 1,
+                    option: 'forward',
+                },
+                presetsPagination: {
+                    count: 25,
+                    current_page: 1,
+                    per_page: 25,
+                    total: 1,
+                    total_pages: 1,
+                },
+                devicevariations:  [], // The devicevariations related to packages.
+                devicevariationsList: [], // The devicevariations that we will show in the swiper
+                devicevariationsOfPresetList: [], // The devicevariations that we retrieved from the selected Preset
                 servicesList: [],
                 noinformation: [
                     {
@@ -612,13 +648,14 @@ export default {
             errors : {
                 generalError : false,
             },
-            swiperOption: {
+            swiperOptionPreset: {
                 //notNextTick: true,
                 //autoplay: 3000,
                 //direction : 'vertical',
                 //grabCursor : true,
                 //setWrapperSize :true,
                 //autoHeight: true,
+                paginationType: 'progress',
                 pagination : '.swiper-pagination',
                 paginationClickable :true,
                 prevButton:'.swiper-button-prev',
@@ -634,7 +671,7 @@ export default {
                         //spaceBetween: 10
                     },
                     768: {
-                        slidesPerView: 5,
+                        slidesPerView: 3,
                         //spaceBetween: 10
                     },
                     640: {
@@ -645,7 +682,10 @@ export default {
                         slidesPerView: 1,
                         //spaceBetween: 10
                     }
-                }
+                },
+                onReachEnd: this.goForwardPreset,
+                onReachBeginning: this.goBackPreset,
+                onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
             }
         }
     }
