@@ -39,7 +39,6 @@ Vue.filter('formatBytes', function(value){
   }
 });
 
-
 const eventHub = new Vue()
 exports.eventHub = eventHub
 

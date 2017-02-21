@@ -122,7 +122,6 @@ export default {
           context.$router.push({name: redirect});
 
         }, (response) => {
-          console.log(response);
           if (response.status == 500) {
             context.error = 'Unexpected server error.';
             context.error = context.error + ' Please contact the administrator.';
@@ -137,11 +136,9 @@ export default {
   },
 
   logout() {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userId');
     localStorage.removeItem('userProfile');
+    localStorage.removeItem('userId');
     localStorage.removeItem('token');
-
     this.user.authenticated = false;
 
   },
