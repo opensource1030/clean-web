@@ -24,20 +24,18 @@ npm test
 
 For detailed explanation on how things work, checkout the [webpack guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-[![Code Climate](https://codeclimate.com/repos/580f8280bcefe9007c001de8/badges/ab683df30958d894650a/gpa.svg)](https://codeclimate.com/repos/580f8280bcefe9007c001de8/feed)
+<hr/>
 
-[![Test Coverage](https://codeclimate.com/repos/580f8280bcefe9007c001de8/badges/ab683df30958d894650a/coverage.svg)](https://codeclimate.com/repos/580f8280bcefe9007c001de8/coverage)
-
-# How To Use Feature Flags
+## How To Use Feature Flags
 1. define feature toggles in webpack.<ENVIRONTMENT>.conf.js
-  e.g. you can define the featurs in webpack.dev.conf.js
+  e.g. you can define the features in webpack.dev.conf.js
   var features = {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: isProduction() ? false : true,
   }
 
 2. feed the feature toggles into DefinePlugin for use with JavaScript
-  e.g. you can define the featurs in webpack.dev.conf.js
+  e.g. you can define the features in webpack.<stage>.conf.js
   plugins: [
     new webpack.DefinePlugin({
       'features': features

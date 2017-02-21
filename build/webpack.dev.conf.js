@@ -5,11 +5,11 @@ var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
-/* Here are your feature toggles */
+/* Feature toggles */
 var features = {
-  AWESOME_FEATURE: true,
-  FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
-}
+    FEATURE_IN_DEVELOPMENT: true,
+    FEATURE_FOR_BETA: true
+};
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
