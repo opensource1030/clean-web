@@ -162,6 +162,7 @@ export default {
       }
     }
 
+<<<<<<< fcb7e300314f71dc31fa84e9dae0d1c9da698bed
     return conditionsFinal;
   },
   getCarriersFromAnywhere(context, companyId) {
@@ -226,9 +227,29 @@ export default {
     context.packages.carriers = [carrierVerizon];
   },
   getRandomServiceItems(idService) {
+=======
+        context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
+            context.packages.companies = store.sync(response.data);
+            context.addConditionsOptions();
+            this.getPresets(context, companyId, 1);
+            this.getCarriersFromAnywhere(context, companyId);
+        },
+        (response) => {});
+    },
+    // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+    getPresets(context, companyId, pages) {
+
+        let params = {
+            params: {
+                //include: 'devicevariations,devicevariations.images,devicevariations.devices',
+                page: pages,
+            }
+        };
+>>>>>>> CP-1505 #Swiper Issues Solved
 
     let arrayServiceItems = []
 
+<<<<<<< fcb7e300314f71dc31fa84e9dae0d1c9da698bed
     let serviceitems1service = {
       serviceId: idService,
       category: 'voice',
@@ -238,6 +259,56 @@ export default {
       cost: Math.floor((Math.random() * 10) + 1),
       domain: 'domestic',
     }
+=======
+        context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
+            let event = store.sync(response.data);
+            context.packages.presetsPagination = response.data.meta.pagination;
+            //console.log(event);
+            context.addPresetsToTheArray(event);
+            this.loadContent(context);
+        },
+        (response) => {});
+    },
+    // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+    getDeviceVariationsFromPresets(context, presetId) {
+
+        let params = {
+            params: {
+                include: 'devicevariations,devicevariations.images,devicevariations.devices'
+            }
+        };
+
+        context.$http.get(process.env.URL_API + '/presets/' + presetId, params).then((response) => {
+            let event = store.sync(response.data);
+            context.packages.devicevariationsOfPresetList = event.devicevariations;
+            //console.log(context.packages.presetsPagination);
+            //context.addPresetsToTheArray(event);
+            //this.loadContent(context);
+        },
+        (response) => {});
+    },
+    // CREATE packages.
+    createThePackages(context) {
+
+        let conditions = this.prepareConditionsForSend(context.packages.conditions);
+
+        let pack = new packageid(
+                context.packages.id,
+                context.packages.type,
+                context.packages.name,
+                1, // context.packages.addressId,
+                context.packages.companyId,
+                conditions,
+                [], // context.packages.apps,
+                context.packages.devicevariations,
+                [], // context.packages.services
+            );
+
+        context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
+            event = store.sync(response.data);
+            //context.$router.push({name: 'packages'});
+        }, (response) => {});
+>>>>>>> CP-1505 #Swiper Issues Solved
 
     arrayServiceItems.push(serviceitems1service);
 

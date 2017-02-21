@@ -314,18 +314,18 @@
                       </div>
   <!-- //DEVICE VARIATIONS -->
   <!-- DEVICE VARIATIONS SELECTED -->
-                      <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
+                  <!--    <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
                         <hr size="10">
                         <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
                         <div class="noinformation" v-show="packages.devicevariations.length == 0">
-                          <swiper :options="swiperOption">
+                          <swiper :options="swiperOptionA">
                             <swiper-slide v-for="no in packages.noinformation">
                               <img :src="no.url" alt="Image" />
                             </swiper-slide>
                           </swiper>
                         </div>
                         <div>
-                          <swiper v-show="packages.devicevariations.length > 0" :options="swiperOption" ref="swC">
+                          <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionA" ref="swDeviceVariationSeleted">
                             <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
                               <div @click="devicevariationNoSelected(devvarsel, index)">
                                 <div class="devicevariationspreset">{{devvarsel.preset}}</div>
@@ -343,13 +343,13 @@
                             <div class="swiper-button-next" slot="button-next"></div>
                           </swiper>
                         </div>
-                      </div>
+                      </div>-->
   <!-- //DEVICE VARIATIONS SELECTED -->
                   </div>
                 </li>
 <!-- //DEVICES -->
 <!-- SERVICES -->
-                <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <!--<li class="acordeon-item" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
@@ -358,19 +358,19 @@
                       </tr>
                     </table>
                   </a>
-                  <div class="accordion-content" data-tab-content v-f-accordion>
+                  <div class="accordion-content" data-tab-content v-f-accordion>-->
   <!-- CARRIERS -->
-                      <div>
+               <!--       <div>
                         <div class="presetstitles">{{packages.names.services.carriersAvailable}}</div>
                         <div class="noinformation" v-show="packages.carriers.length == 0">
-                          <swiper :options="swiperOption">
+                          <swiper :options="swiperOptionA">
                             <swiper-slide v-for="no in packages.noinformation">
                               <img class="borderforchecked" :src="no.url" alt="Image" />
                             </swiper-slide>
                           </swiper>
                         </div>
                         <div>
-                          <swiper :options="swiperOption" ref="swD">
+                          <swiper :options="swiperOptionA" ref="swD">
                             <swiper-slide v-for="(carrier,index) in packages.carriers">
                               <div class="parent" @click="carrierSelected(carrier)">
                                 <img class="image1" :src="getUrlOfImage(carrier)" alt="" />
@@ -378,24 +378,24 @@
                               </div>
                             </swiper-slide>
                             <div class="swiper-button-prev" slot="button-prev"></div>
-                            <div class="swiper-button-next" slot="button-next"></div>
+                            <div v-show="packages.presetsGoForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                           </swiper>
                         </div>
-                      </div>
+                      </div>-->
   <!-- //CARRIERS -->
 <!-- SERVICES -->
-                      <div v-show="packages.variablesShow.carrierSelected">
+              <!--        <div v-show="packages.variablesShow.carrierSelected">
                         <hr size="10">
                         <div class="presetstitles">{{packages.names.services.servicesAvailable}} {{packages.variablesShow.carrierSelectedName}}</div>
                         <div class="noinformation" v-show="packages.servicesList.length == 0">
-                          <swiper :options="swiperOption">
+                          <swiper :options="swiperOptionA">
                             <swiper-slide v-for="no in packages.noinformation">
                               <img class="phoneImg" :src="no.url" alt="Image" />
                             </swiper-slide>
                           </swiper>
                         </div>
                         <div>
-                          <swiper v-show="packages.servicesList.length > 0" :options="swiperOption" ref="swB">
+                          <swiper v-show="packages.servicesList.length > 0" :options="swiperOptionA" ref="swB">
                             <swiper-slide v-for="(service, index) in packages.servicesList">
                               <div class="presetimage" @click="serviceSelected(service)">
                                 <div class="servicetext">
@@ -412,10 +412,10 @@
                         <div v-show="packages.service.show">
                         {{packages.service.title}}
                         </div>
-                      </div>
+                      </div>-->
 <!-- //SERVICES -->
-<!-- SERVICES SELECTED
-                      <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
+<!-- SERVICES SELECTED -->
+                 <!--     <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
                         <hr size="10">
                         <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
                         <div class="noinformation" v-show="packages.devicevariations.length == 0">
@@ -444,16 +444,11 @@
                             <div class="swiper-button-next" slot="button-next"></div>
                           </swiper>
                         </div>
-                      </div>
- //SERVICES SELECTED -->
-                  </div>
-                </li>
+                      </div>-->
+ <!-- //SERVICES SELECTED -->
+                  <!--</div>
+                </li>-->
 <!-- //SERVICES -->
-
-
-
-
-
               </ul>
               <div v-if="errors.generalError">
                 <div class="is-error callout" data-closable>
