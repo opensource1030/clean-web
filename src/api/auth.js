@@ -71,14 +71,14 @@ export default {
 
         localStorage.setItem('token', response.body.access_token);
         this.user.authenticated = true;
-        this.userData(context);
+        this.userData(context,redirect);
 
 
         setTimeout(()=> {
           this.logout();
         }, response.data.expires_in * 1000);
 
-        context.$router.push({name: redirect});
+        
 
       }, (response) => {
 
@@ -113,13 +113,13 @@ export default {
           localStorage.setItem('userId', response.body.user_id);
 
           localStorage.setItem('token', response.body.access_token);
-          this.userData(context);
+          this.userData(context,redirect);
           this.user.authenticated = true;
 
           setTimeout(()=> {
             this.logout();
           }, response.data.expires_in * 1000);
-          context.$router.push({name: redirect});
+
 
         }, (response) => {
           if (response.status == 500) {
@@ -155,7 +155,7 @@ export default {
     }
   },
 
-  userData(context){
+  userData(context,redirect){
 
     context.$http.get(process.env.URL_API + '/users/me' ,{
          headers: this.getAuthHeader(),
@@ -164,7 +164,7 @@ export default {
     }).then((response) => {
 
           let  event = store.sync(response.data);
-          console.log(event)
+        context.$router.push({name: redirect});
      localStorage.setItem('userProfile', JSON.stringify(event));
 
     }, (response) => {});
