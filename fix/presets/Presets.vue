@@ -85,4 +85,4 @@
         </div>
 
 </template>
-<script  src="./Presets.crtl.js" lang="babel"  ></script>
+<script src="Presets.crtl.js" lang="babel"  ></script>
