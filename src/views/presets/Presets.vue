@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <modal v-if="showModal" @close="showModal = false">
@@ -85,4 +86,4 @@
         </div>
 
 </template>
-<script src="Presets.crtl.js" lang="babel"  ></script>
+<script  src="./presets.crtl.js" lang="babel"  ></script>
