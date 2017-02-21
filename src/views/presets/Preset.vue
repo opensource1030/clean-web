@@ -4,7 +4,9 @@
           <h3 slot="body">{{error}}</h3>
 </modal>
           <div class="small-12 columns titles">
+
             <h4>Create Device Preset</h4>
+
             </div>
 
             <div class="medium-6 columns presetname">
@@ -38,7 +40,10 @@
                     <div class="row " id="tables">
                         <tables :id="0" :search="search" ></tables>
                     </div>
+
                   </div>
+
+
 
 
                 </li>
@@ -65,9 +70,10 @@
                   </ul>
                   <a  class="button large" @click="submit()" id="button">Save Preset</a>
 
-              </div
+
+              </div>
             </div>
-          </div>
+
 
 
 </template>
