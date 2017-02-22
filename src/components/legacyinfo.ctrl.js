@@ -8,6 +8,10 @@ export default {
           return process.env.LEGACY_URL+"/helpdesk/r_1.asp?token="+this.token+"&version=v4"
         }
     },
+    mounted(){
+        $('.pop-close').hide();
+        $('.pop-close').fadeIn(6000);
+    },
     data(){
         return {
             isActive: true,
