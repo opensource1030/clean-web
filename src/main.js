@@ -19,6 +19,7 @@ import auth from './api/auth.js'
 $(document).foundation();
 
 
+
 // filter
 
 var moment = require('moment');
@@ -37,6 +38,9 @@ Vue.filter('formatBytes', function(value){
     return value + ' KBs'
   }
 });
+
+const eventHub = new Vue()
+exports.eventHub = eventHub
 
 // Install plugins
 Vue.use(VueRouter)

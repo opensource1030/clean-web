@@ -12,38 +12,10 @@
 
             <hr class="hr-cln">
             <div class="user-info">
-              <strong>{{ fullName }}</strong> <span v-html="allocation.mobile_number ? allocation.mobile_number : '-' "> </span>
+              <strong>{{ fullName }}</strong> {{ mobileNumber }}</span>
             </div>
           </div>
-          <div class="columns large-12">
-            <div class="grid-box " >
-              <header class="box-heading"><h2>User Details <span data-tooltip aria-haspopup="true" class="has-tip for-pop top" data-disable-hover="false" tabindex="1" title="Corporate information"> <i class="fa fa-question"> </i> </span></h2> </header>
-              <div class="box-content">
-                  <ul class="list-striped">
-                    <li class="row">
-                      <strong class="large-6 small-6 columns"> Employee Details </strong>
-                      <span class="large-6 small-6 columns"   v-html="userInfo.firstName ? userInfo.firstName : '-' ">  </span>
-                    </li>
-                    <li class="row">
-                      <strong class="large-6 small-6 columns"> Employee ID </strong>
-                      <span class="large-6 small-6 columns"   v-html="userInfo.companyId ? userInfo.companyId : '-' ">  </span>
-                    </li>
-                    <li class="row">
-                      <strong class="large-6 small-6 columns"> Supervisor Email </strong>
-                      <span class="large-6 small-6 columns"   v-html="userInfo.supervisorEmail ? userInfo.supervisorEmail : '-' ">  </span>
-                    </li>
-                    <template v-if="userInfo && userInfo.udls && userInfo.udls.length > 0" v-for= "udl in userInfo.udls" >
-                    <li class="row">
-                      <strong class="large-6 small-6 columns" > {{udl.udlName }} </strong>
-                      <span class="large-6 small-6 columns"  > {{udl.udlValue }} </span>
-                    </li>
-                      </template>
 
-                  </ul>
-                <a @click="viewToggle" class="view-all" :class="{'show' : userInfo.udls}"> View  </a>
-              </div>
-            </div>
-          </div>
           <div class=" large-12">
             <div class="row">
             <div  class=" columns large-6 ">
@@ -52,10 +24,7 @@
               <div class="box-content">
                 <div class="box-content-holder">
                   <div class="row">
-                    <div class="columns large-4">
-                      <img src="http://placehold.it/200x250" class="img-responsive"  />
-                    </div>
-                    <div class="columns large-8">
+                    <div class="columns large-12">
                       <ul class="no-bullet">
                         <li><strong>Current Device:</strong> <span v-html="allocation.device ? allocation.device : '-' "> </span>
                         <li><strong>Device Type:</strong> <span v-html="allocation.device_type ? allocation.device_type : '-' "> Smartphone</span>

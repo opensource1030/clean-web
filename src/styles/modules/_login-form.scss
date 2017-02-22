@@ -1,7 +1,7 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
 .login-form-holder{
-  margin-top:100px;
+  margin-top:120px;
   color:$white;
   > img{
     margin: 0 auto 8px;
@@ -44,7 +44,7 @@
   img{
     max-width: 47%;
     display: block;
-    margin: 0 auto 0.6rem;
+    margin: 0 auto 1.2rem;
   }
 }
 .by{

@@ -1,10 +1,12 @@
 var {Store} = require('yayson')()
 var  store = new Store()
 import auth from './../api/auth'
+import supportRequest from './support-request';
 export default {
     name: "ClientInfo",
     created(){
         this.fetchData();
+
     },
     methods:{
         fetchData : function(){
@@ -24,6 +26,17 @@ export default {
 
                         this.client= response.data;
 
+                        setTimeout(function(){
+                            $(function() {
+                                $('.eq-Hght').matchHeight({
+                                    byRow: true,
+                                    property: 'height',
+                                    target: null,
+                                    remove: false
+                                });
+                            });
+                        },200);
+
 
                     });
                 }
@@ -34,7 +47,8 @@ export default {
     },
     data(){
         return {
-            client: {}
+            client: {},
+            user : auth.user
         }
     }
 

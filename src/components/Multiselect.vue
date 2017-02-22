@@ -29,7 +29,7 @@
                 {{option}}
 
               </span>
-        <span v-if="labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
+        <span v-if=" labelAttr!=null && labelAttr!=''" v-for="(option,index) in filter " :key="index" class="multiselect__option" :class="{ actives: isOptionSelected(option), highlight: index  }" :value="option" @mousedown.prevent="select(option,index)">
 
                 {{option[labelAttr]}}
 
@@ -50,13 +50,14 @@
 
 <script>
 import multiselectMixin from './multiselectMixin'
+import functionsMixin from './functionsMixin'
 export default {
-  mixins: [multiselectMixin],
+  mixins: [multiselectMixin,functionsMixin],
   name: 'vue-multiselect',
   props: {
     placeholder: {
       type: String,
-      default: 'Search Option'
+      default: 'Search '
     },
   },
   computed: {
@@ -132,7 +133,7 @@ export default {
   width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 .multiselect__tag~.multiselect__input,
 .multiselect__tag~.multiselect__single {
@@ -306,6 +307,7 @@ export default {
   background: #41B883;
   outline: none;
   color: white;
+
 }
 .multiselect__option--highlight:after {
   content: attr(data-select);

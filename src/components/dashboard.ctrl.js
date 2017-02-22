@@ -1,12 +1,12 @@
 var {Store} = require('yayson')()
 var  store = new Store()
-window.Event = new Vue();
+import { format, parse } from 'libphonenumber-js'
 require('script!jquery');
 require('script!jquery-match-height');
 require('script!jquery-validation');
 import _ from 'lodash';
 import auth from './../api/auth'
-import supportRequest from './support-request';
+import supportRequest from './support-request'
 import Vue from 'vue'
 import Avatar from 'vue-avatar/dist/Avatar'
 import Breadcrumb from 'vue-bulma-breadcrumb'
@@ -17,6 +17,7 @@ import Piechart from './Piechart.vue'
 import Trendchart from './Trendchart.vue'
 import SpentInfo from './SpentInfo.vue'
 import LegacyInfo from './LegacyInfo.vue'
+
 export default {
     name: "Dashboard",
     components: {
@@ -30,10 +31,8 @@ export default {
         SpentInfo,
         LegacyInfo
     },
-    created(){
-        this.grid();
-    },
     mounted(){
+
         $('.redirect-link a').each(function(e){
             $(this).click(function(e){
                 var link = this.href;
@@ -58,6 +57,7 @@ export default {
                     this.data= response.data;
                 });
             }
+        }, (response) => {
         });
 
         this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]', {
@@ -69,22 +69,15 @@ export default {
             if (event.allocations && event.allocations.length > 0) {
                 this.$set(this, 'trendchartData', event.allocations);
             }
+        }, (response) => {
         });
+        setTimeout(supportRequest,2500);
+        chmln.identify({uid: localStorage.userId /* A stable, unique identifier */, email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */});
     },
     methods:{
         logout() {
             auth.logout()
-        },
-        grid(){
-            $(function() {
-                $('.eq-Hght').matchHeight({
-                    byRow: true,
-                    property: 'height',
-                    target: null,
-                    remove: false
-                });
-            });
-        },
+        }
     },
     data(){
         return {

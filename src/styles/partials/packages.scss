@@ -1,0 +1,93 @@
+@import "../base/clean-variables";
+
+#tables {
+    .textbold {
+        font-weight: bold;
+    }
+}
+
+#package {
+    .textbold {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+    .padding {
+        padding: 0 4rem;
+    }
+    .accordion-content {
+        display: inherit;
+    }
+    .header {
+        padding: 1.8rem;
+        background: $white;
+    }
+    .status {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        text-align: left;
+    }
+    .checkboxbigger {
+        transform: scale(1.5);
+    }
+    h6{
+        text-align: center;
+        margin-top: 2.18rem;
+    }
+    .addon {
+        text-align: center;
+        margin-top: 2.4rem;
+    }
+    .unit {
+        margin-top: 1.7rem;
+    }
+    select {
+        -webkit-appearance: none;
+    }
+    .fa-2x {
+        font-size: 1rem;
+    }
+    label {
+        color:$base;
+    }
+    .titles {
+        background: $ghost;
+        h4 {
+            font-size: 18px;
+            font-weight: 700;
+            padding: 0 3.2rem;
+        }
+        label {
+            color:$base;
+            padding: 0 3.2rem;
+        }
+    }
+    #button {
+      margin: 1.9rem 1.5rem;
+      border-radius: 0.8rem;
+      text-align:center;
+    }
+    .accordion-title:focus,
+    .accordion-title:hover {
+        background-color: #F4A536!important;
+        color: black;
+    }
+    .accordion-content {
+        display: inherit;
+    }
+    .is-active {
+        // background-color: #F4A536 !important;
+    }
+    .acordeon {
+        list-style-type: none;
+        .accordion-title {
+            position: inherit;
+        }
+        .acordeon-item {
+            margin: 2rem;
+            background-color: $iron;
+        }
+    }
+    .error-input {
+        border-color: #FF0000;
+    }
+}
