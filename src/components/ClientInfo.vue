@@ -3,7 +3,7 @@
   <div class="column large-12">
     <div class="grid-box " >
       <div class="box-heading">
-        <h2 v-if="client.object" >  {{client.object.title }}</h2>
+        <h2 v-if="client.object" > Welcome, {{fullName }}</h2>
       </div>
       <div class="box-content" >
         <div class="box-content-holder" v-if="client.object" >
@@ -19,7 +19,11 @@
         <h2>contact support</h2>
       </header>
       <div class="box-content">
-        <div class="box-content-holder" v-if="client.object" v-html="client.object.metafields[0].value">
+        <div class="box-content-holder" >
+          <div v-if="client.object" v-html="client.object.metafields[0].value"> </div>
+          <div class="action-button" >
+            <a class="button btn-provision btn-round" href="javascript:;">Submit a Support Request</a>
+          </div>
         </div>
       </div>
     </div>
@@ -31,12 +35,11 @@
       </header>
       <div class="box-content">
         <div class="box-content-holder">
-          <div class="action-button" id="action-buttons">
-            <!-- <a class="button btn-round" @click="requestProvision(client.object.title)"></a>-->
-            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Request a Device or Accessory </router-link>
-            <a class="button btn-provision btn-round" href="javascript:;"  >Get Support</a>
-          </div>
           <div v-html="client.object.metafields[1].value"></div>
+          <div class="action-button" id="action-buttons">
+            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Order a Device or Accessory </router-link>
+          </div>
+
         </div>
       </div>
     </div>
