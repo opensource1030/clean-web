@@ -37,7 +37,7 @@
         <div class="box-content-holder">
           <div v-html="client.object.metafields[1].value"></div>
           <div class="action-button" id="action-buttons">
-            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Place an Order </router-link>
+            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Order a Device or Accessory </router-link>
           </div>
 
         </div>
