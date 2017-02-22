@@ -4,245 +4,206 @@
       <div id="package">
         <div class="header">
           <div class="large-12 columns titles">
-            <h4>{{packages.names.managePackage}}</h4>
+            <h4>{{packages.names.managePackage}}<h4>
+            </div>
           </div>
-          <table class="padding" cellspacing=0 cellpadding=0>
-            <tr>
-              <td rowspan="2">
-                <label>{{packages.names.title}}
-                  <input :class="{ 'error-input': packages.nameError }" type="text" placeholder="" :value="packages.name" v-model="packages.name">
-                </label>
-              </td>
-              <td class="textbold" align="right">
-                {{packages.names.prices.minimum}}
-                {{packages.names.devices.minPrice}}
-                {{packages.names.prices.currency}}
-                {{packages.names.prices.once}} -
-                {{packages.names.services.minPrice}}
-                {{packages.names.prices.currency}}
-                {{packages.names.prices.monthly}}
-              </td>
-            </tr>
-            <tr>
-              <td class="textbold" align="right">
-                {{packages.names.prices.maximum}}
-                {{packages.names.devices.maxPrice}}
-                {{packages.names.prices.currency}}
-                {{packages.names.prices.once}} -
-                {{packages.names.services.maxPrice}}
-                {{packages.names.prices.currency}}
-                {{packages.names.prices.monthly}}
-              </td>
-            </tr>
-          </table>
-          <div class="small-12 columns" >
-<!--CONDITIONS-->
-            <ul class="acordeon">
-              <li class="acordeon-item">
-                <a @click="showAndTell('condition')" class="accordion-title">
-                  <table class="textbold">
-                    <tr>
-                      <td>{{packages.names.conditions.title}}</td>
-                      <td align="right">{{packages.values.usersConditions}} {{packages.names.employees}}</td>
-                    </tr>
-                  </table>
-                </a>
-                <div v-if="showZones.showConditions" class="accordion-content overview">
-                  <div class="row" v-for="(condition,index) in packages.conditions">
-                    <div class="large-3 columns">
-                      <label>{{packages.names.conditions.name}}
-                        <select :class="{ 'error-input': condition.nameError }" v-model="condition.name" @change="updatePackageCondition(index, condition.name, 'name')">
-                          <option value="" manufactured>{{packages.names.conditions.selectName}}</option>
-                          <option v-for="item in conditionsFieldsOptions" :value="item" >{{item}}</option>
-                        </select>
-                      </label>
+          <div class="expanded row">
+            <div v-show="loadedContent">
+              <div class="large-12 columns">
+                <div class="large-5 small-12 columns padding">
+                  <label>{{packages.names.title}}
+                    <input :class="{ 'error-input': packages.nameError }" type="text" placeholder="" :value="packages.name" v-model="packages.name">
+                  </label>
+                </div>
+                <div class="large-6 end small-12 large-offset-1 columns padding">
+                  <div class="large-12 small-12 columns textbold">
+                    <div class="large-1 small-2 columns">
+                      {{packages.names.prices.minimum}}
                     </div>
-                    <div v-if="condition.name != ''" class="large-2 columns">
-                      <label>{{packages.names.conditions.condition}}
-                        <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
-                          <option value="" manufactured>{{packages.names.conditions.selectCondition}}</option>
-                          <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
-                        </select>
-                      </label>
+                    <div class="large-4 small-4 columns" align="right">
+                      {{packages.names.devices.minPrice}}
+                      {{packages.names.prices.currency}}
+                      {{packages.names.prices.once}}
                     </div>
-                    <div v-if="condition.name != ''" class="large-5 columns">
-                      <label>{{packages.names.conditions.value}}
-                        <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
-                          <option value="" manufactured>{{packages.names.conditions.selectValue}}</option>
-                          <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
-                        </select>
-                        <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')" />
-                        <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">
-                      </label>
+                    <div class="large-7 small-4 columns" align="right">
+                      {{packages.names.services.minPrice}}
+                      {{packages.names.prices.currency}}
+                      {{packages.names.prices.monthly}}
                     </div>
-                    <div class="large-1 columns">
-                      <a class="button" @click="deleteCondition(index)" id="button" v-show="condition.delete">
-                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                      </a>
+                  </div>
+                  <div class="large-12 small-12 columns textbold">
+                    <div class="large-1 small-2 columns">
+                      {{packages.names.prices.maximum}}
                     </div>
-                    <div class="large-1 end columns">
-                      <a class="button" @click="pushCondition(index)" id="button" v-show="condition.add">
-                        <i class="fa fa-plus fa-2x"></i>
-                      </a>
+                    <div class="large-4 small-4 columns" align="right">
+                      {{packages.names.devices.maxPrice}}
+                      {{packages.names.prices.currency}}
+                      {{packages.names.prices.once}}
+                    </div>
+                    <div class="large-7 small-4 columns" align="right">
+                      {{packages.names.services.maxPrice}}
+                      {{packages.names.prices.currency}}
+                      {{packages.names.prices.monthly}}
                     </div>
                   </div>
                 </div>
-              </li>
-            </ul>
-<!--//CONDITIONS-->
-<!--PRESET-->
-            <ul class="acordeon">
-              <li class="acordeon-item">
-                <a @click="showAndTell('device')" class="accordion-title">
-                  <table class="textbold">
-                    <tr>
-                      <td>{{packages.names.devices.title}} Presets</td>
-                      <td align="right">From {{packages.names.devices.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.devices.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.once}} </td>
-                    </tr>
-                  </table>
-                </a>
-                <div v-if="showZones.showDevices" class="accordion-content overview">
-                  <div>
-                    <!-- PRESETS -->
-                    <div>
-                      <div class="presetstitles">Presets Available</div>
-                      <div class="presetsnoinformation" v-show="packages.presets.length == 0">
-                        <swiper :options="swiperOption">
-                          <swiper-slide v-for="no in packages.presetsnoinformation">
-                            <img class="phoneImg" :src="no.url" alt="Image" />
-                          </swiper-slide>
-                        </swiper>
-                      </div>
-                      <div v-if="condition.nameCond != ''" class="large-2 columns">
-                        <label>{{packages.names.conditions.condition}}
-                          <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
-                            <option value="" manufactured>{{packages.names.conditions.selectCondition}}</option>
-                            <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
-                          </select>
-                        </label>
-                      </div>
-                      <div v-if="condition.nameCond != ''" class="large-5 columns">
-                        <label>{{packages.names.conditions.value}}
-                          <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
-                            <option value="" manufactured>{{packages.names.conditions.selectValue}}</option>
-                            <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
-                          </select>
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')" />
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">
-                        </label>
-                      </div>
-                      <div class="large-1 columns">
-                        <a class="button" @click="deleteCondition(index)" id="button" v-show="condition.delete">
-                          <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                        </a>
-                      </div>
-                      <div class="large-1 end columns">
-                        <a class="button" @click="pushCondition(index)" id="button" v-show="condition.add">
-                          <i class="fa fa-plus fa-2x"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-<!-- //CONDITIONS -->
-<!-- DEVICES -->
-                <li class="acordeon-item" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()">
-                    <table class="textbold">
-                      <tr>
-                        <td>{{packages.names.devices.title}}</td>
-                        <td align="right">From {{packages.names.devices.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.devices.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.once}} </td>
-                      </tr>
-                    </table>
-                  </a>
-                  <div class="accordion-content" data-tab-content v-f-accordion>
-<!-- PRESETS -->
-                      <div>
-                        <div class="presetstitles">{{packages.names.devices.presetsAvailable}}</div>
-                        <div class="presetsnoinformation" v-show="packages.presets.length == 0">
-                          <swiper :options="swiperOption">
-                            <swiper-slide v-for="no in packages.presetsnoinformation">
-                              <img class="phoneImg" :src="no.url" alt="Image" />
-                            </swiper-slide>
-                          </swiper>
-                        </div>
-                        <div v-show="packages.presets.length > 0">
-                          <swiper :options="swiperOptionPreset" ref="swPreset">
-                            <swiper-slide v-for="(preset,index) in packages.presets">
-                              <div class="presetimage" @click="presetSelected(preset)">
-                                <div class="absolute">{{getNameIfNoImage(0, preset.name)}}</div>
-                                <img class="phoneImg" :src="getUrlOfImagePreset(preset)" alt="" />
-                              </div>
-                            </swiper-slide>
-                            <div v-show="packages.presetsController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                            <div v-show="packages.presetsController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
-                          </swiper>
+                <div class="large-12 columns">
+                  <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
+                    <!--CONDITIONS-->
+                    <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                      <a href="#" class="accordion-title" @click="showFalse()">
+                        <table class="textbold">
+                          <tr>
+                            <td>{{packages.names.conditions.title}}</td>
+                            <td align="right">{{packages.values.usersConditions}} {{packages.names.employees}}</td>
+                          </tr>
+                        </table>
+                      </a>
+                      <div class="accordion-content overview" data-tab-content v-f-accordion>
+                        <div class="row" v-for="(condition,index) in packages.conditions">
+                          <div class="large-3 small-12 columns">
+                            <label>{{packages.names.conditions.name}}
+                              <select :class="{ 'error-input': condition.nameError }" v-model="condition.nameCond" @click="updatePackageCondition(index, condition.nameCond, 'name')">
+                                <option value="" manufactured>{{packages.names.conditions.selectName}}</option>
+                                <option v-for="item in conditionsFieldsOptions" :value="item" >{{item}}</option>
+                              </select>
+                            </label>
+                          </div>
+                          <div v-if="condition.nameCond != ''" class="large-2 small-12 columns">
+                            <label>{{packages.names.conditions.condition}}
+                              <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
+                                <option value="" manufactured>{{packages.names.conditions.selectCondition}}</option>
+                                <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
+                              </select>
+                            </label>
+                          </div>
+                          <div v-if="condition.nameCond != ''" class="large-5 small-12 columns">
+                            <label>{{packages.names.conditions.value}}
+                              <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
+                                <option value="" manufactured>{{packages.names.conditions.selectValue}}</option>
+                                <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
+                              </select>
+                              <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')" />
+                              <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">
+                            </label>
+                          </div>
+                          <div class="large-2 small-12 columns">
+                            <div class="large-4 small-4 small-offset-2 columns">
+                              <a class="button" @click="deleteCondition(index)" id="button" v-show="condition.delete">
+                                <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                              </a>
+                            </div>
+                            <div class="large-4 small-4 end columns">
+                              <a class="button" @click="pushCondition(index)" id="button" v-show="condition.add">
+                                <i class="fa fa-plus fa-2x"></i>
+                              </a>
+                            </div>
+                          </div>
                         </div>
                       </div>
-<!-- //PRESETS -->
-<!-- DEVICE VARIATIONS -->
-                      <div v-show="packages.variablesShow.presetSelected">
-                        <hr size="10">
-                        <div class="presetstitles">{{packages.names.devices.devicesAvailable}} {{packages.variablesShow.presetSelectedName}}</div>
-                        <div class="noinformation" v-show="packages.devicevariationsList.length == 0">
-                          <swiper :options="swiperOptionA">
-                            <swiper-slide v-for="no in packages.noinformation">
-                              <img :src="no.url" alt="Image" />
-                            </swiper-slide>
-                          </swiper>
-                        </div>
+                    </li>
+                    <!-- //CONDITIONS -->
+                    <!-- DEVICES -->
+                    <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                      <a href="#" class="accordion-title" @click="showFalse()">
+                        <table class="textbold">
+                          <tr>
+                            <td>{{packages.names.devices.title}}</td>
+                            <td align="right">From {{packages.names.devices.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.devices.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.once}} </td>
+                          </tr>
+                        </table>
+                      </a>
+                      <div class="accordion-content" data-tab-content v-f-accordion>
+                        <!-- PRESETS -->
                         <div>
-                          <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionA" ref="swDeviceVariationList">
+                          <div class="presetstitles">{{packages.names.devices.presetsAvailable}}</div>
+                          <div class="noinformation" v-show="packages.presets.length == 0">
+                            <swiper :options="swiperOption">
+                              <swiper-slide v-for="no in packages.noinformation">
+                                <img :src="no.url" alt="Image" />
+                              </swiper-slide>
+                            </swiper>
+                          </div>
+                          <div v-show="packages.presets.length > 0">
+                            <swiper :options="swiperOptionPreset" ref="swPreset">
+                              <swiper-slide v-for="(preset,index) in packages.presets">
+                                <div class="presetimage" @click="presetSelected(preset)">
+                                  <div class="absolute">{{preset.name}}</div>
+                                  <img :src="getUrlOfImageSelected(preset)" alt="" />
+                                </div>
+                              </swiper-slide>
+                              <div v-show="packages.presetsController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                              <div v-show="packages.presetsController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                            </swiper>
+                          </div>
+                        </div>
+                        <!-- //PRESETS -->
+                        <!-- DEVICE VARIATIONS -->
+                        <div v-show="packages.presetSelected.name != ''">
+                          <hr size="10">
+                          <div class="presetstitles">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
+                          <div class="noinformation" v-show="packages.devicevariationsList.length == 0">
+                            <swiper :options="swiperOptionA">
+                              <swiper-slide v-for="no in packages.noinformation">
+                                <img :src="no.url" alt="Image" />
+                              </swiper-slide>
+                            </swiper>
+                          </div>
+                          <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDevVarList" ref="swDeviceVariationList">
                             <swiper-slide v-for="(devvar, index) in packages.devicevariationsList">
-                              <div class="devicevariationsinformation" @click="devicevariationSelected(devvar, index)">
-                                <img class="phoneImg" :src="getUrlOfImage(devvar)" alt="Image" />
-                                  {{devvar.devices[0].name}} <br>
-                                  {{devvar.devices[0].make}} - {{devvar.devices[0].model}} <br>
-                                  {{devvar.price1}} {{devvar.devices[0].currency}}
-                              </div>
+                              <transition name="list">
+                                <div class="devicevariationsinformation list-item" :key="devvar" @click="devicevariationSelected(devvar, index)">
+                                  <img :src="getUrlOfImage(devvar)" alt="Image" />
+                                    {{devvar.devices[0].name}} <br>
+                                    {{devvar.devices[0].make}} - {{devvar.devices[0].model}} <br>
+                                    {{devvar.price1}} {{devvar.devices[0].currency}}
+                                </div>
+                              </transition>
                             </swiper-slide>
                             <div class="swiper-button-prev" slot="button-prev"></div>
                             <div class="swiper-button-next" slot="button-next"></div>
                           </swiper>
                         </div>
+                        <!-- //DEVICE VARIATIONS -->
+                        <!-- DEVICE VARIATIONS SELECTED -->
+                        <div v-show="packages.presetSelected.name != '' || packages.devicevariations.length > 0">
+                          <hr size="10">
+                          <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
+                          <div class="noinformation" v-show="packages.devicevariations.length == 0">
+                            <swiper :options="swiperOptionA">
+                              <swiper-slide v-for="no in packages.noinformation">
+                                <img :src="no.url" alt="Image" />
+                              </swiper-slide>
+                            </swiper>
+                          </div>
+                          <div>
+                            <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDevVarSel" ref="swDeviceVariationSeleted">
+                              <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
+                                <transition name="list">
+                                  <div class="devicevariationsinformation list-item" :key="devvarsel" @click="devicevariationNoSelected(devvarsel, index)">
+                                    <div class="devicevariationspreset">{{devvarsel.preset}}
+                                    </div>
+                                    <div>
+                                      <img :src="getUrlOfImage(devvarsel)" alt="Image" />
+                                    </div>
+                                    <div class="devicevariationsinformation">
+                                      {{devvarsel.devices[0].name}} <br>
+                                      {{devvarsel.devices[0].make}} - {{devvarsel.devices[0].model}} <br>
+                                      {{devvarsel.price1}} {{devvarsel.devices[0].currency}}
+                                    </div>
+                                  </div>
+                                </transition>
+                              </swiper-slide>
+                              <div class="swiper-button-prev" slot="button-prev"></div>
+                              <div class="swiper-button-next" slot="button-next"></div>
+                            </swiper>
+                          </div>
+                        </div>
+                        <!-- //DEVICE VARIATIONS SELECTED -->
                       </div>
-  <!-- //DEVICE VARIATIONS -->
-  <!-- DEVICE VARIATIONS SELECTED -->
-                  <!--    <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
-                        <hr size="10">
-                        <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
-                        <div class="noinformation" v-show="packages.devicevariations.length == 0">
-                          <swiper :options="swiperOptionA">
-                            <swiper-slide v-for="no in packages.noinformation">
-                              <img :src="no.url" alt="Image" />
-                            </swiper-slide>
-                          </swiper>
-                        </div>
-                        <div>
-                          <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionA" ref="swDeviceVariationSeleted">
-                            <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
-                              <div @click="devicevariationNoSelected(devvarsel, index)">
-                                <div class="devicevariationspreset">{{devvarsel.preset}}</div>
-                                <div>
-                                  <img :src="getUrlOfImage(devvarsel)" alt="Image" />
-                                </div>
-                                <div class="devicevariationsinformation">
-                                  {{devvarsel.devices[0].name}} <br>
-                                  {{devvarsel.devices[0].make}} - {{devvarsel.devices[0].model}} <br>
-                                  {{devvarsel.price1}} {{devvarsel.devices[0].currency}}
-                                </div>
-                              </div>
-                            </swiper-slide>
-                            <div class="swiper-button-prev" slot="button-prev"></div>
-                            <div class="swiper-button-next" slot="button-next"></div>
-                          </swiper>
-                        </div>
-                      </div>-->
-  <!-- //DEVICE VARIATIONS SELECTED -->
-                  </div>
-                </li>
-<!-- //DEVICES -->
-<!-- SERVICES -->
+                    </li>
+                    <!-- //DEVICES -->
+                    <!-- SERVICES -->
                 <!--<li class="acordeon-item" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
@@ -253,7 +214,7 @@
                     </table>
                   </a>
                   <div class="accordion-content" data-tab-content v-f-accordion>-->
-  <!-- CARRIERS -->
+                    <!-- CARRIERS -->
                <!--       <div>
                         <div class="presetstitles">{{packages.names.services.carriersAvailable}}</div>
                         <div class="noinformation" v-show="packages.carriers.length == 0">
@@ -276,8 +237,8 @@
                           </swiper>
                         </div>
                       </div>-->
-  <!-- //CARRIERS -->
-<!-- SERVICES -->
+                      <!-- //CARRIERS -->
+                      <!-- SERVICES -->
               <!--        <div v-show="packages.variablesShow.carrierSelected">
                         <hr size="10">
                         <div class="presetstitles">{{packages.names.services.servicesAvailable}} {{packages.variablesShow.carrierSelectedName}}</div>
@@ -307,8 +268,8 @@
                         {{packages.service.title}}
                         </div>
                       </div>-->
-<!-- //SERVICES -->
-<!-- SERVICES SELECTED -->
+                      <!-- //SERVICES -->
+                      <!-- SERVICES SELECTED -->
                  <!--     <div v-show="packages.variablesShow.presetSelected || packages.devicevariations.length > 0">
                         <hr size="10">
                         <div class="presetstitles">{{packages.names.devices.devicesSelected}}</div>
@@ -339,10 +300,10 @@
                           </swiper>
                         </div>
                       </div>-->
- <!-- //SERVICES SELECTED -->
+                      <!-- //SERVICES SELECTED -->
                   <!--</div>
                 </li>-->
-<!-- //SERVICES -->
+                <!-- //SERVICES -->
               </ul>
               <div v-if="errors.generalError">
                 <div class="is-error callout" data-closable>
@@ -366,9 +327,9 @@
     width: 60%;
   }
   .swiper-slide:nth-child(2n) {
-      width: 40%;
+    width: 40%;
   }
   .swiper-slide:nth-child(3n) {
-      width: 20%;
+    width: 20%;
   }
 </style>
