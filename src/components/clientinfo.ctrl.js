@@ -8,6 +8,14 @@ export default {
         this.fetchData();
 
     },
+    computed : {
+        fullName : function () {
+            if(localStorage.userProfile)
+                return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName;
+            else
+                return "User"
+        }
+    },
     methods:{
         fetchData : function(){
             this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {

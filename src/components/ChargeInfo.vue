@@ -36,7 +36,7 @@
                   <td v-html="item.service_plan_charge ? '$'+ item.service_plan_charge : '$0.0' "> </td>
                   <td v-html="item.usage_charge ? '$'+ item.usage_charge : '$0.0' "> </td>
                   <td v-html="item.other_charge ? '$'+ item.other_charge : '$0.0' " > </td>
-                  <td v-html="item.last_upgrade ? item.last_upgrade : '0000-00-00' "> </td>
+                  <td v-if="item.last_upgrade"> {{ item.last_upgrade | cleanDate  }}  </td>
                   <td>
                     <select class="user-actions" >
                       <option disabled value=" " selected>-- Choose an issue ---</option>
