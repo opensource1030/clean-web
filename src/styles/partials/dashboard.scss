@@ -532,10 +532,10 @@
   padding-top: 72px;
   &.test{
     padding-left:50px ;
-    .top-bar-section .logo{
+   /* .top-bar-section .logo{
       padding-left: 0;
       width: 40px;
-    }
+    }*/
   }
   @media screen and (max-width: 800px) {
     padding-left: 0;
@@ -867,6 +867,7 @@ a.btn-provision:hover .support-form-holder{
   float: right;
   @include css3(box-shadow, 0 0 5px $gainsboro);
   font-size: 1.2rem;
+  @include css3(transition,background 0s !important) ;
   background: transparent;
   border:1px $brand-orange solid;
   color:$black;
@@ -950,4 +951,7 @@ a.btn-provision:hover .support-form-holder{
     border-left:1px solid lighten($black,45%);
     padding-left: 0.8rem ;
   }
+}
+.callout.spent-info.active.visible{
+  max-width: 80%;
 }

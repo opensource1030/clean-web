@@ -12,10 +12,10 @@
   @include css3(transition, all 0.2s ease-in-out);
 
   &.sticky-top{
-    /*background: linear-gradient(#fee4d7, #FEEBDF);*/
+
     &:after{
         content: '';
-        background: linear-gradient(#fee4d7, #FEEBDF);
+      background: linear-gradient( rgba($white,1),#F7F7F7);
         height: 100%;
         position: absolute;
         top:0;
@@ -75,4 +75,19 @@
 .HW-container{
   float: right;
   margin: 1rem 1rem 0;
+}
+#HW_badge{
+  top:0;
+}
+#HW_badge_cont.HW_visible{
+  text-align: center;
+
+  &:before{
+    content: '';
+    color:lighten($brand-blue,10%);
+    font-family: FontAwesome;
+    font-size: 1.6rem;
+    @include css3(box-shadow,0 0 $white-smoke);
+    margin-left: -30px;
+  }
 }

@@ -4,7 +4,7 @@
       <div class="pop-content" v-if="userInfo">
         <div class="expanded row">
           <div class="columns large-12">
-            <router-link class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
+            <router-link  class="button  pop-close" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
             <ul class="inline-list " id="top">
             <li><strong>Bill Month</strong> <span > {{ allocation.bill_month | cleanDate }}</span> </li>
             <li><strong>Carrier</strong> <span v-html="allocation.carrier ? allocation.carrier : '-' "> </span> </li>

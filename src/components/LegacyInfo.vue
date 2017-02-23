@@ -7,7 +7,7 @@
         <div class="expanded row">
           <div class="columns large-12">
               <h1 class="pop-heading">  Request a Device or Accessory </h1>
-                  <a @click="closePop()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
+                  <a v-show="iframeUrl" @click="closePop()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
 
             <hr class="hr-cln">
 
