@@ -733,7 +733,7 @@ a.btn-provision:hover .support-form-holder{
     max-width:200px ;
     top:72px !important;
     background: $white;
-    padding: 1rem;
+    padding: 0;
     border:none;
     @include css3(box-shadow,0 0 4px $dark-gray);
     &:before{
@@ -746,6 +746,10 @@ a.btn-provision:hover .support-form-holder{
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
       border-bottom: 10px solid rgba($dark-gray,0.2);
+    }
+    li a{
+      padding: 1rem;
+      display: block;
     }
   }
 }

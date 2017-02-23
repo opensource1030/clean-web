@@ -63,7 +63,7 @@
 
       <sidemenu v-if="user.authenticated"> </sidemenu>
 
-      <div :class="{'content-right' : user.authenticated}" >
+      <div :class="{'content-right test' : user.authenticated}" >
         <div class="expanded row">
       <headers  v-if="user.authenticated" :user="user" >  </headers>
           <div class="clearfix"></div>

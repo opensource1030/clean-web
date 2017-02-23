@@ -248,12 +248,19 @@ input[type="search"] {
   -webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
   transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 }
-@media screen and (max-width:$medium) {
+@media screen and (max-width:800px) {
+  #knowledge-base-content{
+    width:94% !important;
+      iframe{
+        width:99% !important;
+      }
+  }
   .morphsearch-input {
     padding: 0 25% 0 10px;
     top:0 !important;
   }
   .morphsearch.open {
+    padding-top: 58px;
     .morphsearch-input {
       font-size: 2em;
     }
@@ -266,7 +273,7 @@ input[type="search"] {
 @media screen and (max-width: $small) {
   .morphsearch{
     width: auto !important;
-    max-width: 280px !important;
+    max-width: inherit !important;
     &.open{
       max-width: inherit !important;
     }
@@ -278,6 +285,7 @@ input[type="search"] {
 }
 @media screen and (max-width: 970px){
   #knowledge-base-content{
+    height: 100%;
     iframe {
       width: 97% !important;
     }
@@ -305,14 +313,17 @@ input[type="search"] {
   }
 }
 #knowledge-base-content{
+  position: relative;
+  height: 100%;
+  width: 97%;
   iframe{
-    min-height: 1000px !important;
-    height: 100% !important;
-    width: 97%;
+/*position: relative;*/
+    height: 100%;
+    width: 100%;
     margin-top: -9px !important;
-    overflow: scroll;
-    max-height: 10000px !important;
-    padding-bottom: 300px !important;
+    border:1px #ccc solid;
+
+
   }
 }
 @media screen and (max-width: $medium) {
