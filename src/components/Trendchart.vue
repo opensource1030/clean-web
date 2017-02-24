@@ -48,6 +48,11 @@
     props: ['data'],
 
      data: function () {
+        const currency = '$';
+        const formatter = new google.visualization.NumberFormat({
+          fractionDigits: 2,
+          prefix: currency
+        });
         return {
             columns: [
               {
@@ -77,15 +82,9 @@
               }
             ],
             options: {
-                // title: 'Company Performance',
-                hAxis: {
-                  format: '#.##'
+                vAxis: {
+                  format: currency + "0.00"
                 },
-                // vAxis: {
-                //     title: '',
-                //     minValue: 300,
-                //     maxValue: 1200
-                // },
                 width: 'auto',
                 height: 300,
                 colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
@@ -93,6 +92,11 @@
                   position: 'bottom'
                 },
                 focusTarget: 'category',
+                chartArea: {
+                  left: '15%',
+                  top: '10%',
+                  width: '75%'
+                }
             }
         }
     },
@@ -153,6 +157,7 @@
             trendchart_data.unshift([dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]);
           }
         }
+
         return trendchart_data;
       }
     }
