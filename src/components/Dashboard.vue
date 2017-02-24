@@ -18,64 +18,66 @@
               <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                 <select id="FilterSelect" class="user-actions" required>
                   <option selected disabled value=" ">-- Choose an issue ---</option>
-                  <option value="IRE1-1">Troubleshooting</option>
-                  <option value="IRE1-2">Plan Change</option>
-                  <option value="IRE1-3">Email Service</option>
-                  <option value="ALR4-4">Billing &amp; allocations</option>
-                  <option value="IRE1-5">Activation</option>
-                  <option value="IRE1-6">International Request</option>
-                  <option value="IRE0-7">Other</option>
+                  <option data-id="issue-1" data-value="IRE1">Troubleshooting</option>
+                  <option data-id="issue-2" data-value="IRE1">Plan Change</option>
+                  <option data-id="issue-3" data-value="IRE0">Email Service</option>
+                  <option data-id="issue-4" data-value="ALR4">Billing &amp; allocations</option>
+                  <option data-id="issue-5" data-value="IRE0">Activation</option>
+                  <option data-id="issue-6" data-value="IRE0">International Request</option>
+                  <option data-id="issue-7" data-value="IRE0">Other</option>
                 </select>
               </label>
             </div>
             <div id="Container">
-              <div class="medium-12 columns mix IRE1-5">
+              <div class="medium-12 columns mix issue-5">
                 <label><span class="form-title">IMEI/MEID</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                  <input type="text" id="imei-meid" placeholder="imei/meid">
+                  <input type="text" id="imei_meid" placeholder="imei/meid">
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-5">
+              <div class="medium-12 columns mix issue-5">
                 <label><span class="form-title">ICCID</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                   <input type="text" id="iccid" placeholder="iccid">
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-5">
+              <div class="medium-12 columns mix issue-5">
                 <label><span class="form-title">Device type, Make/Model </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                   <input type="text" id="device_type" placeholder="device type">
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-5">
+              <div class="medium-12 columns mix issue-5">
                 <label><span class="form-title">Phone Origin </span><span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Where did you get the phone? IE: New Service, Upgrade, Internal">*</span>
                   <input type="text" id="phone_origin" placeholder="phone origin">
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-5">
+              <div class="medium-12 columns mix issue-5">
                 <label><span class="form-title">Mobile # </span><span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                   <input type="text" id="int_mobile" placeholder="mobile number">
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-6">
+              <div class="medium-12 columns mix issue-6">
                 <label><span class="form-title">What country/countries.js are you travelling to?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                   <select id="country2" name="country2" required> </select>
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-6">
+              <div class="medium-12 columns mix issue-6">
                 <label><span class="form-title">Dates of travel</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required " data-disable-hover="false" tabindex="1" title="Required Field">*</span>
                   <input id="flatpickr" class="flatpickr" type="text" placeholder="Select Date.." >
                 </label>
               </div>
-              <div class="medium-12 columns mix IRE1-6">
+              <div class="medium-12 columns mix issue-6">
                 <label><span class="form-title">Device type, phone, tablet, mifi </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                  <input type="text" placeholder="">
+                  <input type="text" id="int-device_type" placeholder="">
                 </label>
               </div>
-              <div class="large-12 columns  mix IRE1-3 ">
-                <fieldset class="fieldset">
-                  <legend><span class="form-title">Please select type </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
-                  <input type="radio" name="contact-method" value="email" id="email" required><label for="email">Email</label>
-                  <input type="radio" name="contact-metho" value="phone" id="phone"><label for="requestor">Phone</label>
-                </fieldset>
-              </div>
+                <div class="medium-12 columns mix issue-3">
+                    <fieldset class="fieldset">
+                        <legend><span class="form-title">Email Services </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> </legend>
+
+                        <input type="radio" name="email-setup" value="Email Setup" id="email_setup" required><label for="email_setup">Email Setup</label>
+                        <input type="radio" name="email-setup" value="Email Troubleshooting" id="email_troubleshooting"><label for="email_troubleshooting">Email Troubleshooting</label>
+                    </fieldset>
+                </div>
+
               <div class="medium-12 columns ">
                 <div><span class="form-title">Requestor Email (whomever is filling out this form)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Whomever is filling out this form."><i class="fa fa-question-circle"> </i> </span>
                 </div>
@@ -88,7 +90,7 @@
               </div>
               <div class="medium-12 columns">
                 <label><span class="form-title">Recipient Mobile Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
-                  <input id="recipient_mobile" type="text" placeholder="your email">
+                  <input id="recipient_mobile" type="text" placeholder="recipient mobile #">
                 </label>
               </div>
               <div class="large-12 columns ">
@@ -117,19 +119,15 @@
                   </legend>
                   <div class="row">
                     <div class="column large-6">
-                      <input type="radio" name="contact-person" value="recipent" id="recipent" required><label for="recipent">Recipent</label>
+                      <input type="radio" name="contact-person" value="Recipent" id="recipent" required><label for="recipent">Recipent</label>
                     </div>
                     <div class="column large-6">
-                      <input type="radio" name="contact-person" value="requestor" id="requestor"><label for="requestor">Requestor</label>
+                      <input type="radio" name="contact-person" value="Requestor" id="requestor"><label for="requestor">Requestor</label>
                     </div>
                   </div>
                 </fieldset>
               </div>
-              <div class="medium-12 columns mix ">
-                <label><span class="form-title">Callback Number </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                  <input type="text" placeholder="callback number">
-                </label>
-              </div>
+
               <div class="medium-12 columns">
                 <label><span class="form-title">Description</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Please explain the question or problem in detail, and let us know how you'd like to be contacted."><i class="fa fa-question-circle"> </i> </span>
                   <textarea rows="3" id="description"> </textarea>

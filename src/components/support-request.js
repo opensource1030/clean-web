@@ -14,10 +14,6 @@ function supportRequest(){
         altFormat: "F j, Y"
     });
 
-
-        var $select = $('#support-form .user-actions');
-
-
         var $select = $('#support-form .user-actions');
         $select.on('change', function () {
             var value = '.' + $(this).val();
@@ -38,7 +34,7 @@ function supportRequest(){
 
         $selectOption.on('change', function () {
             var value1 = $(this).val();
-            var value = '.' + $(this).val();
+            var value = '.' + $(this).children('option:selected').data('id');
             $images.show(200).not(value).hide();
             $('#recipient_mobilenumber').val(affectedNum);
             $('.btn-provision').click();
@@ -77,7 +73,7 @@ function supportRequest(){
                     "requests" :
                         [{
                             "Catalog_GUID" : "",
-                            "Catalog_Code" : $('#FilterSelect').val(),
+                            "Catalog_Code" : $('#FilterSelect').children('option:selected').data('value'),
                             "AssetID" : "",
                             "AssetTag" : "",
                             "ASSET_NAME" : "",
@@ -95,9 +91,21 @@ function supportRequest(){
                             "Recipient_ID" : JSON.parse(localStorage.getItem("userProfile")).id,
                             "Recipient_Identification" : JSON.parse(localStorage.getItem("userProfile")).identification,
                             "Recipient_Mail" : $('#recipient_email').val(),
-                            "Recipient_Name" : JSON.parse(localStorage.getItem("userProfile")).firstName,
+                            "Recipient_Name" : JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName ,
                             "Origin" : "2",
-                            "Description" : $('#description').val(),
+                            "Description" :
+                                $('#description').val() + ", " +
+                                 "IMEI-MEID:" +  $('#imei_meid').val() + "," +
+                                 "ICCID:" + $('#iccid').val() + ", " +
+                                 "Device type, Make/Model:" + $('#device_type').val() + ", " +
+                                 "Phone Origin" + $('#phone_origin').val() + ", " +
+                                  "Mobile #:" + $('#int_mobile').val() + ", " +
+                                  "Dates of Travel:" + $('#flatpickr').val() + ", " +
+                                  "Internation Device Type:" + $('#int-device_type').val() + ", " +
+                                  "Email Service:" + $('input[name=email-setup]:checked', '#support-form').val() + ", " +
+                                   "Priority:" + $('input[name=priority]:checked', '#support-form').val() + ", " +
+                                   "Contact:" + $('input[name=contact-person]:checked', '#support-form').val()
+                            ,
                             "ParentRequest" : "",
                             "CI_ID" : "",
                             "CI_ASSET_TAG" : "",
@@ -112,14 +120,19 @@ function supportRequest(){
                     data : JSON.stringify(json),
                     processData: false,
                     contentType: "application/json; charset=UTF-8",
+                    beforeSend : function(){
+                        $('.support-form-holder').addClass('loading');
+                    },
                     success: function(){
                         $modal.html('');
                         $modal.removeClass('is-error').addClass('is-success').append("<h4>Request sent succefully </h4>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+                        $('.support-form-holder').removeClass('loading');
                         $('#support-form')[0].reset();
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $('.support-form-holder').removeClass('loading');
                         $('#modal').html('');
-                        $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + "Please fill all the required fields with appropriate value" + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+                        $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + errorThrown + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
                     }
                 });
             }
