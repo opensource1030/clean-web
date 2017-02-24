@@ -1,5 +1,5 @@
 <template>
-    <section class="menu-left">
+    <section class="menu-left test">
         <a class="icon-close"><i class="fa fa-bars"></i></a>
         <ul id="menu" class="sidebar-menu">
             <li class="menu-title">
@@ -162,23 +162,23 @@
             }
             $(this.$el).foundation();
             $.sidebarMenu($('.sidebar-menu'));
-
+           /* $.cookie("isMenuActive", "1");*/
             if ($.cookie("isMenuActive") == 1) {
-                $('.menu-left').addClass("test");
-                $('.content-right').addClass("test");
+                $('.menu-left').toggleClass("test");
+                $('.content-right').toggleClass("test");
             }
             $(".icon-close").click(function () {
                 if ($(".menu-left").hasClass("test") == true) {
                     //button was active, de-activate it and update cookie
                     $(".menu-left").removeClass("test");
                     $(".content-right").removeClass("test");
-                    $.cookie("isMenuActive", "0");
+                    $.cookie("isMenuActive", "1");
                 }
                 else {
                     //button is not active. add active class and update cookie.
                     $(".menu-left").addClass("test");
-                    $(".content-right").addClass("test");
-                    $.cookie("isMenuActive", "1");
+                     $(".content-right").addClass("test");
+                    $.cookie("isMenuActive", "0");
                 }
             });
 

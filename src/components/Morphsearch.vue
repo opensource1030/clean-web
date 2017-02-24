@@ -29,6 +29,10 @@ export default {
     name: "Morphsearch",
   mounted(){
     (function() {
+        $("#helpdocs", window.parent.document).height($("body").height() + 0);
+        $(window).resize(function(){
+            $("#helpdocs", window.parent.document).height($("body").height() + 0);
+        });
       var isAnimating;
       var morphSearch = document.getElementById( 'morphsearch' ),
               input = morphSearch.querySelector( 'input.morphsearch-input' ),
