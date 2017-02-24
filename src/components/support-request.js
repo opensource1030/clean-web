@@ -43,9 +43,10 @@ export default function supportRequest(){
             $selectOption.prop('selectedIndex', 0);
         });
 
-        $(document).keyup(function (e) {
-            if (e.keyCode == 27) $('#btn-close').click();
-        });
+        /*$(document).keyup(function (e) {
+            if (e.keyCode == 27)
+                $('#btn-close').click();
+        });*/
 
         $("#support-form").validate({
             rules: {

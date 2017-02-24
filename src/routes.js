@@ -72,7 +72,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
     children : [
       {
         path: 'charge/:id',
-        name : 'spentInfo',
+        name : 'Mobile Charges',
         component: SpentInfo
       },
       {

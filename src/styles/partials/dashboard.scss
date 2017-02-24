@@ -43,7 +43,7 @@
   background: #FDFDFF;
   @include css3(border-radius,0);
   .box-heading{
-    background: rgba($brand-orange,0.02);
+    background: $box-heading-bg;
     border-bottom:1px solid rgba(0, 0, 0, 0.06);
     padding:0.5rem 0.6rem;
     h2{
@@ -118,8 +118,6 @@
   .user-actions{
     max-width: 180px;
     margin-bottom: 0;
-    padding: 0.3rem;
-    background-color: transparent;
     border:none;
   }
 
@@ -156,7 +154,7 @@
     select{
       font-size: 1rem;
       height: 2.3rem;
-      background-position: right 0.4rem center;
+
     }
   }
 
@@ -733,7 +731,7 @@ a.btn-provision:hover .support-form-holder{
     max-width:200px ;
     top:72px !important;
     background: $white;
-    padding: 1rem;
+    padding: 0;
     border:none;
     @include css3(box-shadow,0 0 4px $dark-gray);
     &:before{
@@ -746,6 +744,10 @@ a.btn-provision:hover .support-form-holder{
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
       border-bottom: 10px solid rgba($dark-gray,0.2);
+    }
+    li a{
+      padding: 1rem;
+      display: block;
     }
   }
 }

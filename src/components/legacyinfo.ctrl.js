@@ -8,10 +8,6 @@ export default {
           return process.env.LEGACY_URL+"/helpdesk/r_1.asp?token="+this.token+"&version=v4"
         }
     },
-    mounted(){
-        $('.pop-close').hide();
-        $('.pop-close').fadeIn(6000);
-    },
     data(){
         return {
             isActive: true,
@@ -24,9 +20,8 @@ export default {
         closePop(){
             document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
             setTimeout(function(){
-                window.history.go(-1);
-                window.history.go(-1);
-            },2000)
+                history.back();
+            },200)
 
         }
     }
