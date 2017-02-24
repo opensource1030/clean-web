@@ -182,7 +182,7 @@
                 }
             });
 
-            $('#menu').slicknav();
+            $('#menu').slicknav({prependTo: 'section.top-bar-section'});
         },
     }
 </script>
