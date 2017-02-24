@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "dateformat": "^2.0.0",
+    "flatpickr": "^2.4.2",
     "font-awesome": "^4.6.3",
     "foundation-sites": "^6.2.4-rc1",
     "highcharts": "^5.0.0",

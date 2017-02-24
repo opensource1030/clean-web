@@ -17,6 +17,7 @@ import Piechart from './Piechart.vue'
 import Trendchart from './Trendchart.vue'
 import SpentInfo from './SpentInfo.vue'
 import LegacyInfo from './LegacyInfo.vue'
+const Flatpickr = require("flatpickr");
 
 export default {
     name: "Dashboard",

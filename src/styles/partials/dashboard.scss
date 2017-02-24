@@ -585,6 +585,21 @@ a.btn-provision:hover .support-form-holder{
 
   .columns{
     position: relative;
+    > label{
+      display: block;
+      label{
+        display: inline-block;
+      }
+    }
+    .column{
+      label{
+        display: inline-block;
+        margin-left: 0.60976rem;
+        margin-right: 1.21951rem;
+        margin-bottom: 0;
+        vertical-align: baseline;
+      }
+    }
   }
   label{
     color:#444;
@@ -597,8 +612,8 @@ a.btn-provision:hover .support-form-holder{
       font-size: 0.9em;
       line-height: 1.3rem;
       font-style: italic;
-      width: 93%;
-      left: 15px;
+      width: 95%;
+      left: 2px;
       padding: 0 0.4rem;
       margin: 0;
       z-index: 9;
