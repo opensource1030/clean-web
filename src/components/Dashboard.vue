@@ -73,8 +73,8 @@
                     <fieldset class="fieldset">
                         <legend><span class="form-title">Email Services </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> </legend>
 
-                        <input type="radio" name="email-setup" value="Email Setup" id="email_setup" required><label for="email_setup">Email Setup</label>
-                        <input type="radio" name="email-setup" value="Email Troubleshooting" id="email_troubleshooting"><label for="email_troubleshooting">Email Troubleshooting</label>
+                        <input type="radio" name="email_services" value="Email Setup" id="email_setup" required><label for="email_setup">Email Setup</label>
+                        <input type="radio" name="email_services" value="Email Troubleshooting" id="email_troubleshooting"><label for="email_troubleshooting">Email Troubleshooting</label>
                     </fieldset>
                 </div>
 

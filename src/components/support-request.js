@@ -73,7 +73,7 @@ function supportRequest(){
                     "requests" :
                         [{
                             "Catalog_GUID" : "",
-                            "Catalog_Code" : $('#FilterSelect').children('option:selected').data('value'),
+                            "Catalog_Code" : $('#FilterSelect').children('option:selected').data('value') ,
                             "AssetID" : "",
                             "AssetTag" : "",
                             "ASSET_NAME" : "",
@@ -94,16 +94,16 @@ function supportRequest(){
                             "Recipient_Name" : JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName ,
                             "Origin" : "2",
                             "Description" :
-                                $('#description').val() + ", " +
-                                 "IMEI-MEID:" +  $('#imei_meid').val() + "," +
-                                 "ICCID:" + $('#iccid').val() + ", " +
-                                 "Device type, Make/Model:" + $('#device_type').val() + ", " +
-                                 "Phone Origin" + $('#phone_origin').val() + ", " +
-                                  "Mobile #:" + $('#int_mobile').val() + ", " +
-                                  "Dates of Travel:" + $('#flatpickr').val() + ", " +
-                                  "Internation Device Type:" + $('#int-device_type').val() + ", " +
-                                  "Email Service:" + $('input[name=email-setup]:checked', '#support-form').val() + ", " +
-                                   "Priority:" + $('input[name=priority]:checked', '#support-form').val() + ", " +
+                                $('#description').val() + "\r\n " +
+                                "IMEI-MEID:" +  $('#imei_meid').val() + "\r\n " +
+                                 "ICCID:" + $('#iccid').val() + "\r\n " +
+                                 "Device type, Make/Model:" + $('#device_type').val() + "\r\n " +
+                                 "Phone Origin" + $('#phone_origin').val() + "\r\n " +
+                                  "Mobile #:" + $('#int_mobile').val() + "\r\n " +
+                                  "Dates of Travel:" + $('#flatpickr').val() + "\r\n " +
+                                  "Internation Device Type:" + $('#int-device_type').val() + "\r\n " +
+                                  "Email Service:" + $('input[name=email_services]:checked', '#support-form').val() + "\r\n " +
+                                   "Priority:" + $('input[name=priority]:checked', '#support-form').val() + "\r\n " +
                                    "Contact:" + $('input[name=contact-person]:checked', '#support-form').val()
                             ,
                             "ParentRequest" : "",
