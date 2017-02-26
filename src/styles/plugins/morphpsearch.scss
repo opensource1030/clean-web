@@ -71,7 +71,7 @@ margin-top: 3px;
   .morphsearch-content {
     opacity: 1;
     height: 100% !important;
-    width: 103%;
+    width: 100%;
     overflow: visible;
     pointer-events: auto;
     @include css3(transition, opacity 0.3s 0.5s)
@@ -253,10 +253,10 @@ input[type="search"] {
 }
 @media screen and (max-width:800px) {
   #knowledge-base-content{
-    width:94% !important;
-      iframe{
-        width:99% !important;
-      }
+    width: 100% !important;
+    iframe{
+      width: 100% !important;
+    }
   }
   .morphsearch-input {
     padding: 0 25% 0 10px;
@@ -269,6 +269,7 @@ input[type="search"] {
   }
   .morphsearch.open {
     padding-top: 58px;
+
     .morphsearch-input {
       font-size: 2em;
     }
@@ -294,8 +295,9 @@ input[type="search"] {
 @media screen and (max-width: 970px){
   #knowledge-base-content{
     height: 100%;
+
     iframe {
-      width: 97% !important;
+      width: 100% !important;
     }
   }
   .morphsearch {
@@ -305,6 +307,7 @@ input[type="search"] {
     }
   }
 }
+
 @media screen and (max-width: 60.625rem) {
   .morphsearch {
     /* width: 80%;
@@ -328,7 +331,8 @@ input[type="search"] {
 #knowledge-base-content{
   position: relative;
   height: 100%;
-  width: 97%;
+  width: 100%;
+
   iframe{
 /*position: relative;*/
     height: 100%;

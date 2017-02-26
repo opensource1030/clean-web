@@ -1,7 +1,7 @@
 @import "../base/clean-variables";
 footer{
   background: #0C2E82;
-  #footer{
+  #footer {
     // position: fixed;
     z-index: 6;
     width: 100%;
@@ -11,13 +11,19 @@ footer{
     text-align: center;
     color: $white;
 
-    a{
+    a {
       color:$brand-orange;
       text-decoration: none;
     }
 
-    .text-orange{
+    .text-orange {
       color: $brand-orange;
+    }
+
+    span {
+      @media screen and (max-width: 800px) {
+        display: block;
+      }
     }
   }
 }

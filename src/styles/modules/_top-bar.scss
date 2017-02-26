@@ -48,6 +48,7 @@
       }
     }
   }
+
   @media screen and (max-width: 800px){
     .logo{
       position: absolute;
@@ -60,13 +61,22 @@
     .profile{
       padding-left: 0;
     }
-    .HW-container{
+    .HW-container {
       margin: 0;
-      #HW_badge_cont{
+
+      #HW_badge_cont {
         width: 22px;
+
+        &:before {
+          margin-left: -25px;
+          line-height: 50px;
+        }
+      }
+
+      #HW_badge {
+        left: 3px;
       }
     }
-
   }
 }
 .dropdown-pane{
