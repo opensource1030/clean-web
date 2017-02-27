@@ -41,7 +41,6 @@ export default {
 
         dataPackage: function (data) {
             var data = data;
-            console.log(data);
             return data;
         },
 
