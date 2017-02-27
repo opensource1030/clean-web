@@ -5,6 +5,7 @@ import {filterByModificationsd, filterByModifications, filterByCarrier, orderFil
 import devices from './../api/device/devices';
 import Filter from './../api/filtersApi';
 import main from './eventHandle'
+
 export default {
   props: {
     id:{
@@ -24,7 +25,6 @@ export default {
     Filter.getModifications(this);
     Filter.getDeviceTypes(this);
   },
-
   methods : {
     filterByModificationsd,
     filterByModifications,

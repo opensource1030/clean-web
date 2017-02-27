@@ -14,7 +14,7 @@
             <a class="button buttonTable" href="/preset"  >Create Preset</a>
           </div>
 
-          <div class="small-12 columns" >
+          <div class="small-12 columns responsive" >
 
             <table  >
               <thead>

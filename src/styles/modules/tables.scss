@@ -35,7 +35,7 @@
        border: 1px solid rgba(151, 151, 151, 0.3);
 
         thead {
-          background: rgba($brand-orange,0.02);
+          background: rgba($brand-orange,0.02) !important;
           border-bottom: 1px solid rgba(0, 0, 0, 0.06);
           padding: 0.5rem 0.6rem;
 
@@ -84,6 +84,15 @@
     }
     .act {
         background-color: #F0EEDD;
+    }
+
+    @media only screen and (max-width: 767px) {
+
+    	.responsive{
+      overflow-x:auto;
+      }
+
+
     }
 
 

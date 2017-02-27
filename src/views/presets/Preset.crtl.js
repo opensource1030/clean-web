@@ -10,7 +10,7 @@ export default {
   },
   beforeCreate() {
     this.id = this.$route.params.id;
-    this.main=main;
+
     if (this.id != null) {
       preset.getDataPreset(this, this.id);
     }
@@ -23,17 +23,36 @@ export default {
     beforeDestroy(){
       main.eventHub.$off('addvariatons', this.addVarriations)
     },
+    computed:{
+      vCarriers() {
+        if (this.variations != null) {
+          this.preset.variations= this.variations.filter(variation => {
+            return variation.checks;
+          });
+        }
+
+        return '';
+      }
+    },
 
 
   methods : {
       addVarriations(v){
-        this.variations=[];
-        this.variations=v;
-      },
-      hola(){
-        console.log("hola")
-      },
 
+      if(this.id!=null){
+          if(this.variations.length!=0){
+            let i=0;
+            for(let vari of this.variations){
+                  vari.checks=false
+                   document.getElementsByClassName('static')[i].className='static'
+                    i++;
+              }
+
+        }
+      }
+        this.variations=v;
+
+      },
     submit(){
       if(this.id==null){
       preset.addPreset(this,this.preset)
@@ -42,29 +61,18 @@ export default {
     }
     },
     changeStatusPreset(className,index){
-        this.variations[index].checks = !this.variations[index].checks;
-      var el = document.getElementsByClassName('static')[index];
+      let el = document.getElementsByClassName('static')[index];
       el.classList.toggle(className);
-      if(this.variations[index].checks==true){
-        this.preset.variations.push(this.variations[index])
-      }else{
-        this.preset.variations.splice(index,1);
-      }
-
     },
     checkvariation() {
-      var vm = this;
+      let vm = this;
       this.$nextTick(function() {
         var i = 0;
         for (let variation of vm.variations) {
-            variation.checks=false;
-           if(variation.checks==false){
             vm.changeStatusPreset('active', i);
-          }
           i++;
         }
       });
-
     }
 
   },

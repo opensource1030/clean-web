@@ -8,21 +8,17 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var features=config.local.env.FEATURESV;
 var env = process.env.NODE_ENV === 'testing'
-    ? require('../config/test.env')
-    : config.dev.env
-
-/* Feature toggles */
-
+  ? require('../config/test.env')
+  : config.dev.env
 
 var webpackConfig = merge(baseWebpackConfig, {
 
-    devtool: config.build.productionSourceMap ? '#source-map' : false,
-    output: {
-        path: config.build.assetsRoot,
-        filename: utils.assetsPath('js/[name].[chunkhash].js'),
-        chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
-    },
-
+  devtool: config.build.productionSourceMap ? '#source-map' : false,
+  output: {
+    path: config.build.assetsRoot,
+    filename: utils.assetsPath('js/[name].[chunkhash].js'),
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+  },
 
   plugins: [
     // http://vuejs.github.io/vue-loader/workflow/production.html
@@ -79,25 +75,24 @@ var webpackConfig = merge(baseWebpackConfig, {
       minChunks: 'Infinity'
     })
   ]
->>>>>>> config files and test e2e with login local and logout
 })
 
 if (config.build.productionGzip) {
-    var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  var CompressionWebpackPlugin = require('compression-webpack-plugin')
 
-    webpackConfig.plugins.push(
-        new CompressionWebpackPlugin({
-            asset: '[path].gz[query]',
-            algorithm: 'gzip',
-            test: new RegExp(
-                '\\.(' +
-                config.build.productionGzipExtensions.join('|') +
-                ')$'
-            ),
-            threshold: 10240,
-            minRatio: 0.8
-        })
-    )
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: new RegExp(
+        '\\.(' +
+        config.build.productionGzipExtensions.join('|') +
+        ')$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
 }
 
 module.exports = webpackConfig

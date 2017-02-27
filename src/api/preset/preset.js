@@ -22,6 +22,9 @@ export default {
     let  event = store.sync(response.data);
         context.preset.name=event.name;
         this.devicevariations=event.devicevariations;
+        for (let v of event.devicevariations){
+          v.checks=true;
+        }
         context.variations=event.devicevariations;
         context.checkvariation();
   },

@@ -14,9 +14,6 @@
           <div class="small-12 columns" >
             <a class="button buttonTable" href="/device"  >Add device</a>
           </div>
-
-          <div class="small-12 columns" >
-
             <tables></tables>
 </template>
 
