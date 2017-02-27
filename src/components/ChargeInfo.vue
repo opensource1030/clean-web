@@ -28,7 +28,7 @@
                 <tr>
                   <td v-if="item.bill_month"> {{ item.bill_month | cleanDate  }} </td>
                   <td v-if="allocation"  v-html="allocation.firstName ? allocation.firstName : '-' "> </td>
-                  <td> <router-link class="alloc_mblnumber"   :to="{ name: 'spentInfo', params: {id: item.id}}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' " > {{ item.mobile_number }}  </router-link>
+                  <td> <router-link class="alloc_mblnumber"   :to="{ name: 'Mobile Charges', params: {id: item.id}}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' " > {{ item.mobile_number }}  </router-link>
                   </td>
                   <td v-html="item.carrier ? item.carrier : '-'  "> </td>
                   <td v-html="item.device ? item.device : '-'  "> </td>
@@ -39,12 +39,14 @@
                   <td v-if="item.last_upgrade"> {{ item.last_upgrade | cleanDate  }}  </td>
                   <td>
                     <select class="user-actions" >
-                      <option disabled value=" " selected>-- Choose an issue ---</option>
-                      <option value="hd-trobleshooting">Troubleshooting</option>
-                      <option value="hd-plan-change">Plan Change</option>
-                      <option value="hd-email-service">Email Service</option>
-                      <option value="hd-billing-allocations">Billing &amp; allocations</option>
-                      <option value="hd-other">Other</option>
+                      <option selected disabled value=" ">-- Choose an issue ---</option>
+                      <option value="IRE1-1">Troubleshooting</option>
+                      <option value="IRE1-2">Plan Change</option>
+                      <option value="IRE1-3">Email Service</option>
+                      <option value="ALR4-4">Billing &amp; allocations</option>
+                      <option value="IRE1-5">Activation</option>
+                      <option value="IRE1-6">International Request</option>
+                      <option value="IRE0-7">Other</option>
                     </select>
                   </td>
                 </tr>

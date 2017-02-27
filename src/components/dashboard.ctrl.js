@@ -17,6 +17,7 @@ import Piechart from './Piechart.vue'
 import Trendchart from './Trendchart.vue'
 import SpentInfo from './SpentInfo.vue'
 import LegacyInfo from './LegacyInfo.vue'
+const Flatpickr = require("flatpickr");
 
 export default {
     name: "Dashboard",
@@ -32,6 +33,17 @@ export default {
         LegacyInfo
     },
     mounted(){
+        $(document).keyup(function (e) {
+            if ($('.spent-info').hasClass('active') &&  e.keyCode == 27) {
+                setTimeout(function () {
+                    history.back();
+                }, 200)
+            } else if($('.support-form-holder').is(":visible") &&  e.keyCode == 27 ) {
+                setTimeout(function () {
+                    $('#btn-close').click();
+                },200)
+            }
+        });
 
         $('.redirect-link a').each(function(e){
             $(this).click(function(e){

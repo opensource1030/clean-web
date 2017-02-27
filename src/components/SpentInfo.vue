@@ -46,11 +46,13 @@
                   <h6>Action for this line: </h6>
                   <select id="choose-issues" class="user-actions " >
                     <option disabled value=" " selected>-- Medium ---</option>
-                    <option value="hd-trobleshooting">Troubleshooting</option>
-                    <option value="hd-plan-change">Plan Change</option>
-                    <option value="hd-email-service">Email Service</option>
-                    <option value="hd-billing-allocations">Billing Inquiry</option>
-                    <option value="hd-other">Other</option>
+                    <option value="IRE1-1">Troubleshooting</option>
+                    <option value="IRE1-2">Plan Change</option>
+                    <option value="IRE1-3">Email Service</option>
+                    <option value="ALR4-4">Billing &amp; allocations</option>
+                    <option value="IRE1-5">Activation</option>
+                    <option value="IRE1-6">International Request</option>
+                    <option value="IRE0-7">Other</option>
                   </select>
                 </div>
               </div>
@@ -192,7 +194,7 @@
       </div>
     </div>
         <a href="#" class="button pop-close scrollup float-left"><i class="fa fa-arrow-up"> </i>Back to Top</a>
-        <router-link class="button  pop-close back-to" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back to one page </router-link>
+        <router-link class="button  pop-close back-to" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
         </div>
       </div>
   </transition>

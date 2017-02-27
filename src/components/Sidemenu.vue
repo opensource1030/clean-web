@@ -105,7 +105,7 @@
         },
 
         mounted() {
-            console.log('features', this.features);
+            /*console.log('features', this.features);*/
 
             var intervalId = setInterval(function () {
                 var token = localStorage.token;
