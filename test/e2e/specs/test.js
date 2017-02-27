@@ -17,9 +17,7 @@ else{
 
 module.exports = {
 
-
-
-'app should work': function (browser) {
+'Login Local': function (browser) {
 const devServer = browser.globals.devServerURL;
 browser
   .url(devServer)
@@ -44,11 +42,18 @@ browser
             }, [], function(result) {
               browser.assert.containsText(".greeting",result.value )
             })
-            .click('.float-right')
-            .click('#logout')
-            .waitForElementVisible('#email', 15000)
-            .end()
 },
+
+
+'Logout': function (browser) {
+browser
+  .click('.float-right')
+         .click('#logout')
+         .waitForElementVisible('#email', 15000)
+         .end()
+},
+
+
 /*'Login Test with SSO': function (browser) {
        // automatically uses dev Server port from /config.index.js
        // default: http://localhost:8080

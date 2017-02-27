@@ -5,7 +5,7 @@
   </modal>
 
           <div class="small-12 columns titles">
-            <h4>Manage Devices<h4>
+            <h4>Manage Devices</h4>
             </div>
 
             <div class="medium-6 columns ">

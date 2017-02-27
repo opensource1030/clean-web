@@ -8,7 +8,7 @@
     <div id="tables" v-show="!loading" >
       <div class="header"></div>
         <div class="small-12 columns titles">
-          <h4>Presets<h4>
+          <h4>Presets</h4>
           </div>
           <div class="small-12 columns" >
             <a class="button buttonTable" href="/preset"  >Create Preset</a>
