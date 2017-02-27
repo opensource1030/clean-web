@@ -1,12 +1,11 @@
 <template>
-
   <div class="content-right">
     <div class="full-height row">
       <div id="package">
         <div class="header"></div>
         <div class="expanded row">
           <div class="large-12 columns titles">
-            <h4>{{packages.names.managePackage}}<h4>
+            <h4>{{packages.names.managePackage}}</h4>
           </div>
           <table class="padding" cellspacing=0 cellpadding=0>
             <tr>

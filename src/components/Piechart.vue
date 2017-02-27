@@ -8,14 +8,14 @@
         <div class="box-content coming-soon">
           <ul class="tabs" data-tabs id="spend-tabs">
             <template v-for="(allocation, index) in data">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#spend-' + index" :aria-selected="index == 0 ? true : false">{{ allocation.mobile_number | phone }}</a>
+              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ allocation.mobile_number | phone }}</a>
               </li>
             </template>
           </ul>
 
           <div class="tabs-content" data-tabs-content="spend-tabs">
             <template v-for="(allocation, index) in data">
-              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == 0 ? false : true">
+              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
                 <div class="pie-chart-title">
                   {{ title(allocation) }}
                 </div>
@@ -59,22 +59,24 @@
             'label': 'Charge'
           },
         ],
-        rows: [],
+        rows: [
+          ['2004', 1000],
+          ['2005', 1170],
+          ['2006', 660],
+          ['2007', 1030],
+          ['2008', 800]
+        ],
         options: {
           width: 'auto',
           height: 300,
           pieHole: 0.4,
           colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
-          focusTarget: 'category',
+          // focusTarget: 'category',
         }
       }
     },
 
     methods: {
-      test() {
-        return [10, 15, 27.4, 32.40, 26];
-      },
-
       title(allocation) {
         return this.$options.filters.phone(allocation.mobile_number) + ' (' + dateFormat(allocation.bill_month, 'mmm yyyy') + ')';
       },

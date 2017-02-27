@@ -8,14 +8,14 @@
         <div class="box-content coming-soon">
           <ul class="tabs" data-tabs id="trend-tabs">
             <template v-for="(key, index) in groupDataKeys">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#trend-' + index" :aria-selected="index == 0 ? true : false">{{ key | phone }}</a>
+              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ key | phone }}</a>
               </li>
             </template>
           </ul>
 
           <div class="tabs-content" data-tabs-content="trend-tabs">
             <template v-for="(key, index) in groupDataKeys">
-              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == 0 ? false : true">
+              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
                 <!-- <trend-chart :chartData="seriesData(key)" :options="options" :height="300"></trend-chart> -->
                 <vue-chart
                   chart-type="LineChart"
@@ -48,57 +48,57 @@
     props: ['data'],
 
      data: function () {
-        const currency = '$';
-        const formatter = new google.visualization.NumberFormat({
-          fractionDigits: 2,
-          prefix: currency
-        });
-        return {
-            columns: [
-              {
-                'type': 'string',
-                'label': 'Year / Month',
-                'role': 'domain'
-              },
-              {
-                'type': 'number',
-                'label': 'Service Plan Charges'
-              },
-              {
-                'type': 'number',
-                'label': 'Domestic Usage Charges'
-              },
-              {
-                'type': 'number',
-                'label': 'International Roam Usage Charges'
-              },
-              {
-                'type': 'number',
-                'label': 'International Long Distance Voice Charges'
-              },
-              {
-                'type': 'number',
-                'label': 'Other Charges'
-              }
-            ],
-            options: {
-                vAxis: {
-                  format: currency + "0.00"
-                },
-                width: 'auto',
-                height: 300,
-                colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
-                legend: {
-                  position: 'bottom'
-                },
-                focusTarget: 'category',
-                chartArea: {
-                  left: '15%',
-                  top: '10%',
-                  width: '75%'
-                }
-            }
+      const currency = '$';
+      const formatter = new google.visualization.NumberFormat({
+        fractionDigits: 2,
+        prefix: currency
+      });
+      return {
+        columns: [
+          {
+            'type': 'string',
+            'label': 'Year / Month',
+            'role': 'domain'
+          },
+          {
+            'type': 'number',
+            'label': 'Service Plan Charges'
+          },
+          {
+            'type': 'number',
+            'label': 'Domestic Usage Charges'
+          },
+          {
+            'type': 'number',
+            'label': 'International Roam Usage Charges'
+          },
+          {
+            'type': 'number',
+            'label': 'International Long Distance Voice Charges'
+          },
+          {
+            'type': 'number',
+            'label': 'Other Charges'
+          }
+        ],
+        options: {
+          vAxis: {
+            format: currency + "0.00"
+          },
+          width: 'auto',
+          height: 300,
+          colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
+          legend: {
+            position: 'bottom'
+          },
+          focusTarget: 'category',
+          chartArea: {
+            left: '15%',
+            top: '10%',
+            width: '75%'
+          }
         }
+      }
     },
 
     computed: {

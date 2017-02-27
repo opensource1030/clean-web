@@ -20,21 +20,21 @@
             <div class="row">
             <div  class=" columns large-6 ">
               <div class="grid-box eq-Hght">
-              <header class="box-heading"><h2>Handset Details  <span data-tooltip aria-haspopup="true" class="has-tip for-pop top" data-disable-hover="false" tabindex="1" title="Information pertaining to your line of service"> <i class="fa fa-question"> </i> </span></h2></header>
-              <div class="box-content">
-                <div class="box-content-holder">
-                  <div class="row">
-                    <div class="columns large-12">
-                      <ul class="no-bullet">
-                        <li><strong>Current Device:</strong> <span v-html="allocation.device ? allocation.device : '-' "> </span>
-                        <li><strong>Device Type:</strong> <span v-html="allocation.device_type ? allocation.device_type : '-' "> Smartphone</span>
-                        <li><strong>Last Upgraded:</strong> <span v-if="allocation.last_upgrade "> {{ allocation.last_upgrade | cleanDate  }} </span>
-                        <li><strong>IMEI/ESN:</strong> <span v-html="allocation.device_esn_imei ? allocation.device_esn_imei : '-' "> 56163123617986534551</span>
-                        <li><strong>SIM:</strong> <span v-html="allocation.device_sim ? allocation.device_sim : '-' "> 12234523123412524</span>
-                      </ul>
+                <header class="box-heading"><h2>Handset Details  <span data-tooltip aria-haspopup="true" class="has-tip for-pop top" data-disable-hover="false" tabindex="1" title="Information pertaining to your line of service"> <i class="fa fa-question"> </i> </span></h2></header>
+                <div class="box-content">
+                  <div class="box-content-holder">
+                    <div class="row">
+                      <div class="columns large-12">
+                        <ul class="no-bullet">
+                          <li><strong>Current Device:</strong> <span v-html="allocation.device ? allocation.device : '-' "> </span></li>
+                          <li><strong>Device Type:</strong> <span v-html="allocation.device_type ? allocation.device_type : '-' "> Smartphone</span></li>
+                          <li><strong>Last Upgraded:</strong> <span v-if="allocation.last_upgrade "> {{ allocation.last_upgrade | cleanDate  }} </span></li>
+                          <li><strong>IMEI/ESN:</strong> <span v-html="allocation.device_esn_imei ? allocation.device_esn_imei : '-' "> 56163123617986534551</span></li>
+                          <li><strong>SIM:</strong> <span v-html="allocation.device_sim ? allocation.device_sim : '-' "> 12234523123412524</span></li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
               </div>
             </div>
