@@ -96,7 +96,6 @@
     </form>
   </div>
   <div class="clearfix"></div>
-
   <div>
     <piechart :data="piechartData"></piechart>
     <trendchart :data="trendchartData"></trendchart>
