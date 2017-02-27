@@ -194,7 +194,7 @@
       </div>
     </div>
         <a href="#" class="button pop-close scrollup float-left"><i class="fa fa-arrow-up"> </i>Back to Top</a>
-        <router-link class="button  pop-close back-to" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back to one page </router-link>
+        <router-link class="button  pop-close back-to" :to="{ name: 'dashboard'}" replace> <i class="fa fa-arrow-left"> </i> Back </router-link>
         </div>
       </div>
   </transition>

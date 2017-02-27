@@ -43,7 +43,7 @@
   background: #FDFDFF;
   @include css3(border-radius,0);
   .box-heading{
-    background: rgba($brand-orange,0.02);
+    background: $box-heading-bg;
     border-bottom:1px solid rgba(0, 0, 0, 0.06);
     padding:0.5rem 0.6rem;
     h2{
@@ -118,8 +118,6 @@
   .user-actions{
     max-width: 180px;
     margin-bottom: 0;
-    padding: 0.3rem;
-    background-color: transparent;
     border:none;
   }
 
@@ -156,7 +154,7 @@
     select{
       font-size: 1rem;
       height: 2.3rem;
-      background-position: right 0.4rem center;
+
     }
   }
 
