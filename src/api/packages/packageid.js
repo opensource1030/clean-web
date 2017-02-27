@@ -23,14 +23,19 @@ export default {
 
       this.getUdlsFromCompanies(context, context.packages.companyId);
     },
-    (response) => {});
+    (response) => {
+      if(response.status == 500) {
+        //context.packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+      }
+      context.errors.generalError = true;
+    });
   },
   // GET packages INFORMATION.
   getDataPackages(context, id) {
 
     let params = {
       params: {
-        include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images'
+        include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images,services.serviceitems'
       }
     };
 
@@ -39,19 +44,22 @@ export default {
       context.packages.id = id;
       context.packages.name = event.name;
       context.packages.type = event.type;
-
-            //context.packages.addressId = event.addressId;
-            context.packages.companyId = event.companyId;
-            //context.packages.apps = event.apps;
-            context.packages.conditions = event.conditions;
-            context.packages.devicevariations = event.devicevariations;
-            context.packages.services = event.services;
-            this.getUdlsFromCompanies(context, context.packages.companyId);
-            this.getDeviceVariationsFromPresets(context, context.packages.companyId);
-
-            context.addOptionsToRetrievedConditions();
-          },
-          (response) => {});
+      //context.packages.addressId = event.addressId;
+      context.packages.companyId = event.companyId;
+      //context.packages.apps = event.apps;
+      context.packages.conditions = event.conditions;
+      context.packages.devicevariations = event.devicevariations;
+      context.retrieveTheValuesOfTheDevices();
+      context.packages.services = event.services;
+      this.getUdlsFromCompanies(context, context.packages.companyId);
+      context.addOptionsToRetrievedConditions();
+    },
+    (response) => {
+      if(response.status == 500) {
+        //packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+      }
+      context.errors.generalError = true;
+    });
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
   getUdlsFromCompanies(context, companyId) {
@@ -66,16 +74,14 @@ export default {
       context.packages.companies = store.sync(response.data);
       context.addConditionsOptions();
       this.getPresets(context, companyId, 1);
-      this.getCarriersFromAnywhere(context, companyId);
-
+      this.getCarriers(context, companyId, 1);
     },
     (response) => {});
   },
-  // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+  // GET PRESETS RELATED TO THE COMPANY OF THE USER.
   getPresets(context, companyId, pages) {
     let params = {
       params: {
-        //include: 'devicevariations,devicevariations.images,devicevariations.devices',
         page: pages,
       }
     };
@@ -90,7 +96,7 @@ export default {
     },
     (response) => {});
   },
-  // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
+  // GET DEVICEVARIATIONS FROM THE PRESET SELECTED BY THE USER.
   getDeviceVariationsFromPresets(context, presetId) {
 
     let params = {
@@ -103,6 +109,41 @@ export default {
       let event = store.sync(response.data);
       context.packages.presetSelected = event;
       context.devicevariationList();
+    },
+    (response) => {});
+  },
+  // GET CARRIERS RELATED TO THE COMPANY OF THE USER.
+  getCarriers(context, pages) {
+    let params = {
+      params: {
+        include: 'images',
+        page: pages,
+      }
+    };
+
+    context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
+      let event = store.sync(response.data);
+      context.packages.carriersPagination = response.data.meta.pagination;
+      context.addCarriersToTheArray(event);
+    },
+    (response) => {});
+  },
+  // GET SERVICES FROM THE CARRIER SELECTED BY THE USER.
+  getServicesFromCarriers(context, carrierId, pages) {
+
+    let params = {
+      params: {
+        include: 'serviceitems',
+        page: pages,
+      }
+    };
+
+    params.params['filter[carrierId]'] = carrierId;
+
+    context.$http.get(process.env.URL_API + '/services', params).then((response) => {
+      let event = store.sync(response.data);
+      context.packages.servicesPagination = response.data.meta.pagination;
+      context.addServicesToTheArray(event);
     },
     (response) => {});
   },

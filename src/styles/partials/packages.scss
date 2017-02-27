@@ -94,7 +94,7 @@
     border-color: #21eb1f;
     border-radius: 1rem;
   }
-  .presetstitles {
+  .titlesZones {
     font-weight: bold;
     text-align: center;
     font-size: 2rem;
@@ -114,6 +114,12 @@
   .presetimage {
     position: relative;
   }
+  .carrierimage {
+    position: relative;
+    border-style: solid;
+    border-color: green;
+    border-width: 8px;
+  }
   .absolute {
     font-weight: bold;
     font-size: 2rem;
@@ -125,15 +131,11 @@
   .servicetext {
     font-weight: bold;
     position: absolute;
+    font-size: 1.5rem;
     top: 10%;
     left: 10%;
   }
   .parent {
-    position: relative;
-    top: 0;
-    left: 0;
-  }
-  .image1 {
     position: relative;
     top: 0;
     left: 0;
@@ -173,5 +175,13 @@
   .list-enter, .list-leave-to /* .list-leave-active for <2.1.8 */ {
     opacity: 0;
     transform: translateY(30px);
+  }
+  .colorgreen {
+    font-weight: bold;
+    color: #5DFC0A;
+  }
+  .colorred {
+    font-weight: bold;
+    color: #FF0000;
   }
 }

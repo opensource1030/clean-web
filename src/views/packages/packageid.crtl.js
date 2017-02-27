@@ -30,11 +30,59 @@ export default {
       packaging.getUserInformation(this);
     }
   },
-  computed: {
-  },
+  computed: {},
   mounted() {},
   methods : {
     deleteRepeated,
+    getTheRowOfServiceItems: function(domain, category, type) {
+      let aux = [];
+      if (type == 'list') {
+        aux = this.packages.serviceInformation.serviceitems;
+      } else if (type == 'selected') {
+        aux = this.packages.serviceSelectedInformation.serviceitems
+      } else {
+        // NOTHING
+      }
+
+      for (let si of aux) {
+        if (si.domain == domain && si.category == category) {
+          return si.value;
+        }
+      }
+      return 'No Value';
+    },
+    getTheDifferenceBetweenServices: function(domain, category, type) {
+      let aux = 0;
+
+      if (domain == null || category == null) {
+        if (type == 'list') {
+          aux = this.packages.serviceInformation.cost - this.packages.serviceSelectedInformation.cost;
+        } else if (type == 'selected') {
+          aux = this.packages.serviceSelectedInformation.cost - this.packages.serviceInformation.cost;
+        }
+      } else {
+        for (let si of this.packages.serviceInformation.serviceitems) {
+          for (let sisel of this.packages.serviceSelectedInformation.serviceitems) {
+            if (si.domain == domain && sisel.domain == domain && si.category == category && sisel.category == category) {
+              if (type == 'list') {
+                if (si.value != sisel.value) {
+                  aux = si.value - sisel.value;
+                }
+              } else if (type == 'selected') {
+                if (si.value != sisel.value) {
+                  aux = sisel.value - si.value;
+                }
+              }
+            }
+          }
+        }
+      }
+      if (aux >= 0) {
+        return '+' + aux;
+      } else {
+        return aux;
+      }
+    },
     submit() {
 
       let submitOk = true;
@@ -319,15 +367,25 @@ export default {
         return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
       }
     },
-    getUrlOfImage(object) {
-      if (object.images.length > 0 ) {
-        for (let i of object.images) {
-          if (i.id > 0) {
-            return process.env.URL_API + '/images/' + i.id;
+    getUrlOfImage(object, type) {
+
+      if(object.hasOwnProperty('images')) {
+        if (object.images.length > 0 ) {
+          for (let i of object.images) {
+            if (i.id > 0) {
+              return process.env.URL_API + '/images/' + i.id;
+            }
           }
         }
       }
-      return 'https://openclipart.org/download/213897/black-android-phone.svg';
+
+      if (type == 'devicevariation') {
+        return 'https://openclipart.org/download/213897/black-android-phone.svg';
+      } else if (type == 'carrier') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      } else if (type == 'service') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      }
     },
     getNameIfNoImage(imageId, name) {
       if (imageId == 0) {
@@ -369,10 +427,12 @@ export default {
     devicevariationSelected(devvar, index) {
       this.packages.devicevariationsList.splice(index, 1);
       this.packages.devicevariations.splice(0, 0, devvar);
+      this.retrieveTheValuesOfTheDevices();
     },
     devicevariationNoSelected(devvar, index) {
       this.packages.devicevariations.splice(index, 1);
       this.returnToThePresetAbove(devvar);
+      this.retrieveTheValuesOfTheDevices();
     },
     returnToThePresetAbove(devvar) {
       for (let dv of this.packages.presetSelected.devicevariations) {
@@ -381,91 +441,11 @@ export default {
         }
       }
     },
-/*
-    retrieveTheNewDevicesSelectedList() {
-      for (let dv of this.packages.devicevariations) {
-        dv.preset = '';
-        for (let pres of this.packages.presets) {
-          for (let dvsel of pres.devicevariations) {
-            if(dvsel.id == dv.id) {
-              dv.preset = dv.preset + pres.name + ', ';
-            }
-          }
-        }
-        dv.preset = dv.preset.substring(0, dv.preset.length-2);
-      }
-
-      if (this.packages.devicevariations.length > 1) {
-        this.packages.devicevariations = deleteRepeated(this.packages.devicevariations, 'id', 'name', 'number', 'asc');
-      }
-      this.retrieveTheValuesOfTheDevices(this.packages.devicevariations);
-    },
-*/
-
-
-
-
-
-
-
-
-    carrierSelected(carrier) {
-      this.packages.variablesShow.carrierSelected = true;
-      this.packages.variablesShow.carrierSelectedName = carrier.presentation;
-      for (let carr of this.packages.carriers) {
-        carr.selected = false;
-      }
-      carrier.selected = true;
-      this.servicesList();
-    },
-
-    serviceSelected(service, index) {
-      this.packages.service = service;
-      this.packages.service.show = true;
-    },
-
-
-    retrieveTheNewServicesSelectedList() {
-      for (let serv of this.packages.services) {
-        serv.carrier = '';
-        for (let carr of this.packages.carriers) {
-          for (let servsel of carr.services) {
-            if(servsel.id == serv.id) {
-              serv.carrier = serv.carrier + carr.presentation + ', ';
-            }
-          }
-        }
-        serv.carrier = serv.carrier.substring(0, serv.carrier.length-2);
-      }
-
-      if (this.packages.services.length > 1) {
-        this.packages.services = deleteRepeated(this.packages.services, 'id', 'planCode', 'number', 'asc');
-      }
-      this.retrieveTheValuesOfTheDevices(this.packages.services);
-    },
-    servicesList(){
-      this.packages.servicesList = [];
-      for (let carr of this.packages.carriers) {
-        if (carr.selected) {
-          for (let serv of carr.services) {
-            let ok = true;
-            for (let servsel of this.packages.services) {
-              if (serv.id == servsel.id) {
-                ok = false;
-              }
-            }
-            if(ok) {
-              this.packages.servicesList.push(serv);
-            }
-          }
-        }
-      }
-    },
-    retrieveTheValuesOfTheDevices(devicevariations) {
+    retrieveTheValuesOfTheDevices() {
       this.packages.names.devices.minPrice = 0;
       this.packages.names.devices.maxPrice = 0;
 
-      for (let dv of devicevariations) {
+      for (let dv of this.packages.devicevariations) {
         if(this.packages.names.devices.minPrice == 0 && this.packages.names.devices.maxPrice == 0) {
           this.packages.names.devices.minPrice = dv.price1;
           this.packages.names.devices.maxPrice = dv.price1;
@@ -479,6 +459,324 @@ export default {
         }
       }
     },
+    //------------------------------------------END PRESETS--------------------------------------------------------
+    //------------------------------------------END PRESETS--------------------------------------------------------
+    //------------------------------------------END PRESETS--------------------------------------------------------
+    //------------------------------------------END PRESETS--------------------------------------------------------
+    //------------------------------------------END PRESETS--------------------------------------------------------
+    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //------------------------------------------START CARRIERS--------------------------------------------------------
+    goForwardCarrier() {
+      if(this.packages.carriersPagination.current_page < this.packages.carriersPagination.total_pages && this.packages.retrieveMore) {
+        let optionAux = this.packages.carriersController.option;
+        this.packages.carriersController.option = 'forward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.carriersController.option) {
+          packaging.getCarriers(this, this.packages.carriersPagination.current_page + 1);
+        } else {
+          packaging.getCarriers(this, this.packages.carriersPagination.current_page + 2);
+        }
+      }
+    },
+    goBackCarrier() {
+      if(this.packages.carriersPagination.current_page > 2 && this.packages.retrieveMore) {
+        let optionAux = this.packages.carriersController.option;
+        this.packages.carriersController.option = 'backward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.carriersController.option) {
+          packaging.getCarriers(this, this.packages.carriersPagination.current_page - 1);
+        } else {
+          packaging.getCarriers(this, this.packages.carriersPagination.current_page - 2);
+        }
+      }
+    },
+    reloadArrowsForCarriersSwiper() {
+      if(this.$refs.swCarrier.swiper.isBeginning && (this.packages.carriersPagination.current_page == 1 || this.packages.carriersPagination.current_page == 2)) {
+        this.packages.carriersController.goBackBoolean = false;
+      } else {
+        this.packages.carriersController.goBackBoolean = true;
+      }
+
+      if(this.$refs.swCarrier.swiper.isEnd && this.packages.carriersPagination.current_page == this.packages.carriersPagination.total_pages) {
+        this.packages.carriersController.goForwardBoolean = false;
+      } else {
+        this.packages.carriersController.goForwardBoolean = true;
+      }
+    },
+    addCarriersToTheArray(carriers) {
+      if (carriers.length != 0) {
+        if (this.packages.carriers.length == 0) {
+          this.packages.carriers = carriers;
+        } else {
+          if (this.packages.carriersController.option == 'forward') {
+            for (let pre of carriers) {
+              this.packages.carriers.push(pre);
+            }
+            if (this.packages.carriers.length > 50) {
+              this.deleteTheFirstTwentyFiveOfCarriers();
+            }
+            this.$refs.swCarrier.swiper._slideTo(21, 0);
+          } else if (this.packages.carriersController.option == 'backward') {
+            for (let pre of this.packages.carriers) {
+              carriers.push(pre);
+            }
+            this.packages.carriers = carriers;
+            if (this.packages.carriers.length > 50) {
+              this.deleteTheLastPartOfCarriers();
+            }
+            this.$refs.swCarrier.swiper._slideTo(25, 0);
+          } else {
+            // NOTHING
+          }
+        }
+      }
+      this.packages.retrieveMore = true;
+    },
+    deleteTheFirstTwentyFiveOfCarriers() {
+      this.packages.carriers = this.packages.carriers.slice(25, this.packages.carriers.length);
+    },
+    deleteTheLastPartOfCarriers() {
+      this.packages.carriers = this.packages.carriers.slice(0, 50);
+    },
+    carrierSelected(carrier) {
+      if(this.packages.retrieveMore) {
+        this.packages.retrieveMore = false;
+
+        for (let carr of this.packages.carriers) {
+          carr.selected = false;
+          if(carr.id == carrier.id) {
+            carr.selected = true;
+          }
+        }
+
+        if (this.packages.carrierSelected != carrier.id) {
+          this.packages.servicesList = [];
+          this.packages.carrierSelected = carrier;
+          this.packages.serviceInformationBool = false;
+          packaging.getServicesFromCarriers(this, carrier.id, 1);
+        }
+      }
+    },
+    serviceList(){
+      this.packages.servicesSwiper = [];
+      for (let dv of this.packages.carrierSelected.services) {
+          let ok = true;
+          for (let dvsel of this.packages.services) {
+            if (dv.id == dvsel.id) {
+              ok = false;
+            }
+          }
+          if (ok) {
+            dv.show = false;
+            this.packages.servicesSwiper.push(dv);
+          }
+        }
+
+        for (let dv of this.packages.servicesSwiper) {
+          dv.show = true;
+        }
+
+        this.packages.variablesShow.carrierSelected = true;
+    },
+    serviceInformation(service) {
+      for (let serv of this.packages.servicesList) {
+        serv.selected = false;
+        if(serv.id == service.id) {
+          serv.selected = true;
+        }
+      }
+      this.packages.serviceInformation = service;
+      this.packages.serviceInformationBool = true;
+    },
+    serviceSelectedInformation(service) {
+      for (let serv of this.packages.services) {
+        serv.selected = false;
+        if(serv.id == service.id) {
+          serv.selected = true;
+        }
+      }
+      this.packages.serviceSelectedInformationBool = true;
+      this.packages.serviceSelectedInformation = service;
+    },
+    serviceSelectedAccepted() {
+      this.packages.servicesList.splice(index, 1);
+      this.packages.services.splice(0, 0, service);
+    },
+    returnToTheCarrierAbove(service) {
+      for (let dv of this.packages.carrierSelected.services) {
+        if(service.id == dv.id) {
+          this.packages.servicesList.splice(0, 0, service);
+        }
+      }
+    },
+    getClassIfCarrierSelected(carrier) {
+      if (carrier.name == this.carrierSelected.name) {
+        return 'carrierimage';
+      }
+    },
+    parseServiceItemsValues(value) {
+      return ucfirst(value);
+    },
+    //------------------------------------------END CARRIERS--------------------------------------------------------
+    //------------------------------------------END CARRIERS--------------------------------------------------------
+    //------------------------------------------END CARRIERS--------------------------------------------------------
+    //------------------------------------------END CARRIERS--------------------------------------------------------
+    //------------------------------------------END CARRIERS--------------------------------------------------------
+    //------------------------------------------START SERVICES------------------------------------------------------
+    //------------------------------------------START SERVICES------------------------------------------------------
+    //------------------------------------------START SERVICES------------------------------------------------------
+    //------------------------------------------START SERVICES------------------------------------------------------
+    //------------------------------------------START SERVICES------------------------------------------------------
+    goForwardService() {
+      if(this.packages.servicesPagination.current_page < this.packages.servicesPagination.total_pages && this.packages.retrieveMore) {
+        let optionAux = this.packages.servicesController.option;
+        this.packages.servicesController.option = 'forward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.servicesController.option) {
+          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page + 1);
+        } else {
+          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page + 2);
+        }
+      }
+    },
+    goBackService() {
+      if(this.packages.servicesPagination.current_page > 2 && this.packages.retrieveMore) {
+        let optionAux = this.packages.servicesController.option;
+        this.packages.servicesController.option = 'backward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.servicesController.option) {
+          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page - 1);
+        } else {
+          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page - 2);
+        }
+      }
+    },
+    reloadArrowsForServicesSwiper() {
+      if(this.$refs.swServicesList.swiper.isBeginning && (this.packages.servicesPagination.current_page == 1 || this.packages.servicesPagination.current_page == 2)) {
+        this.packages.servicesController.goBackBoolean = false;
+      } else {
+        this.packages.servicesController.goBackBoolean = true;
+      }
+
+      if(this.$refs.swServicesList.swiper.isEnd && this.packages.servicesPagination.current_page == this.packages.servicesPagination.total_pages) {
+        this.packages.servicesController.goForwardBoolean = false;
+      } else {
+        this.packages.servicesController.goForwardBoolean = true;
+      }
+    },
+    addServicesToTheArray(services) {
+      if (services.length != 0) {
+        if (this.packages.servicesListRetrieved.length == 0) {
+          this.packages.servicesListRetrieved = services;
+          this.$refs.swServicesList.swiper._slideTo(0, 0);
+        } else {
+          if (this.packages.servicesController.option == 'forward') {
+            for (let pre of services) {
+              this.packages.servicesListRetrieved.push(pre);
+            }
+            if (this.packages.servicesListRetrieved.length > 50) {
+              this.deleteTheFirstTwentyFiveOfServices();
+            }
+            this.$refs.swServicesList.swiper._slideTo(21, 0);
+          } else if (this.packages.servicesController.option == 'backward') {
+            for (let pre of this.packages.servicesListRetrieved) {
+              services.push(pre);
+            }
+            this.packages.servicesListRetrieved = services;
+            if (this.packages.servicesListRetrieved.length > 50) {
+              this.deleteTheLastPartOfServices();
+            }
+            this.$refs.swServicesList.swiper._slideTo(25, 0);
+          } else {
+            // NOTHING
+          }
+        }
+      }
+      this.deleteSelectedServicesFromServicesListRetrieved();
+      this.packages.retrieveMore = true;
+    },
+    deleteTheFirstTwentyFiveOfServices() {
+      this.packages.servicesListRetrieved = this.packages.servicesListRetrieved.slice(25, this.packages.servicesListRetrieved.length);
+    },
+    deleteTheLastPartOfServices() {
+      this.packages.servicesListRetrieved = this.packages.servicesListRetrieved.slice(0, 50);
+    },
+    deleteSelectedServicesFromServicesListRetrieved() {
+      this.packages.servicesList = [];
+      for (let dv of this.packages.servicesListRetrieved) {
+        let ok = true;
+        for (let dvsel of this.packages.services) {
+          if (dv.id == dvsel.id) {
+            ok = false;
+          }
+        }
+        if (ok) {
+          dv.show = false;
+          this.packages.servicesList.push(dv);
+        }
+      }
+    },
+    addServiceSelected() {
+      console.log("ADD");
+      let aux = [];
+      this.packages.serviceInformation.selected = false;
+      aux.push(this.packages.serviceInformation);
+      for (let serv of this.packages.services) {
+        aux.push(serv);
+      }
+      this.packages.services = aux;
+      this.packages.serviceInformationBool = false;
+      this.deleteSelectedServicesFromServicesListRetrieved();
+    },
+    deleteServiceSelected() {
+      console.log("DELETE");
+      let aux =[];
+      for (let serv of this.packages.services) {
+        if(serv.id != this.packages.serviceSelectedInformation.id){
+          aux.push(serv);
+        }
+      }
+      this.packages.services = aux;
+      this.packages.serviceSelectedInformationBool = false;
+      this.deleteSelectedServicesFromServicesListRetrieved();
+    },
+
+/*
+        serviceInformation: {
+          title: '',
+          serviceitems: [],
+        },
+        serviceSelectedInformation: {
+          title: '',
+          serviceitems: []
+        },
+        */
+
+
+
+
+    //------------------------------------------END SERVICES------------------------------------------------------
+    //------------------------------------------END SERVICES------------------------------------------------------
+    //------------------------------------------END SERVICES------------------------------------------------------
+    //------------------------------------------END SERVICES------------------------------------------------------
+    //------------------------------------------END SERVICES------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
     showFalse() {
       this.show = false;
     },
@@ -547,7 +845,7 @@ export default {
             maxPrice: 0,
           },
           errors: {
-            textError: 'Some Fields need to be filled! Please, check the conditions!'
+            textError: 'Internal Server Error, Please Contact the Administrator!'
           }
         },
         apps: [
@@ -595,11 +893,6 @@ export default {
         {
           id: 0,
           type: 'conditions',
-          nameCond: '',
-          condition: '',
-          value: '',
-          typeCond: '',
-          inputType: '',
           conditionsConditionsOptions: [],
           conditionsValuesOptions: [],
           add: false,
@@ -609,7 +902,6 @@ export default {
           valueError: false,
         }
         ],
-        carriers : [],
         presets: [],
         presetSelected: {
           name: '',
@@ -629,44 +921,53 @@ export default {
         },
         devicevariations:  [], // The devicevariations related to packages.
         devicevariationsList: [], // The devicevariations that we will show in the swiper
-        servicesList: [],
+
+        carriers: [],
+        carrierSelected: {
+          name: '',
+        },
+        carriersController: {
+          goForwardBoolean: true,
+          goBackBoolean: false,
+          current_value: 1,
+          option: 'forward',
+        },
+        carriersPagination: {
+          count: 25,
+          current_page: 1,
+          per_page: 25,
+          total: 1,
+          total_pages: 1,
+        },
+        services:  [], // The services related to packages.
+        servicesController: {
+          goForwardBoolean: true,
+          goBackBoolean: false,
+          current_value: 1,
+          option: 'forward',
+        },
+        servicesPagination: {
+          count: 25,
+          current_page: 1,
+          per_page: 25,
+          total: 1,
+          total_pages: 1,
+        },
+        serviceInformation: {
+          title: '',
+          serviceitems: [],
+        },
+        serviceSelectedInformation: {
+          title: '',
+          serviceitems: []
+        },
+        serviceInformationBool: false,
+        serviceSelectedInformationBool: false,
+        servicesList: [], // The services that we will show in the swiper (with the deleted selected services).
+        servicesListRetrieved: [], // The services list complete.
         noinformation: [
         {
           url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
-        }
-        ],
-        services: [
-        {
-          carrierId: 0,
-          carriers: [
-          {
-            active: 1,
-            id: 0,
-            locationId: 0,
-            name: '',
-            presentation: '',
-            shortName: '',
-            type: 'carriers'
-          }
-          ],
-          cost: 0,
-          description: '',
-          id: 0,
-          planCode: 0,
-          status: 'Enabled',
-          title: '',
-          type: 'services'
-        }
-        ],
-        service: [
-        {
-          show: false,
-          title: 'EXAMPLE TITLE',
-          planCode: 0,
-          cost: 0,
-          description: '',
-          currency: '',
-          serviceitems: [],
         }
         ],
       },
@@ -710,17 +1011,27 @@ export default {
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
+<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           1200: {
             slidesPerView: 4,
           },
           900: {
             slidesPerView: 3,
+=======
+          1024: {
+            slidesPerView: 4,
+>>>>>>> CP-1507 #Carrier Services
           },
           600: {
             slidesPerView: 2,
           },
+<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           440: {
             slidesPerView: 1
+=======
+          480: {
+            slidesPerView: 1,
+>>>>>>> CP-1507 #Carrier Services
           }
         },
         onReachEnd: this.goForwardPreset,
@@ -733,16 +1044,99 @@ export default {
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
+<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           1100: {
             slidesPerView: 4,
           },
           860: {
             slidesPerView: 3,
+=======
+          1024: {
+            slidesPerView: 4,
+>>>>>>> CP-1507 #Carrier Services
           },
           560: {
             slidesPerView: 2,
           },
+<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           380: {
+=======
+          480: {
+            slidesPerView: 1,
+          }
+        }
+      },
+      swiperOptionDevVarSel: {
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        slidesPerView: 5,
+        spaceBetween: 10,
+        breakpoints: {
+          1024: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 1,
+          }
+        }
+      },
+      swiperOptionCarrier: {
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        slidesPerView: 5,
+        spaceBetween: 10,
+        breakpoints: {
+          1024: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 1,
+          }
+        },
+        onReachEnd: this.goForwardCarrier,
+        onReachBeginning: this.goBackCarrier,
+        onSlideChangeStart: this.reloadArrowsForCarriersSwiper,
+      },
+      swiperOptionServiceList: {
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        slidesPerView: 5,
+        spaceBetween: 10,
+        breakpoints: {
+          1024: {
+            slidesPerView: 3,
+          },
+          740: {
+            slidesPerView: 2,
+          },
+          500: {
+            slidesPerView: 1,
+          }
+        },
+        onReachEnd: this.goForwardService,
+        onReachBeginning: this.goBackService,
+        onSlideChangeStart: this.reloadArrowsForServicesSwiper,
+      },
+      swiperOptionServiceSel: {
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        slidesPerView: 5,
+        spaceBetween: 10,
+        breakpoints: {
+          1024: {
+            slidesPerView: 3,
+          },
+          740: {
+            slidesPerView: 2,
+          },
+          500: {
+>>>>>>> CP-1507 #Carrier Services
             slidesPerView: 1,
           }
         }
