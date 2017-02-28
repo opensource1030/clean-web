@@ -1,379 +1,161 @@
 <template>
-  <div class="content-right" >
-    <div class="alert callout for-dashboard" data-closable style="display:none;">
-      <h5>You will now be redirected to this section in our legacy App</h5>
-    </div>
-    <div class="expanded row">
-
-      <!-- top nav -->
-      <section class="top-bar-section clearfix ">
-        <div class="column large-8 medium-8 small-6">
-          <morphsearch> </morphsearch>
-        </div>
-        <div class="column push-1 large-4 medium-4 small-6 profile" v-if="data.object">
-              <div class="profile-holder"><a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="user.firstName ? user.firstName : 'User' "></avatar> Hi, <span class="greeting" v-if="user.authenticated" v-text="user.firstName ? user.firstName : 'User' ">  </span></a> </div>
-          <div class="HW-container">  </div>
-          <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown >
-            <ul>
-              <li><a @click="logout()"  v-if="user.authenticated" href="/login"> <i class="fa fa-sign-out "> </i> Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- end of top nav -->
-      <div class="clearfix"></div>
-      <nav class="level app-levelbar">
-        <div class="level-left">
-          <div class="level-item">
-            <h3 class="subtitle is-5">
-              <strong>{{ name }}</strong>
-            </h3>
-          </div>
-        </div>
-        <div class="level-right is-hidden-mobile">
-          <breadcrumb :list="list"></breadcrumb>
-        </div>
-      </nav>
-      <client-Info> </client-Info>
-      <div class="clearfix"></div>
-      <charge-Info> </charge-Info>
-      <div class="support-form-holder">
-        <div class="form-header">
-          <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
-        </div>
-        <form id="support-form" >
-          <div class="row support-form-container">
-            <div class="medium-12 columns">
-              <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-                <select id="tags" class="user-actions required" name="tags" required>
-                  <option disabled value=" " selected>-- Choose an issue ---</option>
-                  <option value="hd-trobleshooting">Troubleshooting</option>
-                  <option value="hd-plan-change">Plan Change</option>
-                  <option value="hd-email-service">Email Service</option>
-                  <option value="hd-billing-allocations">Billing &amp; allocations</option>
-                  <option value="hd-other">Other</option>
-                </select>
-              </label>
-            </div>
-            <div id="Container">
-                <div class="medium-12 columns ">
-                    <label><span class="form-title">Subject</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Please type your subject"><i class="fa fa-question-circle"> </i> </span>
-                    </label>
-                    <input type="text" placeholder="Enter your subject" id="subject" name="subject">
-                </div>
-              <div class="medium-12 columns ">
-                <label for="recipient_email"><span class="form-title">Recipient Email (the affected user)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user."><i class="fa fa-question-circle"> </i> </span>
-                  <input type="email" placeholder="Your email" name="customerEmail" id="recipient_email"   required>
-                </label>
-              </div>
-              <div class="medium-12 columns ">
-                <label for="recipient_firstname"><span class="form-title">Recipient First Name (the affected user)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user."><i class="fa fa-question-circle"> </i> </span>
-                  <input type="text" placeholder="Your first name" name="customerFirstName" id="recipient_firstname"  >
-                </label>
-              </div>
-              <div class="medium-12 columns ">
-                <label for="recipient_lastname"><span class="form-title">Recipient Last Name (the affected user)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user."><i class="fa fa-question-circle"> </i> </span>
-                  <input type="text" placeholder="Your last name"  name="customerLastName" id="recipient_lastName" >
-                </label>
-              </div>
-              <div class="large-12 columns ">
-                <fieldset class="fieldset">
-                  <legend><span class="form-title">Priority </span> </legend>
-                  <div class="row">
-                    <label for="low" class="column large-4 medium-4"><input type="radio" name="priority" value="low" id="low" required>Low</label>
-                    <label for="medium" class="column large-4 medium-4"><input type="radio" name="priority" value="medium" id="medium" required>Medium</label>
-                    <label for="high" class="column large-4 medium-4"><input type="radio" name="priority" value="high" id="high" required>High</label>
-                  </div>
-                </fieldset>
-              </div>
-              <div class="medium-12 columns">
-              <label for="recipient_mobilenumber"><span class="form-title">Affected Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
-                <input type="text" placeholder="Your mobile no." name="customerMobileNumber" id="recipient_mobilenumber"  >
-              </label>
-            </div>
-              <div class="large-12 columns ">
-                <fieldset class="fieldset">
-                  <legend><span class="form-title">Preferred Contact Method </span> </legend>
-                  <div class="row">
-                    <label for="email" class="column large-4 medium-4"><input type="radio" name="method" value="email" id="email" required>Email</label>
-                    <label for="phone" class="column large-4 medium-4"><input type="radio" name="method" value="phone" id="phone" required>Phone</label>
-
-                  </div>
-                </fieldset>
-              </div>
-              <div class="medium-12 columns">
-                <label for="recipient_phonenumber"><span class="form-title">Callback Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
-                  <input type="text" placeholder="Callback no." name="customerPhoneNumber" id="recipient_phonenumber"  >
-                </label>
-              </div>
-
-              <div class="medium-12 columns">
-                <label for="description"><span class="form-title">Message</span>
-                  <textarea rows="3" name="message" id="description"  placeholder="Your details here" required> </textarea>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="form-footer">
-            <button type="submit" class="button btn-submit ">Submit Ticket</button>
-          </div>
-          <div class="tiny reveal request-modal" id="modal" data-reveal>
-            <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="clearfix"></div>
-
-      <div>
-        <piechart :data="piechartData"></piechart>
-        <trendchart :data="trendchartData"></trendchart>
-        <div class="clearfix"></div>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-    <spent-Info></spent-Info>
+<div>
+  <div class="alert callout for-dashboard" data-closable style="display:none;">
+    <h5>You will now be redirected to this section in our legacy App</h5>
   </div>
+
+  <client-Info></client-Info>
+  <div class="clearfix"></div>
+  <charge-Info></charge-Info>
+
+  <div class="support-form-holder">
+    <div class="form-header">
+      <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
+    </div>
+    <form id="support-form" >
+      <div class="row support-form-container">
+        <div class="medium-12 columns">
+          <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+            <select id="FilterSelect" class="user-actions" required>
+              <option selected disabled value=" ">-- Choose an issue ---</option>
+              <option data-id="issue-1" data-value="IRE1">Troubleshooting</option>
+              <option data-id="issue-2" data-value="IRE1">Plan Change</option>
+              <option data-id="issue-3" data-value="IRE0">Email Service</option>
+              <option data-id="issue-4" data-value="ALR4">Billing &amp; allocations</option>
+              <option data-id="issue-5" data-value="IRE0">Activation</option>
+              <option data-id="issue-6" data-value="IRE0">International Request</option>
+              <option data-id="issue-7" data-value="IRE0">Other</option>
+            </select>
+          </label>
+        </div>
+        <div id="Container">
+          <div class="medium-12 columns mix issue-5">
+            <label><span class="form-title">IMEI/MEID</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input type="text" id="imei_meid" placeholder="imei/meid">
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-5">
+            <label><span class="form-title">ICCID</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input type="text" id="iccid" placeholder="iccid">
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-5">
+            <label><span class="form-title">Device type, Make/Model </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input type="text" id="device_type" placeholder="device type">
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-5">
+            <label><span class="form-title">Phone Origin </span><span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Where did you get the phone? IE: New Service, Upgrade, Internal">*</span>
+              <input type="text" id="phone_origin" placeholder="phone origin">
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-5">
+            <label><span class="form-title">Mobile # </span><span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input type="text" id="int_mobile" placeholder="mobile number">
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-6">
+            <label><span class="form-title">What country/countries.js are you travelling to?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <select id="country2" name="country2" required> </select>
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-6">
+            <label><span class="form-title">Dates of travel</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required " data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input id="flatpickr" class="flatpickr" type="text" placeholder="Select Date.." >
+            </label>
+          </div>
+          <div class="medium-12 columns mix issue-6">
+            <label><span class="form-title">Device type, phone, tablet, mifi </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              <input type="text" id="int-device_type" placeholder="">
+            </label>
+          </div>
+            <div class="medium-12 columns mix issue-3">
+                <fieldset class="fieldset">
+                    <legend><span class="form-title">Email Services </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> </legend>
+
+                    <input type="radio" name="email_services" value="Email Setup" id="email_setup" required><label for="email_setup">Email Setup</label>
+                    <input type="radio" name="email_services" value="Email Troubleshooting" id="email_troubleshooting"><label for="email_troubleshooting">Email Troubleshooting</label>
+                </fieldset>
+            </div>
+
+          <div class="medium-12 columns ">
+            <div><span class="form-title">Requestor Email (whomever is filling out this form)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Whomever is filling out this form."><i class="fa fa-question-circle"> </i> </span>
+            </div>
+            <input id="requestor_email" type="text" value="domotosho@wirelessanalytics.com">
+          </div>
+          <div class="medium-12 columns ">
+            <label><span class="form-title">Recipient Email (the affected user)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user."><i class="fa fa-question-circle"> </i> </span>
+              <input type="text" id="recipient_email" placeholder="your email">
+            </label>
+          </div>
+          <div class="medium-12 columns">
+            <label><span class="form-title">Recipient Mobile Number (if number is unavailable, please add N/A)</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A."><i class="fa fa-question-circle"> </i> </span>
+              <input id="recipient_mobile" type="text" placeholder="recipient mobile #">
+            </label>
+          </div>
+          <div class="large-12 columns ">
+            <fieldset class="fieldset">
+              <legend><span class="form-title">Priority </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
+              <div class="row">
+                <div class="column large-6">
+                  <input type="radio" name="priority" value="Low" id="low" required><label for="low">Low</label>
+                </div>
+                <div class="column large-6">
+                  <input type="radio" name="priority" value="Medium" id="medium"><label for="medium">Medium</label>
+                </div>
+                <div class="column large-6">
+                <input type="radio" name="priority" value="High" id="high"><label for="high">High</label>
+                </div>
+                <div class="column large-6">
+                  <input type="radio" name="priority" value="Asap" id="asap"><label for="asap">Asap</label>
+                </div>
+              </div>
+
+            </fieldset>
+          </div>
+          <div class="large-12 columns ">
+            <fieldset class="fieldset">
+              <legend><span class="form-title">Who should we contact? </span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
+              </legend>
+              <div class="row">
+                <div class="column large-6">
+                  <input type="radio" name="contact-person" value="Recipent" id="recipent" required><label for="recipent">Recipent</label>
+                </div>
+                <div class="column large-6">
+                  <input type="radio" name="contact-person" value="Requestor" id="requestor"><label for="requestor">Requestor</label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="medium-12 columns">
+            <label><span class="form-title">Description</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span> <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Please explain the question or problem in detail, and let us know how you'd like to be contacted."><i class="fa fa-question-circle"> </i> </span>
+              <textarea rows="3" id="description"> </textarea>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-footer">
+        <button type="submit" class="button btn-submit ">Submit Ticket</button>
+      </div>
+      <div class="tiny reveal request-modal" id="modal" data-reveal>
+        <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="clearfix"></div>
+
+  <div>
+    <piechart :data="piechartData"></piechart>
+    <trendchart :data="trendchartData"></trendchart>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+
+  <router-view class="child"></router-view>
+</div>
 </template>
 
-<script>
-  var {Store} = require('yayson')()
-  var  store = new Store()
-  window.Event = new Vue();
-  require('script!jquery');
-  require('script!jquery-match-height');
-  require('script!jquery-validation');
-  import _ from 'lodash';
-  import auth from './../api/auth'
-  import Vue from 'vue'
-  import Avatar from 'vue-avatar/dist/Avatar'
-  import Breadcrumb from 'vue-bulma-breadcrumb'
-  import ClientInfo from './ClientInfo.vue'
-  import ChargeInfo from './ChargeInfo.vue'
-  import Morphsearch from './Morphsearch.vue'
-  import Piechart from './Piechart.vue'
-  import Trendchart from './Trendchart.vue'
-  import SpentInfo from './SpentInfo.vue'
-  export default {
-    name: "Dashboard",
-    components: {
-      Breadcrumb,
-      Morphsearch,
-      ClientInfo,
-      ChargeInfo,
-      Piechart,
-      Trendchart,
-      Avatar,
-      SpentInfo
-    },
-
-    computed: {
-      name() {
-        return this.$route.name
-      },
-
-      list() {
-        return this.$route.matched
-      },
-    },
-    created(){
-      this.fetchUserData();
-      this.grid();
-    },
-    mounted(){
-      var user = {};
-      $.ajax({
-        type: 'GET',
-        url: process.env.URL_API + '/users/' + localStorage.userId + '?users',
-        success: function (data) {
-          return user = {
-            "email": data.data.attributes.email,
-            "firstName": data.data.attributes.firstName,
-            "lastName": data.data.attributes.lastName
-          }
-        }
-      });
-
-      $('.redirect-link a').each(function(e){
-        $(this).click(function(e){
-          var link = this.href;
-          var $modalredirect = $('#modal');
-          e.preventDefault();
-          $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
-          setTimeout(function() {
-            $('.for-dashboard').hide(100);
-            $modalredirect.foundation('close');
-            window.location=link;
-          }, 2000);
-        });
-      });
-
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:3]', {
-      }).then((response) => {
-        // console.log('response', response.data);
-        var event = store.sync(response.data);
-        if (event.companies.length>0) {
-          var clientdata = event.companies[0].contents[0].content;
-          this.$http.get(clientdata, {
-          }).then((response) => {
-            this.data= response.data;
-            setTimeout(function(){
-              $(document).foundation();
-              $('.eq-Hght').matchHeight({
-                byRow: true,
-                property: 'height',
-                target: null,
-                remove: false
-              });
-              var config = {
-                selector: ".HW-container",
-                account: "JPYPKy",
-                enabled : true
-              };
-              // Headway.init(config);
-              var $select = $('#support-form .user-actions'), $images = $('.mix');
-              $select.on('change', function () {
-                var value = '.' + $(this).val();
-                $images.show(200).not(value).hide();
-              });
-
-              var $selectOption = $('.user-actions');
-              $selectOption.on('change', function () {
-                var value1 = $(this).val();
-                $('.btn-provision').click();
-                $select.prop('value', value1);
-              });
-
-              $('.btn-provision').click(function () {
-                $('#recipient_email').val(user.email);
-                $('#recipient_firstname').val(user.firstName);
-                $('#recipient_lastName').val(user.lastName);
-                $('.support-form-holder').show(200);
-              });
-
-              $('#btn-close').click(function () {
-                $('#support-form')[0].reset();
-                $('.support-form-holder').hide(200);
-                $selectOption.prop('selectedIndex', 0);
-              });
-
-              $(document).keyup(function (e) {
-                if (e.keyCode == 27) $('#btn-close').click();
-              });
-
-              $("#support-form").validate({
-                  rules: {
-                      "description": {
-                          required: true,
-                          minlength: 8
-                      }
-                  },
-                  submitHandler: function (form) {
-                      var form = $('#support-form');
-                      var $modal = $('#modal');
-                      var company = "wirelessanalytics";
-                      var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
-                      var json = {
-                           "assignedTo":59063,
-                           "inboxId":1778,
-                          "subject": $('#subject').val(),
-                          "customerEmail": $('#recipient_email').val(),
-                          "customerMobileNumber" : $('#recipient_mobilenumber').val(),
-                          "customerPhoneNumber" : $('#recipient_phonenumber').val(),
-                          "message":$('#description').val() + ' ' + ' Preferred:'+ ' ' + $('input[name=method]:checked', '#support-form').val(),
-                          "source": "clean-dashboard",
-                          "status" : "active",
-                          "tags[]" : $('#tags').val(),
-                          "priority" : $('input[name=priority]:checked', '#support-form').val()
-                      };
-                      $.ajax({
-                          type: "POST",
-                          url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
-                          headers: {"Authorization": "BASIC " + window.btoa(key + ":xxx")},
-                          data : JSON.stringify(json),
-                          processData: false,
-                          contentType: "application/json; charset=UTF-8",
-                          success: function(){
-                              $modal.html('');
-                              $modal.removeClass('is-error').addClass('is-success').append("<h4>Request sent succefully </h4>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
-                              $('#support-form')[0].reset();
-                          },
-                          error: function(XMLHttpRequest, textStatus, errorThrown) {
-                              $('#modal').html('');
-                              $modal.removeClass('is-success').addClass('is-error').append("<h4>"+"Status: " + textStatus+"</h4>"+"<p>"+"Error: " + "Please fill all the required fields with appropriate value" + "</p>" +"<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
-                          }
-                      });
-                  }
-              });
-            },300);
-          });
-        }
-
-        // console.log('trendchartData', event.allocations);
-        if (event.allocations && event.allocations.length > 0) {
-          // this.$set(this, 'piechartData', [0, 0, 0, 0]);
-
-          // this.$set(this, 'piechartData', [
-          //   _.sumBy(event.allocations, 'service_plan_charge'),
-          //   _.sumBy(event.allocations, 'other_category') + _.sumBy(event.allocations, 'service_plan_charge'),
-          //   _.sumBy(event.allocations, 'unknown_category'),
-          //   _.sumBy(event.allocations, 'voice_category'),
-          // ]);
-
-          this.$set(this, 'trendchartData', event.allocations);
-        }
-      });
-
-      this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]', {
-      }).then((response) => {
-        // console.log('response', response.data);
-        var event = store.sync(response.data);
-        // console.log('piechartData', event.allocations);
-        if (event.allocations && event.allocations.length > 0) {
-          this.$set(this, 'piechartData', event.allocations);
-        }
-      });
-    },
-    methods:{
-      logout() {
-        auth.logout()
-      },
-      grid(){
-        $(function() {
-          $('.eq-Hght').matchHeight({
-            byRow: true,
-            property: 'height',
-            target: null,
-            remove: false
-          });
-        });
-      },
-      fetchUserData : function(){
-        this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?users', {
-
-        }).then((response) => {
-
-          var event = store.sync(response.data);
-          this.user.email= event.email;
-          this.user.firstName= event.firstName;
-          this.user.lastName= event.lastName;
-          this.user.alternateEmail= event.alternateEmail;
-          this.user.supervisorEmail= event.supervisorEmail;
-
-        });
-      }
-    },
-    data(){
-      return {
-        data: {},
-        version : null,
-        user: auth.user,
-        // allocations: [],
-        piechartData: [],
-        trendchartData: [],
-      }
-    }
-  }
-</script>
+<script src="./dashboard.ctrl.js" lang="babel"></script>

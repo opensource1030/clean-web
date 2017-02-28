@@ -9,13 +9,9 @@
     <div class="morphsearch-content">
       <!-- Helpjuice Knowledge base code -->
       <div id="knowledge-base-content">
-        <iframe src="https://clean.helpdocs.com/"> </iframe>
+        <iframe id="helpdocs" src="https://clean.helpdocs.com/"> </iframe>
       </div>
-
-
       <!-- End of  knowledge base code -->
-
-
     </div><!-- /morphsearch-content -->
     <span class="morphsearch-close"></span>
   </div>
@@ -29,6 +25,12 @@ export default {
     name: "Morphsearch",
   mounted(){
     (function() {
+        $("#helpdocs", window.parent.document).height($("body").height() + 0);
+        if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
+        $(window).resize(function(){
+            $("#helpdocs", window.parent.document).height($("body").height() + 0);
+            if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
+        });
       var isAnimating;
       var morphSearch = document.getElementById( 'morphsearch' ),
               input = morphSearch.querySelector( 'input.morphsearch-input' ),
@@ -42,6 +44,7 @@ export default {
                 var offsets = morphsearch.getBoundingClientRect();
                 if( isOpen ) {
                   classie.remove( morphSearch, 'open' );
+
 
                   // trick to hide input text once the search overlay closes
                   // todo: hardcoded times, should be done after transition ends
@@ -61,6 +64,7 @@ export default {
                   classie.add( morphSearch, 'open' );
                 }
                 isOpen = !isOpen;
+                  document.getElementById('helpdocs').src = document.getElementById('helpdocs').src
               };
 
       // events

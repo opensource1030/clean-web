@@ -1,13 +1,5 @@
 @import "../base/clean-variables";
 #tables {
-    height: 100%;
-    background: $white-smoke;
-
-    .header {
-        padding: 1.8rem;
-        background: $white;
-    }
-
     .titles {
         padding: 0.7rem 2rem;
         background: $ghost;
@@ -18,7 +10,7 @@
         }
     }
 
-    .button {
+    .buttonTable {
         font-weight: 700;
         margin-bottom: 20px;
         padding: 0.875rem 2.75rem 0.9375rem;
@@ -39,9 +31,13 @@
 
     table {
        margin: 0 1rem 0rem 0rem;
+       background: #FDFDFF;
+       border: 1px solid rgba(151, 151, 151, 0.3);
 
         thead {
-            background-color: #F4A536;
+          background: rgba($brand-orange,0.02);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+          padding: 0.5rem 0.6rem;
 
             th {
                 padding: 0;
@@ -75,7 +71,7 @@
 
                 td {
                     padding-bottom: 1em;
-
+                    background-color: #F0EEDD;
 
                     }
                 }

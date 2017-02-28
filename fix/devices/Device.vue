@@ -1,31 +1,25 @@
 <template>
-
-  <div class="content-right">
-    <div class="full-height row">
       <div id="device">
-        <div class="header"></div>
-        <div class="expanded row">
           <modal v-if="showModal" @close="showModal = false">
-
-    <h3 slot="body">{{message}}</h3>
+            <h3 slot="body">{{message}}</h3>
   </modal>
 
           <div class="small-12 columns titles">
             <h4>Manage Devices<h4>
             </div>
 
-            <div class="medium-6 columns devicename">
-              <label>Device Name
+            <div class="medium-6 columns ">
+              <label class="devicename"  >Device Name
                 <input type="text" placeholder="" :value="d.name" v-model="d.name" >
               </label>
             </div>
 
             <div  class="small-12 columns" >
 
-              <ul  class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
-                <li class="acordeon-item  is-active" data-accordion-item  v-f-accordion>
+              <ul  class="acordeon" data-accordion data-allow-all-closed="true" >
+                <li class="acordeon-item  is-active" data-accordion-item  >
                     <a href="#" class="accordion-title"  @click="showFalse()" >Device Overview</a>
-                    <div class="accordion-content overview"  data-tab-content   v-f-accordion>
+                    <div class="accordion-content overview"  data-tab-content   >
                       <div class="column row">
                         <div class="row">
                           <div class="small-12 large-2 columns">
@@ -82,9 +76,9 @@
                     </div>
                   </li>
 
-                <li class="acordeon-item  " data-accordion-item  v-f-accordion>
+                <li class="acordeon-item  " data-accordion-item  >
                   <a href="#" class="accordion-title" @click="showFalse()"  >Atributes</a>
-                  <div class="accordion-content  modifications"  data-tab-content   v-f-accordion>
+                  <div class="accordion-content  modifications"  data-tab-content   >
                     <div class="row">
                       <div v-if="error" v-show="error">
                         <div   class="is-error callout" data-closable >
@@ -154,22 +148,23 @@
                     </div>
                   </div>
                 </li>
-                <li class="acordeon-item " data-accordion-item  v-f-accordion>
+                <li class="acordeon-item " data-accordion-item  >
                   <a href="#" class="accordion-title" @click="showFalse()" >Vendors</a>
-                  <div class="accordion-content carriers"  data-tab-content   v-f-accordion>
+                  <div class="accordion-content carriers"  data-tab-content  >
                     <div class="imagescheck">
                       <div class="crop"  v-for=" (carrier,index) in carriers.data"  >
-                        <!-- :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + carrier.images[0].id +')',backgroundSize:'124px,124px' }" -->
                         <label   class="static"   >
                           <input type="checkbox"     @click="changeStatusCarrier('active',index)"  v-model="carrier.check"    >
 
                         </label>
                       </div>
-
+                    </div>
+                  </div>
                     </li>
-                    <li class="acordeon-item " data-accordion-item  v-f-accordion>
+
+                    <li class="acordeon-item " data-accordion-item  >
                       <a href="#" class="accordion-title" @click="showFalse()"   >Companies</a>
-                      <div class="accordion-content companies"  data-tab-content   v-f-accordion>
+                      <div class="accordion-content companies"  data-tab-content  >
                         <div class="row">
                           <div class="small-6 columns find">
                             <label id="bl" >Find Company
@@ -196,7 +191,7 @@
 
                       </div>
                     </li>
-                    <li class="acordeon-item prices" data-accordion-item  v-f-accordion>
+                    <li class="acordeon-item prices" data-accordion-item  >
                       <a  href="#"  class="accordion-title"  @click="toggle()" >   Prices  </a>
                       <div class="filterprices" v-show="show">
                         <select class="form-control" v-model="filter.capacity" >
@@ -216,44 +211,7 @@
                           <option  v-for="company in vCompanies"   :value="company">{{company.attributes.name}}</option>
                         </select>
                       </div>
-                      <div   class="accordion-content"  data-tab-content   v-f-accordion>
-                    <!--    <table  >
-                          <tbody>
-                            <tr class="filter">
-                              <td><div>Retail Price</div></td>
-                              <td><div>1 year contact</div></td>
-                              <td ><div>2 years contract</div></td>
-                              <td ><div v-if="filter.capacity!=null && filter.capacity.attributes!=null" >{{filter.capacity.attributes.value}}</div></td>
-                              <td ><div v-if="filter.style!=null && filter.style.attributes!=null" >{{filter.style.attributes.value}}</div></td>
-                              <td ><div v-if="filter.carrier!=null" >{{filter.carrier.presentation}}</div></td>
-                              <td ><div v-if="filter.company!=null && filter.company.attributes!=null" >{{filter.company.attributes.name}}</div></td>
-
-                                  <td  ><div></div></td>
-                            </tr>
-                          </tbody>
-                          <tbody >
-                            <tr  v-for="(p,index) in findByPrices(priceTable,filter) " >
-                              <td ><div class="input-group"><span class="input-group-label">$</span>  <inputValidate  class="input-group-field"  v-model="p.priceRetail"    ></inputValidate>  </div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price1"    ></inputValidate>  </div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.price2"    ></inputValidate></div></td>
-                              <td><div class="input-group"><span class="input-group-label">$</span><inputValidate  class="input-group-field"  v-model="p.priceOwn"    ></inputValidate></div></td>
-                              <td><div class="features"><select v-model="p.capacity"><option :value="null" >Select Capacity</option><option v-for="c in p.capacitys" :value="c.id">{{c.attributes.value}}</option></select></div></td>
-                              <td><div class="features"><select v-model="p.style" ><option :value="null">Select Style</option><option v-for="s in p.styles" :value="s.id">{{s.attributes.value}}</option></select></div></td>
-                              <td><div class="features"><select v-model="p.carrierId"><option :value="null">Select Carrier</option><option v-for="c in p.carriers" :value="c.id">{{c.presentation}}</option></select></div></td>
-                              <td ><div class="features"><select v-model="p.companyId"><option :value="null" >Select Company</option><option v-for="co in p.companys" :value="co.id">{{co.attributes.name}}</option></select></div></td>
-                                <td ><div class="features"> <a  class="button" @click="adds()" id="button"  >
-                                              <i class="fa fa-plus" ></i>
-                                      </a></div></td>
-                            </tr>
-                          </tbody>
-                        </table>-->
-                    <!--    <div class="row">
-                            <div class="large-3 small-12">
-
-                            </div>
-                            <div class="large-3 small-12">
-
-                            </div>-->
+                      <div   class="accordion-content"  data-tab-content   >
 
                             <div class="column row "  v-for="(p,index) in findByPrices(priceTable,filter) "            :style="{ backgroundColor:color }">
                               <div class="row">
@@ -315,6 +273,16 @@
                          </a>
                        </label>
                 </div>
+                <div clas="large-3    small-6  columns">
+          <label v-show="p.delete"   >
+            <strong class="variation">Delete:    </strong>
+            <a  class="button delete" @click="deletes(index)" id="button"   >
+                  <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+            </a>
+               </label>
+        </div>
+
+
 
         </div>
                                   </div>
@@ -322,20 +290,14 @@
                           </div>
 
 
-
-
-
-
-
-
                       </div>
                     </li>
                   </ul>
+
                   <a  class="button large" @click="submit()" id="button">Save Changes</a>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+
+
 </template>
-<script src="./device.crtl.js" lang="babel" ></script>
+<script src="device.crtl.js" lang="babel" ></script>

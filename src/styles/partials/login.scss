@@ -1,0 +1,8 @@
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
+
+.version {
+  position: fixed;
+  bottom: 20px;
+  right: 15px;
+}

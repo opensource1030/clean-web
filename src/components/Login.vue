@@ -3,7 +3,6 @@
   <div class="bg-login">
     <div class="login">
   <div class="large-4 large-centered medium-8 medium-centered  columns login-form-holder">
-    <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
     <div v-if="error" v-show="error">
     <div   class="is-error callout" data-closable >
       <div class="container">
@@ -20,7 +19,7 @@
             <div class="large-12  columns">
               <div class="input-group bg-orange">
                 <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                <input class="input-group-field" type="text" v-model="credentials.email" placeholder="Username" />
+                <input id="email" class="input-group-field" type="text" v-model="credentials.email" placeholder="Enter your company email" />
               </div>
             </div>
             <div class="large-12 large-centered columns">
@@ -31,8 +30,16 @@
         </div>
       </div>
     </div>
-    <span v-if="version" class="version"> {{ version }}</span>
+    <div class="powered-by">
+      <span>Powered By</span>
+      <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
+    </div>
+
+    <div id="version">
+      <span v-if="version" class="version"> v{{ version }}</span>
+    </div>
   </div>
+
   </div>
   </div>
 
@@ -56,6 +63,15 @@ data() {
     version : '4.0.0-rc.1'
   }
 },
+  mounted(){
+    $(function(){
+      $('#email').bind('input', function(){
+        $(this).val(function(_, v){
+          return v.replace(/\s+/g, '');
+        });
+      });
+    });
+  },
 methods: {
 
   submit() {

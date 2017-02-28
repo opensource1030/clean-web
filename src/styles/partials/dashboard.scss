@@ -26,7 +26,7 @@
 }
 .title{
   img{
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.2rem;
   }
 }
 .login-box{
@@ -43,7 +43,7 @@
   background: #FDFDFF;
   @include css3(border-radius,0);
   .box-heading{
-    background: rgba($brand-orange,0.02);
+    background: $box-heading-bg;
     border-bottom:1px solid rgba(0, 0, 0, 0.06);
     padding:0.5rem 0.6rem;
     h2{
@@ -66,7 +66,9 @@
     }
     canvas{
       max-width: 100%;
+      height: 300px !important;
     }
+
     &-holder{
       padding: 0.9rem 0.8rem ;
       p{
@@ -78,24 +80,10 @@
     }
     &.coming-soon{
       position: relative;
-      &:before{
-        background: transparentize($smoke,.1);
-        content: none;
-        font-size: 25px;
-        font-weight: 600;
-        height: 100%;
-        left: 0;
-        line-height: 300px;
-        padding-top: 0;
-        position: absolute;
-        text-align: center;
-        text-shadow: 0 0 5px #fff;
-        text-transform: uppercase;
-        top: 0;
-        width: 100%;
-        z-index: 5;
+      min-height: 350px;
+      .tabs-content{
+        border:none;
       }
-
       .pie-chart-title {
         font-weight: 600;
       }
@@ -124,29 +112,33 @@
     }
   }
 }
+
 .wireless-overview{
+
   .user-actions{
     max-width: 180px;
     margin-bottom: 0;
-    padding: 0.3rem;
-    background-color: transparent;
     border:none;
   }
+
   .btn-next{
     padding: 0.5rem 1rem 0.38rem;
     vertical-align: top;
     margin-bottom: 0;
     line-height: 1.2rem;
   }
+
   table{
     border:none;
     margin-bottom: 0;
     border-collapse:unset;
+
     tr{
       &:nth-child(2n){
         background: #F9F9F9;
       }
     }
+
     th{
       background: $white;
       line-height: 1.110rem;
@@ -162,9 +154,29 @@
     select{
       font-size: 1rem;
       height: 2.3rem;
-      background-position: right 0.4rem center;
+
     }
   }
+
+  table.large-only {
+    display: table;
+  }
+
+  table.small-only {
+    display: none;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    table.large-only {
+      display: none;
+    }
+
+    table.small-only {
+      display: table;
+    }
+  }
+
   .monthly-charge{
     display: inline-block;
     color:$white;
@@ -174,6 +186,7 @@
     background: lighten($brand-orange,10%);
   }
 }
+
 .welcome-box{
   @extend .alert-box;
   background: transparent;
@@ -190,24 +203,23 @@
     top:18%;
   }
 }
+
 .action-button{
-  padding:0  0 1rem;
   position: relative;
+  padding: 0 0 1rem 0;
+  margin-left: -10px;
+
   .button{
     font-weight: 600;
     font-size: 1rem;
-    margin-bottom: 0;
-    margin-left: 10px;
+    margin: 0 0 10px 10px;
     @include css3(transition,all 0.2s ease-in-out);
     @include css3(box-shadow, 0 2px 2px lighten($brand-blue,50%));
+
     &:hover{
       background-color: $brand-orange;
       @include css3(box-shadow, 0 2px 2px lighten($brand-orange,30%));
     }
-    &:first-child{
-      margin-left: 0;
-    }
-
   }
 }
 .search-container{
@@ -275,6 +287,7 @@
     /*   width: 100%;*/
   }
   .support-form-holder{
+
     display: none;
     input, select{
       font-size: 0.875rem !important;
@@ -351,6 +364,7 @@
 }
 .login{
   background: $brand-blue;
+  //url("../../src/assets/bg-pattern.png") repeat;
   .callout{
     position: fixed;
     top:0;
@@ -446,38 +460,45 @@
   background: #0c2e82;
   height: 100%;
   left: 0;
+  top:72px;
+
+  /*
   .icon-close{
     position: absolute;
-    right: -25px;
-    font-size: 1rem;
-    top: 72px;
-    padding: 1px 7px;
+    right: -20px;
+    font-size: 0.9rem;
+    top: 0;
+    padding: 1px 5px;
     background: $brand-blue;
     color:$white;
     @include css3(border-radius,0 3px 3px 0);
   }
+  */
+
   &.test{
     width: 50px;
-    .icon-close{
-      top:72px;
-    }
+
     .sidebar-menu{
       > li {
+
         span,
         .label,
         .fa-plus,
         .fa-minus{
           display: none;
         }
+
         &.header{
           display: none;
         }
+
         .treeview-menu{
           .fa-angle-down{
             display: block;
           }
         }
       }
+
       li.logo{
         padding: 10px 2px 10px 2px;
       }
@@ -516,14 +537,29 @@
 .content-right{
   padding-left: 200px;
   padding-bottom: 50px;
+  padding-top: 72px;
   &.test{
     padding-left:50px ;
+   /* .top-bar-section .logo{
+      padding-left: 0;
+      width: 40px;
+    }*/
   }
   @media screen and (max-width: 800px) {
     padding-left: 0;
+    padding-top: 126px;
     &.test{
       padding-left: 0;
     }
+    .top-bar-section .logo{
+      position: absolute;
+      z-index: 101;
+      top: -54px;
+      left: 0;
+      padding: 2px 11px;
+      height: 54px;
+    }
+
   }
 }
 
@@ -544,18 +580,83 @@ a.btn-provision:hover .support-form-holder{
   display: block !important;
 }
 .support-form-holder{
+  &.loading{
+    &:after{
+      content: '';
+      font-size: 3rem;
+      font-family: FontAwesome;
+      color:#fff;
+      position: absolute;
+      z-index: 9999;
+     text-align: center;
+      width: 100%;
+      vertical-align: middle;
+      left: 0;
+      top:40vh;
+      -webkit-animation: fa-spin 2s infinite linear;
+      animation: fa-spin 2s infinite linear;
+    }
+    &:before{
+      background: rgba($black,0.6);
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 999;
+      top:0;
+      left: 0;
+    }
+    @-webkit-keyframes fa-spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+
+    @keyframes fa-spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+  }
+  z-index: 999;
+  display: none;
+  position: fixed;
+  top: 0;
+  right:0;
+  width: 100%;
+  height: 100%;
+  max-width: 430px;
   background: $white;
   border: 1px solid $gainsboro;
   @include css3(box-shadow,0 0 20px rgba(0, 0, 0, 0.29));
-  display: none;
-  right:0;
-  width: 430px;
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  height: 100%;
+
   .columns{
     position: relative;
+    > label{
+      display: block;
+      label{
+        display: inline-block;
+      }
+    }
+    .column{
+      label{
+        display: inline-block;
+        margin-left: 0.60976rem;
+        margin-right: 1.21951rem;
+        margin-bottom: 0;
+        vertical-align: baseline;
+      }
+    }
   }
   label{
     color:#444;
@@ -568,8 +669,8 @@ a.btn-provision:hover .support-form-holder{
       font-size: 0.9em;
       line-height: 1.3rem;
       font-style: italic;
-      width: 93%;
-      left: 15px;
+      width: 95%;
+      left: 2px;
       padding: 0 0.4rem;
       margin: 0;
       z-index: 9;
@@ -614,7 +715,6 @@ a.btn-provision:hover .support-form-holder{
         background: $brand-orange;
       }
     }
-
   }
   .form-title{
     font-weight: 700;
@@ -705,7 +805,7 @@ a.btn-provision:hover .support-form-holder{
     max-width:200px ;
     top:72px !important;
     background: $white;
-    padding: 1rem;
+    padding: 0;
     border:none;
     @include css3(box-shadow,0 0 4px $dark-gray);
     &:before{
@@ -719,34 +819,71 @@ a.btn-provision:hover .support-form-holder{
       border-right: 9px solid transparent;
       border-bottom: 10px solid rgba($dark-gray,0.2);
     }
+    li a{
+      padding: 1rem;
+      display: block;
+    }
   }
 }
 .btn-round{
   @include css3(border-radius,3px);
 }
+
 .spent-info{
-  padding: 0 0 0 10rem;
-  display: none;
-  border:none;
   z-index: 99;
+  display: none;
   position: absolute;
-  background: rgba(#000,0.3);
-  height: 100%;
   right: 0;
-  top:71px;
+  top: 71px;
   width: 100%;
+  height: 100%;
+  max-width: 728px;
+  padding: 0 0 0 0;
+  border: none;
+  background: rgba(#000,0.3);
+  @include css3(box-shadow,0 6px 20px $gainsboro);
+  &.visible {
+    display: block;
+  }
   .pop-content{
     background: $white;
-    padding: 0.7rem 0.7rem 6rem;
+    padding: 0.7rem 0.7rem 9rem;
     height: 100%;
     overflow: auto;
+    .pop-heading{
+      float: left;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
   }
-  &.visible{
-    display: block;
-  }
+
   .view-all{
     padding: 0.5rem 1rem ;
-    display: block;
+    display: none;
+    &.show{
+      display: block;
+    }
+    &:before{
+      content:'';
+      font-family:FontAwesome;
+    }
+    &:after{
+      content:'All';
+      display: inline-block;
+      position: relative;
+      top:1px;
+    }
+    &.all{
+      &:before{
+        content:'';
+
+        font-family:FontAwesome;
+      }
+      &:after{
+        content:'Less';
+      }
+    }
+
   }
 }
 .list-striped{
@@ -755,7 +892,7 @@ a.btn-provision:hover .support-form-holder{
   }
   @extend %listreset;
   overflow: hidden;
-  max-height: 279px;
+  max-height: 119px;
   li{
     border-top:1px rgba(#979797,0.15) solid;
     line-height: 3rem;
@@ -776,10 +913,16 @@ a.btn-provision:hover .support-form-holder{
         }
       }
     }
+    &.no-val{
+      *{
+        text-decoration: line-through;
+      }
+    }
   }
   &.all{
     height: auto;
     max-height: inherit;
+
   }
 }
 .inline-list{
@@ -798,7 +941,23 @@ a.btn-provision:hover .support-form-holder{
 }
 .pop-close{
   float: right;
-  padding: 0.5em 0.6em;
+  @include css3(box-shadow, 0 0 5px $gainsboro);
+  font-size: 1.2rem;
+  @include css3(transition,background 0s !important) ;
+  background: transparent;
+  border:1px $brand-orange solid;
+  color:$black;
+  padding: 0 0.5rem 0 0;
+  .fa{
+    padding: 0.6em;
+    color: $white;
+    background: $brand-orange;
+    margin-right: 0.2rem;
+
+  }
+  &.back-to{
+    margin-right: 11px;
+  }
 }
 .btn-orange{
   background: $brand-orange;
@@ -842,4 +1001,33 @@ a.btn-provision:hover .support-form-holder{
     }
   }
 
+}
+#legacy-info{
+  #header{
+    display: none;
+  }
+  border:none;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow:auto;
+}
+.powered-by{
+  max-width: 200px;
+  margin: 3rem auto 0;
+  overflow: hidden;
+  span{
+    float: left;
+    line-height:2rem;
+    font-size: 0.82rem;
+  }
+  img{
+    float: right;
+    max-width: 130px;
+    border-left:1px solid lighten($black,45%);
+    padding-left: 0.5rem ;
+  }
+}
+.callout.spent-info.active.visible{
+  max-width: 80%;
 }

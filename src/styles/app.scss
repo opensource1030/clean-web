@@ -5,16 +5,47 @@
 
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
-@import "mixins/other-mixin";
+@import "plugins/flatpickr";
 @import "modules/all-modules";
 
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
 @import "partials/footer";
 @import "partials/devices";
+@import "partials/presets";
 @import "partials/modal";
 @import "partials/services";
+@import "partials/packages";
 @import "partials/employees";
 @import "partials/nprogress";
+@import "partials/login";
 
 .w1{overflow: hidden;}
+body{
+
+  &.sticky-header{
+
+    .top-bar-section{
+      &.sticky-top{
+        padding: 5px 0 7px 0;
+        .logo img{
+          max-width: 90%;
+        }
+        .logo-holder{
+          text-align: left;
+        }
+        .morphsearch{
+           //margin: 6px 0 0 2rem;
+          width: 620px;
+          margin-top: 8px;
+        }
+      }
+    }
+    .menu-left {
+      top:62px;
+    }
+    .nav-poweredby{
+      bottom: 62px;
+    }
+  }
+}

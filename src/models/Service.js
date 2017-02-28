@@ -1,6 +1,6 @@
 export default class Service {
 
-  constructor(type, id, status, title, planCode, cost, description, carrierId) {
+  constructor(type, id, status, title, planCode, cost, description, currency, carrierId) {
     this.id = id;
     this.type = type;
     this.status = status;
@@ -9,113 +9,46 @@ export default class Service {
     this.cost = cost;
     this.description = description;
     this.carrierId = carrierId;
+    this.currency = currency;
     this.serviceItems = [];
 
   }
 
   itemJson(items, service) {
 
-    items.forEach(function(item, index) {
+      for (let it of items) {
+          if (it.category == '' || it.category == null) {
+              it.category = 'addon';
+          }
 
-      if (item.category == 'voice') {
-        service.serviceItems.push({
-          category: 'voice',
-          description: '',
-          value: item.value,
-          unit: 'minutes',
-          cost: 0,
-          domain: item.domain
-        })
-      } else if (item.category == 'data') {
-        service.serviceItems.push({
+          if (it.value == '' || it.value == null) {
+              it.value = 0;
+          }
 
-          category: 'data',
-          description: '',
-          value: item.value,
-          unit: 'Gb',
-          cost: 0,
-          domain: item.domain
-        })
-      } else if (item.category == 'messaging') {
-        service.serviceItems.push({
+          if (it.unit == '' || it.unit == null) {
+              it.unit = '';
+          }
 
-          category: 'messaging',
-          description: '',
-          value: item.value,
-          unit: 'messages',
-          cost: 0,
-          'domain': item.domain
-        })
-      } else {
+          if (it.cost == '' || it.cost == null) {
+              it.cost = '';
+          }
 
-        service.serviceItems.push({
+          if (it.domain == '' || it.domain == null) {
+              it.domain = '';
+          }
 
-          'category': 'addon',
-          'description': item.description,
-          'value': 0,
-          'unit': '',
-          'cost': item.cost,
-          'domain': ''
-        })
-
+          service.serviceItems.push({
+              id: it.id,
+              category: it.category,
+              description: it.description,
+              value: it.value,
+              unit: it.unit,
+              cost: it.cost,
+              domain: it.domain
+          });
       }
 
-    });
-
-  }
-
-  itemUpdateJson(items, service) {
-
-    items.forEach(function(item, index) {
-
-      if (item.category == 'voice') {
-
-        service.serviceItems.push({
-          id: item.id,
-          category: 'voice',
-          description: '',
-          value: item.value,
-          unit: 'minutes',
-          cost: 0,
-          domain: item.domain
-        })
-      } else if (item.category == 'data') {
-
-        service.serviceItems.push({
-          id: item.id,
-          category: 'data',
-          description: '',
-          value: item.value,
-          unit: 'Gb',
-          cost: 0,
-          domain: item.domain
-        })
-      } else if (item.category == 'messaging') {
-        service.serviceItems.push({
-          id: item.id,
-          category: 'messaging',
-          description: '',
-          value: item.value,
-          unit: 'messages',
-          cost: 0,
-          'domain': item.domain
-        })
-      } else {
-
-        service.serviceItems.push({
-          'id': item.id,
-          'category': 'addon',
-          'description': item.description,
-          'value': 0,
-          'unit': '',
-          'cost': item.cost,
-          'domain': ''
-        })
-
-      }
-
-    });
-
+      return service.serviceItems;
   }
 
   toJSON() {
@@ -128,7 +61,8 @@ export default class Service {
         planCode: this.planCode,
         cost: this.cost,
         description: this.description,
-        carrierId: this.carrierId
+        carrierId: this.carrierId,
+        currency: this.currency
       },
       relationships: {
         serviceitems: {

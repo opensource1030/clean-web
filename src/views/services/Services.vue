@@ -1,142 +1,154 @@
 <template>
-  <div class="content-right">
+  <div>
     <div id="tables">
       <div class="header"></div>
       <div class="expanded row">
-        <modal v-if="showModal" @close="showModal = false">
-
-              <h3 slot="body">{{error}}</h3>
-
-                </modal>
-
-        <div class="small-12 columns titles">
-          <h4>Service Plans<h4>
+        <div class="large-12 columns titles">
+          <h4>{{names.servicePlans}}</h4>
+        </div>
+        <div class="large-4 columns">
+          <a class="button buttonTable" href="/service">{{names.addPlan}}</a>
+        </div>
+            <searchCost :callback="onSelectColumn" :show="search.searchShow" v-model="search" :search="search" ></searchCost>
+        <div v-show="!loading" class="small-12 columns">
+          <table cellspacing=0 cellpadding=0>
+            <thead>
+              <tr>
+                <th width="8%">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.status">
+                    <option value="" values.status>{{names.status}}</option>
+                    <option class="optioninblack" v-for="item in status" :value="item">{{item}}</option>
+                  </select>
+                </th>
+                <th width="22%">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
+                    <option value="" values.plans>{{names.plans}}</option>
+                    <option class="optioninblack" v-for="item in plans" :value="item">{{item}}</option>
+                  </select>
+                </th>
+                <th width="35%">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.details">
+                    <option value="" values.details>{{names.details}}</option>
+                    <option class="optioninblack" v-for="item in details" :value="item">{{item}}</option>
+                  </select>
+                </th>
+                <th width="12%">
+                  <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
+                    <option value="" values.codePlan>{{names.planCode}}</option>
+                    <option class="optioninblack" v-for="item in codePlan" :value="item">{{item}}</option>
+                  </select>
+                </th>
+                <th width="15%">
+                  <multiselect
+                    :field="'Carrier'"
+                    :options="carriers"
+                    :value.sync="values.carrier"
+                    :labelAttr="'presentation'"
+                    :callback="onSelectColumn">
+                  </multiselect>
+                </th>
+                <th width="8%">
+                  <div class="columnnamecost" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="filter">
+                <td><div>{{values.status}}</div></td>
+                <td><div>{{values.plans}}</div></td>
+                <td><div>{{values.details}}</div></td>
+                <td><div>{{values.codePlan}}</div></td>
+                <td><div>{{values.carrier.presentation}}</div></td>
+                <td><div>{{search.costFilterMessage}}</div></td>
+              </tr>
+            </tbody>
+            <tbody v-for="(service, index) in servicesList">
+              <tr :class="{'active': service.show,'desactive': !service.show}" @click="setActive(index)">
+                <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
+                <td valign="top">
+                  <div class="textbold">{{service.title}}</div>
+                </td>
+                <td valign="top">
+                  <div class="longtext">{{service.description}}</div>
+                </td>
+                <td valign="top">{{service.planCode}}</td>
+                <td valign="top">{{service.carriers[0].presentation}}</td>
+                <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
+              </tr>
+              <tr v-show="service.show" :class="{'active': service.show,'desactive': !service.show}">
+                <td></td>
+                <td colspan="2" valign="top">
+                  <table class="inner-table">
+                    <tr :title="names.domMinutesMessage">
+                      <td>{{names.domMinutes}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'voice','domestic').value > 0">{{findServiceItem(service,"voice","domestic").value}} {{findServiceItem(service,'voice','domestic').unit}}</div>
+                        <div v-show="findServiceItem(service,'voice','domestic').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr :title="names.domDataMessage">
+                      <td>{{names.domData}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'data','domestic').value > 0">{{findServiceItem(service,"data","domestic").value}} {{findServiceItem(service,'data','domestic').unit}}</div>
+                        <div v-show="findServiceItem(service,'data','domestic').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr :title="names.domSmsMessage">
+                      <td>{{names.domSms}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'messaging','domestic').value > 0">{{findServiceItem(service,"messaging","domestic").value}} {{findServiceItem(service,'messaging','domestic').unit}}</div>
+                        <div v-show="findServiceItem(service,'messaging','domestic').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr :title="names.intMinutesMessage">
+                      <td>{{names.intMinutes}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'voice','international').value > 0">{{findServiceItem(service,"voice","international").value}} {{findServiceItem(service,'voice','international').unit}}</div>
+                        <div v-show="findServiceItem(service,'voice','international').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr :title="names.intDataMessage">
+                      <td>{{names.intData}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'data','international').value > 0">{{findServiceItem(service,"data","international").value}} {{findServiceItem(service,'data','international').unit}}</div>
+                        <div v-show="findServiceItem(service,'data','international').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr :title="names.intSmsMessage">
+                      <td>{{names.intSms}}</td>
+                      <td>
+                        <div v-show="findServiceItem(service,'messaging','international').value > 0">{{findServiceItem(service,"messaging","international").value}} {{findServiceItem(service,'messaging','international').unit}}</div>
+                        <div v-show="findServiceItem(service,'messaging','international').value == 0"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><h6><a v-bind="{ href: '/service/'+service.id}">{{names.managePlanButton}}</a></h6></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                <td colspan="3" valign="top">
+                  <!--<table @click="showAddons()" class="inner-table">
+                    <tr>
+                      <td colspan="2" class="textbold">Add-ons</td>
+                    </tr>
+                    <tr v-show="addonsShow" v-for="item in addons">
+                      <td colspan="2">
+                        <div>{{item.description}} - {{item.cost}} {{item.unit}}</div>
+                      </td>
+                    </tr>
+                  </table>-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-show="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
+          <div class="load">
+            <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
-          <div class="small-12 columns" >
-            <a class="button" href="/service"  >Add Plan</a>
-          </div>
-
-          <div class="small-12 columns" >
-
-            <table  >
-              <thead>
-                <tr>
-
-                  <th ><select class="form-control" v-model="status" >
-                    <option value="" type>Status</option>
-                    <!--<option v-for="item in filterDeviceType" :key="item.id" :value="item.id" >{{item.attributes.class}}</option>-->
-
-                  </select></th>
-                  <th >
-                    <select class="form-control" v-model="plans" >
-                      <option value="" manufactured>87Plans</option>
-                <!--      <option v-for="item in filterDeviceType"  :value="item.id">{{item.attributes.make}}</option>-->
-
-                    </select> </th>
-                    <th ><select class="form-control" v-model="details" >
-                      <option value="" price>Details</option>
-                  <!--      <option v-for="ite
-
-                 in filterPrice"  :value="item.id">{{item.attributes.price1}}</option>-->
-
-                    </select></th>
-                    <th ><select class="form-control" v-model="codePlan" >
-                      <option value="" os>Plan Code</option>
-                  <!--    <option v-for="item in filterDeviceType"  :value="item.id"   >{{item.attributes.deviceOS}}</option>-->
-
-                    </select></th>
-                    <th ><select class="form-control" v-model="carrier" >
-                      <option value="" carrier>Carrier</option>
-                  <!--    <option v-for="item in filterCarriers"  :value="item.id">{{item.attributes.presentation}}</option>-->
-
-                    </select></th>
-                    <th ><select class="form-control" v-model="cost" >
-                      <option value="" capacity>Cost</option>
-                    <!--  <option v-for="item in filterByModifications(filterModifications,'capacity')"  :value="item.id">{{item.attributes.value}}</option>-->
-
-                    </select></th>
-
-                  </tr>
-                </thead>
-                <tbody  v-show="showtable"  >
-                  <tr class="filter">
-                    <td ><div>{{status}}</div></td>
-                    <td  ><div>{{plans}}</div></td>
-                    <td  ><div>{{details}}</div></td>
-                    <td ><div>{{codePlan}}</div></td>
-                    <td ><div>{{carrier}}</div></td>
-                    <td  ><div>{{cost}}</div></td>
-                  </tr>
-                </tbody>
-                <tbody  v-for="(service, index) in services"  >
-                  <tr    :class="{ 'active': service.show,'desactive': service.show  }"   @click="setActive(index)" >
-          <!--          <td> <a  v-bind="{ href: '/device/'+device.id}">Manage</a></td>-->
-                    <td  >
-                      <label>
-                      {{service.status}}
-                      </label>
-                 </td>
-                    <td style="font-weight: bold;" >{{service.title}}</td>
-                    <td  ></td>
-                    <td> {{service.planCode}} </td>
-                    <td  >{{service.carriers[0].presentation}}</td>
-                    <td style="font-weight: bold;" >${{service.cost}} </td>
-
-                  </tr>
-                  <tr  >
-                    <td v-show="service.show"   class="detail" colspan="8" >
-
-                      <div class="detailsService">
-                        <div class="childService"></div>
-                        <div class="options childService">
-                          <ul  >
-                            <li>Minutes</li>
-                            <li>Data</li>
-                            <li>SMA</li>
-                            <li>International Minutes</li>
-                            <li>International Data</li>
-                            <li>International SMS</li>
-                            <li><a  v-bind="{ href: '/service/'+service.id}">Manage Plan</a></li>
-                          </ul>
-
-                        </div>
-                        <div class="plans childService">
-                      <div class="serviceType"  :class="{ 'upService': service.show}">
-                              <label>Roamding minutes,Data</label>
-
-                          </div>
-                          <div class="listPlan"  >
-
-                            <ul>
-                              <li  >{{findByService(service.serviceitems,"voice","domestic").value}}</li>
-                              <li>{{findByService(service.serviceitems,"data","domestic").value}} mb</li>
-                              <li>{{findByService(service.serviceitems,"messaging","domestic").value}}</li>
-                              <li>{{findByService(service.serviceitems,"voice","international").value}}</li>
-                              <li>{{findByService(service.serviceitems,"data","international").value}}  mb</li>
-                              <li>{{findByService(service.serviceitems,"messaging","international").value}}</li>
-
-
-                            </ul>
-                            <br>
-                          </div>
-
-                        </div>
-
-
-
-                    </td>
-
-                  </tr>
-                      </div>
-                </tbody>
-              </table>
-
-              <div class="load">
-                  <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
-                </div>
-          </div>
-            <pagination :pagination="pagination" :callback="loadData" v-show="showtable"></pagination>
         </div>
       </div>
+      <pagination :pagination="pagination" :callback="loadData" v-show="pagination.total_pages > 1"></pagination>
+    </div>
+  </div>
 </template>
-<script  src="./services.crtl.js" lang="babel"  ></script>
+<script  src="./services.crtl.js" lang="babel"></script>

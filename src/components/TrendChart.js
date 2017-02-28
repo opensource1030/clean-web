@@ -1,4 +1,4 @@
-import { Line, mixins } from 'vue-chartjs'
+import {Line, mixins } from 'vue-chartjs'
 var {Store,} = require('yayson')();
 var store = new Store();
 

@@ -1,10 +1,29 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
 .top-bar-section{
-  padding:10px 0 12px 12px;
-  position: relative;
-  background: linear-gradient(#F7F7F7, rgba($white,0.3));
+  padding:10px 0 12px 0;
+  position: fixed;
+  left: 0;
+  top:0;
+  width: 100%;
+  background: linear-gradient(#F7F7F7, rgba($white,1));
+  z-index: 998;
   @include css3(box-shadow,0 -1px 4px rgba($black,0.8));
+  @include css3(transition, all 0.2s ease-in-out);
+
+  &.sticky-top{
+
+    &:after{
+        content: '';
+      background: linear-gradient( rgba($white,1),#F7F7F7);
+        height: 100%;
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+      z-index: -1;
+      }
+  }
   .float-right{
     > div{
       display: inline-block;
@@ -15,14 +34,73 @@
     display: block;
     clear:both;
   }
+  .logo{
+    float: left;
+    width: 180px;
+    text-align: center;
+    height: 50px;
+    display: table;
+
+    .logo-holder{
+      display: table-cell;
+      vertical-align: middle;
+      text-align: left;
+
+      img{
+        max-height: 50px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 800px){
+    .logo{
+      position: absolute;
+      top:-55px;
+    }
+    top:54px;
+    &.sticky-top{
+      top:54px;
+    }
+    .profile{
+      padding-left: 0;
+    }
+    .HW-container {
+      margin: 0;
+
+      #HW_badge_cont {
+        width: 22px;
+
+        &:before {
+          margin-left: -25px;
+          line-height: 50px;
+        }
+      }
+
+      #HW_badge {
+        left: 3px;
+      }
+    }
+  }
+}
+.dropdown-pane{
+  z-index: 999;
 }
 .HW-container{
   float: right;
   margin: 1rem 1rem 0;
 }
-@media screen and (max-width: $medium){
-  .top-bar-section{
-   padding: 20px 10px;
-  }
+#HW_badge{
+  top:0;
+}
+#HW_badge_cont.HW_visible{
+  text-align: center;
 
+  &:before{
+    content: '';
+    color:lighten($brand-blue,10%);
+    font-family: FontAwesome;
+    font-size: 1.6rem;
+    @include css3(box-shadow,0 0 $white-smoke);
+    margin-left: -30px;
+  }
 }

@@ -3,6 +3,11 @@ import Resource from 'vue-resource'
 import VueRouter from 'vue-router'
 import 'script!jquery'
 import 'script!jquery.cookie'
+
+import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
+import './../node_modules/slicknav/dist/jquery.slicknav.js'
+import './../node_modules/stacktable.js/stacktable.js'
+
 import NProgress from 'nprogress'
 import './styles/app.scss'
 import './../node_modules/font-awesome/scss/font-awesome.scss'
@@ -14,9 +19,32 @@ import auth from './api/auth.js'
 
 $(document).foundation();
 
+// filter
+
+var moment = require('moment');
+Vue.filter('cleanDate', function(value){
+  var str = value + '';
+  return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
+});
+
+Vue.filter('formatBytes', function(value){
+  if (value === null || value === undefined){
+    return value = '-'
+  }else if(value>=1048576){
+    return (value /1048576).toFixed(2)+' MBs'
+  }
+  else{
+    return value + ' KBs'
+  }
+});
+
+const eventHub = new Vue()
+exports.eventHub = eventHub
+
 // Install plugins
-Vue.use(VueRouter)
-Vue.use(Resource)
+Vue.use(VueRouter);
+Vue.use(Resource);
+Vue.use(VueCharts);
 
 // Set auth
 
