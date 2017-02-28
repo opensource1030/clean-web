@@ -290,6 +290,7 @@ input[type="search"] {
     width: 100%;
     margin-top: -9px !important;
     border:1px #ccc solid;
+    height: 100% !important;
   }
 }
 
@@ -299,7 +300,6 @@ input[type="search"] {
 
     iframe {
       width: 100% !important;
-      height: 100% !important; 
     }
   }
 
