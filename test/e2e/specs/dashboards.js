@@ -85,6 +85,7 @@ browser
          .click('#logout')
          .waitForElementVisible('#email', 25000)
          .end()
+
 },
 
 
