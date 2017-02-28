@@ -18,13 +18,28 @@
           <label><span class="form-title"> How Can We Help?</span> <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
             <select id="FilterSelect" class="user-actions" required>
               <option selected disabled value=" ">-- Choose an issue ---</option>
-              <option data-id="issue-1" data-value="IRE1">Troubleshooting</option>
-              <option data-id="issue-2" data-value="IRE1">Plan Change</option>
-              <option data-id="issue-3" data-value="IRE0">Email Service</option>
-              <option data-id="issue-4" data-value="ALR4">Billing &amp; allocations</option>
-              <option data-id="issue-5" data-value="IRE0">Activation</option>
-              <option data-id="issue-6" data-value="IRE0">International Request</option>
-              <option data-id="issue-7" data-value="IRE0">Other</option>
+
+              <optgroup label="Billing">
+                <option data-id="issue-4" data-value="ALR4">Questions About My Monthly Statement</option>
+                <option data-id="issue-15" data-value="ALR4">Other Billing Issues</option>
+              </optgroup>
+
+              <optgroup label="Device Support">
+                <option data-id="issue-5" data-value="IRE0">Activate My Device</option>
+                <option data-id="issue-3" data-value="IRE0">Email Connectivity</option>
+                <option data-id="issue-8" data-value="IRE0">Issues While Traveling Abroad</option>
+                <option data-id="issue-9" data-value="IRE0">Other Device Support Issues</option>
+              </optgroup>
+
+              <optgroup label="Service Plan / Feature">
+                <option data-id="issue-6" data-value="IRE1">Add/Remove International Features</option>
+                <option data-id="issue-10" data-value="IRE1">Cancel Service</option>
+                <option data-id="issue-2" data-value="IRE1">Change Existing Features</option>
+                <option data-id="issue-12" data-value="IRE1">Suspend/Unsuspend Wireless Service</option>
+                <option data-id="issue-13" data-value="IRE1">Transfer Service to a Personal Account</option>
+                <option data-id="issue-14" data-value="IRE1">Other Service and Plan Issues</option>
+              </optgroup>
+
             </select>
           </label>
         </div>

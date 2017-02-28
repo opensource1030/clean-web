@@ -16,13 +16,13 @@
   <div class="large-6 columns" >
     <div class="grid-box eq-Hght" >
       <header class="box-heading">
-        <h2>contact support</h2>
+        <h2>Get Support</h2>
       </header>
       <div class="box-content">
         <div class="box-content-holder" >
           <div v-if="client.object" v-html="client.object.metafields[0].value"> </div>
           <div class="action-button" >
-            <a class="button btn-provision btn-round" href="javascript:;">Submit a Support Request</a>
+            <a class="button btn-provision btn-round" href="javascript:;">Open a Ticket</a>
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="box-content-holder">
           <div v-html="client.object.metafields[1].value"></div>
           <div class="action-button" id="action-buttons">
-            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}"> Order a Device or Accessory </router-link>
+            <router-link class="button btn-round" :to="{ name: 'legacyInfo'}">Click to get Started</router-link>
           </div>
 
         </div>
