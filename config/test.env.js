@@ -14,7 +14,7 @@ module.exports = merge(devEnv, {
  },
  FEATURES: {
    "Procurements": {
-       enabled: false,
+       enabled: true,
        users: {
            "user@mail.com": true,
            "*@email.com": true
@@ -28,14 +28,14 @@ module.exports = merge(devEnv, {
        }
    },
    "Presets": {
-       enabled: false,
+       enabled: true,
        users: {
            "user@mail.com": true,
            "*@email.com": true
        }
    },
    "ManageDevices": {
-       enabled: false,
+       enabled: true,
        users: {
            "user@mail.com": true,
            "*@email.com": true
