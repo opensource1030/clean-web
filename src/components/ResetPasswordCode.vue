@@ -45,15 +45,12 @@
 </template>
 
 <script>
-
 import auth from './../api/auth';
-
 export default {
   created() {
     this.credentials.identification = this.$route.params.identification;
     this.credentials.code = this.$route.params.code;
   },
-
   data() {
     return {
       // We need to initialize the component with any
@@ -85,7 +82,6 @@ export default {
     });
   },
   methods: {
-
     submit() {
       let params = {
         params:{
@@ -95,7 +91,6 @@ export default {
       };
       this.errorShow = false;
       this.messageShow = false;
-
       if(this.credentials.password1 == this.credentials.password2 && this.credentials.password1 != '' && this.credentials.password2 != '') {
         this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.identification + '/' + this.credentials.code, params).then((response) => {
           if(response.body == 'password changed') {
@@ -130,5 +125,4 @@ export default {
     }
   }
 }
-
 </script>
