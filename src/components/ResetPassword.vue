@@ -76,40 +76,44 @@ export default {
   methods: {
 
     submit() {
-      let params = {params:{
-        'url': process.env.URL
-      }};
+      let params = {params:{}};
       this.errorShow = false;
       this.messageShow = false;
-      this.error = '';
-      if (this.credentials.email != '') {
+      if(this.credentials.email != '') {
         this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.email, params).then((response) => {
-          if (response.data.message == 'email sent') {
+
+          if(response.data == 'User Null') {
+            this.error = 'Email not exists, please, enter a valid mail';
+            this.errorShow = true;
+          }
+
+          if(response.data == 'Company Not Null') {
+            this.error = 'User has not a company assigned, Please contact with the Administrator';
+            this.errorShow = true;
+          }
+
+          if(response.data == 'Company has SSO') {
+            this.error = 'User has a Single Sign On, Please contact with the Administrator';
+            this.errorShow = true;
+          }
+
+          if(response.data == 'Ok') {
             this.messageShow = true;
           }
         }, (response) => {
-          if (response.data.message == 'not valid email') {
-            this.error = 'The email retrieved is not valid, please, try again with another one.';
+
+          if (response.status == 404) {
+            this.error = 'Please Enter a Valid Email';
+            this.errorShow = true;
           }
-          if (response.data.message == 'company not found') {
-            this.error = 'The email retrieved has not any Company associated, please, try again with another one.';
-          }
-          if (response.data.message == 'user not found') {
-            this.error = 'The email retrieved has not any User associated, please, try again with another one.';
-          }
-          if (response.data.message == 'company has sso') {
-            this.error = 'The user has Single Sign On associated, please, use the login page.';
-          }
+
           if (response.status == 500) {
-            this.error = 'Server error, please, try again later.';
+            this.error = 'Unexpected error, please, try again later.'
+            this.errorShow = true;
           }
-          if (this.error == '') {
-            this.error = 'Unexpected error, please, try again later.';
-          }
-          this.errorShow = true;
         });
       } else {
-        this.error = 'The email field must not be null, please, enter a valid email.';
+        this.error = 'The email field must not be null, please, enter a valid email.'
         this.errorShow = true;
       }
     }
