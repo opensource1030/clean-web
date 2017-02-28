@@ -11,14 +11,14 @@ $color_lightred: rgba(236,90,98,1);
 /* hide placeholder when active in Chrome */
 /* Overlay */
 .morphsearch {
-  width: 320px;
-  float: left;
+  width: 650px;
+  float: right ;
   // margin-left: 2rem;
   min-height: 40px;
   background: transparent;
   @include css3(border-radius,20px);
   z-index: 9;
-  margin-top: 3px;
+  margin-top: 8px;
   -webkit-transform-origin: 100% 0;
   transform-origin: 100% 0;
   -webkit-transition-property: min-height, width, top, right;
