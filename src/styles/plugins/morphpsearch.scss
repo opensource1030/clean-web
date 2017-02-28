@@ -36,6 +36,7 @@ $color_lightred: rgba(236,90,98,1);
   right: 0px;
   position: fixed;
   z-index: 9999;
+  margin-top: 0px;
 
   .morphsearch-form {
     width: 100%;
@@ -298,6 +299,7 @@ input[type="search"] {
 
     iframe {
       width: 100% !important;
+      height: 100% !important; 
     }
   }
 
@@ -314,6 +316,7 @@ input[type="search"] {
 @media screen and (max-width: $medium) {
   #knowledge-base-content{
     width: 100% !important;
+    overflow: hidden;
   }
 
   .morphsearch-input {

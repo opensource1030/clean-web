@@ -40,9 +40,12 @@
     text-align: center;
     height: 50px;
     display: table;
+
     .logo-holder{
       display: table-cell;
       vertical-align: middle;
+      text-align: left;
+
       img{
         max-height: 50px;
       }
