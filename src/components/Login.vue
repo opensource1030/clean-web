@@ -30,12 +30,16 @@
         </div>
       </div>
     </div>
-    <span v-if="version" class="version"> {{ version }}</span>
     <div class="powered-by">
       <span>Powered By</span>
       <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
     </div>
+
+    <div id="version">
+      <span v-if="version" class="version"> v{{ version }}</span>
+    </div>
   </div>
+
   </div>
   </div>
 
