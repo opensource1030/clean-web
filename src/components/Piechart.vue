@@ -88,9 +88,10 @@
           ['Domestic Usage Charges', allocation.domestic_usage_charge],
           ['International Roam Usage Charges', allocation.intl_roam_usage_charge],
           ['International Long Distance Voice Charges', (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0],
-          ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charges + allocation.taxes_charge) * 100) / 100) || 0]
+          ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0]
         ];
 
+        console.log('pieData', piechart_data);
         return piechart_data;
       },
     }

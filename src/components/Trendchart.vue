@@ -145,7 +145,7 @@
               allocation.domestic_usage_charge,
               allocation.intl_roam_usage_charge,
               (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0,
-              (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charges + allocation.taxes_charge) * 100) / 100) || 0
+              (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0
             ]
           }).value();
         }
