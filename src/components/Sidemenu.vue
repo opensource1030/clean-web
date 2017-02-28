@@ -1,7 +1,9 @@
 <template>
     <section class="menu-left test">
-        <a class="icon-close"><i class="fa fa-bars"></i></a>
         <ul id="menu" class="sidebar-menu">
+            <li class="menu-toggle">
+                <a class="icon-close"><i class="fa fa-bars"></i></a>
+            </li>
             <li class="menu-title">
                 <a href="/dashboard">
                     <i class="fa fa-home"></i> <span>Home</span>
