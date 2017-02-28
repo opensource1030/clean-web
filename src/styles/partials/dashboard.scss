@@ -1009,14 +1009,14 @@ a.btn-provision:hover .support-form-holder{
   overflow: hidden;
   span{
     float: left;
-    line-height: 2rem;
-    font-size: 0.9rem;
+    line-height:2rem;
+    font-size: 0.82rem;
   }
   img{
     float: right;
     max-width: 130px;
     border-left:1px solid lighten($black,45%);
-    padding-left: 0.8rem ;
+    padding-left: 0.5rem ;
   }
 }
 .callout.spent-info.active.visible{
