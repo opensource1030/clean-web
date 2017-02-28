@@ -57,26 +57,21 @@
 </script>
 
 <template>
-
 <div id="app">
-    <div class="off-canvas-wrapper">
+  <div class="off-canvas-wrapper">
 
-      <sidemenu v-if="user.authenticated"> </sidemenu>
+    <sidemenu v-if="user.authenticated"> </sidemenu>
 
-      <div :class="{'content-right test' : user.authenticated}" >
-        <div class="expanded row">
-      <headers  v-if="user.authenticated" :user="user" >  </headers>
-          <div class="clearfix"></div>
+    <div :class="{'content-right test' : user.authenticated}" >
+      <div class="expanded row">
+        <headers  v-if="user.authenticated" :user="user" >  </headers>
+        <div class="clearfix"></div>
         <breadcrumb v-if="user.authenticated"  ></breadcrumb>
 
-      <router-view></router-view>
-
-</div>
-
+        <router-view></router-view>
+      </div>
     </div>
-      <foo  v-if="user.authenticated"></foo>
-    </div>
+    <foo  v-if="user.authenticated"></foo>
+  </div>
 </div>
-
-
 </template>

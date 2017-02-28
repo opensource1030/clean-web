@@ -26,7 +26,7 @@
 
 <script>
 var {Store} = require('yayson')()
-var    store = new Store()
+var store = new Store()
 import Morphsearch from './Morphsearch.vue'
 import auth from './../api/auth'
 import Avatar from 'vue-avatar/dist/Avatar'

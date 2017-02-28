@@ -28,18 +28,18 @@
                 <tr>
                   <td v-if="item.bill_month"> {{ item.bill_month | cleanDate  }} </td>
                   <td v-if="allocation"  v-html="allocation.firstName ? allocation.firstName : '-' "> </td>
-                  <td> <router-link class="alloc_mblnumber"   :to="{ name: 'Mobile Charges', params: {id: item.id}}" v-html="item.mobile_number ? item.mobile_number : '000-0000-000' " > {{ item.mobile_number }}  </router-link>
+                  <td> <router-link class="alloc_mblnumber" :to="{ name: 'Mobile Charges', params: {id: item.id}}" v-html="item.mobile_number ? $options.filters.phone(item.mobile_number) : '000-000-0000'"></router-link>
                   </td>
                   <td v-html="item.carrier ? item.carrier : '-'  "> </td>
                   <td v-html="item.device ? item.device : '-'  "> </td>
-                  <td v-html="item.allocated_charge ? '$'+ item.allocated_charge : '$0.0' "> </td>
-                  <td v-html="item.service_plan_charge ? '$'+ item.service_plan_charge : '$0.0' "> </td>
-                  <td v-html="item.usage_charge ? '$'+ item.usage_charge : '$0.0' "> </td>
-                  <td v-html="item.other_charge ? '$'+ item.other_charge : '$0.0' " > </td>
-                  <td v-if="item.last_upgrade"> {{ item.last_upgrade | cleanDate  }}  </td>
+                  <td v-html="item.allocated_charge ? '$'+ item.allocated_charge.toFixed(2) : '$0.00'"></td>
+                  <td v-html="item.service_plan_charge ? '$'+ item.service_plan_charge.toFixed(2) : '$0.00'"></td>
+                  <td v-html="item.usage_charge ? '$'+ item.usage_charge.toFixed(2) : '$0.00'"></td>
+                  <td v-html="item.other_charge ? '$'+ item.other_charge.toFixed(2) : '$0.00'"></td>
+                  <td v-if="item.last_upgrade">{{ item.last_upgrade | cleanDate }}</td>
                   <td>
-                    <select class="user-actions" >
-                      <option selected disabled value=" ">-- Choose an issue ---</option>
+                    <select class="user-actions">
+                      <option selected disabled value=" ">-- Choose an issue --</option>
                       <option value="IRE1-1">Troubleshooting</option>
                       <option value="IRE1-2">Plan Change</option>
                       <option value="IRE1-3">Email Service</option>

@@ -91,7 +91,6 @@
           ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0]
         ];
 
-        console.log('pieData', piechart_data);
         return piechart_data;
       },
     }
