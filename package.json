@@ -18,6 +18,7 @@
   "dependencies": {
     "dateformat": "^2.0.0",
     "font-awesome": "^4.6.3",
+    "flatpickr": "^2.4.2",
     "foundation-sites": "^6.2.4-rc1",
     "highcharts": "^5.0.0",
     "jquery": "^3.1.1",
@@ -109,6 +110,7 @@
     "vue-animated-list": "^1.0.2",
     "vue-bulma-breadcrumb": "github:vue-bulma/breadcrumb",
     "vue-chartjs": "^2.3.1",
+    "vue-charts": "^0.2.1",
     "vue-loader": "^9.4.0",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.2",

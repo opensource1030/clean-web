@@ -16,7 +16,7 @@
       <div class="HW-container"></div>
       <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown data-close-on-click="true">
         <ul>
-          <li><a @click="logout()" href="/login"><i class="fa fa-sign-out"></i> Logout</a></li>
+          <li><a @click="logout()" id="logout" href="/login"><i class="fa fa-sign-out"></i> Logout</a></li>
         </ul>
       </div>
     </div>
@@ -31,19 +31,11 @@ import Morphsearch from './Morphsearch.vue'
 import auth from './../api/auth'
 import Avatar from 'vue-avatar/dist/Avatar'
 import supportRequest from './support-request';
-
 export default {
   components: {
     Morphsearch,
     Avatar
   },
-
-  props: {
-    user: {
-      required: true
-    }
-  },
-
   data() {
     return {
       company: {}

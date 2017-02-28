@@ -142,7 +142,6 @@ export default {
       price: [],
 
       loading: true,
-      loadData:false,
       loadtable: false,
       variations:[],
 
