@@ -3,6 +3,8 @@ import Sso from './components/Sso.vue'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
+import ResetPassword from './components/ResetPassword.vue'
+import ResetPasswordCode from './components/ResetPasswordCode.vue'
 
 //rutes main
 import Dashboard from './components/Dashboard.vue'
@@ -52,6 +54,16 @@ import LegacyInfo from './components/LegacyInfo.vue'
     path: '/loginLocal',
     component: LoginLocal,
     name: 'loginlocal'
+  },
+  {
+    path: '/resetPassword',
+    component: ResetPassword,
+    name: 'Reset Password'
+  },
+  {
+    path: '/resetPassword/:identification/:code',
+    component: ResetPasswordCode,
+    name: 'Reset Password Code'
   },
   //main
   {
