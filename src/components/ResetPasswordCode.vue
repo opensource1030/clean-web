@@ -98,22 +98,33 @@ export default {
 
       if(this.credentials.password1 == this.credentials.password2 && this.credentials.password1 != '' && this.credentials.password2 != '') {
         this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.identification + '/' + this.credentials.code, params).then((response) => {
-          console.log(response);
-          if(response.body == 'Ok') {
+          if(response.body == 'password changed') {
             this.$router.push({name: 'login'});
           }
         }, (response) => {
-          if (response.status == 404) {
-            this.error = 'Please Enter a Valid Email';
+          if(response.data.message == 'different identifications') {
+            this.error = 'The link has been expired, please, return to the forgot password and retrieve another one.';
+            this.errorShow = true;
+          }
+          if(response.data.message == 'different codes') {
+            this.error = 'The link has been expired, please, return to the forgot password and retrieve another one.';
+            this.errorShow = true;
+          }
+          if (response.data.message == 'user not found') {
+            this.error = 'The credentials has not any user associated, please, return to the forgot password and retrieve another one.';
+            this.errorShow = true;
+          }
+          if (response.data.message == 'different passwords') {
+            this.error = 'The password fields must be equal and not empty, please, try again.';
             this.errorShow = true;
           }
           if (response.status == 500) {
-            this.error = 'Unexpected error, please, try again later.'
+            this.error = 'Unexpected error, please, try again later.';
             this.errorShow = true;
           }
         });
       } else {
-        this.error = 'The password fields must be equal and not empty, please, try again.'
+        this.error = 'The password fields must be equal and not empty, please, try again.';
         this.errorShow = true;
       }
     }
