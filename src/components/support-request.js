@@ -35,6 +35,7 @@ function supportRequest() {
   });
   $('.btn-provision').click(function () {
     $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
+      $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
     $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
     $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
 

@@ -170,7 +170,7 @@
                                                                    title="Whomever is filling out this form."><i
                 class="fa fa-question-circle"> </i> </span>
               </div>
-              <input id="requestor_email" type="text" value="domotosho@wirelessanalytics.com">
+                <input id="requestor_email" type="text">
             </div>
             <div class="medium-12 columns ">
               <label><span class="form-title">Recipient Email (the affected user)</span> <span data-tooltip
