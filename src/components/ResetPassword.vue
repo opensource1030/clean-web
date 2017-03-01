@@ -73,7 +73,9 @@ export default {
   },
   methods: {
     submit() {
-      let params = {params:{}};
+      let params = {params:{
+        'url': process.env.URL
+      }};
       this.errorShow = false;
       this.messageShow = false;
       this.error = '';
