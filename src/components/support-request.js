@@ -68,37 +68,39 @@ function supportRequest() {
     submitHandler: function (form) {
       var form = $('#support-form');
       var $modal = $('#modal');
+      var company = "wirelessanalytics";
+      var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
 
-      var subject = $('#support-issues').data('value');
+      var subject = $('#support-issues').val();
 
       var msg =
-        "Priority: " + $('input[name=priority]:checked', '#support-form').val() + "\r\n" +
-        "Recipient Email (Who to Contact): " + $('#recipient_email').val() + "\r\n" +
-        "Reporter Email: " + $('#requestor_email').val() + "\r\n" +
-        "Affected Number: " + $('#recipient_mobile').val() + "\r\n" +
-        "Who to contact: " + $('input[name=contact-person]:checked', '#support-form').val() + "\r\n" +
-        "Description: " + $('#description').val();
+        "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<br/>" +
+        "<strong>Recipient Email (Who to Contact)</strong>: " + $('#recipient_email').val() + "<br/>" +
+        "<strong>Reporter Email</strong>: " + $('#requestor_email').val() + "<br/>" +
+        "<strong>Affected Number</strong>: " + $('#recipient_mobile').val() + "<br/>" +
+        "<strong>Who to contact</strong>: " + $('input[name=contact-person]:checked', '#support-form').val() + "<br/>" +
+        "<strong>Description</strong>: " + $('#description').val();
 
       if (subject === "Activate My Device") {
-        var msg_activation = "IMEI-MEID:" + $('#imei_meid').val() + "\r\n " +
-          "ICCID:" + $('#iccid').val() + "\r\n " +
-          "Device type, Make/Model:" + $('#device_type').val() + "\r\n " +
-          "Phone Origin" + $('#phone_origin').val() + "\r\n " +
-          "Mobile #:" + $('#int_mobile').val() + "\r\n ";
+        var msg_activation = "IMEI-MEID:" + $('#imei_meid').val() + "<br/> " +
+          "<strong>ICCID:</strong>" + $('#iccid').val() + "<br/>" +
+          "<strong>Device type, Make/Model</strong>:" + $('#device_type').val() + "<br/>" +
+          "<strong>Phone Origin</strong>" + $('#phone_origin').val() + "<br/>" +
+          "<strong>Mobile #:</strong>" + $('#int_mobile').val() + "<br/>";
 
-        msg += "<hr/>" + "\r\n" + msg_activation;
+        msg += "<hr/>" + "<br/>" + msg_activation;
       }
 
       if (subject === "Email Connectivity") {
-        var msg_email = "Email Service:" + $('input[name=email_services]:checked', '#support-form').val() + "\r\n ";
+        var msg_email = "<strong>Email Service:</strong>" + $('input[name=email_services]:checked', '#support-form').val() + "<br/>";
 
-        msg += "<hr/>" + "\r\n" + msg_email;
+        msg += "<hr/>" + "<br/>" + msg_email;
       }
 
       if (subject === "Add/Remove International Features") {
-        var msg_international_activation = "Country Traveling To:" + $("country2").val() + "\r\n" +
-          "Dates of Travel:" + $('#flatpickr').val() + "\r\n " +
-          "International Device Type:" + $('#int-device_type').val() + "\r\n ";
+        var msg_international_activation = "Country Traveling To:" + $("country2").val() + "<br/>" +
+          "<strong>Dates of Travel:</strong>" + $('#flatpickr').val() + "<br/> " +
+          "<strong>International Device Type:</strong>" + $('#int-device_type').val() + "<br/>";
 
         msg += "<hr/>" + "\r\n" + msg_international_activation;
       }
@@ -107,14 +109,14 @@ function supportRequest() {
       var json = {
         "assignedTo": 59063,
         "inboxId": 1778,
-        "subject": $('#support-issues').data('value'),
+        "subject": $('#support-issues').val(),
         "customerEmail": $('#recipient_email').val(),
-        "customerMobileNumber": $('#recipient_mobilenumber').val(),
-        "customerPhoneNumber": $('#recipient_phonenumber').val(),
+        "customerMobileNumber": $('#recipient_mobile').val(),
+        "customerPhoneNumber": $('#recipient_mobile').val(),
         "message": msg,
         "source": "clean-dashboard",
         "status": "active",
-        "tags[]": $('#support-issues').data('support-tag'),
+        "tags[]": $('#support-form').find(':selected').attr('data-support-tag'),
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
 
