@@ -14,7 +14,7 @@
         <a class="float-right" data-toggle="example-dropdown-1"> <avatar :username="fullName"></avatar> Hi, <span class="greeting">{{ firstName }}</span></a>
       </div>
       <div class="HW-container"></div>
-      <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
+      <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown data-close-on-click="true">
         <ul>
           <li><a @click="logout()" href="/login"><i class="fa fa-sign-out"></i> Logout</a></li>
         </ul>

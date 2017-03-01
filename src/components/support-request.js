@@ -21,20 +21,14 @@ function supportRequest() {
 
   var $selectOption = $('.user-actions'), $images = $('.mix');
   var affectedNum;
-  $('.wireless-overview .user-actions').on('change', function () {
-    affectedNum = $(this).parentsUntil('tbody').find('.alloc_mblnumber').html();
-  });
 
-  $('#choose-issues').on('change', function () {
-    affectedNum = $(this).parentsUntil('tbody').find('.user-info span').html();
-  });
 
 
   $selectOption.on('change', function () {
     var value1 = $(this).val();
-    var value = '.' + $(this).children('option:selected').data('id');
+    var value = '.' + value1;
     $images.show(200).not(value).hide();
-    $('#recipient_mobilenumber').val(affectedNum);
+    $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
     $('.btn-provision').click();
     $select.prop('value', value1);
 
@@ -49,6 +43,7 @@ function supportRequest() {
 
   $('#btn-close').click(function () {
     $('#support-form')[0].reset();
+    $images.hide();
     $('.support-form-holder').hide(200);
     $selectOption.prop('selectedIndex', 0);
   });
@@ -120,7 +115,7 @@ function supportRequest() {
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
 
-      console.log(JSON.stringify(json));
+      // console.log(JSON.stringify(json));
 
       $.ajax({
         type: "POST",

@@ -23,42 +23,55 @@
                 <option selected disabled value=" ">-- Choose an issue ---</option>
 
                 <optgroup label="Billing">
-                  <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement">
+                  <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement"
+                          value="qamms">
                     Questions About My Monthly Statement
                   </option>
-                  <option data-id="issue-15" data-support-tag="ALR4" data-value="Other Billing Issues">Other Billing
+                  <option data-id="issue-15" data-support-tag="ALR4" data-value="Other Billing Issues" value="obi">Other
+                    Billing
                     Issues
                   </option>
                 </optgroup>
 
                 <optgroup label="Device Support">
-                  <option data-id="issue-5" data-value="Activate My Device" data-support-tag="IRE0">Activate My Device
+                  <option data-id="issue-5" data-value="Activate My Device" data-support-tag="IRE0" value="amd">Activate
+                    My Device
                   </option>
-                  <option data-id="issue-3" data-value="Email Connectivity" data-support-tag="IRE0">Email Connectivity
+                  <option data-id="issue-3" data-value="Email Connectivity" data-support-tag="IRE0" value="ec">Email
+                    Connectivity
                   </option>
-                  <option data-id="issue-8" data-support-tag="IRE0" data-value="Issues While Traveling Abroad">Issues
+                  <option data-id="issue-8" data-support-tag="IRE0" data-value="Issues While Traveling Abroad"
+                          value="iwta">Issues
                     While Traveling Abroad
                   </option>
-                  <option data-id="issue-9" data-support-tag="IRE0" data-value="Other Device Support Issues">Other
+                  <option data-id="issue-9" data-support-tag="IRE0" data-value="Other Device Support Issues"
+                          value="odsi">Other
                     Device Support Issues
                   </option>
                 </optgroup>
 
                 <optgroup label="Service Plan / Feature">
-                  <option data-id="issue-6" data-support-tag="IRE1" data-value="Add/Remove International Features">
+                  <option data-id="issue-6" data-support-tag="IRE1" data-value="Add/Remove International Features"
+                          value="aif">
                     Add/Remove International Features
                   </option>
-                  <option data-id="issue-10" data-support-tag="IRE1" data-value="Cancel Service">Cancel Service</option>
-                  <option data-id="issue-2" data-support-tag="IRE1" data-value="Change Existing Features">Change
+                  <option data-id="issue-10" data-support-tag="IRE1" data-value="Cancel Service" value="cs">Cancel
+                    Service
+                  </option>
+                  <option data-id="issue-2" data-support-tag="IRE1" data-value="Change Existing Features" value="cef">
+                    Change
                     Existing Features
                   </option>
-                  <option data-id="issue-12" data-support-tag="IRE1" data-value="Suspend/Unsuspend Wireless Service">
+                  <option data-id="issue-12" data-support-tag="IRE1" data-value="Suspend/Unsuspend Wireless Service"
+                          value="sws">
                     Suspend/Unsuspend Wireless Service
                   </option>
                   <option data-id="issue-13" data-support-tag="IRE1"
-                          data-value="Transfer Service to a Personal Account">Transfer Service to a Personal Account
+                          data-value="Transfer Service to a Personal Account" value="tstpa">Transfer Service to a
+                    Personal Account
                   </option>
-                  <option data-id="issue-14" data-support-tag="IRE1" data-value="Other Service and Plan Issues">Other
+                  <option data-id="issue-14" data-support-tag="IRE1" data-value="Other Service and Plan Issues"
+                          value="osapi">Other
                     Service and Plan Issues
                   </option>
                 </optgroup>
@@ -67,7 +80,7 @@
             </label>
           </div>
           <div id="Container">
-            <div class="medium-12 columns mix issue-5">
+            <div class="medium-12 columns mix amd ">
               <label><span class="form-title">IMEI/MEID</span> <span data-tooltip aria-haspopup="true"
                                                                      class="has-tip top is-required"
                                                                      data-disable-hover="false" tabindex="1"
@@ -75,7 +88,7 @@
                 <input type="text" id="imei_meid" placeholder="imei/meid">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-5">
+            <div class="medium-12 columns mix amd">
               <label><span class="form-title">ICCID</span> <span data-tooltip aria-haspopup="true"
                                                                  class="has-tip top is-required"
                                                                  data-disable-hover="false" tabindex="1"
@@ -83,7 +96,7 @@
                 <input type="text" id="iccid" placeholder="iccid">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-5">
+            <div class="medium-12 columns mix amd">
               <label><span class="form-title">Device type, Make/Model </span> <span data-tooltip aria-haspopup="true"
                                                                                     class="has-tip top is-required"
                                                                                     data-disable-hover="false"
@@ -91,7 +104,7 @@
                 <input type="text" id="device_type" placeholder="device type">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-5">
+            <div class="medium-12 columns mix amd">
               <label><span class="form-title">Phone Origin </span><span data-tooltip aria-haspopup="true"
                                                                         class="has-tip top is-required"
                                                                         data-disable-hover="false" tabindex="1"
@@ -99,7 +112,7 @@
                 <input type="text" id="phone_origin" placeholder="phone origin">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-5">
+            <div class="medium-12 columns mix amd">
               <label><span class="form-title">Mobile # </span><span data-tooltip aria-haspopup="true"
                                                                     class="has-tip top is-required"
                                                                     data-disable-hover="false" tabindex="1"
@@ -107,7 +120,7 @@
                 <input type="text" id="int_mobile" placeholder="mobile number">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-6">
+            <div class="medium-12 columns mix iwta">
               <label><span class="form-title">What country/countries.js are you travelling to?</span> <span data-tooltip
                                                                                                             aria-haspopup="true"
                                                                                                             class="has-tip top is-required"
@@ -117,7 +130,7 @@
                 <select id="country2" name="country2" required> </select>
               </label>
             </div>
-            <div class="medium-12 columns mix issue-6">
+            <div class="medium-12 columns mix iwta">
               <label><span class="form-title">Dates of travel</span> <span data-tooltip aria-haspopup="true"
                                                                            class="has-tip top is-required "
                                                                            data-disable-hover="false" tabindex="1"
@@ -125,7 +138,7 @@
                 <input id="flatpickr" class="flatpickr" type="text" placeholder="Select Date..">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-6">
+            <div class="medium-12 columns mix iwta">
               <label><span class="form-title">Device type, phone, tablet, mifi </span> <span data-tooltip
                                                                                              aria-haspopup="true"
                                                                                              class="has-tip top is-required"
@@ -135,7 +148,7 @@
                 <input type="text" id="int-device_type" placeholder="">
               </label>
             </div>
-            <div class="medium-12 columns mix issue-3">
+            <div class="medium-12 columns mix ec">
               <fieldset class="fieldset">
                 <legend><span class="form-title">Email Services </span> <span data-tooltip aria-haspopup="true"
                                                                               class="has-tip top is-required"
