@@ -47,11 +47,6 @@ function supportRequest() {
     $selectOption.prop('selectedIndex', 0);
   });
 
-  /*$(document).keyup(function (e) {
-   if (e.keyCode == 27)
-   $('#btn-close').click();
-   });*/
-
   $("#support-form").validate({
     rules: {
       "description": {
@@ -63,10 +58,10 @@ function supportRequest() {
       var form = $('#support-form');
       var $modal = $('#modal');
       var company = "wirelessanalytics";
-      var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
+      var key = "JWKEXDgvFQXyESKD8Ns4G0RZDhixLzCX0AdDHtzmcknk9FXT16";
       var helpdesk_code = $('#support-form').find(':selected').attr('data-support-tag');
 
-      var subject = $('#support-issues').val();
+      var subject = $('#support-form').find(':selected').attr('data-value');
 
       var msg =
         "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<br/>" +
@@ -105,7 +100,7 @@ function supportRequest() {
       var json = {
         "assignedTo": 59063,
         "inboxId": 1778,
-        "subject": $('#support-issues').val(),
+        "subject": subject,
         "customerEmail": $('#recipient_email').val(),
         "customerMobileNumber": $('#recipient_mobile').val(),
         "customerPhoneNumber": $('#recipient_mobile').val(),

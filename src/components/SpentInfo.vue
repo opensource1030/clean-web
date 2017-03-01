@@ -45,7 +45,7 @@
                 <div class="box-content-holder">
                   <h6>Action for this line: </h6>
                   <select id="choose-issues" class="user-actions " >
-                    <option disabled value=" " selected>-- Medium ---</option>
+                    <option disabled value=" " selected>-- Choose an issue ---</option>
                     <optgroup label="Billing">
                       <option data-id="issue-4" data-support-tag="ALR4"
                               data-value="Questions About My Monthly Statement" value="qamms">
