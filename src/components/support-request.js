@@ -114,11 +114,11 @@ function supportRequest() {
         "message": msg,
         "source": "clean-dashboard",
         "status": "active",
-        "tags[]": $('#tags').val(),
+        "tags[]": $('#support-issues').data('support-tag'),
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
 
-      // console.log(JSON.stringify(json));
+      console.log(JSON.stringify(json));
 
       $.ajax({
         type: "POST",
