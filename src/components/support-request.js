@@ -21,20 +21,14 @@ function supportRequest() {
 
   var $selectOption = $('.user-actions'), $images = $('.mix');
   var affectedNum;
-  $('.wireless-overview .user-actions').on('change', function () {
-    affectedNum = $(this).parentsUntil('tbody').find('.alloc_mblnumber').html();
-  });
 
-  $('#choose-issues').on('change', function () {
-    affectedNum = $(this).parentsUntil('tbody').find('.user-info span').html();
-  });
 
 
   $selectOption.on('change', function () {
     var value1 = $(this).val();
-    var value = '.' + $(this).children('option:selected').data('id');
+    var value = '.' + value1;
     $images.show(200).not(value).hide();
-    $('#recipient_mobilenumber').val(affectedNum);
+    $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
     $('.btn-provision').click();
     $select.prop('value', value1);
 
@@ -49,6 +43,7 @@ function supportRequest() {
 
   $('#btn-close').click(function () {
     $('#support-form')[0].reset();
+    $images.hide();
     $('.support-form-holder').hide(200);
     $selectOption.prop('selectedIndex', 0);
   });
@@ -69,7 +64,7 @@ function supportRequest() {
       var form = $('#support-form');
       var $modal = $('#modal');
 
-      var subject = $('#support-issues').data('value');
+      var subject = $('#support-issues option:selected').data('value');
 
       var msg =
         "Priority: " + $('input[name=priority]:checked', '#support-form').val() + "\r\n" +
@@ -107,14 +102,14 @@ function supportRequest() {
       var json = {
         "assignedTo": 59063,
         "inboxId": 1778,
-        "subject": $('#support-issues').data('value'),
+        "subject": $('#support-issues option:selected').data('value'),
         "customerEmail": $('#recipient_email').val(),
         "customerMobileNumber": $('#recipient_mobilenumber').val(),
         "customerPhoneNumber": $('#recipient_phonenumber').val(),
         "message": msg,
         "source": "clean-dashboard",
         "status": "active",
-        "tags[]": $('#tags').val(),
+        "tags[]": $('#support-issues option:selected').data('support-tag'),
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
 
