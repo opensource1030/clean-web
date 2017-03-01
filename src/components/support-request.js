@@ -9,7 +9,6 @@ function supportRequest() {
     remove: false
   });
   let calendar = new Flatpickr(document.getElementById('flatpickr'), {
-    maxDate: new Date(),
     altInput: true,
     altFormat: "F j, Y"
   });
@@ -27,7 +26,9 @@ function supportRequest() {
     var value1 = $(this).val();
     var value = '.' + value1;
     $images.show(200).not(value).hide();
-    $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
+      if ($(this).prop('id') == 'choose-issues') {
+          $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
+      }
     $('.btn-provision').click();
     $select.prop('value', value1);
 
