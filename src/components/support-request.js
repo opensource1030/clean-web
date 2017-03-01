@@ -23,7 +23,6 @@ function supportRequest() {
   var affectedNum;
 
 
-
   $selectOption.on('change', function () {
     var value1 = $(this).val();
     var value = '.' + value1;
@@ -65,6 +64,7 @@ function supportRequest() {
       var $modal = $('#modal');
       var company = "wirelessanalytics";
       var key = "PMf04HTtZ7dNDIS2gmQCUWWRw0IwaHvdoa3MYQ6Fg6f23s8zrr";
+      var helpdesk_code = $('#support-form').find(':selected').attr('data-support-tag');
 
       var subject = $('#support-issues').val();
 
@@ -77,7 +77,7 @@ function supportRequest() {
         "<strong>Description</strong>: " + $('#description').val();
 
       if (subject === "Activate My Device") {
-        var msg_activation = "IMEI-MEID:" + $('#imei_meid').val() + "<br/> " +
+        var msg_activation = "<strong>IMEI-MEID:</strong>" + $('#imei_meid').val() + "<br/> " +
           "<strong>ICCID:</strong>" + $('#iccid').val() + "<br/>" +
           "<strong>Device type, Make/Model</strong>:" + $('#device_type').val() + "<br/>" +
           "<strong>Phone Origin</strong>" + $('#phone_origin').val() + "<br/>" +
@@ -100,6 +100,7 @@ function supportRequest() {
         msg += "<hr/>" + "\r\n" + msg_international_activation;
       }
 
+      msg += "<br/><br/>"  + "@CODE_CATALOG@='" + helpdesk_code + "'";
 
       var json = {
         "assignedTo": 59063,
@@ -111,11 +112,9 @@ function supportRequest() {
         "message": msg,
         "source": "clean-dashboard",
         "status": "active",
-        "tags[]": $('#support-form').find(':selected').attr('data-support-tag'),
+        "tags[]": helpdesk_code,
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
-
-      // console.log(JSON.stringify(json));
 
       $.ajax({
         type: "POST",
