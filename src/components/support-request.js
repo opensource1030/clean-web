@@ -69,9 +69,40 @@ function supportRequest() {
       var form = $('#support-form');
       var $modal = $('#modal');
 
-      var msg_activation = "";
-      var msg_email = "";
-      var msg_international_activation = "";
+      var subject = $('#support-issues').data('value');
+
+      var msg =
+        "Priority: " + $('input[name=priority]:checked', '#support-form').val() + "\r\n" +
+        "Recipient Email (Who to Contact): " + $('#recipient_email').val() + "\r\n" +
+        "Reporter Email: " + $('#requestor_email').val() + "\r\n" +
+        "Affected Number: " + $('#recipient_mobile').val() + "\r\n" +
+        "Who to contact: " + $('input[name=contact-person]:checked', '#support-form').val() + "\r\n" +
+        "Description: " + $('#description').val();
+
+      if (subject === "Activate My Device") {
+        var msg_activation = "IMEI-MEID:" + $('#imei_meid').val() + "\r\n " +
+          "ICCID:" + $('#iccid').val() + "\r\n " +
+          "Device type, Make/Model:" + $('#device_type').val() + "\r\n " +
+          "Phone Origin" + $('#phone_origin').val() + "\r\n " +
+          "Mobile #:" + $('#int_mobile').val() + "\r\n ";
+
+        msg += "<hr/>" + "\r\n" + msg_activation;
+      }
+
+      if (subject === "Email Connectivity") {
+        var msg_email = "Email Service:" + $('input[name=email_services]:checked', '#support-form').val() + "\r\n ";
+
+        msg += "<hr/>" + "\r\n" + msg_email;
+      }
+
+      if (subject === "Add/Remove International Features") {
+        var msg_international_activation = "Country Traveling To:" + $("country2").val() + "\r\n" +
+          "Dates of Travel:" + $('#flatpickr').val() + "\r\n " +
+          "International Device Type:" + $('#int-device_type').val() + "\r\n ";
+
+        msg += "<hr/>" + "\r\n" + msg_international_activation;
+      }
+
 
       var json = {
         "assignedTo": 59063,
@@ -80,12 +111,15 @@ function supportRequest() {
         "customerEmail": $('#recipient_email').val(),
         "customerMobileNumber": $('#recipient_mobilenumber').val(),
         "customerPhoneNumber": $('#recipient_phonenumber').val(),
-        "message": $('#description').val() + ' ' + ' Preferred:' + ' ' + $('input[name=method]:checked', '#support-form').val(),
+        "message": msg,
         "source": "clean-dashboard",
         "status": "active",
         "tags[]": $('#tags').val(),
         "priority": $('input[name=priority]:checked', '#support-form').val()
       };
+
+      // console.log(JSON.stringify(json));
+
       $.ajax({
         type: "POST",
         url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
