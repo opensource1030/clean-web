@@ -1,57 +1,66 @@
-<script>
-    import Sidemenu from './components/Sidemenu.vue'
-    import foo from './components/Footer.vue'
-    import headers from './components/header'
-    import breadcrumb from './components/breadcrumb'
-    import auth from './api/auth'
-    export default {
-        name: "App",
-        mounted(){
-            $(function() {
-                $(window).on("scroll", function() {
-                    if($(window).scrollTop() > 50) {
-                        $(".top-bar-section").addClass("sticky-top");
-                        $('body').addClass('sticky-header');
-                    } else {
-                        //remove the background property so it comes transparent again (defined in your css)
-                        $(".top-bar-section").removeClass("sticky-top");
-                        $('body').removeClass('sticky-header');
-                    }
-                });
-            });
-        },
-
-        components: {
-            Sidemenu,
-            foo,
-            headers,
-            breadcrumb
-        },
-        data() {
-            return {
-                user: auth.user
-            }
-        }
-
-
-    }
-</script>
-
 <template>
 <div id="app">
   <div class="off-canvas-wrapper">
-    <sidemenu v-if="user.authenticated"> </sidemenu>
-      <div :class="{'content-right test' : user.authenticated}" >
-        <div class="expanded row">
-      <headers  v-if="user.authenticated"  >  </headers>
-          <div class="clearfix"></div>
+    <sidemenu v-if="$store.getters['auth/isAuthenticated']"> </sidemenu>
 
-        <breadcrumb v-if="user.authenticated"  ></breadcrumb>
+    <div :class="{ 'content-right test': $store.getters['auth/isAuthenticated'] }" >
+      <div class="expanded row">
+        <headers v-if="$store.getters['auth/isAuthenticated']" :user="$store.state.auth.profile"></headers>
+        <div class="clearfix"></div>
+        <breadcrumb v-if="$store.getters['auth/isAuthenticated']"></breadcrumb>
 
         <router-view></router-view>
       </div>
     </div>
-    <foo  v-if="user.authenticated"></foo>
+
+    <foo v-if="$store.getters['auth/isAuthenticated']"></foo>
   </div>
 </div>
 </template>
+
+<script>
+import Sidemenu from './components/Sidemenu.vue'
+import foo from './components/Footer.vue'
+import headers from './components/header'
+import breadcrumb from './components/breadcrumb'
+import auth from './api/auth'
+
+export default {
+  name: "App",
+
+  components: {
+    Sidemenu,
+    foo,
+    headers,
+    breadcrumb
+  },
+
+  data () {
+    return {
+      // user: auth.user,
+      company: {}
+    }
+  },
+
+  created () {
+  },
+
+  mounted () {
+    $(function() {
+      $(window).on("scroll", function() {
+        if ($(window).scrollTop() > 50) {
+          $(".top-bar-section").addClass("sticky-top");
+          $('body').addClass('sticky-header');
+        } else {
+          //remove the background property so it comes transparent again (defined in your css)
+          $(".top-bar-section").removeClass("sticky-top");
+          $('body').removeClass('sticky-header');
+        }
+      });
+    });
+  },
+
+  methods: {
+  }
+}
+</script>

@@ -1,9 +1,8 @@
-import Vue from 'vue';
-import auth from './../auth.js';
+import Vue from 'vue'
 import Device from './../../models/Device'
-import {filterByFilters} from './../../components/filters.js';
-const {Store} = require('yayson')();
-const store = new Store();
+import {filterByFilters} from './../../components/filters.js'
+const {Store} = require('yayson')()
+const store = new Store()
 
 export default {
   /*-------------------------------update device-----------------*/
