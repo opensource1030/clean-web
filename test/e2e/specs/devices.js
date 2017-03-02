@@ -26,8 +26,7 @@ const devServer = browser.globals.devServerURL;
             }, [], function(result) {
             browser.assert.containsText(".greeting",result.value )
             })
-
-
+            .end()
 
 }
 
