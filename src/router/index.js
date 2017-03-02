@@ -61,8 +61,8 @@ const router = new VueRouter({
     { path: '/resetPassword', component: ResetPassword, name: 'Reset Password' },
     { path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code' },
     // main
-    { 
-      path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true }, 
+    {
+      path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
       children : [
         { path: 'charge/:id', component: SpentInfo, name : 'Mobile Charges' },
         { path: 'procurement/', component: LegacyInfo, name : 'legacyInfo' }
