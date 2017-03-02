@@ -26,30 +26,32 @@ export default {
     } else {
 
       context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
+        console.log(response.data);
         localStorage.setItem('email', creds.email);
         window.location.href = response.data.data.redirectUrl;
-
       }, (response) => {
 
         if (response.data.error === 'User Not Found, Register Required') {
-          //console.log(response.data.error);
+          console.log(response.data.error);
           context.error = response.data.error;
+          localStorage.removeItem('email');
+          localStorage.setItem('email', creds.email);
           context.$router.push({name: 'register'});
-
         } else if (response.data.error === 'Invalid Email') {
+          console.log(response.data.error);
           context.error = response.data.error;
         } else if (response.data.error == 'User Found, Password Required') {
-
-
           context.$router.push({name: 'loginlocal'});
           localStorage.removeItem('email');
-
           localStorage.setItem('email', creds.email);
+          context.$router.push({name: 'loginlocal'});
+        } else if (response.data.error == 'Company Not Found') {
+          console.log(response.data);
+          context.error = response.data.error + '. ' + response.data.message;
         } else {
+          console.log(response.data.error);
           context.error = 'Unexpected server error. Please contact the administrator.';
-
         }
-
       });
     }
   },

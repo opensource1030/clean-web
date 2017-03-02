@@ -26,7 +26,7 @@
               <div class="large-12 columns">
                 <div class="input-group bg-orange">
                   <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                <input class="input-group-field" type="password" v-model="credentials.lastName" placeholder="Last Name" />
+                <input class="input-group-field" type="text" v-model="credentials.lastName" placeholder="Last Name" />
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@ data() {
     credentials: {
       firstName: '',
       lastName:'',
-      email: auth.user.email
+      email: localStorage.getItem('email'),
 
     },
     error: ''
