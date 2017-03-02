@@ -149,7 +149,7 @@
                               </swiper-slide>
                             </swiper>
                           </div>
-                          <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDevVarList" ref="swDeviceVariationList">
+                          <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDevices" ref="swDeviceVariationList">
                             <swiper-slide v-for="(devvar, index) in packages.devicevariationsList">
                               <transition name="list">
                                 <div class="devicevariationsinformation list-item" :key="devvar" @click="devicevariationSelected(devvar, index)">
@@ -177,7 +177,7 @@
                             </swiper>
                           </div>
                           <div>
-                            <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDevVarSel" ref="swDeviceVariationSeleted">
+                            <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDevices" ref="swDeviceVariationSeleted">
                               <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
                                 <transition name="list">
                                   <div class="devicevariationsinformation list-item" :key="devvarsel" @click="devicevariationNoSelected(devvarsel, index)">

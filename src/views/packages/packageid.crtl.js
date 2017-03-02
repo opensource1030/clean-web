@@ -488,6 +488,7 @@ export default {
   },
 
   data() {
+
     return {
       show: false,
       loadedContent: false,
@@ -704,67 +705,44 @@ export default {
         generalError : false,
       },
       swiperOptionPreset: {
-        paginationType: 'progress',
-        pagination : '.swiper-pagination',
-        paginationClickable :true,
         prevButton:'.swiper-button-prev',
         nextButton:'.swiper-button-next',
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
-          1024: {
-            slidesPerView: 5,
+          1200: {
+            slidesPerView: 4,
           },
-          768: {
+          900: {
             slidesPerView: 3,
           },
-          640: {
+          600: {
             slidesPerView: 2,
           },
-          320: {
-            slidesPerView: 1,
+          440: {
+            slidesPerView: 1
           }
         },
         onReachEnd: this.goForwardPreset,
         onReachBeginning: this.goBackPreset,
         onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
       },
-      swiperOptionDevVarList: {
+      swiperOptionDevices: {
         prevButton:'.swiper-button-prev',
         nextButton:'.swiper-button-next',
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
-          1024: {
-            slidesPerView: 5,
+          1100: {
+            slidesPerView: 4,
           },
-          768: {
+          860: {
             slidesPerView: 3,
           },
-          640: {
+          560: {
             slidesPerView: 2,
           },
-          320: {
-            slidesPerView: 1,
-          }
-        }
-      },
-      swiperOptionDevVarSel: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 5,
-          },
-          768: {
-            slidesPerView: 3,
-          },
-          640: {
-            slidesPerView: 2,
-          },
-          320: {
+          380: {
             slidesPerView: 1,
           }
         }
