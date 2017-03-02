@@ -13,6 +13,8 @@ import Sso from './../components/Sso.vue'
 import Login from './../components/Login.vue'
 import Register from './../components/Register.vue'
 import LoginLocal from './../components/LoginLocal.vue'
+import ResetPassword from './../components/ResetPassword.vue'
+import ResetPasswordCode from './../components/ResetPasswordCode.vue'
 
 //rutes main
 import Dashboard from './../components/Dashboard.vue'
@@ -20,12 +22,12 @@ import Sidemenu from './../components/Sidemenu.vue'
 import ChargeInfo from './../components/ChargeInfo.vue'
 
 //routes devices
-// import Devices from './../views/devices/Devices.vue'
-// import Device from './../views/devices/Device.vue'
+import Devices from './../views/devices/Devices.vue'
+import Device from './../views/devices/Device.vue'
 
 //routes presets
-// import Presets from './../views/presets/Presets.vue'
-// import Preset from './../views/presets/Preset.vue'
+import Presets from './../views/presets/Presets.vue'
+import Preset from './../views/presets/Preset.vue'
 
 //routes services
 import Services from './../views/services/Services.vue'
@@ -56,6 +58,8 @@ const router = new VueRouter({
     { path: '/login', component: Login, name: 'login' },
     { path: '/register', component: Register, name: 'register' },
     { path: '/loginLocal', component: LoginLocal, name: 'loginLocal' },
+    { path: '/resetPassword', component: ResetPassword, name: 'Reset Password' },
+    { path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code' },
     // main
     { 
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true }, 
@@ -66,6 +70,14 @@ const router = new VueRouter({
     },
     { path: '/sso/:id', component: Sso, name: 'sso' },
     { path: '/sidemenu', component: Sidemenu },
+    // devices
+    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
+    { path: '/device', component: Device, name: 'Add Device', meta: { requiresAuth: true } },
+    // presets
+    { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
+    { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
+    { path: '/preset', component: Preset, name: 'Add Preset', meta: { requiresAuth: true } },
     // services
     { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
     { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
@@ -84,8 +96,6 @@ const router = new VueRouter({
     { path: '*', redirect: '/dashboard' }
   ]
 })
-
-// auth.checkAuth();
 
 Vue.http.interceptors.push((request, next) => {
   NProgress.inc(0.2)
