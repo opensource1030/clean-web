@@ -32,10 +32,10 @@
               </div>
             </div>
             <div class="row">
-              <div class="large-6 small-12 columns">
+              <div class="large-6 small-6 columns"  style="text-align: left;">
                 <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
               </div>
-              <div class="large-6 small-12 columns">
+              <div class="large-6 small-6 columns" style="text-align: right;">
                 <a @click="resetPassword()" id="button"><strong>Forgot Password?</strong></a>
               </div>
             </div>
