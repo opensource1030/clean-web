@@ -5,7 +5,7 @@ var config = require('../config')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
-  ? require('./webpack.prod.conf')
+  ? require('./webpack.devs.conf')
   : require('./webpack.dev.conf')
 
 // default port where dev server listens for incoming traffic
@@ -57,13 +57,18 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 
 app.use(staticPath, express.static('src/images'))
+var uri = 'http://localhost:' + port
+
+devMiddleware.waitUntilValid(function () {
+  console.log('> Listening at ' + uri + '\n')
+})
 
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port
-  console.log('Listening at ' + uri + '\n')
-  opn(uri)
+  if (process.env.NODE_ENV !== 'testing') {
+    opn(uri)
+  }
 })

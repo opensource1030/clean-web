@@ -1,9 +1,11 @@
 <template>
   <div>
-<div  v-show="!loading" >
-<table >
+<div class="small-12 columns" v-show="!loading" >
+  <div class="small-12 colums responsive">
+<table  >
   <thead>
     <tr>
+      <th v-if="id==null" ></th>
       <th>
         <multiselect
         :field="'Device Type'"
@@ -80,6 +82,7 @@
     </thead>
     <tbody v-show="loadtable" >
       <tr class="filter">
+        <td v-if="id==null"></td>
         <td><div v-for="t in type" class="filterBy" >{{t.name}} ,</div></td>
         <td ><div v-for="manu in manufactured" class="filterBy">{{manu}} ,</div></td>
         <td  ><div v-for="p in price" class="filterBy"  >{{p}} ,</div></td>
@@ -90,7 +93,7 @@
     </tbody>
     <tbody  v-for="(device, index) in devices"  >
       <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
-
+          <td v-if="id==null"><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
         <td style="font-weight: bold;" >  {{device.name}} </td>
         <td >{{device.make}}</td>
 
@@ -186,10 +189,9 @@
         <td v-else v-show="device.show" transition="device" @click="setActive(index)" class="detail" colspan="8" >
             <div class="column row">
         <div class="row">
-              <div class="large-6 small-6   columns ">
-                <div class="large-3 small-3    columns ">
-                </div>
-                <div class="large-3 small-3    columns ">
+              <div class="large-7 small-7   columns ">
+
+                <div class="large-3   large-offset-2  small-3    small-offset-2 columns ">
                   <div class="column row" v-for="carrier in device.priceName"  :key="carrier.id" >
                     <div class="row">
 
@@ -214,10 +216,8 @@
             </div>
 
                 </div>
-                <div class="large-3 small-3    columns ">
 
-                </div>
-                <div class="large-3 small-3 columns pri">
+                <div class="large-3 large-offset-3 small-3   small-offset-3 columns pri">
                   <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
                     <ul>
                       <li    >{{carrier.priceRetail}} {{device.currency}}</li>
@@ -228,20 +228,20 @@
                 </div>
 
                   </div>
-                    <div class="small-6 large-6   columns ">
-                      <div class="large-3 small-3    columns " :class="{ 'up': device.show}">
+                    <div class="small-5 large-5   columns ">
+                      <div class="large-3 l small-3   columns " >
 
                         <div class="image">
                           <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
                         </div>
                       </div>
-                      <div class="large-3 small-3    columns " :class="{ 'up': device.show}">
+
+                      <div class="large-3  small-3   columns " :class="{ 'up': device.show}">
                         <span style="font-weight: bold;">  Availability:</span><br>
                         <span>Provider</span>
                         <ul>
                           <li v-for="carrier in device.priceName">{{carrier.carrier}}</li>
                         </ul>
-
                       </div>
                       <div class="large-3  small-3   columns " :class="{ 'up': device.show}">
                         <br>
@@ -250,7 +250,6 @@
                           <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
 
                         </ul>
-
                       </div>
                       <div class="large-3  small-3   columns " :class="{ 'up': device.show}">
                         <br>
@@ -264,10 +263,8 @@
 
           </div>
           <div class="row">
-              <div class="small-6 large-6   columns ">
 
-          </div>
-              <div class="small-6 large-6   columns ">
+              <div class="small-6 small-offset-7 large-6 large-offset-7 columns ">
                 <div class="information">
                     <span style="font-weight: bold;" >Technical Information</span><br>
                       {{device.properties}}
@@ -286,16 +283,18 @@
 
     </tbody>
   </table>
+</div>
 
 
 
 <div class="clearfix"></div>
 
 <pagination :pagination="pagination" :callback="loadData" v-show="loadtable"></pagination>
-</div>
+
 <div class="load">
     <i  v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
   </div>
+</div>
 </div>
 </template>
 <script src="./tableDevices.crtl.js" lang="babel"></script>

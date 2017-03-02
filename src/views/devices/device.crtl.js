@@ -10,12 +10,17 @@ export default {
   inputValidate
   },
   beforeCreate() {
+        this.id = this.$route.params.id;
+    if (this.id != null) {
+      this.render=false;
+        device.getDevice(this, 1);
+      device.getDataDevice(this, this.id);
+    }else{
 
     device.getDevice(this, 1);
-    this.id = this.$route.params.id;
-    if (this.id != null) {
-      device.getDataDevice(this, this.id);
-    }
+  }
+
+
   },
 
   computed : {
@@ -125,7 +130,7 @@ export default {
 
     else{
 
-      if(this.pricess.length!=0){
+      if(this.pricess.length!=0 || this.priceData.length==0){
         this.pricess=[];
         json.id=0;
         this.company = Object.assign({}, this.company, json);
@@ -423,6 +428,7 @@ else{
       company: {},
       /*errors*/
       error: '',
+      render:false,
       /*css modificacions*/
       checked: true,
       unchecked: false,
