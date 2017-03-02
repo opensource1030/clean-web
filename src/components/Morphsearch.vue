@@ -11,11 +11,7 @@
       <div id="knowledge-base-content">
         <iframe id="helpdocs" src="https://clean.helpdocs.com/"> </iframe>
       </div>
-
-
       <!-- End of  knowledge base code -->
-
-
     </div><!-- /morphsearch-content -->
     <span class="morphsearch-close"></span>
   </div>
@@ -29,6 +25,12 @@ export default {
     name: "Morphsearch",
   mounted(){
     (function() {
+        $("#helpdocs", window.parent.document).height($("body").height() + 0);
+        if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
+        $(window).resize(function(){
+            $("#helpdocs", window.parent.document).height($("body").height() + 0);
+            if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
+        });
       var isAnimating;
       var morphSearch = document.getElementById( 'morphsearch' ),
               input = morphSearch.querySelector( 'input.morphsearch-input' ),

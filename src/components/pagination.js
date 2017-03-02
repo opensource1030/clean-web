@@ -13,6 +13,7 @@ module.exports = {
       required: true
     }
   },
+  name:'pagination',
   created() {
     this.init();
 

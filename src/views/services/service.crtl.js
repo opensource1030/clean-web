@@ -87,7 +87,7 @@ export default {
                 code: '',
                 cost: '',
                 description: '',
-                currency: ''
+                currency: 'USD'
             },
             services: [],
             domesticPlan: {

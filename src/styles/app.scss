@@ -5,16 +5,20 @@
 
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
+@import "plugins/flatpickr";
 @import "modules/all-modules";
 
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
 @import "partials/footer";
 @import "partials/devices";
+@import "partials/presets";
 @import "partials/modal";
 @import "partials/services";
+@import "partials/packages";
 @import "partials/employees";
 @import "partials/nprogress";
+@import "partials/login";
 
 .w1{overflow: hidden;}
 body{
@@ -28,10 +32,12 @@ body{
           max-width: 90%;
         }
         .logo-holder{
-          text-align: center;
+          text-align: left;
         }
         .morphsearch{
-          margin: 6px 0 0 2rem;
+           //margin: 6px 0 0 2rem;
+          width: 620px;
+          margin-top: 8px;
         }
       }
     }

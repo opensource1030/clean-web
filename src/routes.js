@@ -12,12 +12,20 @@ import Sidemenu from './components/Sidemenu.vue'
 import ChargeInfo from './components/ChargeInfo.vue'
 
 //routes devices
-import Devices from './views/devices/Devices.vue'
-import Device from './views/devices/Device.vue'
+// import Devices from './views/devices/Devices.vue'
+// import Device from './views/devices/Device.vue'
+
+//routes presets
+// import Presets from './views/presets/Presets.vue'
+// import Preset from './views/presets/Preset.vue'
 
 //routes services
 import Services from './views/services/Services.vue'
 import Service from './views/services/Service.vue'
+
+//routes Packages
+import Packages from './views/packages/Packages.vue'
+import Packageid from './views/packages/Packageid.vue'
 
 //routes Employees
 import Profile from './views/employees/Profile.vue'
@@ -29,7 +37,6 @@ import UpdateProfile from './views/employees/UpdateProfile.vue'
 import Settings from './views/settings/Settings.vue'
 
 //popover
-
 import SpentInfo from './components/SpentInfo.vue'
 import LegacyInfo from './components/LegacyInfo.vue'
 
@@ -37,7 +44,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
  * The routes
  *
  * @type {object} The routes
- */
+ */  
  export default [
   //auth
   {
@@ -77,7 +84,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
     children : [
       {
         path: 'charge/:id',
-        name : 'spentInfo',
+        name : 'Mobile Charges',
         component: SpentInfo
       },
       {
@@ -97,30 +104,54 @@ import LegacyInfo from './components/LegacyInfo.vue'
     component: Sidemenu
   },
   //devices
-  {
-    path: '/devices',
-    component: Devices,
-    name: 'List Devices',
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/device/:id',
-    component: Device,
-    name: 'Update Device',
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/device',
-    component: Device,
-    name: 'Add Device',
-    meta: {
-      requiresAuth: true
-    }
-  },
+  // {
+  //   path: '/devices',
+  //   component: Devices,
+  //   name: 'List Devices',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: '/device/:id',
+  //   component: Device,
+  //   name: 'Update Device',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: '/device',
+  //   component: Device,
+  //   name: 'Add Device',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: '/presets',
+  //   component: Presets,
+  //   name: 'List Presets',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: '/preset/:id',
+  //   component: Preset,
+  //   name: 'Update Preset',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
+  // {
+  //   path: '/preset',
+  //   component: Preset,
+  //   name: 'Add Preset',
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
   //services
   {
     path: '/services',
@@ -185,11 +216,38 @@ import LegacyInfo from './components/LegacyInfo.vue'
     name: 'configuration',
     meta: {
       requiresAuth: true
+
     }
+  },
+  //Packages
+  {
+      path: '/packages',
+      component: Packages,
+      name: 'packages',
+      meta: {
+          requiresAuth: true
+      }
+  },
+  {
+      path: '/package/:id',
+      component: Packageid,
+      name: 'packageEdit',
+      meta: {
+          requiresAuth: true
+      }
+  },
+  {
+      path: '/package',
+      component: Packageid,
+      name: 'package',
+      meta: {
+          requiresAuth: true
+      }
   },
   //redirect
   {
-    path: '*',
-    redirect: '/dashboard'
-  }
+      path: '*',
+      redirect: '/dashboard'
+}
+
 ]

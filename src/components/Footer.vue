@@ -1,16 +1,14 @@
 <template>
 <footer>
-<div id="footer">Copyright &copy; <span>{{ new Date().getFullYear() }}</span> <a href="http://wirelessanalytics.com">Wireless Analytics, LLC</a> Made with <i class="fa fa-heart text-orange"></i> from Danvers, MA</div>
-  </footer>
+	<div id="footer">Copyright &copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, MA</span></div>
+</footer>
 </template>
-<script>
 
+<script>
 export default {
     name: "Footer",
     mounted(){
-require('../modules/footer')
-
+		require('../modules/footer')
     }
 }
-
 </script>

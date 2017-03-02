@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import auth from './../api/auth'
 import supportRequest from './support-request'
-var {Store} = require('yayson')()
-var    store = new Store()
-
+import { format, parse } from 'libphonenumber-js'
+let {Store} = require('yayson')()
+let store = new Store()
 
 export default {
     name: "SpentInfo",
     created(){
-        this.$http.get(process.env.URL_API+'/users/'+localStorage.userId).then((response) => {
+        this.$http.get(process.env.URL_API + '/users/' + localStorage.userId).then((response) => {
             var event = store.sync(response.data);
-            this.userInfo= event;
+            this.userInfo = event;
         }, (response) => {
 
         });
-        this.$http.get(process.env.URL_API+'/allocations/'+this.$route.params.id).then((response) => {
+        this.$http.get(process.env.URL_API + '/allocations/' + this.$route.params.id).then((response) => {
             var event = store.sync(response.data);
-            this.allocation= event;
+            this.allocation = event;
         }, (response) => {
 
         });
@@ -24,7 +24,7 @@ export default {
     },
     mounted () {
         $('.has-tip').foundation();
-        setTimeout(supportRequest(this.user),300);
+        setTimeout(supportRequest, 300);
         $('.scrollup').click(function () {
             $("html, body").animate({
                 scrollTop: 0
@@ -34,36 +34,37 @@ export default {
         });
 
     },
-    computed:{
-        fullName : function () {
+    computed: {
+        fullName: function () {
             return this.userInfo.firstName + " " + this.userInfo.lastName
         },
 
-        dataPackage: function(data){
+        dataPackage: function (data) {
             var data = data;
-            console.log(data);
-            return data ;
+            return data;
+        },
+
+        mobileNumber: function () {
+            return this.allocation.mobile_number ? format(this.allocation.mobile_number,'US','National') : '-'
         }
 
     },
     data(){
         return {
             userInfo: {},
-            allocation : {},
+            allocation: {},
             isActive: true,
-            viewText : 'All',
-            popOver : true,
-            user : auth.user
+            viewText: 'All',
+            popOver: true,
+            user: auth.user
         }
     },
-    methods:{
+    methods: {
         viewToggle(e){
             e.stopPropagation();
             var el = document.querySelector('.list-striped');
             el.classList.toggle('all');
             e.target.classList.toggle('all');
-
-
 
 
         }

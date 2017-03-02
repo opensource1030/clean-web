@@ -20,9 +20,8 @@ export default {
         closePop(){
             document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
             setTimeout(function(){
-                window.history.go(-1);
-                window.history.go(-1);
-            },2000)
+                history.back();
+            },200)
 
         }
     }
