@@ -164,6 +164,7 @@ export default {
 
     }).then((response) => {
 
+
           let  event = store.sync(response.data);
      localStorage.setItem('userProfile', JSON.stringify(event));
        this.user.authenticated = true;
