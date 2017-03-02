@@ -30,6 +30,7 @@
                   </div>
                 </div>
                 <div class="row">
+
                   <div class="large-6 small-12 columns">
                     <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
                   </div>
