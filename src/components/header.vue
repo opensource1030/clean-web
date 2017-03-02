@@ -30,32 +30,27 @@ var store = new Store()
 import Morphsearch from './Morphsearch.vue'
 import Avatar from 'vue-avatar/dist/Avatar'
 import supportRequest from './support-request'
-
 export default {
   components: {
     Morphsearch,
     Avatar
   },
-
   props: {
     user: {
       required: true
     }
   },
-
   data() {
     return {
       company: {}
     }
   },
-
   created() {
     this.$http.get(process.env.URL_API + '/users/'+ localStorage.userId +'?include=companies.contents', {
     }).then((response) => {
       var event = store.sync(response.data)
       if (event.companies.length > 0) {
         var cosmicdata = event.companies[0].contents[1].content
-
         this.$http.get(cosmicdata, {
         }).then((response) => {
           this.company = response.data;
@@ -63,7 +58,6 @@ export default {
       }
     });
   },
-
   mounted() {
     $(document).foundation()
     var config = {
@@ -73,13 +67,11 @@ export default {
     };
     Headway.init(config);
   },
-
   methods: {
     logout() {
       this.$store.dispatch('auth/logout').then(res => console.log('header logout'))
     }
   },
-
   computed: {
     firstName: function () {
       if (localStorage.userProfile) {

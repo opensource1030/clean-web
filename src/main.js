@@ -1,14 +1,17 @@
 import Vue from 'vue'
+<<<<<<< HEAD
 
 import 'script!jquery'
 import 'script!select2'
+=======
+>>>>>>> cp-1712 add vuex and refactor router and auth
 
+import 'script!jquery'
 import 'script!jquery.cookie'
 
 
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 import './../node_modules/slicknav/dist/jquery.slicknav.js'
-
 import './../node_modules/stacktable.js/stacktable.js'
 
 import './styles/app.scss'
@@ -28,12 +31,12 @@ $(document).foundation();
 
 // filter
 var moment = require('moment');
-var numeral = require('numeral');
 
-Vue.filter('cleanDate', function (value) {
+Vue.filter('cleanDate', function(value) {
   var str = value + '';
   return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
 })
+<<<<<<< HEAD
 
 Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
@@ -46,13 +49,22 @@ Vue.filter('formatBytes', function (value) {
     return numeral(value).format('0.00b')
   }
 });
+=======
+>>>>>>> cp-1712 add vuex and refactor router and auth
 
-Vue.filter('formatCurrency', function (value, locale = "us") {
+Vue.filter('formatBytes', function(value) {
   if (value === null || value === undefined) {
     return value = '-'
+<<<<<<< HEAD
   }
   else {
     return numeral(value).format('$0,0.00')
+=======
+  } else if(value>=1048576) {
+    return (value /1048576).toFixed(2)+' MBs'
+  } else {
+    return value + ' KBs'
+>>>>>>> cp-1712 add vuex and refactor router and auth
   }
 })
 

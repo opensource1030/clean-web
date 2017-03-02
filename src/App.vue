@@ -23,7 +23,6 @@ import Sidemenu from './components/Sidemenu.vue'
 import foo from './components/Footer.vue'
 import headers from './components/header'
 import breadcrumb from './components/breadcrumb'
-
 export default {
   name: "App",
   components: {

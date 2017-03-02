@@ -52,11 +52,9 @@ export default {
       version: '4.0.0-rc.1'
     }
   },
-
   mounted() {
     $('input[name="email"]').focus()
   },
-
   methods: {
     submit() {
       this.$store.dispatch('error/clearAll')
@@ -64,7 +62,6 @@ export default {
         router: this.$router,
         email: this.credentials.email
       })
-
     },
   }
 }
