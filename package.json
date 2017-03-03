@@ -116,7 +116,6 @@
     "vue-animated-list": "^1.0.2",
     "vue-bulma-breadcrumb": "github:vue-bulma/breadcrumb",
     "vue-chartjs": "^2.3.1",
-    "vue-charts": "^0.2.1",
     "vue-loader": "^9.4.0",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.2",
