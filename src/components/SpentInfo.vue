@@ -157,7 +157,13 @@
                     <strong>Domestic <span data-tooltip aria-haspopup="true" class="has-tip for-pop top" data-disable-hover="false" tabindex="1" title="Usage and charges incurred in your home service country"> <i class="fa fa-question"> </i> </span></strong>
                   </li>
                   <li class="row">
-                    <strong class="large-6 columns">Adjusted Pool Weighted Allocated Charges</strong>
+                    <strong class="large-6 columns">Adjusted Pool Weighted Allocated Charges <span data-tooltip
+                                                                                                   aria-haspopup="true"
+                                                                                                   class="has-tip for-pop top"
+                                                                                                   data-disable-hover="false"
+                                                                                                   tabindex="1"
+                                                                                                   title="Amount that is assessed to this mobile # based on your actual monthly consumption of Voice and/or Data usage against the corporate pool"> <i
+                            class="fa fa-question"> </i> </span></strong>
                     <span class="large-6 columns text-right" v-text="allocation.pooling_charge ? '$'+ allocation.pooling_charge.toFixed(2) : '$0.00'"></span>
                   </li>
                   <li class="row">
@@ -227,7 +233,8 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns">Other Carrier Charges</strong>
-                    <span class="large-6 small-6 columns text-right" v-text="allocation.other_carrier_charges ? '$'+ allocation.other_carrier_charges.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 small-6 columns text-right"
+                          v-text="allocation.other_carrier_charge ? '$'+ allocation.other_carrier_charge.toFixed(2) : '$0.00'"></span>
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns"> Taxes Charges </strong>
