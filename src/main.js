@@ -34,10 +34,10 @@ Vue.filter('formatBytes', function(value){
   if (value === null || value === undefined){
     return value = '-'
   }else if(value>=1048576){
-    return (value /1048576).toFixed(2)+' MBs'
+    return (value /1048576).toFixed(2)+' GBs'
   }
   else{
-    return value + ' KBs'
+    return value + ' MBs'
   }
 });
 

@@ -105,34 +105,28 @@ function supportRequest() {
       msg += "<br/><br/>" + "@CODE_CATALOG@='" + helpdesk_code + "'";
 
       var json = {
-        "personalizations": [
-          {
-            "to": [
-              {
-                "email": process.env.SUPPORT_EMAIL
-              }
-            ],
-            "subject": subject
-          }
-        ],
-        "from": {
-          "email": $('#recipient_email').val()
-        },
-        "content": [
-          {
-            "type": "text/html",
-            "value": msg
-          }
-        ]
+        "apikey": "fad6cdd8-a1dc-46c1-8656-0b66371d614b",
+        "from": $('#recipient_email').val(),
+        "subject": subject,
+        "to": process.env.SUPPORT_EMAIL,
+        "bodyHtml": msg,
+        "isTransactional": true
       };
 
       $.ajax({
         type: "POST",
-        url: "https://api.sendgrid.com/v3/mail/send",
-        headers: {"Authorization": "Bearer " + key},
-        data: JSON.stringify(json),
-        processData: false,
-        contentType: "application/json; charset=UTF-8",
+        url: "https://api.elasticemail.com/v2/email/send",
+        // headers: {"Authorization": "Bearer " + key},
+        // data: JSON.stringify(json),
+        contentType: "application/x-www-form-urlencoded",
+        data: {
+          "subject": subject,
+          "to": process.env.SUPPORT_EMAIL,
+          "apikey": "fad6cdd8-a1dc-46c1-8656-0b66371d614b",
+          "bodyHtml": msg,
+          "from": $('#recipient_email').val(),
+        },
+        // contentType: "application/json; charset=UTF-8",
         beforeSend: function () {
           $('.support-form-holder').addClass('loading');
         },
