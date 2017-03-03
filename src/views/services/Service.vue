@@ -13,57 +13,57 @@
                 <a href="#" class="accordion-title" @click="showFalse()">{{names.planDetails}}</a>
                 <div class="accordion-content overview padding-responsive" data-tab-content v-f-accordion>
                   <div class="row padding-bottop">
-                    <div class="large-12 small-12 columns">
-                      <div class="large-7 small-12 columns">
-                        <label>{{names.title}}
-                          <input :title="names.titleMessage" :class="{ 'error-input': errorsStyle.titleError }" type="text" placeholder="" :value="serviceDetails.title" v-model="serviceDetails.title">
-                        </label>
-                      </div>
-                      <div class="large-5 small-12 columns padding-responsive">
-                        <div class="large-5 small-5 columns">
-                          <label>{{names.planCode}}
-                            <input :title="names.planCodeMessage" :class="{ 'error-input': errorsStyle.planCodeError }" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
-                          </label>
-                        </div>
-                        <div class="large-3 small-3 columns">
-                          <label>{{names.cost}}
-                            <input :title="names.costMessage" type="number" min="0"  :class="{ 'error-input': errorsStyle.costError }" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
-                          </label>
-                        </div>
-                        <div class="large-4 small-4 columns padding-unit">
-                          <select class="unit" :class="{ 'error-input': errorsStyle.currencyError }" v-model="serviceDetails.currency">
-                            <option value="USD">{{names.currency.usd}}</option>
-                            <option value="GBP">{{names.currency.gbp}}</option>
-                            <option value="EUR">{{names.currency.eur}}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="large-12 small-12 columns padding-description">
-                      <label>{{names.description}}
-                        <textarea :title="names.descriptionMessage" rows="3" :value="serviceDetails.description" v-model="serviceDetails.description"></textarea>
+                  <div class="large-12 small-12 columns">
+                    <div class="large-7 small-12 columns">
+                      <label>{{names.title}}
+                        <input :title="names.titleMessage" :class="{ 'error-input': errorsStyle.titleError }" type="text" placeholder="" :value="serviceDetails.title" v-model="serviceDetails.title">
                       </label>
                     </div>
-                    <div class="large-12 small-12 columns">
-                      <div class="large-7 small-7 columns">
-                        <label>{{names.carriers}}
-                          <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :class="{ 'error-input': errorsStyle.carrierError }" v-model="serviceDetails.carrierId">
-                            <option :value="0">{{names.selectCarrierName}}</option>
-                            <option :selected="carrier.selected" v-if="!noCarriers" v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
-                          </select>
-                          <div v-if="noCarriers"><font color="red">{{noCarrierMessageError}}</font></div>
-                          <div v-if="noCarrierSelected"><font color="red">{{carrierMessageError}}</font></div>
+                    <div class="large-5 small-12 columns padding-responsive">
+                      <div class="large-5 small-5 columns">
+                        <label>{{names.planCode}}
+                          <input :title="names.planCodeMessage" :class="{ 'error-input': errorsStyle.planCodeError }" type="text" placeholder="" :value="serviceDetails.code" v-model="serviceDetails.code">
                         </label>
                       </div>
-                      <div class="large-3 large-offset-2 small-5 columns">
-                        <label class="status">
-                          <input :title="names.statusMessage" class="checkboxbigger" type="checkbox" v-model="serviceDetails.status" :value="serviceDetails.status">
-                          <span class="custom-checkbox"><i class="icon-check"></i></span>{{names.status}}
+                      <div class="large-3 small-3 columns">
+                        <label>{{names.cost}}
+                          <input :title="names.costMessage" type="number" min="0"  :class="{ 'error-input': errorsStyle.costError }" placeholder="" :value="serviceDetails.cost" v-model="serviceDetails.cost">
                         </label>
+                      </div>
+                      <div class="large-4 small-4 columns padding-unit">
+                        <select class="unit" :class="{ 'error-input': errorsStyle.currencyError }" v-model="serviceDetails.currency">
+                          <option value="USD">{{names.currency.usd}}</option>
+                          <option value="GBP">{{names.currency.gbp}}</option>
+                          <option value="EUR">{{names.currency.eur}}</option>
+                        </select>
                       </div>
                     </div>
                   </div>
+                  <div class="large-12 small-12 columns padding-description">
+                    <label>{{names.description}}
+                      <textarea :title="names.descriptionMessage" rows="3" :value="serviceDetails.description" v-model="serviceDetails.description"></textarea>
+                    </label>
+                  </div>
+                  <div class="large-12 small-12 columns">
+                    <div class="large-7 small-7 columns">
+                      <label>{{names.carriers}}
+                        <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :class="{ 'error-input': errorsStyle.carrierError }" v-model="serviceDetails.carrierId">
+                          <option :value="0">{{names.selectCarrierName}}</option>
+                          <option :selected="carrier.selected" v-if="!noCarriers" v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
+                        </select>
+                        <div v-if="noCarriers"><font color="red">{{noCarrierMessageError}}</font></div>
+                        <div v-if="noCarrierSelected"><font color="red">{{carrierMessageError}}</font></div>
+                      </label>
+                    </div>
+                    <div class="large-3 large-offset-2 small-5 columns">
+                      <label class="status">
+                        <input :title="names.statusMessage" class="checkboxbigger" type="checkbox" v-model="serviceDetails.status" :value="serviceDetails.status">
+                        <span class="custom-checkbox"><i class="icon-check"></i></span>{{names.status}}
+                      </label>
+                    </div>
+                  </div>
                 </div>
+              </div>
               </li>
               <li class="acordeon-item" data-accordion-item  v-f-accordion>
                 <a href="#" class="accordion-title" @click="showFalse()">{{names.domesticServices}}</a>
@@ -209,5 +209,6 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script src="./service.crtl.js" lang="babel"></script>

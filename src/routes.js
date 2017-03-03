@@ -12,12 +12,12 @@ import Sidemenu from './components/Sidemenu.vue'
 import ChargeInfo from './components/ChargeInfo.vue'
 
 //routes devices
-// import Devices from './views/devices/Devices.vue'
-// import Device from './views/devices/Device.vue'
+ import Devices from './views/devices/Devices.vue'
+ import Device from './views/devices/Device.vue'
 
 //routes presets
-// import Presets from './views/presets/Presets.vue'
-// import Preset from './views/presets/Preset.vue'
+ import Presets from './views/presets/Presets.vue'
+ import Preset from './views/presets/Preset.vue'
 
 //routes services
 import Services from './views/services/Services.vue'
@@ -44,7 +44,7 @@ import LegacyInfo from './components/LegacyInfo.vue'
  * The routes
  *
  * @type {object} The routes
- */  
+ */
  export default [
   //auth
   {
@@ -104,54 +104,54 @@ import LegacyInfo from './components/LegacyInfo.vue'
     component: Sidemenu
   },
   //devices
-  // {
-  //   path: '/devices',
-  //   component: Devices,
-  //   name: 'List Devices',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
-  // {
-  //   path: '/device/:id',
-  //   component: Device,
-  //   name: 'Update Device',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
-  // {
-  //   path: '/device',
-  //   component: Device,
-  //   name: 'Add Device',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
-  // {
-  //   path: '/presets',
-  //   component: Presets,
-  //   name: 'List Presets',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
-  // {
-  //   path: '/preset/:id',
-  //   component: Preset,
-  //   name: 'Update Preset',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
-  // {
-  //   path: '/preset',
-  //   component: Preset,
-  //   name: 'Add Preset',
-  //   meta: {
-  //     requiresAuth: true
-  //   }
-  // },
+   {
+    path: '/devices',
+    component: Devices,
+     name: 'List Devices',
+     meta: {
+       requiresAuth: true
+     }
+   },
+   {
+    path: '/device/:id',
+     component: Device,
+     name: 'Update Device',
+    meta: {
+       requiresAuth: true
+     }
+   },
+  {
+    path: '/device',
+     component: Device,
+    name: 'Add Device',
+    meta: {
+       requiresAuth: true
+     }
+   },
+   {
+     path: '/presets',
+     component: Presets,
+     name: 'List Presets',
+   meta: {
+       requiresAuth: true
+     }
+   },
+   {
+     path: '/preset/:id',
+     component: Preset,
+     name: 'Update Preset',
+     meta: {
+       requiresAuth: true
+     }
+ },
+  {
+     path: '/preset',
+     component: Preset,
+     name: 'Add Preset',
+     meta: {
+       requiresAuth: true
+     }
+   },
   //services
   {
     path: '/services',

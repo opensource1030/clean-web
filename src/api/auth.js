@@ -41,7 +41,7 @@ export default {
           console.log(response.data.error);
           context.error = response.data.error;
         } else if (response.data.error == 'User Found, Password Required') {
-          console.log(response.data.error);
+          context.$router.push({name: 'loginlocal'});
           localStorage.removeItem('email');
           localStorage.setItem('email', creds.email);
           context.$router.push({name: 'loginlocal'});
@@ -67,13 +67,20 @@ export default {
 
       })
       .then((response) => {
-        this.userData(context, redirect, redirect);
+        //   console.log(response.data);
+
+        localStorage.setItem('userId', response.body.user_id);
+
+        localStorage.setItem('token', response.body.access_token);
+        this.user.authenticated = true;
+        this.userData(context,redirect);
+
 
         setTimeout(()=> {
           this.logout();
         }, response.data.expires_in * 1000);
 
-        
+
 
       }, (response) => {
 
@@ -104,7 +111,12 @@ export default {
 
         })
         .then((response) => {
-          this.userData(context, redirect, response);
+
+          localStorage.setItem('userId', response.body.user_id);
+
+          localStorage.setItem('token', response.body.access_token);
+          this.userData(context,redirect);
+
 
           setTimeout(()=> {
             this.logout();
@@ -115,6 +127,7 @@ export default {
           if (response.status == 500) {
             context.error = 'Unexpected server error.';
             context.error = context.error + ' Please contact the administrator.';
+
           } else {
             context.error = response.body.message;
           }
@@ -123,12 +136,12 @@ export default {
     }
 
   },
-
   logout() {
     localStorage.removeItem('userProfile');
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
     this.user.authenticated = false;
+
   },
 
   checkAuth() {
@@ -136,30 +149,38 @@ export default {
 
     if (jwt) {
       this.user.authenticated = true;
+
     } else {
       this.user.authenticated = false;
+
     }
   },
 
-  userData(context, redirect, response) {
+  userData(context,redirect){
+
     context.$http.get(process.env.URL_API + '/users/me' ,{
-     headers: this.getAuthHeader(response.body.access_token),
-     include:'udlvalues'
-    }).then((res) => {
-      let event = store.sync(res.data);
-      localStorage.setItem('userProfile', JSON.stringify(event));
-      localStorage.setItem('userId', response.body.user_id);
-      localStorage.setItem('token', response.body.access_token);
-      this.user.authenticated = true;
-      context.$router.push({name: redirect});
-    }, (res) => {});
+         headers: this.getAuthHeader(),
+         include:'udlvalues'
+
+    }).then((response) => {
+
+
+          let  event = store.sync(response.data);
+     localStorage.setItem('userProfile', JSON.stringify(event));
+       this.user.authenticated = true;
+
+         context.$router.push({name: redirect});
+
+    }, (response) => {});
+
+
+
   },
 
   // The object to be passed as a header for authenticated requests
-  getAuthHeader(token) {
+  getAuthHeader() {
     return {
-      Authorization: 'Bearer ' + token,
-      // Authorization: 'Bearer ' + localStorage.getItem('token'),
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
     };
   },
 

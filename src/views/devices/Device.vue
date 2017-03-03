@@ -1,11 +1,11 @@
 <template>
-      <div id="device">
+      <div id="device" v-show="render">
           <modal v-if="showModal" @close="showModal = false">
             <h3 slot="body">{{message}}</h3>
   </modal>
 
           <div class="small-12 columns titles">
-            <h4>Manage Devices<h4>
+            <h4>Manage Devices</h4>
             </div>
 
             <div class="medium-6 columns ">
@@ -88,7 +88,7 @@
 
                         </div>
                       </div>
-                      <div class="small-4 columns">
+                      <div class="large-4  small-12 columns">
                         <div class="row">
 
                           <div class="small-6 columns">
@@ -124,7 +124,7 @@
                         </div>
 
                       </div>
-                      <div class="small-4 columns end">
+                      <div class="large-4 small-12 columns end">
                         <div class="row">
                           <div class="small-6 columns">
                             <label style=" font-weight: bold;" >Color
@@ -166,18 +166,18 @@
                       <a href="#" class="accordion-title" @click="showFalse()"   >Companies</a>
                       <div class="accordion-content companies"  data-tab-content  >
                         <div class="row">
-                          <div class="small-6 columns find">
+                          <div class="large-6 small-12 columns find">
                             <label id="bl" >Find Company
                               <input type="text" placeholder="Google"  v-model="companyFilter" >
                             </label>
                           </div>
-                          <div class="small-6 columns">
+                          <div class="large-6 small-12  columns end">
                             <a id="bl" class="button secondary" @click="findCompany()" >Find Company</a>
                           </div>
 
                         </div>
                         <div class="row">
-                          <div class="small-4 columns"  >
+                          <div class="large-4 small-12 columns"  >
                             <div class="checkbox"  v-for="(company,index) in companies.data "   >
                               <label>
                                 <input    type="checkbox"    :id="'comp'+index" v-model="company.check"   >
@@ -193,7 +193,7 @@
                     </li>
                     <li class="acordeon-item prices" data-accordion-item  >
                       <a  href="#"  class="accordion-title"  @click="toggle()" >   Prices  </a>
-                      <div class="filterprices" v-show="show">
+                      <div class="hide-for-small-only hide-for-medium-only  filterprices" v-show="show">
                         <select class="form-control" v-model="filter.capacity" >
                           <option :value="null" >Capacity</option>
                           <option  v-for="capacity in vCapacity" :value="capacity" >{{capacity.attributes.value}}</option>
@@ -261,11 +261,11 @@
               <div class="features"><select v-model="p.companyId" ><option :value="null" >Select Companies</option><option v-for="co in p.companys" :value="co.id" >{{co.attributes.name}}</option></select></div>
                   </div>
                   <div class="clearfix"> </div>
-                  <div class="large-3 large-offset-2 small-6 columns">
+                  <div class="large-3 large-offset-2 small-12 columns">
                   <label :for="'FileUpload'+index" :id="'f'+index"class="button large" >Upload File</label>
                 </div>
 
-                <div clas="large-3    small-6  columns">
+                <div clas="large-3    small-12 columns">
                   <label>
                     <strong class="variation">Add New:</strong>
                   <a  class="button" @click="adds()" id="button"  >
@@ -273,7 +273,7 @@
                          </a>
                        </label>
                 </div>
-                <div clas="large-3    small-6  columns">
+                <div clas="large-3    small-12  columns">
           <label v-show="p.delete"   >
             <strong class="variation">Delete:    </strong>
             <a  class="button delete" @click="deletes(index)" id="button"   >
@@ -300,4 +300,4 @@
 
 
 </template>
-<script src="device.crtl.js" lang="babel" ></script>
+<script src="./device.crtl.js" lang="babel" ></script>

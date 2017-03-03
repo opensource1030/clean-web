@@ -41,9 +41,7 @@
 </template>
 
 <script>
-
 import auth from './../api/auth';
-
 export default {
   data() {
     return {
@@ -74,7 +72,6 @@ export default {
     });
   },
   methods: {
-
     submit() {
       let params = {params:{
         'url': process.env.URL
@@ -115,5 +112,4 @@ export default {
     }
   }
 }
-
 </script>

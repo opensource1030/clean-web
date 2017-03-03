@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <modal v-if="showModal" @close="showModal = false">
@@ -7,13 +8,13 @@
     <div id="tables" v-show="!loading" >
       <div class="header"></div>
         <div class="small-12 columns titles">
-          <h4>Presets<h4>
+          <h4>Presets</h4>
           </div>
           <div class="small-12 columns" >
             <a class="button buttonTable" href="/preset"  >Create Preset</a>
           </div>
 
-          <div class="small-12 columns" >
+          <div class="small-12 columns responsive" >
 
             <table  >
               <thead>
@@ -85,4 +86,4 @@
         </div>
 
 </template>
-<script src="Presets.crtl.js" lang="babel"  ></script>
+<script  src="./presets.crtl.js" lang="babel"  ></script>
