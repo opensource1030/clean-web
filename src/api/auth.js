@@ -23,33 +23,35 @@ export default {
   login(context, creds, redirect) {
     if (creds.email == '' || creds.email == null) {
       context.error = 'Empty email';
-
     } else {
 
       context.$http.get(process.env.URL_API + '/doSSO/' + creds.email + '?redirectToUrl=' + process.env.URL + '/sso').then((response) => {
+        console.log(response.data);
         localStorage.setItem('email', creds.email);
         window.location.href = response.data.data.redirectUrl;
-
       }, (response) => {
 
         if (response.data.error === 'User Not Found, Register Required') {
-          //console.log(response.data.error);
+          console.log(response.data.error);
           context.error = response.data.error;
+          localStorage.removeItem('email');
+          localStorage.setItem('email', creds.email);
           context.$router.push({name: 'register'});
-
         } else if (response.data.error === 'Invalid Email') {
+          console.log(response.data.error);
           context.error = response.data.error;
         } else if (response.data.error == 'User Found, Password Required') {
-          //console.log(response.data.error);
           context.$router.push({name: 'loginlocal'});
           localStorage.removeItem('email');
-
           localStorage.setItem('email', creds.email);
+          context.$router.push({name: 'loginlocal'});
+        } else if (response.data.error == 'Company Not Found') {
+          console.log(response.data);
+          context.error = response.data.error + '. ' + response.data.message;
         } else {
+          console.log(response.data.error);
           context.error = 'Unexpected server error. Please contact the administrator.';
-
         }
-
       });
     }
   },
@@ -78,7 +80,7 @@ export default {
           this.logout();
         }, response.data.expires_in * 1000);
 
-        
+
 
       }, (response) => {
 
@@ -114,7 +116,7 @@ export default {
 
           localStorage.setItem('token', response.body.access_token);
           this.userData(context,redirect);
-          this.user.authenticated = true;
+
 
           setTimeout(()=> {
             this.logout();
@@ -134,7 +136,6 @@ export default {
     }
 
   },
-
   logout() {
     localStorage.removeItem('userProfile');
     localStorage.removeItem('userId');
@@ -163,9 +164,12 @@ export default {
 
     }).then((response) => {
 
+
           let  event = store.sync(response.data);
-        context.$router.push({name: redirect});
      localStorage.setItem('userProfile', JSON.stringify(event));
+       this.user.authenticated = true;
+
+         context.$router.push({name: redirect});
 
     }, (response) => {});
 

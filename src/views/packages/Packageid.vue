@@ -1,12 +1,11 @@
 <template>
-
   <div class="content-right">
     <div class="full-height row">
       <div id="package">
         <div class="header"></div>
         <div class="expanded row">
           <div class="large-12 columns titles">
-            <h4>{{packages.names.managePackage}}<h4>
+            <h4>{{packages.names.managePackage}}</h4>
           </div>
           <table class="padding" cellspacing=0 cellpadding=0>
             <tr>
@@ -16,23 +15,23 @@
                 </label>
               </td>
               <td class="textbold" align="right">
-                {{packages.names.prices.minimum}} 
-                {{packages.names.devices.minPrice}} 
-                {{packages.names.prices.currency}} 
-                {{packages.names.prices.once}} - 
-                {{packages.names.services.minPrice}} 
-                {{packages.names.prices.currency}} 
+                {{packages.names.prices.minimum}}
+                {{packages.names.devices.minPrice}}
+                {{packages.names.prices.currency}}
+                {{packages.names.prices.once}} -
+                {{packages.names.services.minPrice}}
+                {{packages.names.prices.currency}}
                 {{packages.names.prices.monthly}}
               </td>
             </tr>
             <tr>
               <td class="textbold" align="right">
-                {{packages.names.prices.maximum}} 
-                {{packages.names.devices.maxPrice}} 
-                {{packages.names.prices.currency}} 
-                {{packages.names.prices.once}} - 
-                {{packages.names.services.maxPrice}} 
-                {{packages.names.prices.currency}} 
+                {{packages.names.prices.maximum}}
+                {{packages.names.devices.maxPrice}}
+                {{packages.names.prices.currency}}
+                {{packages.names.prices.once}} -
+                {{packages.names.services.maxPrice}}
+                {{packages.names.prices.currency}}
                 {{packages.names.prices.monthly}}
               </td>
             </tr>

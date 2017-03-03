@@ -4,12 +4,10 @@ var merge = require('webpack-merge')
 var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var features=config.local.env.FEATURESV
 
-/* Feature toggles */
-var features = {
-    FEATURE_IN_DEVELOPMENT: true,
-    FEATURE_FOR_BETA: true
-};
+
+
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {

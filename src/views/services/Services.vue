@@ -4,7 +4,7 @@
       <div class="header"></div>
       <div class="expanded row">
         <div class="large-12 columns titles">
-          <h4>{{names.servicePlans}}<h4>
+          <h4>{{names.servicePlans}}</h4>
         </div>
         <div class="large-4 columns">
           <a class="button buttonTable" href="/service">{{names.addPlan}}</a>

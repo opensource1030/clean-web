@@ -1,9 +1,5 @@
 <template>
-
-  <div class="content-right">
-    <div class="full-height row">
       <div id="profile">
-
         <div class="expanded row">
 
             <div class="small-12 columns" >
@@ -54,6 +50,7 @@
                                 </div>
 
                               </div>
+                            </div>
 
                 </li>
 
@@ -66,12 +63,10 @@
                             <div >
                                   <img  class="thumbnail" src="./../../assets/wa-logo.png"  />
 </div>
-
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
                                 <h6>AT&T</h6>
-
                             </div>
                             <div class="row">
                             <ul>
@@ -80,16 +75,12 @@
                                   <li><label>pooled Domestic Voice Plan</label></li>
                               <ul>
                             </div>
-
-
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
-
                               <div class="price">
                           <h6>$64.09 </h6> <label class="monthy"> monthly</label>
                         </div>
-
                             </div>
                             <div class="row">
                             <ul>
@@ -98,28 +89,20 @@
                                   <li><label>23.10</label></li>
                               <ul>
                             </div>
-
-
-
-
                           </div>
                           <div class="small-3 columns">
                                   <a class="button expand" @click="save()" >Change Services</a>
                           </div>
-
-
                     </div>-->
     <!--                <div class="row device">
                           <div class="small-3 columns">
                             <div >
                                   <img  class="thumbnail" src="./../../assets/wa-logo.png" />
 </div>
-
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
                                 <h6>Request New service</h6>
-
                             </div>
                             <div class="row">
                             <ul>
@@ -128,8 +111,6 @@
                                   <li><label>pooled Domestic Voice Plan</label></li>
                               <ul>
                             </div>
-
-
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
@@ -144,10 +125,6 @@
                                   <li><label>23.10</label></li>
                               <ul>
                             </div>
-
-
-
-
                           </div>
                           <div class="small-3 columns">
                             <div class="row">
@@ -157,12 +134,7 @@
                                       <a class="button expand" @click="save()" >Upgrade Device</a>
                                       <label class="upgrade" >Upgrade will be available in 3 months</label>
                                     </div>
-
-
                           </div>
-
-
-
                     </div>-->
 
                     <div class="row ">
@@ -198,9 +170,6 @@
 
                             </div>
 
-
-
-
                           </div>
 
                           <div class="small-3 columns">
@@ -208,11 +177,7 @@
                                   <a class="button expand request"   @click="addService()" >Request Service</a>
                                 </div>
 
-
-
                           </div>
-
-
 
                     </div>
 
@@ -249,9 +214,6 @@
 
                             </div>
 
-
-
-
                           </div>
 
                           <div class="small-3 columns">
@@ -259,18 +221,9 @@
                                   <a class="button expand request" @click="addDevice()"   v-bind:style="{ backgroundColor: color }" >Request Device</a>
                                 </div>
 
-
-
                           </div>
 
-
-
                     </div>
-
-
-
-
-
 
                       </div>
 
@@ -282,7 +235,7 @@
 
     </div>
   </div>
-</div>
+
 
 </template>
 <script src="./Profile.crtl.js" lang="babel"  ></script>

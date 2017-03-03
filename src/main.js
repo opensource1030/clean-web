@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import 'script!jquery'
 import 'script!jquery.cookie'
 
+import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 import './../node_modules/slicknav/dist/jquery.slicknav.js'
 import './../node_modules/stacktable.js/stacktable.js'
 
@@ -17,8 +18,6 @@ import App from './App.vue'
 import auth from './api/auth.js'
 
 $(document).foundation();
-
-
 
 // filter
 
@@ -43,8 +42,9 @@ const eventHub = new Vue()
 exports.eventHub = eventHub
 
 // Install plugins
-Vue.use(VueRouter)
-Vue.use(Resource)
+Vue.use(VueRouter);
+Vue.use(Resource);
+Vue.use(VueCharts);
 
 // Set auth
 

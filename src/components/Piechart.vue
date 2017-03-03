@@ -8,18 +8,24 @@
         <div class="box-content coming-soon">
           <ul class="tabs" data-tabs id="spend-tabs">
             <template v-for="(allocation, index) in data">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#spend-' + index" :aria-selected="index == 0 ? true : false">{{ allocation.mobile_number | phone }}</a>
+              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ allocation.mobile_number | phone }}</a>
               </li>
             </template>
           </ul>
 
           <div class="tabs-content" data-tabs-content="spend-tabs">
             <template v-for="(allocation, index) in data">
-              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'spend-' + index">
+              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
                 <div class="pie-chart-title">
                   {{ title(allocation) }}
                 </div>
-                <pie-chart :chartData="pieData(allocation)" :options="options" :height="300"></pie-chart>
+                <!-- <pie-chart :chartData="pieData(allocation)" :options="options" :height="300"></pie-chart> -->
+                <vue-chart
+                  chart-type="PieChart"
+                  :columns="columns"
+                  :rows="pieData(allocation)"
+                  :options="options"
+                ></vue-chart>
               </div>
             </template>
           </div>
@@ -32,78 +38,45 @@
 <script>
   var dateFormat = require('dateformat');
   import phone from './../filters/phone-formatter.js';
-  import PieChart from './PieChart';
+  // import PieChart from './PieChart';
+
   export default {
-    components: { PieChart },
+    components: {
+      // PieChart
+    },
 
     props: ['data'],
 
-    data () {
-      var self = this;
+    data() {
       return {
-        currency: '$',
-        labels: [
-          'Service Plan Charges',
-          'Domestic Usage Charges',
-          'International Roaming Usage Charges',
-          'Internaional Long Distance Usage Charges',
-          'Other Charges'
+        columns: [
+          {
+            'type': 'string',
+            'label': 'Category'
+          },
+          {
+            'type': 'number',
+            'label': 'Charge'
+          },
         ],
-        backgroundColor: [
-          '#1fc8db',
-          '#fce473',
-          '#42afe3',
-          '#ed6c63',
-          '#97cd76'
+        rows: [
+          ['2004', 1000],
+          ['2005', 1170],
+          ['2006', 660],
+          ['2007', 1030],
+          ['2008', 800]
         ],
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          tooltips: {
-            mode: 'label',
-            callbacks: {
-              label: function(tooltipItem, data) {
-                var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                var label = data.labels[tooltipItem.index];
-                return ' ' + label + ': ' + self.currency + value.toFixed(2);
-              }
-            }
-          },
-          legend :{
-            position: 'bottom'
-          },
-          segmentShowStroke: false
+          width: 'auto',
+          height: 300,
+          pieHole: 0.4,
+          colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
+          // focusTarget: 'category',
         }
       }
     },
 
-    computed: {
-      // pieData() {
-      //   console.log('piechart_data', this.data);
-      //   var piechart_data = [
-      //     _.sumBy(this.data, 'service_plan_charge'),
-      //     _.sumBy(this.data, 'other_category'),
-      //     _.sumBy(this.data, 'unknown_category'),
-      //     _.sumBy(this.data, 'voice_category'),
-      //   ];
-      //   let data = {
-      //     labels: this.labels
-      //   };
-      //   data.datasets= [{
-      //     // data: this.test(),
-      //     // data: this.data,
-      //     data: piechart_data,
-      //     backgroundColor: this.backgroundColor
-      //   }];
-      //   return data;
-      // },
-    },
-
     methods: {
-      test() {
-        return [10, 15, 27.4, 32.40, 26];
-      },
-
       title(allocation) {
         return this.$options.filters.phone(allocation.mobile_number) + ' (' + dateFormat(allocation.bill_month, 'mmm yyyy') + ')';
       },
@@ -111,25 +84,14 @@
       pieData(allocation) {
         // console.log('allocation', allocation);
         var piechart_data = [
-          allocation.service_plan_charge,
-          allocation.domestic_usage_charge,
-          allocation.intl_roam_usage_charge,
-          allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge,
-          Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charges + allocation.taxes_charge) * 100) / 100
+          ['Service Plan Charges', allocation.service_plan_charge],
+          ['Domestic Usage Charges', allocation.domestic_usage_charge],
+          ['International Roam Usage Charges', allocation.intl_roam_usage_charge],
+          ['International Long Distance Voice Charges', (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0],
+          ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0]
         ];
-        // console.log('piechart_data', piechart_data);
 
-        let data = {
-          labels: this.labels
-        };
-
-        data.datasets= [{
-          // data: this.test(),
-          // data: this.data,
-          data: piechart_data,
-          backgroundColor: this.backgroundColor
-        }];
-        return data;
+        return piechart_data;
       },
     }
   }

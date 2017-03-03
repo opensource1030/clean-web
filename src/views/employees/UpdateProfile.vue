@@ -1,11 +1,5 @@
 <template>
-
-  <div class="content-right">
-    <div class="full-height row">
       <div id="updateEmployee">
-
-        <div class="expanded row">
-
             <div class="small-12 columns" >
 
               <ul  class="acordeon" >
@@ -79,6 +73,7 @@
                </div>
 
                 </div>
+              </div>
 
 
                 </li>
@@ -148,11 +143,10 @@
 
               </ul>
         </div>
-      </div>
+
         <a class="button large" @click="save()" id="button">Save Profile</a>
     </div>
-  </div>
-</div>
+
 
 </template>
 <script src="./UpdateProfile.crtl.js" lang="babel"  ></script>

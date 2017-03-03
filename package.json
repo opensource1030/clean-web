@@ -34,13 +34,14 @@
     "sass-material-colors": "0.0.5",
     "slicknav": "^1.0.8",
     "stacktable.js": "^1.0.0",
-    "vue": "^2.0.1",
+    "vue": "^2.2.1",
     "vue-avatar": "^2.0.0",
     "vue-awesome-swiper": "^2.3.1",
     "vue-breadcrumbs": "^0.3.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",
     "vue-slider-component": "^2.1.2",
+    "vue-template-compiler": "^2.2.1",
     "yayson": "^2.0.1"
   },
   "devDependencies": {
@@ -110,6 +111,7 @@
     "vue-animated-list": "^1.0.2",
     "vue-bulma-breadcrumb": "github:vue-bulma/breadcrumb",
     "vue-chartjs": "^2.3.1",
+    "vue-charts": "^0.2.1",
     "vue-loader": "^9.4.0",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.13.2",

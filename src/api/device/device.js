@@ -73,7 +73,7 @@ export default {
       context.vCarriers = this.carriersCheck;
       this.companyCheck(context, filterByFilters(response.data.included, 'companies'));
       context.companies = this.companiesCheck;
-        
+
       if (event.modifications != null && event.modifications.length > 0) {
 
         this.modificationCheck(context, event.modifications);
@@ -83,6 +83,8 @@ export default {
         context.priceData = event.devicevariations;
       }
       context.checkcarrier();
+    context.render=true;
+
 
     }, (response) => {});
 
@@ -216,7 +218,12 @@ export default {
 
       }
 
+
       context.companies = response.data;
+
+      if(context.id==null){
+        context.render=true;
+      }
 
     }, (response) => {});
 
@@ -239,7 +246,7 @@ export default {
   },
   checkDevice(device, style, capacity, price, context, id) {
       let error = { field: "", status: false };
- 
+
       if (price.length != 0) {
           for (let p of price) {
               if (p.style == null || p.capacity == null || p.carrierId == null || p.companyId == null || (p.priceRetail == 0 || isNaN(p.priceRetail)) || (p.price1 == 0 || isNaN(p.price1)) || (p.price2 == 0 || isNaN(p.price2)) || (p.priceOwn == 0 || isNaN(p.priceOwn))) {
@@ -281,13 +288,13 @@ export default {
       if (device.name == "" || device.name == null) {
           error.field = "Name";
       }
-      
+
       if (error.field == "") {
-          error.status = true;     
+          error.status = true;
           device.pricesJson(price, device);
           device.modificationsJson(capacity, style, device);
       }
- 
+
       return error;
   },
 

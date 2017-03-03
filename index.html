@@ -13,12 +13,44 @@
 <!-- Headway Cdn -->
 <script src="//cdn.headwayapp.co/widget.js"></script>
 <!-- Headway Cdn end here -->
-
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load('visualization', '1.0', {'packages':['corechart']});</script>
 
 <!-- Chameleon integration -->
 <script>/* Chameleon - better user onboarding */!function(t,n,o){var a="chmln",c="setup identify alias track set show on off custom help _data".split(" ");n[a]||(n[a]={}),n[a].accountToken=o,n[a].location=n.location.href.toString();for(var e=0;e<c.length;e++)!function(){var t=n[a][c[e]+"_a"]=[];n[a][c[e]]=function(){t.push(arguments)}}();var s=t.createElement("script");s.src="https://fast.trychameleon.com/messo/"+o+"/messo.min.js",s.async=!0,t.head.appendChild(s)}(document,window,"Sqaw314P9Yy9wNJJgcwa2T7j705n3be6VzRp8yFFSRq9Jh-1Cx81f-zDCl8mWhazz2vTyx");
 
 </script>
 <!-- Chameleon integration ends here -->
+
+
+<!-- Segment.io integration -->
+<script type="text/javascript">
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
+  analytics.load("EwTNyN9Tpf5QfeJmPw6D6QZGxAjBtnKq");
+  analytics.page();
+  }}();
+
+</script>
+<!-- //end -->
+
+
+<!-- Teamwork Desk -->
+<script>
+  !(function(e) {
+    var basehref = "https://wirelessanalytics.teamwork.com",
+      token = "c3cfa087-8c23-4df9-9a1e-96bd2ec40518";
+
+    window.deskcontactwidget = {};
+    var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src=basehref+"/support/v1/contact/main.js?token="+token,r.parentNode.insertBefore(c,r),window.addEventListener("message",function(e){var t=e.data[0],a=e.data[1];switch(t){case"setContactFormHeight":document.getElementById("deskcontactwidgetframe").height=Math.min(a, window.window.innerHeight - 75)}},!1);
+  })(document);
+
+//  $('#btn-login-issue').click(function(e) {
+//    e.preventDefault();
+//    $("#deskWidgetMain").toggleClass("widget-open");
+//  });
+</script>
+<!-- //end -->
+
+
 </body>
 </html>

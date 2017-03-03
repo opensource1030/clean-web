@@ -21,7 +21,19 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     margin: 0;
     padding: 0;
     border-top:1px rgba($white,0.2) solid;
-    &.menu-title{
+
+    &.menu-toggle {
+      > a {
+        font-size: 24px;
+        padding: 5px 0px 5px 10px;
+
+        > .fa {
+          color: #FFFFFF;
+        }
+      }
+    }
+
+    &.menu-title {
       background:$sidebar-menu-hover-bg;
       color:$white;
        > span{
@@ -33,6 +45,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
         color:$white;
       }
     }
+
     > a {
       padding: 12px 5px 12px 15px;
       text-transform: uppercase;

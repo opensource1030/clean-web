@@ -63,6 +63,7 @@
                     </div>
                   </div>
                 </div>
+              </div>
               </li>
               <li class="acordeon-item" data-accordion-item  v-f-accordion>
                 <a href="#" class="accordion-title" @click="showFalse()">{{names.domesticServices}}</a>
@@ -208,5 +209,6 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script src="./service.crtl.js" lang="babel"></script>
