@@ -53,7 +53,7 @@
                 <optgroup label="Service Plan / Feature">
                   <option data-id="issue-6" data-support-tag="IRE1" data-value="Add/Remove International Features"
                           value="aif">
-                    Add/Remove International Features
+                    Add International Features
                   </option>
                   <option data-id="issue-10" data-support-tag="IRE1" data-value="Cancel Service" value="cs">Cancel
                     Service
