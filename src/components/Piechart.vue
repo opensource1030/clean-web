@@ -72,6 +72,8 @@
           height: 300,
           pieHole: 0.4,
           colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
+          legend: {position: 'bottom', textStyle: {color: 'blue', fontSize: 16}}
+
           // focusTarget: 'category',
         }
       }
