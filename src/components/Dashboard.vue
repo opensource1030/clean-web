@@ -120,17 +120,17 @@
                 <input type="text" id="int_mobile" placeholder="mobile number">
               </label>
             </div>
-            <div class="medium-12 columns mix iwta">
+            <div class="medium-12 columns mix aif">
               <label><span class="form-title">What Country are you travelling to?</span> <span data-tooltip
                                                                                                             aria-haspopup="true"
                                                                                                             class="has-tip top is-required"
                                                                                                             data-disable-hover="false"
                                                                                                             tabindex="1"
                                                                                                             title="Required Field">*</span>
-                <select id="country2" name="country2" required> </select>
+                <select id="country2" class="select-me" style="width: 100%" name="country2" multiple required> </select>
               </label>
             </div>
-            <div class="medium-12 columns mix iwta">
+            <div class="medium-12 columns mix aif">
               <label><span class="form-title">Dates of travel</span> <span data-tooltip aria-haspopup="true"
                                                                            class="has-tip top is-required "
                                                                            data-disable-hover="false" tabindex="1"
@@ -138,7 +138,7 @@
                 <input id="flatpickr" class="flatpickr" type="text" placeholder="Select Date..">
               </label>
             </div>
-            <div class="medium-12 columns mix iwta">
+            <div class="medium-12 columns mix aif">
               <label><span class="form-title">Device type, phone, tablet, mifi </span> <span data-tooltip
                                                                                              aria-haspopup="true"
                                                                                              class="has-tip top is-required"
