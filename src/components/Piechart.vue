@@ -8,7 +8,8 @@
         <div class="box-content coming-soon">
           <ul class="tabs" data-tabs id="spend-tabs">
             <template v-for="(allocation, index) in data">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ allocation.mobile_number | phone }}</a>
+              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
+                <a :href="'#spend-' + index" role="tab" :aria-controls="'spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ allocation.mobile_number | phone }}</a>
               </li>
             </template>
           </ul>
