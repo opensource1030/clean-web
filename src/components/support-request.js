@@ -10,7 +10,12 @@ function supportRequest() {
   });
   let calendar = new Flatpickr(document.getElementById('flatpickr'), {
     altInput: true,
-    altFormat: "F j, Y"
+    altFormat: "F j, Y",
+    "mode": "range"
+  });
+  $('.select-me').select2({
+    placeholder: "Select your country",
+    allowClear: true
   });
 
   var $select = $('#support-form .user-actions');
@@ -90,7 +95,7 @@ function supportRequest() {
       }
 
       if (subject === "Add/Remove International Features") {
-        var msg_international_activation = "Country Traveling To:" + $("country2").val() + "<br/>" +
+        var msg_international_activation = "Country Traveling To:" + $("#country2").val().join(', ').toString() + "<br/>" +
           "<strong>Dates of Travel:</strong>" + $('#flatpickr').val() + "<br/> " +
           "<strong>International Device Type:</strong>" + $('#int-device_type').val() + "<br/>";
 

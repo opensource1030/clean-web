@@ -1031,3 +1031,22 @@ a.btn-provision:hover .support-form-holder{
 .callout.spent-info.active.visible{
   max-width: 80%;
 }
+
+.select2-container {
+  margin: 0 0 1.05263rem !important;
+  .select2-search--inline .select2-search__field {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+  .select2-selection--multiple {
+    min-height: 30px !important;
+
+  }
+  .select2-selection--multiple .select2-selection__rendered {
+    display: block !important;
+  }
+}
+
+.select-me {
+  display: block;
+}

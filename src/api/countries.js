@@ -281,9 +281,9 @@ function populateCountries(countryElementId, stateElementId) {
     // given the id of the <select> tag as function argument, it inserts <option> tags
     const countryElement = document.getElementById(countryElementId);
     countryElement.length = 0;
-    countryElement.options[0] = new Option('--Select Country --', '-1');
+    /*  countryElement.options[0] = new Option('--Select Country --', '-1');
     countryElement.options[0].setAttribute("disabled", "disabled");
-    countryElement.selectedIndex = 0;
+     countryElement.selectedIndex = 0;*/
     for (let i = 0; i < country_arr.length; i++) {
         countryElement.options[countryElement.length] = new Option(country_arr[i], country_arr[i]);
     }
