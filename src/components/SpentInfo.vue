@@ -201,7 +201,7 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">  International  Long Distance Voice Usage </strong>
-                    <span class="large-6 columns text-right" v-text="allocation.intl_ld_voice_charge ? allocation.intl_ld_voice_charge + '  Mins' : '0 min'">  </span>
+                    <span class="large-6 columns text-right" v-text="allocation.intl_ld_voice_charge ? allocation.intl_ld_voice_usage + '  Mins' : '0 min'">  </span>
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">  International  Long Distance Text Messaging Usage </strong>
