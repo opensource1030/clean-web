@@ -19,8 +19,10 @@
 @import "partials/employees";
 @import "partials/nprogress";
 @import "partials/login";
+@import './../../node_modules/select2/dist/css/select2.min.css';
 
 .w1{overflow: hidden;}
+
 body{
 
   &.sticky-header{
