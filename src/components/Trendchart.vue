@@ -8,7 +8,8 @@
         <div class="box-content coming-soon">
           <ul class="tabs" data-tabs id="trend-tabs">
             <template v-for="(key, index) in groupDataKeys">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')"><a :href="'#trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ key | phone }}</a>
+              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
+                <a :href="'#trend-' + index" role="tab" :aria-controls="'trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ key | phone }}</a>
               </li>
             </template>
           </ul>
@@ -138,9 +139,8 @@
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
             // console.log("allocation", allocation);
-            bill_month = new Date(allocation.bill_month);
             return [
-              dateFormat(bill_month, 'mmm / yyyy'),
+              dateFormat(allocation.bill_month, 'mmm / yyyy'),
               allocation.service_plan_charge,
               allocation.domestic_usage_charge,
               allocation.intl_roam_usage_charge,
@@ -151,6 +151,9 @@
         }
 
         let len = trendchart_data.length;
+        if (len > 0) {
+          bill_month = new Date(trendchart_data[0][0])
+        }
         if (len < 3) {
           for (let i = 0; i < (3 - len); i ++) {
             bill_month.setMonth(bill_month.getMonth() - 1);
