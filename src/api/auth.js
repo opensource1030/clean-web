@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import user from './../models/User';
 var {
   Store,
 } = require('yayson')();
@@ -89,11 +90,39 @@ export default {
       });
 
   },
-
   register(context, creds, redirect) {
+    context.error = '';
+    if (creds.firstName == '') {
+      context.error = 'The First Name must not be empty, please, fill it properly.';
+    }
+    if (creds.lastName == '') {
+      context.error = 'The Last Name must not be empty, please, fill it properly.';
+    }
+    if (creds.password1 == '' || creds.password2 == '') {
+      context.error = 'The Passwords must not be empty, please, fill it properly.';
+    }
+    if (creds.password1 !=  creds.password2) {
+      context.error = 'The Passwords must be equals, please, fill it properly.';
+    }
 
+    if (context.error == '') {
+      let pack = this.getTheModel('users', 0, '', '', creds.email, '', creds.password1, '', '', '', '', creds.firstName, creds.lastName, '',
+       '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '');
+
+      context.$http.post(process.env.URL_API + '/users', {"data": pack.toJSON()}).then((response) => {
+        event = store.sync(response.data);
+      }, (response) => {});
+    }
   },
-
+  // Prepare the Model
+  getTheModel(type, id, uuid, identification, email, alternateEmail, password, username, confirmation_code, remember_token, confirmed, firstName,
+    lastName, alternateFirstName, supervisorEmail, companyUserIdentifier, isSupervisor, isValidator, isActive, rgt, lft, hierarchy,
+    defaultLang, notes, level, notify, companyId, syncId, supervisorId, externalId, approverId, defaultLocationId, addressId) {
+        return new user(type, id, uuid, identification, email, alternateEmail, password, username, confirmation_code, remember_token,
+          confirmed, firstName, lastName, alternateFirstName, supervisorEmail, companyUserIdentifier, isSupervisor, isValidator,
+          isActive, rgt, lft, hierarchy, defaultLang, notes, level, notify, companyId, syncId, supervisorId, externalId, approverId,
+          defaultLocationId, addressId);
+  },
   loginLocal(context, creds, redirect) {
 
     if (creds.password == '' || creds.password == null) {

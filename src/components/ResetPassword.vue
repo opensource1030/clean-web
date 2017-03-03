@@ -83,11 +83,13 @@ export default {
       this.messageShow = false;
       this.error = '';
       if (this.credentials.email != '') {
+        console.log(this.credentials.email);
         this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.email, params).then((response) => {
           if (response.data.message == 'email sent') {
             this.messageShow = true;
           }
         }, (response) => {
+          console.log(response.data);
           if (response.data.message == 'not valid email') {
             this.error = 'The email retrieved is not valid, please, try again with another one.';
           }
