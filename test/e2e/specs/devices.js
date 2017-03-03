@@ -6,27 +6,23 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
   browser
     .url(devServer)
-    .login('Sample3433@email.com', 'user')
+    .login('rgonzalez@zipcar.com', 'zpncdlliptncojmyaqko')
+    .routes('Inventory','Devices')
+      .waitForElementVisible('#app  #tables', 15000)
+      .assert.urlEquals(devServer+'/devices')
 
 },
-' Client Data render properly': function (browser) {
+' DevicesList': function (browser) {
 const devServer = browser.globals.devServerURL;
     browser
-        .assert.urlEquals(devServer+'/dashboard')
-        .waitForElementVisible('body', 1000)
-        .waitForElementVisible ('.avatar', 2000)
-        .waitForElementVisible ('.greeting', 5000)
-        .execute(function(data) {
-                try {
-              return  JSON.parse(localStorage.getItem("userProfile")).firstName
-                } catch(e) {
-                    return e
+    .pause(1000)
 
-                }
-            }, [], function(result) {
-            browser.assert.containsText(".greeting",result.value )
-            })
-            .end()
+
+
+
+
+
+
 
 }
 
