@@ -121,7 +121,7 @@
               </label>
             </div>
             <div class="medium-12 columns mix iwta">
-              <label><span class="form-title">What country/countries.js are you travelling to?</span> <span data-tooltip
+              <label><span class="form-title">What Country are you travelling to?</span> <span data-tooltip
                                                                                                             aria-haspopup="true"
                                                                                                             class="has-tip top is-required"
                                                                                                             data-disable-hover="false"
