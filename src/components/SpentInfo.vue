@@ -164,11 +164,13 @@
                                                                                                    tabindex="1"
                                                                                                    title="Amount that is assessed to this mobile # based on your actual monthly consumption of Voice and/or Data usage against the corporate pool"> <i
                             class="fa fa-question"> </i> </span></strong>
-                    <span class="large-6 columns text-right" v-text="allocation.pooling_charge ? '$'+ allocation.pooling_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.pooling_charge | formatCurrency }} </span>
+
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">Domestic Usage Charges</strong>
-                    <span class="large-6 columns text-right" v-text="allocation.domestic_usage_charge ? '$'+ allocation.domestic_usage_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.domestic_usage_charge | formatCurrency }} </span>
+
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">Domestic Data Usage</strong>
@@ -187,7 +189,7 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">International Usage Charges</strong>
-                    <span class="large-6 columns text-right" v-text="allocation.intl_roam_usage_charge ? '$'+ allocation.intl_roam_usage_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.intl_roam_usage_charge | formatCurrency }} </span>
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">International Roam Data Usage</strong>
@@ -203,7 +205,8 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">  International Long Distance Usage Charges </strong>
-                    <span class="large-6 columns text-right" v-text="allocation.intl_ld_usage_charge ? '$'+ allocation.intl_ld_usage_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.intl_ld_usage_charge | formatCurrency }} </span>
+
                   </li>
                   <li class="row">
                     <strong class="large-6 columns">  International  Long Distance Voice Usage </strong>
@@ -229,16 +232,19 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns">Early Termination Fee Charges</strong>
-                    <span class="large-6 small-6 columns text-right" v-text="allocation.etf_charge ? '$'+ allocation.etf_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.etf_charge | formatCurrency }} </span>
+
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns">Other Carrier Charges</strong>
                     <span class="large-6 small-6 columns text-right"
-                          v-text="allocation.other_carrier_charge ? '$'+ allocation.other_carrier_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.other_carrier_charge | formatCurrency }} </span>
+
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns"> Taxes Charges </strong>
-                    <span class="large-6 small-6 columns text-right" v-text="allocation.taxes_charge ? '$'+ allocation.taxes_charge.toFixed(2) : '$0.00'"></span>
+                    <span class="large-6 columns text-right" >  {{ allocation.taxes_charge | formatCurrency }} </span>
+
                   </li>
                 </ul>
               </div>
