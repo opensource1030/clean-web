@@ -50,10 +50,9 @@ export default {
     return {
       // We need to initialize the component with any
       // properties that will be used in it
+      clickAgain: true,
       credentials: {
         email: '',
-        emailSSO: 'data1@wirelessanalytics.com',
-        emailPass: 'wiegand.tiara@example.com',
       },
       error: '',
       allOk: 'The reset password message has been sent to your email, check it for new instructions.',
@@ -76,43 +75,8 @@ export default {
   },
   methods: {
     submit() {
-      let params = {params:{
-        'url': process.env.URL
-      }};
-      this.errorShow = false;
-      this.messageShow = false;
-      this.error = '';
-      if (this.credentials.email != '') {
-        console.log(this.credentials.email);
-        this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.email, params).then((response) => {
-          if (response.data.message == 'email sent') {
-            this.messageShow = true;
-          }
-        }, (response) => {
-          console.log(response.data);
-          if (response.data.message == 'not valid email') {
-            this.error = 'The email retrieved is not valid, please, try again with another one.';
-          }
-          if (response.data.message == 'company not found') {
-            this.error = 'The email retrieved has not any Company associated, please, try again with another one.';
-          }
-          if (response.data.message == 'user not found') {
-            this.error = 'The email retrieved has not any User associated, please, try again with another one.';
-          }
-          if (response.data.message == 'company has sso') {
-            this.error = 'The user has Single Sign On associated, please, use the login page.';
-          }
-          if (response.status == 500) {
-            this.error = 'Server error, please, try again later.';
-          }
-          if (this.error == '') {
-            this.error = 'Unexpected error, please, try again later.';
-          }
-          this.errorShow = true;
-        });
-      } else {
-        this.error = 'The email field must not be null, please, enter a valid email.';
-        this.errorShow = true;
+      if (this.clickAgain) {
+        auth.resetPasswordEmail(this, this.credentials);
       }
     }
   }
