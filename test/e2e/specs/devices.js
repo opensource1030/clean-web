@@ -67,6 +67,7 @@ const devServer = browser.globals.devServerURL;
 
 })
 .pause(1000)
+.end()
 /*  .waitForElementPresent('input[id="cr1"]',15000)
     .click('input[id="cr1"]')
 .element('id', 'cr1', function(response) {
