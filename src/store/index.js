@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
 import auth from './modules/auth'
+import error from './modules/error'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   getters,
   modules: {
     auth,
+    error,
   },
   strict: debug,
   plugins: [

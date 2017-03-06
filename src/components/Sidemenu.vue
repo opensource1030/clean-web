@@ -19,15 +19,14 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="page-link" v-permission="'ManageDevices'"><a class="admin" target="_blank"
-                                                                                href="/devices"><i
-                                class="fa fa-circle-o"></i>Equipment</a></li>
-                        <li class="page-link" v-permission="'ManageServices'"><a class="admin" target="_blank"
-                                                                                 href="/services"><i
-                                class="fa fa-circle-o"></i>Services & Plans</a></li>
+                        <li class="page-link" v-permission="'ManageDevices'">
+                            <a class="admin" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
+                        </li>
+                        <li class="page-link" v-permission="'ManageServices'">
+                            <a class="admin" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
+                        </li>
                     </ul>
                 </li>
-
 
                 <li v-permission="'Packages'" class="treeview">
                     <a href="javascript:;">

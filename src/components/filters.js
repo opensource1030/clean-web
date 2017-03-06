@@ -269,7 +269,9 @@ function orderFilters(list, attribute, type, orderby) {
             atributeA = valueA[attribute];
             atributeB = valueB[attribute];
         }
-        
+
+        atributeA = atributeA || ''
+        atributeB = atributeB || ''
         if (type == 'string') {
             let strA = atributeA.toLowerCase();
             let strB = atributeB.toLowerCase();
