@@ -365,10 +365,10 @@ export default {
       add:false,
       /*filter */
       filter: {
-        capacity:{},
-        style:{},
-        carrier:{},
-        company:{}
+        capacity:null,
+        style:null,
+        carrier:null,
+        company:null
       },
       companyFilter: '',
       d: {
