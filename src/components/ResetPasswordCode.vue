@@ -13,14 +13,27 @@
                     <div style="color: black; text-align: center; padding-bottom: 20px;">
                       <h6>{{resetPasswordMessage}}</h6>
                     </div>
-                    <div class="input-group bg-orange">
-                      <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                      <input id="password1" class="input-group-field" type="password" v-model="credentials.password1" :placeholder="newPassword"/>
+                    <div class="row">
+                      <div class="large-12 columns">
+                        <div class="input-group bg-orange">
+                          <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+                          <input v-show="passwordType" id="password1" class="input-group-field" type="text" v-model="credentials.password1" :placeholder="newPassword"/>
+                          <input v-show="!passwordType" id="password1" class="input-group-field" type="password" v-model="credentials.password1" :placeholder="newPassword"/>
+                        </div>
+                      </div>
                     </div>
-                    <div class="input-group bg-orange">
-                      <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                      <input id="password2" class="input-group-field" type="password" v-model="credentials.password2" :placeholder="repeatPassword"/>
+                    <div class="row">
+                      <div class="large-12 columns">
+                        <div class="input-group bg-orange">
+                          <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
+                          <input v-show="passwordType" id="password2" class="input-group-field" type="text" v-model="credentials.password2" :placeholder="repeatPassword"/>
+                          <input v-show="!passwordType" id="password2" class="input-group-field" type="password" v-model="credentials.password2" :placeholder="repeatPassword"/>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <div class="large-6 end small-6 columns" style="padding-left: 30px;">
+                    <input id="checkbox3" type="checkbox" v-model="passwordType"><label for="checkbox3">show passwords</label>
                   </div>
                 </div>
                 <div class="large-12 small-12 columns" style="color:black; padding-bottom: 20px;">
@@ -55,12 +68,15 @@ export default {
     return {
       // We need to initialize the component with any
       // properties that will be used in it
+      clickAgain: true,
+      allowChanges: true,
       credentials: {
         identification: '',
         code: '',
         password1: '',
         password2: '',
       },
+      passwordType: false,
       error: '',
       errorShow: false,
       newPassword: 'Enter a new password',
@@ -83,44 +99,8 @@ export default {
   },
   methods: {
     submit() {
-      let params = {
-        params:{
-          password1: this.credentials.password1,
-          password2: this.credentials.password2,
-        }
-      };
-      this.errorShow = false;
-      this.messageShow = false;
-      if(this.credentials.password1 == this.credentials.password2 && this.credentials.password1 != '' && this.credentials.password2 != '') {
-        this.$http.get(process.env.URL_API + '/resetPassword/' + this.credentials.identification + '/' + this.credentials.code, params).then((response) => {
-          if(response.body == 'password changed') {
-            this.$router.push({name: 'login'});
-          }
-        }, (response) => {
-          if(response.data.message == 'different identifications') {
-            this.error = 'The link has been expired, please, return to the forgot password and retrieve another one.';
-            this.errorShow = true;
-          }
-          if(response.data.message == 'different codes') {
-            this.error = 'The link has been expired, please, return to the forgot password and retrieve another one.';
-            this.errorShow = true;
-          }
-          if (response.data.message == 'user not found') {
-            this.error = 'The credentials has not any user associated, please, return to the forgot password and retrieve another one.';
-            this.errorShow = true;
-          }
-          if (response.data.message == 'different passwords') {
-            this.error = 'The password fields must be equal and not empty, please, try again.';
-            this.errorShow = true;
-          }
-          if (response.status == 500) {
-            this.error = 'Unexpected error, please, try again later.';
-            this.errorShow = true;
-          }
-        });
-      } else {
-        this.error = 'The password fields must be equal and not empty, please, try again.';
-        this.errorShow = true;
+      if (this.clickAgain) {
+        auth.resetPasswords(this, this.credentials);
       }
     }
   }
