@@ -25,9 +25,13 @@ function filterByModifications(list, value) {
 }
 
 function filterByModificationsd(list, value) {
-  return list.filter(function (item) {
-    return item.modType.indexOf(value) > -1;
-  });
+  if (list) {
+    return list.filter(function (item) {
+      return item.modType.indexOf(value) > -1;
+    });
+  } else {
+    return
+  }
 }
 
 function filterByCarrier(list, value) {

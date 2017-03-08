@@ -75,18 +75,18 @@
         <tbody v-show="loadtable">
           <tr class="filter">
             <td v-if="id==null"></td>
-            <td><div v-for="t in type" class="filterBy" >{{t.name}} ,</div></td>
-            <td ><div v-for="manu in manufactured" class="filterBy">{{manu}} ,</div></td>
-            <td  ><div v-for="p in price" class="filterBy"  >{{p}} ,</div></td>
-            <td ><div  v-for="c in carrier" class="filterBy" >{{c.presentation}}  ,</div></td>
-            <td ><div  v-for="capa in capacity" class="filterBy" >{{capa.value}}  ,</div></td>
-            <td  ><div v-for="sty in style" class="filterBy" >{{sty.value}} ,</div></td>
+            <td><div v-for="t in type" class="filterBy">{{t.name}} ,</div></td>
+            <td><div v-for="manu in manufactured" class="filterBy">{{manu}} ,</div></td>
+            <td><div v-for="p in price" class="filterBy">{{p}} ,</div></td>
+            <td><div v-for="c in carrier" class="filterBy">{{c.presentation}} ,</div></td>
+            <td><div v-for="capa in capacity" class="filterBy">{{capa.value}} ,</div></td>
+            <td><div v-for="sty in style" class="filterBy">{{sty.value}} ,</div></td>
           </tr>
         </tbody>
         <tbody v-for="(device, index) in devices">
-          <tr :class="{ 'active': device.show,'desactive': device.show }" @click="setActive(index)">
+          <tr :class="{ 'active': device.show, 'desactive': device.show }" @click="setActive(index)">
             <td v-if="id==null"><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
-            <td style="font-weight: bold;" >  {{device.name}} </td>
+            <td style="font-weight: bold;">{{device.name}}</td>
             <td>{{ device.make }}</td>
             <td>{{ device.defaultPrice }} {{ device.currency }}</td>
             <td v-if="device.show!=true"><div v-for="carrier in device.priceName">{{carrier.carrier}}</div> </td><td v-else></td>

@@ -12,3 +12,6 @@ export const SERVICE_ADD_NEW = 'ADD_NEW'
 
 export const DEVICE_GET_ALL = 'GET_ALL'
 export const DEVICE_ADD_NEW = 'ADD_NEW'
+export const DEVICE_SET_PAGINATION = 'SET_PAGINATION'
+export const DEVICE_PREV_PAGE = 'PREV_PAGE'
+export const DEVICE_NEXT_PAGE = 'NEXT_PAGE'
