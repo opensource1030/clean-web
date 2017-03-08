@@ -40,7 +40,13 @@ export default {
         .then((response) => {
           this.messageShow = true;
         }, (response) => {
-          this.errorShow = true;
+          if (response.data.message == 'User is already Active') {
+            this.messageShow = true;
+            this.message = response.data.message;
+          } else {
+            this.errorShow = true;
+          }
+
         });
     } else {
       this.errorShow = true;
