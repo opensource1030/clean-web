@@ -19,6 +19,10 @@ const getters = {
   styleModifications: (state) => {
     return _.chain(state.all).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()
   },
+
+  capacityModifications: (state) => {
+    return _.chain(state.all).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()
+  },
 }
 
 // actions
@@ -31,7 +35,7 @@ const actions = {
         commit(types.MODIFICATION_GET_ALL, { records: modifications })
         resolve(modifications)
       }, err => {
-        console.log('modification err', err)
+        // console.log('modification err', err)
         reject(err)
       })
     })

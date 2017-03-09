@@ -51,10 +51,16 @@ export default {
   },
 
   computed: {
+    _ () {
+      return _
+    },
+
     ...mapGetters({
-      // devices: 'device/allDevices',
-      devices: 'device/search',
+      devices: 'device/allDevices',
+      // devices: 'device/search',
       styles: 'modification/styleModifications',
+      capacities: 'modification/capacityModifications',
+      carriers: 'carrier/allCarriers',
     }),
   },
 
@@ -62,11 +68,14 @@ export default {
     // console.log(this.$store)
     this.$store.dispatch('device/getAll')
     this.$store.dispatch('modification/getAll')
+    this.$store.dispatch('carrier/getAll')
   },
 
   methods: {
     ...mapActions({
       addStyleFilter: 'device/addStyleFilter',
+      addCapacityFilter: 'device/addCapacityFilter',
+      addCarrierFilter: 'device/addCarrierFilter',
     }),
 
     filterByModificationsd,
@@ -81,34 +90,6 @@ export default {
         this.$set(this, 'activeDevice', device)
       }
       // console.log('setActive', this.activeDevice)
-    },
-
-    vDeviceVariations() {
-      this.variations=[];
-      if (this.devices!=null && this.devices.length!=0) {
-        for(let device of this.devices){
-          if(device.priceName.length!=0 && device.priceName!=null){
-            for (let price of device.priceName){
-              if(price.check==true){
-                this.variations.push(price)
-              }
-            }
-          }
-        }
-
-        let i =0;
-        for(let v of this.variations){
-          if(v.checks==null){
-            v.checks=false;
-          }
-          if(v.check==false){
-            this.variations.splice(i,1);
-          }
-          i++;
-        }
-
-        // main.eventHub.$emit('addvariatons', this.variations)
-      }
     },
   },
 };

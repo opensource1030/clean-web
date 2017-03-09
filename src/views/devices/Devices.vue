@@ -13,24 +13,88 @@
   </div>
 
   <div>
-    {{ $store.state.device.filter }}
+    <!-- {{ $store.state.device.types }} -->
+    <!-- {{ $store.state.device.filter }} -->
   </div>
 
   <div class="small-12 colums responsive">
     <table>
       <thead>
         <tr>
-          <th>
+          <th width="100px">
           </th>
           <th>
+            <multiselect
+              :options="$store.state.device.types"
+              :multiple="true"
+              :searchable="false"
+              :show-labels="false"
+              :select-label="''"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="false"
+              placeholder="Device Type">
+            </multiselect>
           </th>
           <th>
+            <multiselect
+              :options="$store.state.device.manufacturers"
+              :multiple="true"
+              :searchable="false"
+              :show-labels="false"
+              :select-label="''"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="false"
+              placeholder="Manufacturer">
+            </multiselect>
           </th>
-          <th>
+          <th width="7%">
+            <multiselect
+              :options="[0,1,2]"
+              :multiple="true"
+              :searchable="false"
+              :show-labels="false"
+              :select-label="''"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="false"
+              placeholder="Price">
+            </multiselect>
           </th>
-          <th>
+          <th width="15%">
+            <multiselect
+              :value = "$store.state.device.filter.carriers"
+              :options="carriers"
+              :multiple="true"
+              :searchable="false"
+              :show-labels="false"
+              :select-label="''"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="false"
+              @input="addCarrierFilter"
+              placeholder="Carrier"
+              label="presentation"
+              track-by="presentation">
+            </multiselect>
           </th>
-          <th>
+          <th width="10%">
+            <multiselect
+              :value = "$store.state.device.filter.capacities"
+              :options="capacities"
+              :multiple="true"
+              :searchable="false"
+              :show-labels="false"
+              :select-label="''"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="false"
+              @input="addCapacityFilter"
+              placeholder="Capacity"
+              label="value"
+              track-by="value">
+            </multiselect>
           </th>
           <th width="10%">
             <!-- v-model="$store.state.device.filter.styles" -->
@@ -53,75 +117,6 @@
         </tr>
       </thead>
       <!--
-      <thead>
-        <tr>
-          <th v-if="id==null"></th>
-          <th>
-            <multiselect
-              :field="'Device Type'"
-              :options="filter.deviceType"
-              :value.sync="type"
-              :labelAttr="'name'"
-              :api="'/devicetypes'"
-              :callback="onSelectColumn"
-              :fieldSearch="'name'">
-            </multiselect>
-          </th>
-          <th>
-            <multiselect
-              :field="'Manufactured'"
-              :options="filter.make"
-              :api="'/devices'"
-              :fieldSearch="'make'"
-              :value.sync="manufactured"
-              :callback="onSelectColumn">
-            </multiselect>
-          </th>
-          <th>
-            <multiselect
-              :field="'Price'"
-              :options="filter.price"
-              :fieldSearch="'defaultPrice'"
-              :value.sync="price"
-              :api="'/devices'"
-              :callback="onSelectColumn">
-            </multiselect>
-          </th>
-          <th>
-            <multiselect
-              :field="'Carrier'"
-              :options="filter.carriers"
-              :value.sync="carrier"
-              :fieldSearch="'presentation'"
-              :api="'/carriers'"
-              :labelAttr="'presentation'"
-              :callback="onSelectColumn">
-            </multiselect>
-          </th>
-          <th>
-            <multiselect
-              :field="'Capacity'"
-              :options="filterByModificationsd(filter.modifications,'capacity')"
-              :value.sync="capacity"
-              :fieldSearch="'value'"
-              :api="'/modifications'"
-              :labelAttr="'value'"
-              :callback="onSelectColumn">
-            </multiselect>
-          </th>
-          <th>
-            <multiselect
-              :field="'Style'"
-              :options="filterByModificationsd(filter.modifications,'style')"
-              :value.sync="style"
-              :api="'/modifications'"
-              :fieldSearch="'value'"
-              :labelAttr="'value'"
-              :callback="onSelectColumn">
-            </multiselect>
-          </th>
-        </tr>
-      </thead>
       <tbody v-show="loadtable">
         <tr class="filter">
           <td v-if="id==null"></td>
@@ -185,21 +180,21 @@
                       <span style="font-weight: bold;">Availability:</span><br>
                       <span>Provider</span>
                       <ul>
-                        <li v-for="carrier in device.priceName">{{carrier.carrier}}</li>
+                        <li v-for="carrier in device.priceName">{{ carrier.carrier }}</li>
                       </ul>
                     </div>
                     <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
                       <br>
                       <span>Capacity</span>
                       <ul>
-                        <li v-for="capacity in filterByModificationsd(device.modifications,'capacity')  ">{{capacity.value}}</li>
+                        <li v-for="capacity in _.chain(device.modifications).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()">{{ capacity.value }}</li>
                       </ul>
                     </div>
-                    <div class="large-3  small-3 columns" :class="{ 'up': device.show }">
+                    <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
                       <br>
                       <span>Style</span>
                       <ul>
-                        <li v-for="style in filterByModificationsd(device.modifications,'style')  ">{{style.value}}</li>
+                        <li v-for="style in _.chain(device.modifications).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()">{{ style.value }}</li>
                       </ul>
                     </div>
                   </div>
@@ -224,7 +219,7 @@
     :pagination="$store.state.device.pagination"
     :prev="() => { $store.dispatch('device/prevPage') }"
     :next="() => { $store.dispatch('device/nextPage') }"
-    v-show="devices.length > 0">
+    v-show="$store.state.device.all.length > 0">
   </paginate>
 
   <!-- <div class="load"><i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i></div> -->

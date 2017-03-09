@@ -8,11 +8,16 @@ const store = new Store()
 // initial state
 const state = {
   all: [],
+  types: [],
+  manufacturers: [],
+  prices: [],
+
   filter: {
-    modifications: [],
     styles: [],
     capacities: [],
+    carriers: [],
   },
+
   pagination: {
     current_page: 1,
     total_pages: 0,
@@ -28,17 +33,17 @@ const getters = {
     return state.all
   },
 
-  find: (state, getters) => (filter) => {
-    // return state.all.filter(filters)
-    console.log(filter)
-    return state.all
-  },
-
   search: (state, getters) => {
     let devices = state.all
+
+    if (state.filter.capacities.length > 0) {
+      devices = _.filter(devices, (device) => {
+        let intersects = _.intersectionBy(device.modifications, state.filter.capacities, 'id')
+        return intersects.length > 0
+      })
+    }
+
     if (state.filter.styles.length > 0) {
-      // let style_ids = _.map(filter.styles, 'id')
-      // console.log('style_ids', style_ids)
       devices = _.filter(devices, (device) => {
         let intersects = _.intersectionBy(device.modifications, state.filter.styles, 'id')
         return intersects.length > 0
@@ -55,7 +60,10 @@ const actions = {
     // commit(types.DEVICE_GET_ALL, await device.getAll({}))
 
     return new Promise((resolve, reject) => {
-      // this params has been updated by any component, guess vuex-router-sync
+      /*
+      building params with filters and pagination
+      this params has been updated by any component, guess vuex-router-sync
+      */
       let params = {
         params: {
           include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications,devicevariations.images',
@@ -63,6 +71,7 @@ const actions = {
         }
       }
       // console.log(params)
+
       device.getAll(params, res => {
         // console.log('devices res', res)
         const devices = store.sync(res.data)
@@ -117,20 +126,33 @@ const actions = {
     }
   },
 
-  addStyleFilter ({ commit }, records) {
-    commit(types.DEVICE_ADD_FILTER, { type: 'style', records: records })
-  }
+  addStyleFilter ({ dispatch, commit }, records) {
+    // commit(types.DEVICE_ADD_FILTER, { type: 'style', records: records })
+    dispatch('addFilter', { type: 'style', records: records })
+  },
 
-  // addFilter ({ commit }, records) {
-  //   console.log('addFilter', records)
-  //   commit(types.DEVICE_ADD_FILTER, records)
-  // },
+  addCapacityFilter ({ dispatch, commit }, records) {
+    // commit(types.DEVICE_ADD_FILTER, { type: 'capacity', records: records })
+    dispatch('addFilter', { type: 'capacity', records: records })
+  },
+
+  addCarrierFilter ({ dispatch, commit }, records) {
+    // commit(types.DEVICE_ADD_FILTER, { type: 'carrier', records: records })
+    dispatch('addFilter', { type: 'carrier', records: records })
+  },
+
+  addFilter ({ commit }, { type, records }) {
+    commit(types.DEVICE_ADD_FILTER, { type, records })
+  },
 }
 
 // mutations
 const mutations = {
   [types.DEVICE_GET_ALL] (state, { records }) {
     state.all = records
+    state.types = _.chain(state.all).sortBy('name').map('name').compact().uniq().value()
+    state.manufactures = _.chain(state.all).sortBy('make').map('make').compact().uniq().value()
+    state.prices = _.chain(state.all).sortBy('defaultPrice').map('defaultPrice').uniq().value()
   },
 
   [types.DEVICE_ADD_NEW] (state, { record }) {
@@ -158,6 +180,9 @@ const mutations = {
         break
       case 'capacity':
         state.filter.capacities = records
+        break
+      case 'carrier':
+        state.filter.carriers = records
         break
     }
   },
