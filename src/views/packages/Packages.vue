@@ -46,44 +46,44 @@
                 <td><div></div></td>
               </tr>
             </tbody>
-            <tbody v-for="(package, index) in packagesList">
-              <tr :class="{'active': package.show,'desactive': !package.show}" @click="setActive(index)">
+            <tbody v-for="(pack, index) in packagesList">
+              <tr :class="{'active': pack.show,'desactive': !pack.show}" @click="setActive(index)">
                 <td valign="top">
-                  <h6><a v-bind="{ href: '/package/'+package.id}">{{names.manageButton}}</a></h6>
+                  <h6><a v-bind="{ href: '/package/'+pack.id}">{{names.manageButton}}</a></h6>
                 </td>
                 <td valign="top">
-                  <div class="textbold">{{package.name}}</div>
+                  <div class="textbold">{{pack.name}}</div>
                 </td>
                 <td class="textbold" valign="top">
-                  {{package.valuesOnce.max}} {{package.valuesOnce.currencyMax}}
+                  {{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}
                 </td>
                 <td class="textbold" valign="top">
-                  {{package.valuesMonth.max}} {{package.valuesOnce.currencyMax}}
+                  {{pack.valuesMonth.max}} {{pack.valuesOnce.currencyMax}}
                 </td>
                 <td class="textbold" valign="top"></td>
               </tr>
-              <tr v-show="package.show && package.conditions.length > 0" class="inner-rows">
+              <tr v-show="pack.show && pack.conditions.length > 0" class="inner-rows">
                 <td></td>
                 <td>{{getTheEmployeesThatAccomplishesTheConditions}}</td>
                 <td></td>
                 <td></td>
                 <td>{{getTheConditions}}</td>
               </tr>
-              <tr v-show="package.show && package.services.length > 0" class="inner-rows">
+              <tr v-show="pack.show && pack.services.length > 0" class="inner-rows">
                 <td></td>
                 <td>Services</td>
                 <td></td>
-                <td>{{package.valuesMonth.max}} {{package.valuesOnce.currencyMax}}</td>
+                <td>{{pack.valuesMonth.max}} {{pack.valuesOnce.currencyMax}}</td>
                 <td>{{getTheServices}}</td>
               </tr>
-              <tr v-show="package.show && package.devicevariations.length > 0" class="inner-rows">
+              <tr v-show="pack.show && pack.devicevariations.length > 0" class="inner-rows">
                 <td></td>
                 <td>Devices</td>
-                <td>{{package.valuesOnce.max}} {{package.valuesOnce.currencyMax}}</td>
+                <td>{{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}</td>
                 <td></td>
                 <td>{{getTheDevices}}</td>
               </tr>
-              <!--<tr v-show="package.show">
+              <!--<tr v-show="pack.show">
                 <td>Apps & Content</td>
                 <td></td>
                 <td></td>
@@ -91,7 +91,7 @@
               </tr>-->
             </tbody>
           </table>
-          <div v-show="errorNotFound" class="error-message">{{names.nopackageFound}}</div>
+          <div v-show="errorNotFound" class="error-message">{{names.noPackageFound}}</div>
           <div class="load">
             <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
