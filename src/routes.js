@@ -5,6 +5,7 @@ import Register from './components/Register.vue'
 import LoginLocal from './components/LoginLocal.vue'
 import ResetPassword from './components/ResetPassword.vue'
 import ResetPasswordCode from './components/ResetPasswordCode.vue'
+import AcceptUser from './components/AcceptUser.vue'
 
 //rutes main
 import Dashboard from './components/Dashboard.vue'
@@ -71,6 +72,11 @@ import LegacyInfo from './components/LegacyInfo.vue'
     path: '/resetPassword/:identification/:code',
     component: ResetPasswordCode,
     name: 'Reset Password Code'
+  },
+  {
+    path: '/acceptUser/:identification/:code',
+    component: AcceptUser,
+    name: 'Accept User'
   },
   //main
   {

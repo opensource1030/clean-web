@@ -31,16 +31,16 @@ function supportRequest() {
     var value1 = $(this).val();
     var value = '.' + value1;
     $images.show(200).not(value).hide();
-      if ($(this).prop('id') == 'choose-issues') {
-          $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
-      }
+    if ($(this).prop('id') == 'choose-issues') {
+      $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
+    }
     $('.btn-provision').click();
     $select.prop('value', value1);
 
   });
   $('.btn-provision').click(function () {
     $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-      $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
+    $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
     $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
     $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
 
@@ -65,7 +65,7 @@ function supportRequest() {
       var form = $('#support-form');
       var $modal = $('#modal');
       var company = "wirelessanalytics";
-      var key = "JWKEXDgvFQXyESKD8Ns4G0RZDhixLzCX0AdDHtzmcknk9FXT16";
+      var key = "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";
       var helpdesk_code = $('#support-form').find(':selected').attr('data-support-tag');
 
       var subject = $('#support-form').find(':selected').attr('data-value');
@@ -95,36 +95,38 @@ function supportRequest() {
       }
 
       if (subject === "Add/Remove International Features") {
-        var msg_international_activation = "Country Traveling To:" + $("#country2").val().join(', ').toString() + "<br/>" +
+        var msg_international_activation = "<strong>Country Traveling To:<strong>" + $("#country2").val().join(', ').toString() + "<br/>" +
           "<strong>Dates of Travel:</strong>" + $('#flatpickr').val() + "<br/> " +
           "<strong>International Device Type:</strong>" + $('#int-device_type').val() + "<br/>";
 
         msg += "<hr/>" + "\r\n" + msg_international_activation;
       }
 
-      msg += "<br/><br/>"  + "@CODE_CATALOG@='" + helpdesk_code + "'";
+      msg += "<br/><br/>" + "@CODE_CATALOG@='" + helpdesk_code + "'";
 
       var json = {
-        "assignedTo": 59063,
-        "inboxId": 1778,
+        "apikey": "fad6cdd8-a1dc-46c1-8656-0b66371d614b",
+        "from": $('#recipient_email').val(),
         "subject": subject,
-        "customerEmail": $('#recipient_email').val(),
-        "customerMobileNumber": $('#recipient_mobile').val(),
-        "customerPhoneNumber": $('#recipient_mobile').val(),
-        "message": msg,
-        "source": "clean-dashboard",
-        "status": "active",
-        "tags[]": helpdesk_code,
-        "priority": $('input[name=priority]:checked', '#support-form').val()
+        "to": process.env.SUPPORT_EMAIL,
+        "bodyHtml": msg,
+        "isTransactional": true
       };
 
       $.ajax({
         type: "POST",
-        url: "https://" + company + ".teamwork.com/desk/v1/tickets.json",
-        headers: {"Authorization": "BASIC " + window.btoa(key + ":xxx")},
-        data: JSON.stringify(json),
-        processData: false,
-        contentType: "application/json; charset=UTF-8",
+        url: "https://api.elasticemail.com/v2/email/send",
+        // headers: {"Authorization": "Bearer " + key},
+        // data: JSON.stringify(json),
+        contentType: "application/x-www-form-urlencoded",
+        data: {
+          "subject": subject,
+          "to": process.env.SUPPORT_EMAIL,
+          "apikey": "fad6cdd8-a1dc-46c1-8656-0b66371d614b",
+          "bodyHtml": msg,
+          "from": $('#recipient_email').val(),
+        },
+        // contentType: "application/json; charset=UTF-8",
         beforeSend: function () {
           $('.support-form-holder').addClass('loading');
         },

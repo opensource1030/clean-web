@@ -34,7 +34,7 @@
                   <td v-html="item.device ? item.device : '-'  "> </td>
                   <td v-html="item.allocated_charge ? '$'+ item.allocated_charge.toFixed(2) : '$0.00'"></td>
                   <td v-html="item.service_plan_charge ? '$'+ item.service_plan_charge.toFixed(2) : '$0.00'"></td>
-                  <td v-html="item.usage_charge ? '$'+ item.usage_charge.toFixed(2) : '$0.00'"></td>
+                    <td v-html="item.pooling_charge ? '$'+ (item.usage_charge + item.pooling_charge).toFixed(2) : '$0.00'"></td>
                   <td v-html="item.other_charge ? '$'+ item.other_charge.toFixed(2) : '$0.00'"></td>
                   <td v-if="item.last_upgrade">{{ item.last_upgrade | cleanDate }}</td>
                   <td>

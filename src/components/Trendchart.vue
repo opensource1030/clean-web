@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="large-6 columns">
-      <div class="grid-box" data-mh="box2">
+      <div class="grid-box " data-mh="box2">
         <header class="box-heading">
           <h2>Trend By Category</h2>
         </header>
@@ -18,6 +18,9 @@
             <template v-for="(key, index) in groupDataKeys">
               <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
                 <!-- <trend-chart :chartData="seriesData(key)" :options="options" :height="300"></trend-chart> -->
+                <div class="pie-chart-title">
+                  &nbsp;
+                </div>
                 <vue-chart
                   chart-type="LineChart"
                   :columns="columns"

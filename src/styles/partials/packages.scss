@@ -1,93 +1,171 @@
 @import "../base/clean-variables";
 
 #tables {
-    .textbold {
-        font-weight: bold;
-    }
+  .textbold {
+    font-weight: bold;
+  }
 }
 
 #package {
-    .textbold {
-        font-weight: bold;
-        font-size: 1.3rem;
-    }
-    .padding {
-        padding: 0 4rem;
-    }
-    .accordion-content {
-        display: inherit;
-    }
-    .header {
-        padding: 1.8rem;
-        background: $white;
-    }
-    .status {
-        font-size: 1.5rem;
-        margin-top: 2rem;
-        text-align: left;
-    }
-    .checkboxbigger {
-        transform: scale(1.5);
-    }
-    h6{
-        text-align: center;
-        margin-top: 2.18rem;
-    }
-    .addon {
-        text-align: center;
-        margin-top: 2.4rem;
-    }
-    .unit {
-        margin-top: 1.7rem;
-    }
-    select {
-        -webkit-appearance: none;
-    }
-    .fa-2x {
-        font-size: 1rem;
+  .textbold {
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+  .padding {
+    padding: 0 4rem;
+  }
+  .accordion-content {
+    display: inherit;
+  }
+  .header {
+    padding: 1.8rem;
+  }
+  .status {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    text-align: left;
+  }
+  .checkboxbigger {
+    transform: scale(1.5);
+  }
+  h6{
+    text-align: center;
+    margin-top: 2.18rem;
+  }
+  .addon {
+    text-align: center;
+    margin-top: 2.4rem;
+  }
+  .unit {
+    margin-top: 1.7rem;
+  }
+  select {
+    -webkit-appearance: none;
+  }
+  .fa-2x {
+    font-size: 1rem;
+  }
+  label {
+    color:$base;
+  }
+  .titles {
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      padding: 0 1.8rem;
     }
     label {
-        color:$base;
+      color:$base;
+      padding: 0 3.2rem;
     }
-    .titles {
-        background: $ghost;
-        h4 {
-            font-size: 18px;
-            font-weight: 700;
-            padding: 0 3.2rem;
-        }
-        label {
-            color:$base;
-            padding: 0 3.2rem;
-        }
+  }
+  #button {
+    border-radius: 0.8rem;
+    text-align:center;
+  }
+  .accordion-title:focus,
+  .accordion-title:hover {
+    background-color: #F4A536!important;
+    color: black;
+  }
+  .accordion-content {
+    display: inherit;
+  }
+  .acordeon {
+    list-style-type: none;
+    .accordion-title {
+      position: inherit;
     }
-    #button {
-      margin: 1.9rem 1.5rem;
-      border-radius: 0.8rem;
-      text-align:center;
+    .acordeon-item {
+      margin: 2rem;
+      background-color: $iron;
     }
-    .accordion-title:focus,
-    .accordion-title:hover {
-        background-color: #F4A536!important;
-        color: black;
-    }
-    .accordion-content {
-        display: inherit;
-    }
-    .is-active {
-        // background-color: #F4A536 !important;
-    }
-    .acordeon {
-        list-style-type: none;
-        .accordion-title {
-            position: inherit;
-        }
-        .acordeon-item {
-            margin: 2rem;
-            background-color: $iron;
-        }
-    }
-    .error-input {
-        border-color: #FF0000;
-    }
+  }
+  .error-input {
+    border-color: #FF0000;
+  }
+  .selected {
+    border-color: #21eb1f;
+    border-radius: 1rem;
+  }
+  .presetstitles {
+    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+  }
+  .presetsnoinformation {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  .devicevariationspreset {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  .devicevariationsinformation {
+    text-align: center;
+  }
+  .presetimage {
+    position: relative;
+  }
+  .absolute {
+    font-weight: bold;
+    font-size: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+  .servicetext {
+    font-weight: bold;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+  }
+  .parent {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .image1 {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .image2 {
+    position: absolute;
+    top: 70%;
+    left: 60%;
+    height: auto;
+    width: auto;
+    max-width: 40%;
+    max-heigth: 40%;
+  }
+  .fade {
+      opacity: 1;
+      transition: all 0.3s ease;
+  }
+  .fade.fade-enter, .fade.fade-leave {
+      opacity: 0
+  }
+  .fade.delay {
+      transition-delay: 0.3s;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1.0s
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0
+  }
+  .list-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-enter-active, .list-leave-active {
+    transition: 1s;
+  }
+  .list-enter, .list-leave-to /* .list-leave-active for <2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
+  }
 }

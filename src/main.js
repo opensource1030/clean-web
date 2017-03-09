@@ -25,19 +25,32 @@ $(document).foundation();
 // filter
 
 var moment = require('moment');
-Vue.filter('cleanDate', function(value){
+var numeral = require('numeral');
+
+Vue.filter('cleanDate', function (value) {
   var str = value + '';
   return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
 });
 
-Vue.filter('formatBytes', function(value){
-  if (value === null || value === undefined){
+Vue.filter('formatBytes', function (value) {
+  if (value === null || value === undefined) {
     return value = '-'
-  }else if(value>=1048576){
-    return (value /1048576).toFixed(2)+' MBs'
+    // } else if (value >= 1024) {
+    //   return numeral(value).format('0.00b');
   }
-  else{
-    return value + ' KBs'
+  else {
+    value *= 1024; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+    return numeral(value).format('0.00b')
+  }
+});
+
+Vue.filter('formatCurrency', function (value, locale = "us") {
+  if (value === null || value === undefined) {
+    return value = '-'
+
+  }
+  else {
+    return numeral(value).format('$0,0.00')
   }
 });
 
