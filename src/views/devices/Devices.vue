@@ -131,7 +131,7 @@
       -->
       <tbody>
         <template v-for="(device, index) in devices">
-          <tr @click="setActive(device)">
+          <tr id="open" @click="setActive(device)">
             <td><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
             <td style="font-weight: bold;">{{ device.name }}</td>
             <td>{{ device.make }}</td>
