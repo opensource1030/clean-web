@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="tables">
+    <div id="tables"  >
       <div class="header"></div>
       <div class="expanded row">
         <div class="large-12 columns titles">
@@ -10,39 +10,41 @@
           <a class="button buttonTable" href="/service">{{names.addPlan}}</a>
         </div>
             <searchCost :callback="onSelectColumn" :show="search.searchShow" v-model="search" :search="search" ></searchCost>
-        <div v-show="!loading" class="small-12 columns">
+        <div v-show="!Service.loading" class="small-12 columns">
           <table cellspacing=0 cellpadding=0>
             <thead>
               <tr>
                 <th width="8%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.status">
                     <option value="" values.status>{{names.status}}</option>
-                    <option class="optioninblack" v-for="item in status" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in select.status" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th width="22%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
                     <option value="" values.plans>{{names.plans}}</option>
-                    <option class="optioninblack" v-for="item in plans" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in select.plans" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th width="35%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.details">
                     <option value="" values.details>{{names.details}}</option>
-                    <option class="optioninblack" v-for="item in details" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in select.details" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th width="12%">
                   <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
                     <option value="" values.codePlan>{{names.planCode}}</option>
-                    <option class="optioninblack" v-for="item in codePlan" :value="item">{{item}}</option>
+                    <option class="optioninblack" v-for="item in select.codePlan" :value="item">{{item}}</option>
                   </select>
                 </th>
                 <th width="15%">
                   <multiselect
                     :field="'Carrier'"
-                    :options="carriers"
+                    :options="select.carriers"
                     :value.sync="values.carrier"
+                    :fieldSearch="'presentation'"
+                    :api="'/carriers'"
                     :labelAttr="'presentation'"
                     :callback="onSelectColumn">
                   </multiselect>
@@ -51,6 +53,7 @@
                   <div class="columnnamecost" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
                 </th>
               </tr>
+
             </thead>
             <tbody>
               <tr class="filter">
@@ -62,8 +65,8 @@
                 <td><div>{{search.costFilterMessage}}</div></td>
               </tr>
             </tbody>
-            <tbody v-for="(service, index) in servicesList">
-              <tr :class="{'active': service.show,'desactive': !service.show}" @click="setActive(index)">
+            <tbody v-for="(service, index) in Service.servicesList">
+              <tr :class="{'active': service.show,'desactive': !service.show}" @click="$store.dispatch('services/setActive',index)">
                 <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
                 <td valign="top">
                   <div class="textbold">{{service.title}}</div>
@@ -141,13 +144,13 @@
               </tr>
             </tbody>
           </table>
-          <div v-show="errorNotFound" class="error-message">{{names.noServiceFound}}</div>
+          <div v-show="Service.errorNotFound" class="error-message">{{names.noServiceFound}}</div>
           <div class="load">
-            <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
+            <i v-show="Service.loading" class="fa fa-spinner fa-spin fa-5x"></i>
           </div>
         </div>
       </div>
-      <pagination :pagination="pagination" :callback="loadData" v-show="pagination.total_pages > 1"></pagination>
+      <pagination :pagination="pagination" :callback="loadData" ></pagination>
     </div>
   </div>
 </template>

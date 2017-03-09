@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { http } from 'vue';
 
 const {Store,} = require('yayson')();
 const store = new Store();
@@ -6,21 +6,20 @@ import {
   filterByFilters,orderFilters
 } from './../components/filters.js';
 export default {
-getCarriers (context) {
+getCarriers (params, cb, errCb) {
 
-    let params1 = {
-        params: {
-            'filter[active]':1,
-        }
-    };
+    let data=params
 
-  context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
+  http.get(process.env.URL_API + '/carriers', params).then((res) =>
                         {
-              let event = store.sync(response.data);
-              if(event.lenght!=0){
-                context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
-              }
-                        }, (response) => {}
+            cb(store.sync(res.data))
+            //  if(event.lenght!=0){
+              //  context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
+            //  }
+          }, (err) => {
+                errCb(err)
+
+          }
                     );
 
 

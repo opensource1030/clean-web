@@ -6,7 +6,23 @@ import modal from './../../components/modal.vue';
 import Multiselect from './../../components/Multiselect.vue';
 import searchCost from './../../components/searchCost.vue';
 
+import {
+    mapGetters,
+    mapActions
+} from 'vuex'
+
 export default {
+  computed: {
+   ...mapGetters({
+       Service: 'services/getService',
+       select:'services/getSelects',
+
+       pagination:'services/getPagination',
+   })
+
+
+
+},
     components : {
         pagination,
         modal,
@@ -16,30 +32,43 @@ export default {
     methods : {
         findServiceItem,
         orderFilters,
+           ...mapActions([
+               'services/Carriers',
+               'services/Services'
+           ]),
+
         loadData() {
-            services.getServicesPage(this, this.pagination.current_page);
+
+                this.$store.dispatch('services/Carriers', this.pagination.current_page)
+
+
+        this.$store.dispatch('services/Services',
+        { pages:this.pagination.current_page,costMax:this.search.costMax,costMin:this.search.costMin,values:this.values})
+
+            //services.getServicesPage(this, this.pagination.current_page);
         },
         setActive: function(index) {
-            if(this.active == index) {
-                this.servicesList[index].show = !this.servicesList[index].show;
+            if(this.Service.active == index) {
+                this.Service.servicesList[index].show = !this.Service.servicesList[index].show;
             } else {
-                this.servicesList[this.active].show = false;
-                this.servicesList[index].show = true;
+                this.Service.servicesList[this.Service.active].show = false;
+                this.Service.servicesList[index].show = true;
             }
-            this.active = index;
+            this.Service.active = index;
 
             this.addons = [];
-            for (let j = 0; j < this.servicesList[index].serviceitems.length; j++) {
-                if( this.servicesList[index].serviceitems[j].category == 'addon') {
-                    this.addons.push(this.servicesList[index].serviceitems[j]);
+            for (let j = 0; j < this.Service.servicesList[index].serviceitems.length; j++) {
+                if( this.Service.servicesList[index].serviceitems[j].category == 'addon') {
+                    this.addons.push(this.Service.servicesList[index].serviceitems[j]);
                 }
             }
         },
         showAddons: function() {
-            this.addonsShow = !this.addonsShow;
+            this.Service.addonsShow = !this.Service.addonsShow;
         },
-        onSelectColumn: function() {
-            services.getServicesPage(this, this.pagination.current_page);
+        onSelectColumn: function(value,field) {
+          this.$store.dispatch('services/Services',
+          { pages:this.pagination.current_page,costMax:this.search.costMax,costMin:this.search.costMin,values:this.values})
         },
         setActiveCostOptions: function() {
             this.search.searchShow = !this.search.searchShow;
@@ -48,42 +77,16 @@ export default {
     },
     data() {
         return {
-            active: 0,
-            firstTime: true,
-            servicesList: [],
-            addons: [],
-            addonsShow: false,
+          // Selected Values
+          values: {
+              status: '',
+              plans: '', // service.title
+              details: '', // service.descriptions
+              codePlan: '', // service.codePlan
+              carrier: [], // carriers.presentation
+              cost: '', // service.cost
+          },
 
-            retrieved: 0,
-            loading: true,
-            showtable: false,
-            showModal: false,
-            errorNotFound:false,
-            // Information Needed for the Selects
-            status: ['Enabled', 'Disabled'],
-            services: [],
-            plans: [],
-            details: [],
-            codePlan: [],
-            carriers: [],
-            cost: [],
-            // Selected Values
-            values: {
-                status: '',
-                plans: '', // service.title
-                details: '', // service.descriptions
-                codePlan: '', // service.codePlan
-                carrier: [], // carriers.presentation
-                cost: '', // service.cost
-            },
-            // Pagination
-            pagination: {
-                current_page: 1,
-                total_pages: null,
-                count: null,
-                total: null,
-                per_page: 25
-            },
             names: {
                 servicePlans: 'Service Plans',
                 addPlan: 'Add Plan',

@@ -4,7 +4,7 @@ export const AUTH_LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const AUTH_LOGOUT = 'LOGOUT'
 export const AUTH_SET_PROFILE = 'SET_PROFILE'
 
-<<<<<<< HEAD
+
 export const ERROR_ADD_NEW = 'ADD_NEW'
 export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
@@ -20,9 +20,4 @@ export const DEVICE_ADD_FILTER = 'ADD_FILTER'
 export const DEVICE_REMOVE_FILTER = 'REMOVE_FILTER'
 
 export const MODIFICATION_GET_ALL = 'GET_ALL'
-
 export const CARRIER_GET_ALL = 'GET_ALL'
-=======
-export const SERVICE_GET_ALL = 'GET_ALL'
-export const SERVICE_ADD_NEW = 'ADD_NEW'
->>>>>>> cp-1712 add vuex and refactor router and auth
