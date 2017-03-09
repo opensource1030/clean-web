@@ -3,9 +3,10 @@ import tables from './../../components/tableDevices.vue'
 import modal from './../../components/modal.vue'
 // import pagination from './../../components/pagination.js'
 import paginate from './../../components/paginate.vue'
-import multiselect from './../../components/Multiselect.vue'
+// import multiselect from './../../components/Multiselect.vue'
+import multiselect from 'vue-multiselect'
 import { filterByModificationsd, filterByModifications, filterByCarrier, orderFilters } from './../../components/filters.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -13,6 +14,7 @@ export default {
     modal,
     // pagination,
     paginate,
+    multiselect,
   },
 
   data () {
@@ -34,22 +36,39 @@ export default {
           total: null,
           per_page: 25
         },
-      }
+      },
+
+      value: [],
+      options: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Adonis', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ],
     }
   },
 
   computed: {
     ...mapGetters({
-      devices: 'device/allDevices',
-    })
+      // devices: 'device/allDevices',
+      devices: 'device/search',
+      styles: 'modification/styleModifications',
+    }),
   },
 
   beforeCreate () {
     // console.log(this.$store)
     this.$store.dispatch('device/getAll')
+    this.$store.dispatch('modification/getAll')
   },
 
   methods: {
+    ...mapActions({
+      addStyleFilter: 'device/addStyleFilter',
+    }),
+
     filterByModificationsd,
     filterByModifications,
     filterByCarrier,

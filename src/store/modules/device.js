@@ -8,7 +8,11 @@ const store = new Store()
 // initial state
 const state = {
   all: [],
-  filter: {},
+  filter: {
+    modifications: [],
+    styles: [],
+    capacities: [],
+  },
   pagination: {
     current_page: 1,
     total_pages: 0,
@@ -30,9 +34,18 @@ const getters = {
     return state.all
   },
 
-  search: (state, getters) => (params) => {
-    console.log(params)
-    return getters.find(params.filter)
+  search: (state, getters) => {
+    let devices = state.all
+    if (state.filter.styles.length > 0) {
+      // let style_ids = _.map(filter.styles, 'id')
+      // console.log('style_ids', style_ids)
+      devices = _.filter(devices, (device) => {
+        let intersects = _.intersectionBy(device.modifications, state.filter.styles, 'id')
+        return intersects.length > 0
+      })
+    }
+
+    return devices
   },
 }
 
@@ -66,6 +79,7 @@ const actions = {
             })
           }
         }
+        console.log('all devices', devices)
         commit(types.DEVICE_GET_ALL, { records: devices })
         // commit(types.DEVICE_SET_PAGINATION, { pagination: res.data.meta.pagination })
         dispatch('setPagination', { pagination: res.data.meta.pagination })
@@ -83,11 +97,11 @@ const actions = {
     })
   },
 
-  setPagination({ commit }, { pagination }) {
+  setPagination ({ commit }, { pagination }) {
     commit(types.DEVICE_SET_PAGINATION, { pagination })
   },
 
-  prevPage({ dispatch, commit, state }) {
+  prevPage ({ dispatch, commit, state }) {
     // console.log('device prevPage')
     if (state.pagination.current_page > 1) {
       commit(types.DEVICE_PREV_PAGE)
@@ -95,13 +109,22 @@ const actions = {
     }
   },
 
-  nextPage({ dispatch, commit }) {
+  nextPage ({ dispatch, commit }) {
     // console.log('device nextPage')
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.DEVICE_NEXT_PAGE)
       dispatch('getAll')
     }
   },
+
+  addStyleFilter ({ commit }, records) {
+    commit(types.DEVICE_ADD_FILTER, { type: 'style', records: records })
+  }
+
+  // addFilter ({ commit }, records) {
+  //   console.log('addFilter', records)
+  //   commit(types.DEVICE_ADD_FILTER, records)
+  // },
 }
 
 // mutations
@@ -126,6 +149,17 @@ const mutations = {
   [types.DEVICE_NEXT_PAGE] (state) {
     // if (state.pagination.current_page < state.pagination.total_pages)
     state.pagination.current_page++
+  },
+
+  [types.DEVICE_ADD_FILTER] (state, { type, records }) {
+    switch (type) {
+      case 'style':
+        state.filter.styles = records
+        break
+      case 'capacity':
+        state.filter.capacities = records
+        break
+    }
   },
 }
 

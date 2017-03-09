@@ -5,6 +5,7 @@ import * as getters from './getters'
 import auth from './modules/auth'
 import error from './modules/error'
 import device from './modules/device'
+import modification from './modules/modification'
 
 Vue.use(Vuex)
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     auth,
     error,
     device,
+    modification,
   },
   strict: debug,
   plugins: [

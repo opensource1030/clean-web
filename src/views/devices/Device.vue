@@ -96,7 +96,7 @@
               <div class="row">
                 <div class="small-6 columns">
                   <label style=" font-weight: bold;" >Capacity
-                    <inputValidate class="capacitys" placeholder="Custom"   v-model="gigas"></inputValidate>
+                    <inputValidate class="capacitys" placeholder="Custom" v-model="gigas"></inputValidate>
                   </label>
                 </div>
                 <div class="small-4 columns money">
@@ -249,7 +249,7 @@
                     <div class="features">
                       <select v-model="p.capacity">
                         <option :value="null">Select Capacity</option>
-                        <option v-for="c in p.capacitys" :value="c.id" >{{c.attributes.value}}</option>
+                        <option v-for="c in p.capacitys" :value="c.id">{{c.attributes.value}}</option>
                       </select>
                     </div>
                   </div>
