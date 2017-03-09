@@ -62,21 +62,21 @@
                 </td>
                 <td class="textbold" valign="top"></td>
               </tr>
-              <tr v-show="package.show" class="inner-rows">
+              <tr v-show="package.show && package.conditions.length > 0" class="inner-rows">
                 <td></td>
                 <td>{{getTheEmployeesThatAccomplishesTheConditions}}</td>
                 <td></td>
                 <td></td>
                 <td>{{getTheConditions}}</td>
               </tr>
-              <tr v-show="package.show" class="inner-rows">
+              <tr v-show="package.show && package.services.length > 0" class="inner-rows">
                 <td></td>
                 <td>Services</td>
                 <td></td>
                 <td>{{package.valuesMonth.max}} {{package.valuesOnce.currencyMax}}</td>
                 <td>{{getTheServices}}</td>
               </tr>
-              <tr v-show="package.show" class="inner-rows">
+              <tr v-show="package.show && package.devicevariations.length > 0" class="inner-rows">
                 <td></td>
                 <td>Devices</td>
                 <td>{{package.valuesOnce.max}} {{package.valuesOnce.currencyMax}}</td>
