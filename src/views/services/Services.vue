@@ -41,7 +41,7 @@
                 <th width="15%">
                   <multiselect
                     :field="'Carrier'"
-                    :options="select.carriers"
+                    :options="carriers"
                     :value.sync="values.carrier"
                     :fieldSearch="'presentation'"
                     :api="'/carriers'"
@@ -66,7 +66,7 @@
               </tr>
             </tbody>
             <tbody v-for="(service, index) in Service.servicesList">
-              <tr :class="{'active': service.show,'desactive': !service.show}" @click="$store.dispatch('services/setActive',index)">
+              <tr @click="setActive(service)">
                 <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
                 <td valign="top">
                   <div class="textbold">{{service.title}}</div>
@@ -78,7 +78,7 @@
                 <td valign="top">{{service.carriers[0].presentation}}</td>
                 <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
               </tr>
-              <tr v-show="service.show" :class="{'active': service.show,'desactive': !service.show}">
+              <tr v-show="activeService && (activeService.id == service.id)" @click="setActive(service)" >
                 <td></td>
                 <td colspan="2" valign="top">
                   <table class="inner-table">
@@ -150,7 +150,13 @@
           </div>
         </div>
       </div>
-      <pagination :pagination="pagination" :callback="loadData" ></pagination>
+      <paginate
+  :pagination="pagination"
+  :prev="() => { $store.dispatch('services/prevPage') }"
+  :next="() => { $store.dispatch('services/nextPage') }"
+  v-show="Service.servicesList.length>0"
+  >
+</paginate>
     </div>
   </div>
 </template>

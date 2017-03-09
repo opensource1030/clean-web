@@ -9,7 +9,6 @@
 <script>
 export default {
   name:'paginate',
-
   props: {
     pagination: {
       type: Object,
