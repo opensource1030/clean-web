@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import auth from './../auth.js';
 
 const {Store} = require('yayson')();
 const store = new Store();

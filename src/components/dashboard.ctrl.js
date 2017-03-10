@@ -5,7 +5,6 @@ require('script!jquery');
 require('script!jquery-match-height');
 require('script!jquery-validation');
 import _ from 'lodash';
-import auth from './../api/auth'
 import supportRequest from './support-request'
 import Vue from 'vue'
 import Avatar from 'vue-avatar/dist/Avatar'
@@ -32,7 +31,18 @@ export default {
     SpentInfo,
     LegacyInfo
   },
-  mounted(){
+
+  data () {
+    return {
+      data: {},
+      version: null,
+      piechartData: [],
+      trendchartData: [],
+      LegacyData: ''
+    }
+  },
+
+  mounted () {
     $(document).keyup(function (e) {
       if ($('.spent-info').hasClass('active') && e.keyCode == 27) {
         setTimeout(function () {
@@ -81,6 +91,7 @@ export default {
     }, (response) => {
     });
     setTimeout(supportRequest, 2500);
+
     chmln.identify({
       uid: localStorage.userId /* A stable, unique identifier */,
       email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */
@@ -91,19 +102,7 @@ export default {
       email: JSON.parse(localStorage.getItem("userProfile")).email
     });
   },
+
   methods: {
-    logout() {
-      auth.logout()
-    }
   },
-  data(){
-    return {
-      data: {},
-      version: null,
-      user: auth.user,
-      piechartData: [],
-      trendchartData: [],
-      LegacyData: ''
-    }
-  }
 }

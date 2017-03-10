@@ -1,6 +1,4 @@
-
 import Vue from 'vue';
-import auth from './../auth.js';
 import Preset from './../../models/Preset'
 const {Store,} = require('yayson')();
 const store = new Store();
