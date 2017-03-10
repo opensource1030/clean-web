@@ -5,13 +5,13 @@ import packages from './../../api/packages/packages';
 import modal from './../../components/modal.vue';
 import Multiselect from './../../components/Multiselect.vue';
 import searchCost from './../../components/searchCost.vue';
-import Inputfilter from './../../components/inputFilter.vue';
+//import Inputfilter from './../../components/inputFilter.vue';
 
 export default {
   components : {
     pagination,
     modal,
-    Inputfilter : Inputfilter,
+//    Inputfilter : Inputfilter,
     searchCost
   },
   beforeCreate() {
@@ -139,10 +139,10 @@ export default {
         // NOTHING
       }
 
-    },
+    }/*,
     showInputFilter() {
       this.showInput = !this.showInput;
-    }
+    }*/
 
   },
   data() {

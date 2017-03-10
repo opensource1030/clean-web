@@ -20,10 +20,10 @@
                 <th title="The Name of the Package" width="25%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
                   <div @click="showInputFilter()" class="large-12 columns">{{names.name}}</div>
                   <div v-show="showInput" class="large-12 columns" style="padding: 0px">
-                    <inputfilter
+                    <!--<inputfilter
                       :callback="onSelectValue"
                       :val.sync="values.name">
-                    </inputfilter>
+                    </inputfilter>-->
                   </div>
                 </th>
                 <th title="Max price you will pay once time" width="8%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
