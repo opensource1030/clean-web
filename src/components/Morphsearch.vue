@@ -20,7 +20,8 @@
 <script>
 /*import auth from './../api/auth'*/
 var classie = require('../modules/classie');
-
+var Analytics = require('analytics-node');
+const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
 export default {
     name: "Morphsearch",
   mounted(){
@@ -43,6 +44,7 @@ export default {
 
                 var offsets = morphsearch.getBoundingClientRect();
                 if( isOpen ) {
+
                   classie.remove( morphSearch, 'open' );
 
 
@@ -61,10 +63,23 @@ export default {
                   input.blur();
                 }
                 else {
+
                   classie.add( morphSearch, 'open' );
+
+                    setTimeout(function () {
+                        analytics.track({
+                            userId: 'localStorage.userId',
+                            event: 'Knowledge Base explored'
+                        });
+                    }, 200)
+
+
+
                 }
                 isOpen = !isOpen;
-                  document.getElementById('helpdocs').src = document.getElementById('helpdocs').src
+                  document.getElementById('helpdocs').src = document.getElementById('helpdocs').src;
+
+
               };
 
       // events

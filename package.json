@@ -16,6 +16,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "analytics-node": "^2.1.1",
     "dateformat": "^2.0.0",
     "flatpickr": "^2.4.2",
     "font-awesome": "^4.6.3",
@@ -109,6 +110,7 @@
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
+    "vue-analytics": "^2.4.0",
     "vue-animated-list": "^1.0.2",
     "vue-bulma-breadcrumb": "github:vue-bulma/breadcrumb",
     "vue-chartjs": "^2.3.1",

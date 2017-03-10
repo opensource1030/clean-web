@@ -4,6 +4,8 @@ import {format, parse} from 'libphonenumber-js'
 require('script!jquery');
 require('script!jquery-match-height');
 require('script!jquery-validation');
+var Analytics = require('analytics-node');
+const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
 import _ from 'lodash';
 import auth from './../api/auth'
 import supportRequest from './support-request'
@@ -85,11 +87,15 @@ export default {
       uid: localStorage.userId /* A stable, unique identifier */,
       email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */
     });
-
-    analytics.identify(localStorage.userId, {
-      name: JSON.parse(localStorage.getItem("userProfile")).first_name + " " + JSON.parse(localStorage.getItem("userProfile")).last_name,
-      email: JSON.parse(localStorage.getItem("userProfile")).email
+    analytics.identify({
+      userId: 'localStorage.userId',
+      traits: {
+        name: JSON.parse(localStorage.getItem("userProfile")).first_name,
+        email: JSON.parse(localStorage.getItem("userProfile")).email
+      }
     });
+
+
   },
   methods: {
     logout() {

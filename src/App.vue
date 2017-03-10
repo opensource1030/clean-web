@@ -8,7 +8,8 @@
         name: "App",
         mounted(){
             $(function() {
-                $(window).on("scroll", function() {
+
+              $(window).on("scroll", function () {
                     if($(window).scrollTop() > 50) {
                         $(".top-bar-section").addClass("sticky-top");
                         $('body').addClass('sticky-header');

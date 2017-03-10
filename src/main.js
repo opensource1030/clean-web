@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Resource from 'vue-resource'
 import VueRouter from 'vue-router'
+import VueAnalytics from 'vue-analytics'
 import 'script!jquery'
 import 'script!select2'
 
@@ -57,10 +58,16 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
 const eventHub = new Vue()
 exports.eventHub = eventHub
 
+const gaId = 'UA-42900219-2'
 // Install plugins
 Vue.use(VueRouter);
 Vue.use(Resource);
 Vue.use(VueCharts);
+
+
+Vue.use(VueAnalytics, {gaId, routes});
+//Segment Tracking
+
 
 // Set auth
 

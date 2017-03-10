@@ -19,6 +19,12 @@ export default {
     updated() {
         $('.wireless-overview > table').cardtable();
     },
+    methods: {
+        charge() {
+            alert('done');
+            this.$ga.trackEvent('click');
+        }
+    },
     data(){
         return {
             allocation: {}
