@@ -7,7 +7,7 @@ import error from './modules/error'
 import device from './modules/device'
 import modification from './modules/modification'
 import carrier from './modules/carrier'
-import service from './modules/services'
+import services from './modules/services'
 
 Vue.use(Vuex)
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
     device,
     modification,
     carrier,
-    service
+    services
   },
   strict: debug,
   plugins: [

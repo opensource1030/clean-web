@@ -36,6 +36,12 @@ export default {
         this.$set(this, 'activeService', service)
       }
     },
+    prevPage(){
+        this.$store.dispatch('services/prevPage')
+     },
+      nextPage(){
+            this.$store.dispatch('services/nextPage')
+      },
     /*  showAddons: function() {
             this.Service.addonsShow = !this.Service.addonsShow;
         },*/

@@ -152,8 +152,8 @@
       </div>
       <paginate
   :pagination="pagination"
-  :prev="() => { $store.dispatch('services/prevPage') }"
-  :next="() => { $store.dispatch('services/nextPage') }"
+  :prev="prevPage"
+  :next="nextPage"
   v-show="Service.servicesList.length>0"
   >
 </paginate>

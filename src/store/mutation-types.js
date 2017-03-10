@@ -8,8 +8,8 @@ export const AUTH_SET_PROFILE = 'SET_PROFILE'
 export const ERROR_ADD_NEW = 'ADD_NEW'
 export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
-export const SERVICE_GET_ALL = 'GET_ALL'
-export const SERVICE_ADD_NEW = 'ADD_NEW'
+export const SERVICES_GET_ALL = 'GET_ALL'
+export const SERVICES_ADD_NEW = 'ADD_NEW'
 
 export const DEVICE_GET_ALL = 'GET_ALL'
 export const DEVICE_ADD_NEW = 'ADD_NEW'
