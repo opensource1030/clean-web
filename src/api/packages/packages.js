@@ -1,15 +1,9 @@
 import Vue from 'vue';
-<<<<<<< 7f95c6f4c17c2a2bb785192a7eac25472c2a8a4f
-
-var { Store } = require('yayson')();
-var store = new Store();
-=======
 import auth from './../auth.js';
 import Carrier from './../carrier/carriers';
 import {findServiceItem, findByAddons, orderFilters, getFilters} from './../../components/filters.js';
 const {Store} = require('yayson')();
 const store = new Store();
->>>>>>> CP-1726 #Packages list
 
 export default {
   getPackagesPage(context, pages) {
