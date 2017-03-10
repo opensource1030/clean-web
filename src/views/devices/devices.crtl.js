@@ -77,6 +77,12 @@ export default {
       addCapacityFilter: 'device/addCapacityFilter',
       addCarrierFilter: 'device/addCarrierFilter',
     }),
+    prevPage(){
+      this.$store.dispatch('device/prevPage')
+    },
+    nextPage(){
+          this.$store.dispatch('device/nextPage')
+    },
 
     filterByModificationsd,
     filterByModifications,
