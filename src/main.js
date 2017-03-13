@@ -5,7 +5,7 @@ import 'script!select2'
 
 import 'script!jquery.cookie'
 
-import VueCharts from './../node_modules/vue-chartjs/dist/vue-chartjs.js'
+import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 import './../node_modules/slicknav/dist/jquery.slicknav.js'
 
 import './../node_modules/stacktable.js/stacktable.js'
@@ -49,7 +49,6 @@ Vue.filter('formatBytes', function (value) {
 Vue.filter('formatCurrency', function (value, locale = "us") {
   if (value === null || value === undefined) {
     return value = '-'
-
   }
   else {
     return numeral(value).format('$0,0.00')
