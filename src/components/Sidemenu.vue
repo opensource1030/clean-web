@@ -36,8 +36,8 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i>View All Policies</a></li>
-                        <li><a href="javascript:;"><i class="fa fa-circle-o"></i>Create a Policy</a></li>
+                        <li><a href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
+                        <li><a href="/package"><i class="fa fa-circle-o"></i>Create a Package</a></li>
                     </ul>
                 </li>
 
