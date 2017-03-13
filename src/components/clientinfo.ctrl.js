@@ -2,8 +2,6 @@ var {Store} = require('yayson')()
 var  store = new Store()
 import auth from './../api/auth'
 import supportRequest from './support-request';
-var Analytics = require('analytics-node');
-const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
 export default {
     name: "ClientInfo",
     created(){
@@ -11,13 +9,7 @@ export default {
 
     },
     mounted(){
-        $('.btn-started').click(function () {
-            analytics.track({
-                userId: 'localStorage.userId',
-                event: 'Click to Get Started'
-            });
-            alert('worked');
-        });
+        this.greet();
     },
     computed : {
         fullName : function () {
@@ -62,7 +54,15 @@ export default {
 
 
             });
+        },
+        greet () {
+            this.$ga.trackEvent('share', 'click', 'facebook')
+        },
+        openTicket () {
+            this.$ga.trackEvent('Open a ticket');
+            setTimeout(supportRequest, 500);
         }
+
     },
     data(){
         return {

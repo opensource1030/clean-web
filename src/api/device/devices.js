@@ -1,9 +1,8 @@
-import Vue from 'vue';
-import auth from './../auth.js';
-const {Store,} = require('yayson')();
-const store = new Store();
-import {filterByFilters, getFilters} from './../../components/filters.js';
-import preset from './../preset/preset.js';
+import Vue from 'vue'
+const {Store,} = require('yayson')()
+const store = new Store()
+import {filterByFilters, getFilters} from './../../components/filters.js'
+import preset from './../preset/preset.js'
 
 export default {
   device: {},

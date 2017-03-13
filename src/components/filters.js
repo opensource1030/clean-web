@@ -25,9 +25,13 @@ function filterByModifications(list, value) {
 }
 
 function filterByModificationsd(list, value) {
-  return list.filter(function (item) {
-    return item.modType.indexOf(value) > -1;
-  });
+    if (list) {
+        return list.filter(function (item) {
+            return item.modType.indexOf(value) > -1;
+        });
+    } else {
+        return
+    }
 }
 
 function filterByCarrier(list, value) {
@@ -269,7 +273,9 @@ function orderFilters(list, attribute, type, orderby) {
             atributeA = valueA[attribute];
             atributeB = valueB[attribute];
         }
-        
+
+        atributeA = atributeA || ''
+        atributeB = atributeB || ''
         if (type == 'string') {
             let strA = atributeA.toLowerCase();
             let strB = atributeB.toLowerCase();

@@ -1,3 +1,4 @@
+
 <template>
   <div>
 <div class="small-12 columns" v-show="!loading" >
@@ -92,7 +93,7 @@
       </tr>
     </tbody>
     <tbody  v-for="(device, index) in devices"  >
-      <tr    :class="{ 'active': device.show,'desactive': device.show  }"   @click="setActive(index)" >
+    <tr id="open" :class="{ 'active': device.show,'desactive': device.show  }" @click="setActive(index)">
           <td v-if="id==null"><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
         <td style="font-weight: bold;" >  {{device.name}} </td>
         <td >{{device.make}}</td>

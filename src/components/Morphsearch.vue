@@ -1,12 +1,12 @@
 
 <template>
  <div>
-  <div id="morphsearch" class="morphsearch">
-    <form class="morphsearch-form">
+     <div id="morphsearch" class="morphsearch" v-on:click="greet">
+         <form class="morphsearch-form">
       <input class="morphsearch-input" type="search" placeholder="What can we help you with?" title="What can we help you with?"/>
       <button class="morphsearch-submit" type="submit">Search</button>
     </form>
-    <div class="morphsearch-content">
+         <div class="morphsearch-content">
       <!-- Helpjuice Knowledge base code -->
       <div id="knowledge-base-content">
         <iframe id="helpdocs" src="https://clean.helpdocs.com/"> </iframe>
@@ -22,6 +22,7 @@
 var classie = require('../modules/classie');
 var Analytics = require('analytics-node');
 const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
+const gaId = 'UA-42900219-2';
 export default {
     name: "Morphsearch",
   mounted(){
@@ -66,14 +67,6 @@ export default {
 
                   classie.add( morphSearch, 'open' );
 
-                    setTimeout(function () {
-                        analytics.track({
-                            userId: 'localStorage.userId',
-                            event: 'Knowledge Base explored'
-                        });
-                    }, 200)
-
-
 
                 }
                 isOpen = !isOpen;
@@ -98,6 +91,11 @@ export default {
       /***** for demo purposes only: don't allow to submit the form *****/
       morphSearch.querySelector( 'button[type="submit"]' ).addEventListener( 'click', function(ev) { ev.preventDefault(); } );
     })();
-  }
+  },
+    methods: {
+        greet() {
+            this.$ga.trackEvent('Knowledge Based explored')
+        }
+    }
 }
 </script>

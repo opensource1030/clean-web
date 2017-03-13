@@ -1,6 +1,5 @@
-import Vue from 'vue';
-import auth from './../auth.js';
-import Employee from './../../models/Employee';
+import Vue from 'vue'
+import Employee from './../../models/Employee'
 
 var {Store} = require('yayson')();
 var store = new Store();

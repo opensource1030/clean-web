@@ -69,6 +69,7 @@ export default {
 }
 </script>
 
+<!--
 <style>
 .actives {
   background: #FF690A;
@@ -367,3 +368,4 @@ export default {
   }
 }
 </style>
+-->

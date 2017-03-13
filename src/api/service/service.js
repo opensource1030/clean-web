@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import auth from './../auth.js';
 import Service from './../../models/Service';
 import Carrier from './../carrier/carriers';
 import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';

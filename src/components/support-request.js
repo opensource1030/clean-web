@@ -1,7 +1,6 @@
 import  populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
-var Analytics = require('analytics-node');
-const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
+const gaId = 'UA-42900219-2';
 function supportRequest() {
   populateCountries.populateCountries("country2");
   $('.eq-Hght').matchHeight({
@@ -48,11 +47,6 @@ function supportRequest() {
     $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
     $('.support-form-holder').show(200);
 
-    analytics.track({
-      userId: 'localStorage.userId',
-      event: 'Support Ticket Opened'
-    });
-
   });
 
   $('#btn-close').click(function () {
@@ -60,10 +54,6 @@ function supportRequest() {
     $images.hide();
     $('.support-form-holder').hide(200);
     $selectOption.prop('selectedIndex', 0);
-    analytics.track({
-      userId: 'localStorage.userId',
-      event: 'Support Ticket closed'
-    });
   });
 
   $("#support-form").validate({

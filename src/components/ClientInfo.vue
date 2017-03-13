@@ -22,7 +22,7 @@
         <div class="box-content-holder" >
           <div v-if="client.object" v-html="client.object.metafields[0].value"> </div>
           <div class="action-button" >
-            <a class="button btn-provision btn-round" href="javascript:;">Open a Ticket</a>
+            <a class="button btn-provision btn-round" href="javascript:;" v-on:click="openTicket">Open a Ticket</a>
           </div>
         </div>
       </div>
@@ -37,7 +37,8 @@
         <div class="box-content-holder">
           <div v-html="client.object.metafields[1].value"></div>
           <div class="action-button" id="action-buttons">
-            <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click to Get Started
+            <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-on:click="greet">Click to
+              Get Started
             </router-link>
           </div>
 
