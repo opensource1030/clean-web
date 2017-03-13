@@ -58,9 +58,9 @@
                   {{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}
                 </td>
                 <td class="textbold" valign="top">
-                  {{pack.valuesMonth.max}} {{pack.valuesOnce.currencyMax}}
+                  {{pack.valuesMonth.max}} {{pack.valuesMonth.currencyMax}}
                 </td>
-                <td class="textbold" valign="top"></td>
+                <td></td>
               </tr>
               <tr v-show="pack.show && pack.conditions.length > 0" class="inner-rows">
                 <td></td>
