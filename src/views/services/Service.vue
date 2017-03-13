@@ -47,9 +47,9 @@
                   <div class="large-12 small-12 columns">
                     <div class="large-7 small-7 columns">
                       <label>{{names.carriers}}
-                        <select @change="onSelectCarrier(serviceDetails.carrierId)" :title="names.carriersMessage" :class="{ 'error-input': errorsStyle.carrierError }" v-model="serviceDetails.carrierId">
-                          <option :value="0">{{names.selectCarrierName}}</option>
-                          <option :selected="carrier.selected" v-if="!noCarriers" v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
+                        <select  v-model="serviceDetails.carrierId">
+
+                          <option   v-for="carrier in carriers" :value="carrier.id">{{carrier.presentation}}</option>
                         </select>
                         <div v-if="noCarriers"><font color="red">{{noCarrierMessageError}}</font></div>
                         <div v-if="noCarrierSelected"><font color="red">{{carrierMessageError}}</font></div>

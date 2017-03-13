@@ -10,6 +10,8 @@ export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
 export const SERVICES_GET_ALL = 'GET_ALL'
 export const SERVICES_ADD_NEW = 'ADD_NEW'
+export const SERVICES_GET_SERVICE = 'GET_ONE'
+export const SERVICES_UPDATE = 'UPDATE_SERVICE'
 
 export const DEVICE_GET_ALL = 'GET_ALL'
 export const DEVICE_ADD_NEW = 'ADD_NEW'

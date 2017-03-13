@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import service from './../../api/service/service';
+//import service from './../../api/service/service';
 import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';
-
+import {mapGetters, mapActions} from 'vuex'
 export default {
 
     components: {
@@ -11,17 +11,28 @@ export default {
         inputValidate
     },
     beforeCreate() {
+
         if (this.$route.params.id > 0) {
-            service.getService(this, this.$route.params.id);
-        } else {
-            service.getCarriers(this);
+          //  service.getService(this, this.$route.params.id);
+            this.$store.dispatch('service/getOne',this.$route.params.id)
+                    this.$store.dispatch('carrier/getAll')
         }
+    },
+    computed:{
+            ...mapGetters({serviceDetails:'service/getServiceDetails',
+                    domesticPlan:'service/getDomesticPlan',
+                    internationalPlan:'service/getInternationalPlan',
+                      addons:'service/getAddons',
+                      carriers: 'carrier/allCarriers'
+
+
+          })
     },
     data() {
         return {
             id: 0,
-            loadedContent: false,
-            error: false,
+            loadedContent: true,
+           error: false,
             errorMessage: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.',
             errorAddon: '',
             noCarriers: false,
@@ -49,7 +60,7 @@ export default {
                     eur: 'EUR',
                     gbp: 'GBP'
                 },
-                description: 'Description',       
+                description: 'Description',
                 carriers: 'Carriers',
                 selectCarrierName: 'Select Carrier',
                 status: 'Status',
@@ -78,86 +89,19 @@ export default {
                 deleteButton: 'Delete the selected Add-on.',
                 addButton: 'Add another Add-on.',
                 saveChanges: 'Save Changes'
-            },
-            serviceDetails: {
-                id : 0,
-                title: '',
-                carrierId: 0,
-                status: '',
-                code: '',
-                cost: '',
-                description: '',
-                currency: 'USD'
-            },
-            services: [],
-            domesticPlan: {
-                minutes: {
-                    id : 0,
-                    domain: "domestic",
-                    category: "voice",
-                    value: 0,
-                    unit: "minutes",
-                },
-                data: {
-                    id : 0,
-                    domain: "domestic",
-                    category: "data",
-                    value: 0,
-                    unit: 'Gb',
-                },
-                sms: {
-                    id : 0,
-                    domain: "domestic",
-                    category: "messaging",
-                    value: 0,
-                    unit: "messages",
-                }
-            },
-            internationalPlan: {
-                minutes: {
-                    id : 0,
-                    domain: "international",
-                    category: "voice",
-                    value: 0,
-                    unit: "minutes",
-                },
-                data: {
-                    id : 0,
-                    domain: "international",
-                    category: "data",
-                    value: 0,
-                    unit: 'Gb',
-                },
-                sms: {
-                    id : 0,
-                    domain: "international",
-                    category: "messaging",
-                    value: 0,
-                    unit: "messages",
-                }
-            },
-            carriers: [],
-            addons: [
-                {
-                    description: '',
-                    cost: '',
-                    unit: 'USD',
-                    add: true,
-                    delete: false,
-                    addonNameError: false,
-                    addonPriceError: false,
-                }
-            ]
+            }
+
         }
     },
     methods : {
         findServiceItem,
         orderFilters,
+        ...mapActions(['carrier/getAll', 'service/getOne','service/update','service/add']),
         save() {
             if (this.serviceDetails.id > 0) {
-                service.updateService(this.serviceDetails.id, this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
+                this.$store.dispatch('service/update')
             } else {
-                service.addService(this, this.serviceDetails, this.domesticPlan, this.internationalPlan, this.addons);
+                this.$store.dispatch('service/add')
             }
         },
         hideAndPush(index) {

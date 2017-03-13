@@ -7,7 +7,9 @@ const store = new Store()
 const API_BASE_URL = process.env.URL_API
 
 export default {
-  getOne (params, cb, errCb) {
+  getOne (params,id ,cb, errCb) {
+    let data = params
+    http.get(API_BASE_URL + '/services/'+id, data).then(res => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   getAll (params, cb, errCb) {
@@ -20,7 +22,9 @@ export default {
     http.post(API_BASE_URL + '/services', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  update (params, cb, errCb) {
+  update (params, id,cb, errCb) {
+    let data = { data: params } // or data = params
+    http.patch(API_BASE_URL + '/services/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   remove (params, cb, errCb) {

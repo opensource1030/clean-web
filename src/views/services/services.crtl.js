@@ -9,7 +9,7 @@ import {mapGetters, mapActions} from 'vuex'
 
 export default {
   created() {
-    this.$store.dispatch('services/Services', {
+    this.$store.dispatch('services/getAll', {
       costMax: this.search.costMax,
       costMin: this.search.costMin,
       values: this.values
@@ -28,7 +28,7 @@ export default {
   methods : {
     findServiceItem,
     orderFilters,
-    ...mapActions(['services/Carriers', 'services/Services']),
+    ...mapActions(['carrier/getAll', 'services/getAll']),
     setActive(service) {
       if (this.activeService && this.activeService.id == service.id) {
         this.$set(this, 'activeService', null)
