@@ -544,6 +544,7 @@ export default {
       this.packages.carriers = this.packages.carriers.slice(0, 50);
     },
     carrierSelected(carrier) {
+      this.packages.variablesShow.carrierSelected = false;
       if(this.packages.retrieveMore) {
         this.packages.retrieveMore = false;
 
@@ -722,9 +723,9 @@ export default {
           this.packages.servicesList.push(dv);
         }
       }
+      this.packages.variablesShow.carrierSelected = true;
     },
     addServiceSelected() {
-      console.log("ADD");
       let aux = [];
       this.packages.serviceInformation.selected = false;
       aux.push(this.packages.serviceInformation);
@@ -736,7 +737,6 @@ export default {
       this.deleteSelectedServicesFromServicesListRetrieved();
     },
     deleteServiceSelected() {
-      console.log("DELETE");
       let aux =[];
       for (let serv of this.packages.services) {
         if(serv.id != this.packages.serviceSelectedInformation.id){
@@ -1028,7 +1028,7 @@ export default {
         onReachBeginning: this.goBackPreset,
         onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
       },
-      swiperOptionDevices: {
+      swiperOptionDevVarList: {
         prevButton:'.swiper-button-prev',
         nextButton:'.swiper-button-next',
         slidesPerView: 5,

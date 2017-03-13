@@ -11,12 +11,12 @@
       <div class="expanded row">
         <div v-show="loadedContent">
           <div class="large-12 columns">
-            <div class="large-5 small-12 columns padding">
+            <div class="large-5 small-12 columns" style="padding-left: 5%">
               <label>{{packages.names.title}}
                 <input :class="{ 'error-input': packages.nameError }" type="text" placeholder="" :value="packages.name" v-model="packages.name">
               </label>
             </div>
-            <div class="large-6 end small-12 large-offset-1 columns padding">
+            <div class="large-6 end small-12 large-offset-1 columns" style="padding-top: 2% ; font-weight: bold">
               <div class="large-12 small-12 columns textbold">
                 <div class="large-1 small-2 columns">
                   {{packages.names.prices.minimum}}
@@ -70,7 +70,7 @@
                           </select>
                         </label>
                       </div>
-                      <div v-if="condition.nameCond != ''" class="large-2 small-12 columns">
+                      <div v-if="condition.nameCond != ''" class="large-3 small-12 columns">
                         <label>{{packages.names.conditions.condition}}
                           <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
                             <option value="" manufactured>{{packages.names.conditions.selectCondition}}</option>
@@ -78,7 +78,7 @@
                           </select>
                         </label>
                       </div>
-                      <div v-if="condition.nameCond != ''" class="large-5 small-12 columns">
+                      <div v-if="condition.nameCond != ''" class="large-4 small-12 columns">
                         <label>{{packages.names.conditions.value}}
                           <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
                             <option value="" manufactured>{{packages.names.conditions.selectValue}}</option>
@@ -90,12 +90,12 @@
                       </div>
                       <div class="large-2 small-12 columns">
                         <div class="large-4 small-4 small-offset-2 columns">
-                          <a class="button" @click="deleteCondition(index)" id="button" v-show="condition.delete">
+                          <a class="button" style="border-radius: 10px; padding: 19%;" @click="deleteCondition(index)" id="button" v-show="condition.delete">
                             <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                           </a>
                         </div>
-                        <div class="large-4 small-4 end columns">
-                          <a class="button" @click="pushCondition(index)" id="button" v-show="condition.add">
+                        <div class="large-4 large-offset-1 small-4 end columns">
+                          <a class="button" style="border-radius: 10px; padding: 19%;" @click="pushCondition(index)" id="button" v-show="condition.add">
                             <i class="fa fa-plus fa-2x"></i>
                           </a>
                         </div>
@@ -117,7 +117,7 @@
                   <div class="accordion-content" data-tab-content v-f-accordion>
                     <!-- PRESETS -->
                     <div>
-                      <div class="titlesZones">{{packages.names.devices.presetsAvailable}}</div>
+                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.presetsAvailable}}</div>
                       <div class="noinformation" v-show="packages.presets.length == 0">
                         <swiper :options="swiperOptionPreset">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -139,10 +139,10 @@
                       </div>
                     </div>
                     <!-- //PRESETS -->
-                    <!-- DEVICE VARIATIONS -->
+                    <!-- DEVICE VARIATIONS AVAILABLE-->
                     <div v-show="packages.presetSelected.name != ''">
                       <hr size="10">
-                      <div class="titlesZones">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
+                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
                       <div class="noinformation" v-show="packages.devicevariationsList.length == 0">
                         <swiper :options="swiperOptionA">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -165,11 +165,11 @@
                         <div class="swiper-button-next" slot="button-next"></div>
                       </swiper>
                     </div>
-                    <!-- //DEVICE VARIATIONS -->
+                    <!-- //DEVICE VARIATIONS AVAILABLE -->
                     <!-- DEVICE VARIATIONS SELECTED -->
                     <div v-show="packages.presetSelected.name != '' || packages.devicevariations.length > 0">
                       <hr size="10">
-                      <div class="titlesZones">{{packages.names.devices.devicesSelected}}</div>
+                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.devicesSelected}}</div>
                       <div class="noinformation" v-show="packages.devicevariations.length == 0">
                         <swiper :options="swiperOptionA">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -216,7 +216,7 @@
                   <div class="large-12 columns accordion-content" data-tab-content v-f-accordion>
                     <!-- CARRIERS -->
                     <div class="large-12 columns">
-                      <div class="large-12 columns titlesZones">{{packages.names.services.carriersAvailable}}</div>
+                      <div class="large-12 columns titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.services.carriersAvailable}}</div>
                       <div class="large-12 columns noinformation" v-show="packages.carriers.length == 0">
                         <swiper :options="swiperOptionCarrier">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -239,8 +239,8 @@
                     <!-- //CARRIERS -->
                     <hr size="10">
                     <!-- SERVICES -->
-                    <div class="large-12 columns" v-show="packages.carrierSelected.name != ''">
-                      <div class="large-12 columns titlesZones">
+                    <div class="large-12 columns" v-show="packages.variablesShow.carrierSelected">
+                      <div class="large-12 columns titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">
                         {{packages.names.services.servicesAvailable}} {{packages.carrierSelected.presentation}}
                       </div>
                       <div class="large-12 columns noinformation" v-show="packages.servicesList.length == 0">
@@ -252,10 +252,10 @@
                       </div>
                       <div class="large-12 columns">
                         <swiper v-show="packages.servicesList.length > 0" :options="swiperOptionServiceList" ref="swServicesList">
-                          <swiper-slide v-for="(serice, index) in packages.servicesList">
+                          <swiper-slide v-for="(service, index) in packages.servicesList">
                             <transition name="list">
                               <div class="presetimage list-item" :key="service" @click="serviceInformation(service)">
-                                <div class="servicetext">
+                                <div class="servicetext" style="text-align: center; position: absolute; top: 10%; left: 10%; width: 80%;">
                                   {{service.title}} <br> {{service.cost}} {{service.currency}}
                                 </div>
                                 <img :src="getUrlOfImageSelected(service)" alt="" />
@@ -346,7 +346,7 @@
                     <!-- SERVICES SELECTED -->
                     <div v-show="packages.carrierSelected.name != '' || packages.services.length > 0">
                       <hr size="10">
-                      <div class="titlesZones">{{packages.names.services.servicesSelected}}</div>
+                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.services.servicesSelected}}</div>
                       <div class="large-10 colunns" v-show="packages.serviceSelectedInformationBool">
                         <div class="large-12 columns">
                           <table>
@@ -435,11 +435,11 @@
                         <swiper v-show="packages.services.length > 0" :options="swiperOptionServiceSel" ref="swServicesSel">
                           <swiper-slide v-for="(service, index) in packages.services">
                             <transition name="list">
-                              <div class="presetimage list-item" :key="service" @click="serviceSelectedInformation(service)">
-                                <div class="servicetext">
+                              <div class="presetimage list-item" style="position: relative; width: 100%;"  :key="service" @click="serviceSelectedInformation(service)">
+                                <img :src="getUrlOfImageSelected(service)" alt="" />
+                                <div class="servicetext" style="text-align: center; position: absolute; top: 10%; left: 10%; width: 80%;">
                                   {{service.title}} <br> {{service.cost}} {{service.currency}}
                                 </div>
-                                <img :src="getUrlOfImageSelected(service)" alt="" />
                               </div>
                             </transition>
                           </swiper-slide>
