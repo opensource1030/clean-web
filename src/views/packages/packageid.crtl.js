@@ -1011,27 +1011,17 @@ export default {
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
-<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           1200: {
             slidesPerView: 4,
           },
           900: {
             slidesPerView: 3,
-=======
-          1024: {
-            slidesPerView: 4,
->>>>>>> CP-1507 #Carrier Services
           },
           600: {
             slidesPerView: 2,
           },
-<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           440: {
             slidesPerView: 1
-=======
-          480: {
-            slidesPerView: 1,
->>>>>>> CP-1507 #Carrier Services
           }
         },
         onReachEnd: this.goForwardPreset,
@@ -1044,24 +1034,16 @@ export default {
         slidesPerView: 5,
         spaceBetween: 10,
         breakpoints: {
-<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           1100: {
             slidesPerView: 4,
           },
           860: {
             slidesPerView: 3,
-=======
-          1024: {
-            slidesPerView: 4,
->>>>>>> CP-1507 #Carrier Services
           },
           560: {
             slidesPerView: 2,
           },
-<<<<<<< cfda53f15f55b9a6356082e9a6f33917e6139e55
           380: {
-=======
-          480: {
             slidesPerView: 1,
           }
         }
@@ -1136,7 +1118,6 @@ export default {
             slidesPerView: 2,
           },
           500: {
->>>>>>> CP-1507 #Carrier Services
             slidesPerView: 1,
           }
         }
