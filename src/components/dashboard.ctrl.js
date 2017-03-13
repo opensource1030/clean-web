@@ -7,7 +7,6 @@ require('script!jquery-validation');
 var Analytics = require('analytics-node');
 const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
 import _ from 'lodash';
-import auth from './../api/auth'
 import supportRequest from './support-request'
 import Vue from 'vue'
 import Avatar from 'vue-avatar/dist/Avatar'
@@ -34,7 +33,18 @@ export default {
     SpentInfo,
     LegacyInfo
   },
-  mounted(){
+
+  data () {
+    return {
+      data: {},
+      version: null,
+      piechartData: [],
+      trendchartData: [],
+      LegacyData: ''
+    }
+  },
+
+  mounted () {
     $(document).keyup(function (e) {
       if ($('.spent-info').hasClass('active') && e.keyCode == 27) {
         setTimeout(function () {
@@ -94,22 +104,8 @@ export default {
         email: JSON.parse(localStorage.getItem("userProfile")).email
       }
     });
-
-
   },
+
   methods: {
-    logout() {
-      auth.logout()
-    }
   },
-  data(){
-    return {
-      data: {},
-      version: null,
-      user: auth.user,
-      piechartData: [],
-      trendchartData: [],
-      LegacyData: ''
-    }
-  }
 }

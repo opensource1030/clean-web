@@ -1,9 +1,10 @@
-import Vue from 'vue';
-import auth from './../auth.js';
+import Vue from 'vue'
 import Device from './../../models/Device'
-import {filterByFilters} from './../../components/filters.js';
-const {Store} = require('yayson')();
-const store = new Store();
+import {filterByFilters} from './../../components/filters.js'
+const {Store} = require('yayson')()
+const store = new Store()
+
+import $store from './../../store'
 
 export default {
   /*-------------------------------update device-----------------*/
@@ -21,20 +22,14 @@ export default {
     let deviceObj = new Device('devices', id, parseInt(device.defaultPrice), device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
     let check = this.checkDevice(deviceObj, style, capacity, price, context, id)
     if (check.staus == false) {
-      context.message = "Error in field " + check.field;
-      context.showModal = true;
+      $store.dispatch('error/addNew', { message: 'Error in field ' + check.field })
     } else {
-
       context.$http.patch(process.env.URL_API + '/devices/' + id, {data: deviceObj.toJSON()}).then((response) => {
-
         context.$router.push({name: 'List Devices'});
-
       }, (response) => {
-        context.message = "code error    " + response.status;
-        context.showModal = true;
+        $store.dispatch('error/addNew', { message: 'code error ' + response.status })
       });
     }
-
   },
 
   getDataDevice(context, id) {
@@ -151,23 +146,20 @@ export default {
     let params = {
       params: {
         page: page,
-
         /*,filter[][like]:deviceType*/
       }
     };
+
     if (context.companyFilter !== "" || context.companyFilter != null) {
       params.params['filter[name][like]'] = context.companyFilter;
     }
 
     context.$http.get(process.env.URL_API + '/devicetypes', {
-
       params: {
         page: page
       }
     }).then((response) => {
-
       context.deviceType = response.data;
-
     }, (response) => {});
 
     context.$http.get(process.env.URL_API + '/modifications', {
@@ -179,15 +171,12 @@ export default {
       for (let modification of response.data.data) {
         this.modificationsCheck.data.push(modification);
         modification.check = false;
-
       }
 
       context.modifications = response.data;
-
     }, (response) => {});
 
     context.$http.get(process.env.URL_API + '/carriers', {
-
       params: {
         page: page,
         'filter[active]': 1,
@@ -195,15 +184,12 @@ export default {
       }
     }).then((response) => {
       let event = store.sync(response.data);
-      console.log(event);
+      // console.log(event);
 
       //process.env.URL_API
-
       for (let carrier of event) {
-
         this.carriersCheck.data.push(carrier);
         carrier.check = false;
-
       }
 
       context.carriers.data = event;
@@ -244,6 +230,7 @@ export default {
 
     }, (response) => {});
   },
+
   checkDevice(device, style, capacity, price, context, id) {
       let error = { field: "", status: false };
 
@@ -303,17 +290,12 @@ export default {
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, null)
     if (check.status == false) {
-      context.message = "Error in field " + check.field;
-      context.showModal = true;
+      $store.dispatch('error/addNew', { message: 'Error in field ' + check.field })
     } else {
       context.$http.post(process.env.URL_API + '/devices', {data: deviceObj.toJSON()}).then((response) => {
-
         context.$router.push({name: 'List Devices'});
-
       }, (response) => {
-        context.message = response;
-        context.showModal = true;
-
+        $store.dispatch('error/addNew', { message: 'code error ' + response.status })
       });
     }
 
@@ -323,10 +305,9 @@ export default {
     context.$http.post(process.env.URL_API + '/images', file).then((response) => {
       context.image.url = 'http://' + response.data.data.links.self;
       context.image.id = response.data.data.id;
-
     }, (response) => {});
-
   },
+
   createImageVariation(context, file, index) {
     context.$http.post(process.env.URL_API + '/images', file).then((response) => {
       if (context.id == null) {

@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import auth from './../auth.js';
 import packageid from './../../models/Packageid';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { concatenateAttribute, deleteRepeated } from './../../components/filters.js';

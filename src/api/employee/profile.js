@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import auth from './../auth.js';
 
 var {
   Store,
@@ -7,11 +6,4 @@ var {
 var store = new Store();
 
 export default {
-
-
-
-
-
-
-
 }
