@@ -425,8 +425,8 @@ profile({
       commit('LOGIN_REQUEST')
       auth.singleSignOn({
         uuid: id
-      }, (res) => {
-              dispatch('profile',{res:res,router:router});
+      }, (re) => {
+              dispatch('profile',{res:re,router:router});
 
       }, (err) => {
 
