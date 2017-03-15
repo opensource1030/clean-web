@@ -18,7 +18,7 @@
                 <div class="large-12  columns">
                   <div class="input-group bg-orange">
                     <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                    <input name="email" class="input-group-field" type="text" v-model.trim="credentials.email" v-validate="'required|email'" placeholder="Enter your company email" />
+                    <input name="email" id="email" class="input-group-field" type="text" v-model.trim="credentials.email" v-validate="'required|email'" placeholder="Enter your company email" />
                   </div>
                 </div>
                 <div class="large-12 large-centered columns">

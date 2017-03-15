@@ -47,7 +47,5 @@ module.exports = {
             "*@wa.com": true
         }
     }
-},
-  SUPPORT_EMAIL: '"evsandbox@wirelessanalytics.com"'
-
+}
 }

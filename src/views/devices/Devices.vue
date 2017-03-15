@@ -131,7 +131,7 @@
       -->
       <tbody>
         <template v-for="(device, index) in devices">
-          <tr @click="setActive(device)">
+          <tr @click="setActive(device)" id="open" >
             <td><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
             <td style="font-weight: bold;">{{ device.name }}</td>
             <td>{{ device.make }}</td>
@@ -217,8 +217,8 @@
 
   <!--<paginate
     :pagination="$store.state.device.pagination"
-    :prev="() => { $store.dispatch('device/prevPage') }"
-    :next="() => { $store.dispatch('device/nextPage') }"
+    :prev="prevPage"
+    :next="nextPage"
     v-show="$store.state.device.all.length > 0">
   </paginate>-->
 

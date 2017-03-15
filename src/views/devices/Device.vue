@@ -31,13 +31,13 @@
                 <div class="row">
                   <div class="large-3 small-12 columns">
                     <label>Default Price
-                      <inputValidate class="capacitys" :value="d.defaultPrice" v-model="d.defaultPrice"></inputValidate>
+                      <inputValidate id="testDefaultPrice"  class="capacitys" :value="d.defaultPrice" v-model="d.defaultPrice"></inputValidate>
                     </label>
                   </div>
                   <div class="small-12 large-3 columns">
                     <label>
                       <span class="hide-for-small">&nbsp;</span>
-                      <select v-model="d.money" >
+                      <select  id="testMoney" v-model="d.money" >
                         <option value="USD">USD</option>
                         <option value="GBP">GBP</option>
                         <option value="EUR">EUR</option>
@@ -46,7 +46,7 @@
                   </div>
                   <div class="small-12 large-6 columns">
                     <label>Device Type
-                      <select v-model="d.type">
+                      <select   id="testDeviceType"  v-model="d.type">
                         <option :value="null">Select Type</option>
                         <option v-for="devicet in deviceType.data" :value="devicet.id">{{devicet.attributes.name}}</option>
                       </select>
@@ -56,19 +56,19 @@
 
                   <div class="small-12 large-6 columns">
                     <label>Manufactured
-                      <input type="text" placeholder="" :value="d.make" v-model="d.make">
+                      <input id="testManu" type="text" placeholder="" :value="d.make" v-model="d.make">
                     </label>
                   </div>
                   <div class="small-12 large-6 columns">
                     <label>Model
-                      <input type="text" placeholder="" :value="d.model" v-model="d.model">
+                      <input type="text" id="testModel" placeholder="" :value="d.model" v-model="d.model">
                     </label>
                   </div>
                   <div class="clearfix"></div>
 
                   <div class="small-12 large-12 columns">
                     <label>Tecnical Information
-                      <textarea rows="6"  :value="d.description" v-model="d.description" ></textarea>
+                      <textarea rows="6" id="testInfo" :value="d.description" v-model="d.description" ></textarea>
                     </label>
                   </div>
                 </div>
@@ -113,7 +113,7 @@
 
               <div class="checkbox" v-for="capacitys in mCapacity">
                 <label>
-                  <input type="checkbox" id="modi" v-model="capacitys.check">
+                  <input type="checkbox" :id="'capa'+capacitys.id" v-model="capacitys.check">
                   <span class="custom-checkbox"><i class="icon-check"></i></span>
                   {{capacitys.attributes.value}}
                 </label>
@@ -123,7 +123,7 @@
               <div class="row">
                 <div class="small-6 columns">
                   <label style=" font-weight: bold;" >Color
-                    <input type="text" :value="color" v-model="color" placeholder="Custom">
+                    <input type="text" :value="color"  v-model="color" placeholder="Custom">
                   </label>
                 </div>
                 <div class="small-6 columns">
@@ -133,7 +133,7 @@
 
               <div class="checkbox" v-for="styles in mStyle">
                 <label>
-                  <input type="checkbox" id="st" v-model="styles.check">
+                  <input type="checkbox" :id="'st'+styles.id" v-model="styles.check">
                   <span class="custom-checkbox"><i class="icon-check"></i></span>
                   {{styles.attributes.value}}
                 </label>
@@ -149,7 +149,7 @@
           <div class="imagescheck">
             <div class="crop" v-for="(carrier,index) in carriers.data">
               <label class="static">
-                <input type="checkbox" @click="changeStatusCarrier('active',index)" v-model="carrier.check">
+                <input type="checkbox" :id="'cr'+carrier.id" @click="changeStatusCarrier('active',index)" v-model="carrier.check">
               </label>
             </div>
           </div>
@@ -173,7 +173,7 @@
             <div class="large-4 small-12 columns">
               <div class="checkbox" v-for="(company,index) in companies.data">
                 <label>
-                  <input type="checkbox" :id="'comp'+index" v-model="company.check">
+                  <input type="checkbox" :id="'comp'+company.id" v-model="company.check">
                   <span class="custom-checkbox"><i class="icon-check"></i></span>
                   {{company.attributes.name}}
                 </label>
