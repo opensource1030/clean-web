@@ -25,6 +25,7 @@ module.exports = {
             "user@mail.com": true,
             "*@email.com": true
         }
+
     },
     "Presets": {
         enabled: false,
