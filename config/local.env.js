@@ -13,7 +13,7 @@ module.exports = {
  },
   FEATURES: {
     "Procurements": {
-        enabled: true,
+        enabled: false,
         users: {
             "user@mail.com": true,
             "*@email.com": true

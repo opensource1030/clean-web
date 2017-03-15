@@ -119,15 +119,7 @@ export default {
       context.clickAgain = true;
     }
   },
-  // Prepare the Model
-  getTheModel(type, id, uuid, identification, email, alternateEmail, password, username, confirmation_code, remember_token, confirmed, firstName,
-    lastName, alternateFirstName, supervisorEmail, companyUserIdentifier, isSupervisor, isValidator, isActive, rgt, lft, hierarchy,
-    defaultLang, notes, level, notify, companyId, syncId, supervisorId, externalId, approverId, defaultLocationId, addressId) {
-        return new user(type, id, uuid, identification, email, alternateEmail, password, username, confirmation_code, remember_token,
-          confirmed, firstName, lastName, alternateFirstName, supervisorEmail, companyUserIdentifier, isSupervisor, isValidator,
-          isActive, rgt, lft, hierarchy, defaultLang, notes, level, notify, companyId, syncId, supervisorId, externalId, approverId,
-          defaultLocationId, addressId);
-  },
+
   loginLocal(context, creds, redirect) {
 
     if (creds.password == '' || creds.password == null) {
