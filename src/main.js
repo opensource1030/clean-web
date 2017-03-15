@@ -49,7 +49,6 @@ Vue.filter('formatBytes', function (value) {
 Vue.filter('formatCurrency', function (value, locale = "us") {
   if (value === null || value === undefined) {
     return value = '-'
-
   }
   else {
     return numeral(value).format('$0,0.00')
