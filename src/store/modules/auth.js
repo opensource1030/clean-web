@@ -427,20 +427,19 @@ profile({
         uuid: id
       }, (re) => {
               dispatch('profile',{res:re,router:router});
-
-      }, (err) => {
+      }, (er) => {
 
         commit('LOGIN_FAILURE')
-        if (err.status == 500) {
+        if (er.status == 500) {
           dispatch('error/addNew', {
             message: "Unexpected server error. Please contact the administrator."
           }, {root: true})
         } else {
           dispatch('error/addNew', {
-            message: err.body.message
+            message: er.body.message
           }, {root: true})
         }
-        reject(err)
+        reject(er)
       })
     })
   },
