@@ -41,6 +41,35 @@ const actions = {
     return new user('users', 0, '', '', credentials.email, '', credentials.password1, '', '', '', '', credentials.firstName, credentials.lastName, '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '');
 
   },
+profile({
+  dispatch,
+  commit,
+  state
+}, {res,router}) {
+  return new Promise((resolve, reject) => {
+    auth.profile({
+      token: res.data.access_token
+    }, (response) => {
+      const result = {
+        user_id: res.body.user_id,
+        token: res.body.access_token,
+        profile: response
+      }
+
+      commit('LOGIN_SUCCESS', result)
+      router.push({name: 'dashboard'});
+      resolve(result)
+    }, (error) => {
+
+      commit('LOGIN_FAILURE')
+      dispatch('error/addNew', {
+        message: "Unexpected server error. Please contact the administrator."
+      }, {root: true})
+      reject(error)
+    })
+  })
+
+},
 
   checkIfThePasswordIsStrongEnough({
     dispatch,
@@ -254,9 +283,9 @@ const actions = {
       password1: credentials.password1,
       password2: credentials.password2
     }).then(response => {
-      if (response != "") {
+      if (res != "") {
         dispatch('error/addNew', {
-          message: response
+          message: res
         }, {root: true});
       }
 
@@ -369,27 +398,7 @@ const actions = {
         email: credentials.email,
         password: credentials.password
       }, (res) => {
-
-        auth.profile({
-          token: res.data.access_token
-        }, (response) => {
-          const result = {
-            user_id: res.body.user_id,
-            token: res.body.access_token,
-            profile: response
-          }
-
-          commit('LOGIN_SUCCESS', result)
-          router.push({name: 'dashboard'});
-          resolve(result)
-        }, (error) => {
-
-          commit('LOGIN_FAILURE')
-          dispatch('error/addNew', {
-            message: "Unexpected server error. Please contact the administrator."
-          }, {root: true})
-          reject(error)
-        })
+              dispatch('profile',{res:res,router:router});
       }, (err) => {
 
         commit('LOGIN_FAILURE')
@@ -417,27 +426,8 @@ const actions = {
       auth.singleSignOn({
         uuid: id
       }, (res) => {
+              dispatch('profile',{res:res,router:router});
 
-        auth.profile({
-          token: res.data.access_token
-        }, (response) => {
-          const result = {
-            user_id: res.body.user_id,
-            token: res.body.access_token,
-            profile: response
-
-          }
-
-          commit('LOGIN_SUCCESS', result)
-          router.push({name: 'dashboard'});
-          resolve(result)
-        }, (error) => {
-          dispatch('error/addNew', {
-            message: "Unexpected server error. Please contact the administrator."
-          }, {root: true})
-          commit('LOGIN_FAILURE')
-          reject(error)
-        })
       }, (err) => {
 
         commit('LOGIN_FAILURE')
