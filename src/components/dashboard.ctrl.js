@@ -91,8 +91,6 @@ export default {
     }, (response) => {
     });
     setTimeout(supportRequest, 2500);
-
-
     analytics.identify(localStorage.userId, {
       name: JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName,
       email: JSON.parse(localStorage.getItem("userProfile")).email
