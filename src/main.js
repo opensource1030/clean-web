@@ -63,12 +63,11 @@ exports.eventHub = eventHub
 Vue.use(VeeValidate)
 const gaId = 'UA-42900219-2'
 // Install plugins
-Vue.use(VueRouter);
-Vue.use(Resource);
+
 Vue.use(VueCharts);
 
 
-Vue.use(VueAnalytics, {gaId, routes});
+Vue.use(VueAnalytics, {gaId, router});
 
 
 // start up our app
