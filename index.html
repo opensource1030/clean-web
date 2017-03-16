@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name=viewport content="width=device-width, initial-scale=1">
-  <title>CLEAN Platform&trade; | Wireless Analytics</title>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>CLEAN Platform&trade; | Wireless Analytics</title>
 </head>
 <body>
 <div class="container">
-  <div id="app"></div>
+    <div id="app"></div>
 </div>
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -18,36 +18,18 @@
 <!-- Headway Cdn end here -->
 
 
-<!-- Chameleon Integration -->
-<script type="text/javascript">
-  !function (t, n, o) {
-    var a = "chmln", c = "setup identify alias track set show on off custom help _data".split(" ");
-    n[a] || (n[a] = {}), n[a].accountToken = o, n[a].location = n.location.href.toString();
-    for (var e = 0; e < c.length; e++)!function () {
-      var t = n[a][c[e] + "_a"] = [];
-      n[a][c[e]] = function () {
-        t.push(arguments)
-      }
-    }();
-    var s = t.createElement("script");
-    s.src = "https://fast.trychameleon.com/messo/" + o + "/messo.min.js", s.async = !0, t.head.appendChild(s)
-  }(document, window, "Sqaw314P9Yy9wNJJgcwa2T7j705n3be6VzRp8yFFSRq9Jh-1Cx81f-zDCl8mWhazz2vTyx");
-</script>
-<!-- //end -->
-
 
 <!-- Teamwork Desk -->
 <script>
-  !(function(e) {
-    var basehref = "https://wirelessanalytics.teamwork.com",
-      token = "c3cfa087-8c23-4df9-9a1e-96bd2ec40518";
+    !(function(e) {
+        var basehref = "https://wirelessanalytics.teamwork.com",
+                token = "c3cfa087-8c23-4df9-9a1e-96bd2ec40518";
 
-    window.deskcontactwidget = {};
-    var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src=basehref+"/support/v1/contact/main.js?token="+token,r.parentNode.insertBefore(c,r),window.addEventListener("message",function(e){var t=e.data[0],a=e.data[1];switch(t){case"setContactFormHeight":document.getElementById("deskcontactwidgetframe").height=Math.min(a, window.window.innerHeight - 75)}},!1);
-  })(document);
+        window.deskcontactwidget = {};
+        var r=e.getElementsByTagName("script")[0],c=e.createElement("script");c.type="text/javascript",c.async=!0,c.src=basehref+"/support/v1/contact/main.js?token="+token,r.parentNode.insertBefore(c,r),window.addEventListener("message",function(e){var t=e.data[0],a=e.data[1];switch(t){case"setContactFormHeight":document.getElementById("deskcontactwidgetframe").height=Math.min(a, window.window.innerHeight - 75)}},!1);
+    })(document);
 </script>
 <!-- //end -->
-
 
 </body>
 </html>

@@ -1,9 +1,9 @@
 <template>
     <div id="app">
         <div class="off-canvas-wrapper">
-            <sidemenu v-if="$store.getters['auth/isAuthenticated']"></sidemenu>
+            <sidemenu v-if="$store.getters['auth/isAuthenticated']"> </sidemenu>
 
-            <div :class="{ 'content-right test': $store.getters['auth/isAuthenticated'] }">
+            <div :class="{ 'content-right test': $store.getters['auth/isAuthenticated'] }" >
                 <div class="expanded row">
                     <headers v-if="$store.getters['auth/isAuthenticated']" :user="$store.state.auth.profile"></headers>
                     <div class="clearfix"></div>
@@ -46,8 +46,8 @@
         },
 
         mounted () {
-            $(function () {
-                $(window).on("scroll", function () {
+            $(function() {
+                $(window).on("scroll", function() {
                     if ($(window).scrollTop() > 50) {
                         $(".top-bar-section").addClass("sticky-top");
                         $('body').addClass('sticky-header');
@@ -60,22 +60,14 @@
             });
         },
 
-        methods: {}
+        methods: {
+        }
     }
 </script>
 
 <style src="./../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
-    .multiselect__tag {
-        display: none;
-    }
-
-    .multiselect__option--selected {
-        background-color: #ff690a;
-    }
-
-    .multiselect__option--highlight {
-        background-color: #ffffff;
-        color: #35495E;
-    }
+    .multiselect__tag { display: none; }
+    .multiselect__option--selected { background-color: #ff690a; }
+    .multiselect__option--highlight { background-color: #ffffff; color: #35495E; }
 </style>

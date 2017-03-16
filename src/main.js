@@ -20,7 +20,7 @@ import App from './App.vue'
 import VeeValidate from 'vee-validate'
 import store from './store'
 import router from './router'
-import {sync} from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync'
 sync(store, router)
 
 $(document).foundation();
@@ -63,12 +63,12 @@ exports.eventHub = eventHub
 Vue.use(VeeValidate)
 const gaId = 'UA-42900219-2'
 // Install plugins
-/*Vue.use(VueRouter);*/
-/*Vue.use(Resource);*/
+Vue.use(VueRouter);
+Vue.use(Resource);
 Vue.use(VueCharts);
 
 
-Vue.use(VueAnalytics, {gaId, router});
+Vue.use(VueAnalytics, {gaId, routes});
 
 
 // start up our app
