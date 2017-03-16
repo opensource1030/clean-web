@@ -736,6 +736,7 @@ export default {
       this.packages.services = aux;
       this.packages.serviceInformationBool = false;
       this.deleteSelectedServicesFromServicesListRetrieved();
+      this.retrieveTheValuesOfTheServices();
     },
     deleteServiceSelected() {
       let aux =[];
@@ -747,22 +748,26 @@ export default {
       this.packages.services = aux;
       this.packages.serviceSelectedInformationBool = false;
       this.deleteSelectedServicesFromServicesListRetrieved();
+      this.retrieveTheValuesOfTheServices();
     },
+    retrieveTheValuesOfTheServices() {
+      this.packages.names.services.minPrice = 0;
+      this.packages.names.services.maxPrice = 0;
 
-/*
-        serviceInformation: {
-          title: '',
-          serviceitems: [],
-        },
-        serviceSelectedInformation: {
-          title: '',
-          serviceitems: []
-        },
-        */
-
-
-
-
+      for (let serv of this.packages.services) {
+        if(this.packages.names.services.minPrice == 0 && this.packages.names.services.maxPrice == 0) {
+          this.packages.names.services.minPrice = serv.cost;
+          this.packages.names.services.maxPrice = serv.cost;
+        } else {
+          if(this.packages.names.services.minPrice > serv.cost) {
+            this.packages.names.services.minPrice = serv.cost;
+          }
+          if (this.packages.names.services.maxPrice < serv.cost) {
+            this.packages.names.services.maxPrice = serv.cost;
+          }
+        }
+      }
+    },
     //------------------------------------------END SERVICES------------------------------------------------------
     //------------------------------------------END SERVICES------------------------------------------------------
     //------------------------------------------END SERVICES------------------------------------------------------

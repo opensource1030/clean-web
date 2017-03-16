@@ -54,6 +54,7 @@ export default {
       //context.packages.apps = event.apps;
 
       context.retrieveTheValuesOfTheDevices();
+      context.retrieveTheValuesOfTheServices();
       context.addOptionsToRetrievedConditions();
       this.getUserInformation(context);
     },
