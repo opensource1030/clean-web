@@ -239,7 +239,6 @@ export default {
       }
 
       let aux = this.packages.conditions[this.packages.conditions.length-1];
-
       if (aux.nameCond != '' && aux.value != '' && aux.condition != '') {
         aux.add = true;
       } else if (aux.nameCond == '' && aux.value == '' && aux.condition == '') {
@@ -384,6 +383,8 @@ export default {
       } else if (type == 'carrier') {
         return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
       } else if (type == 'service') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      } else if (type == 'address') {
         return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
       }
     },
@@ -566,23 +567,23 @@ export default {
     serviceList(){
       this.packages.servicesSwiper = [];
       for (let dv of this.packages.carrierSelected.services) {
-          let ok = true;
-          for (let dvsel of this.packages.services) {
-            if (dv.id == dvsel.id) {
-              ok = false;
-            }
-          }
-          if (ok) {
-            dv.show = false;
-            this.packages.servicesSwiper.push(dv);
+        let ok = true;
+        for (let dvsel of this.packages.services) {
+          if (dv.id == dvsel.id) {
+            ok = false;
           }
         }
-
-        for (let dv of this.packages.servicesSwiper) {
-          dv.show = true;
+        if (ok) {
+          dv.show = false;
+          this.packages.servicesSwiper.push(dv);
         }
+      }
 
-        this.packages.variablesShow.carrierSelected = true;
+      for (let dv of this.packages.servicesSwiper) {
+        dv.show = true;
+      }
+
+      this.packages.variablesShow.carrierSelected = true;
     },
     serviceInformation(service) {
       for (let serv of this.packages.servicesList) {
@@ -767,14 +768,130 @@ export default {
     //------------------------------------------END SERVICES------------------------------------------------------
     //------------------------------------------END SERVICES------------------------------------------------------
     //------------------------------------------END SERVICES------------------------------------------------------
+    //------------------------------------------START ADDRESS-----------------------------------------------------
+    //------------------------------------------START ADDRESS-----------------------------------------------------
+    //------------------------------------------START ADDRESS-----------------------------------------------------
+    //------------------------------------------START ADDRESS-----------------------------------------------------
+    //------------------------------------------START ADDRESS-----------------------------------------------------
+    goForwardAddress() {
+      if(this.packages.addressPagination.current_page < this.packages.addressPagination.total_pages && this.packages.retrieveMore) {
+        let optionAux = this.packages.addressController.option;
+        this.packages.addressController.option = 'forward';
 
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.addressController.option) {
+          packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 1);
+        } else {
+          packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 2);
+        }
+      }
+    },
+    goBackAddress() {
+      if(this.packages.addressPagination.current_page > 2 && this.packages.retrieveMore) {
+        let optionAux = this.packages.addressController.option;
+        this.packages.addressController.option = 'backward';
 
+        this.packages.retrieveMore = false;
+        if(optionAux == this.packages.addressController.option) {
+          packaging.getAddressFromCompany(this, this.packages.carrierSelected.id, this.packages.addressPagination.current_page - 1);
+        } else {
+          packaging.getAddressFromCompany(this, this.packages.carrierSelected.id, this.packages.addressPagination.current_page - 2);
+        }
+      }
+    },
+    reloadArrowsForAddressSwiper() {
+      if(this.$refs.swAddressList.swiper.isBeginning && (this.packages.addressPagination.current_page == 1 || this.packages.addressPagination.current_page == 2)) {
+        this.packages.addressController.goBackBoolean = false;
+      } else {
+        this.packages.addressController.goBackBoolean = true;
+      }
 
-
-
-
-
-
+      if(this.$refs.swAddressList.swiper.isEnd && this.packages.addressPagination.current_page == this.packages.addressPagination.total_pages) {
+        this.packages.addressController.goForwardBoolean = false;
+      } else {
+        this.packages.addressController.goForwardBoolean = true;
+      }
+    },
+    addressSelectedInformation(address) {
+      for (let add of this.packages.address) {
+        add.selected = false;
+        if(add.id == address.id) {
+          add.selected = true;
+        }
+      }
+      this.packages.addressSelectedInformationBool = true;
+      this.packages.addressSelectedInformation = address;
+    },
+    addressSelSelectedInformation(address) {
+      for (let add of this.packages.addressSelected) {
+        add.selected = false;
+        if(add.id == address.id) {
+          add.selected = true;
+        }
+      }
+      this.packages.addressSelSelectedInformationBool = true;
+      this.packages.addressSelSelectedInformation = address;
+    },
+    addAddressToSelected() {
+      this.packages.address = this.deleteElementFromArrayWithId(this.packages.addressSelectedInformation, this.packages.address);
+      this.packages.addressSelected = this.addElementToArrayWithId(this.packages.addressSelectedInformation, this.packages.addressSelected);
+      this.packages.addressSelSelectedInformation = this.packages.addressSelectedInformation;
+      this.packages.addressSelectedInformationBool = false;
+      this.packages.addressSelSelectedInformationBool = true;
+    },
+    deleteAddressFromSelected() {
+      this.packages.addressSelected = this.deleteElementFromArrayWithId(this.packages.addressSelSelectedInformation, this.packages.addressSelected);
+      this.packages.address = this.addElementToArrayWithId(this.packages.addressSelSelectedInformation, this.packages.address);
+      this.packages.addressSelectedInformation = this.packages.addressSelSelectedInformation;
+      this.packages.addressSelectedInformationBool = true;
+      this.packages.addressSelSelectedInformationBool = false;
+    },
+    //------------------------------------------END ADDRESS-----------------------------------------------------
+    //------------------------------------------END ADDRESS-----------------------------------------------------
+    //------------------------------------------END ADDRESS-----------------------------------------------------
+    //------------------------------------------END ADDRESS-----------------------------------------------------
+    //------------------------------------------END ADDRESS-----------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    deleteElementFromArrayWithId(element, array) {
+      let del = [];
+      if (array.length > 0) {
+        for (let d of array) {
+          if (d.id != element.id) {
+            del.push(d);
+          }
+        }
+      }
+      return this.changeSelectedToFalseExceptOne(element, del);
+    },
+    addElementToArrayWithId(element, array) {
+      let add = [];
+      add.push(element);
+      if (array.length > 0) {
+        for (let a of array) {
+          add.push(a);
+        }
+      }
+      return this.changeSelectedToFalseExceptOne(element, add);
+    },
+    changeSelectedToFalseExceptOne(element, array) {
+      for (let a of array) {
+        if (a.id == element.id) {
+          a.selected = true;
+        } else {
+          a.selected = false;
+        }
+      }
+      return array;
+    },
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
 
 
     showFalse() {
@@ -797,7 +914,6 @@ export default {
         name: '',
         nameError: false,
         type: 'packages',
-        addressId: 0,
         companyId: 0,
         values : {
           usersConditions: 0,
@@ -833,8 +949,8 @@ export default {
             carriersAvailable: 'Carriers Available',
             servicesAvailable: 'Services Available From ',
             servicesSelected: 'Services Selected',
-            minPrice: '28.10',
-            maxPrice: '35.10',
+            minPrice: 0,
+            maxPrice: 0,
           },
           devices:  {
             title: 'DEVICES',
@@ -843,6 +959,11 @@ export default {
             devicesSelected: 'Devices Selected',
             minPrice: 0,
             maxPrice: 0,
+          },
+          address: {
+            title: 'ADDRESS',
+            available: 'Address Available',
+            selected: 'Address Selected',
           },
           errors: {
             textError: 'Internal Server Error, Please Contact the Administrator!'
@@ -893,6 +1014,9 @@ export default {
         {
           id: 0,
           type: 'conditions',
+          nameCond: '',
+          value: '',
+          condition: '',
           conditionsConditionsOptions: [],
           conditionsValuesOptions: [],
           add: false,
@@ -970,6 +1094,26 @@ export default {
           url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
         }
         ],
+        address: [],
+        addressList: [],
+        addressSelected: {},
+        addressController: {
+          goForwardBoolean: true,
+          goBackBoolean: false,
+          current_value: 1,
+          option: 'forward',
+        },
+        addressPagination: {
+          count: 25,
+          current_page: 1,
+          per_page: 25,
+          total: 1,
+          total_pages: 1,
+        },
+        addressSelectedInformation: {},
+        serviceSelectedInformationBool: false,
+        addressSelSelectedInformation: {},
+        serviceSelSelectedInformationBool: false,
       },
       allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
       allConditionsForBoolean: ['equal'],
@@ -1121,7 +1265,27 @@ export default {
             slidesPerView: 1,
           }
         }
-      }
+      },
+      swiperOptionAddress: {
+        prevButton:'.swiper-button-prev',
+        nextButton:'.swiper-button-next',
+        slidesPerView: 5,
+        spaceBetween: 10,
+        breakpoints: {
+          1024: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 1,
+          }
+        },
+        onReachEnd: this.goForwardAddress,
+        onReachBeginning: this.goBackAddress,
+        onSlideChangeStart: this.reloadArrowsForAddresssSwiper,
+      },
     }
   }
 }

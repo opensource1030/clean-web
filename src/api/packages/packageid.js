@@ -10,18 +10,19 @@ export default {
   // GET USER INFORMATION.
   getUserInformation(context) {
 
-    let params = {
-      params: {
-
-      }
-    };
+    let params = { params: { } };
 
     context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
-
       event = store.sync(response.data);
-      context.packages.companyId = event.companyId
-
+      context.packages.companyId = event.companyId;
+      // CONDITIONS
       this.getUdlsFromCompanies(context, context.packages.companyId);
+      // PRESETS -> DEVICEVARIATIONS
+      this.getPresets(context, context.packages.companyId, 1);
+      // ĈARRIERS -> SERVICES
+      this.getCarriers(context, context.packages.companyId, 1);
+      // ADDRESS
+      this.getAddressFromCompany(context, context.packages.companyId, 1);
     },
     (response) => {
       if(response.status == 500) {
@@ -44,15 +45,17 @@ export default {
       context.packages.id = id;
       context.packages.name = event.name;
       context.packages.type = event.type;
-      //context.packages.addressId = event.addressId;
       context.packages.companyId = event.companyId;
-      //context.packages.apps = event.apps;
+
       context.packages.conditions = event.conditions;
       context.packages.devicevariations = event.devicevariations;
-      context.retrieveTheValuesOfTheDevices();
       context.packages.services = event.services;
-      this.getUdlsFromCompanies(context, context.packages.companyId);
+      context.packages.addressSelected = event.address;
+      //context.packages.apps = event.apps;
+
+      context.retrieveTheValuesOfTheDevices();
       context.addOptionsToRetrievedConditions();
+      this.getUserInformation(context);
     },
     (response) => {
       if(response.status == 500) {
@@ -63,7 +66,6 @@ export default {
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
   getUdlsFromCompanies(context, companyId) {
-
     let params = {
       params: {
         include: 'udls,devicevariations,devicevariations.images,devicevariations.devices'
@@ -73,8 +75,6 @@ export default {
     context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
       context.packages.companies = store.sync(response.data);
       context.addConditionsOptions();
-      this.getPresets(context, companyId, 1);
-      this.getCarriers(context, companyId, 1);
     },
     (response) => {});
   },
@@ -147,63 +147,110 @@ export default {
     },
     (response) => {});
   },
+  // GET UDLS FROM THE COMPANY OF THE USER.
+  getAddressFromCompany(context, companyId, pages) {
+
+    let params = {
+      params: {
+        include: 'address',
+        page: pages,
+      }
+    };
+
+    context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
+      let event = store.sync(response.data);
+      context.packages.addressList = event.address;
+      let aux = [];
+
+      if (context.packages.addressSelected.length > 0) {
+        for (let eva of context.packages.addressList) {
+          let ok = true;
+          for (let addsel of context.packages.addressSelected) {
+            if (eva.id == addsel.id) {
+              ok = false;
+            }
+          }
+          if (ok) {
+            aux.push(eva);
+          }
+        }
+        context.packages.address = aux;
+      } else {
+        context.packages.address = context.packages.addressList;
+      }
+    },
+    (response) => {});
+  },
   // CREATE packages.
   createThePackages(context) {
-
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
-
-    let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
-            context.packages.companyId, conditions, [], [], []);
+    let pack = this.prepareTheModel(context);
 
     context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
-      //context.$router.push({name: 'packages'});
+      context.$router.push({name: 'packages'});
     }, (response) => {});
   },
   // UPDATE packages
   updateThePackages(context) {
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
-
-    let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
-            context.packages.companyId, conditions, [], [], []);
+    let pack = this.prepareTheModel(context);
 
     context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
-            //context.$router.push({name: 'packages'});
-          }, (response) => { });
+      context.$router.push({name: 'packages'});
+    }, (response) => { });
   },
   // Prepare the Model
-  getTheModel(id, type, name, addressId, companyId, conditions, apps, devicevariations, services) {
+  prepareTheModel(context) {
+    let conditions = this.prepareConditionsForSend(context.packages.conditions);
+    let devicevariations = this.prepareIdsForSend(context.packages.devicevariations, 'devicevariations');
+    let services = this.prepareIdsForSend(context.packages.services, 'services');
+    let address = this.prepareIdsForSend(context.packages.addressSelected, 'address');
+
     return new packageid(
-      id,
-      type,
-      name,
-      addressId,
-      companyId,
+      context.packages.id,
+      'packages',
+      context.packages.name,
+      context.packages.companyId,
       conditions,
-      apps,
+      [], // apps
       devicevariations,
-      services
+      services,
+      address
     );
   },
   // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
   prepareConditionsForSend(conditions) {
     let conditionsFinal = [];
-    if(conditions[0].name != '') {
+    if (conditions.length > 0) {
       for (let cond of conditions) {
-        let aux = {
-          id: cond.id,
-          type: 'conditions',
-          nameCond: cond.nameCond,
-          condition: cond.condition,
-          value: cond.value,
-          inputType: cond.inputType
-        };
-        conditionsFinal.push(aux);
+        if (cond.nameCond != '' && cond.condition != '' && cond.value != '') {
+          let aux = {
+            id: cond.id,
+            type: 'conditions',
+            nameCond: cond.nameCond,
+            condition: cond.condition,
+            value: cond.value,
+            inputType: cond.inputType
+          };
+          conditionsFinal.push(aux);
+        }
       }
     }
-
     return conditionsFinal;
+  },
+  // PREPARE THE IDS FOR THE SEND REQUEST.
+  prepareIdsForSend(array, ty) {
+    let arrayFinal = [];
+    if (array.length > 0) {
+      for (let a of array) {
+        let aux = {
+          id: a.id,
+          type: ty
+        };
+        arrayFinal.push(aux);
+      }
+    }
+    return arrayFinal;
   },
   loadContent(context) {
     context.loadedContent = true;

@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div class="row">
-      <div id="package">
-        <div class="header">
-          <div class="large-12 columns titles">
-            <h4>{{packages.names.managePackage}}</h4>
-          </div>
+    <div id="package" class="row">
+      <div class="header">
+        <div class="titles">
+          <h4>{{packages.names.managePackage}}</h4>
         </div>
       </div>
       <div class="expanded row">
@@ -51,7 +49,7 @@
             <div class="large-12 columns">
               <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
                 <!--CONDITIONS-->
-                <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
@@ -105,7 +103,7 @@
                 </li>
                 <!-- //CONDITIONS -->
                 <!-- DEVICES -->
-                <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
@@ -117,7 +115,7 @@
                   <div class="accordion-content" data-tab-content v-f-accordion>
                     <!-- PRESETS -->
                     <div>
-                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.presetsAvailable}}</div>
+                      <div class="titlesZones">{{packages.names.devices.presetsAvailable}}</div>
                       <div class="noinformation" v-show="packages.presets.length == 0">
                         <swiper :options="swiperOptionPreset">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -141,8 +139,7 @@
                     <!-- //PRESETS -->
                     <!-- DEVICE VARIATIONS AVAILABLE-->
                     <div v-show="packages.presetSelected.name != ''">
-                      <hr size="10">
-                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
+                      <div class="titlesZones">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
                       <div class="noinformation" v-show="packages.devicevariationsList.length == 0">
                         <swiper :options="swiperOptionA">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -168,8 +165,7 @@
                     <!-- //DEVICE VARIATIONS AVAILABLE -->
                     <!-- DEVICE VARIATIONS SELECTED -->
                     <div v-show="packages.presetSelected.name != '' || packages.devicevariations.length > 0">
-                      <hr size="10">
-                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.devices.devicesSelected}}</div>
+                      <div class="titlesZones">{{packages.names.devices.devicesSelected}}</div>
                       <div class="noinformation" v-show="packages.devicevariations.length == 0">
                         <swiper :options="swiperOptionA">
                           <swiper-slide v-for="no in packages.noinformation">
@@ -204,7 +200,7 @@
                 </li>
                 <!-- //DEVICES -->
                 <!-- SERVICES -->
-                <li class="acordeon-item" data-accordion-item  v-f-accordion>
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
@@ -213,21 +209,22 @@
                       </tr>
                     </table>
                   </a>
-                  <div class="large-12 columns accordion-content" data-tab-content v-f-accordion>
+                  <div class="accordion-content" data-tab-content v-f-accordion>
                     <!-- CARRIERS -->
-                    <div class="large-12 columns">
-                      <div class="large-12 columns titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.services.carriersAvailable}}</div>
-                      <div class="large-12 columns noinformation" v-show="packages.carriers.length == 0">
+                    <div>
+                      <div class="titlesZones">{{packages.names.services.carriersAvailable}}</div>
+                      <div class="noinformation" v-show="packages.carriers.length == 0">
                         <swiper :options="swiperOptionCarrier">
                           <swiper-slide v-for="no in packages.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div class="large-12 columns" v-show="packages.carriers.length > 0">
+                      <div v-show="packages.carriers.length > 0">
                         <swiper :options="swiperOptionCarrier" ref="swCarrier">
                           <swiper-slide v-for="(carrier,index) in packages.carriers">
                             <div :class="{ 'carrierimage' : carrier.id === packages.carrierSelected.id}" @click="carrierSelected(carrier)">
+                              <div class="absolute">{{carrier.presentation}}</div>
                               <img :src="getUrlOfImage(carrier, 'carrier')" alt="" />
                             </div>
                           </swiper-slide>
@@ -237,21 +234,20 @@
                       </div>
                     </div>
                     <!-- //CARRIERS -->
-                    <hr size="10">
                     <!-- SERVICES -->
-                    <div class="large-12 columns" v-show="packages.variablesShow.carrierSelected">
-                      <div class="large-12 columns titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">
+                    <div v-show="packages.variablesShow.carrierSelected">
+                      <div class="titlesZones">
                         {{packages.names.services.servicesAvailable}} {{packages.carrierSelected.presentation}}
                       </div>
-                      <div class="large-12 columns noinformation" v-show="packages.servicesList.length == 0">
+                      <div class="noinformation" v-show="packages.servicesList.length == 0">
                         <swiper :options="swiperOption">
                           <swiper-slide v-for="no in packages.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div class="large-12 columns">
-                        <swiper v-show="packages.servicesList.length > 0" :options="swiperOptionServiceList" ref="swServicesList">
+                      <div v-show="packages.servicesList.length > 0">
+                        <swiper :options="swiperOptionServiceList" ref="swServicesList">
                           <swiper-slide v-for="(service, index) in packages.servicesList">
                             <transition name="list">
                               <div class="presetimage list-item" :key="service" @click="serviceInformation(service)">
@@ -345,8 +341,7 @@
                     <!-- //SERVICES -->
                     <!-- SERVICES SELECTED -->
                     <div v-show="packages.carrierSelected.name != '' || packages.services.length > 0">
-                      <hr size="10">
-                      <div class="titlesZones" style="font-weight: bold; text-align: center; font-size: 2rem;">{{packages.names.services.servicesSelected}}</div>
+                      <div class="titlesZones">{{packages.names.services.servicesSelected}}</div>
                       <div class="large-10 colunns" v-show="packages.serviceSelectedInformationBool">
                         <div class="large-12 columns">
                           <table>
@@ -435,9 +430,9 @@
                         <swiper v-show="packages.services.length > 0" :options="swiperOptionServiceSel" ref="swServicesSel">
                           <swiper-slide v-for="(service, index) in packages.services">
                             <transition name="list">
-                              <div class="presetimage list-item" style="position: relative; width: 100%;"  :key="service" @click="serviceSelectedInformation(service)">
-                                <img :src="getUrlOfImageSelected(service)" alt="" />
-                                <div class="servicetext" style="text-align: center; position: absolute; top: 10%; left: 10%; width: 80%;">
+                              <div class="presetimage list-item" :key="service" @click="serviceSelectedInformation(service)">
+                                <img :src="getUrlOfImageSelected(service)" alt=""  />
+                                <div class="servicetext">
                                   {{service.title}} <br> {{service.cost}} {{service.currency}}
                                 </div>
                               </div>
@@ -448,13 +443,92 @@
                         </swiper>
                       </div>
                     </div>
-                    <!-- //SERVICES SELECTED -->
+                  <!-- //SERVICES SELECTED -->
                   </div>
                 </li>
                 <!-- //SERVICES -->
+                <!-- ADDRESS -->
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
+                  <a href="#" class="accordion-title" @click="showFalse()">
+                    <table class="textbold">
+                      <tr>
+                        <td>{{packages.names.address.title}}</td>
+                      </tr>
+                    </table>
+                  </a>
+                  <div class="accordion-content" data-tab-content v-f-accordion>
+                    <div>
+                      <div class="titlesZones">{{packages.names.address.available}}</div>
+                      <div class="noinformation" v-show="packages.address.length == 0">
+                        <swiper :options="swiperOptionAddress">
+                          <swiper-slide v-for="no in packages.noinformation">
+                            <img :src="no.url" alt="Image" />
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div v-show="packages.address.length > 0">
+                        <swiper :options="swiperOptionAddress" ref="swAddress">
+                          <swiper-slide v-for="(add,index) in packages.address">
+                            <div class="presetimage list-item" :key="address" @click="addressSelectedInformation(add)">
+                              <img :src="getUrlOfImageSelected(add)" alt=""  />
+                              <div class="addresstext">
+                                {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
+                              </div>
+                            </div>
+                          </swiper-slide>
+                          <div v-show="packages.addressController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="packages.addressController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                        </swiper>
+                      </div>
+                    </div>
+                    <div class="large-6 columns" style="padding-top: 20px;" v-show="packages.addressSelectedInformationBool">
+                      <div class="textbold">{{packages.addressSelectedInformation.name}}</div>
+                      {{packages.addressSelectedInformation.attn}} <br>
+                      {{packages.addressSelectedInformation.address}} <br>
+                      {{packages.addressSelectedInformation.city}} - {{packages.addressSelectedInformation.state}} <br>({{packages.addressSelectedInformation.postalCode}} - {{packages.addressSelectedInformation.country}})<br>
+                      Phone: {{packages.addressSelectedInformation.phone}} <br>
+                      <div class="large-2 end small-4 columns" @click="addAddressToSelected()">
+                        <a class="button" style="border-radius: 10px; padding: 19%;">
+                          <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="large-6 columns" style="padding-top: 20px;" v-show="packages.addressSelSelectedInformationBool">
+                      <div class="textbold">{{packages.addressSelSelectedInformation.name}}</div>
+                      {{packages.addressSelSelectedInformation.attn}} <br>
+                      {{packages.addressSelSelectedInformation.address}} <br>
+                      {{packages.addressSelSelectedInformation.city}} - {{packages.addressSelSelectedInformation.state}} <br>({{packages.addressSelSelectedInformation.postalCode}} - {{packages.addressSelSelectedInformation.country}})<br>
+                      Phone: {{packages.addressSelSelectedInformation.phone}} <br>
+                      <div class="large-2 end small-4 columns" @click="deleteAddressFromSelected()">
+                        <a class="button" style="border-radius: 10px; padding: 19%;">
+                          <i class="fa fa-times fa-2x"></i>
+                        </a>
+                      </div>
+                    </div>
+                    <div v-show="packages.addressSelected.length > 0" class="large-12 columns">
+                      <div class="titlesZones">{{packages.names.address.selected}}</div>
+                      <div>
+                        <swiper :options="swiperOptionAddress" ref="swAddress">
+                          <swiper-slide v-for="(add,index) in packages.addressSelected">
+                            <div class="presetimage list-item" :key="address" @click="addressSelSelectedInformation(add)">
+                              <img :src="getUrlOfImageSelected(add)" alt=""  />
+                              <div class="addresstext">
+                                {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
+                              </div>
+                            </div>
+                          </swiper-slide>
+                          <div v-show="packages.addressController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="packages.addressController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                        </swiper>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- //ADDRESS -->
               </ul>
-              <a class="button large" @click="submit()" id="button">{{packages.names.saveButton}}</a>
             </div>
+            <div v-show="errors.generalError " class="error-message">{{errors.generalMessage}}</div>
+            <a class="button large" @click="submit()" id="button">{{packages.names.saveButton}}</a>
           </div>
         </div>
       </div>
