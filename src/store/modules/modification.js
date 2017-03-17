@@ -40,6 +40,17 @@ const actions = {
       })
     })
   },
+
+  create({ commit }, record) {
+    return new Promise((resolve, reject) => {
+      modificationAPI.create(record, (res) => {
+        let record = store.sync(res.data)
+        // console.log('create modification', record)
+        commit(types.MODIFICATION_CREATE, record)
+        resolve(record)
+      }, err => reject(err))
+    })
+  }
 }
 
 // mutations
@@ -47,6 +58,10 @@ const mutations = {
   [types.MODIFICATION_GET_ALL] (state, { records }) {
     state.all = records
   },
+
+  [types.MODIFICATION_CREATE] (state, record) {
+    state.all.push(record)
+  }
 }
 
 export default {

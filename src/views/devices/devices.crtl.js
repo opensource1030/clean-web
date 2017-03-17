@@ -81,7 +81,7 @@ export default {
       this.$store.dispatch('device/prevPage')
     },
     nextPage(){
-          this.$store.dispatch('device/nextPage')
+      this.$store.dispatch('device/nextPage')
     },
 
     filterByModificationsd,

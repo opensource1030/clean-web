@@ -19,5 +19,10 @@ export const DEVICE_ADD_FILTER = 'ADD_FILTER'
 export const DEVICE_REMOVE_FILTER = 'REMOVE_FILTER'
 
 export const MODIFICATION_GET_ALL = 'GET_ALL'
+export const MODIFICATION_CREATE = 'CREATE'
 
 export const CARRIER_GET_ALL = 'GET_ALL'
+
+export const DEVICE_TYPE_GET_ALL = 'GET_ALL'
+
+export const COMPANY_GET_ALL = 'GET_ALL'

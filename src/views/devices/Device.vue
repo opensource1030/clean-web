@@ -1,16 +1,16 @@
 <template>
-<div id="device" v-show="render">
+<div id="device" v-if="!!device">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
   <div class="small-12 columns titles">
-    <h4>Manage Devices</h4>
+    <h4>Manage Device</h4>
   </div>
 
   <div class="medium-6 columns">
     <label class="devicename">Device Name
-      <input type="text" placeholder="" :value="d.name" v-model="d.name">
+      <input type="text" placeholder="" v-model.trim="device.name">
     </label>
   </div>
 
@@ -18,26 +18,26 @@
     <ul class="acordeon" data-accordion data-allow-all-closed="true">
 
       <li class="acordeon-item is-active" data-accordion-item>
-        <a href="#" class="accordion-title" @click="showFalse()">Device Overview</a>
+        <a href="#" class="accordion-title">Device Overview</a>
         <div class="accordion-content overview" data-tab-content>
           <div class="column row">
             <div class="row">
               <div class="small-12 large-2 columns">
-                <img class="phoneImg" :src="image.url" alt="Photo Devices"/>
+                <img class="phoneImg" :src="getImageUrl(device.images[0].id)" alt="Photo Devices"/>
                 <label for="FileUpload" class="button large">Upload File</label>
-                <input type="file" id="FileUpload" @change="onFileChange" class="show-for-sr">
+                <input type="file" id="FileUpload" @change="onDeviceImageChange" class="show-for-sr">
               </div>
               <div class="small-12 large-10 columns">
                 <div class="row">
                   <div class="large-3 small-12 columns">
                     <label>Default Price
-                      <inputValidate id="testDefaultPrice"  class="capacitys" :value="d.defaultPrice" v-model="d.defaultPrice"></inputValidate>
+                      <inputValidate id="testDefaultPrice" class="capacitys" v-model="device.defaultPrice"></inputValidate>
                     </label>
                   </div>
                   <div class="small-12 large-3 columns">
                     <label>
                       <span class="hide-for-small">&nbsp;</span>
-                      <select  id="testMoney" v-model="d.money" >
+                      <select id="testMoney" v-model="device.currency">
                         <option value="USD">USD</option>
                         <option value="GBP">GBP</option>
                         <option value="EUR">EUR</option>
@@ -46,9 +46,10 @@
                   </div>
                   <div class="small-12 large-6 columns">
                     <label>Device Type
-                      <select   id="testDeviceType"  v-model="d.type">
-                        <option :value="null">Select Type</option>
-                        <option v-for="devicet in deviceType.data" :value="devicet.id">{{devicet.attributes.name}}</option>
+                      <!-- <select id="testDeviceType" v-model="device.devicetypes[0].id"> -->
+                      <select id="testDeviceType" v-model="device.devicetypes[0]">
+                        <option :value="getDefaultValue('devicetypes')">Select Type</option>
+                        <option v-for="dt in deviceTypes" :value="dt">{{ dt.name }}</option>
                       </select>
                     </label>
                   </div>
@@ -56,19 +57,19 @@
 
                   <div class="small-12 large-6 columns">
                     <label>Manufactured
-                      <input id="testManu" type="text" placeholder="" :value="d.make" v-model="d.make">
+                      <input id="testManu" type="text" placeholder="" v-model="device.make">
                     </label>
                   </div>
                   <div class="small-12 large-6 columns">
                     <label>Model
-                      <input type="text" id="testModel" placeholder="" :value="d.model" v-model="d.model">
+                      <input type="text" id="testModel" placeholder="" v-model="device.model">
                     </label>
                   </div>
                   <div class="clearfix"></div>
 
                   <div class="small-12 large-12 columns">
                     <label>Tecnical Information
-                      <textarea rows="6" id="testInfo" :value="d.description" v-model="d.description" ></textarea>
+                      <textarea rows="6" id="testInfo" v-model="device.properties"></textarea>
                     </label>
                   </div>
                 </div>
@@ -79,63 +80,54 @@
       </li>
 
       <li class="acordeon-item" data-accordion-item>
-        <a href="#" class="accordion-title" @click="showFalse()">Atributes</a>
-        <div class="accordion-content  modifications"  data-tab-content>
+        <a href="#" class="accordion-title">Atributes</a>
+        <div class="accordion-content modifications" data-tab-content>
           <div class="row">
-            <!--
-            <div v-if="error" v-show="error">
-              <div class="is-error callout" data-closable>
-                <div class="container">
-                  <h5>{{error}}</h5>
-                </div>
-              </div>
-            </div>
-            -->
-
             <div class="large-4 small-12 columns">
               <div class="row">
                 <div class="small-6 columns">
-                  <label style=" font-weight: bold;" >Capacity
-                    <inputValidate class="capacitys" placeholder="Custom" v-model="gigas"></inputValidate>
+                  <label style="font-weight: bold;">Capacity
+                    <inputValidate class="capacitys" placeholder="Custom" v-model="capacity"></inputValidate>
                   </label>
                 </div>
                 <div class="small-4 columns money">
-                  <select v-model="units" >
+                  <select v-model="unit">
                     <option value="Tb">TB</option>
                     <option value="Gb">GB</option>
                     <option value="Mb">MB</option>
                   </select>
                 </div>
                 <div class="small-2 columns end">
-                  <a @click="capacit()"class="button tiny">Add</a>
+                  <a @click="addCapacity()"class="button tiny">Add</a>
                 </div>
               </div>
 
-              <div class="checkbox" v-for="capacitys in mCapacity">
+              <div class="checkbox" v-for="c in capacities">
                 <label>
-                  <input type="checkbox" :id="'capa'+capacitys.id" v-model="capacitys.check">
-                  <span class="custom-checkbox"><i class="icon-check"></i></span>
-                  {{capacitys.attributes.value}}
+                  <input type="checkbox" name="capacities" v-model="c.checked">
+                  <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
+                  {{ c.value }}
                 </label>
               </div>
             </div>
+
             <div class="large-4 small-12 columns end">
               <div class="row">
                 <div class="small-6 columns">
-                  <label style=" font-weight: bold;" >Color
-                    <input type="text" :value="color"  v-model="color" placeholder="Custom">
+                  <label style=" font-weight: bold;">Color
+                    <input type="text" v-model="style" placeholder="Custom">
                   </label>
                 </div>
                 <div class="small-6 columns">
-                  <a @click="colors()" class="button tiny">Add</a>
+                  <a @click="addStyle()" class="button tiny">Add</a>
                 </div>
               </div>
 
-              <div class="checkbox" v-for="styles in mStyle">
+              <div class="checkbox" v-for="s in styles">
                 <label>
-                  <input type="checkbox" :id="'st'+styles.id" v-model="styles.check">
-                  <span class="custom-checkbox"><i class="icon-check"></i></span>
-                  {{styles.attributes.value}}
+                  <input type="checkbox" name="styles" v-model="s.checked">
+                  <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
+                  {{ s.value }}
                 </label>
               </div>
             </div>
@@ -144,12 +136,13 @@
       </li>
 
       <li class="acordeon-item" data-accordion-item>
-        <a href="#" class="accordion-title" @click="showFalse()">Vendors</a>
+        <a href="#" class="accordion-title">Vendors</a>
         <div class="accordion-content carriers" data-tab-content>
           <div class="imagescheck">
-            <div class="crop" v-for="(carrier,index) in carriers.data">
-              <label class="static">
-                <input type="checkbox" :id="'cr'+carrier.id" @click="changeStatusCarrier('active',index)" v-model="carrier.check">
+            <div class="crop" v-for="c in carriers">
+              <input type="checkbox" :id="'carrier-' + c.id" name="carriers" v-model="c.checked">
+              <label :for="'carrier-' + c.id" class="static">
+                {{ c.presentation }}
               </label>
             </div>
           </div>
@@ -157,7 +150,7 @@
       </li>
 
       <li class="acordeon-item" data-accordion-item>
-        <a href="#" class="accordion-title" @click="showFalse()">Companies</a>
+        <a href="#" class="accordion-title">Companies</a>
         <div class="accordion-content companies" data-tab-content>
           <div class="row">
             <div class="large-6 small-12 columns find">
@@ -171,11 +164,11 @@
           </div>
           <div class="row">
             <div class="large-4 small-12 columns">
-              <div class="checkbox" v-for="(company,index) in companies.data">
+              <div class="checkbox" v-for="c in companies">
                 <label>
-                  <input type="checkbox" :id="'comp'+company.id" v-model="company.check">
+                  <input type="checkbox" v-model="c.checked">
                   <span class="custom-checkbox"><i class="icon-check"></i></span>
-                  {{company.attributes.name}}
+                  {{ c.name }}
                 </label>
               </div>
             </div>
@@ -184,113 +177,114 @@
       </li>
 
       <li class="acordeon-item prices" data-accordion-item>
-        <a href="#" class="accordion-title" @click="toggle()">Prices</a>
-        <div class="hide-for-small-only hide-for-medium-only  filterprices" v-show="show">
-          <select class="form-control" v-model="filter.capacity" >
+        <a href="#" class="accordion-title">Prices</a>
+        <div class="hide-for-small-only hide-for-medium-only filterprices">
+          <select class="form-control" v-model="filter.capacity">
             <option :value="null">Capacity</option>
-            <option v-for="capacity in vCapacity" :value="capacity">{{capacity.attributes.value}}</option>
+            <option v-for="c in _.filter(capacities, { 'checked': true })" :value="c">{{ c.value }}</option>
           </select>
           <select class="form-control" v-model="filter.style">
-            <option :value="null" >Color</option>
-            <option value="" v-for="style in vStyles" :value="style">{{style.attributes.value}}</option>
+            <option :value="null">Color</option>
+            <option v-for="s in _.filter(styles, { 'checked': true })" :value="s">{{ s.value }}</option>
           </select>
           <select class="form-control" v-model="filter.carrier" >
             <option :value="null">Vendor</option>
-            <option value="" v-for="carrier in vCarriers" :value="carrier">{{carrier.presentation}}</option>
+            <option value="" v-for="c in _.filter(carriers, { 'checked': true })" :value="c">{{ c.presentation }}</option>
           </select>
           <select class="form-control"  v-model="filter.company">
-            <option :value="null" >Company</option>
-            <option v-for="company in vCompanies" :value="company">{{company.attributes.name}}</option>
+            <option :value="null">Company</option>
+            <option v-for="c in _.filter(companies, { 'checked': true })" :value="c">{{ c.name }}</option>
           </select>
         </div>
         <div class="accordion-content" data-tab-content>
-          <div class="column row" v-for="(p,index) in findByPrices(priceTable,filter)" :style="{ backgroundColor: color }">
+          <div class="column row" v-for="(dv, index) in device.devicevariations" :style="{ backgroundColor: color }">
             <div class="row">
               <div class="small-12 large-2 columns">
-                <img class="phoneImg"  :src="p.imageVariations.url" alt="Photo Devices" />
-                <input type="file" :id="'FileUpload'+index" @change="onFileChanges($event,index)"  class="show-for-sr">
+                <img class="phoneImg" :src="getImageUrl(dv.images[0].id)" alt="Photo Devices" />
+                <input type="file" :id="'FileUpload' + index" @change="onPriceImageChange($event, dv)" class="show-for-sr">
               </div>
               <div class="small-12 large-10 columns">
                 <div class="row">
                   <div class="large-3 small-12 columns">
                     <label>Retail Price
                       <div class="input-group">
-                        <span class="input-group-label">{{money}}</span>
-                        <inputValidate class="input-group-field" v-model="p.priceRetail"></inputValidate>
+                        <span class="input-group-label">{{ currency }}</span>
+                        <inputValidate class="input-group-field" v-model="dv.priceRetail"></inputValidate>
                       </div>
                     </label>
                   </div>
                   <div class="large-3 small-12 columns">
                     <label>Price One
                       <div class="input-group">
-                        <span class="input-group-label">{{money}}</span>
-                        <inputValidate class="input-group-field" v-model="p.price1"></inputValidate>
+                        <span class="input-group-label">{{ currency }}</span>
+                        <inputValidate class="input-group-field" v-model="dv.price1"></inputValidate>
                       </div>
                     </label>
                   </div>
                   <div class="large-3 small-12 columns">
                     <label>Price Two
                       <div class="input-group">
-                        <span class="input-group-label">{{money}}</span>
-                        <inputValidate class="input-group-field" v-model="p.price2"></inputValidate>
+                        <span class="input-group-label">{{ currency }}</span>
+                        <inputValidate class="input-group-field" v-model="dv.price2"></inputValidate>
                       </div>
                     </label>
                   </div>
                   <div class="large-3 small-12 columns">
                     <label>Price Own
                       <div class="input-group">
-                        <span class="input-group-label">{{money}}</span>
-                        <inputValidate class="input-group-field" v-model="p.priceOwn"></inputValidate>
+                        <span class="input-group-label">{{ currency }}</span>
+                        <inputValidate class="input-group-field" v-model="dv.priceOwn"></inputValidate>
                       </div>
                     </label>
                   </div>
                   <div class="clearfix"></div>
+
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="p.capacity">
+                      <select v-model="dv.modifications[0]">
                         <option :value="null">Select Capacity</option>
-                        <option v-for="c in p.capacitys" :value="c.id">{{c.attributes.value}}</option>
+                        <option v-for="c in _.chain(capacities).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="c">{{ c.value }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="p.style">
-                        <option :value="null" >Select Color</option>
-                        <option v-for="s in p.styles" :value="s.id">{{s.attributes.value}}</option>
+                      <select v-model="dv.modifications[1]">
+                        <option :value="null">Select Color</option>
+                        <option v-for="s in _.chain(styles).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="s">{{ s.value }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="p.carrierId">
-                        <option :value="null" >Select Vendors</option>
-                        <option v-for="c in p.carriers" :value="c.id">{{c.presentation}}</option>
+                      <select v-model="dv.carrierId">
+                        <option :value="null">Select Vendors</option>
+                        <option v-for="c in _.filter(carriers, { 'checked': true })" :value="c.id">{{ c.presentation }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="p.companyId">
+                      <select v-model="dv.companyId">
                         <option :value="null">Select Companies</option>
-                        <option v-for="co in p.companys" :value="co.id">{{co.attributes.name}}</option>
+                        <option v-for="c in _.filter(companies, { 'checked': true })" :value="c.id">{{ c.name}}</option>
                       </select>
                     </div>
                   </div>
                   <div class="clearfix"></div>
                   <div class="large-3 large-offset-2 small-12 columns">
-                    <label :for="'FileUpload'+index" :id="'f'+index" class="button large">Upload File</label>
+                    <label :for="'FileUpload' + index" :id="'f' + index" class="button large">Upload File</label>
                   </div>
                   <div clas="large-3 small-12 columns">
                     <label>
                       <strong class="variation">Add New:</strong>
-                      <a class="button" @click="adds()" id="button"><i class="fa fa-plus fa-2x"></i></a>
+                      <a class="button" @click="addDeviceVariation()" id="button"><i class="fa fa-plus fa-2x"></i></a>
                     </label>
                   </div>
                   <div clas="large-3 small-12 columns">
-                    <label v-show="p.delete">
+                    <label v-show="dv.deleted">
                       <strong class="variation">Delete:</strong>
-                      <a class="button delete" @click="deletes(index)" id="button">
+                      <a class="button delete" @click="removeDeviceVariation(dv)" id="button">
                         <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                       </a>
                     </label>
@@ -305,6 +299,7 @@
     </ul>
 
     <a class="button large" @click="submit()" id="button">Save Changes</a>
+    <!-- <div>{{ device.devicevariations[0].images[0] }}</div> -->
   </div>
 </div>
 </template>
