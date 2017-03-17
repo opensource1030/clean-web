@@ -47,9 +47,9 @@
                   <div class="small-12 large-6 columns">
                     <label>Device Type
                       <!-- <select id="testDeviceType" v-model="device.devicetypes[0].id"> -->
-                      <select id="testDeviceType" v-model="device.devicetypes[0]">
-                        <option :value="getDefaultValue('devicetypes')">Select Type</option>
-                        <option v-for="dt in deviceTypes" :value="dt">{{ dt.name }}</option>
+                      <select id="testDeviceType" v-model="device.devicetypes[0].id">
+                        <option :value="0">Select Type</option>
+                        <option v-for="dt in deviceTypes" :value="dt.id">{{ dt.name }}</option>
                       </select>
                     </label>
                   </div>
