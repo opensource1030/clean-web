@@ -46,7 +46,7 @@ export default {
             this.Service.addonsShow = !this.Service.addonsShow;
         },*/
     onSelectColumn: function() {
-      this.$store.dispatch('services/Services', {
+      this.$store.dispatch('services/getAll', {
         costMax: this.search.costMax,
         costMin: this.search.costMin,
         values: this.values
