@@ -61,7 +61,7 @@ export default {
     },
     (response) => {
       if(response.status == 500) {
-        //packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+        packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
       }
       context.errors.generalError = true;
     });

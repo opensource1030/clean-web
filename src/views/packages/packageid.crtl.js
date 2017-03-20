@@ -85,23 +85,26 @@ export default {
     },
     submit() {
 
-      let submitOk = true;
+      if(this.packages.retrieveMore) {
+        this.packages.retrieveMore = false;
+        let submitOk = true;
 
-      submitOk = submitOk && this.checkTitle();
-      submitOk = submitOk && this.checkConditions();
-      //submitOk = submitOk && this.checkServices();
-      //submitOk = submitOk && this.checkAddress();
+        submitOk = submitOk && this.checkTitle();
+        submitOk = submitOk && this.checkConditions();
 
-      if(submitOk) {
-        this.errors.generalError = false;
-        if (this.packages.id > 0) {
-          packaging.updateThePackages(this);
+        if(submitOk) {
+          this.errors.generalError = false;
+          if (this.packages.id > 0) {
+            packaging.updateThePackages(this);
+          } else {
+            packaging.createThePackages(this);
+          }
         } else {
-          packaging.createThePackages(this);
+          this.errors.generalError = true;
+          this.packages.retrieveMore = true;
         }
-      } else {
-        this.errors.generalError = true;
       }
+
     },
     // Check if the title has content and returns error if not.
     checkTitle() {
@@ -451,29 +454,34 @@ export default {
     reloadArrowsForServicesSwiper() {
       this.reloadArrows(this.$refs.swServicesList.swiper, this.packages.servicesPagination, this.packages.servicesController);
     },
-    addServiceSelected() {
+    checkSelected(option, information, array, list, bool, retrieved, variableShow, name, type) {
       let aux = [];
-      this.packages.serviceInformation.selected = false;
-      aux.push(this.packages.serviceInformation);
-      for (let serv of this.packages.services) {
-        aux.push(serv);
-      }
-      this.packages.services = aux;
-      this.packages.serviceInformationBool = false;
-      this.deleteSelectedFromList(this.packages.servicesList, this.packages.servicesListRetrieved, this.packages.services, this.packages.variablesShow.carrierSelected);
-      this.retrieveTheValues(this.packages.names.services, this.packages.services, 'cost');
-    },
-    deleteServiceSelected() {
-      let aux =[];
-      for (let serv of this.packages.services) {
-        if(serv.id != this.packages.serviceSelectedInformation.id){
-          aux.push(serv);
+      if (option == 'add') {
+        information.selected = false;
+        aux.push(information);
+        for (let a of array) {
+          aux.push(a);
+        }
+      } else if (option == 'delete') {
+        for (let serv of array) {
+          if(serv.id != information.id){
+            aux.push(serv);
+          }
         }
       }
-      this.packages.services = aux;
-      this.packages.serviceSelectedInformationBool = false;
-      this.deleteSelectedFromList(this.packages.servicesList, this.packages.servicesListRetrieved, this.packages.services, this.packages.variablesShow.carrierSelected);
-      this.retrieveTheValues(this.packages.names.services, this.packages.services, 'cost');
+
+      array = aux;
+      bool = false;
+      this.deleteSelectedFromList(list, retrieved, array, variableShow);
+      this.retrieveTheValues(name, array, type);
+    },
+    addServiceSelected() {
+      this.checkSelected('add', this.packages.serviceInformation, this.packages.services, this.packages.servicesList, this.packages.serviceInformationBool,
+        this.packages.servicesListRetrieved, this.packages.variablesShow.carrierSelected, this.packages.names.services, 'cost');
+    },
+    deleteServiceSelected() {
+      this.checkSelected('delete', this.packages.serviceInformation, this.packages.services, this.packages.servicesList, this.packages.serviceInformationBool,
+        this.packages.servicesListRetrieved, this.packages.variablesShow.carrierSelected, this.packages.names.services, 'cost');
     },
     //------------------------------------------END SERVICES-------------------------------------------------------
     //------------------------------------------END SERVICES-------------------------------------------------------
@@ -489,26 +497,6 @@ export default {
     },
     reloadArrowsForAddressSwiper() {
       this.reloadArrows(this.$refs.swAddressList.swiper, this.packages.addressPagination, this.packages.addressController);
-    },
-    addressSelectedInformation(address) {
-      for (let add of this.packages.address) {
-        add.selected = false;
-        if(add.id == address.id) {
-          add.selected = true;
-        }
-      }
-      this.packages.addressSelectedInformationBool = true;
-      this.packages.addressSelectedInformation = address;
-    },
-    addressSelSelectedInformation(address) {
-      for (let add of this.packages.addressSelected) {
-        add.selected = false;
-        if(add.id == address.id) {
-          add.selected = true;
-        }
-      }
-      this.packages.addressSelSelectedInformationBool = true;
-      this.packages.addressSelSelectedInformation = address;
     },
     addAddressToSelected() {
       this.packages.address = this.deleteElementFromArrayWithId(this.packages.addressSelectedInformation, this.packages.address);
@@ -664,6 +652,16 @@ export default {
           }
         }
       }
+    },
+    selectedInformation(element, selected, array, bool) {
+      for (let a of array) {
+        a.selected = false;
+        if(a.id == element.id) {
+          a.selected = true;
+        }
+      }
+      bool = true;
+      selected = element;
     },
     getUrlOfImageSelected(object) {
       if (object.selected) {

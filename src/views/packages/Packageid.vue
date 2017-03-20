@@ -469,7 +469,7 @@
                       <div v-show="packages.address.length > 0">
                         <swiper :options="swiperOptionAddress" ref="swAddress">
                           <swiper-slide v-for="(add,index) in packages.address">
-                            <div class="presetimage list-item" :key="address" @click="addressSelectedInformation(add)">
+                            <div class="presetimage list-item" :key="address" @click="selectedInformation(add, packages.addressSelectedInformation, packages.address, packages.addressSelectedInformationBool)">
                               <img :src="getUrlOfImageSelected(add)" alt=""  />
                               <div class="addresstext">
                                 {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
@@ -510,7 +510,7 @@
                       <div>
                         <swiper :options="swiperOptionAddress" ref="swAddress">
                           <swiper-slide v-for="(add,index) in packages.addressSelected">
-                            <div class="presetimage list-item" :key="address" @click="addressSelSelectedInformation(add)">
+                            <div class="presetimage list-item" :key="address" @click="selectedInformation(add, packages.addressSelSelectedInformation, packages.addressSelected, packages.addressSelSelectedInformationBool)">
                               <img :src="getUrlOfImageSelected(add)" alt=""  />
                               <div class="addresstext">
                                 {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
