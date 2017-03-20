@@ -56,6 +56,7 @@ export default {
       context.retrieveTheValuesOfTheDevices();
       context.retrieveTheValuesOfTheServices();
       context.addOptionsToRetrievedConditions();
+      this.updateTheUsersThatAccomplishesTheConditions(context);
       this.getUserInformation(context);
     },
     (response) => {
@@ -181,6 +182,13 @@ export default {
       }
     },
     (response) => {});
+  },
+  updateTheUsersThatAccomplishesTheConditions(context) {
+    let conditions = this.prepareConditionsForSend(context.packages.conditions);
+
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.packages.companyId}}).then((response) => {
+      context.packages.values.usersConditions = response.body.number;
+    }, (response) => {});
   },
   // CREATE packages.
   createThePackages(context) {

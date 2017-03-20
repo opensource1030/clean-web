@@ -141,6 +141,8 @@ export default {
         this.packages.conditions[index].valueError = false;
       }
 
+      packaging.updateTheUsersThatAccomplishesTheConditions(this);
+
       this.reorderButtons();
     },
     // Function that adds another empty element to the packages.conditions list.
