@@ -34,8 +34,7 @@ const state = {
     details: [],
     codePlan: [],
     cost: []
-  },
-
+  }
 }
 
 const getters = {
@@ -68,8 +67,9 @@ const actions = {
     }
   },
 
-  getAll({dispatch
-    ,commit
+  getAll({
+    dispatch,
+    commit
   }, {costMax, costMin, values}) {
     let params = {
       params: {
