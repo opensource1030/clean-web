@@ -61,7 +61,7 @@
                 <td><div>{{values.plans}}</div></td>
                 <td><div>{{values.details}}</div></td>
                 <td><div>{{values.codePlan}}</div></td>
-                <td><div>{{values.carrier.presentation}}</div></td>
+                <td><div v-for="c in values.carrier">{{c.presentation}}</div></td>
                 <td><div>{{search.costFilterMessage}}</div></td>
               </tr>
             </tbody>

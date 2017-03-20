@@ -56,7 +56,7 @@ const actions = {
 
     if (state.pagination.current_page > 1) {
       commit(types.SERVICE_PREV_PAGE)
-      dispatch('Services')
+      dispatch('getAll')
     }
   },
 
@@ -64,7 +64,7 @@ const actions = {
 
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.SERVICE_NEXT_PAGE)
-      dispatch('Services')
+      dispatch('getAll')
     }
   },
 
