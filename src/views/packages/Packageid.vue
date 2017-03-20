@@ -147,7 +147,7 @@
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDevVarList" ref="swDeviceVariationList">
+                      <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDefault" ref="swDeviceVariationList">
                         <swiper-slide v-for="(devvar, index) in packages.devicevariationsList">
                           <transition name="list">
                             <div class="devicevariationsinformation list-item" :key="devvar" @click="devicevariationSelected(devvar, index)">
@@ -174,7 +174,7 @@
                         </swiper>
                       </div>
                       <div>
-                        <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDevVarSel" ref="swDeviceVariationSeleted">
+                        <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDefault" ref="swDeviceVariationSeleted">
                           <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
                             <transition name="list">
                               <div class="devicevariationsinformation list-item" :key="devvarsel" @click="devicevariationNoSelected(devvarsel, index)">
@@ -427,7 +427,7 @@
                         </swiper>
                       </div>
                       <div class="large-12 columns">
-                        <swiper v-show="packages.services.length > 0" :options="swiperOptionServiceSel" ref="swServicesSel">
+                        <swiper v-show="packages.services.length > 0" :options="swiperOptionDefault" ref="swServicesSel">
                           <swiper-slide v-for="(service, index) in packages.services">
                             <transition name="list">
                               <div class="presetimage list-item" :key="service" @click="serviceSelectedInformation(service)">

@@ -53,8 +53,8 @@ export default {
       context.packages.addressSelected = event.address;
       //context.packages.apps = event.apps;
 
-      context.retrieveTheValuesOfTheDevices();
-      context.retrieveTheValuesOfTheServices();
+      context.retrieveTheValues(context.packages.names.devices, context.packages.devicevariations, 'price1');
+      context.retrieveTheValues(context.packages.names.services, context.packages.services, 'cost');
       context.addOptionsToRetrievedConditions();
       this.updateTheUsersThatAccomplishesTheConditions(context);
       this.getUserInformation(context);
@@ -93,7 +93,7 @@ export default {
     context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
       let event = store.sync(response.data);
       context.packages.presetsPagination = response.data.meta.pagination;
-      context.addPresetsToTheArray(event);
+      context.packages.presets = context.addElementsToTheArray(event, context.packages.presets, context.packages.presetsController, context.$refs.swPreset.swiper);
       this.loadContent(context);
     },
     (response) => {});
@@ -126,7 +126,7 @@ export default {
     context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
       let event = store.sync(response.data);
       context.packages.carriersPagination = response.data.meta.pagination;
-      context.addCarriersToTheArray(event);
+      context.packages.carriers = context.addElementsToTheArray(event, context.packages.carriers, context.packages.carriersController, context.$refs.swCarrier.swiper);
     },
     (response) => {});
   },
@@ -145,7 +145,7 @@ export default {
     context.$http.get(process.env.URL_API + '/services', params).then((response) => {
       let event = store.sync(response.data);
       context.packages.servicesPagination = response.data.meta.pagination;
-      context.addServicesToTheArray(event);
+      context.addElementsToTheArray(event, context.packages.services, context.packages.servicesController, context.$refs.swServicesList.swiper);
     },
     (response) => {});
   },

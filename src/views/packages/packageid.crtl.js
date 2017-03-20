@@ -114,11 +114,9 @@ export default {
       }
       return submitOk;
     },
-    //------------------------------------------START CONDITIONS-------------------------------------------------------
-    //------------------------------------------START CONDITIONS-------------------------------------------------------
-    //------------------------------------------START CONDITIONS-------------------------------------------------------
-    //------------------------------------------START CONDITIONS-------------------------------------------------------
-    //------------------------------------------START CONDITIONS-------------------------------------------------------
+    //-------------------------------------------START CONDITIONS------------------------------------------------------
+    //-------------------------------------------START CONDITIONS------------------------------------------------------
+    //-------------------------------------------START CONDITIONS------------------------------------------------------
     // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
     updatePackageCondition(index, value, type) {
 
@@ -280,120 +278,17 @@ export default {
     //------------------------------------------END CONDITIONS-------------------------------------------------------
     //------------------------------------------END CONDITIONS-------------------------------------------------------
     //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------START PRESETS--------------------------------------------------------
-    //------------------------------------------START PRESETS--------------------------------------------------------
     //------------------------------------------START PRESETS--------------------------------------------------------
     //------------------------------------------START PRESETS--------------------------------------------------------
     //------------------------------------------START PRESETS--------------------------------------------------------
     goForwardPreset() {
-      if(this.packages.presetsPagination.current_page < this.packages.presetsPagination.total_pages && this.packages.retrieveMore) {
-        let optionAux = this.packages.presetsController.option;
-        this.packages.presetsController.option = 'forward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.presetsController.option) {
-          packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page + 1);
-        } else {
-          packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page + 2);
-        }
-      }
+      this.goForward(this.packages.presetsPagination, this.packages.presetsController, 'presets');
     },
     goBackPreset() {
-      if(this.packages.presetsPagination.current_page > 2 && this.packages.retrieveMore) {
-        let optionAux = this.packages.presetsController.option;
-        this.packages.presetsController.option = 'backward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.presetsController.option) {
-          packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page - 1);
-        } else {
-          packaging.getPresets(this, this.packages.companyId, this.packages.presetsPagination.current_page - 2);
-        }
-      }
+      this.goBack(this.packages.presetsPagination, this.packages.presetsController, 'presets');
     },
     reloadArrowsForPresetsSwiper() {
-      if(this.$refs.swPreset.swiper.isBeginning && this.packages.presetsPagination.current_page == 1) {
-        this.packages.presetsController.goBackBoolean = false;
-      } else {
-        this.packages.presetsController.goBackBoolean = true;
-      }
-
-      if(this.$refs.swPreset.swiper.isEnd && this.packages.presetsPagination.current_page == this.packages.presetsPagination.total_pages) {
-        this.packages.presetsController.goForwardBoolean = false;
-      } else {
-        this.packages.presetsController.goForwardBoolean = true;
-      }
-    },
-    addPresetsToTheArray(presets) {
-      if (presets.length != 0) {
-        if (this.packages.presets.length == 0) {
-          this.packages.presets = presets;
-        } else {
-          if (this.packages.presetsController.option == 'forward') {
-            for (let pre of presets) {
-              this.packages.presets.push(pre);
-            }
-            if (this.packages.presets.length > 50) {
-              this.deleteTheFirstTwentyFiveOfPresets();
-            }
-            this.$refs.swPreset.swiper._slideTo(21, 0);
-          } else if (this.packages.presetsController.option == 'backward') {
-            for (let pre of this.packages.presets) {
-              presets.push(pre);
-            }
-            this.packages.presets = presets;
-            if (this.packages.presets.length > 50) {
-              this.deleteTheLastPartOfPresets();
-            }
-            this.$refs.swPreset.swiper._slideTo(25, 0);
-          } else {
-            // NOTHING
-          }
-        }
-      }
-      this.packages.retrieveMore = true;
-    },
-    deleteTheFirstTwentyFiveOfPresets() {
-      this.packages.presets = this.packages.presets.slice(25, this.packages.presets.length);
-    },
-    deleteTheLastPartOfPresets() {
-      this.packages.presets = this.packages.presets.slice(0, 50);
-    },
-    getUrlOfImageSelected(object) {
-      if (object.selected) {
-        return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
-      } else {
-        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
-      }
-    },
-    getUrlOfImage(object, type) {
-
-      if(object.hasOwnProperty('images')) {
-        if (object.images.length > 0 ) {
-          for (let i of object.images) {
-            if (i.id > 0) {
-              return process.env.URL_API + '/images/' + i.id;
-            }
-          }
-        }
-      }
-
-      if (type == 'devicevariation') {
-        return 'https://openclipart.org/download/213897/black-android-phone.svg';
-      } else if (type == 'carrier') {
-        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
-      } else if (type == 'service') {
-        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
-      } else if (type == 'address') {
-        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
-      }
-    },
-    getNameIfNoImage(imageId, name) {
-      if (imageId == 0) {
-        return name;
-      }
+      this.reloadArrows(this.$refs.swPreset.swiper, this.packages.presetsPagination, this.packages.presetsController);
     },
     presetSelected(preset) {
       for (let pres of this.packages.presets) {
@@ -430,121 +325,36 @@ export default {
     devicevariationSelected(devvar, index) {
       this.packages.devicevariationsList.splice(index, 1);
       this.packages.devicevariations.splice(0, 0, devvar);
-      this.retrieveTheValuesOfTheDevices();
+      this.retrieveTheValues(this.packages.names.devices, this.packages.devicevariations, 'price1')
     },
     devicevariationNoSelected(devvar, index) {
       this.packages.devicevariations.splice(index, 1);
       this.returnToThePresetAbove(devvar);
-      this.retrieveTheValuesOfTheDevices();
+      this.retrieveTheValues(this.packages.names.devices, this.packages.devicevariations, 'price1');
     },
     returnToThePresetAbove(devvar) {
-      for (let dv of this.packages.presetSelected.devicevariations) {
-        if(devvar.id == dv.id) {
-          this.packages.devicevariationsList.splice(0, 0, devvar);
-        }
-      }
-    },
-    retrieveTheValuesOfTheDevices() {
-      this.packages.names.devices.minPrice = 0;
-      this.packages.names.devices.maxPrice = 0;
-
-      for (let dv of this.packages.devicevariations) {
-        if(this.packages.names.devices.minPrice == 0 && this.packages.names.devices.maxPrice == 0) {
-          this.packages.names.devices.minPrice = dv.price1;
-          this.packages.names.devices.maxPrice = dv.price1;
-        } else {
-          if(this.packages.names.devices.minPrice > dv.price1) {
-            this.packages.names.devices.minPrice = dv.price1;
-          }
-          if (this.packages.names.devices.maxPrice < dv.price1) {
-            this.packages.names.devices.maxPrice = dv.price1;
+      if(this.packages.presetSelected.name != "") {
+        for (let dv of this.packages.presetSelected.devicevariations) {
+          if(devvar.id == dv.id) {
+            this.packages.devicevariationsList.splice(0, 0, devvar);
           }
         }
       }
     },
-    //------------------------------------------END PRESETS--------------------------------------------------------
-    //------------------------------------------END PRESETS--------------------------------------------------------
-    //------------------------------------------END PRESETS--------------------------------------------------------
-    //------------------------------------------END PRESETS--------------------------------------------------------
-    //------------------------------------------END PRESETS--------------------------------------------------------
-    //------------------------------------------START CARRIERS--------------------------------------------------------
-    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //------------------------------------------END PRESETS-----------------------------------------------------------
+    //------------------------------------------END PRESETS-----------------------------------------------------------
+    //------------------------------------------END PRESETS-----------------------------------------------------------
     //------------------------------------------START CARRIERS--------------------------------------------------------
     //------------------------------------------START CARRIERS--------------------------------------------------------
     //------------------------------------------START CARRIERS--------------------------------------------------------
     goForwardCarrier() {
-      if(this.packages.carriersPagination.current_page < this.packages.carriersPagination.total_pages && this.packages.retrieveMore) {
-        let optionAux = this.packages.carriersController.option;
-        this.packages.carriersController.option = 'forward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.carriersController.option) {
-          packaging.getCarriers(this, this.packages.carriersPagination.current_page + 1);
-        } else {
-          packaging.getCarriers(this, this.packages.carriersPagination.current_page + 2);
-        }
-      }
+      this.goForward(this.packages.carriersPagination, this.packages.carriersController, 'carriers');
     },
     goBackCarrier() {
-      if(this.packages.carriersPagination.current_page > 2 && this.packages.retrieveMore) {
-        let optionAux = this.packages.carriersController.option;
-        this.packages.carriersController.option = 'backward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.carriersController.option) {
-          packaging.getCarriers(this, this.packages.carriersPagination.current_page - 1);
-        } else {
-          packaging.getCarriers(this, this.packages.carriersPagination.current_page - 2);
-        }
-      }
+      this.goBack(this.packages.servicesPagination, this.packages.servicesController, 'carriers');
     },
     reloadArrowsForCarriersSwiper() {
-      if(this.$refs.swCarrier.swiper.isBeginning && (this.packages.carriersPagination.current_page == 1 || this.packages.carriersPagination.current_page == 2)) {
-        this.packages.carriersController.goBackBoolean = false;
-      } else {
-        this.packages.carriersController.goBackBoolean = true;
-      }
-
-      if(this.$refs.swCarrier.swiper.isEnd && this.packages.carriersPagination.current_page == this.packages.carriersPagination.total_pages) {
-        this.packages.carriersController.goForwardBoolean = false;
-      } else {
-        this.packages.carriersController.goForwardBoolean = true;
-      }
-    },
-    addCarriersToTheArray(carriers) {
-      if (carriers.length != 0) {
-        if (this.packages.carriers.length == 0) {
-          this.packages.carriers = carriers;
-        } else {
-          if (this.packages.carriersController.option == 'forward') {
-            for (let pre of carriers) {
-              this.packages.carriers.push(pre);
-            }
-            if (this.packages.carriers.length > 50) {
-              this.deleteTheFirstTwentyFiveOfCarriers();
-            }
-            this.$refs.swCarrier.swiper._slideTo(21, 0);
-          } else if (this.packages.carriersController.option == 'backward') {
-            for (let pre of this.packages.carriers) {
-              carriers.push(pre);
-            }
-            this.packages.carriers = carriers;
-            if (this.packages.carriers.length > 50) {
-              this.deleteTheLastPartOfCarriers();
-            }
-            this.$refs.swCarrier.swiper._slideTo(25, 0);
-          } else {
-            // NOTHING
-          }
-        }
-      }
-      this.packages.retrieveMore = true;
-    },
-    deleteTheFirstTwentyFiveOfCarriers() {
-      this.packages.carriers = this.packages.carriers.slice(25, this.packages.carriers.length);
-    },
-    deleteTheLastPartOfCarriers() {
-      this.packages.carriers = this.packages.carriers.slice(0, 50);
+      this.reloadArrows(this.$refs.swCarrier.swiper, this.packages.carriersPagination, this.packages.carriersController);
     },
     carrierSelected(carrier) {
       this.packages.variablesShow.carrierSelected = false;
@@ -626,107 +436,20 @@ export default {
     parseServiceItemsValues(value) {
       return ucfirst(value);
     },
-    //------------------------------------------END CARRIERS--------------------------------------------------------
-    //------------------------------------------END CARRIERS--------------------------------------------------------
-    //------------------------------------------END CARRIERS--------------------------------------------------------
-    //------------------------------------------END CARRIERS--------------------------------------------------------
-    //------------------------------------------END CARRIERS--------------------------------------------------------
-    //------------------------------------------START SERVICES------------------------------------------------------
-    //------------------------------------------START SERVICES------------------------------------------------------
-    //------------------------------------------START SERVICES------------------------------------------------------
-    //------------------------------------------START SERVICES------------------------------------------------------
-    //------------------------------------------START SERVICES------------------------------------------------------
+    //------------------------------------------END CARRIERS---------------------------------------------------------
+    //------------------------------------------END CARRIERS---------------------------------------------------------
+    //------------------------------------------END CARRIERS---------------------------------------------------------
+    //------------------------------------------START SERVICES-------------------------------------------------------
+    //------------------------------------------START SERVICES-------------------------------------------------------
+    //------------------------------------------START SERVICES-------------------------------------------------------
     goForwardService() {
-      if(this.packages.servicesPagination.current_page < this.packages.servicesPagination.total_pages && this.packages.retrieveMore) {
-        let optionAux = this.packages.servicesController.option;
-        this.packages.servicesController.option = 'forward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.servicesController.option) {
-          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page + 1);
-        } else {
-          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page + 2);
-        }
-      }
+      this.goForward(this.packages.servicesPagination, this.packages.servicesController, 'services');
     },
     goBackService() {
-      if(this.packages.servicesPagination.current_page > 2 && this.packages.retrieveMore) {
-        let optionAux = this.packages.servicesController.option;
-        this.packages.servicesController.option = 'backward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.servicesController.option) {
-          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page - 1);
-        } else {
-          packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, this.packages.servicesPagination.current_page - 2);
-        }
-      }
+      this.goBack(this.packages.servicesPagination, this.packages.servicesController, 'services');
     },
     reloadArrowsForServicesSwiper() {
-      if(this.$refs.swServicesList.swiper.isBeginning && (this.packages.servicesPagination.current_page == 1 || this.packages.servicesPagination.current_page == 2)) {
-        this.packages.servicesController.goBackBoolean = false;
-      } else {
-        this.packages.servicesController.goBackBoolean = true;
-      }
-
-      if(this.$refs.swServicesList.swiper.isEnd && this.packages.servicesPagination.current_page == this.packages.servicesPagination.total_pages) {
-        this.packages.servicesController.goForwardBoolean = false;
-      } else {
-        this.packages.servicesController.goForwardBoolean = true;
-      }
-    },
-    addServicesToTheArray(services) {
-      if (services.length != 0) {
-        if (this.packages.servicesListRetrieved.length == 0) {
-          this.packages.servicesListRetrieved = services;
-          this.$refs.swServicesList.swiper._slideTo(0, 0);
-        } else {
-          if (this.packages.servicesController.option == 'forward') {
-            for (let pre of services) {
-              this.packages.servicesListRetrieved.push(pre);
-            }
-            if (this.packages.servicesListRetrieved.length > 50) {
-              this.deleteTheFirstTwentyFiveOfServices();
-            }
-            this.$refs.swServicesList.swiper._slideTo(21, 0);
-          } else if (this.packages.servicesController.option == 'backward') {
-            for (let pre of this.packages.servicesListRetrieved) {
-              services.push(pre);
-            }
-            this.packages.servicesListRetrieved = services;
-            if (this.packages.servicesListRetrieved.length > 50) {
-              this.deleteTheLastPartOfServices();
-            }
-            this.$refs.swServicesList.swiper._slideTo(25, 0);
-          } else {
-            // NOTHING
-          }
-        }
-      }
-      this.deleteSelectedServicesFromServicesListRetrieved();
-      this.packages.retrieveMore = true;
-    },
-    deleteTheFirstTwentyFiveOfServices() {
-      this.packages.servicesListRetrieved = this.packages.servicesListRetrieved.slice(25, this.packages.servicesListRetrieved.length);
-    },
-    deleteTheLastPartOfServices() {
-      this.packages.servicesListRetrieved = this.packages.servicesListRetrieved.slice(0, 50);
-    },
-    deleteSelectedServicesFromServicesListRetrieved() {
-      this.packages.servicesList = [];
-      for (let dv of this.packages.servicesListRetrieved) {
-        let ok = true;
-        for (let dvsel of this.packages.services) {
-          if (dv.id == dvsel.id) {
-            ok = false;
-          }
-        }
-        if (ok) {
-          dv.show = false;
-          this.packages.servicesList.push(dv);
-        }
-      }
-      this.packages.variablesShow.carrierSelected = true;
+      this.reloadArrows(this.$refs.swServicesList.swiper, this.packages.servicesPagination, this.packages.servicesController);
     },
     addServiceSelected() {
       let aux = [];
@@ -737,8 +460,8 @@ export default {
       }
       this.packages.services = aux;
       this.packages.serviceInformationBool = false;
-      this.deleteSelectedServicesFromServicesListRetrieved();
-      this.retrieveTheValuesOfTheServices();
+      this.deleteSelectedFromList(this.packages.servicesList, this.packages.servicesListRetrieved, this.packages.services, this.packages.variablesShow.carrierSelected);
+      this.retrieveTheValues(this.packages.names.services, this.packages.services, 'cost');
     },
     deleteServiceSelected() {
       let aux =[];
@@ -749,75 +472,23 @@ export default {
       }
       this.packages.services = aux;
       this.packages.serviceSelectedInformationBool = false;
-      this.deleteSelectedServicesFromServicesListRetrieved();
-      this.retrieveTheValuesOfTheServices();
+      this.deleteSelectedFromList(this.packages.servicesList, this.packages.servicesListRetrieved, this.packages.services, this.packages.variablesShow.carrierSelected);
+      this.retrieveTheValues(this.packages.names.services, this.packages.services, 'cost');
     },
-    retrieveTheValuesOfTheServices() {
-      this.packages.names.services.minPrice = 0;
-      this.packages.names.services.maxPrice = 0;
-
-      for (let serv of this.packages.services) {
-        if(this.packages.names.services.minPrice == 0 && this.packages.names.services.maxPrice == 0) {
-          this.packages.names.services.minPrice = serv.cost;
-          this.packages.names.services.maxPrice = serv.cost;
-        } else {
-          if(this.packages.names.services.minPrice > serv.cost) {
-            this.packages.names.services.minPrice = serv.cost;
-          }
-          if (this.packages.names.services.maxPrice < serv.cost) {
-            this.packages.names.services.maxPrice = serv.cost;
-          }
-        }
-      }
-    },
-    //------------------------------------------END SERVICES------------------------------------------------------
-    //------------------------------------------END SERVICES------------------------------------------------------
-    //------------------------------------------END SERVICES------------------------------------------------------
-    //------------------------------------------END SERVICES------------------------------------------------------
-    //------------------------------------------END SERVICES------------------------------------------------------
-    //------------------------------------------START ADDRESS-----------------------------------------------------
-    //------------------------------------------START ADDRESS-----------------------------------------------------
-    //------------------------------------------START ADDRESS-----------------------------------------------------
-    //------------------------------------------START ADDRESS-----------------------------------------------------
-    //------------------------------------------START ADDRESS-----------------------------------------------------
+    //------------------------------------------END SERVICES-------------------------------------------------------
+    //------------------------------------------END SERVICES-------------------------------------------------------
+    //------------------------------------------END SERVICES-------------------------------------------------------
+    //------------------------------------------START ADDRESS------------------------------------------------------
+    //------------------------------------------START ADDRESS------------------------------------------------------
+    //------------------------------------------START ADDRESS------------------------------------------------------
     goForwardAddress() {
-      if(this.packages.addressPagination.current_page < this.packages.addressPagination.total_pages && this.packages.retrieveMore) {
-        let optionAux = this.packages.addressController.option;
-        this.packages.addressController.option = 'forward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.addressController.option) {
-          packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 1);
-        } else {
-          packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 2);
-        }
-      }
+      this.goForward(this.packages.addressPagination, this.packages.addressController, 'address');
     },
     goBackAddress() {
-      if(this.packages.addressPagination.current_page > 2 && this.packages.retrieveMore) {
-        let optionAux = this.packages.addressController.option;
-        this.packages.addressController.option = 'backward';
-
-        this.packages.retrieveMore = false;
-        if(optionAux == this.packages.addressController.option) {
-          packaging.getAddressFromCompany(this, this.packages.carrierSelected.id, this.packages.addressPagination.current_page - 1);
-        } else {
-          packaging.getAddressFromCompany(this, this.packages.carrierSelected.id, this.packages.addressPagination.current_page - 2);
-        }
-      }
+      this.goBack(this.packages.addressPagination, this.packages.addressController, 'address');
     },
     reloadArrowsForAddressSwiper() {
-      if(this.$refs.swAddressList.swiper.isBeginning && (this.packages.addressPagination.current_page == 1 || this.packages.addressPagination.current_page == 2)) {
-        this.packages.addressController.goBackBoolean = false;
-      } else {
-        this.packages.addressController.goBackBoolean = true;
-      }
-
-      if(this.$refs.swAddressList.swiper.isEnd && this.packages.addressPagination.current_page == this.packages.addressPagination.total_pages) {
-        this.packages.addressController.goForwardBoolean = false;
-      } else {
-        this.packages.addressController.goForwardBoolean = true;
-      }
+      this.reloadArrows(this.$refs.swAddressList.swiper, this.packages.addressPagination, this.packages.addressController);
     },
     addressSelectedInformation(address) {
       for (let add of this.packages.address) {
@@ -856,13 +527,178 @@ export default {
     //------------------------------------------END ADDRESS-----------------------------------------------------
     //------------------------------------------END ADDRESS-----------------------------------------------------
     //------------------------------------------END ADDRESS-----------------------------------------------------
-    //------------------------------------------END ADDRESS-----------------------------------------------------
-    //------------------------------------------END ADDRESS-----------------------------------------------------
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    goForward(pagination, controller, type) {
+      if(pagination.current_page < pagination.total_pages && this.packages.retrieveMore) {
+        let optionAux = controller.option;
+        controller.option = 'forward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == controller.option) {
+          if (type == 'presets') {
+            packaging.getPresets(this, this.packages.companyId, pagination.current_page + 1);
+          } else if (type == 'carriers') {
+            packaging.getCarriers(this, pagination.current_page + 1);
+          } else if (type == 'services') {
+            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page + 1);
+          } else if (type == 'address') {
+            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 1);
+          }
+        } else {
+          if (type == 'presets') {
+            packaging.getPresets(this, this.packages.companyId, pagination.current_page + 2);
+          } else if (type == 'carriers') {
+            packaging.getCarriers(this, pagination.current_page + 2);
+          } else if (type == 'services') {
+            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page + 2);
+          } else if (type == 'address') {
+            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 2);
+          }
+        }
+      }
+    },
+    goBack(pagination, controller, type) {
+      if(pagination.current_page > 2 && this.packages.retrieveMore) {
+        let optionAux = controller.option;
+        controller.option = 'backward';
+
+        this.packages.retrieveMore = false;
+        if(optionAux == controller.option) {
+          if (type == 'presets') {
+            packaging.getPresets(this, this.packages.companyId, pagination.current_page - 1);
+          } else if (type == 'carriers') {
+            packaging.getCarriers(this, pagination.current_page - 1);
+          } else if (type == 'services') {
+            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page - 1);
+          } else if (type == 'address') {
+            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page - 1);
+          }
+        } else {
+          if (type == 'presets') {
+            packaging.getPresets(this, this.packages.companyId, pagination.current_page - 2);
+          } else if (type == 'carriers') {
+            packaging.getCarriers(this, pagination.current_page - 2);
+          } else if (type == 'services') {
+            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page - 2);
+          } else if (type == 'address') {
+            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page - 2);
+          }
+        }
+      }
+    },
+    reloadArrows(swiper, pagination, controller) {
+      if(swiper.isBeginning && (pagination.current_page == 1 || pagination.current_page == 2)) {
+        controller.goBackBoolean = false;
+      } else {
+        controller.goBackBoolean = true;
+      }
+
+      if(swiper.isEnd && pagination.current_page == pagination.total_pages) {
+        controller.goForwardBoolean = false;
+      } else {
+        controller.goForwardBoolean = true;
+      }
+    },
+    addElementsToTheArray(elements, array, controller, swiper) {
+      if (elements.length != 0) {
+        if (array.length == 0) {
+          array = elements;
+        } else {
+          if (controller.option == 'forward') {
+            for (let pre of elements) {
+              array.push(pre);
+            }
+            if (array.length > 50) {
+              array = array.slice(25, array.length);
+            }
+            swiper._slideTo(21, 0);
+          } else if (controller.option == 'backward') {
+            for (let pre of array) {
+              elements.push(pre);
+            }
+            array = elements;
+            if (array.length > 50) {
+              array = array.slice(0, 50);
+            }
+            swiper._slideTo(25, 0);
+          } else {
+            // NOTHING
+          }
+        }
+      }
+      this.packages.retrieveMore = true;
+      return array;
+    },
+    deleteSelectedFromList(list, listRetrieved, selected, variableShow) {
+      list = [];
+      for (let lr of listRetrieved) {
+        let ok = true;
+        for (let lrsel of selected) {
+          if (lr.id == lrsel.id) {
+            ok = false;
+          }
+        }
+        if (ok) {
+          lr.show = false;
+          list.push(lr);
+        }
+      }
+      variableShow = true;
+    },
+    retrieveTheValues(information, array, type) {
+      information.minPrice = 0;
+      information.maxPrice = 0;
+
+      for (let serv of array) {
+        if(information.minPrice == 0 && information.maxPrice == 0) {
+          information.minPrice = serv[type];
+          information.maxPrice = serv[type];
+        } else {
+          if(information.minPrice > serv[type]) {
+            information.minPrice = serv[type];
+          }
+          if (information.maxPrice < serv[type]) {
+            information.maxPrice = serv[type];
+          }
+        }
+      }
+    },
+    getUrlOfImageSelected(object) {
+      if (object.selected) {
+        return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
+      } else {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      }
+    },
+    getUrlOfImage(object, type) {
+
+      if(object.hasOwnProperty('images')) {
+        if (object.images.length > 0 ) {
+          for (let i of object.images) {
+            if (i.id > 0) {
+              return process.env.URL_API + '/images/' + i.id;
+            }
+          }
+        }
+      }
+
+      if (type == 'devicevariation') {
+        return 'https://openclipart.org/download/213897/black-android-phone.svg';
+      } else if (type == 'carrier') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      } else if (type == 'service') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      } else if (type == 'address') {
+        return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
+      }
+    },
+    getNameIfNoImage(imageId, name) {
+      if (imageId == 0) {
+        return name;
+      }
+    },
     deleteElementFromArrayWithId(element, array) {
       let del = [];
       if (array.length > 0) {
@@ -897,10 +733,6 @@ export default {
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
     //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-
-
     showFalse() {
       this.show = false;
     },
@@ -1179,7 +1011,7 @@ export default {
         onReachBeginning: this.goBackPreset,
         onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
       },
-      swiperOptionDevVarList: {
+      swiperOptionDefault: {  // DevVarList, DevVarSel, ServiceSel
         prevButton:'.swiper-button-prev',
         nextButton:'.swiper-button-next',
         slidesPerView: 5,
@@ -1195,23 +1027,6 @@ export default {
             slidesPerView: 2,
           },
           380: {
-            slidesPerView: 1,
-          }
-        }
-      },
-      swiperOptionDevVarSel: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 4,
-          },
-          640: {
-            slidesPerView: 2,
-          },
-          480: {
             slidesPerView: 1,
           }
         }
@@ -1255,23 +1070,6 @@ export default {
         onReachEnd: this.goForwardService,
         onReachBeginning: this.goBackService,
         onSlideChangeStart: this.reloadArrowsForServicesSwiper,
-      },
-      swiperOptionServiceSel: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 3,
-          },
-          740: {
-            slidesPerView: 2,
-          },
-          500: {
-            slidesPerView: 1,
-          }
-        }
       },
       swiperOptionAddress: {
         prevButton:'.swiper-button-prev',
