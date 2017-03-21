@@ -71,7 +71,7 @@
             </tr>
           </tbody>
           <tbody v-for="(service, index) in Service.servicesList">
-            <tr @click="setActive(service)">
+            <tr @click="setActive(service)" id="open" >
               <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
               <td valign="top">
                 <div class="textbold">{{service.title}}</div>
@@ -131,7 +131,7 @@
                   </tr>
                   <tr>
                     <td>
-                      <h6><a v-bind="{ href: '/service/'+service.id}">{{names.managePlanButton}}</a></h6></td>
+                      <h6><a  id="updateService"    v-bind="{ href: '/service/'+service.id}">{{names.managePlanButton}}</a></h6></td>
                     <td></td>
                   </tr>
                 </table>
