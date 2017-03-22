@@ -4,7 +4,9 @@ import {filterByFilters} from './../../components/filters.js'
 const {Store} = require('yayson')()
 const store = new Store()
 
+
 import $store from './../../store'
+
 
 export default {
   /*-------------------------------update device-----------------*/

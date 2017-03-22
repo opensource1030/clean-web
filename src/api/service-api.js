@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueResource from 'vue-resource'
+import { http } from 'vue'
+
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -7,20 +7,24 @@ const store = new Store()
 const API_BASE_URL = process.env.URL_API
 
 export default {
-  getOne (params, cb, errCb) {
+  getOne (params,id ,cb, errCb) {
+    let data = params
+    http.get(API_BASE_URL + '/services/'+id, data).then(res => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   getAll (params, cb, errCb) {
     let data = params
-    Vue.http.get(API_BASE_URL + '/services', data).then(res => cb(store.sync(res.data)), (err) => errCb(err))
+    http.get(API_BASE_URL + '/services', data).then(res => cb(res.data), (err) => errCb(err))
   },
 
   add (params, cb, errCb) {
     let data = { data: params } // or data = params
-    Vue.http.post(API_BASE_URL + '/services', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
+    http.post(API_BASE_URL + '/services', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  update (params, cb, errCb) {
+  update (params, id,cb, errCb) {
+    let data = { data: params } // or data = params
+    http.patch(API_BASE_URL + '/services/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   remove (params, cb, errCb) {

@@ -9,6 +9,8 @@ import device_type from './modules/device_type'
 import modification from './modules/modification'
 import carrier from './modules/carrier'
 import company from './modules/company'
+import services from './modules/services/services'
+import service from './modules/services/service'
 
 Vue.use(Vuex)
 
@@ -25,6 +27,8 @@ export default new Vuex.Store({
     modification,
     carrier,
     company,
+    services,
+    service
   },
   strict: debug,
   plugins: [

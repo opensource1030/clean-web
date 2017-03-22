@@ -24,25 +24,22 @@ import foo from './components/Footer.vue'
 import headers from './components/header'
 import breadcrumb from './components/breadcrumb'
 
+import auth from './api/auth'
 export default {
   name: "App",
-
   components: {
     Sidemenu,
     foo,
     headers,
     breadcrumb
   },
-
   data () {
     return {
       company: {}
     }
   },
-
   created () {
   },
-
   mounted () {
     $(function() {
       $(window).on("scroll", function() {
@@ -57,7 +54,6 @@ export default {
       });
     });
   },
-
   methods: {
   }
 }
