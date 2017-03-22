@@ -37,9 +37,9 @@ export default {
     getTheRowOfServiceItems: function(domain, category, type) {
       let aux = [];
       if (type == 'list') {
-        aux = this.packages.serviceInformation.serviceitems;
+        aux = this.services.itemInformation.serviceitems;
       } else if (type == 'selected') {
-        aux = this.packages.serviceSelectedInformation.serviceitems
+        aux = this.services.itemSelectedInformation.serviceitems
       } else {
         // NOTHING
       }
@@ -56,13 +56,13 @@ export default {
 
       if (domain == null || category == null) {
         if (type == 'list') {
-          aux = this.packages.serviceInformation.cost - this.packages.serviceSelectedInformation.cost;
+          aux = this.services.itemInformation.cost - this.services.itemSelectedInformation.cost;
         } else if (type == 'selected') {
-          aux = this.packages.serviceSelectedInformation.cost - this.packages.serviceInformation.cost;
+          aux = this.services.itemSelectedInformation.cost - this.services.itemInformation.cost;
         }
       } else {
-        for (let si of this.packages.serviceInformation.serviceitems) {
-          for (let sisel of this.packages.serviceSelectedInformation.serviceitems) {
+        for (let si of this.services.itemInformation.serviceitems) {
+          for (let sisel of this.services.itemSelectedInformation.serviceitems) {
             if (si.domain == domain && sisel.domain == domain && si.category == category && sisel.category == category) {
               if (type == 'list') {
                 if (si.value != sisel.value) {
@@ -84,175 +84,41 @@ export default {
       }
     },
     submit() {
-
-      if(this.packages.retrieveMore) {
-        this.packages.retrieveMore = false;
+      if(this.retrieveMore) {
+        this.retrieveMore = false;
         let submitOk = true;
-
         submitOk = submitOk && this.checkTitle();
         submitOk = submitOk && this.checkConditions();
 
         if(submitOk) {
-          this.errors.generalError = false;
-          if (this.packages.id > 0) {
+          this.package.errors.generalError = false;
+          if (this.package.id > 0) {
             packaging.updateThePackages(this);
           } else {
             packaging.createThePackages(this);
           }
         } else {
-          this.errors.generalError = true;
-          this.packages.retrieveMore = true;
+          this.package.errors.generalError = true;
+          this.retrieveMore = true;
         }
       }
-
     },
     // Check if the title has content and returns error if not.
     checkTitle() {
       let submitOk = true;
-      if (this.packages.name == '') {
-        this.packages.nameError = true;
+      if (this.package.name == '') {
+        this.package.errors.name = true;
         submitOk = false;
       } else {
-        this.packages.nameError = false;
+        this.package.errors.name = false;
       }
       return submitOk;
-    },
-    //-------------------------------------------START CONDITIONS------------------------------------------------------
-    //-------------------------------------------START CONDITIONS------------------------------------------------------
-    //-------------------------------------------START CONDITIONS------------------------------------------------------
-    // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
-    updatePackageCondition(index, value, type) {
-
-      for (let aux of this.conditionsOptions) {
-        if (aux.nameCond == value) {
-          this.packages.conditions[index].conditionsConditionsOptions = aux.conditions;
-          this.packages.conditions[index].condition = '';
-          this.packages.conditions[index].conditionsValuesOptions = aux.values;
-          this.packages.conditions[index].value = '';
-          this.packages.conditions[index].inputType = aux.inputType;
-          this.packages.conditions[index].nameError = false;
-        }
-      }
-
-      if (type == 'condition' && value != '') {
-        this.packages.conditions[index].conditionError = false;
-      }
-
-      if (type == 'value' && value != '') {
-        this.packages.conditions[index].valueError = false;
-      }
-
-      packaging.updateTheUsersThatAccomplishesTheConditions(this);
-
-      this.reorderButtons();
-    },
-    // Function that adds another empty element to the packages.conditions list.
-    pushCondition(index) {
-      this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
-      this.reorderButtons();
-    },
-    // Function that deletes the selected element from the packages.conditions list.
-    deleteCondition(index) {
-      this.packages.conditions.splice(index, 1);
-      if (this.packages.conditions.length == 0) {
-        this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
-      }
-      this.reorderButtons();
-    },
-    // Retrieve from the packages.companies.udls all the information and add it to the conditionsOptions.
-    addConditionsOptions() {
-      for (let udl of this.packages.companies.udls) {
-        let vals = [];
-        if (udl.sections > 0) {
-          for (let values of udl.sections) {
-            vals.push(values.nameCond);
-          }
-        }
-
-        this.conditionsFieldsOptions.push(udl.name);
-
-        let condition = [];
-
-        if (udl.inputType == 'boolean') {
-          condition = this.allConditionsForBoolean;
-          vals = ['Yes', 'No'];
-        } else if (udl.inputType == 'number') {
-          condition = this.allConditionsForNumber;
-        } else {
-          // STRING (default)
-          condition = this.allConditionsForString;
-        }
-
-        let aux = {
-          nameCond: udl.name,
-          conditions: condition,
-          values: vals,
-          inputType: udl.inputType
-        }
-        this.conditionsOptions.push(aux);
-      }
-    },
-    // Check the packages.conditions array and add to each element the information needed.
-    addOptionsToRetrievedConditions() {
-
-      if (this.packages.conditions.length == 0) {
-        this.packages.conditions.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
-      } else {
-        for (let cond of this.packages.conditions) {
-          cond.id = cond.id;
-          cond.nameCond = cond.nameCond;
-          cond.condition = cond.condition;
-          cond.value = cond.value;
-          cond.type = 'conditions';
-          let aux = this.retrieveInformation(cond);
-          cond.inputType = aux.inputType;
-          cond.conditionsConditionsOptions = aux.conditions;
-          cond.conditionsValuesOptions = aux.values;
-          cond.add = false;
-          cond.delete = false;
-          cond.nameError = false;
-          cond.conditionError = false;
-          cond.valueError = false;
-        }
-      }
-      this.reorderButtons();
-    },
-    // Retrieve all the information of the condition retrieved checking it from the conditionsOptions array.
-    retrieveInformation(condition) {
-      for (let opt of this.conditionsOptions) {
-        if (condition.nameCond == opt.nameCond) {
-          return {
-            inputType : opt.inputType,
-            conditions: opt.conditions,
-            values: opt.values
-          }
-        }
-      }
-      return {
-        inputType : 'string',
-        conditions: this.allConditions,
-        values: []
-      }
-    },
-    // Reorder the ADD and DELETE buttons in the array of packages.conditions.
-    reorderButtons() {
-      for (let cond of this.packages.conditions) {
-        cond.add = false;
-        cond.delete = true;
-      }
-
-      let aux = this.packages.conditions[this.packages.conditions.length-1];
-      if (aux.nameCond != '' && aux.value != '' && aux.condition != '') {
-        aux.add = true;
-      } else if (aux.nameCond == '' && aux.value == '' && aux.condition == '') {
-        aux.delete = false;
-      }
     },
     // Check if the conditions are not empty.
     checkConditions() {
       let submitOk = true;
-      if(this.packages.conditions[0].nameCond != '') {
-        for (let cond of this.packages.conditions) {
+      if(this.conditions.selected[0].nameCond != '') {
+        for (let cond of this.conditions.selected) {
           if (cond.nameCond == '') {
             cond.nameError = true;
             submitOk = false;
@@ -275,320 +141,402 @@ export default {
           }
         }
       }
-
       return submitOk;
     },
-    //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------END CONDITIONS-------------------------------------------------------
-    //------------------------------------------START PRESETS--------------------------------------------------------
-    //------------------------------------------START PRESETS--------------------------------------------------------
-    //------------------------------------------START PRESETS--------------------------------------------------------
+    //--------------------------------------------------START CONDITIONS--------------------------------------------------
+    //--------------------------------------------------START CONDITIONS--------------------------------------------------
+    //--------------------------------------------------START CONDITIONS--------------------------------------------------
+    // Function that changes the ConditionsOptions and ValuesOptions when the Name is changed.
+    updatePackageCondition(index, value, type) {
+      for (let aux of this.information.conditionsOptions) {
+        if (aux.nameCond == value) {
+          this.conditions.selected[index].conditionsConditionsOptions = aux.conditions;
+          this.conditions.selected[index].condition = '';
+          this.conditions.selected[index].conditionsValuesOptions = aux.values;
+          this.conditions.selected[index].value = '';
+          this.conditions.selected[index].inputType = aux.inputType;
+          this.conditions.selected[index].nameError = false;
+        }
+      }
+      this.reorderButtons();
+    },
+    updatePackage(index, value, type) {
+      if (type == 'condition') {
+        this.conditions.selected[index].condition = value;
+        this.conditions.selected[index].conditionError = false;
+      }
+
+      if (type == 'value') {
+        this.conditions.selected[index].value = value;
+        this.conditions.selected[index].valueError = false;
+      }
+      this.reorderButtons();
+    },
+    // Function that adds another empty element to the conditions.selected list.
+    pushCondition(index) {
+      this.conditions.selected.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
+      this.reorderButtons();
+    },
+    // Function that deletes the selected element from the conditions.selected list.
+    deleteCondition(index) {
+      this.conditions.selected.splice(index, 1);
+      if (this.conditions.selected.length == 0) {
+        this.conditions.selected.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
+      }
+      this.reorderButtons();
+    },
+    // Retrieve from the packages.companies.udls all the information and add it to the conditionsOptions.
+    addConditionsOptions() {
+      for (let udl of this.company.udls) {
+        let vals = [];
+        if (udl.sections > 0) {
+          for (let values of udl.sections) {
+            vals.push(values.nameCond);
+          }
+        }
+
+        this.information.conditionsFieldsOptions.push(udl.name);
+
+        let condition = [];
+
+        if (udl.inputType == 'boolean') {
+          condition = this.information.allConditionsForBoolean;
+          vals = ['Yes', 'No'];
+        } else if (udl.inputType == 'number') {
+          condition = this.information.allConditionsForNumber;
+        } else {
+          // STRING (default)
+          condition = this.information.allConditionsForString;
+        }
+
+        let aux = {
+          nameCond: udl.name,
+          conditions: condition,
+          values: vals,
+          inputType: udl.inputType
+        }
+        this.information.conditionsOptions.push(aux);
+      }
+    },
+    // Check the conditions.selected array and add to each element the information needed.
+    addOptionsToRetrievedConditions(conditions) {
+      let auxArray = [];
+      if (conditions.length == 0) {
+        auxArray.push({id: "0", nameCond: '', value: '', condition: '', add: false, delete: false});
+      } else {
+        for (let cond of conditions) {
+          let aux = this.retrieveInformation(cond);
+          let variable = {
+            id: cond.id,
+            nameCond: cond.nameCond,
+            condition: cond.condition,
+            value: cond.value,
+            type: 'conditions',
+            inputType: aux.inputType,
+            conditionsConditionsOptions: aux.conditions,
+            conditionsValuesOptions: aux.values,
+            add: false,
+            delete: false,
+            nameError: false,
+            conditionError: false,
+            valueError: false,
+          };
+          auxArray.push(variable);
+
+        }
+      }
+      return auxArray;
+    },
+    // Retrieve all the information of the condition retrieved checking it from the conditionsOptions array.
+    retrieveInformation(condition) {
+      for (let opt of this.information.conditionsOptions) {
+        if (condition.nameCond == opt.nameCond) {
+          return {
+            inputType : opt.inputType,
+            conditions: opt.conditions,
+            values: opt.values
+          }
+        }
+      }
+      return {
+        inputType : 'string',
+        conditions: this.information.allConditions,
+        values: []
+      }
+    },
+    // Reorder the ADD and DELETE buttons in the array of conditions.selected.
+    reorderButtons() {
+      for (let cond of this.conditions.selected) {
+        cond.add = false;
+        cond.delete = true;
+      }
+
+      let aux = this.conditions.selected[this.conditions.selected.length-1];
+      if (aux.nameCond != '' && aux.value != '' && aux.condition != '') {
+        aux.add = true;
+      } else if (aux.nameCond == '' && aux.value == '' && aux.condition == '') {
+        aux.delete = false;
+      }
+
+      packaging.updateTheUsersThatAccomplishesTheConditions(this);
+    },
+    //--------------------------------------------------END CONDITIONS--------------------------------------------------
+    //--------------------------------------------------END CONDITIONS--------------------------------------------------
+    //--------------------------------------------------END CONDITIONS--------------------------------------------------
+    //--------------------------------------------------START PRESETS--------------------------------------------------
+    //--------------------------------------------------START PRESETS--------------------------------------------------
+    //--------------------------------------------------START PRESETS--------------------------------------------------
     goForwardPreset() {
-      this.goForward(this.packages.presetsPagination, this.packages.presetsController, 'presets');
+      this.goForward(this.presets.pagination, this.presets.controller, 'getPresets');
     },
     goBackPreset() {
-      this.goBack(this.packages.presetsPagination, this.packages.presetsController, 'presets');
+      this.goBack(this.presets.pagination, this.presets.controller, 'getPresets');
     },
     reloadArrowsForPresetsSwiper() {
-      this.reloadArrows(this.$refs.swPreset.swiper, this.packages.presetsPagination, this.packages.presetsController);
+      this.reloadArrows(this.presets.pagination, this.presets.controller, this.$refs.swPresets.swiper);
     },
     presetSelected(preset) {
-      for (let pres of this.packages.presets) {
-        pres.selected = false;
-        if(pres.id == preset.id) {
-          pres.selected = true;
-        }
+      if(this.presets.selected.id != preset.id) {
+        this.devicevariations.list = [];
+        this.presets.selected = preset;
+        this.presets.isSelected = true;
+        this.objectSelected(preset, this.presets.list, 'getDeviceVariationsFromPresets');
       }
-      packaging.getDeviceVariationsFromPresets(this, preset.id);
     },
-    devicevariationList(){
-      //if (this.packages.devicevariationsList.length == 0) {
-        this.packages.devicevariationsList = [];
-        for (let dv of this.packages.presetSelected.devicevariations) {
-          let ok = true;
-          for (let dvsel of this.packages.devicevariations) {
-            if (dv.id == dvsel.id) {
-              ok = false;
-            }
-          }
-          if (ok) {
-            dv.show = false;
-            this.packages.devicevariationsList.push(dv);
-          }
-        }
-
-        for (let dv of this.packages.devicevariationsList) {
-          dv.show = true;
-        }
-
-        this.packages.variablesShow.presetSelected = true;
-      //}
+    //--------------------------------------------------END PRESETS--------------------------------------------------
+    //--------------------------------------------------END PRESETS--------------------------------------------------
+    //--------------------------------------------------END PRESETS--------------------------------------------------
+    //--------------------------------------------------START DEVICEVARIATIONS--------------------------------------------------
+    //--------------------------------------------------START DEVICEVARIATIONS--------------------------------------------------
+    //--------------------------------------------------START DEVICEVARIATIONS--------------------------------------------------
+    addDeviceVariation(devvar, index) {
+      this.devicevariations.filtered.splice(index, 1);
+      this.devicevariations.selected.splice(0, 0, devvar);
+      this.devicevariations.names = this.retrieveTheValues(this.devicevariations.names, this.devicevariations.selected, 'price1')
     },
-    devicevariationSelected(devvar, index) {
-      this.packages.devicevariationsList.splice(index, 1);
-      this.packages.devicevariations.splice(0, 0, devvar);
-      this.retrieveTheValues(this.packages.names.devices, this.packages.devicevariations, 'price1')
-    },
-    devicevariationNoSelected(devvar, index) {
-      this.packages.devicevariations.splice(index, 1);
+    deleteDeviceVariation(devvar, index) {
+      this.devicevariations.selected.splice(index, 1);
       this.returnToThePresetAbove(devvar);
-      this.retrieveTheValues(this.packages.names.devices, this.packages.devicevariations, 'price1');
+      this.devicevariations.names = this.retrieveTheValues(this.devicevariations.names, this.devicevariations.selected, 'price1');
+    },
+    reloadArrowsForDevicevariationsFilteredSwiper() {
+      this.reloadArrows(this.devicevariations.pagination.filtered, this.devicevariations.controller.filtered, this.$refs.swDevicevariationsFiltered.swiper);
+    },
+    reloadArrowsForDevicevariationsSelectedSwiper() {
+      this.reloadArrows(this.devicevariations.pagination.selected, this.devicevariations.controller.selected, this.$refs.swDevicevariationsSelected.swiper);
     },
     returnToThePresetAbove(devvar) {
-      if(this.packages.presetSelected.name != "") {
-        for (let dv of this.packages.presetSelected.devicevariations) {
+      if(this.presets.isSelected) {
+        for (let dv of this.devicevariations.list) {
           if(devvar.id == dv.id) {
-            this.packages.devicevariationsList.splice(0, 0, devvar);
+            this.devicevariations.filtered.splice(0, 0, devvar);
           }
         }
       }
     },
-    //------------------------------------------END PRESETS-----------------------------------------------------------
-    //------------------------------------------END PRESETS-----------------------------------------------------------
-    //------------------------------------------END PRESETS-----------------------------------------------------------
-    //------------------------------------------START CARRIERS--------------------------------------------------------
-    //------------------------------------------START CARRIERS--------------------------------------------------------
-    //------------------------------------------START CARRIERS--------------------------------------------------------
+    //--------------------------------------------------END DEVICEVARIATIONS--------------------------------------------------
+    //--------------------------------------------------END DEVICEVARIATIONS--------------------------------------------------
+    //--------------------------------------------------END DEVICEVARIATIONS--------------------------------------------------
+    //--------------------------------------------------START CARRIERS--------------------------------------------------
+    //--------------------------------------------------START CARRIERS--------------------------------------------------
+    //--------------------------------------------------START CARRIERS--------------------------------------------------
     goForwardCarrier() {
-      this.goForward(this.packages.carriersPagination, this.packages.carriersController, 'carriers');
+      this.goForward(this.carriers.pagination, this.carriers.controller, 'getCarriers');
     },
     goBackCarrier() {
-      this.goBack(this.packages.servicesPagination, this.packages.servicesController, 'carriers');
+      this.goBack(this.carriers.pagination, this.carriers.controller, 'getCarriers');
     },
     reloadArrowsForCarriersSwiper() {
-      this.reloadArrows(this.$refs.swCarrier.swiper, this.packages.carriersPagination, this.packages.carriersController);
+      this.reloadArrows(this.carriers.pagination, this.carriers.controller, this.$refs.swCarriers.swiper);
     },
     carrierSelected(carrier) {
-      this.packages.variablesShow.carrierSelected = false;
-      if(this.packages.retrieveMore) {
-        this.packages.retrieveMore = false;
-
-        for (let carr of this.packages.carriers) {
-          carr.selected = false;
-          if(carr.id == carrier.id) {
-            carr.selected = true;
-          }
-        }
-
-        if (this.packages.carrierSelected != carrier.id) {
-          this.packages.servicesList = [];
-          this.packages.carrierSelected = carrier;
-          this.packages.serviceInformationBool = false;
-          packaging.getServicesFromCarriers(this, carrier.id, 1);
-        }
+      if(this.carriers.selected.id != carrier.id) {
+        this.services.list = [];
+        this.carriers.selected = carrier;
+        this.carriers.isSelected = true;
+        this.objectSelected(carrier, this.carriers.list, 'getServicesFromCarriers');
       }
     },
-    serviceList(){
-      this.packages.servicesSwiper = [];
-      for (let dv of this.packages.carrierSelected.services) {
-        let ok = true;
-        for (let dvsel of this.packages.services) {
-          if (dv.id == dvsel.id) {
-            ok = false;
-          }
-        }
-        if (ok) {
-          dv.show = false;
-          this.packages.servicesSwiper.push(dv);
-        }
-      }
-
-      for (let dv of this.packages.servicesSwiper) {
-        dv.show = true;
-      }
-
-      this.packages.variablesShow.carrierSelected = true;
-    },
-    serviceInformation(service) {
-      for (let serv of this.packages.servicesList) {
-        serv.selected = false;
-        if(serv.id == service.id) {
-          serv.selected = true;
-        }
-      }
-      this.packages.serviceInformation = service;
-      this.packages.serviceInformationBool = true;
-    },
-    serviceSelectedInformation(service) {
-      for (let serv of this.packages.services) {
-        serv.selected = false;
-        if(serv.id == service.id) {
-          serv.selected = true;
-        }
-      }
-      this.packages.serviceSelectedInformationBool = true;
-      this.packages.serviceSelectedInformation = service;
-    },
-    serviceSelectedAccepted() {
-      this.packages.servicesList.splice(index, 1);
-      this.packages.services.splice(0, 0, service);
-    },
-    returnToTheCarrierAbove(service) {
-      for (let dv of this.packages.carrierSelected.services) {
-        if(service.id == dv.id) {
-          this.packages.servicesList.splice(0, 0, service);
-        }
-      }
-    },
-    getClassIfCarrierSelected(carrier) {
-      if (carrier.name == this.carrierSelected.name) {
-        return 'carrierimage';
-      }
-    },
-    parseServiceItemsValues(value) {
-      return ucfirst(value);
-    },
-    //------------------------------------------END CARRIERS---------------------------------------------------------
-    //------------------------------------------END CARRIERS---------------------------------------------------------
-    //------------------------------------------END CARRIERS---------------------------------------------------------
-    //------------------------------------------START SERVICES-------------------------------------------------------
-    //------------------------------------------START SERVICES-------------------------------------------------------
-    //------------------------------------------START SERVICES-------------------------------------------------------
+    //--------------------------------------------------END CARRIERS--------------------------------------------------
+    //--------------------------------------------------END CARRIERS--------------------------------------------------
+    //--------------------------------------------------END CARRIERS--------------------------------------------------
+    //--------------------------------------------------START SERVICES--------------------------------------------------
+    //--------------------------------------------------START SERVICES--------------------------------------------------
+    //--------------------------------------------------START SERVICES--------------------------------------------------
     goForwardService() {
-      this.goForward(this.packages.servicesPagination, this.packages.servicesController, 'services');
+      this.goForward(this.services.pagination, this.services.controller.filtered, 'getServicesFromCarriers');
     },
     goBackService() {
-      this.goBack(this.packages.servicesPagination, this.packages.servicesController, 'services');
+      this.goBack(this.services.pagination, this.services.controller.filtered, 'getServicesFromCarriers');
     },
-    reloadArrowsForServicesSwiper() {
-      this.reloadArrows(this.$refs.swServicesList.swiper, this.packages.servicesPagination, this.packages.servicesController);
+    reloadArrowsForServicesFilteredSwiper() {
+      this.reloadArrows(this.services.pagination.filtered, this.services.controller.filtered, this.$refs.swServicesFiltered.swiper);
     },
-    checkSelected(option, information, array, list, bool, retrieved, variableShow, name, type) {
-      let aux = [];
-      if (option == 'add') {
-        information.selected = false;
-        aux.push(information);
-        for (let a of array) {
-          aux.push(a);
-        }
-      } else if (option == 'delete') {
-        for (let serv of array) {
-          if(serv.id != information.id){
-            aux.push(serv);
+        reloadArrowsForServicesSelectedSwiper() {
+      this.reloadArrows(this.services.pagination.selected, this.services.controller.selected, this.$refs.swServicesSelected.swiper);
+    },
+    addService() {
+      this.services.isSelectedII = false;
+      this.services.itemInformation.selected = false;
+      this.services.filtered = this.deleteSelectedFromList(this.services.filtered, [this.services.itemInformation]);
+      this.services.selected.splice(0,0, this.services.itemInformation);
+      this.services.names = this.retrieveTheValues(this.services.names, this.services.selected, 'cost');
+    },
+    deleteService() {
+      this.services.isSelectedISI = false;
+      this.services.itemSelectedInformation.selected = false;
+      this.services.selected = this.deleteSelectedFromList(this.services.selected, [this.services.itemSelectedInformation]);
+      this.returnToTheCarrierAbove(this.services.itemSelectedInformation);
+      this.services.names = this.retrieveTheValues(this.services.names, this.services.selected, 'cost');
+    },
+    returnToTheCarrierAbove(service) {
+      if(this.carriers.isSelected) {
+        for (let serv of this.services.list) {
+          if(service.id == serv.id) {
+            this.services.filtered.splice(0, 0, service);
           }
         }
       }
-
-      array = aux;
-      bool = false;
-      this.deleteSelectedFromList(list, retrieved, array, variableShow);
-      this.retrieveTheValues(name, array, type);
     },
-    addServiceSelected() {
-      this.checkSelected('add', this.packages.serviceInformation, this.packages.services, this.packages.servicesList, this.packages.serviceInformationBool,
-        this.packages.servicesListRetrieved, this.packages.variablesShow.carrierSelected, this.packages.names.services, 'cost');
+    serviceListInformationFiltered(service) {
+      this.services.itemInformation = service;
+      this.services.isSelectedII = true;
+      this.listInformation(service, this.services.filtered);
     },
-    deleteServiceSelected() {
-      this.checkSelected('delete', this.packages.serviceInformation, this.packages.services, this.packages.servicesList, this.packages.serviceInformationBool,
-        this.packages.servicesListRetrieved, this.packages.variablesShow.carrierSelected, this.packages.names.services, 'cost');
+    serviceListInformationSelected(service) {
+      this.services.itemSelectedInformation = service;
+      this.services.isSelectedISI = true;
+      this.listInformation(service, this.services.selected);
     },
-    //------------------------------------------END SERVICES-------------------------------------------------------
-    //------------------------------------------END SERVICES-------------------------------------------------------
-    //------------------------------------------END SERVICES-------------------------------------------------------
-    //------------------------------------------START ADDRESS------------------------------------------------------
-    //------------------------------------------START ADDRESS------------------------------------------------------
-    //------------------------------------------START ADDRESS------------------------------------------------------
+    //--------------------------------------------------END SERVICES--------------------------------------------------
+    //--------------------------------------------------END SERVICES--------------------------------------------------
+    //--------------------------------------------------END SERVICES--------------------------------------------------
+    //--------------------------------------------------START ADDRESS--------------------------------------------------
+    //--------------------------------------------------START ADDRESS--------------------------------------------------
+    //--------------------------------------------------START ADDRESS--------------------------------------------------
     goForwardAddress() {
-      this.goForward(this.packages.addressPagination, this.packages.addressController, 'address');
+      this.goForward(this.address.pagination, this.address.controller.filtered, 'getAddressFromCompany');
     },
     goBackAddress() {
-      this.goBack(this.packages.addressPagination, this.packages.addressController, 'address');
+      this.goBack(this.address.pagination, this.address.controller.filtered, 'getAddressFromCompany');
     },
-    reloadArrowsForAddressSwiper() {
-      this.reloadArrows(this.$refs.swAddressList.swiper, this.packages.addressPagination, this.packages.addressController);
+    reloadArrowsForAddressFilteredSwiper() {
+      this.reloadArrows(this.address.pagination.filtered, this.address.controller.filtered, this.$refs.swAddressFiltered.swiper);
     },
-    addAddressToSelected() {
-      this.packages.address = this.deleteElementFromArrayWithId(this.packages.addressSelectedInformation, this.packages.address);
-      this.packages.addressSelected = this.addElementToArrayWithId(this.packages.addressSelectedInformation, this.packages.addressSelected);
-      this.packages.addressSelSelectedInformation = this.packages.addressSelectedInformation;
-      this.packages.addressSelectedInformationBool = false;
-      this.packages.addressSelSelectedInformationBool = true;
+    reloadArrowsForAddressSelectedSwiper() {
+      this.reloadArrows(this.address.pagination.selected, this.address.controller.filtered, this.$refs.swAddressSelected.swiper);
     },
-    deleteAddressFromSelected() {
-      this.packages.addressSelected = this.deleteElementFromArrayWithId(this.packages.addressSelSelectedInformation, this.packages.addressSelected);
-      this.packages.address = this.addElementToArrayWithId(this.packages.addressSelSelectedInformation, this.packages.address);
-      this.packages.addressSelectedInformation = this.packages.addressSelSelectedInformation;
-      this.packages.addressSelectedInformationBool = true;
-      this.packages.addressSelSelectedInformationBool = false;
+    addAddress() {
+      this.address.isSelectedII = false;
+      this.address.itemInformation.selected = false;
+      this.address.filtered = this.deleteSelectedFromList(this.address.filtered, [this.address.itemInformation]);
+      this.address.selected.splice(0,0, this.address.itemInformation);
     },
-    //------------------------------------------END ADDRESS-----------------------------------------------------
-    //------------------------------------------END ADDRESS-----------------------------------------------------
-    //------------------------------------------END ADDRESS-----------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    goForward(pagination, controller, type) {
-      if(pagination.current_page < pagination.total_pages && this.packages.retrieveMore) {
+    deleteAddress() {
+      this.address.isSelectedISI = false;
+      this.address.itemSelectedInformation.selected = false;
+      this.address.selected = this.deleteSelectedFromList(this.address.selected, [this.address.itemSelectedInformation]);
+      this.address.filtered.splice(0,0, this.address.itemSelectedInformation);
+    },
+    addressListInformationFiltered(address) {
+      this.address.itemInformation = address;
+      this.address.isSelectedII = true;
+      this.listInformation(address, this.address.filtered);
+    },
+    addressListInformationSelected(address) {
+      this.address.itemSelectedInformation = address;
+      this.address.isSelectedISI = true;
+      this.listInformation(address, this.address.selected);
+    },
+    //--------------------------------------------------END ADDRESS--------------------------------------------------
+    //--------------------------------------------------END ADDRESS--------------------------------------------------
+    //--------------------------------------------------END ADDRESS--------------------------------------------------
+    //--------------------------------------------------START COMMON FUNCTIONS--------------------------------------------------
+    //--------------------------------------------------START COMMON FUNCTIONS--------------------------------------------------
+    //--------------------------------------------------START COMMON FUNCTIONS--------------------------------------------------
+    /*
+     * goForward(pagination, controller, func):
+     *  Retrieve the information of the next page of the swiper.
+     *
+     *  @pagination: is the pagination controller.
+     *  @controller: is the swiper controller.
+     *  @func: is the function that we need to call.
+     *
+     */
+    goForward(pagination, controller, func) {
+      if(pagination.current_page < pagination.total_pages && this.retrieveMore) {
         let optionAux = controller.option;
         controller.option = 'forward';
 
-        this.packages.retrieveMore = false;
+        this.retrieveMore = false;
         if(optionAux == controller.option) {
-          if (type == 'presets') {
-            packaging.getPresets(this, this.packages.companyId, pagination.current_page + 1);
-          } else if (type == 'carriers') {
-            packaging.getCarriers(this, pagination.current_page + 1);
-          } else if (type == 'services') {
-            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page + 1);
-          } else if (type == 'address') {
-            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 1);
-          }
+          packaging[func](this, pagination.current_page + 1);
         } else {
-          if (type == 'presets') {
-            packaging.getPresets(this, this.packages.companyId, pagination.current_page + 2);
-          } else if (type == 'carriers') {
-            packaging.getCarriers(this, pagination.current_page + 2);
-          } else if (type == 'services') {
-            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page + 2);
-          } else if (type == 'address') {
-            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page + 2);
-          }
+          packaging[func](this, pagination.current_page + 2);
         }
       }
     },
-    goBack(pagination, controller, type) {
-      if(pagination.current_page > 2 && this.packages.retrieveMore) {
+    /*
+     * goBack(pagination, controller, func)
+     *  Retrieve the information of the previous page of the swiper.
+     *
+     *  @pagination: is the pagination controller.
+     *  @controller: is the swiper controller.
+     *  @func: is the function that we need to call.
+     *
+     */
+    goBack(pagination, controller, func) {
+      if(pagination.current_page > 2 && this.retrieveMore) {
+        this.retrieveMore = false;
         let optionAux = controller.option;
         controller.option = 'backward';
 
-        this.packages.retrieveMore = false;
+
         if(optionAux == controller.option) {
-          if (type == 'presets') {
-            packaging.getPresets(this, this.packages.companyId, pagination.current_page - 1);
-          } else if (type == 'carriers') {
-            packaging.getCarriers(this, pagination.current_page - 1);
-          } else if (type == 'services') {
-            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page - 1);
-          } else if (type == 'address') {
-            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page - 1);
-          }
+          packaging[func](this, pagination.current_page - 1);
         } else {
-          if (type == 'presets') {
-            packaging.getPresets(this, this.packages.companyId, pagination.current_page - 2);
-          } else if (type == 'carriers') {
-            packaging.getCarriers(this, pagination.current_page - 2);
-          } else if (type == 'services') {
-            packaging.getServicesFromCarriers(this, this.packages.carrierSelected.id, pagination.current_page - 2);
-          } else if (type == 'address') {
-            packaging.getAddressFromCompany(this, this.packages.addressSelected.id, this.packages.addressPagination.current_page - 2);
-          }
+          packaging[func](this, pagination.current_page - 2);
         }
       }
     },
-    reloadArrows(swiper, pagination, controller) {
-      if(swiper.isBeginning && (pagination.current_page == 1 || pagination.current_page == 2)) {
-        controller.goBackBoolean = false;
-      } else {
-        controller.goBackBoolean = true;
-      }
+    /*
+     * reloadArrows(swiper, pagination, controller)
+     *  Reload the arrows to hide if we are in the begining or in the end of the swiper.
+     *
+     *  @swiper: is the .vue swiper options reference.
+     *  @pagination: is the pagination controller.
+     *  @controller: is the swiper controller.
+     *
+     */
+    reloadArrows(pagination, controller, swiper) {
+      if(!controller.firstTime) {
+        if(swiper.isBeginning && (pagination.current_page == 1 || pagination.current_page == 2)) {
+          controller.goBackBoolean = false;
+        } else {
+          controller.goBackBoolean = true;
+        }
 
-      if(swiper.isEnd && pagination.current_page == pagination.total_pages) {
-        controller.goForwardBoolean = false;
+        if(swiper.isEnd && pagination.current_page == pagination.total_pages) {
+          controller.goForwardBoolean = false;
+        } else {
+          controller.goForwardBoolean = true;
+        }
       } else {
-        controller.goForwardBoolean = true;
+        controller.firstTime = false;
       }
     },
+    /*
+     * addElementsToTheArray(elements, array, controller, swiper)
+     * Adds the elements to the array and reconfigures the controller and the swiper.
+     *
+     *  @elements: are the elements that we will add to the array.
+     *  @array: is the array that we need to fill with elements.
+     *  @controller: is the swiper controller.
+     *  @swiper: is the .vue swiper options reference.
+     *
+     *  @return: the array with all elements.
+     *
+     */
     addElementsToTheArray(elements, array, controller, swiper) {
       if (elements.length != 0) {
         if (array.length == 0) {
@@ -616,25 +564,47 @@ export default {
           }
         }
       }
-      this.packages.retrieveMore = true;
+      this.retrieveMore = true;
       return array;
     },
-    deleteSelectedFromList(list, listRetrieved, selected, variableShow) {
-      list = [];
-      for (let lr of listRetrieved) {
+    /*
+     * deleteSelectedFromList(list, selected)
+     *  Deletes the selected items from the list.
+     *
+     *  @pagination: is the pagination controller.
+     *  @controller: is the swiper controller.
+     *  @type: is the function that we need to call.
+     *
+     *  @return: the array with the elements in list that are not in selected.
+     *
+     */
+    deleteSelectedFromList(list, selected) {
+      let filtered = [];
+      for (let l of list) {
         let ok = true;
-        for (let lrsel of selected) {
-          if (lr.id == lrsel.id) {
+        for (let ls of selected) {
+          if (l.id == ls.id) {
             ok = false;
           }
         }
         if (ok) {
-          lr.show = false;
-          list.push(lr);
+          l.show = false;
+          filtered.push(l);
         }
       }
-      variableShow = true;
+
+      return filtered;
     },
+    /*
+     * retrieveTheValues(information, array, type)
+     *
+     *  @information: is the location of the information (best called names).
+     *  @array: is the array with the selected objects.
+     *  @type: is the type of the attribute
+     *
+     *  @return: the information with all the changes.
+     *
+     */
     retrieveTheValues(information, array, type) {
       information.minPrice = 0;
       information.maxPrice = 0;
@@ -652,17 +622,47 @@ export default {
           }
         }
       }
+      return information;
     },
-    selectedInformation(element, selected, array, bool) {
-      for (let a of array) {
-        a.selected = false;
-        if(a.id == element.id) {
-          a.selected = true;
+    /*
+     * objectSelected(object, array, func)
+     *
+     *  @object: is the pagination controller.
+     *  @array: is the swiper controller.
+     *  @func: is the function that we need to call.
+     *
+     */
+    objectSelected(object, array, func) {
+      if(this.retrieveMore) {
+        this.retrieveMore = false;
+        this.listInformation(object, array);
+        packaging[func](this, object, 1);
+      }
+
+    },
+    /*
+     * listInformation(object, array)
+     *
+     *  @object: is the pagination controller.
+     *  @array: is the array of objects.
+     *
+     */
+    listInformation(object, array) {
+      for (let obj of array) {
+        obj.selected = false;
+        if(obj.id == object.id) {
+          obj.selected = true;
         }
       }
-      bool = true;
-      selected = element;
     },
+    /*
+     * getUrlOfImageSelected(object)
+     *
+     *  @object: the object information.
+     *
+     *  @return: return the url to the image.
+     *
+     */
     getUrlOfImageSelected(object) {
       if (object.selected) {
         return 'http://a.rgbimg.com/cache1s6IGK/users/x/xy/xymonau/300/nrmoM6g.jpg';
@@ -670,8 +670,16 @@ export default {
         return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
       }
     },
+    /*
+     * getUrlOfImage(object, type)
+     *
+     *  @object: the object information.
+     *  @type: the type of the object to return an image or another.
+     *
+     *  @return: the image related to the object.
+     *
+     */
     getUrlOfImage(object, type) {
-
       if(object.hasOwnProperty('images')) {
         if (object.images.length > 0 ) {
           for (let i of object.images) {
@@ -692,45 +700,22 @@ export default {
         return 'http://a.rgbimg.com/cache1s6IGX/users/x/xy/xymonau/300/nrmoNS6.jpg';
       }
     },
+    /*
+     * goForward(pagination, controller, type)
+     *
+     *  @pagination: is the pagination controller.
+     *  @controller: is the swiper controller.
+     *  @type: is the function that we need to call.
+     *
+     */
     getNameIfNoImage(imageId, name) {
       if (imageId == 0) {
         return name;
       }
     },
-    deleteElementFromArrayWithId(element, array) {
-      let del = [];
-      if (array.length > 0) {
-        for (let d of array) {
-          if (d.id != element.id) {
-            del.push(d);
-          }
-        }
-      }
-      return this.changeSelectedToFalseExceptOne(element, del);
-    },
-    addElementToArrayWithId(element, array) {
-      let add = [];
-      add.push(element);
-      if (array.length > 0) {
-        for (let a of array) {
-          add.push(a);
-        }
-      }
-      return this.changeSelectedToFalseExceptOne(element, add);
-    },
-    changeSelectedToFalseExceptOne(element, array) {
-      for (let a of array) {
-        if (a.id == element.id) {
-          a.selected = true;
-        } else {
-          a.selected = false;
-        }
-      }
-      return array;
-    },
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
-    //---------------------------------------COMMON FUNCTIONS---------------------------------------------------
+    //--------------------------------------------------END COMMON FUNCTIONS--------------------------------------------------
+    //--------------------------------------------------END COMMON FUNCTIONS--------------------------------------------------
+    //--------------------------------------------------END COMMON FUNCTIONS--------------------------------------------------
     showFalse() {
       this.show = false;
     },
@@ -742,28 +727,24 @@ export default {
   data() {
 
     return {
+
       show: false,
       loadedContent: false,
-      packages: {
+      retrieveMore: true,
+      package: {
         id: 0,
-        page: 1,
-        retrieveMore: true,
-        name: '',
-        nameError: false,
         type: 'packages',
+        name: '',
         companyId: 0,
-        values : {
-          usersConditions: 0,
-        },
-        variablesShow: {
-          presetSelected: false,
-          carrierSelected: false,
-          carrierSelectedName: '',
+        errors: {
+          name: false,
+          text: 'Internal Server Error, Please Contact the Administrator!',
+          generalError: false,
+          generalMessage: '',
         },
         names: {
-          managePackage: 'Manage Packages',
+          managePackage: 'Manage Package',
           title: 'Title',
-          employees: 'Employees',
           saveButton: 'Save Changes',
           prices: {
             minimum: 'Min:', // 'Min: 449.00 USD once - 28.10 USD monthly',
@@ -771,89 +752,54 @@ export default {
             once: 'once',
             monthly: 'monthly',
             currency: 'USD'
-          },
-          conditions: {
-            title: 'CONDITIONS',
-            nameCond: '',
-            condition: '',
-            value: '',
-            selectName: 'Select a Name',
-            selectCondition: 'Select a Condition',
-            selectValue: 'Select a Value',
-          },
-          services: {
-            title: 'SERVICES',
-            carriersAvailable: 'Carriers Available',
-            servicesAvailable: 'Services Available From ',
-            servicesSelected: 'Services Selected',
-            minPrice: 0,
-            maxPrice: 0,
-          },
-          devices:  {
-            title: 'DEVICES',
-            presetsAvailable: 'Presets Available',
-            devicesAvailable: 'Devices Available From ',
-            devicesSelected: 'Devices Selected',
-            minPrice: 0,
-            maxPrice: 0,
-          },
-          address: {
-            title: 'ADDRESS',
-            available: 'Address Available',
-            selected: 'Address Selected',
-          },
-          errors: {
-            textError: 'Internal Server Error, Please Contact the Administrator!'
           }
         },
-        apps: [
+        noinformation: [
         {
-          id: 0,
-          description: '',
-          image: '',
-          type: 'apps'
+          url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
         }
-        ],
-        companies: [
+        ]
+      },
+      company: {
+        active: 1,
+        assetPath: '',
+        currentBillMonth: '',
+        defaultLocation: '',
+        id: 0,
+        isCensus: null,
+        label: '',
+        name: '',
+        shortName: '',
+        type: 'companies',
+        udlPathRule: null,
+        udlpath: null,
+        udls: [
         {
-          active: 1,
-          assetPath: '',
-          currentBillMonth: '',
-          defaultLocation: '',
+          companyId: 0,
           id: 0,
-          isCensus: null,
           label: '',
+          legacyUdlField: null,
           name: '',
-          shortName: '',
-          type: 'companies',
-          udlPathRule: null,
-          udlpath: null,
-          udls: [
+          sections: [
           {
-            companyId: 0,
+            externalId: 0,
             id: 0,
-            label: '',
-            legacyUdlField: null,
             name: '',
-            sections: [
-            {
-              externalId: 0,
-              id: 0,
-              name: '',
-              udlId: 0
-            }
-            ]
+            udlId: 0
           }
           ]
         }
-        ],
-        conditions: [
+        ]
+      },
+      conditions: {
+        selected: [
         {
           id: 0,
-          type: 'conditions',
           nameCond: '',
-          value: '',
           condition: '',
+          value: '',
+          type: 'conditions',
+          inputType: '',
           conditionsConditionsOptions: [],
           conditionsValuesOptions: [],
           add: false,
@@ -863,232 +809,415 @@ export default {
           valueError: false,
         }
         ],
-        presets: [],
-        presetSelected: {
-          name: '',
+        namesList: [],
+        namesConditions: [],
+        namesValues: [],
+        list: [],
+        numberOfUsers: 0,
+        names: {
+          employees: 'Employees',
+          title: 'CONDITIONS',
+          titleField: 'Label',
+          conditionField: 'condition',
+          valueField: 'value',
+          nameCond: '',
+          condition: '',
+          value: '',
+          selectName: 'Select a Name',
+          selectCondition: 'Select a Condition',
+          selectValue: 'Select a Value',
+        }
+      },
+      presets: {
+        list: [],
+        selected: {
+          id: 0,
         },
-        presetsController: {
+        isSelected: false,
+        controller: {
+          firstTime: true,
           goForwardBoolean: true,
           goBackBoolean: false,
           current_value: 1,
           option: 'forward',
         },
-        presetsPagination: {
+        pagination: {
           count: 25,
           current_page: 1,
           per_page: 25,
           total: 1,
           total_pages: 1,
         },
-        devicevariations:  [], // The devicevariations related to packages.
-        devicevariationsList: [], // The devicevariations that we will show in the swiper
-
-        carriers: [],
-        carrierSelected: {
-          name: '',
+        names: {
+          available: 'Presets Available',
+        }
+      },
+      devicevariations: {
+        list: [], // Complete List.
+        filtered: [], // Filtered List.
+        selected: [], // Selected List.
+        names: {
+          title: 'DEVICES',
+          available: 'Devices Available From ',
+          selected: 'Devices Selected',
+          minPrice: 0,
+          maxPrice: 0,
         },
-        carriersController: {
+        controller: {
+          filtered: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          },
+          selected: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          }
+        },
+        pagination: {
+          filtered: {
+            current_page: 1,
+            total_pages: 1,
+          },
+          selected: {
+            current_page: 1,
+            total_pages: 1
+          }
+        }
+      },
+      carriers: {
+        list: [],
+        selected: {
+          id: 0,
+        },
+        isSelected: false,
+        names: {
+          available: 'Carriers Available',
+        },
+        controller: {
+          firstTime: true,
           goForwardBoolean: true,
           goBackBoolean: false,
           current_value: 1,
           option: 'forward',
         },
-        carriersPagination: {
+        pagination: {
           count: 25,
           current_page: 1,
           per_page: 25,
           total: 1,
           total_pages: 1,
         },
-        services:  [], // The services related to packages.
-        servicesController: {
-          goForwardBoolean: true,
-          goBackBoolean: false,
-          current_value: 1,
-          option: 'forward',
-        },
-        servicesPagination: {
-          count: 25,
-          current_page: 1,
-          per_page: 25,
-          total: 1,
-          total_pages: 1,
-        },
-        serviceInformation: {
-          title: '',
+      },
+      services: {
+        itemInformation: {
           serviceitems: [],
         },
-        serviceSelectedInformation: {
-          title: '',
-          serviceitems: []
+        isSelectedII: false,
+        itemSelectedInformation: {
+          serviceitems: [],
         },
-        serviceInformationBool: false,
-        serviceSelectedInformationBool: false,
-        servicesList: [], // The services that we will show in the swiper (with the deleted selected services).
-        servicesListRetrieved: [], // The services list complete.
-        noinformation: [
+        isSelectedISI: false,
+        list: [
         {
-          url: 'http://b9225bd1cc045e8ddfee-28c20014b7dd8678b4fc08c3466d5dd7.r99.cf2.rackcdn.com/product-hugerect-8124-379-1439234303-4d13a7e2d925af99e752b40b4491454a.jpg',
+          serviceitems: [],
+        }
+        ], // Complete List.
+        filtered: [
+        {
+          serviceitems: [],
+        }
+        ], // Filtered List.
+        selected: [
+        {
+          serviceitems: [],
+        }
+        ], // Selected List.
+        names: {
+          title: 'SERVICES',
+          available: 'Services Available From ',
+          selected: 'Services Selected',
+          minPrice: 0,
+          maxPrice: 0,
+        },
+        controller: {
+          filtered: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          },
+          selected: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          }
+        },
+        pagination: {
+          filtered: {
+            count: 25,
+            current_page: 1,
+            per_page: 25,
+            total: 1,
+            total_pages: 1,
+          },
+          selected: {
+            current_page: 1,
+            total_pages: 1
+          }
+        },
+      },
+      address: {
+        itemInformation: {},
+        isSelectedII: false,
+        itemSelectedInformation: {},
+        isSelectedISI: false,
+        list: [], // Complete List.
+        filtered: [], // Filtered List.
+        selected: [], // Selected List.
+        names: {
+          title: 'ADDRESS',
+          available: 'Address Available',
+          selected: 'Address Selected',
+        },
+        controller: {
+          filtered: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          },
+          selected: {
+            firstTime: true,
+            goForwardBoolean: true,
+            goBackBoolean: false,
+            current_value: 1,
+            option: 'forward',
+          }
+        },
+        pagination: {
+          filtered: {
+            count: 25,
+            current_page: 1,
+            per_page: 25,
+            total: 1,
+            total_pages: 1,
+          },
+          selected: {
+            current_page: 1,
+            total_pages: 1
+          }
+
+        },
+      },
+      information: {
+        allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+        allConditionsForBoolean: ['equal'],
+        allConditionsForString: ['contains', 'equal', 'not equal'],
+        allConditionsForNumber: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
+        conditionsOptions : [
+        {
+          nameCond: 'Supervisor?',
+          conditions: ['equal'],
+          values: ['Yes', 'No'],  //SELECT
+          inputType: 'boolean'
+        },
+        {
+          nameCond: 'Country',
+          conditions: ['contains', 'equal', 'not equal'],
+          values: ['Spain', 'Catalonia', 'EEUU', 'Canada', 'Germany', 'United Kingdom'],
+          inputType: 'string'
+        },
+        {
+          nameCond: 'State',
+          conditions: ['contains', 'equal', 'not equal'],
+          values: ['state1', 'state2', 'state3'],
+          inputType: 'string'
+        },
+        {
+          nameCond: 'City',
+          conditions: ['contains', 'equal', 'not equal'],
+          values: ['Barcelona', 'New York', 'Berlin', 'London'],
+          inputType: 'string'
         }
         ],
-        address: [],
-        addressList: [],
-        addressSelected: {},
-        addressController: {
-          goForwardBoolean: true,
-          goBackBoolean: false,
-          current_value: 1,
-          option: 'forward',
+        conditionsFieldsOptions: ['Supervisor?', 'Country', 'State', 'City'],
+      },
+      swiperOption: {
+        preset: {
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1200: {
+              slidesPerView: 4,
+            },
+            900: {
+              slidesPerView: 3,
+            },
+            600: {
+              slidesPerView: 2,
+            },
+            440: {
+              slidesPerView: 1
+            }
+          },
+          onReachEnd: this.goForwardPreset,
+          onReachBeginning: this.goBackPreset,
+          onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
         },
-        addressPagination: {
-          count: 25,
-          current_page: 1,
-          per_page: 25,
-          total: 1,
-          total_pages: 1,
+        devicevariationsFiltered: {  // DevVarList, DevVarSel, ServiceSel
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1100: {
+              slidesPerView: 4,
+            },
+            860: {
+              slidesPerView: 3,
+            },
+            560: {
+              slidesPerView: 2,
+            },
+            380: {
+              slidesPerView: 1,
+            }
+          },
+          onSlideChangeStart: this.reloadArrowsForDevicevariationsFilteredSwiper,
         },
-        addressSelectedInformation: {},
-        serviceSelectedInformationBool: false,
-        addressSelSelectedInformation: {},
-        serviceSelSelectedInformationBool: false,
-      },
-      allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
-      allConditionsForBoolean: ['equal'],
-      allConditionsForString: ['contains', 'equal', 'not equal'],
-      allConditionsForNumber: ['greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
-      conditionsOptions : [
-      {
-        nameCond: 'Supervisor?',
-        conditions: ['equal'],
-        values: ['Yes', 'No'],  //SELECT
-        inputType: 'boolean'
-      },
-      {
-        nameCond: 'Country',
-        conditions: ['contains', 'equal', 'not equal'],
-        values: ['Spain', 'Catalonia', 'EEUU', 'Canada', 'Germany', 'United Kingdom'],
-        inputType: 'string'
-      },
-      {
-        nameCond: 'State',
-        conditions: ['contains', 'equal', 'not equal'],
-        values: ['state1', 'state2', 'state3'],
-        inputType: 'string'
-      },
-      {
-        nameCond: 'City',
-        conditions: ['contains', 'equal', 'not equal'],
-        values: ['Barcelona', 'New York', 'Berlin', 'London'],
-        inputType: 'string'
-      }
-      ],
-      conditionsFieldsOptions: ['Supervisor?', 'Country', 'State', 'City'],
-      errors : {
-        generalError : false,
-      },
-      swiperOptionPreset: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1200: {
-            slidesPerView: 4,
+        devicevariationsSelected: {  // DevVarList, DevVarSel, ServiceSel
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1101: {
+              slidesPerView: 4,
+            },
+            861: {
+              slidesPerView: 3,
+            },
+            561: {
+              slidesPerView: 2,
+            },
+            381: {
+              slidesPerView: 1,
+            }
           },
-          900: {
-            slidesPerView: 3,
-          },
-          600: {
-            slidesPerView: 2,
-          },
-          440: {
-            slidesPerView: 1
-          }
+          onSlideChangeStart: this.reloadArrowsForDevicevariationsSelectedSwiper,
         },
-        onReachEnd: this.goForwardPreset,
-        onReachBeginning: this.goBackPreset,
-        onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
-      },
-      swiperOptionDefault: {  // DevVarList, DevVarSel, ServiceSel
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1100: {
-            slidesPerView: 4,
+        carrier: {
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1024: {
+              slidesPerView: 4,
+            },
+            640: {
+              slidesPerView: 2,
+            },
+            480: {
+              slidesPerView: 1,
+            }
           },
-          860: {
-            slidesPerView: 3,
+          onReachEnd: this.goForwardCarrier,
+          onReachBeginning: this.goBackCarrier,
+          onSlideChangeStart: this.reloadArrowsForCarriersSwiper,
+        },
+        serviceFiltered: {
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1025: {
+              slidesPerView: 3,
+            },
+            741: {
+              slidesPerView: 2,
+            },
+            501: {
+              slidesPerView: 1,
+            }
           },
-          560: {
-            slidesPerView: 2,
+          onReachEnd: this.goForwardService,
+          onReachBeginning: this.goBackService,
+          onSlideChangeStart: this.reloadArrowsForServicesFilteredSwiper,
+        },
+        serviceSelected: {  // DevVarList, DevVarSel, ServiceSel
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1102: {
+              slidesPerView: 4,
+            },
+            862: {
+              slidesPerView: 3,
+            },
+            562: {
+              slidesPerView: 2,
+            },
+            382: {
+              slidesPerView: 1,
+            }
           },
-          380: {
-            slidesPerView: 1,
-          }
+          onSlideChangeStart: this.reloadArrowsForServicesSelectedSwiper
+        },
+        addressFiltered: {
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1023: {
+              slidesPerView: 4,
+            },
+            639: {
+              slidesPerView: 2,
+            },
+            479: {
+              slidesPerView: 1,
+            }
+          },
+          onReachEnd: this.goForwardAddress,
+          onReachBeginning: this.goBackAddress,
+          onSlideChangeStart: this.reloadArrowsForAddressFilteredSwiper,
+        },
+        addressSelected: {
+          prevButton:'.swiper-button-prev',
+          nextButton:'.swiper-button-next',
+          slidesPerView: 5,
+          spaceBetween: 10,
+          breakpoints: {
+            1025: {
+              slidesPerView: 4,
+            },
+            639: {
+              slidesPerView: 2,
+            },
+            481: {
+              slidesPerView: 1,
+            }
+          },
+          onSlideChangeStart: this.reloadArrowsForAddressSelectedSwiper,
         }
-      },
-      swiperOptionCarrier: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 4,
-          },
-          640: {
-            slidesPerView: 2,
-          },
-          480: {
-            slidesPerView: 1,
-          }
-        },
-        onReachEnd: this.goForwardCarrier,
-        onReachBeginning: this.goBackCarrier,
-        onSlideChangeStart: this.reloadArrowsForCarriersSwiper,
-      },
-      swiperOptionServiceList: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 3,
-          },
-          740: {
-            slidesPerView: 2,
-          },
-          500: {
-            slidesPerView: 1,
-          }
-        },
-        onReachEnd: this.goForwardService,
-        onReachBeginning: this.goBackService,
-        onSlideChangeStart: this.reloadArrowsForServicesSwiper,
-      },
-      swiperOptionAddress: {
-        prevButton:'.swiper-button-prev',
-        nextButton:'.swiper-button-next',
-        slidesPerView: 5,
-        spaceBetween: 10,
-        breakpoints: {
-          1024: {
-            slidesPerView: 4,
-          },
-          640: {
-            slidesPerView: 2,
-          },
-          480: {
-            slidesPerView: 1,
-          }
-        },
-        onReachEnd: this.goForwardAddress,
-        onReachBeginning: this.goBackAddress,
-        onSlideChangeStart: this.reloadArrowsForAddresssSwiper,
-      },
+      }
     }
   }
 }

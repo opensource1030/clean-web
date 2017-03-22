@@ -7,6 +7,7 @@ var {Store} = require('yayson')();
 var store = new Store();
 
 export default {
+  agree: 0,
   // GET USER INFORMATION.
   getUserInformation(context) {
 
@@ -14,21 +15,21 @@ export default {
 
     context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
       event = store.sync(response.data);
-      context.packages.companyId = event.companyId;
+
       // CONDITIONS
-      this.getUdlsFromCompanies(context, context.packages.companyId);
+      this.getUdlsFromCompanies(context);
       // PRESETS -> DEVICEVARIATIONS
-      this.getPresets(context, context.packages.companyId, 1);
+      this.getPresets(context, 1);
       // ĈARRIERS -> SERVICES
-      this.getCarriers(context, context.packages.companyId, 1);
+      this.getCarriers(context, 1);
       // ADDRESS
-      this.getAddressFromCompany(context, context.packages.companyId, 1);
+      this.getAddressFromCompany(context, 1);
     },
     (response) => {
       if(response.status == 500) {
-        //context.packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+        //context.package.errors.textError = 'Internal Server Error, Please Contact the Administrator';
       }
-      context.errors.generalError = true;
+      context.package.errors.generalError = true;
     });
   },
   // GET packages INFORMATION.
@@ -42,64 +43,74 @@ export default {
 
     context.$http.get(process.env.URL_API + '/packages/' + id, params).then((response) => {
       event = store.sync(response.data);
-      context.packages.id = id;
-      context.packages.name = event.name;
-      context.packages.type = event.type;
-      context.packages.companyId = event.companyId;
+      context.package.id = id;
+      context.package.name = event.name;
+      context.package.type = event.type;
+      context.package.companyId = event.companyId;
 
-      context.packages.conditions = event.conditions;
-      context.packages.devicevariations = event.devicevariations;
-      context.packages.services = event.services;
-      context.packages.addressSelected = event.address;
-      //context.packages.apps = event.apps;
+      // CONDITIONS
+      context.conditions.selected = context.addOptionsToRetrievedConditions(event.conditions);
+      context.reorderButtons();
 
-      context.retrieveTheValues(context.packages.names.devices, context.packages.devicevariations, 'price1');
-      context.retrieveTheValues(context.packages.names.services, context.packages.services, 'cost');
-      context.addOptionsToRetrievedConditions();
-      this.updateTheUsersThatAccomplishesTheConditions(context);
+      // DEVICEVARIATIONS
+      context.devicevariations.selected = event.devicevariations;
+      context.retrieveTheValues(context.devicevariations.names, context.devicevariations.selected, 'price1');
+
+      // SERVICES
+      context.services.selected = event.services;
+      context.retrieveTheValues(context.services.names, context.services.selected, 'cost');
+
+      // ADDRESS
+      context.address.selected = event.address;
+
       this.getUserInformation(context);
+
     },
     (response) => {
       if(response.status == 500) {
-        packages.names.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+        context.package.errors.text = 'Internal Server Error, Please Contact the Administrator';
       }
-      context.errors.generalError = true;
+      context.package.errors.generalError = true;
     });
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
-  getUdlsFromCompanies(context, companyId) {
+  getUdlsFromCompanies(context) {
+
     let params = {
       params: {
         include: 'udls,devicevariations,devicevariations.images,devicevariations.devices'
       }
     };
 
-    context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
-      context.packages.companies = store.sync(response.data);
+    context.$http.get(process.env.URL_API + '/companies/' + context.package.companyId, params).then((response) => {
+      context.company = store.sync(response.data);
       context.addConditionsOptions();
+      this.loadContent(context, 1);
     },
     (response) => {});
   },
   // GET PRESETS RELATED TO THE COMPANY OF THE USER.
-  getPresets(context, companyId, pages) {
+  getPresets(context, pages) {
+
     let params = {
       params: {
         page: pages,
       }
     };
 
-    params.params['filter[devicevariations.companyId]'] = companyId;
+    params.params['filter[devicevariations.companyId]'] = context.package.companyId;
 
     context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.presetsPagination = response.data.meta.pagination;
-      context.packages.presets = context.addElementsToTheArray(event, context.packages.presets, context.packages.presetsController, context.$refs.swPreset.swiper);
-      this.loadContent(context);
+      context.presets.pagination = response.data.meta.pagination;
+      context.presets.list = context.addElementsToTheArray(event, context.presets.list, context.presets.controller, context.$refs.swPresets.swiper);
+      context.reloadArrows(context.presets.pagination, context.presets.controller, context.$refs.swPresets.swiper);
+      this.loadContent(context, 2);
     },
     (response) => {});
   },
   // GET DEVICEVARIATIONS FROM THE PRESET SELECTED BY THE USER.
-  getDeviceVariationsFromPresets(context, presetId) {
+  getDeviceVariationsFromPresets(context, pages) {
 
     let params = {
       params: {
@@ -107,15 +118,18 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/presets/' + presetId, params).then((response) => {
+    context.$http.get(process.env.URL_API + '/presets/' + context.presets.selected.id, params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.presetSelected = event;
-      context.devicevariationList();
+      context.devicevariations.list = event.devicevariations;
+      context.devicevariations.filtered = context.deleteSelectedFromList(context.devicevariations.list, context.devicevariations.selected);
+      context.reloadArrows(context.devicevariations.pagination, context.devicevariations.controller.filtered, context.$refs.swDevicevariationsFiltered.swiper);
+      this.retrieveMoreTrue(context);
     },
     (response) => {});
   },
   // GET CARRIERS RELATED TO THE COMPANY OF THE USER.
   getCarriers(context, pages) {
+
     let params = {
       params: {
         include: 'images',
@@ -125,13 +139,15 @@ export default {
 
     context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.carriersPagination = response.data.meta.pagination;
-      context.packages.carriers = context.addElementsToTheArray(event, context.packages.carriers, context.packages.carriersController, context.$refs.swCarrier.swiper);
+      context.carriers.pagination = response.data.meta.pagination;
+      context.carriers.list = context.addElementsToTheArray(event, context.carriers.list, context.carriers.controller, context.$refs.swCarriers.swiper);
+      context.reloadArrows(context.carriers.pagination, context.carriers.controller, context.$refs.swCarriers.swiper);
+      this.loadContent(context, 3);
     },
     (response) => {});
   },
   // GET SERVICES FROM THE CARRIER SELECTED BY THE USER.
-  getServicesFromCarriers(context, carrierId, pages) {
+  getServicesFromCarriers(context, pages) {
 
     let params = {
       params: {
@@ -140,17 +156,19 @@ export default {
       }
     };
 
-    params.params['filter[carrierId]'] = carrierId;
-
+    params.params['filter[carrierId]'] = context.carriers.selected.id;
     context.$http.get(process.env.URL_API + '/services', params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.servicesPagination = response.data.meta.pagination;
-      context.addElementsToTheArray(event, context.packages.services, context.packages.servicesController, context.$refs.swServicesList.swiper);
+      context.services.pagination.filtered = response.data.meta.pagination;
+      context.services.list = context.addElementsToTheArray(event, context.services.list, context.services.controller.filtered, context.$refs.swServicesFiltered.swiper);
+      context.services.filtered = context.deleteSelectedFromList(context.services.list, context.services.selected);
+      context.reloadArrows(context.services.pagination, context.services.controller.filtered, context.$refs.swServicesFiltered.swiper);
+      this.retrieveMoreTrue(context);
     },
     (response) => {});
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
-  getAddressFromCompany(context, companyId, pages) {
+  getAddressFromCompany(context, pages) {
 
     let params = {
       params: {
@@ -159,35 +177,20 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies/' + context.package.companyId, params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.addressList = event.address;
-      let aux = [];
-
-      if (context.packages.addressSelected.length > 0) {
-        for (let eva of context.packages.addressList) {
-          let ok = true;
-          for (let addsel of context.packages.addressSelected) {
-            if (eva.id == addsel.id) {
-              ok = false;
-            }
-          }
-          if (ok) {
-            aux.push(eva);
-          }
-        }
-        context.packages.address = aux;
-      } else {
-        context.packages.address = context.packages.addressList;
-      }
+      context.address.list = context.addElementsToTheArray(event.address, context.address.list, context.address.controller.filtered, context.$refs.swAddressFiltered.swiper);
+      context.address.filtered = context.deleteSelectedFromList(context.address.list, context.address.selected);
+      context.reloadArrows(context.address.pagination, context.address.controller.filtered, context.$refs.swAddressFiltered.swiper);
+      this.loadContent(context, 4);
     },
     (response) => {});
   },
   updateTheUsersThatAccomplishesTheConditions(context) {
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
-
-    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.packages.companyId}}).then((response) => {
-      context.packages.values.usersConditions = response.body.number;
+    let conditions = this.prepareConditionsForSend(context.conditions.selected);
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.package.companyId}}).then((response) => {
+      context.conditions.numberOfUsers = response.body.number;
+      this.loadContent(context, 5);
     }, (response) => {});
   },
   // CREATE packages.
@@ -203,23 +206,23 @@ export default {
   updateThePackages(context) {
     let pack = this.prepareTheModel(context);
 
-    context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
+    context.$http.patch(process.env.URL_API + '/packages/' + context.package.id, {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
       context.$router.push({name: 'packages'});
     }, (response) => { });
   },
   // Prepare the Model
   prepareTheModel(context) {
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
-    let devicevariations = this.prepareIdsForSend(context.packages.devicevariations, 'devicevariations');
-    let services = this.prepareIdsForSend(context.packages.services, 'services');
-    let address = this.prepareIdsForSend(context.packages.addressSelected, 'address');
+    let conditions = this.prepareConditionsForSend(context.conditions.selected);
+    let devicevariations = this.prepareIdsForSend(context.devicevariations.selected, 'devicevariations');
+    let services = this.prepareIdsForSend(context.services.selected, 'services');
+    let address = this.prepareIdsForSend(context.address.selected, 'address');
 
     return new packageid(
-      context.packages.id,
+      context.package.id,
       'packages',
-      context.packages.name,
-      context.packages.companyId,
+      context.package.name,
+      context.package.companyId,
       conditions,
       [], // apps
       devicevariations,
@@ -261,7 +264,14 @@ export default {
     }
     return arrayFinal;
   },
-  loadContent(context) {
-    context.loadedContent = true;
+  loadContent(context, value) {
+    this.agree = this.agree + value;
+    if (this.agree >= 15) {
+      context.loadedContent = true;
+      this.retrieveMoreTrue(context);
+    }
+  },
+  retrieveMoreTrue(context) {
+    context.retrieveMore = true;
   }
 };

@@ -3,46 +3,46 @@
     <div id="package" class="row">
       <div class="header">
         <div class="titles">
-          <h4>{{packages.names.managePackage}}</h4>
+          <h4>{{package.names.managePackage}}</h4>
         </div>
       </div>
       <div class="expanded row">
         <div v-show="loadedContent">
           <div class="large-12 columns">
             <div class="large-5 small-12 columns" style="padding-left: 5%">
-              <label>{{packages.names.title}}
-                <input :class="{ 'error-input': packages.nameError }" type="text" placeholder="" :value="packages.name" v-model="packages.name">
+              <label>{{package.names.title}}
+                <input :class="{'error-input': package.errors.name}" type="text" placeholder="" :value="package.name" v-model="package.name">
               </label>
             </div>
             <div class="large-6 end small-12 large-offset-1 columns" style="padding-top: 2% ; font-weight: bold">
               <div class="large-12 small-12 columns textbold">
                 <div class="large-1 small-2 columns">
-                  {{packages.names.prices.minimum}}
+                  {{package.names.prices.minimum}}
                 </div>
                 <div class="large-4 small-4 columns" align="right">
-                  {{packages.names.devices.minPrice}}
-                  {{packages.names.prices.currency}}
-                  {{packages.names.prices.once}}
+                  {{devicevariations.names.minPrice}}
+                  {{package.names.prices.currency}}
+                  {{package.names.prices.once}}
                 </div>
                 <div class="large-7 small-4 columns" align="right">
-                  {{packages.names.services.minPrice}}
-                  {{packages.names.prices.currency}}
-                  {{packages.names.prices.monthly}}
+                  {{services.names.minPrice}}
+                  {{package.names.prices.currency}}
+                  {{package.names.prices.monthly}}
                 </div>
               </div>
               <div class="large-12 small-12 columns textbold">
                 <div class="large-1 small-2 columns">
-                  {{packages.names.prices.maximum}}
+                  {{package.names.prices.maximum}}
                 </div>
                 <div class="large-4 small-4 columns" align="right">
-                  {{packages.names.devices.maxPrice}}
-                  {{packages.names.prices.currency}}
-                  {{packages.names.prices.once}}
+                  {{devicevariations.names.maxPrice}}
+                  {{package.names.prices.currency}}
+                  {{package.names.prices.once}}
                 </div>
                 <div class="large-7 small-4 columns" align="right">
-                  {{packages.names.services.maxPrice}}
-                  {{packages.names.prices.currency}}
-                  {{packages.names.prices.monthly}}
+                  {{services.names.maxPrice}}
+                  {{package.names.prices.currency}}
+                  {{package.names.prices.monthly}}
                 </div>
               </div>
             </div>
@@ -53,47 +53,47 @@
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
-                        <td>{{packages.names.conditions.title}}</td>
-                        <td align="right">{{packages.values.usersConditions}} {{packages.names.employees}}</td>
+                        <td>{{conditions.names.title}}</td>
+                        <td align="right">{{conditions.numberOfUsers}} {{conditions.names.employees}}</td>
                       </tr>
                     </table>
                   </a>
                   <div class="accordion-content overview" data-tab-content v-f-accordion>
-                    <div class="row" v-for="(condition,index) in packages.conditions">
+                    <div class="row" v-for="(condition,index) in conditions.selected">
                       <div class="large-3 small-12 columns">
-                        <label>{{packages.names.conditions.name}}
+                        <label>{{conditions.names.titleField}}
                           <select :class="{ 'error-input': condition.nameError }" v-model="condition.nameCond" @click="updatePackageCondition(index, condition.nameCond, 'name')">
-                            <option value="" manufactured>{{packages.names.conditions.selectName}}</option>
-                            <option v-for="item in conditionsFieldsOptions" :value="item" >{{item}}</option>
+                            <option value="" manufactured>{{conditions.names.selectName}}</option>
+                            <option v-for="item in information.conditionsFieldsOptions" :value="item" >{{item}}</option>
                           </select>
                         </label>
                       </div>
                       <div v-if="condition.nameCond != ''" class="large-3 small-12 columns">
-                        <label>{{packages.names.conditions.condition}}
-                          <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackageCondition(index, condition.condition, 'condition')">
-                            <option value="" manufactured>{{packages.names.conditions.selectCondition}}</option>
+                        <label>{{conditions.names.conditionField}}
+                          <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackage(index, condition.condition, 'condition')">
+                            <option value="" manufactured>{{conditions.names.selectCondition}}</option>
                             <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
                           </select>
                         </label>
                       </div>
                       <div v-if="condition.nameCond != ''" class="large-4 small-12 columns">
-                        <label>{{packages.names.conditions.value}}
-                          <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackageCondition(index, condition.value, 'value')">
-                            <option value="" manufactured>{{packages.names.conditions.selectValue}}</option>
+                        <label>{{conditions.names.valueField}}
+                          <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackage(index, condition.value, 'value')">
+                            <option value="" manufactured>{{conditions.names.selectValue}}</option>
                             <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
                           </select>
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')" />
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackageCondition(index, condition.value, 'value')">
+                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')" />
+                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')">
                         </label>
                       </div>
-                      <div class="large-2 small-12 columns">
+                      <div class="large-2 small-12 columns" style="padding-top: 2.2%">
                         <div class="large-4 small-4 small-offset-2 columns">
-                          <a class="button" style="border-radius: 10px; padding: 19%;" @click="deleteCondition(index)" id="button" v-show="condition.delete">
+                          <a class="button" style="border-radius: 10px;" @click="deleteCondition(index)" id="button" v-show="condition.delete">
                             <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                           </a>
                         </div>
                         <div class="large-4 large-offset-1 small-4 end columns">
-                          <a class="button" style="border-radius: 10px; padding: 19%;" @click="pushCondition(index)" id="button" v-show="condition.add">
+                          <a class="button" style="border-radius: 10px;" @click="pushCondition(index)" id="button" v-show="condition.add">
                             <i class="fa fa-plus fa-2x"></i>
                           </a>
                         </div>
@@ -107,50 +107,50 @@
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
-                        <td>{{packages.names.devices.title}}</td>
-                        <td align="right">From {{packages.names.devices.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.devices.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.once}} </td>
+                        <td>{{devicevariations.names.title}}</td>
+                        <td align="right">From {{devicevariations.names.minPrice}} {{package.names.prices.currency}} to  {{devicevariations.names.maxPrice}} {{package.names.prices.currency}} {{package.names.prices.once}} </td>
                       </tr>
                     </table>
                   </a>
                   <div class="accordion-content" data-tab-content v-f-accordion>
                     <!-- PRESETS -->
                     <div>
-                      <div class="titlesZones">{{packages.names.devices.presetsAvailable}}</div>
-                      <div class="noinformation" v-show="packages.presets.length == 0">
-                        <swiper :options="swiperOptionPreset">
-                          <swiper-slide v-for="no in packages.noinformation">
+                      <div class="titlesZones">{{presets.names.available}}</div>
+                      <div class="noinformation" v-show="presets.list.length == 0">
+                        <swiper :options="swiperOption.preset">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div v-show="packages.presets.length > 0">
-                        <swiper :options="swiperOptionPreset" ref="swPreset">
-                          <swiper-slide v-for="(preset,index) in packages.presets">
+                      <div v-show="presets.list.length > 0">
+                        <swiper :options="swiperOption.preset" ref="swPresets">
+                          <swiper-slide v-for="(preset,index) in presets.list">
                             <div class="presetimage" @click="presetSelected(preset)">
                               <div class="absolute">{{preset.name}}</div>
                               <img :src="getUrlOfImageSelected(preset)" alt="" />
                             </div>
                           </swiper-slide>
-                          <div v-show="packages.presetsController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="packages.presetsController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="presets.controller.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="presets.controller.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
                     <!-- //PRESETS -->
                     <!-- DEVICE VARIATIONS AVAILABLE-->
-                    <div v-show="packages.presetSelected.name != ''">
-                      <div class="titlesZones">{{packages.names.devices.devicesAvailable}} {{packages.presetSelected.name}}</div>
-                      <div class="noinformation" v-show="packages.devicevariationsList.length == 0">
-                        <swiper :options="swiperOptionA">
-                          <swiper-slide v-for="no in packages.noinformation">
+                    <div v-show="presets.isSelected">
+                      <div class="titlesZones">{{devicevariations.names.available}} {{presets.selected.name}}</div>
+                      <div class="noinformation" v-show="devicevariations.filtered.length == 0">
+                        <swiper :options="swiperOption.devicevariationsFiltered">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <swiper v-show="packages.devicevariationsList.length > 0" :options="swiperOptionDefault" ref="swDeviceVariationList">
-                        <swiper-slide v-for="(devvar, index) in packages.devicevariationsList">
+                      <swiper v-show="devicevariations.filtered.length > 0" :options="swiperOption.devicevariationsFiltered" ref="swDevicevariationsFiltered">
+                        <swiper-slide v-for="(devvar, index) in devicevariations.filtered">
                           <transition name="list">
-                            <div class="devicevariationsinformation list-item" :key="devvar" @click="devicevariationSelected(devvar, index)">
+                            <div class="devicevariationsinformation list-item" :key="devvar" @click="addDeviceVariation(devvar, index)">
                               <img :src="getUrlOfImage(devvar, 'devicevariation')" alt="Image" />
                               {{devvar.devices[0].name}} <br>
                               {{devvar.devices[0].make}} - {{devvar.devices[0].model}} <br>
@@ -158,26 +158,26 @@
                             </div>
                           </transition>
                         </swiper-slide>
-                        <div class="swiper-button-prev" slot="button-prev"></div>
-                        <div class="swiper-button-next" slot="button-next"></div>
+                        <div v-show="devicevariations.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                        <div v-show="devicevariations.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                       </swiper>
                     </div>
                     <!-- //DEVICE VARIATIONS AVAILABLE -->
                     <!-- DEVICE VARIATIONS SELECTED -->
-                    <div v-show="packages.presetSelected.name != '' || packages.devicevariations.length > 0">
-                      <div class="titlesZones">{{packages.names.devices.devicesSelected}}</div>
-                      <div class="noinformation" v-show="packages.devicevariations.length == 0">
-                        <swiper :options="swiperOptionA">
-                          <swiper-slide v-for="no in packages.noinformation">
+                    <div v-show="presets.isSelected || devicevariations.selected.length > 0">
+                      <div class="titlesZones">{{devicevariations.names.selected}}</div>
+                      <div class="noinformation" v-show="devicevariations.selected.length == 0">
+                        <swiper :options="swiperOption.devicevariationsSelected">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
                       <div>
-                        <swiper v-show="packages.devicevariations.length > 0" :options="swiperOptionDefault" ref="swDeviceVariationSeleted">
-                          <swiper-slide v-for="(devvarsel, index) in packages.devicevariations">
+                        <swiper v-show="devicevariations.selected.length > 0" :options="swiperOption.devicevariationsSelected" ref="swDevicevariationsSelected">
+                          <swiper-slide v-for="(devvarsel, index) in devicevariations.selected">
                             <transition name="list">
-                              <div class="devicevariationsinformation list-item" :key="devvarsel" @click="devicevariationNoSelected(devvarsel, index)">
+                              <div class="devicevariationsinformation list-item" :key="devvarsel" @click="deleteDeviceVariation(devvarsel, index)">
                                 <div class="devicevariationspreset">{{devvarsel.preset}}</div>
                                 <div>
                                   <img :src="getUrlOfImage(devvarsel, 'devicevariation')" alt="Image" />
@@ -190,8 +190,8 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div class="swiper-button-prev" slot="button-prev"></div>
-                          <div class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="devicevariations.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="devicevariations.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -204,53 +204,53 @@
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
-                        <td>{{packages.names.services.title}}</td>
-                        <td align="right">From {{packages.names.services.minPrice}} {{packages.names.prices.currency}} to  {{packages.names.services.maxPrice}} {{packages.names.prices.currency}} {{packages.names.prices.monthly}} </td>
+                        <td>{{services.names.title}}</td>
+                        <td align="right">From {{services.names.minPrice}} {{package.names.prices.currency}} to  {{services.names.maxPrice}} {{package.names.prices.currency}} {{package.names.prices.monthly}} </td>
                       </tr>
                     </table>
                   </a>
                   <div class="accordion-content" data-tab-content v-f-accordion>
                     <!-- CARRIERS -->
                     <div>
-                      <div class="titlesZones">{{packages.names.services.carriersAvailable}}</div>
-                      <div class="noinformation" v-show="packages.carriers.length == 0">
-                        <swiper :options="swiperOptionCarrier">
-                          <swiper-slide v-for="no in packages.noinformation">
+                      <div class="titlesZones">{{carriers.names.available}}</div>
+                      <div class="noinformation" v-show="carriers.list.length == 0">
+                        <swiper :options="swiperOption.carrier">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div v-show="packages.carriers.length > 0">
-                        <swiper :options="swiperOptionCarrier" ref="swCarrier">
-                          <swiper-slide v-for="(carrier,index) in packages.carriers">
-                            <div :class="{ 'carrierimage' : carrier.id === packages.carrierSelected.id}" @click="carrierSelected(carrier)">
+                      <div v-show="carriers.list.length > 0">
+                        <swiper :options="swiperOption.carrier" ref="swCarriers">
+                          <swiper-slide v-for="(carrier,index) in carriers.list">
+                            <div :class="{ 'carrierimage' : carrier.id === carrierSelected.id}" @click="carrierSelected(carrier)">
                               <div class="absolute">{{carrier.presentation}}</div>
-                              <img :src="getUrlOfImage(carrier, 'carrier')" alt="" />
+                              <img :src="getUrlOfImageSelected(carrier, 'carrier')" alt="" />
                             </div>
                           </swiper-slide>
-                          <div v-show="packages.carriersController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="packages.carriersController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="carriers.controller.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="carriers.controller.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
                     <!-- //CARRIERS -->
                     <!-- SERVICES -->
-                    <div v-show="packages.variablesShow.carrierSelected">
+                    <div v-show="carriers.isSelected">
                       <div class="titlesZones">
-                        {{packages.names.services.servicesAvailable}} {{packages.carrierSelected.presentation}}
+                        {{services.names.available}} {{carriers.selected.presentation}}
                       </div>
-                      <div class="noinformation" v-show="packages.servicesList.length == 0">
-                        <swiper :options="swiperOption">
-                          <swiper-slide v-for="no in packages.noinformation">
+                      <div class="noinformation" v-show="services.filtered.length == 0">
+                        <swiper :options="swiperOption.serviceFiltered">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div v-show="packages.servicesList.length > 0">
-                        <swiper :options="swiperOptionServiceList" ref="swServicesList">
-                          <swiper-slide v-for="(service, index) in packages.servicesList">
+                      <div v-show="services.filtered.length > 0">
+                        <swiper :options="swiperOption.serviceFiltered" ref="swServicesFiltered">
+                          <swiper-slide v-for="(service, index) in services.filtered">
                             <transition name="list">
-                              <div class="presetimage list-item" :key="service" @click="serviceInformation(service)">
+                              <div class="presetimage list-item" :key="service" @click="serviceListInformationFiltered(service)">
                                 <div class="servicetext" style="text-align: center; position: absolute; top: 10%; left: 10%; width: 80%;">
                                   {{service.title}} <br> {{service.cost}} {{service.currency}}
                                 </div>
@@ -258,80 +258,78 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div v-show="packages.servicesController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="packages.servicesController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="services.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="services.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
-                      <div class="large-10 columns" v-show="packages.serviceInformationBool">
-                        <div class="large-12 end columns">
-                          <table>
-                            <tr>
-                              <td colspan="2">
-                                <div class="textbold">{{packages.serviceInformation.title}}</div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <div class="textbold">{{packages.serviceInformation.cost}} {{packages.serviceInformation.currency}}</div>
-                              </td>
-                              <td>
-                                <div class="textbold large-9 columns" v-show="packages.serviceSelectedInformationBool" :class="{ 'colorgreen': getTheDifferenceBetweenServices(null, null, 'list') > 0 , 'colorred': getTheDifferenceBetweenServices(null, null, 'list') < 0 }">
-                                      {{getTheDifferenceBetweenServices(null, null, 'list')}} {{packages.serviceInformation.currency}}
-                                </div>
-                              </td>
-                            </tr>
-                          </table>
-                        </div>
+                      <div v-show="services.isSelectedII">
+                        <table>
+                          <tr>
+                            <td colspan="2">
+                              <div class="textbold">{{services.itemInformation.title}}</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <div class="textbold">{{services.itemInformation.cost}} {{services.itemInformation.currency}}</div>
+                            </td>
+                            <td>
+                              <div class="textbold large-9 columns" v-show="services.isSelectedISI" :class="{ 'colorgreen': getTheDifferenceBetweenServices(null, null, 'list') > 0 , 'colorred': getTheDifferenceBetweenServices(null, null, 'list') < 0 }">
+                                {{getTheDifferenceBetweenServices(null, null, 'list')}} {{services.itemInformation.currency}}
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
                         <div class="large-12 columns">
                           <div class="large-8 columns">
-                            {{packages.serviceInformation.description}}
+                            {{services.itemInformation.description}}
                           </div>
                           <div class="large-4 columns">
-                            <a class="button large" @click="addServiceSelected()" id="button">ADD</a>
+                            <a class="button large" @click="addService()" id="button">ADD</a>
                           </div>
-                          <div class="large-12 columns" v-show="packages.serviceInformation.serviceitems.length > 0">
+                          <div class="large-12 columns" v-show="services.itemInformation.serviceitems.length > 0">
                             <table>
                               <tr>
                                 <th>Domain</th>
                                 <th>Category</th>
                                 <th>Value</th>
-                                <th v-show="packages.serviceSelectedInformationBool">Difference</th>
+                                <th v-show="services.isSelectedISI">Difference</th>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Voice</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'voice', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'voice', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'voice', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'voice', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'voice', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'voice', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'voice', 'list')}}</div></td>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Data</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'data', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'data', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'data', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'data', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'data', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'data', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'data', 'list')}}</div></td>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Messages</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'messaging', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'messaging', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'messaging', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'messaging', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'messaging', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'messaging', 'list') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'messaging', 'list')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Voice</td>
                                 <td>{{getTheRowOfServiceItems('international', 'voice', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'voice', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'voice', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'voice', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'voice', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'voice', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'voice', 'list')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Data</td>
                                 <td>{{getTheRowOfServiceItems('international', 'data', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'data', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'data', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'data', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'data', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'data', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'data', 'list')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Messages</td>
                                 <td>{{getTheRowOfServiceItems('international', 'messaging', 'list')}}</td>
-                                <td v-show="packages.serviceSelectedInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'messaging', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'messaging', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'messaging', 'list')}}</div></td>
+                                <td v-show="services.isSelectedISI"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'messaging', 'list') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'messaging', 'list') < 0 }">{{getTheDifferenceBetweenServices('international', 'messaging', 'list')}}</div></td>
                               </tr>
                             </table>
                           </div>
@@ -340,23 +338,23 @@
                     </div>
                     <!-- //SERVICES -->
                     <!-- SERVICES SELECTED -->
-                    <div v-show="packages.carrierSelected.name != '' || packages.services.length > 0">
-                      <div class="titlesZones">{{packages.names.services.servicesSelected}}</div>
-                      <div class="large-10 colunns" v-show="packages.serviceSelectedInformationBool">
+                    <div v-show="carriers.isSelected || services.selected.length > 0">
+                      <div class="titlesZones">{{services.names.selected}}</div>
+                      <div class="large-10 colunns" v-show="services.isSelectedISI">
                         <div class="large-12 columns">
                           <table>
                             <tr>
                               <td colspan="2">
-                                <div class="textbold">{{packages.serviceSelectedInformation.title}}</div>
+                                <div class="textbold">{{services.itemSelectedInformation.title}}</div>
                               </td>
                             </tr>
                             <tr>
                               <td>
-                                <div class="textbold">{{packages.serviceSelectedInformation.cost}} {{packages.serviceSelectedInformation.currency}}</div>
+                                <div class="textbold">{{services.itemSelectedInformation.cost}} {{services.itemSelectedInformation.currency}}</div>
                               </td>
                               <td>
-                                <div class="textbold large-10 columns" v-show="packages.serviceInformationBool" :class="{ 'colorgreen': getTheDifferenceBetweenServices(null, null, 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices(null, null, 'selected') < 0 }">
-                                    {{getTheDifferenceBetweenServices(null, null, 'selected')}} {{packages.serviceSelectedInformation.currency}}
+                                <div class="textbold large-10 columns" v-show="services.isSelectedII" :class="{ 'colorgreen': getTheDifferenceBetweenServices(null, null, 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices(null, null, 'selected') < 0 }">
+                                    {{getTheDifferenceBetweenServices(null, null, 'selected')}} {{services.itemSelectedInformation.currency}}
                                 </div>
                               </td>
                             </tr>
@@ -364,73 +362,73 @@
                         </div>
                         <div class="large-12 columns">
                           <div class="large-8 columns">
-                            <div>{{packages.serviceSelectedInformation.description}}</div>
+                            <div>{{services.itemSelectedInformation.description}}</div>
                           </div>
                           <div class="large-4 columns">
-                            <a class="button large" @click="deleteServiceSelected()" id="button">DELETE</a>
+                            <a class="button large" @click="deleteService()" id="button">DELETE</a>
                           </div>
                         </div>
                         <div class="large-12 columns">
-                          <div class="large-12 columns" v-show="packages.serviceSelectedInformation.serviceitems.length > 0">
+                          <div class="large-12 columns" v-show="services.itemSelectedInformation.serviceitems.length > 0">
                             <table>
                               <tr>
                                 <th>Domain</th>
                                 <th>Category</th>
                                 <th>Value</th>
-                                <th v-show="packages.serviceInformationBool">Difference</th>
+                                <th v-show="services.isSelectedII">Difference</th>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Voice</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'voice', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'voice', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'voice', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'voice', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'voice', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'voice', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'voice', 'selected')}}</div></td>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Data</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'data', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'data', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'data', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'data', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'data', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'data', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'data', 'selected')}}</div></td>
                               </tr>
                               <tr>
                                 <td>Domestic</td>
                                 <td>Messages</td>
                                 <td>{{getTheRowOfServiceItems('domestic', 'messaging', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'messaging', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'messaging', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'messaging', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('domestic', 'messaging', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('domestic', 'messaging', 'selected') < 0 }">{{getTheDifferenceBetweenServices('domestic', 'messaging', 'selected')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Voice</td>
                                 <td>{{getTheRowOfServiceItems('international', 'voice', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'voice', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'voice', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'voice', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'voice', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'voice', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'voice', 'selected')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Data</td>
                                 <td>{{getTheRowOfServiceItems('international', 'data', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'data', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'data', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'data', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'data', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'data', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'data', 'selected')}}</div></td>
                               </tr>
                               <tr>
                                 <td>International</td>
                                 <td>Messages</td>
                                 <td>{{getTheRowOfServiceItems('international', 'messaging', 'selected')}}</td>
-                                <td v-show="packages.serviceInformationBool"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'messaging', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'messaging', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'messaging', 'selected')}}</div></td>
+                                <td v-show="services.isSelectedII"><div :class="{ 'colorgreen': getTheDifferenceBetweenServices('international', 'messaging', 'selected') > 0 , 'colorred': getTheDifferenceBetweenServices('international', 'messaging', 'selected') < 0 }">{{getTheDifferenceBetweenServices('international', 'messaging', 'selected')}}</div></td>
                               </tr>
                             </table>
                           </div>
                         </div>
                       </div>
-                      <div class="noinformation large-12 columns" v-show="packages.services.length == 0">
-                        <swiper :options="swiperOption">
-                          <swiper-slide v-for="no in packages.noinformation">
+                      <div class="noinformation large-12 columns" v-show="services.selected.length == 0">
+                        <swiper :options="swiperOption.serviceSelected">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
                       <div class="large-12 columns">
-                        <swiper v-show="packages.services.length > 0" :options="swiperOptionDefault" ref="swServicesSel">
-                          <swiper-slide v-for="(service, index) in packages.services">
+                        <swiper v-show="services.selected.length > 0" :options="swiperOption.serviceSelected" ref="swServicesSelected">
+                          <swiper-slide v-for="(service, index) in services.selected">
                             <transition name="list">
-                              <div class="presetimage list-item" :key="service" @click="serviceSelectedInformation(service)">
+                              <div class="presetimage list-item" :key="service" @click="serviceListInformationSelected(service)">
                                 <img :src="getUrlOfImageSelected(service)" alt=""  />
                                 <div class="servicetext">
                                   {{service.title}} <br> {{service.cost}} {{service.currency}}
@@ -438,8 +436,8 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div class="swiper-button-prev" slot="button-prev"></div>
-                          <div class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="services.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="services.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -452,73 +450,80 @@
                   <a href="#" class="accordion-title" @click="showFalse()">
                     <table class="textbold">
                       <tr>
-                        <td>{{packages.names.address.title}}</td>
+                        <td>{{address.names.title}}</td>
                       </tr>
                     </table>
                   </a>
                   <div class="accordion-content" data-tab-content v-f-accordion>
                     <div>
-                      <div class="titlesZones">{{packages.names.address.available}}</div>
-                      <div class="noinformation" v-show="packages.address.length == 0">
-                        <swiper :options="swiperOptionAddress">
-                          <swiper-slide v-for="no in packages.noinformation">
+                      <div class="titlesZones">{{address.names.available}}</div>
+                      <div class="noinformation" v-show="address.filtered.length == 0">
+                        <swiper :options="swiperOption.addressFiltered">
+                          <swiper-slide v-for="no in package.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
                       </div>
-                      <div v-show="packages.address.length > 0">
-                        <swiper :options="swiperOptionAddress" ref="swAddress">
-                          <swiper-slide v-for="(add,index) in packages.address">
-                            <div class="presetimage list-item" :key="address" @click="selectedInformation(add, packages.addressSelectedInformation, packages.address, packages.addressSelectedInformationBool)">
+                      <div v-show="address.filtered.length > 0">
+                        <swiper :options="swiperOption.addressFiltered" ref="swAddressFiltered">
+                          <swiper-slide v-for="(add,index) in address.filtered">
+                            <div class="presetimage list-item" :key="address" @click="addressListInformationFiltered(add)">
                               <img :src="getUrlOfImageSelected(add)" alt=""  />
                               <div class="addresstext">
                                 {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
                               </div>
                             </div>
                           </swiper-slide>
-                          <div v-show="packages.addressController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="packages.addressController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="address.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="address.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
-                    <div class="large-6 columns" style="padding-top: 20px;" v-show="packages.addressSelectedInformationBool">
-                      <div class="textbold">{{packages.addressSelectedInformation.name}}</div>
-                      {{packages.addressSelectedInformation.attn}} <br>
-                      {{packages.addressSelectedInformation.address}} <br>
-                      {{packages.addressSelectedInformation.city}} - {{packages.addressSelectedInformation.state}} <br>({{packages.addressSelectedInformation.postalCode}} - {{packages.addressSelectedInformation.country}})<br>
-                      Phone: {{packages.addressSelectedInformation.phone}} <br>
-                      <div class="large-2 end small-4 columns" @click="addAddressToSelected()">
+                    <div class="large-6 columns" style="padding-top: 20px;" v-show="address.isSelectedII">
+                      <div class="textbold">{{address.itemInformation.name}}</div>
+                      {{address.itemInformation.attn}} <br>
+                      {{address.itemInformation.address}} <br>
+                      {{address.itemInformation.city}} - {{address.itemInformation.state}} <br>({{address.itemInformation.postalCode}} - {{address.itemInformation.country}})<br>
+                      Phone: {{address.itemInformation.phone}} <br>
+                      <div class="large-2 end small-4 columns" @click="addAddress()">
                         <a class="button" style="border-radius: 10px; padding: 19%;">
                           <i class="fa fa-plus fa-2x" aria-hidden="true"></i>
                         </a>
                       </div>
                     </div>
-                    <div class="large-6 columns" style="padding-top: 20px;" v-show="packages.addressSelSelectedInformationBool">
-                      <div class="textbold">{{packages.addressSelSelectedInformation.name}}</div>
-                      {{packages.addressSelSelectedInformation.attn}} <br>
-                      {{packages.addressSelSelectedInformation.address}} <br>
-                      {{packages.addressSelSelectedInformation.city}} - {{packages.addressSelSelectedInformation.state}} <br>({{packages.addressSelSelectedInformation.postalCode}} - {{packages.addressSelSelectedInformation.country}})<br>
-                      Phone: {{packages.addressSelSelectedInformation.phone}} <br>
-                      <div class="large-2 end small-4 columns" @click="deleteAddressFromSelected()">
+                    <div class="large-6 columns" style="padding-top: 20px;" v-show="address.isSelectedISI">
+                      <div class="textbold">{{address.itemSelectedInformation.name}}</div>
+                      {{address.itemSelectedInformation.attn}} <br>
+                      {{address.itemSelectedInformation.address}} <br>
+                      {{address.itemSelectedInformation.city}} - {{address.itemSelectedInformation.state}} <br>({{address.itemSelectedInformation.postalCode}} - {{address.itemSelectedInformation.country}})<br>
+                      Phone: {{address.itemSelectedInformation.phone}} <br>
+                      <div class="large-2 end small-4 columns" @click="deleteAddress()">
                         <a class="button" style="border-radius: 10px; padding: 19%;">
                           <i class="fa fa-times fa-2x"></i>
                         </a>
                       </div>
                     </div>
-                    <div v-show="packages.addressSelected.length > 0" class="large-12 columns">
-                      <div class="titlesZones">{{packages.names.address.selected}}</div>
-                      <div>
-                        <swiper :options="swiperOptionAddress" ref="swAddress">
-                          <swiper-slide v-for="(add,index) in packages.addressSelected">
-                            <div class="presetimage list-item" :key="address" @click="selectedInformation(add, packages.addressSelSelectedInformation, packages.addressSelected, packages.addressSelSelectedInformationBool)">
+                    <div v-show="address.selected.length > 0" class="large-12 columns">
+                      <div class="titlesZones">{{address.names.selected}}</div>
+                      <div class="noinformation" v-show="address.selected.length == 0">
+                        <swiper :options="swiperOption.addressSelected">
+                          <swiper-slide v-for="no in package.noinformation">
+                            <img :src="no.url" alt="Image" />
+                          </swiper-slide>
+                        </swiper>
+                      </div>
+                      <div v-show="address.selected.length > 0">
+                        <swiper :options="swiperOption.addressSelected" ref="swAddressSelected">
+                          <swiper-slide v-for="(add,index) in address.selected">
+                            <div class="presetimage list-item" :key="address" @click="addressListInformationSelected(add)">
                               <img :src="getUrlOfImageSelected(add)" alt=""  />
                               <div class="addresstext">
                                 {{add.name}} <br> {{add.address}} <br> {{add.city}} ({{add.country}})
                               </div>
                             </div>
                           </swiper-slide>
-                          <div v-show="packages.addressController.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="packages.addressController.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div v-show="address.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
+                          <div v-show="address.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -527,8 +532,8 @@
                 <!-- //ADDRESS -->
               </ul>
             </div>
-            <div v-show="errors.generalError " class="error-message">{{errors.generalMessage}}</div>
-            <a class="button large" @click="submit()" id="button">{{packages.names.saveButton}}</a>
+            <div v-show="errors.generalError " class="error-message">{{package.errors.generalMessage}}</div>
+            <a class="button large" @click="submit()" id="button">{{package.names.saveButton}}</a>
           </div>
         </div>
       </div>
