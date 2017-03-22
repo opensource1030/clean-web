@@ -283,22 +283,31 @@ export default {
       total_pages: 1,
     };
 
+    let controllerObjectWithOptions = {
+      filtered: controllerVar,
+      selected: controllerVar
+    };
+
+    let paginationObjectWithOptions = {
+      filtered: paginationVar,
+      selected: paginationVar
+    };
+
     context.presets.controller = controllerVar;
     context.presets.pagination = paginationVar;
-    context.devicevariations.controller.filtered = controllerVar;
-    context.devicevariations.controller.selected = controllerVar;
-    context.devicevariations.pagination.filtered = paginationVar;
-    context.devicevariations.pagination.selected = paginationVar;
+
+    context.devicevariations.controller = controllerObjectWithOptions;
+    context.devicevariations.pagination = paginationObjectWithOptions;
+
     context.carriers.controller = controllerVar;
     context.carriers.pagination = paginationVar;
-    context.services.controller.filtered = controllerVar;
-    context.services.controller.selected = controllerVar;
-    context.services.pagination.filtered = paginationVar;
-    context.services.pagination.selected = paginationVar;
-    context.address.controller.filtered = controllerVar;
-    context.address.controller.selected = controllerVar;
-    context.address.pagination.filtered = paginationVar;
-    context.address.pagination.selected = paginationVar;
+
+    context.services.controller = controllerObjectWithOptions;
+    context.services.pagination = paginationObjectWithOptions;
+
+    context.address.controller = controllerObjectWithOptions;
+    context.address.pagination = paginationObjectWithOptions;
+
 /*
     let swiperVar = {
       prevButton:'.swiper-button-prev',

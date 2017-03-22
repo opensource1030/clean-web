@@ -832,8 +832,6 @@ export default {
           id: 0,
         },
         isSelected: false,
-        controller: {},
-        pagination: {},
         names: {
           available: 'Presets Available',
         }
@@ -848,14 +846,6 @@ export default {
           selected: 'Devices Selected',
           minPrice: 0,
           maxPrice: 0,
-        },
-        controller: {
-          filtered: {},
-          selected: {}
-        },
-        pagination: {
-          filtered: {},
-          selected: {}
         }
       },
       carriers: {
@@ -866,9 +856,7 @@ export default {
         isSelected: false,
         names: {
           available: 'Carriers Available',
-        },
-        controller: {},
-        pagination: {},
+        }
       },
       services: {
         itemInformation: {
@@ -900,15 +888,7 @@ export default {
           selected: 'Services Selected',
           minPrice: 0,
           maxPrice: 0,
-        },
-        controller: {
-          filtered: {},
-          selected: {}
-        },
-        pagination: {
-          filtered: {},
-          selected: {}
-        },
+        }
       },
       address: {
         itemInformation: {},
@@ -922,15 +902,7 @@ export default {
           title: 'ADDRESS',
           available: 'Address Available',
           selected: 'Address Selected',
-        },
-        controller: {
-          filtered: {},
-          selected: {}
-        },
-        pagination: {
-          filtered: {},
-          selected: {}
-        },
+        }
       },
       information: {
         allConditions: ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'],
