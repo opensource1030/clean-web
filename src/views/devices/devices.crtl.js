@@ -88,6 +88,12 @@ export default {
     filterByModifications,
     filterByCarrier,
     orderFilters,
+    prevPage(){
+      this.$store.dispatch('device/prevPage')
+    },
+   nextPage(){
+         this.$store.dispatch('device/nextPage')
+   },
 
     setActive(device) {
       if (this.activeDevice && this.activeDevice.id == device.id) {

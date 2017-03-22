@@ -42,10 +42,11 @@
         <span class="multiselect__option">
               <slot name="noResult">No elements found. Consider changing the search query.</slot>
             </span>
-      </li>
-    </ul>
-  </transition>
-</div>
+          </li>
+        </ul>
+      </transition>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -92,7 +93,6 @@ export default {
   display: block;
   position: relative;
   width: 100%;
-  min-height: 40px;
   text-align: left;
   color: #35495E;
 }
@@ -125,7 +125,6 @@ export default {
 .multiselect__single {
   position: relative;
   display: inline-block;
-  min-height: 20px;
   line-height: 20px;
   border: none;
   border-radius: 5px;
@@ -154,7 +153,6 @@ export default {
   margin-bottom: 8px;
 }
 .multiselect__tags {
-  min-height: 40px;
   display: block;
   padding: 8px 40px 0 8px;
   border-radius: 5px;
@@ -205,7 +203,6 @@ export default {
 }
 .multiselect__current {
   line-height: 16px;
-  min-height: 40px;
   box-sizing: border-box;
   display: block;
   overflow: hidden;
@@ -288,7 +285,6 @@ export default {
 .multiselect__option {
   display: block;
   padding: 12px;
-  min-height: 40px;
   line-height: 16px;
   text-decoration: none;
   text-transform: none;

@@ -215,12 +215,12 @@
     </table>
   </div>
 
-  <paginate
+  <!--<paginate
     :pagination="$store.state.device.pagination"
     :prev="prevPage"
     :next="nextPage"
     v-show="$store.state.device.all.length > 0">
-  </paginate>
+  </paginate>-->
 
   <!-- <div class="load"><i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i></div> -->
   <!-- <tables></tables> -->

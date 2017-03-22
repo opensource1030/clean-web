@@ -16,6 +16,12 @@ const getters = {
       return state.errors[0]
     else
       return ''
+  },
+  errorPrimary: (state, getters) => {
+    if (getters.hasError)
+      return state.errors[1]
+    else
+      return ''
   }
 }
 
