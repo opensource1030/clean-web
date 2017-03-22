@@ -97,10 +97,11 @@ export default {
       email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */
     });
 
-    analytics.identify(localStorage.userId, {
-      name: JSON.parse(localStorage.getItem("userProfile")).first_name + " " + JSON.parse(localStorage.getItem("userProfile")).last_name,
-      email: JSON.parse(localStorage.getItem("userProfile")).email
-    });
+    // analytics.identify(localStorage.userId, {
+    //   name: JSON.parse(localStorage.getItem("userProfile")).first_name + " " + JSON.parse(localStorage.getItem("userProfile")).last_name,
+    //   email: JSON.parse(localStorage.getItem("userProfile")).email
+    // });
+    //
   },
 
   methods: {

@@ -19,45 +19,44 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="page-link" v-permission="'ManageDevices'"><a class="admin" name="Devices" target="_blank"
-                                                                                href="/devices"><i
-                                class="fa fa-circle-o"></i>Equipment</a></li>
-                        <li class="page-link" v-permission="'ManageServices'"><a class="admin" name="services" target="_blank"
-                                                                                 href="/services"><i
-                                class="fa fa-circle-o"></i>Services & Plans</a></li>
+                        <li class="page-link" v-permission="'ManageDevices'">
+                            <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
+                        </li>
+                        <li class="page-link" v-permission="'ManageServices'">
+                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
+                        </li>
                     </ul>
                 </li>
 
-
-                <li v-permission="'Packages'"  class="treeview">
-                    <a href="javascript:;" name="Polices"  >
+                <li v-permission="'Packages'" class="treeview">
+                    <a href="javascript:;" name="Polices">
                         <i class="fa fa-th-large"></i>
                         <span>Policies</span>
                         <i class="fa fa-plus pull-right"></i>
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a  name="AllPolices"   href="#"><i class="fa fa-circle-o"></i>View All Policies</a></li>
-                        <li><a name="createPolices"   href="javascript:;"><i class="fa fa-circle-o"></i>Create a Policy</a></li>
+                        <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
+                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a></li>
                     </ul>
                 </li>
 
-                <li v-permission="'Presets'" class="treeview"  >
-                    <a href="javascript:;"  name="presets" >
+                <li v-permission="'Presets'" class="treeview">
+                    <a href="javascript:;" name="presets">
                         <i class="fa fa-tasks"></i>
                         <span>Presets</span>
                         <i class="fa fa-plus pull-right"></i>
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a   name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
-                        <li><a  name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
-                        <li><a  name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
+                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
+                        <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
+                        <li><a name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
                     </ul>
                 </li>
 
                 <li v-permission="'Presets'" class="treeview">
-                    <a href="javascript:;" name="configuration" >
+                    <a href="javascript:;" name="configuration">
                         <i class="fa fa-tasks"></i>
                         <span>Configuration</span>
                         <i class="fa fa-plus pull-right"></i>
@@ -65,13 +64,11 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
-                        <li><a  name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+                        <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
                     </ul>
                 </li>
             </template>
-
         </ul>
-
 
         <div class="nav-poweredby">
             <span class="text-copyright">Powered By</span>
