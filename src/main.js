@@ -21,7 +21,7 @@ import App from './App.vue'
 import VeeValidate from 'vee-validate'
 import store from './store'
 import router from './router'
-import { sync } from 'vuex-router-sync'
+import {sync} from 'vuex-router-sync'
 sync(store, router)
 
 $(document).foundation();
@@ -38,12 +38,11 @@ Vue.filter('cleanDate', function (value) {
 Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
     return value = '-'
-    // } else if (value >= 1024) {
-    //   return numeral(value).format('0.00b');
   }
   else {
-    value *= 1024; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+    value *= 1000; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
     return numeral(value).format('0.00b')
+
   }
 });
 
@@ -55,6 +54,7 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
     return numeral(value).format('$0,0.00')
   }
 })
+
 
 // event
 const eventHub = new Vue()
