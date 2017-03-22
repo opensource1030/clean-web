@@ -11,6 +11,8 @@ export default {
   // GET USER INFORMATION.
   getUserInformation(context) {
 
+    this.getValuesForTheFirstTime(context);
+
     let params = { params: { } };
 
     context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
@@ -104,6 +106,7 @@ export default {
       let event = store.sync(response.data);
       context.presets.pagination = response.data.meta.pagination;
       context.presets.list = context.addElementsToTheArray(event, context.presets.list, context.presets.controller, context.$refs.swPresets.swiper);
+
       context.reloadArrows(context.presets.pagination, context.presets.controller, context.$refs.swPresets.swiper);
       this.loadContent(context, 2);
     },
@@ -263,6 +266,93 @@ export default {
       }
     }
     return arrayFinal;
+  },
+  getValuesForTheFirstTime(context) {
+    let controllerVar = {
+      goForwardBoolean: true,
+      goBackBoolean: false,
+      current_value: 1,
+      option: 'forward',
+    };
+
+    let paginationVar = {
+      count: 25,
+      current_page: 1,
+      per_page: 25,
+      total: 1,
+      total_pages: 1,
+    };
+
+    context.presets.controller = controllerVar;
+    context.presets.pagination = paginationVar;
+    context.devicevariations.controller.filtered = controllerVar;
+    context.devicevariations.controller.selected = controllerVar;
+    context.devicevariations.pagination.filtered = paginationVar;
+    context.devicevariations.pagination.selected = paginationVar;
+    context.carriers.controller = controllerVar;
+    context.carriers.pagination = paginationVar;
+    context.services.controller.filtered = controllerVar;
+    context.services.controller.selected = controllerVar;
+    context.services.pagination.filtered = paginationVar;
+    context.services.pagination.selected = paginationVar;
+    context.address.controller.filtered = controllerVar;
+    context.address.controller.selected = controllerVar;
+    context.address.pagination.filtered = paginationVar;
+    context.address.pagination.selected = paginationVar;
+/*
+    let swiperVar = {
+      prevButton:'.swiper-button-prev',
+      nextButton:'.swiper-button-next',
+      slidesPerView: 5,
+      spaceBetween: 10,
+      breakpoints: {
+        1100: {
+          slidesPerView: 4,
+        },
+        860: {
+          slidesPerView: 3,
+        },
+        560: {
+          slidesPerView: 2,
+        },
+        380: {
+          slidesPerView: 1,
+        }
+      }
+    };
+
+    context.swiperOption.preset = swiperVar;
+    context.swiperOption.preset.onReachEnd = this.goForwardPreset;
+    context.swiperOption.preset.onReachBeginning = this.goBackPreset;
+    context.swiperOption.preset.onSlideChangeStart = this.reloadArrowsForPresetsSwiper;
+
+    context.swiperOption.devicevariationsFiltered = swiperVar;
+    context.swiperOption.devicevariationsFiltered.onSlideChangeStart = this.reloadArrowsForDevicevariationsFilteredSwiper;
+
+    context.swiperOption.devicevariationsSelected = swiperVar;
+    context.swiperOption.devicevariationsSelected.onSlideChangeStart = this.reloadArrowsForDevicevariationsSelectedSwiper;
+
+    context.swiperOption.carrier = swiperVar;
+    context.swiperOption.carrier.onReachEnd = this.goForwardCarrier;
+    context.swiperOption.carrier.onReachBeginning = this.goBackCarrier;
+    context.swiperOption.carrier.onSlideChangeStart = this.reloadArrowsForCarriersSwiper;
+
+    context.swiperOption.serviceFiltered = swiperVar;
+    context.swiperOption.serviceFiltered.onReachEnd = this.goForwardService;
+    context.swiperOption.serviceFiltered.onReachBeginning = this.goBackService;
+    context.swiperOption.serviceFiltered.onSlideChangeStart = this.reloadArrowsForServicesFilteredSwiper;
+
+    context.swiperOption.serviceSelected = swiperVar;
+    context.swiperOption.serviceSelected.onSlideChangeStart = this.reloadArrowsForServicesSelectedSwiper;
+
+    context.swiperOption.addressFiltered = swiperVar;
+    context.swiperOption.addressFiltered.onReachEnd = this.goForwardAddress;
+    context.swiperOption.addressFiltered.onReachBeginning = this.goBackAddress;
+    context.swiperOption.addressFiltered.onSlideChangeStart = this.reloadArrowsForAddressFilteredSwiper;
+
+    context.swiperOption.addressSelected = swiperVar;
+    context.swiperOption.addressSelected.onSlideChangeStart = this.reloadArrowsForAddressSelectedSwiper;
+*/
   },
   loadContent(context, value) {
     this.agree = this.agree + value;

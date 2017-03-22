@@ -509,7 +509,7 @@ export default {
      *
      */
     reloadArrows(pagination, controller, swiper) {
-      if(!controller.firstTime) {
+      if(this.loadedContent) {
         if(swiper.isBeginning && (pagination.current_page == 1 || pagination.current_page == 2)) {
           controller.goBackBoolean = false;
         } else {
@@ -521,8 +521,6 @@ export default {
         } else {
           controller.goForwardBoolean = true;
         }
-      } else {
-        controller.firstTime = false;
       }
     },
     /*
@@ -834,20 +832,8 @@ export default {
           id: 0,
         },
         isSelected: false,
-        controller: {
-          firstTime: true,
-          goForwardBoolean: true,
-          goBackBoolean: false,
-          current_value: 1,
-          option: 'forward',
-        },
-        pagination: {
-          count: 25,
-          current_page: 1,
-          per_page: 25,
-          total: 1,
-          total_pages: 1,
-        },
+        controller: {},
+        pagination: {},
         names: {
           available: 'Presets Available',
         }
@@ -864,30 +850,12 @@ export default {
           maxPrice: 0,
         },
         controller: {
-          filtered: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          },
-          selected: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          }
+          filtered: {},
+          selected: {}
         },
         pagination: {
-          filtered: {
-            current_page: 1,
-            total_pages: 1,
-          },
-          selected: {
-            current_page: 1,
-            total_pages: 1
-          }
+          filtered: {},
+          selected: {}
         }
       },
       carriers: {
@@ -899,20 +867,8 @@ export default {
         names: {
           available: 'Carriers Available',
         },
-        controller: {
-          firstTime: true,
-          goForwardBoolean: true,
-          goBackBoolean: false,
-          current_value: 1,
-          option: 'forward',
-        },
-        pagination: {
-          count: 25,
-          current_page: 1,
-          per_page: 25,
-          total: 1,
-          total_pages: 1,
-        },
+        controller: {},
+        pagination: {},
       },
       services: {
         itemInformation: {
@@ -946,33 +902,12 @@ export default {
           maxPrice: 0,
         },
         controller: {
-          filtered: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          },
-          selected: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          }
+          filtered: {},
+          selected: {}
         },
         pagination: {
-          filtered: {
-            count: 25,
-            current_page: 1,
-            per_page: 25,
-            total: 1,
-            total_pages: 1,
-          },
-          selected: {
-            current_page: 1,
-            total_pages: 1
-          }
+          filtered: {},
+          selected: {}
         },
       },
       address: {
@@ -989,34 +924,12 @@ export default {
           selected: 'Address Selected',
         },
         controller: {
-          filtered: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          },
-          selected: {
-            firstTime: true,
-            goForwardBoolean: true,
-            goBackBoolean: false,
-            current_value: 1,
-            option: 'forward',
-          }
+          filtered: {},
+          selected: {}
         },
         pagination: {
-          filtered: {
-            count: 25,
-            current_page: 1,
-            per_page: 25,
-            total: 1,
-            total_pages: 1,
-          },
-          selected: {
-            current_page: 1,
-            total_pages: 1
-          }
-
+          filtered: {},
+          selected: {}
         },
       },
       information: {
@@ -1059,17 +972,17 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1200: {
+            1100: {
               slidesPerView: 4,
             },
-            900: {
+            860: {
               slidesPerView: 3,
             },
-            600: {
+            560: {
               slidesPerView: 2,
             },
-            440: {
-              slidesPerView: 1
+            380: {
+              slidesPerView: 1,
             }
           },
           onReachEnd: this.goForwardPreset,
@@ -1103,16 +1016,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1101: {
+            1100: {
               slidesPerView: 4,
             },
-            861: {
+            860: {
               slidesPerView: 3,
             },
-            561: {
+            560: {
               slidesPerView: 2,
             },
-            381: {
+            380: {
               slidesPerView: 1,
             }
           },
@@ -1124,13 +1037,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1024: {
+            1100: {
               slidesPerView: 4,
             },
-            640: {
+            860: {
+              slidesPerView: 3,
+            },
+            560: {
               slidesPerView: 2,
             },
-            480: {
+            380: {
               slidesPerView: 1,
             }
           },
@@ -1144,13 +1060,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1025: {
+            1100: {
+              slidesPerView: 4,
+            },
+            860: {
               slidesPerView: 3,
             },
-            741: {
+            560: {
               slidesPerView: 2,
             },
-            501: {
+            380: {
               slidesPerView: 1,
             }
           },
@@ -1164,16 +1083,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1102: {
+            1100: {
               slidesPerView: 4,
             },
-            862: {
+            860: {
               slidesPerView: 3,
             },
-            562: {
+            560: {
               slidesPerView: 2,
             },
-            382: {
+            380: {
               slidesPerView: 1,
             }
           },
@@ -1185,13 +1104,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1023: {
+            1100: {
               slidesPerView: 4,
             },
-            639: {
+            860: {
+              slidesPerView: 3,
+            },
+            560: {
               slidesPerView: 2,
             },
-            479: {
+            380: {
               slidesPerView: 1,
             }
           },
@@ -1205,13 +1127,16 @@ export default {
           slidesPerView: 5,
           spaceBetween: 10,
           breakpoints: {
-            1025: {
+            1100: {
               slidesPerView: 4,
             },
-            639: {
+            860: {
+              slidesPerView: 3,
+            },
+            560: {
               slidesPerView: 2,
             },
-            481: {
+            380: {
               slidesPerView: 1,
             }
           },
