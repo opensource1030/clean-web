@@ -38,12 +38,12 @@ export default class Service {
           }
 
           service.serviceItems.push({
-              id: it.id,
+              id: parseInt(it.id),
               category: it.category,
               description: it.description,
-              value: it.value,
-              unit: it.unit,
-              cost: it.cost,
+              value: parseInt(it.value),
+              unit: parseInt(it.unit),
+              cost: parseInt(it.cost),
               domain: it.domain
           });
       }
@@ -54,7 +54,7 @@ export default class Service {
   toJSON() {
     return {
       type: this.type,
-      id: this.id,
+      id: parseInt(this.id),
       attributes: {
         status: this.status,
         title: this.title,

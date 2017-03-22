@@ -130,7 +130,7 @@ const actions = {
     } else {
       status = "Disabled"
     }
-    console.log(domesticPlan)
+
     let serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
 
     dispatch('checkPlan', {
@@ -285,7 +285,7 @@ const mutations = {
     addOns = findByAddons(records.serviceitems, "addon", "");
     state.addons.splice(0, 1);
     for (let addOn of addOns) {
-      console.log(addOn)
+
       state.addons.push(addOn);
     }
 
@@ -324,13 +324,15 @@ const mutations = {
     if (type != "currency" && type != "carrierId") {
       state.serviceDetails[type] = e.target.value
     } else {
-      state.serviceDetails[type] = e
+      if(type=="carrierId"){
+      state.serviceDetails[type] = parseInt(e)
+    }
     }
 
   },
   updateDomesticplan(state, {e, type}) {
     if (type == "unit") {
-      state.domesticPlan.data[type] = e;
+      state.domesticPlan.data[type] = parseInt(e);
     } else {
       state.domesticPlan[type].value = e.target.value;
     }

@@ -106,7 +106,7 @@ export default {
     getCarriers(context) {
 
         Carrier.getCarriers(context, function(data) {
-            
+
             if(context.carriers.length == 0){
                 context.noCarriers = true;
             } else {
