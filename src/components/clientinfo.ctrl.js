@@ -1,6 +1,5 @@
 var {Store} = require('yayson')()
 var  store = new Store()
-import auth from './../api/auth'
 import supportRequest from './support-request';
 export default {
     name: "ClientInfo",
@@ -56,7 +55,7 @@ export default {
     data(){
         return {
             client: {},
-            user : auth.user
+
         }
     }
 

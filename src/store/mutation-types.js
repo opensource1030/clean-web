@@ -40,5 +40,3 @@ export const CARRIER_GET_ALL = 'GET_ALL'
 export const DEVICE_TYPE_GET_ALL = 'GET_ALL'
 
 export const COMPANY_GET_ALL = 'GET_ALL'
-
-export const CARRIER_GET_ALL = 'GET_ALL'

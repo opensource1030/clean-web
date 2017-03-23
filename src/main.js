@@ -1,10 +1,10 @@
-import 'es6-promise/auto'
 import Vue from 'vue'
 
 import 'script!jquery'
 import 'script!select2'
 
 import 'script!jquery.cookie'
+
 
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 import './../node_modules/slicknav/dist/jquery.slicknav.js'

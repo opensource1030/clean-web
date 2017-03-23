@@ -24,7 +24,6 @@ import foo from './components/Footer.vue'
 import headers from './components/header'
 import breadcrumb from './components/breadcrumb'
 
-import auth from './api/auth'
 export default {
   name: "App",
   components: {
