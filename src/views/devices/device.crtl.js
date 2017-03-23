@@ -10,7 +10,7 @@ import inputValidate from './../../components/inputValidate.vue'
 const { Store } = require('yayson')()
 const store = new Store()
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import { DevicesPresenter, ModificationsPresenter } from './../../presenters' 
+import { DevicesPresenter, ModificationsPresenter } from './../../presenters'
 
 export default {
   name: 'Device',
@@ -101,7 +101,7 @@ export default {
                   console.log('device', this.device)
 
                   this.initComponent()
-                })  
+                })
               } else {
                 this.initComponent()
               }
