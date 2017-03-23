@@ -29,9 +29,9 @@ export default {
     },
     (response) => {
       if(response.status == 500) {
-        //context.package.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+        //context.packageid.errors.textError = 'Internal Server Error, Please Contact the Administrator';
       }
-      context.package.errors.generalError = true;
+      context.packageid.errors.generalError = true;
     });
   },
   // GET packages INFORMATION.
@@ -45,10 +45,10 @@ export default {
 
     context.$http.get(process.env.URL_API + '/packages/' + id, params).then((response) => {
       event = store.sync(response.data);
-      context.package.id = id;
-      context.package.name = event.name;
-      context.package.type = event.type;
-      context.package.companyId = event.companyId;
+      context.packageid.id = id;
+      context.packageid.name = event.name;
+      context.packageid.type = event.type;
+      context.packageid.companyId = event.companyId;
 
       // CONDITIONS
       context.conditions.selected = context.addOptionsToRetrievedConditions(event.conditions);
@@ -70,9 +70,9 @@ export default {
     },
     (response) => {
       if(response.status == 500) {
-        context.package.errors.text = 'Internal Server Error, Please Contact the Administrator';
+        context.packageid.errors.text = 'Internal Server Error, Please Contact the Administrator';
       }
-      context.package.errors.generalError = true;
+      context.packageid.errors.generalError = true;
     });
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
@@ -84,7 +84,7 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/companies/' + context.package.companyId, params).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies/' + context.packageid.companyId, params).then((response) => {
       context.company = store.sync(response.data);
       context.addConditionsOptions();
       this.loadContent(context, 1);
@@ -100,14 +100,13 @@ export default {
       }
     };
 
-    params.params['filter[devicevariations.companyId]'] = context.package.companyId;
+    params.params['filter[devicevariations.companyId]'] = context.packageid.companyId;
 
     context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
       let event = store.sync(response.data);
       context.presets.pagination = response.data.meta.pagination;
       context.presets.list = context.addElementsToTheArray(event, context.presets.list, context.presets.controller, context.$refs.swPresets.swiper);
 
-      context.reloadArrows(context.presets.pagination, context.presets.controller, context.$refs.swPresets.swiper);
       this.loadContent(context, 2);
     },
     (response) => {});
@@ -125,7 +124,6 @@ export default {
       let event = store.sync(response.data);
       context.devicevariations.list = event.devicevariations;
       context.devicevariations.filtered = context.deleteSelectedFromList(context.devicevariations.list, context.devicevariations.selected);
-      context.reloadArrows(context.devicevariations.pagination, context.devicevariations.controller.filtered, context.$refs.swDevicevariationsFiltered.swiper);
       this.retrieveMoreTrue(context);
     },
     (response) => {});
@@ -144,7 +142,6 @@ export default {
       let event = store.sync(response.data);
       context.carriers.pagination = response.data.meta.pagination;
       context.carriers.list = context.addElementsToTheArray(event, context.carriers.list, context.carriers.controller, context.$refs.swCarriers.swiper);
-      context.reloadArrows(context.carriers.pagination, context.carriers.controller, context.$refs.swCarriers.swiper);
       this.loadContent(context, 3);
     },
     (response) => {});
@@ -165,7 +162,6 @@ export default {
       context.services.pagination.filtered = response.data.meta.pagination;
       context.services.list = context.addElementsToTheArray(event, context.services.list, context.services.controller.filtered, context.$refs.swServicesFiltered.swiper);
       context.services.filtered = context.deleteSelectedFromList(context.services.list, context.services.selected);
-      context.reloadArrows(context.services.pagination, context.services.controller.filtered, context.$refs.swServicesFiltered.swiper);
       this.retrieveMoreTrue(context);
     },
     (response) => {});
@@ -180,18 +176,17 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/companies/' + context.package.companyId, params).then((response) => {
+    context.$http.get(process.env.URL_API + '/companies/' + context.packageid.companyId, params).then((response) => {
       let event = store.sync(response.data);
       context.address.list = context.addElementsToTheArray(event.address, context.address.list, context.address.controller.filtered, context.$refs.swAddressFiltered.swiper);
       context.address.filtered = context.deleteSelectedFromList(context.address.list, context.address.selected);
-      context.reloadArrows(context.address.pagination, context.address.controller.filtered, context.$refs.swAddressFiltered.swiper);
       this.loadContent(context, 4);
     },
     (response) => {});
   },
   updateTheUsersThatAccomplishesTheConditions(context) {
     let conditions = this.prepareConditionsForSend(context.conditions.selected);
-    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.package.companyId}}).then((response) => {
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.packageid.companyId}}).then((response) => {
       context.conditions.numberOfUsers = response.body.number;
       this.loadContent(context, 5);
     }, (response) => {});
@@ -209,7 +204,7 @@ export default {
   updateThePackages(context) {
     let pack = this.prepareTheModel(context);
 
-    context.$http.patch(process.env.URL_API + '/packages/' + context.package.id, {"data": pack.toJSON()}).then((response) => {
+    context.$http.patch(process.env.URL_API + '/packages/' + context.packageid.id, {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
       context.$router.push({name: 'packages'});
     }, (response) => { });
@@ -222,10 +217,10 @@ export default {
     let address = this.prepareIdsForSend(context.address.selected, 'address');
 
     return new packageid(
-      context.package.id,
+      context.packageid.id,
       'packages',
-      context.package.name,
-      context.package.companyId,
+      context.packageid.name,
+      context.packageid.companyId,
       conditions,
       [], // apps
       devicevariations,
@@ -269,9 +264,6 @@ export default {
   },
   getValuesForTheFirstTime(context) {
     let controllerVar = {
-      goForwardBoolean: true,
-      goBackBoolean: false,
-      current_value: 1,
       option: 'forward',
     };
 
@@ -307,61 +299,6 @@ export default {
 
     context.address.controller = controllerObjectWithOptions;
     context.address.pagination = paginationObjectWithOptions;
-
-/*
-    let swiperVar = {
-      prevButton:'.swiper-button-prev',
-      nextButton:'.swiper-button-next',
-      slidesPerView: 5,
-      spaceBetween: 10,
-      breakpoints: {
-        1100: {
-          slidesPerView: 4,
-        },
-        860: {
-          slidesPerView: 3,
-        },
-        560: {
-          slidesPerView: 2,
-        },
-        380: {
-          slidesPerView: 1,
-        }
-      }
-    };
-
-    context.swiperOption.preset = swiperVar;
-    context.swiperOption.preset.onReachEnd = this.goForwardPreset;
-    context.swiperOption.preset.onReachBeginning = this.goBackPreset;
-    context.swiperOption.preset.onSlideChangeStart = this.reloadArrowsForPresetsSwiper;
-
-    context.swiperOption.devicevariationsFiltered = swiperVar;
-    context.swiperOption.devicevariationsFiltered.onSlideChangeStart = this.reloadArrowsForDevicevariationsFilteredSwiper;
-
-    context.swiperOption.devicevariationsSelected = swiperVar;
-    context.swiperOption.devicevariationsSelected.onSlideChangeStart = this.reloadArrowsForDevicevariationsSelectedSwiper;
-
-    context.swiperOption.carrier = swiperVar;
-    context.swiperOption.carrier.onReachEnd = this.goForwardCarrier;
-    context.swiperOption.carrier.onReachBeginning = this.goBackCarrier;
-    context.swiperOption.carrier.onSlideChangeStart = this.reloadArrowsForCarriersSwiper;
-
-    context.swiperOption.serviceFiltered = swiperVar;
-    context.swiperOption.serviceFiltered.onReachEnd = this.goForwardService;
-    context.swiperOption.serviceFiltered.onReachBeginning = this.goBackService;
-    context.swiperOption.serviceFiltered.onSlideChangeStart = this.reloadArrowsForServicesFilteredSwiper;
-
-    context.swiperOption.serviceSelected = swiperVar;
-    context.swiperOption.serviceSelected.onSlideChangeStart = this.reloadArrowsForServicesSelectedSwiper;
-
-    context.swiperOption.addressFiltered = swiperVar;
-    context.swiperOption.addressFiltered.onReachEnd = this.goForwardAddress;
-    context.swiperOption.addressFiltered.onReachBeginning = this.goBackAddress;
-    context.swiperOption.addressFiltered.onSlideChangeStart = this.reloadArrowsForAddressFilteredSwiper;
-
-    context.swiperOption.addressSelected = swiperVar;
-    context.swiperOption.addressSelected.onSlideChangeStart = this.reloadArrowsForAddressSelectedSwiper;
-*/
   },
   loadContent(context, value) {
     this.agree = this.agree + value;

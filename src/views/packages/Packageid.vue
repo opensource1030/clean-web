@@ -3,46 +3,46 @@
     <div id="package" class="row">
       <div class="header">
         <div class="titles">
-          <h4>{{package.names.managePackage}}</h4>
+          <h4>{{packageid.names.managePackage}}</h4>
         </div>
       </div>
       <div class="expanded row">
         <div v-show="loadedContent">
           <div class="large-12 columns">
             <div class="large-5 small-12 columns" style="padding-left: 5%">
-              <label>{{package.names.title}}
-                <input :class="{'error-input': package.errors.name}" type="text" placeholder="" :value="package.name" v-model="package.name">
+              <label>{{packageid.names.title}}
+                <input :class="{'error-input': packageid.errors.name}" type="text" placeholder="" :value="packageid.name" v-model="packageid.name">
               </label>
             </div>
             <div class="large-6 end small-12 large-offset-1 columns" style="padding-top: 2% ; font-weight: bold">
               <div class="large-12 small-12 columns textbold">
                 <div class="large-1 small-2 columns">
-                  {{package.names.prices.minimum}}
+                  {{packageid.names.prices.minimum}}
                 </div>
                 <div class="large-4 small-4 columns" align="right">
                   {{devicevariations.names.minPrice}}
-                  {{package.names.prices.currency}}
-                  {{package.names.prices.once}}
+                  {{packageid.names.prices.currency}}
+                  {{packageid.names.prices.once}}
                 </div>
                 <div class="large-7 small-4 columns" align="right">
                   {{services.names.minPrice}}
-                  {{package.names.prices.currency}}
-                  {{package.names.prices.monthly}}
+                  {{packageid.names.prices.currency}}
+                  {{packageid.names.prices.monthly}}
                 </div>
               </div>
               <div class="large-12 small-12 columns textbold">
                 <div class="large-1 small-2 columns">
-                  {{package.names.prices.maximum}}
+                  {{packageid.names.prices.maximum}}
                 </div>
                 <div class="large-4 small-4 columns" align="right">
                   {{devicevariations.names.maxPrice}}
-                  {{package.names.prices.currency}}
-                  {{package.names.prices.once}}
+                  {{packageid.names.prices.currency}}
+                  {{packageid.names.prices.once}}
                 </div>
                 <div class="large-7 small-4 columns" align="right">
                   {{services.names.maxPrice}}
-                  {{package.names.prices.currency}}
-                  {{package.names.prices.monthly}}
+                  {{packageid.names.prices.currency}}
+                  {{packageid.names.prices.monthly}}
                 </div>
               </div>
             </div>
@@ -108,7 +108,7 @@
                     <table class="textbold">
                       <tr>
                         <td>{{devicevariations.names.title}}</td>
-                        <td align="right">From {{devicevariations.names.minPrice}} {{package.names.prices.currency}} to  {{devicevariations.names.maxPrice}} {{package.names.prices.currency}} {{package.names.prices.once}} </td>
+                        <td align="right">From {{devicevariations.names.minPrice}} {{packageid.names.prices.currency}} to  {{devicevariations.names.maxPrice}} {{packageid.names.prices.currency}} {{packageid.names.prices.once}} </td>
                       </tr>
                     </table>
                   </a>
@@ -118,7 +118,7 @@
                       <div class="titlesZones">{{presets.names.available}}</div>
                       <div class="noinformation" v-show="presets.list.length == 0">
                         <swiper :options="swiperOption.preset">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -131,8 +131,8 @@
                               <img :src="getUrlOfImageSelected(preset)" alt="" />
                             </div>
                           </swiper-slide>
-                          <div v-show="presets.controller.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="presets.controller.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -142,7 +142,7 @@
                       <div class="titlesZones">{{devicevariations.names.available}} {{presets.selected.name}}</div>
                       <div class="noinformation" v-show="devicevariations.filtered.length == 0">
                         <swiper :options="swiperOption.devicevariationsFiltered">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -158,8 +158,8 @@
                             </div>
                           </transition>
                         </swiper-slide>
-                        <div v-show="devicevariations.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                        <div v-show="devicevariations.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                        <div class="swiper-button-prev" slot="button-prev"></div>
+                        <div class="swiper-button-next" slot="button-next"></div>
                       </swiper>
                     </div>
                     <!-- //DEVICE VARIATIONS AVAILABLE -->
@@ -168,7 +168,7 @@
                       <div class="titlesZones">{{devicevariations.names.selected}}</div>
                       <div class="noinformation" v-show="devicevariations.selected.length == 0">
                         <swiper :options="swiperOption.devicevariationsSelected">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -190,8 +190,8 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div v-show="devicevariations.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="devicevariations.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -205,7 +205,7 @@
                     <table class="textbold">
                       <tr>
                         <td>{{services.names.title}}</td>
-                        <td align="right">From {{services.names.minPrice}} {{package.names.prices.currency}} to  {{services.names.maxPrice}} {{package.names.prices.currency}} {{package.names.prices.monthly}} </td>
+                        <td align="right">From {{services.names.minPrice}} {{packageid.names.prices.currency}} to  {{services.names.maxPrice}} {{packageid.names.prices.currency}} {{packageid.names.prices.monthly}} </td>
                       </tr>
                     </table>
                   </a>
@@ -215,7 +215,7 @@
                       <div class="titlesZones">{{carriers.names.available}}</div>
                       <div class="noinformation" v-show="carriers.list.length == 0">
                         <swiper :options="swiperOption.carrier">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -228,8 +228,8 @@
                               <img :src="getUrlOfImageSelected(carrier, 'carrier')" alt="" />
                             </div>
                           </swiper-slide>
-                          <div v-show="carriers.controller.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="carriers.controller.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -241,7 +241,7 @@
                       </div>
                       <div class="noinformation" v-show="services.filtered.length == 0">
                         <swiper :options="swiperOption.serviceFiltered">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -258,8 +258,8 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div v-show="services.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="services.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                       <div v-show="services.isSelectedII">
@@ -419,7 +419,7 @@
                       </div>
                       <div class="noinformation large-12 columns" v-show="services.selected.length == 0">
                         <swiper :options="swiperOption.serviceSelected">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -436,8 +436,8 @@
                               </div>
                             </transition>
                           </swiper-slide>
-                          <div v-show="services.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="services.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -459,7 +459,7 @@
                       <div class="titlesZones">{{address.names.available}}</div>
                       <div class="noinformation" v-show="address.filtered.length == 0">
                         <swiper :options="swiperOption.addressFiltered">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -474,8 +474,8 @@
                               </div>
                             </div>
                           </swiper-slide>
-                          <div v-show="address.controller.filtered.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="address.controller.filtered.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -507,7 +507,7 @@
                       <div class="titlesZones">{{address.names.selected}}</div>
                       <div class="noinformation" v-show="address.selected.length == 0">
                         <swiper :options="swiperOption.addressSelected">
-                          <swiper-slide v-for="no in package.noinformation">
+                          <swiper-slide v-for="no in packageid.noinformation">
                             <img :src="no.url" alt="Image" />
                           </swiper-slide>
                         </swiper>
@@ -522,8 +522,8 @@
                               </div>
                             </div>
                           </swiper-slide>
-                          <div v-show="address.controller.selected.goBackBoolean" class="swiper-button-prev" slot="button-prev"></div>
-                          <div v-show="address.controller.selected.goForwardBoolean" class="swiper-button-next" slot="button-next"></div>
+                          <div class="swiper-button-prev" slot="button-prev"></div>
+                          <div class="swiper-button-next" slot="button-next"></div>
                         </swiper>
                       </div>
                     </div>
@@ -532,8 +532,8 @@
                 <!-- //ADDRESS -->
               </ul>
             </div>
-            <div v-show="errors.generalError " class="error-message">{{package.errors.generalMessage}}</div>
-            <a class="button large" @click="submit()" id="button">{{package.names.saveButton}}</a>
+            <div v-show="errors.generalError " class="error-message">{{packageid.errors.generalMessage}}</div>
+            <a class="button large" @click="submit()" id="button">{{packageid.names.saveButton}}</a>
           </div>
         </div>
       </div>

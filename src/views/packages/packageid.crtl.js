@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import packaging from './../../api/packages/packageid';
 import modal from './../../components/modal.vue';
+import SwiperOption from './../../models/objects/SwiperOption.js';
 import inputValidate from './../../components/inputValidate.vue';
 //import vueSlider from 'vue-slider-component';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
@@ -24,6 +25,12 @@ export default {
   },
 
   beforeCreate() {
+    //let presetOptions = new SwiperOption(this.goForwardPreset, this.goBackPreset, this.reloadArrowsForPresetsSwiper);
+    //let presetOptionsJSON = presetOptions.toJSON('1200', '1000', '750', '450');
+    //console.log(presetOptionsJSON);
+    //console.log(this);
+    //this.swiperOption.preset = presetOptionsJSON;
+
     if (this.$route.params.id != null) {
       packaging.getDataPackages(this, this.$route.params.id);
     } else {
@@ -91,14 +98,14 @@ export default {
         submitOk = submitOk && this.checkConditions();
 
         if(submitOk) {
-          this.package.errors.generalError = false;
-          if (this.package.id > 0) {
+          this.packageid.errors.generalError = false;
+          if (this.packageid.id > 0) {
             packaging.updateThePackages(this);
           } else {
             packaging.createThePackages(this);
           }
         } else {
-          this.package.errors.generalError = true;
+          this.packageid.errors.generalError = true;
           this.retrieveMore = true;
         }
       }
@@ -106,11 +113,11 @@ export default {
     // Check if the title has content and returns error if not.
     checkTitle() {
       let submitOk = true;
-      if (this.package.name == '') {
-        this.package.errors.name = true;
+      if (this.packageid.name == '') {
+        this.packageid.errors.name = true;
         submitOk = false;
       } else {
-        this.package.errors.name = false;
+        this.packageid.errors.name = false;
       }
       return submitOk;
     },
@@ -293,6 +300,9 @@ export default {
       this.goBack(this.presets.pagination, this.presets.controller, 'getPresets');
     },
     reloadArrowsForPresetsSwiper() {
+      //console.log(this.presets.pagination);
+      //console.log(this.presets.controller);
+      console.log(this.$refs.swPresets.swiper.activeIndex);
       this.reloadArrows(this.presets.pagination, this.presets.controller, this.$refs.swPresets.swiper);
     },
     presetSelected(preset) {
@@ -370,6 +380,7 @@ export default {
       this.goBack(this.services.pagination, this.services.controller.filtered, 'getServicesFromCarriers');
     },
     reloadArrowsForServicesFilteredSwiper() {
+
       this.reloadArrows(this.services.pagination.filtered, this.services.controller.filtered, this.$refs.swServicesFiltered.swiper);
     },
         reloadArrowsForServicesSelectedSwiper() {
@@ -496,30 +507,6 @@ export default {
           packaging[func](this, pagination.current_page - 1);
         } else {
           packaging[func](this, pagination.current_page - 2);
-        }
-      }
-    },
-    /*
-     * reloadArrows(swiper, pagination, controller)
-     *  Reload the arrows to hide if we are in the begining or in the end of the swiper.
-     *
-     *  @swiper: is the .vue swiper options reference.
-     *  @pagination: is the pagination controller.
-     *  @controller: is the swiper controller.
-     *
-     */
-    reloadArrows(pagination, controller, swiper) {
-      if(this.loadedContent) {
-        if(swiper.isBeginning && (pagination.current_page == 1 || pagination.current_page == 2)) {
-          controller.goBackBoolean = false;
-        } else {
-          controller.goBackBoolean = true;
-        }
-
-        if(swiper.isEnd && pagination.current_page == pagination.total_pages) {
-          controller.goForwardBoolean = false;
-        } else {
-          controller.goForwardBoolean = true;
         }
       }
     },
@@ -723,13 +710,21 @@ export default {
   },
 
   data() {
+    let presetOptions = new SwiperOption(this.goForwardPreset, this.goBackPreset).toJSON('1200', '1000', '750', '450');
+    let dvfilteredOptions = new SwiperOption(null, null).toJSON('1100', '860', '560', '380');
+    let dvselectedOptions = new SwiperOption(null, null).toJSON('1100', '860', '560', '380');
+    let carrierOptions = new SwiperOption(this.goForwardCarrier, this.goBackCarrierr).toJSON('1350', '1100', '900', '550');
+    let servicefilteredOptions = new SwiperOption(this.goForwardService, this.goBackService).toJSON('1200', '1050', '870', '550');
+    let serviceselectedOptions = new SwiperOption(null, null).toJSON('1200', '1050', '870', '550');
+    let addressfilteredOptions = new SwiperOption(this.goForwardAddress, this.goBackAddress).toJSON('1270', '1050', '850', '500');
+    let addressselectedOptions = new SwiperOption(null, null).toJSON('1270', '1050', '850', '500');
 
     return {
 
       show: false,
       loadedContent: false,
       retrieveMore: true,
-      package: {
+      packageid: {
         id: 0,
         type: 'packages',
         name: '',
@@ -938,182 +933,14 @@ export default {
         conditionsFieldsOptions: ['Supervisor?', 'Country', 'State', 'City'],
       },
       swiperOption: {
-        preset: {
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onReachEnd: this.goForwardPreset,
-          onReachBeginning: this.goBackPreset,
-          onSlideChangeStart: this.reloadArrowsForPresetsSwiper,
-        },
-        devicevariationsFiltered: {  // DevVarList, DevVarSel, ServiceSel
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onSlideChangeStart: this.reloadArrowsForDevicevariationsFilteredSwiper,
-        },
-        devicevariationsSelected: {  // DevVarList, DevVarSel, ServiceSel
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onSlideChangeStart: this.reloadArrowsForDevicevariationsSelectedSwiper,
-        },
-        carrier: {
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onReachEnd: this.goForwardCarrier,
-          onReachBeginning: this.goBackCarrier,
-          onSlideChangeStart: this.reloadArrowsForCarriersSwiper,
-        },
-        serviceFiltered: {
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onReachEnd: this.goForwardService,
-          onReachBeginning: this.goBackService,
-          onSlideChangeStart: this.reloadArrowsForServicesFilteredSwiper,
-        },
-        serviceSelected: {  // DevVarList, DevVarSel, ServiceSel
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onSlideChangeStart: this.reloadArrowsForServicesSelectedSwiper
-        },
-        addressFiltered: {
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onReachEnd: this.goForwardAddress,
-          onReachBeginning: this.goBackAddress,
-          onSlideChangeStart: this.reloadArrowsForAddressFilteredSwiper,
-        },
-        addressSelected: {
-          prevButton:'.swiper-button-prev',
-          nextButton:'.swiper-button-next',
-          slidesPerView: 5,
-          spaceBetween: 10,
-          breakpoints: {
-            1100: {
-              slidesPerView: 4,
-            },
-            860: {
-              slidesPerView: 3,
-            },
-            560: {
-              slidesPerView: 2,
-            },
-            380: {
-              slidesPerView: 1,
-            }
-          },
-          onSlideChangeStart: this.reloadArrowsForAddressSelectedSwiper,
-        }
+        preset: presetOptions,
+        devicevariationsFiltered: dvfilteredOptions,
+        devicevariationsSelected: dvselectedOptions,
+        carrier: carrierOptions,
+        serviceFiltered: servicefilteredOptions,
+        serviceSelected: serviceselectedOptions,
+        addressFiltered: addressfilteredOptions,
+        addressSelected: addressselectedOptions
       }
     }
   }
