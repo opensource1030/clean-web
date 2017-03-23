@@ -96,7 +96,8 @@ export default {
       email: JSON.parse(localStorage.getItem("userProfile")).email, /*created: user.created_at*/ /* Timestamp when the user was added to your system */
     });
 
-  }
+  },
 
-
+  methods: {
+  },
 }

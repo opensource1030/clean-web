@@ -11,8 +11,8 @@
             </li>
 
             <template v-if="features.FEATURE_IN_DEVELOPMENT">
-                <li v-permission="'Procurements'" class="treeview">
-                    <a href="javascript:;" name="Inventory">
+                <li v-permission="'Procurements'"  class="treeview">
+                    <a href="javascript:;"  name="Inventory" >
                         <i class="fa fa-list-alt"></i>
                         <span>Inventory</span>
                         <i class="fa fa-plus pull-right"></i>
@@ -23,8 +23,7 @@
                             <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
                         </li>
                         <li class="page-link" v-permission="'ManageServices'">
-                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services &
-                                Plans</a>
+                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
                         </li>
                     </ul>
                 </li>
@@ -37,9 +36,8 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="AllPolices" href="#"><i class="fa fa-circle-o"></i>View All Policies</a></li>
-                        <li><a name="createPolices" href="javascript:;"><i class="fa fa-circle-o"></i>Create a
-                            Policy</a></li>
+                        <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
+                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a></li>
                     </ul>
                 </li>
 
@@ -53,7 +51,7 @@
                     <ul class="treeview-menu">
                         <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
                         <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
-                        <li><a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
+                        <li><a name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
                     </ul>
                 </li>
 

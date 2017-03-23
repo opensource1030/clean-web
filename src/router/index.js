@@ -51,87 +51,83 @@ import SpentInfo from './../components/SpentInfo.vue'
 import LegacyInfo from './../components/LegacyInfo.vue'
 
 const router = new VueRouter({
-    mode: 'history',
-    scrollBehavior: () => ({y: 0}),
-    routes: [
-        // auth
-        {path: '/login', component: Login, name: 'login'},
-        {path: '/register', component: Register, name: 'register'},
-        {path: '/loginLocal', component: LoginLocal, name: 'loginLocal'},
-        {path: '/resetPassword', component: ResetPassword, name: 'Reset Password'},
-        {path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code'},
-        // main
-        {
-            path: '/dashboard',
-            component: Dashboard,
-            name: 'dashboard',
-            breadcrumb: 'Dashboard',
-            meta: {requiresAuth: true},
-            children: [
-                {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'},
-                {path: 'procurement/', component: LegacyInfo, name: 'legacyInfo'}
-            ]
-        },
-        {path: '/sso/:id', component: Sso, name: 'sso'},
-        {path: '/sidemenu', component: Sidemenu},
-        // devices
-        {path: '/devices', component: Devices, name: 'List Devices', meta: {requiresAuth: true}},
-        {path: '/device/:id', component: Device, name: 'Update Device', meta: {requiresAuth: true}},
-        {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},
-        // presets
-        {path: '/presets', component: Presets, name: 'List Presets', meta: {requiresAuth: true}},
-        {path: '/preset/:id', component: Preset, name: 'Update Preset', meta: {requiresAuth: true}},
-        {path: '/preset', component: Preset, name: 'Add Preset', meta: {requiresAuth: true}},
-        // services
-        {path: '/services', component: Services, name: 'List Services', meta: {requiresAuth: true}},
-        {path: '/service/:id', component: Service, name: 'Update Service', meta: {requiresAuth: true}},
-        {path: '/service', component: Service, name: 'Add Service', meta: {requiresAuth: true}},
-        // employees
-        {path: '/profile', component: Profile, name: 'profile', meta: {requiresAuth: true}},
-        {path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: {requiresAuth: true}},
-        {path: '/addservice', component: AddService, name: 'addService', meta: {requiresAuth: true}},
-        {path: '/adddevice', component: AddDevice, name: 'addDevice', meta: {requiresAuth: true}},
-        {path: '/configuration', component: Settings, name: 'configuration', meta: {requiresAuth: true}},
-        //packages
-        {path: '/packages', component: Packages, name: 'packages', meta: {requiresAuth: true}},
-        {path: '/package/:id', component: Packageid, name: 'packageEdit', meta: {requiresAuth: true}},
-        {path: '/package', component: Packageid, name: 'package', meta: {requiresAuth: true}},
-        //redirect
-        {path: '*', redirect: '/dashboard'}
-    ]
+  mode: 'history',
+  scrollBehavior: () => ({ y: 0 }),
+  routes: [
+    // auth
+    { path: '/login', component: Login, name: 'login' },
+    { path: '/register', component: Register, name: 'register' },
+    { path: '/loginLocal', component: LoginLocal, name: 'loginLocal' },
+    { path: '/resetPassword', component: ResetPassword, name: 'Reset Password' },
+    { path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code' },
+    // main
+    {
+      path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
+      children : [
+        { path: 'charge/:id', component: SpentInfo, name : 'Mobile Charges' },
+        { path: 'procurement/', component: LegacyInfo, name : 'legacyInfo' }
+      ]
+    },
+    { path: '/sso/:id', component: Sso, name: 'sso' },
+    { path: '/sidemenu', component: Sidemenu },
+    // devices
+    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
+    { path: '/device', component: Device, name: 'Add Device', meta: { requiresAuth: true } },
+    // presets
+    { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
+    { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
+    { path: '/preset', component: Preset, name: 'Add Preset', meta: { requiresAuth: true } },
+    // services
+    { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
+    { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
+    { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
+    // employees
+    { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
+    { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },
+    { path: '/addservice', component: AddService, name: 'addService', meta: { requiresAuth: true } },
+    { path: '/adddevice', component: AddDevice, name: 'addDevice', meta: { requiresAuth: true } },
+    { path: '/configuration', component: Settings, name: 'configuration', meta: { requiresAuth: true } },
+    //packages
+    { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
+    { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
+    { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
+    //redirect
+    { path: '*', redirect: '/dashboard' }
+  ]
 })
 
 Vue.http.interceptors.push((request, next) => {
-    NProgress.inc(0.2)
-    next((response) => {
-        NProgress.done()
-    })
+  NProgress.inc(0.2)
+  next((response) => {
+    NProgress.done()
+  })
 })
 
 router.beforeEach((to, from, next) => {
-    window.scrollTo(0, 0)
-    NProgress.start()
-    next()
+  window.scrollTo(0, 0)
+  NProgress.start()
+  next()
 })
 
 router.beforeEach((to, from, next) => {
-    // console.log('routing: ' + to + ' -> ' + from)
-    const authenticated = store.getters['auth/isAuthenticated']
+  // console.log('routing: ' + to + ' -> ' + from)
+  const authenticated = store.getters['auth/isAuthenticated']
 
-    if (to.name === 'login') {
-        if (authenticated) {
-            next({name: 'dashboard'})
-        }
-    } else {
-        if (to.meta.requiresAuth && !authenticated) {
-            next({name: 'login'})
-        }
+  if (to.name === 'login') {
+    if (authenticated) {
+      next({ name: 'dashboard' })
     }
-    next()
+  } else {
+    if (to.meta.requiresAuth && !authenticated) {
+      next({ name: 'login' })
+    }
+  }
+  next()
 })
 
 router.afterEach(() => {
-    NProgress.done()
+  NProgress.done()
 })
 
 export default router

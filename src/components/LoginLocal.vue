@@ -32,6 +32,7 @@
                   </div>
                 </div>
                 <div class="row">
+
                   <div class="large-6 small-12 columns">
                     <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
                   </div>
@@ -62,7 +63,6 @@
 <script>
 export default {
   name: "loginLocal",
-
   data () {
     return {
       credentials: {
@@ -74,18 +74,15 @@ export default {
       version: '4.0.0-rc.1'
     }
   },
-
   mounted () {
     $('input[name="password"]').focus()
   },
-
   methods: {
     submit () {
       // var credentials = {
       //   email: this.credentials.email,
       //   password: this.credentials.password
       // }
-
       // auth.loginLocal(this, credentials, 'dashboard')
       if (this.errors.errors.length == 0) {
         this.$set(this, 'error', null)

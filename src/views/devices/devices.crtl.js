@@ -5,13 +5,8 @@ import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
 // import multiselect from './../../components/Multiselect.vue'
 import multiselect from 'vue-multiselect'
-import {
-    filterByModificationsd,
-    filterByModifications,
-    filterByCarrier,
-    orderFilters
-} from './../../components/filters.js'
-import {mapGetters, mapActions} from 'vuex'
+import { filterByModificationsd, filterByModifications, filterByCarrier, orderFilters } from './../../components/filters.js'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -45,12 +40,12 @@ export default {
 
       value: [],
       options: [
-          {name: 'Vue.js', language: 'JavaScript'},
-          {name: 'Adonis', language: 'JavaScript'},
-          {name: 'Rails', language: 'Ruby'},
-          {name: 'Sinatra', language: 'Ruby'},
-          {name: 'Laravel', language: 'PHP'},
-          {name: 'Phoenix', language: 'Elixir'}
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Adonis', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
       ],
     }
   },
@@ -86,13 +81,19 @@ export default {
       this.$store.dispatch('device/prevPage')
     },
     nextPage(){
-        this.$store.dispatch('device/nextPage')
+      this.$store.dispatch('device/nextPage')
     },
 
     filterByModificationsd,
     filterByModifications,
     filterByCarrier,
     orderFilters,
+    prevPage(){
+      this.$store.dispatch('device/prevPage')
+    },
+   nextPage(){
+         this.$store.dispatch('device/nextPage')
+   },
 
     setActive(device) {
       if (this.activeDevice && this.activeDevice.id == device.id) {

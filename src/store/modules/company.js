@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import carrierAPI from './../../api/carrier-api'
+import companyAPI from './../../api/company-api'
 import * as types from './../mutation-types'
 
 const { Store } = require('yayson')()
@@ -12,8 +12,9 @@ const state = {
 
 // getters
 const getters = {
-  allCarriers: (state) => {
-    return _.chain(state.all).sortBy([ 'presentation' ]).value()
+  allCompanies: (state) => {
+    return state.all
+    // return _.chain(state.all).sortBy([ 'presentation' ]).value()
   },
 }
 
@@ -23,18 +24,18 @@ const actions = {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
-          'filter[active]': 1,
-          include: 'images',
+          // 'filter[active]': 1,
+          // include: 'images',
         }
-      };
-      carrierAPI.getAll(params, res => {
-        // console.log('carrier res', res)
-        const carriers = store.sync(res.data)
-        // console.log('carrier', carriers)
-        commit(types.CARRIER_GET_ALL, { records: carriers })
-        resolve(carriers)
+      }
+      companyAPI.getAll(params, res => {
+        // console.log('company res', res)
+        const companies = store.sync(res.data)
+        // console.log('company res', companies)
+        commit(types.COMPANY_GET_ALL, companies)
+        resolve(companies)
       }, err => {
-        console.log('carrier err', err)
+        console.log('company err', err)
         reject(err)
       })
     })
@@ -43,7 +44,7 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.CARRIER_GET_ALL] (state, { records }) {
+  [types.COMPANY_GET_ALL] (state, records) {
     state.all = records
   },
 }

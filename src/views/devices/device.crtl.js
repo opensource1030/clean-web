@@ -1,417 +1,350 @@
-import Vue from 'vue';
-import device from './../../api/device/device';
-import {findByPrices, filterByModifications} from './../../components/filters.js';
-import modal from './../../components/modal.vue';
+import _ from 'lodash'
+import Vue from 'vue'
+import { mapGetters, mapActions } from 'vuex'
+import deviceAPIv0 from './../../api/device/device'
+import deviceAPI from './../../api/device-api.js'
+import imageAPI from './../../api/image-api.js'
+import {findByPrices, filterByModifications} from './../../components/filters.js'
+import modal from './../../components/modal.vue'
 import inputValidate from './../../components/inputValidate.vue'
+const { Store } = require('yayson')()
+const store = new Store()
+// const Presenter = require('yayson')({ adapter: 'default' }).Presenter
+import { DevicesPresenter, ModificationsPresenter } from './../../presenters' 
+
 export default {
-    name: 'Device',
+  name: 'Device',
 
   components: {
     modal,
-      inputValidate
+    inputValidate
   },
 
-  beforeCreate() {
-      this.id = this.$route.params.id;
-    if (this.id != null) {
-      this.render=false;
-        device.getDevice(this, 1);
-      device.getDataDevice(this, this.id);
-    } else {
-        device.getDevice(this, 1);
-    }
-  },
-
-    computed: {
-        money () {
-            switch (this.d.money) {
-                case 'USD':
-                    return '$'
-                    break;
-                case 'EUR':
-          return '€'
-                    break;
-                case 'GBP':
-                    return '£'
-                    break;
-            }
-    },
-
-    mCapacity() {
-      if (this.modifications.data != null) {
-        let value = 'capacity';
-        return this.modifications.data.filter(function(item) {
-          return item.attributes.modType.indexOf(value) > -1;
-        });
-      }
-
-      return '';
-    },
-
-    mStyle() {
-      if (this.modifications.data != null) {
-        let value = 'style';
-
-        return this.modifications.data.filter(function(item) {
-          return item.attributes.modType.indexOf(value) > -1;
-        });
-      }
-
-      return '';
-    },
-
-    vStyles() {
-      if (this.mStyle != '') {
-        return this.mStyle.filter(style => {
-          return style.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCapacity() {
-      if (this.mCapacity != '') {
-        return this.mCapacity.filter(capacity => {
-          return capacity.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCompanies() {
-      if (this.companies.data != null) {
-        return this.companies.data.filter(company => {
-          return company.check;
-        });
-      }
-
-      return '';
-    },
-
-    vCarriers() {
-      if (this.carriers.data != null) {
-        return this.carriers.data.filter(carrier => {
-          return carrier.check;
-        });
-      }
-
-      return '';
-    },
-
-        priceTable () {
-            let json = {
-                styles: this.vStyles,
-                capacitys: this.vCapacity,
-                carriers: this.vCarriers,
-                companys: this.vCompanies,
-                imageVariations: {
-                    url: "./../assets/logo.png",
-                    id: 0
-                },
-                style: null,
-                capacity: null,
-                carrierId: null,
-                companyId: null,
-                priceRetail: this.d.defaultPrice,
-                price1: 0,
-                price2: 0,
-                priceOwn: 0,
-                delete: false
-            };
-
-            if (this.priceData.length > 0 && this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-                if (this.pricess.length > 0 && this.add == true) {
-                    this.add = false;
-                    return this.pricess
-                } else {
-                    if (this.pricess.length != 0 || this.priceData.length == 0) {
-                        this.pricess = [];
-                        json.id = 0;
-                        this.company = Object.assign({}, this.company, json);
-                        this.pricess.push(this.company)
-                    } else {
-                        let first = true;
-
-                        for (let price of this.priceData) {
-                            let capacityId = null;
-                            let styleId = null;
-
-                            for (let modi of price.modifications) {
-                                if (modi.modType == "capacity") {
-                                    capacityId = modi.id;
-                                } else {
-                                    styleId = modi.id;
-                                }
-                            }
-
-                            if (first == true) {
-                                price = Object.assign({}, price, {
-                                    id: price.id,
-                                    styles: this.vStyles,
-                                    capacitys: this.vCapacity,
-                                    carriers: this.vCarriers,
-                                    companys: this.vCompanies,
-                                    style: styleId,
-                                    capacity: capacityId,
-                                    delete: false,
-                                    carrierId: price.carrierId,
-                                    companyId: price.companyId,
-                                    imageVariations: {
-                                        url: process.env.URL_API + '/images/' + price.images[0].id,
-                                        id: price.images[0].id
-                                    }
-                                });
-                                first = false;
-                            } else {
-                                price = Object.assign({}, price, {
-                                    id: price.id,
-                                    styles: this.vStyles,
-                                    capacitys: this.vCapacity,
-                                    carriers: this.vCarriers,
-                                    companys: this.vCompanies,
-                                    style: styleId,
-                                    capacity: capacityId,
-                                    delete: true,
-                                    carrierId: price.carrierId,
-                                    companyId: price.companyId,
-                                    imageVariations: {
-                                        url: process.env.URL_API + '/images/' + price.images[0].id,
-                                        id: price.images[0].id
-                                    }
-                                });
-                            }
-                            this.pricess.push(price);
-                        }
-          }
-                    return this.pricess;
-                }
-            } else if (this.vCompanies != '' && this.vStyles != '' && this.vCapacity != '' && this.vCarriers != '') {
-                if (this.price.length > 0 && this.add == true) {
-                    this.add = false;
-                    return this.price
-                } else {
-                    this.company = Object.assign({}, this.company, json);
-
-                    if (this.price.length == 0) {
-                        this.price.push(this.company);
-                    } else {
-                        let self = this;
-                        this.price.forEach(function (p, index) {
-                            Vue.set(self.price, index, self.company)
-                        });
-                    }
-                    return this.price
-                }
-            } else {
-                return '';
-      }
-    }
-  },
-
-    methods: {
-    findByPrices,
-
-    submit() {
-      if (this.id != null) {
-        device.updateDevice(this.id, this, this.pricess, this.vStyles, this.vCapacity,this.d, this.image);
-      } else {
-        device.addDevice(this, this.price, this.vStyles, this.vCapacity,this.d, this.image);
-      }
-    },
-
-        toggle () {
-            this.show = !this.show;
-        },
-
-        adds () {
-            this.add = true;
-
-      this.company = Object.assign({}, this.company, {
-        id:0,
-        styles:this.vStyles,
-        capacitys: this.vCapacity,
-        carriers: this.vCarriers,
-        companys: this.vCompanies,
-        style:null,
-        capacity:null,
-        carrier:null,
-        imageVariations: {
-          url: "./../assets/logo.png",
-          id: 0
-        },
-        company:null,
-        priceRetail: this.d.defaultPrice,
-        price1: 0,
-        price2: 0,
-        priceOwn: 0,
-        delete:true
-      });
-      if(this.pricess.length>0){
-          this.pricess.push(this.company)
-      } else {
-          this.price.push(this.company);
-      }
-    },
-
-    checkcarrier() {
-      var vm = this;
-      this.$nextTick(function() {
-        var i = 0;
-        for (let carrier of vm.carriers.data) {
-          if (carrier.check == true) {
-            vm.changeStatusCarrier('active', i);
-          }
-
-          i++;
-        }
-      });
-    },
-
-    deletes(index){
-        this.add=true;
-        if(this.id!=null){
-          if(this.priceData[index]!=null){
-            this.priceData.splice(index,1);
-          }
-        this.pricess.splice(index, 1);
-      }else{
-          this.price.splice(index, 1);
-      }
-    },
-
-    findCompany(){
-        if (this.id != null) {
-            device.getDataDevice(this, this.id)
-        } else {
-            device.getDevice(this, 1);
-      }
-    },
-
-    findById(relationships, price, priceId, type) {
-      for (let relation of relationships) {
-        if (relation.id == priceId) {
-          price[type] = relation
-          return true;
-        }
-      }
-      return false;
-    },
-
-        showFalse() {
-      this.show = false;
-    },
-
-    onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      var formData = new FormData();
-      formData.append('filename', files[0]);
-      device.createImage(this, formData);
-    },
-
-    onFileChanges(e,index) {
-      var files = e.target.files || e.dataTransfer.files;
-      var formData = new FormData();
-      formData.append('filename', files[0]);
-      console.log(index)
-      device.createImageVariation(this, formData,index);
-    },
-
-        changeStatusCarrier(className, index) {
-      var el = document.getElementsByClassName('static')[index];
-      el.classList.toggle(className);
-    },
-
-        capacit() {
-      if (this.gigas == '' || this.gigas == null || isNaN(this.gigas) ) {
-          this.$store.dispatch('error/addNew', {message: 'Incorrect value Capacity'})
-      } else {
-          // this.$store.dispatch('error/clearAll')
-          // console.log(this.gigas)
-        var addModification = {
-          value: this.gigas+this.units,
-          type: 'capacity'
-        };
-        device.addModifications(this, addModification);
-      }
-    },
-
-    colors() {
-      if (this.color == '' || this.color == null) {
-          this.$store.dispatch('error/addNew', {message: 'Incorrect value Style'})
-      } else {
-        var addModification = {
-          value: this.color,
-          type: 'style'
-        };
-        device.addModifications(this, addModification);
-      }
-    }
-  },
-
-    data() {
+  data () {
     return {
-      /*image default device*/
-      image: {
-        url: "/assets/img/logo.a521535.png",
-        id: 0
+      device: {
+        currency: 'USD',
+        images: [
+          {
+            type: 'images',
+            id: 0,
+            url: '',
+          }
+        ],
+        devicetypes: [
+          {
+            type: 'devicetypes',
+            id: 0,
+          }
+        ],
+        modifications: [],
+        devicevariations: [],
       },
-      message:'',
-      imageVariations: {
-        url: "",
-        id: 0
-      },
-      add:false,
-      /*filter */
-      filter: {
-          capacity: null,
-          style: null,
-          carrier: null,
-          company: null
-      },
-      companyFilter: '',
-      d: {
-        name: '',
-        description: '',
-        defaultPrice:null,
-        currency:'',
-        make:'',
-        model:'',
-        type: null,
-        money:'USD'
-      },
-      units:'Gb',
-      /*add modifications*/
-      id: null,
-      priceData: [],
-      gigas: '',
-      color: '',
-      /*Api arrays*/
-      carriers: {
-        data: []
-      },
+      styles: [],
+      capacities: [],
+      carriers: [],
       companies: [],
-      modifications: [],
-      deviceType: [],
-      /*paginations*/
-      pageCarriers: 1,
-      pageCompanies: 1,
-      /*table price*/
-      price: [],
-      colorV:'#CCCCCC',
-      pricess: [],
-      pricePost: [],
-      company: {},
-      /*errors*/
-        // error: '',
-        // showModal:false,
-      render:false,
-      /*css modificacions*/
-      checked: true,
-      unchecked: false,
-      show: false,
-      shadow: 'initial'
-    };
+
+      capacity: '',
+      unit: 'Gb',
+      companyFilter: '',
+      filter: {
+        capacity: null,
+        style: null,
+        carrier: null,
+        company: null,
+      },
+
+      ready: false,
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      deviceTypes: 'device_type/allDeviceTypes',
+      // styles: 'modification/styleModifications',
+      // capacities: 'modification/capacityModifications',
+    }),
+
+    _ () {
+      return _
+    },
+
+    currency () {
+      let _currency = '$'
+      switch(this.device.currency) {
+        case 'USD':
+          _currency = '$'
+          break;
+        case 'EUR':
+          _currency = '€'
+          break;
+        case 'GBP':
+          _currency = '£'
+          break;
+      }
+      return _currency
+    },
+  },
+
+  beforeCreate () {
+    let device_id = this.$route.params.id
+    this.$store.dispatch('device_type/getAll').then(
+      res => this.$store.dispatch('modification/getAll').then(
+        res => this.$store.dispatch('carrier/getAll').then(
+          res => this.$store.dispatch('company/getAll').then(
+            res => {
+              if (device_id) {
+                deviceAPI.getOne(device_id, {}, res => {
+                  // console.log('device res', res)
+                  this.$set(this, 'device', store.sync(res.data))
+                  console.log('device', this.device)
+
+                  this.initComponent()
+                })  
+              } else {
+                this.initComponent()
+              }
+            }
+          )
+        )
+      )
+    )
+  },
+
+  created () {
+  },
+
+  methods: {
+    // capacitiesForDeviceVariation() {
+    //   let _capacities = _.chain(this.capacities).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
+    //   // let _capacities = _.map(_.filter(this.capacities, { 'checked': true }), (item) => { return _.omit(item, 'checked') })
+    //   console.log('capacitesForDeviceVariation', _capacities)
+    //   return _capacities
+    // },
+
+    initComponent() {
+      if (this.device.images.length == 0) {
+        this.device.images.push({ id: 0, url: './../assets/logo.png' })
+      }
+
+      // init styles
+      _.each(this.$store.getters['modification/styleModifications'], (modification) => {
+        let isChecked = _.find(this.device.modifications, modification) ? true : false
+        if (isChecked) {
+          modification['checked'] = true
+          this.styles.push(modification)
+        } else {
+          modification['checked'] = false
+          this.styles.push(modification)
+        }
+      })
+
+      // init capacities
+      _.each(this.$store.getters['modification/capacityModifications'], (modification) => {
+        let isChecked = _.find(this.device.modifications, modification) ? true : false
+        if (isChecked) {
+          modification['checked'] = true
+          this.capacities.push(modification)
+        } else {
+          modification['checked'] = false
+          this.capacities.push(modification)
+        }
+      })
+
+      // init carriers
+      let selected_carriers = []
+      _.each(this.device.devicevariations, (dv) => {
+        selected_carriers = _.concat(selected_carriers, dv.carriers)
+      })
+      selected_carriers = _.uniq(selected_carriers)
+
+      _.each(this.$store.getters['carrier/allCarriers'], (carrier) => {
+        let isChecked = _.find(selected_carriers, (c) => { return c.id == carrier.id }) ? true : false
+        if (isChecked) {
+          carrier['checked'] = true
+          this.carriers.push(carrier)
+        } else {
+          carrier['checked'] = false
+          this.carriers.push(carrier)
+        }
+      })
+
+      // init companies
+      let selected_companies = []
+      _.each(this.device.devicevariations, (dv) => {
+        selected_companies = _.concat(selected_companies, dv.companies)
+      })
+      selected_companies = _.uniq(selected_companies)
+
+      _.each(this.$store.getters['company/allCompanies'], (company) => {
+        let isChecked = _.find(selected_companies, company) ? true : false
+        if (isChecked) {
+          company['checked'] = true
+          this.companies.push(company)
+        } else {
+          company['checked'] = false
+          this.companies.push(company)
+        }
+      })
+
+      // init device-variations
+      if (this.device.devicevariations.length == 0) {
+        this.addDeviceVariation()
+      }
+      let index = 0
+      _.each(this.device.devicevariations, (dv) => {
+        if (index == 0) {
+          dv['deleted'] = false
+        } else {
+          dv['deleted'] = true
+        }
+        index++
+      })
+
+      // init foundation to enable accordion
+      Vue.nextTick(function() {
+        $(document).foundation();
+      });
+    },
+
+    getDefaultValue (type) {
+      let _defaultValue = { 'id': 0, 'type': type }
+      return _defaultValue
+    },
+
+    getImageUrl (id) {
+      return process.env.URL_API + '/images/' + id
+    },
+
+    onDeviceImageChange (e) {
+      var files = e.target.files || e.dataTransfer.files;
+      var formData = new FormData();
+      formData.append('filename', files[0])
+      imageAPI.create(formData, (res) => {
+        console.log('res', res)
+        this.device.images[0].id = res.data.data.id
+        this.device.images[0].url = 'http://' + res.data.data.links.self
+      }, (err) => console.log('err', err))
+      // device.createImage(this, formData);
+    },
+
+    onPriceImageChange (e, dv) {
+      var files = e.target.files || e.dataTransfer.files;
+      var formData = new FormData();
+      formData.append('filename', files[0]);
+      imageAPI.create(formData, (res) => {
+        dv.images[0].id = res.data.data.id
+        dv.images[0].url = 'http://' + res.data.data.links.self
+      }, (err) => console.log('err', err))
+    },
+
+    addCapacity () {
+      if (this.capacity == '' || this.capacity == null || isNaN(this.capacity)) {
+        this.$store.dispatch('error/addNew', { message: 'Incorrect Capacity' })
+      } else {
+        let new_modification = {
+          value: this.capacity + this.unit,
+          modType: 'capacity'
+        }
+        let _params = JSON.stringify(ModificationsPresenter.toJSON(new_modification))
+        this.$store.dispatch('modification/create', _params).then(res => {
+          res['checked'] = false
+          this.capacities.push(res)
+        }, err => console.log(err))
+      }
+    },
+
+    addStyle () {
+      if (this.style == '' || this.style == null) {
+        this.$store.dispatch('error/addNew', { message: 'Incorrect Style' })
+      } else {
+        let new_modification = {
+          value: this.style,
+          modType: 'style'
+        }
+        let _params = JSON.stringify(ModificationsPresenter.toJSON(new_modification))
+        this.$store.dispatch('modification/create', _params).then(res => {
+          res['checked'] = false
+          this.styles.push(res)
+        }, err => console.log(err))
+      }
+    },
+
+    findCompany () {
+    },
+
+    addDeviceVariation () {
+      this.device.devicevariations.push({
+        type: 'devicevariations',
+        id: 0,
+        images: [
+          {
+            type: 'images',
+            id: 0,
+            url: ''
+          }
+        ],
+        modifications: [
+          {
+            type: 'modification',
+            id: 0,
+            modType: 'capacity'
+          },
+          {
+            type: 'modification',
+            id: 0,
+            modType: 'style'
+          },
+        ],
+        carriers: [
+          {
+            type: 'carriers',
+            id: 0
+          }
+        ],
+        companies: [
+          {
+            type: 'companies',
+            id: 0
+          }
+        ],
+        deleted: true
+      })
+    },
+
+    removeDeviceVariation (dv) {
+      this.device.devicevariations = _.reject(this.device.devicevariations, dv)
+    },
+
+    submit () {
+      // validation
+      if (!this.device.name) {
+        this.$store.dispatch('error/addNew', { message: 'Incorrect Device Name' })
+        return
+      }
+
+      // set values
+      this.device.modifications = _.filter(_.concat(this.styles, this.capacities), { 'checked': true })
+
+      // #TODO it is an API issue which require 'deviceVariations' rather than 'devicevariations'
+      let _jsonData = DevicesPresenter.toJSON(this.device)
+      _jsonData['data']['relationships']['deviceVariations'] = _jsonData['data']['relationships']['devicevariations']
+      delete _jsonData['data']['relationships']['devicevariations']
+
+      // console.log('submitting ...', _jsonData['data']['relationships']['deviceVariations'])
+      let _params = JSON.stringify(_jsonData)
+      // console.log('params', _params)
+
+      if (this.device.id) {
+        deviceAPI.update(this.device.id, _params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })
+      } else {
+        deviceAPI.create(_params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })
+      }
+    }
+  },
+
+  mounted () {
+    // #TODO - we shoule do this.$forceUpdate() to refresh selectors in price accordion-content when changing on vendors
   }
-};
+}
