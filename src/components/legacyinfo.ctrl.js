@@ -1,4 +1,3 @@
-import auth from './../api/auth'
 var {Store} = require('yayson')()
 var    store = new Store()
 export default {

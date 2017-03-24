@@ -29,7 +29,6 @@
 
 <script>
 
-import auth from './../api/auth';
 
 export default {
   created() {

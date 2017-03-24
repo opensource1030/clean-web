@@ -9,7 +9,8 @@
   </div>
 
   <div class="medium-6 columns">
-    <label class="devicename">Device Name
+    <label class="devicename">
+      Device Name
       <input type="text" placeholder="" v-model.trim="device.name">
     </label>
   </div>
@@ -243,7 +244,7 @@
                     <div class="features">
                       <select v-model="dv.modifications[0]">
                         <option :value="null">Select Capacity</option>
-                        <option v-for="c in _.chain(capacities).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="c">{{ c.value }}</option>
+                        <option v-for="c in modificationsFilter(capacities)" :value="c">{{ c.value }}</option>
                       </select>
                     </div>
                   </div>
@@ -251,7 +252,7 @@
                     <div class="features">
                       <select v-model="dv.modifications[1]">
                         <option :value="null">Select Color</option>
-                        <option v-for="s in _.chain(styles).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="s">{{ s.value }}</option>
+                        <option v-for="s in modificationsFilter(styles)" :value="s">{{ s.value }}</option>
                       </select>
                     </div>
                   </div>
