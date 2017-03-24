@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+import VueAnalytics from 'vue-analytics'
 import 'script!jquery'
 import 'script!select2'
 
@@ -21,7 +21,7 @@ import App from './App.vue'
 import VeeValidate from 'vee-validate'
 import store from './store'
 import router from './router'
-import { sync } from 'vuex-router-sync'
+import {sync} from 'vuex-router-sync'
 sync(store, router)
 
 $(document).foundation();
@@ -38,12 +38,11 @@ Vue.filter('cleanDate', function (value) {
 Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
     return value = '-'
-    // } else if (value >= 1024) {
-    //   return numeral(value).format('0.00b');
   }
   else {
-    value *= 1024; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+    value *= 1000; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
     return numeral(value).format('0.00b')
+
   }
 });
 
@@ -57,13 +56,21 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
   }
 })
 
+
 // event
 const eventHub = new Vue()
 exports.eventHub = eventHub
 
 // install plugins
-Vue.use(VueCharts)
 Vue.use(VeeValidate)
+const gaId = 'UA-42900219-2'
+// Install plugins
+
+Vue.use(VueCharts);
+
+
+Vue.use(VueAnalytics, {gaId, router});
+
 
 // start up our app
 new Vue({

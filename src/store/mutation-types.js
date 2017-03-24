@@ -8,7 +8,6 @@ export const AUTH_REGISTER_FAILURE ='REGISTER_FAILURE'
 export const AUTH_PASSWORD_RECOVERY ='RECOVERY_VARIATIONS'
 
 
-
 export const ERROR_ADD_NEW = 'ADD_NEW'
 export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
@@ -22,7 +21,6 @@ export const SERVICE_ADDONS ='SERVICE_ADDONS'
 export const SERVICE_PREV_PAGE = 'PREV_PAGE'
 export const SERVICE_NEXT_PAGE = 'NEXT_PAGE'
 export const SERVICE_PREPARE_JSON_ITEM = "ITEM_JSON"
-
 
 
 export const DEVICE_GET_ALL = 'GET_ALL'
