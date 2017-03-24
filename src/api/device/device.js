@@ -24,12 +24,12 @@ export default {
     let deviceObj = new Device('devices', id, parseInt(device.defaultPrice), device.name, device.description, device.type, 1, image.id, device.make, device.model, device.money);
     let check = this.checkDevice(deviceObj, style, capacity, price, context, id)
     if (check.staus == false) {
-      $store.dispatch('error/addNew', { message: 'Error in field ' + check.field })
+        $store.dispatch('error/addNew', {message: 'Error in field ' + check.field})
     } else {
       context.$http.patch(process.env.URL_API + '/devices/' + id, {data: deviceObj.toJSON()}).then((response) => {
         context.$router.push({name: 'List Devices'});
       }, (response) => {
-        $store.dispatch('error/addNew', { message: 'code error ' + response.status })
+          $store.dispatch('error/addNew', {message: 'code error ' + response.status})
       });
     }
   },
@@ -186,7 +186,7 @@ export default {
       }
     }).then((response) => {
       let event = store.sync(response.data);
-      // console.log(event);
+        // console.log(event);
 
       //process.env.URL_API
       for (let carrier of event) {
@@ -292,12 +292,12 @@ export default {
 
     let check = this.checkDevice(deviceObj, style, capacity, price, context, null)
     if (check.status == false) {
-      $store.dispatch('error/addNew', { message: 'Error in field ' + check.field })
+        $store.dispatch('error/addNew', {message: 'Error in field ' + check.field})
     } else {
       context.$http.post(process.env.URL_API + '/devices', {data: deviceObj.toJSON()}).then((response) => {
         context.$router.push({name: 'List Devices'});
       }, (response) => {
-        $store.dispatch('error/addNew', { message: 'code error ' + response.status })
+          $store.dispatch('error/addNew', {message: 'code error ' + response.status})
       });
     }
 
@@ -310,7 +310,7 @@ export default {
     }, (response) => {});
   },
 
-  createImageVariation(context, file, index) {
+    createImageVariation(context, file, index) {
     context.$http.post(process.env.URL_API + '/images', file).then((response) => {
       if (context.id == null) {
         context.price[index].imageVariations.url = 'http://' + response.data.data.links.self;

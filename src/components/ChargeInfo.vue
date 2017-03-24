@@ -28,7 +28,10 @@
                 <tr>
                   <td v-if="item.bill_month"> {{ item.bill_month | cleanDate  }} </td>
                   <td v-if="allocation"  v-html="allocation.firstName ? allocation.firstName : '-' "> </td>
-                  <td> <router-link class="alloc_mblnumber" :to="{ name: 'Mobile Charges', params: {id: item.id}}" v-html="item.mobile_number ? $options.filters.phone(item.mobile_number) : '000-000-0000'"></router-link>
+                    <td>
+                        <router-link class="alloc_mblnumber" @click="charge()"
+                                     :to="{ name: 'Mobile Charges', params: {id: item.id}}"
+                                     v-html="item.mobile_number ? $options.filters.phone(item.mobile_number) : '000-000-0000'"></router-link>
                   </td>
                   <td v-html="item.carrier ? item.carrier : '-'  "> </td>
                   <td v-html="item.device ? item.device : '-'  "> </td>

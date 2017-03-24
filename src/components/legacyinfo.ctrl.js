@@ -15,6 +15,9 @@ export default {
 
         }
     },
+    mounted(){
+        this.greet();
+    },
     methods: {
         closePop(){
             document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
@@ -22,6 +25,9 @@ export default {
                 history.back();
             },200)
 
+        },
+        greet () {
+            this.$ga.trackEvent('Click to Get Started');
         }
     }
 }

@@ -1,11 +1,11 @@
 <template>
-<div>
+    <div>
   <div class="bg-login">
     <div class="login">
       <div class="large-4 large-centered columns login-form-holder">
-        <div v-if="$store.getters['error/hasError']">
+          <div v-if="$store.getters['error/hasError']">
           <div class="is-error callout" data-closable>
-            <h5>{{ $store.getters['error/error'] }}</h5>
+              <h5>{{ $store.getters['error/error'] }}</h5>
           </div>
         </div>
         <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform"></h1>
@@ -17,7 +17,8 @@
                   <div class="large-12 columns">
                     <div class="input-group bg-orange">
                       <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
-                      <input name="email" id="email" class="input-group-field" type="text" v-model.trim="credentials.email" placeholder="Enter your company email" readonly/>
+                        <input name="email" id="email" class="input-group-field" type="text"
+                               v-model.trim="credentials.email" placeholder="Enter your company email" readonly/>
                     </div>
                   </div>
                 </div>
@@ -25,7 +26,8 @@
                   <div class="large-12 columns">
                     <div class="input-group bg-orange">
                       <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                      <input name="password" class="input-group-field" type="password" v-model="credentials.password" v-validate="'required'" placeholder="Password" />
+                        <input name="password" class="input-group-field" type="password" v-model="credentials.password"
+                               v-validate="'required'" placeholder="Password"/>
                     </div>
                   </div>
                 </div>
@@ -39,7 +41,7 @@
                 </div>
                 <div class="row">
                   <div class="large-12 large-centered columns">
-                    <input type="submit" class="button expanded" value="Sign In" />
+                      <input type="submit" class="button expanded" value="Sign In"/>
                   </div>
                 </div>
               </form>
@@ -60,7 +62,7 @@
 <script>
 export default {
   name: "loginLocal",
-  data() {
+    data() {
     return {
       credentials: {
         // email: localStorage.getItem('email'),
@@ -71,20 +73,20 @@ export default {
       version: '4.0.0-rc.1'
     }
   },
-  mounted() {
+    mounted() {
     $('input[name="password"]').focus()
   },
   methods: {
-    submit() {
-      this.$store.dispatch('auth/loginLocal', {
-        router: this.$router,
-        credentials: this.credentials
-      })
+      submit() {
+          this.$store.dispatch('auth/loginLocal', {
+              router: this.$router,
+              credentials: this.credentials
+          })
     },
     resetPassword() {
-      this.$router.push({
-        name: 'Reset Password'
-      });
+        this.$router.push({
+            name: 'Reset Password'
+        });
     }
   },
 }

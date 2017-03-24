@@ -1,5 +1,5 @@
 import Vue from 'vue'
-
+import VueAnalytics from 'vue-analytics'
 import 'script!jquery'
 import 'script!select2'
 
@@ -61,8 +61,15 @@ const eventHub = new Vue()
 exports.eventHub = eventHub
 
 // install plugins
-Vue.use(VueCharts)
 Vue.use(VeeValidate)
+const gaId = 'UA-42900219-2'
+// Install plugins
+
+Vue.use(VueCharts);
+
+
+Vue.use(VueAnalytics, {gaId, router});
+
 
 // start up our app
 new Vue({

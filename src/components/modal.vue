@@ -6,17 +6,17 @@
         <div class="modal-header">
           <slot name="header">
             <button class="modal-default-button" @click="$emit('close')">
-              <i class="fa fa-times fa-2x"></i>
-             </button>
+                <i class="fa fa-times fa-2x"></i>
+            </button>
           </slot>
         </div>
 
         <div class="modal-body">
-          <slot name="body"></slot>
+            <slot name="body"></slot>
         </div>
 
         <div class="modal-footer">
-          <slot name="footer"></slot>
+            <slot name="footer"></slot>
         </div>
       </div>
     </div>

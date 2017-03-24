@@ -54,9 +54,9 @@ module.exports = function (config) {
         frameworks: ['mocha', 'sinon-chai'],
         reporters: ['spec', 'coverage', 'progress'],
         files: [
-          '../../node_modules/babel-polyfill/dist/polyfill.js',
-          './index.js'
-      ],
+            '../../node_modules/babel-polyfill/dist/polyfill.js',
+            './index.js'
+        ],
         preprocessors: {
             './index.js': ['webpack', 'sourcemap']
         },

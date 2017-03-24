@@ -50,7 +50,12 @@ export default {
 
 
             });
+        },
+        openTicket () {
+            this.$ga.trackEvent('Open a ticket');
+            setTimeout(supportRequest, 500);
         }
+
     },
     data(){
         return {
