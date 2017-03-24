@@ -28,24 +28,19 @@ let client =browser;
   browser
   .assert.urlEquals(devServer+'/service/11')
     .waitForElementVisible('input[name="tittle"]', 25000)
-.assert.attributeContains('input[name="tittle"]', 'value', 'Pooled Domestic Voice Plan')
+.assert.attributeContains('input[name="tittle"]', 'value', 'Nisi quis exercitationem voluptas.')
 .setValue('input[name="tittle"]', '')
 .setValue('input[name="tittle"]', 'pooled international plan')
 .waitForElementVisible('input[name="planCode"]', 5000)
-.assert.attributeContains('input[name="planCode"]', 'value', '55555')
-  .setValue('input[name="planCode"]', '')
+.assert.attributeContains('input[name="planCode"]', 'value', 77239)
+  .setValue('input[name="planCode"]', 0)
 .setValue('input[name="planCode"]', 656565)
 .waitForElementVisible('input[name="cost"]', 5000)
-.assert.attributeContains('input[name="cost"]', 'value', 70)
-.setValue('input[name="cost"]','' )
-.assert.attributeContains('input[name="cost"]', 'value', '')
+.assert.attributeContains('input[name="cost"]', 'value', 178)
 .setValue('input[name="cost"]', 80)
-.click('#currency div')
-.click('#currency div  .multiselect__option ')
-.assert.attributeContains('textarea[name="description"]', 'value', "")
+
+.assert.attributeContains('textarea[name="description"]', 'value', "Quia provident laborum eaque deserunt voluptas voluptatem. Cumque blanditiis veritatis a qui. Vitae error ut eveniet accusantium. Neque impedit fugiat quasi consectetur eum. Consequatur voluptatem doloremque impedit nobis.")
   .setValue('textarea[name="description"]', 'hola')
-    .click('#carriers label  div')
-    .click('#carriers label div  .multiselect__option ')
     .click('input[id="status"]')
     .click('input[id="status"]')
     .element('id', 'status', function(response) {
@@ -56,85 +51,51 @@ let client =browser;
     })
     //Domestic Plan
     .waitForElementVisible('input[name="minutesD"]', 5000)
-    .assert.attributeContains('input[name="minutesD"]', 'value', 500)
-    .setValue('input[name="minutesD"]','' )
-    .assert.attributeContains('input[name="minutesD"]', 'value','' )
+    .assert.attributeContains('input[name="minutesD"]', 'value', 261)
     .setValue('input[name="minutesD"]', 80)
 
-    .waitForElementVisible('input[name="minutesD"]', 5000)
+    .waitForElementVisible('input[name="dataD"]', 5000)
     .assert.attributeContains('input[name="dataD"]', 'value', 2)
-    .setValue('input[name="dataD"]','' )
-    .assert.attributeContains('input[name="dataD"]', 'value','' )
     .setValue('input[name="dataD"]', 6)
 
-    .click('#unitD div')
-    .click('#unitD div  .multiselect__option ')
 
     .waitForElementVisible('input[name="smsD"]', 5000)
-    .assert.attributeContains('input[name="smsD"]', 'value', 100)
-    .setValue('input[name="smsD"]','' )
-    .assert.attributeContains('input[name="smsD"]', 'value','' )
+    .assert.attributeContains('input[name="smsD"]', 'value', 117)
     .setValue('input[name="smsD"]', 6)
-
-
 
   //international Plan
 
   .waitForElementVisible('input[name="iminutes"]', 5000)
-  .assert.attributeContains('input[name="iminutes"]', 'value', 50)
-  .setValue('input[name="iminutes"]','' )
-  .assert.attributeContains('input[name="iminutes"]', 'value', '')
+  .assert.attributeContains('input[name="iminutes"]', 'value', 288)
   .setValue('input[name="iminutes"]', 80)
 
-  .waitForElementVisible('input[name="iminutes"]', 5000)
-  .assert.attributeContains('input[name="idata"]', 'value', 1)
-  .setValue('input[name="idata"]','' )
-  .assert.attributeContains('input[name="idata"]', 'value', '')
+  .waitForElementVisible('input[name="idata"]', 5000)
+  .assert.attributeContains('input[name="idata"]', 'value', 3)
   .setValue('input[name="idata"]', 6)
 
-  .click('#iunit div')
-  .click('#iunit div  .multiselect__option ')
 
   .waitForElementVisible('input[name="isms"]', 5000)
-  .assert.attributeContains('input[name="isms"]', 'value', 50)
-  .setValue('input[name="isms"]', '')
-  .assert.attributeContains('input[name="isms"]', 'value','')
+  .assert.attributeContains('input[name="isms"]', 'value', 281)
   .setValue('input[name="isms"]', 100)
 
   //addons
   .waitForElementVisible('input[name="addonDes0"]', 5000)
-  .assert.attributeContains('input[name="addonDes0"]', 'value', 'Ar sa Kiyo Ariquitaum')
-  .setValue('input[name="addonDes0"]','' )
+  .assert.attributeContains('input[name="addonDes0"]', 'value', '')
   .setValue('input[name="addonDes0"]', 'Taum, Taum')
   .assert.attributeContains('input[name="addonDes0"]', 'value', 'Taum, Taum')
 
   .waitForElementVisible('input[name="addonCost0"]', 5000)
-  .assert.attributeContains('input[name="addonCost0"]', 'value', 10)
-  .setValue('input[name="addonCost0"]','' )
+  .assert.attributeContains('input[name="addonCost0"]', 'value', '')
   .setValue('input[name="addonCost0"]', 15)
   .assert.attributeContains('input[name="addonCost0"]', 'value', 15)
 
-
+  .waitForElementVisible('#add0', 5000)
+  .click('#add0')
   .waitForElementVisible('input[name="addonDes1"]', 5000)
-  .assert.attributeContains('input[name="addonDes1"]', 'value', 'Taum, Taum')
-  .setValue('input[name="addonDes1"]','' )
-  .setValue('input[name="addonDes1"]', 'Ar sa Kiyo Ariquitaum')
-  .assert.attributeContains('input[name="addonDes1"]', 'value', 'Ar sa Kiyo Ariquitaum')
-
-
-  .waitForElementVisible('input[name="addonCost1"]', 5000)
-  .assert.attributeContains('input[name="addonCost1"]', 'value', 15)
-  .setValue('input[name="addonCost1"]', '')
-    .setValue('input[name="addonCost1"]', 10)
-  .assert.attributeContains('input[name="addonCost1"]', 'value', 10)
-
-  .waitForElementVisible('#add1', 5000)
-  .click('#add1')
-  .waitForElementVisible('input[name="addonDes2"]', 5000)
-  .setValue('input[name="addonDes2"]', 'mateo')
-    .click('#delete2')
+  .setValue('input[name="addonDes1"]', 'mateo')
+    .click('#delete1')
         .click('.save')
-            .pause()
+
 
 //  .pause(1000)
 },
@@ -142,6 +103,67 @@ let client =browser;
   const devServer = browser.globals.devServerURL;
   let client =browser;
     browser
+        .pause(100)
+        .waitForElementVisible('.buttonTable', 25000)
         .assert.urlEquals(devServer+'/services')
+          .click('.buttonTable')
+          .waitForElementVisible('input[name="tittle"]', 25000)
+          .setValue('input[name="tittle"]', 'pooled international plan')
+          .assert.urlEquals(devServer+'/service')
+          .waitForElementVisible('input[name="planCode"]', 5000)
+          .setValue('input[name="planCode"]', 656565)
+          .waitForElementVisible('input[name="cost"]', 5000)
+          .setValue('input[name="cost"]', '80')
+
+
+            .setValue('textarea[name="description"]', 'hola')
+            .click('#carriers label  div')
+              .waitForElementVisible('#carriers   .multiselect__option', 25000)
+              .click('#carriers   .multiselect__option ')
+            .click('input[id="status"]')
+            .element('id', 'status', function(response) {
+              client.assert.ok(response.value.ELEMENT, 'Checkbox response OK');
+              client.elementIdSelected(response.value.ELEMENT, function(result){
+                client.verify.ok(result.value, 'Checkbox selected');
+              });
+            })
+            //Domestic Plan
+            .waitForElementVisible('input[name="minutesD"]', 5000)
+            .setValue('input[name="minutesD"]', 80)
+              .waitForElementVisible('input[name="dataD"]', 5000)
+            .setValue('input[name="dataD"]', 6)
+            .click('#unitD div')
+              .waitForElementVisible('#unitD div .multiselect__option', 25000)
+              .click('#unitD div  .multiselect__option ')
+
+            .waitForElementVisible('input[name="smsD"]', 5000)
+            .setValue('input[name="smsD"]', 6)
+
+            //international Plan
+            .waitForElementVisible('input[name="iminutes"]', 5000)
+              .setValue('input[name="iminutes"]', 80)
+            .waitForElementVisible('input[name="idata"]', 5000)
+            .setValue('input[name="idata"]', 6)
+            .waitForElementVisible('input[name="isms"]', 5000)
+            .setValue('input[name="isms"]', 9)
+            .click('#iunit div')
+              .waitForElementVisible('#iunit div  .multiselect__option', 25000)
+              .click('#iunit  div .multiselect__option ')
+
+            //addons
+            .waitForElementVisible('input[name="addonDes0"]', 5000)
+            .assert.attributeContains('input[name="addonDes0"]', 'value', '')
+            .setValue('input[name="addonDes0"]', 'Taum, Taum')
+            .assert.attributeContains('input[name="addonDes0"]', 'value', 'Taum, Taum')
+
+            .waitForElementVisible('input[name="addonCost0"]', 5000)
+            .assert.attributeContains('input[name="addonCost0"]', 'value', '')
+            .setValue('input[name="addonCost0"]', '15')
+            .assert.attributeContains('input[name="addonCost0"]', 'value', '15')
+
+
+                  .click('.save')
+
+
 }
 }

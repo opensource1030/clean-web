@@ -42,7 +42,7 @@ export default class Service {
               category: it.category,
               description: it.description,
               value: parseInt(it.value),
-              unit: parseInt(it.unit),
+              unit: it.unit,
               cost: parseInt(it.cost),
               domain: it.domain
           });
@@ -58,10 +58,10 @@ export default class Service {
       attributes: {
         status: this.status,
         title: this.title,
-        planCode: this.planCode,
-        cost: this.cost,
+        planCode: parseInt(this.planCode),
+        cost: parseInt(this.cost),
         description: this.description,
-        carrierId: this.carrierId,
+        carrierId: parseInt(this.carrierId),
         currency: this.currency
       },
       relationships: {

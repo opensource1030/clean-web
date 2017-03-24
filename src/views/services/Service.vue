@@ -32,7 +32,7 @@
                       </div>
                       <div class="large-4 small-4 columns padding-unit" id="currency">
 
-                        <multiselect   :value="serviceDetails.currency" :options="names.currency" :searchable="false" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})" :show-labels="false" :select-label="''">
+                        <multiselect   :value="serviceDetails.currency" :options="names.currency" :searchable="false" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})" :show-labels="false">
                         </multiselect>
                       </div>
                     </div>
@@ -46,7 +46,7 @@
                     <div class="large-7 small-7 columns" id="carriers">
                       <label>{{names.carriers}}
                         <multiselect
-                        class="carriers"
+
                         :value="serviceDetails.carrierId"
                          :options="carriers"
                          :searchable="false"
@@ -54,12 +54,11 @@
                           label="presentation"
                           track-by="id"
                           :show-labels="false"
-                          :select-label="''"
                           :option-width="100"
                         >
                         </multiselect>
+                          </label>
 
-                      </label>
                     </div>
                     <div class="large-3 large-offset-2 small-5 columns">
                       <label class="status">
@@ -100,7 +99,7 @@
                           <option value="Gb">{{names.unit.giga}}</option>
                           <option value="Tb">{{names.unit.tera}}</option>
                         </select>-->
-                      <multiselect :value="domesticPlan.data.unit" :options="names.unit" :searchable="false" @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" :show-labels="false" :select-label="''" :option-width="100">
+                      <multiselect :value="domesticPlan.data.unit" :options="names.unit" :searchable="false" @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" :show-labels="false"  :option-width="100">
                       </multiselect>
                     </div>
                   </div>
@@ -146,7 +145,7 @@
                           <option value="Gb">{{names.unit.giga}}</option>
                           <option value="Tb">{{names.unit.tera}}</option>
                         </select>-->
-                      <multiselect :value="internationalPlan.data.unit"  :options="names.unit" :searchable="false" @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" :show-labels="false" :select-label="''">
+                      <multiselect :value="internationalPlan.data.unit"  :options="names.unit" :searchable="false" @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" :show-labels="false"  >
                       </multiselect>
 
                     </div>
@@ -217,8 +216,7 @@
         </div>
       </div>
       <a class="button large save" @click="save()" id="button">{{names.saveChanges}}</a>
-    </div>
-  </div>
+    </div>  </div>
 </div>
 </div>
 </template>

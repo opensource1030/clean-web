@@ -141,7 +141,7 @@ const actions = {
         //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
 
         commit(types.SERVICE_PREPARE_ITEMS)
-        serviceo.itemJson(state.items, serviceo);
+        commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         return new Promise((resolve, reject) => {
           service.update(serviceo.toJSON(), serviceDetails.id, res => {
             commit(types.SERVICE_UPDATE, {router})
@@ -178,7 +178,8 @@ const actions = {
       if (response) {
         //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
         commit(types.SERVICE_PREPARE_ITEMS)
-        serviceo.itemJson(state.items, serviceo);
+        commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
+        console.log(serviceo)
         return new Promise((resolve, reject) => {
           service.add(serviceo.toJSON(), res => {
             commit(types.SERVICE_ADD_NEW, {router})
@@ -292,9 +293,7 @@ const mutations = {
     if (state.addons.length == 0) {
       state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
     }
-
     reorderButtons(state)
-
   },
 
   hideAndPush(state, index) {
@@ -325,14 +324,14 @@ const mutations = {
       state.serviceDetails[type] = e.target.value
     } else {
       if(type=="carrierId"){
-      state.serviceDetails[type] = parseInt(e)
+      state.serviceDetails[type] = e
     }
     }
 
   },
   updateDomesticplan(state, {e, type}) {
     if (type == "unit") {
-      state.domesticPlan.data[type] = parseInt(e);
+      state.domesticPlan.data[type] = e;
     } else {
       state.domesticPlan[type].value = e.target.value;
     }
@@ -355,17 +354,15 @@ const mutations = {
         state.addons[i].addonNameError = true;
       }
       state.addons[i].addonNameError = false;
-
     }
 
     if (type == 'price') {
-      state.addons[i].cost = e.target.value;
+      state.addons[i].cost = parseInt(e.target.value);
       let value = e.target.value;
       if (value == null || value == '') {
         state.addons[i].addonPriceError = true;
       }
       state.addons[i].addonPriceError = false;
-
     }
     for (let add of state.addons) {
       add.add = false;
@@ -380,11 +377,17 @@ const mutations = {
 
   },
 
+  [types.SERVICE_PREPARE_JSON_ITEM](state, {serviceo}) {
+
+      serviceo.itemJson(state.items, serviceo);
+
+  },
   [types.SERVICE_UPDATE](state, {router}) {
 
     router.push({name: 'List Services'});
 
   },
+
   [types.SERVICE_ADD_NEW](state, {router}) {
 
     router.push({name: 'List Services'});
