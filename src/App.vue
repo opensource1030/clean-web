@@ -25,6 +25,7 @@ import headers from './components/header'
 import breadcrumb from './components/breadcrumb'
 export default {
   name: "App",
+  
   components: {
     Sidemenu,
     foo,
