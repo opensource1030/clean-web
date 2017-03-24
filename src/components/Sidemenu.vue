@@ -79,7 +79,6 @@
 </template>
 
 <script>
-    import auth from './../api/auth'
     import Permision from './permisions'
     import Vue from 'vue';
     Vue.directive('permission', {

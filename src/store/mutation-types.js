@@ -11,6 +11,7 @@ export const AUTH_PASSWORD_RECOVERY ='RECOVERY_VARIATIONS'
 export const ERROR_ADD_NEW = 'ADD_NEW'
 export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
+
 export const SERVICES_GET_ALL = 'GET_ALL'
 export const SERVICES_GET_SERVICE = 'GET_ONE'
 export const SERVICE_ADD_NEW = 'ADD_NEW_SERVICE'
@@ -37,4 +38,3 @@ export const CARRIER_GET_ALL = 'GET_ALL'
 export const DEVICE_TYPE_GET_ALL = 'GET_ALL'
 
 export const COMPANY_GET_ALL = 'GET_ALL'
-

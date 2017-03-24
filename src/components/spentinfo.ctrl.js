@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import auth from './../api/auth'
 import supportRequest from './support-request'
 import { format, parse } from 'libphonenumber-js'
 let {Store} = require('yayson')()
@@ -56,7 +55,7 @@ export default {
             isActive: true,
             viewText: 'All',
             popOver: true,
-            user: auth.user
+
         }
     },
     methods: {

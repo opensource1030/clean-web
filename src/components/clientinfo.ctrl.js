@@ -1,15 +1,11 @@
 var {Store} = require('yayson')()
 var  store = new Store()
-import auth from './../api/auth'
 import supportRequest from './support-request';
 export default {
     name: "ClientInfo",
     created(){
         this.fetchData();
 
-    },
-    mounted(){
-        this.greet();
     },
     computed : {
         fullName : function () {
@@ -55,9 +51,6 @@ export default {
 
             });
         },
-        greet () {
-            this.$ga.trackEvent('share', 'click', 'facebook')
-        },
         openTicket () {
             this.$ga.trackEvent('Open a ticket');
             setTimeout(supportRequest, 500);
@@ -67,7 +60,7 @@ export default {
     data(){
         return {
             client: {},
-            user : auth.user
+
         }
     }
 

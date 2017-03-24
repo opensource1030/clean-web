@@ -1,11 +1,11 @@
 <template>
-  <div>
+    <div>
   <div class="bg-login">
     <div class="login">
       <div class="large-4 large-centered columns login-form-holder">
-        <div v-if="error" v-show="error">
+          <div v-if="$store.getters['error/hasError']">
           <div class="is-error callout" data-closable>
-            <h5>{{ error }}</h5>
+              <h5>{{ $store.getters['error/error'] }}</h5>
           </div>
         </div>
         <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform"></h1>
@@ -17,8 +17,8 @@
                   <div class="large-12 columns">
                     <div class="input-group bg-orange">
                       <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
-                      <input name="email" id="email" class="input-group-field" type="text"
-                             v-model.trim="credentials.email" placeholder="Enter your company email" readonly/>
+                        <input name="email" id="email" class="input-group-field" type="text"
+                               v-model.trim="credentials.email" placeholder="Enter your company email" readonly/>
                     </div>
                   </div>
                 </div>
@@ -26,13 +26,12 @@
                   <div class="large-12 columns">
                     <div class="input-group bg-orange">
                       <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                      <input name="password" class="input-group-field" type="password" v-model="credentials.password"
-                             v-validate="'required'" placeholder="Password"/>
+                        <input name="password" class="input-group-field" type="password" v-model="credentials.password"
+                               v-validate="'required'" placeholder="Password"/>
                     </div>
                   </div>
                 </div>
                 <div class="row">
-
                   <div class="large-6 small-12 columns">
                     <input id="checkbox3" type="checkbox"><label for="checkbox3">remember me</label>
                   </div>
@@ -42,7 +41,7 @@
                 </div>
                 <div class="row">
                   <div class="large-12 large-centered columns">
-                    <input type="submit" class="button expanded" value="Sign In"/>
+                      <input type="submit" class="button expanded" value="Sign In"/>
                   </div>
                 </div>
               </form>
@@ -63,7 +62,7 @@
 <script>
 export default {
   name: "loginLocal",
-  data () {
+    data() {
     return {
       credentials: {
         // email: localStorage.getItem('email'),
@@ -74,33 +73,20 @@ export default {
       version: '4.0.0-rc.1'
     }
   },
-  mounted () {
+    mounted() {
     $('input[name="password"]').focus()
   },
   methods: {
-    submit () {
-      // var credentials = {
-      //   email: this.credentials.email,
-      //   password: this.credentials.password
-      // }
-      // auth.loginLocal(this, credentials, 'dashboard')
-      if (this.errors.errors.length == 0) {
-        this.$set(this, 'error', null)
-        this.$store.dispatch('auth/loginLocal', this.credentials).then((res) => {
-          // console.log('loginLocal res', res)
-          this.$router.push('dashboard')
-        }).catch((err) => {
-          // console.log('loginLocal err', err)
-          if (err.status == 500) {
-            this.$set(this, 'error', 'Unexpected server error. Please contact the administrator.')
-          } else {
-            this.$set(this, 'error', 'Unexpected server error. ' + err.status)
-          }
-        })
-      }
+      submit() {
+          this.$store.dispatch('auth/loginLocal', {
+              router: this.$router,
+              credentials: this.credentials
+          })
     },
     resetPassword() {
-      this.$router.push({name: 'Reset Password'});
+        this.$router.push({
+            name: 'Reset Password'
+        });
     }
   },
 }

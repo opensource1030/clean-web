@@ -1,4 +1,3 @@
-import auth from './../api/auth';
 import phone from './../filters/phone-formatter.js';
 var {Store} = require('yayson')();
 var store = new Store();
