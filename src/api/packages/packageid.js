@@ -15,7 +15,9 @@ export default {
 
     let params = { params: { } };
 
-    context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
+    let userId = localStorage.getItem('userId');
+
+    context.$http.get(process.env.URL_API + '/users/' + userId, params).then((response) => {
       event = store.sync(response.data);
 
       // CONDITIONS
@@ -100,7 +102,7 @@ export default {
       }
     };
 
-    params.params['filter[devicevariations.companyId]'] = context.packageid.companyId;
+    params.params['filter[companyId]'] = context.packageid.companyId;
 
     context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
       let event = store.sync(response.data);

@@ -623,7 +623,6 @@ export default {
         this.listInformation(object, array);
         packaging[func](this, object, 1);
       }
-
     },
     /*
      * listInformation(object, array)
