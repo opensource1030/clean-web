@@ -1,19 +1,18 @@
 export default class Device {
 
-
-  constructor(type, id,defaultPrice,name, properties, deviceTypeId, statusId, imageId,make,model,currency) {
-    this.defaultPrice=defaultPrice;
+  constructor(type, id, defaultPrice, name, properties, deviceTypeId, statusId, imageId, make, model, currency) {
+    this.defaultPrice = defaultPrice;
     this.id = id;
-    this.currency=currency;
-    this.make=make;
-    this.model=model;
+    this.currency = currency;
+    this.make = make;
+    this.model = model;
     this.type = type;
     this.name = name;
     this.properties = properties;
     this.deviceTypeId = deviceTypeId;
     this.statusId = statusId;
     this.imageId = imageId;
-    this.relationships={};
+    this.relationships = {};
     this.modifications = [];
     this.prices = [];
     this.json = {
@@ -87,10 +86,8 @@ export default class Device {
   }
 
   pricesJson(price, device) {
-
-        let self=this;
+    let self = this;
     price.forEach(function(p, index) {
-
       self.json.attributes.priceRetail=p.priceRetail;
       self.json.attributes.price1=p.price1;
       self.json.attributes.price2=p.price2;
@@ -106,16 +103,16 @@ export default class Device {
       device.prices.push(self.json);
       }
       else{
-      device.prices.push(self.json);
-    }
-  });
+        device.prices.push(self.json);
+      }
+    });
+
     device.relationships = Object.assign({}, device.relationships, {
-      devicevariations: {
+      deviceVariations: {
         data:device.prices
       },
     });
-
-}
+  }
 
   toJSON() {
     return {

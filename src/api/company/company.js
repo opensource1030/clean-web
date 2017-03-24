@@ -1,6 +1,5 @@
 
 import Vue from 'vue';
-import auth from './../auth.js';
 import Company from './../../models/Company'
 
 var {

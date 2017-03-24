@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import auth from './../auth.js';
+/*import Vue from 'vue';
 import Carrier from './../carrier/carriers';
 import {findServiceItem, findByAddons, orderFilters, getFilters} from './../../components/filters.js';
 const {Store} = require('yayson')();
@@ -97,7 +96,7 @@ export default {
                          *  so we need to put some value to prevent an
                          *  issue loading information.
                          */
-                        if (service.carriers.length == 0) {
+                    /*    if (service.carriers.length == 0) {
                             service.carriers[0] = {
                                 presentation : ''
                             }
@@ -185,4 +184,4 @@ export default {
             context.carriers = orderFilters(context.carriers, 'presentation', 'string', 'asc');
         })
     },
-}
+}*/

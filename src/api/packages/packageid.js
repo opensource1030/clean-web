@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import auth from './../auth.js';
 import packageid from './../../models/Packageid';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { concatenateAttribute, deleteRepeated } from './../../components/filters.js';
@@ -8,52 +7,78 @@ var {Store} = require('yayson')();
 var store = new Store();
 
 export default {
+  agree: 0,
   // GET USER INFORMATION.
   getUserInformation(context) {
 
-    let params = {
-      params: {
+    this.getValuesForTheFirstTime(context);
 
-      }
-    };
+    let params = { params: { } };
 
-    context.$http.get(process.env.URL_API + '/users/2', params).then((response) => {
+    let userId = localStorage.getItem('userId');
 
+    context.$http.get(process.env.URL_API + '/users/' + userId, params).then((response) => {
       event = store.sync(response.data);
-      context.packages.companyId = event.companyId
 
-      this.getUdlsFromCompanies(context, context.packages.companyId);
+      // CONDITIONS
+      this.getUdlsFromCompanies(context);
+      // PRESETS -> DEVICEVARIATIONS
+      this.getPresets(context, 1);
+      // ĈARRIERS -> SERVICES
+      this.getCarriers(context, 1);
+      // ADDRESS
+      this.getAddressFromCompany(context, 1);
     },
-    (response) => {});
+    (response) => {
+      if(response.status == 500) {
+        //context.packageid.errors.textError = 'Internal Server Error, Please Contact the Administrator';
+      }
+      context.packageid.errors.generalError = true;
+    });
   },
   // GET packages INFORMATION.
   getDataPackages(context, id) {
 
     let params = {
       params: {
-        include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images'
+        include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images,services.serviceitems'
       }
     };
 
     context.$http.get(process.env.URL_API + '/packages/' + id, params).then((response) => {
       event = store.sync(response.data);
-      context.packages.id = id;
-      context.packages.name = event.name;
-      context.packages.type = event.type;
-            //context.packages.addressId = event.addressId;
-            context.packages.companyId = event.companyId;
-            //context.packages.apps = event.apps;
-            context.packages.conditions = event.conditions;
-            context.packages.devicevariations = event.devicevariations;
-            context.packages.services = event.services;
-            this.getUdlsFromCompanies(context, context.packages.companyId);
-            this.getDeviceVariationsFromPresets(context, context.packages.companyId);
-            context.addOptionsToRetrievedConditions();
-          },
-          (response) => {});
+      context.packageid.id = id;
+      context.packageid.name = event.name;
+      context.packageid.type = event.type;
+      context.packageid.companyId = event.companyId;
+
+      // CONDITIONS
+      context.conditions.selected = context.addOptionsToRetrievedConditions(event.conditions);
+      context.reorderButtons();
+
+      // DEVICEVARIATIONS
+      context.devicevariations.selected = event.devicevariations;
+      context.retrieveTheValues(context.devicevariations.names, context.devicevariations.selected, 'price1');
+
+      // SERVICES
+      context.services.selected = event.services;
+      context.retrieveTheValues(context.services.names, context.services.selected, 'cost');
+
+      // ADDRESS
+      context.address.selected = event.address;
+
+      this.getUserInformation(context);
+
+    },
+    (response) => {
+      if(response.status == 500) {
+        context.packageid.errors.text = 'Internal Server Error, Please Contact the Administrator';
+      }
+      context.packageid.errors.generalError = true;
+    });
   },
   // GET UDLS FROM THE COMPANY OF THE USER.
-  getUdlsFromCompanies(context, companyId) {
+  getUdlsFromCompanies(context) {
 
     let params = {
       params: {
@@ -61,35 +86,35 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/companies/' + companyId, params).then((response) => {
-      context.packages.companies = store.sync(response.data);
+    context.$http.get(process.env.URL_API + '/companies/' + context.packageid.companyId, params).then((response) => {
+      context.company = store.sync(response.data);
       context.addConditionsOptions();
-      this.getPresets(context, companyId, 1);
-      this.getCarriersFromAnywhere(context, companyId);
+      this.loadContent(context, 1);
     },
     (response) => {});
   },
-  // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
-  getPresets(context, companyId, pages) {
+  // GET PRESETS RELATED TO THE COMPANY OF THE USER.
+  getPresets(context, pages) {
+
     let params = {
       params: {
-        //include: 'devicevariations,devicevariations.images,devicevariations.devices',
         page: pages,
       }
     };
 
-    params.params['filter[devicevariations.companyId]'] = companyId;
+    params.params['filter[companyId]'] = context.packageid.companyId;
 
     context.$http.get(process.env.URL_API + '/presets', params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.presetsPagination = response.data.meta.pagination;
-      context.addPresetsToTheArray(event);
-      this.loadContent(context);
+      context.presets.pagination = response.data.meta.pagination;
+      context.presets.list = context.addElementsToTheArray(event, context.presets.list, context.presets.controller, context.$refs.swPresets.swiper);
+
+      this.loadContent(context, 2);
     },
     (response) => {});
   },
-  // GET DEVICEVARIATIONS FROM THE CARRIERS RELATED TO THE COMPANY OF THE USER.
-  getDeviceVariationsFromPresets(context, presetId) {
+  // GET DEVICEVARIATIONS FROM THE PRESET SELECTED BY THE USER.
+  getDeviceVariationsFromPresets(context, pages) {
 
     let params = {
       params: {
@@ -97,211 +122,194 @@ export default {
       }
     };
 
-    context.$http.get(process.env.URL_API + '/presets/' + presetId, params).then((response) => {
+    context.$http.get(process.env.URL_API + '/presets/' + context.presets.selected.id, params).then((response) => {
       let event = store.sync(response.data);
-      context.packages.presetSelected = event;
-      context.devicevariationList();
+      context.devicevariations.list = event.devicevariations;
+      context.devicevariations.filtered = context.deleteSelectedFromList(context.devicevariations.list, context.devicevariations.selected);
+      this.retrieveMoreTrue(context);
     },
     (response) => {});
   },
+  // GET CARRIERS RELATED TO THE COMPANY OF THE USER.
+  getCarriers(context, pages) {
+
+    let params = {
+      params: {
+        include: 'images',
+        page: pages,
+      }
+    };
+
+    context.$http.get(process.env.URL_API + '/carriers', params).then((response) => {
+      let event = store.sync(response.data);
+      context.carriers.pagination = response.data.meta.pagination;
+      context.carriers.list = context.addElementsToTheArray(event, context.carriers.list, context.carriers.controller, context.$refs.swCarriers.swiper);
+      this.loadContent(context, 3);
+    },
+    (response) => {});
+  },
+  // GET SERVICES FROM THE CARRIER SELECTED BY THE USER.
+  getServicesFromCarriers(context, pages) {
+
+    let params = {
+      params: {
+        include: 'serviceitems',
+        page: pages,
+      }
+    };
+
+    params.params['filter[carrierId]'] = context.carriers.selected.id;
+    context.$http.get(process.env.URL_API + '/services', params).then((response) => {
+      let event = store.sync(response.data);
+      context.services.pagination.filtered = response.data.meta.pagination;
+      context.services.list = context.addElementsToTheArray(event, context.services.list, context.services.controller.filtered, context.$refs.swServicesFiltered.swiper);
+      context.services.filtered = context.deleteSelectedFromList(context.services.list, context.services.selected);
+      this.retrieveMoreTrue(context);
+    },
+    (response) => {});
+  },
+  // GET UDLS FROM THE COMPANY OF THE USER.
+  getAddressFromCompany(context, pages) {
+
+    let params = {
+      params: {
+        include: 'address',
+        page: pages,
+      }
+    };
+
+    context.$http.get(process.env.URL_API + '/companies/' + context.packageid.companyId, params).then((response) => {
+      let event = store.sync(response.data);
+      context.address.list = context.addElementsToTheArray(event.address, context.address.list, context.address.controller.filtered, context.$refs.swAddressFiltered.swiper);
+      context.address.filtered = context.deleteSelectedFromList(context.address.list, context.address.selected);
+      this.loadContent(context, 4);
+    },
+    (response) => {});
+  },
+  updateTheUsersThatAccomplishesTheConditions(context) {
+    let conditions = this.prepareConditionsForSend(context.conditions.selected);
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.packageid.companyId}}).then((response) => {
+      context.conditions.numberOfUsers = response.body.number;
+      this.loadContent(context, 5);
+    }, (response) => {});
+  },
   // CREATE packages.
   createThePackages(context) {
-
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
-
-    let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
-            context.packages.companyId, conditions, [], [], []);
+    let pack = this.prepareTheModel(context);
 
     context.$http.post(process.env.URL_API + '/packages', {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
-      //context.$router.push({name: 'packages'});
+      context.$router.push({name: 'packages'});
     }, (response) => {});
   },
   // UPDATE packages
   updateThePackages(context) {
-    let conditions = this.prepareConditionsForSend(context.packages.conditions);
+    let pack = this.prepareTheModel(context);
 
-    let pack = this.getTheModel(context.packages.id, context.packages.type, context.packages.name, 1,
-            context.packages.companyId, conditions, [], [], []);
-
-    context.$http.patch(process.env.URL_API + '/packages/' + context.packages.id, {"data": pack.toJSON()}).then((response) => {
+    context.$http.patch(process.env.URL_API + '/packages/' + context.packageid.id, {"data": pack.toJSON()}).then((response) => {
       event = store.sync(response.data);
-            //context.$router.push({name: 'packages'});
-          }, (response) => { });
+      context.$router.push({name: 'packages'});
+    }, (response) => { });
   },
   // Prepare the Model
-  getTheModel(id, type, name, addressId, companyId, conditions, apps, devicevariations, services) {
+  prepareTheModel(context) {
+    let conditions = this.prepareConditionsForSend(context.conditions.selected);
+    let devicevariations = this.prepareIdsForSend(context.devicevariations.selected, 'devicevariations');
+    let services = this.prepareIdsForSend(context.services.selected, 'services');
+    let address = this.prepareIdsForSend(context.address.selected, 'address');
+
     return new packageid(
-      id,
-      type,
-      name,
-      addressId,
-      companyId,
+      context.packageid.id,
+      'packages',
+      context.packageid.name,
+      context.packageid.companyId,
       conditions,
-      apps,
+      [], // apps
       devicevariations,
-      services
+      services,
+      address
     );
   },
   // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
   prepareConditionsForSend(conditions) {
     let conditionsFinal = [];
-    if(conditions[0].name != '') {
+    if (conditions.length > 0) {
       for (let cond of conditions) {
-        let aux = {
-          id: cond.id,
-          type: 'conditions',
-          nameCond: cond.nameCond,
-          condition: cond.condition,
-          value: cond.value,
-          inputType: cond.inputType
-        };
-        conditionsFinal.push(aux);
+        if (cond.nameCond != '' && cond.condition != '' && cond.value != '') {
+          let aux = {
+            id: cond.id,
+            type: 'conditions',
+            nameCond: cond.nameCond,
+            condition: cond.condition,
+            value: cond.value,
+            inputType: cond.inputType
+          };
+          conditionsFinal.push(aux);
+        }
       }
     }
-
     return conditionsFinal;
   },
-  getCarriersFromAnywhere(context, companyId) {
-
-    let service1Verizon = {
-      id: 1,
-      status: 'Enabled',
-      title: 'Pooled Domestic Voice Plan',
-      planCode: '55555',
-      cost: '70',
-      description: '',
-      currency: 'USD',
-      carrierId: 1,
-      serviceitems: this.getRandomServiceItems(1),
-    };
-
-    let service2Verizon = {
-      id: 2,
-      status: 'Enabled',
-      title: 'Another Magnific Service',
-      planCode: '55333',
-      cost: '80',
-      description: '',
-      currency: 'USD',
-      carrierId: 1,
-      serviceitems: this.getRandomServiceItems(1),
-    };
-
-    let service3Verizon = {
-      id: 3,
-      status: 'Enabled',
-      title: 'Domestic Plan Service',
-      planCode: '33555',
-      cost: '110',
-      description: '',
-      currency: 'USD',
-      carrierId: 1,
-      serviceitems: this.getRandomServiceItems(1),
-    };
-
-    let image1Verizon = {
-      id: 5,
-      originalName: 'verizon.jpg',
-      filename: 'phpiicQ3z',
-      mimeType: 'image/jpeg',
-      extension: 'jpg',
-      size: 5099,
-      url: 'phpiicQ3z.jpg',
+  // PREPARE THE IDS FOR THE SEND REQUEST.
+  prepareIdsForSend(array, ty) {
+    let arrayFinal = [];
+    if (array.length > 0) {
+      for (let a of array) {
+        let aux = {
+          id: a.id,
+          type: ty
+        };
+        arrayFinal.push(aux);
+      }
     }
-
-    let carrierVerizon = {
-      id: 1,
-      name: 'verizon',
-      presentation: 'Verizon',
-      active: 1,
-      locationId: 236,
-      shortName: 'Ver',
-      images: [image1Verizon],
-      services: [service1Verizon, service2Verizon, service3Verizon]
-    }
-
-    context.packages.carriers = [carrierVerizon];
+    return arrayFinal;
   },
-  getRandomServiceItems(idService) {
+  getValuesForTheFirstTime(context) {
+    let controllerVar = {
+      option: 'forward',
+    };
 
-    let arrayServiceItems = []
+    let paginationVar = {
+      count: 25,
+      current_page: 1,
+      per_page: 25,
+      total: 1,
+      total_pages: 1,
+    };
 
-    let serviceitems1service = {
-      serviceId: idService,
-      category: 'voice',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'minutes',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'domestic',
-    }
+    let controllerObjectWithOptions = {
+      filtered: controllerVar,
+      selected: controllerVar
+    };
 
-    arrayServiceItems.push(serviceitems1service);
+    let paginationObjectWithOptions = {
+      filtered: paginationVar,
+      selected: paginationVar
+    };
 
-    let serviceitems2service = {
-      serviceId: idService,
-      category: 'data',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'Gb',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'domestic',
-    }
+    context.presets.controller = controllerVar;
+    context.presets.pagination = paginationVar;
 
-    arrayServiceItems.push(serviceitems2service);
+    context.devicevariations.controller = controllerObjectWithOptions;
+    context.devicevariations.pagination = paginationObjectWithOptions;
 
-    let serviceitems3service = {
-      serviceId: idService,
-      category: 'messaging',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'messages',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'domestic',
-    }
+    context.carriers.controller = controllerVar;
+    context.carriers.pagination = paginationVar;
 
-    arrayServiceItems.push(serviceitems3service);
+    context.services.controller = controllerObjectWithOptions;
+    context.services.pagination = paginationObjectWithOptions;
 
-    let serviceitems4service = {
-      serviceId: idService,
-      category: 'voice',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'minutes',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'international',
-    }
-
-    arrayServiceItems.push(serviceitems4service);
-
-    let serviceitems5service = {
-      serviceId: idService,
-      category: 'data',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'Gb',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'international',
-    }
-
-    arrayServiceItems.push(serviceitems5service);
-
-    let serviceitems6service = {
-      serviceId: idService,
-      category: 'messaging',
-      description: '',
-      value: Math.floor((Math.random() * 200) + 1),
-      unit: 'messages',
-      cost: Math.floor((Math.random() * 10) + 1),
-      domain: 'international',
-    }
-
-    arrayServiceItems.push(serviceitems6service);
-
-    return arrayServiceItems;
+    context.address.controller = controllerObjectWithOptions;
+    context.address.pagination = paginationObjectWithOptions;
   },
-  loadContent(context) {
-    context.loadedContent = true;
+  loadContent(context, value) {
+    this.agree = this.agree + value;
+    if (this.agree >= 15) {
+      context.loadedContent = true;
+      this.retrieveMoreTrue(context);
+    }
+  },
+  retrieveMoreTrue(context) {
+    context.retrieveMore = true;
   }
 };

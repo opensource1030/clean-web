@@ -30,53 +30,61 @@ const devServer = browser.globals.devServerURL;
 
 
 },
-/*' Client charge data': function (browser) {
-
-    browser
-        .waitForElementVisible('.wireless-overview', 2000)
-        .waitForElementVisible ('table.responsive',2000)
-        .isVisible('table.responsive td', results => {
-            if (results.value) {
-                console.log('Client charge data loaded successfully')
-            }
-            else { console.log("Client charge data isn't loaded")  }
-        })
-
+'MorphSearch':function(browser){
+  browser
+      .waitForElementVisible('.morphsearch', 2000)
+        .click('.morphsearch')
+            .waitForElementVisible('.morphsearch-close', 2000)
+            .pause(1000)
+      .click('.morphsearch-close')
 },
-' Side Menu Test': function (browser) {
-      // automatically uses dev Server port from /config.index.js
-      // default: http://localhost:8080
-      // see nightwatch.conf.js
-      const devServer = browser.globals.devServerURL
-      browser
-          .waitForElementVisible('#menu', 2000)
-          .waitForElementVisible('.treeview a',2000)
-          .click('.treeview a',function () {
-              console.log('Click for Submenu');
-          })
-          .waitForElementVisible('.page-link a',2000)
-          .click('.page-link a',function () {
-              console.log('Redirected to legacy site');
-          })
-          .pause(3000)
-          .assert.urlEquals('https://app.wirelessanalytics.com/platform/login.asp')
-          .end()
-  }*/
+
+
+/*' Client charge data': function (browser) {
+  const devServer = browser.globals.devServerURL
+  browser
+        .waitForElementPresent('.wireless-overview table', 15000)
+      .click('.choose-issues')
+      .click('option')
+      .waitForElementVisible('.support-form-holder')
+},*/
+
 
 
 
 ' Support Request': function (browser) {
     browser
         .waitForElementVisible('.btn-provision', 2000)
-        .click('.btn-provision',function () {
-            console.log('clicked for support-form');
-        })
+        .click('.btn-provision')
         .waitForElementVisible ('.support-form-holder',25000)
         .click("#btn-close")
-
-
-
 },
+/*' Side Menu Test': function (browser) {
+      browser
+          .waitForElementVisible('#menu', 2000)
+          .waitForElementVisible('a[name="Inventory"]', 15000)
+          .click('a[name="Inventory"]')
+          .waitForElementVisible('a[name="Devices"]', 25000)
+          .click('a[name="Devices"]')
+          .waitForElementVisible('a[name="services"]', 25000)
+          .click('a[name="services"]')
+          .windowHandles(function(result) {
+              let newWindow;
+                this.verify.equal(result.value.length, 3, 'There should be 3 windows open');
+  })
+          .pause(3000)
+          .waitForElementVisible('a[name="Polices"]', 15000)
+          .click('a[name="Polices"]')
+          .waitForElementVisible('a[name="AllPolices"]', 5000)
+          .waitForElementVisible('a[name="createPolices"]', 5000)
+            .click('a[name="presets"]')
+              .waitForElementVisible('a[name="device"]', 5000)
+                .waitForElementVisible('a[name="app"]', 5000)
+                  .waitForElementVisible('a[name="address"]', 5000)
+                  .click('a[name="configuration"]')
+                    .waitForElementVisible('a[name="portal"]', 5000)
+                      .waitForElementVisible('a[name="procurement"]', 5000)
+  },*/
 
 'Logout': function (browser) {
 browser

@@ -4,12 +4,22 @@
   .textbold {
     font-weight: bold;
   }
+  .inner-rows {
+    padding: 0rem 0rem 0rem 0rem;
+    border-spacing: 0px;
+    line-height: 12px;
+    color: #FF690A;
+  }
 }
 
 #package {
   .textbold {
     font-weight: bold;
     font-size: 1.3rem;
+  }
+  .error-message {
+    color: red;
+    font-size: 1.5rem;
   }
   .padding {
     padding: 0 4rem;
@@ -60,7 +70,7 @@
     }
   }
   #button {
-    border-radius: 0.8rem;
+    border-radius: 1.8rem;
     text-align:center;
   }
   .accordion-title:focus,
@@ -70,6 +80,7 @@
   }
   .accordion-content {
     display: inherit;
+    padding-bottom: 1rem;
   }
   .acordeon {
     list-style-type: none;
@@ -78,7 +89,6 @@
     }
     .acordeon-item {
       margin: 2rem;
-      background-color: $iron;
     }
   }
   .error-input {
@@ -88,7 +98,7 @@
     border-color: #21eb1f;
     border-radius: 1rem;
   }
-  .presetstitles {
+  .titlesZones {
     font-weight: bold;
     text-align: center;
     font-size: 2rem;
@@ -107,6 +117,13 @@
   }
   .presetimage {
     position: relative;
+    width: 100%;
+  }
+  .carrierimage {
+    position: relative;
+    border-style: solid;
+    border-color: green;
+    border-width: 8px;
   }
   .absolute {
     font-weight: bold;
@@ -119,15 +136,17 @@
   .servicetext {
     font-weight: bold;
     position: absolute;
+    font-size: 1.2rem;
+    top: 5%;
+    left: 5%;
+  }
+  .addresstext {
+    font-weight: bold;
+    position: absolute;
     top: 10%;
     left: 10%;
   }
   .parent {
-    position: relative;
-    top: 0;
-    left: 0;
-  }
-  .image1 {
     position: relative;
     top: 0;
     left: 0;
@@ -167,5 +186,13 @@
   .list-enter, .list-leave-to /* .list-leave-active for <2.1.8 */ {
     opacity: 0;
     transform: translateY(30px);
+  }
+  .colorgreen {
+    font-weight: bold;
+    color: #5DFC0A;
+  }
+  .colorred {
+    font-weight: bold;
+    color: #FF0000;
   }
 }

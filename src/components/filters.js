@@ -25,9 +25,13 @@ function filterByModifications(list, value) {
 }
 
 function filterByModificationsd(list, value) {
-  return list.filter(function (item) {
-    return item.modType.indexOf(value) > -1;
-  });
+    if (list) {
+        return list.filter(function (item) {
+            return item.modType.indexOf(value) > -1;
+        });
+    } else {
+        return
+    }
 }
 
 function filterByCarrier(list, value) {
@@ -258,43 +262,52 @@ function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
  *
  */
 function orderFilters(list, attribute, type, orderby) {
-    return list.sort(function(valueA,valueB) {
-        let atributeA;
-        let atributeB;
-        
-        if(attribute == '') {
-            atributeA = valueA;
-            atributeB = valueB;
+  let attributes = [];
+  orderby = orderby.toLowerCase();
+  return list.sort(function(valueA,valueB) {
+    let attributeA = '';
+    let attributeB = '';
+
+    if(attribute == '') {
+      attributeA = valueA;
+      attributeB = valueB;
+    } else {
+      attributes = attribute.split(".");
+      for (let a of attributes) {
+        if(attributeA == '' && attributeB == '') {
+          attributeA = valueA[a];
+          attributeB = valueB[a];
         } else {
-            atributeA = valueA[attribute];
-            atributeB = valueB[attribute];
+          attributeA = attributeA[a];
+          attributeB = attributeB[a];
         }
-        
-        if (type == 'string') {
-            let strA = atributeA.toLowerCase();
-            let strB = atributeB.toLowerCase();
+      }
+    }
 
-            if (orderby == 'asc') {
-                // sort string ascending
-                if (strA < strB) { return -1; }
-                if (strA > strB) { return 1; }
-                return 0 //default return value (no sorting)
-            } else {
-                // sort string ascending
-                if (strA > strB) { return -1; }
-                if (strA < strB) { return 1; }
-                return 0 //default return value (no sorting)
-            }
+    if (type == 'string') {
+      let strA = attributeA.toLowerCase();
+      let strB = attributeB.toLowerCase();
 
-        } else if (type == 'number') {
+      if (orderby == 'asc') {
+        // sort string ascending
+        if (strA < strB) { return -1; }
+        if (strA > strB) { return 1; }
+        return 0 //default return value (no sorting)
+      } else {
+        // sort string ascending
+        if (strA > strB) { return -1; }
+        if (strA < strB) { return 1; }
+        return 0 //default return value (no sorting)
+      }
 
-            if (orderby == 'asc') {
-                return atributeA - atributeB;
-            } else {
-                return atributeB - atributeA;
-            }
-        }
-    });
+    } else if (type == 'number') {
+      if (orderby == 'asc') {
+        return attributeA - attributeB;
+      } else {
+        return attributeB - attributeA;
+      }
+    }
+  });
 }
 
 export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, deleteRepeated, orderFilters, getFilters};
