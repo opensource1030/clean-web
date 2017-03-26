@@ -62,7 +62,7 @@ export class DevicesPresenter extends Presenter {
     // console.log(attrs)
     delete attrs["externalId"]
     delete attrs["syncId"]
-    attrs['deviceTypeId'] = instance.devicetypes[0].id
+    attrs['deviceTypeId'] = parseInt(instance.devicetypes[0].id)
     return attrs
   }
 

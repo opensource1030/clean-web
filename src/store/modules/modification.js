@@ -19,7 +19,7 @@ const getters = {
   styleModifications: (state) => {
     return _.chain(state.all).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()
   },
-
+// 
   capacityModifications: (state) => {
     return _.chain(state.all).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()
   },
@@ -30,6 +30,7 @@ const actions = {
   getAll ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       modificationAPI.getAll(res => {
+        // _.each(res.data.data, (item) => { item.id = parseInt(item.id); })
         // console.log('modification res', res)
         const modifications = store.sync(res.data)
         commit(types.MODIFICATION_GET_ALL, { records: modifications })

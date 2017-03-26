@@ -81,7 +81,7 @@
       </li>
 
       <li class="acordeon-item" data-accordion-item>
-        <a href="#" class="accordion-title">Atributes</a>
+        <a href="#" class="accordion-title">Attributes</a>
         <div class="accordion-content modifications" data-tab-content>
           <div class="row">
             <div class="large-4 small-12 columns">
@@ -105,7 +105,7 @@
 
               <div class="checkbox" v-for="c in capacities">
                 <label>
-                  <input type="checkbox" name="capacities" v-model="c.checked">
+                  <input type="checkbox" name="capacities" :value="c.id" v-model="c.checked">
                   <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
                   {{ c.value }}
                 </label>
@@ -126,7 +126,7 @@
 
               <div class="checkbox" v-for="s in styles">
                 <label>
-                  <input type="checkbox" name="styles" v-model="s.checked">
+                  <input type="checkbox" name="styles" :value="s.id" v-model="s.checked">
                   <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
                   {{ s.value }}
                 </label>
@@ -141,7 +141,7 @@
         <div class="accordion-content carriers" data-tab-content>
           <div class="imagescheck">
             <div class="crop" v-for="c in carriers">
-              <input type="checkbox" :id="'carrier-' + c.id" name="carriers" v-model="c.checked">
+              <input type="checkbox" :id="'carrier-' + c.id" name="carriers" :value="c.id" v-model="c.checked">
               <label :for="'carrier-' + c.id" class="static">
                 {{ c.presentation }}
               </label>
@@ -166,8 +166,8 @@
           <div class="row">
             <div class="large-4 small-12 columns">
               <div class="checkbox" v-for="c in companies">
-                <label>
-                  <input type="checkbox" v-model="c.checked">
+                <label :for="'company-' + c.id">
+                  <input type="checkbox" :id="'company-' + c.id" name="companies" :value="c.id" v-model="c.checked">
                   <span class="custom-checkbox"><i class="icon-check"></i></span>
                   {{ c.name }}
                 </label>
@@ -197,7 +197,7 @@
             <option v-for="c in _.filter(companies, { 'checked': true })" :value="c">{{ c.name }}</option>
           </select>
         </div>
-        <div class="accordion-content" data-tab-content>
+        <div class="accordion-content prices-content" data-tab-content>
           <div class="column row" v-for="(dv, index) in device.devicevariations" :style="{ backgroundColor: color }">
             <div class="row">
               <div class="small-12 large-2 columns">
@@ -210,7 +210,7 @@
                     <label>Retail Price
                       <div class="input-group">
                         <span class="input-group-label">{{ currency }}</span>
-                        <inputValidate class="input-group-field" v-model="dv.priceRetail"></inputValidate>
+                        <inputValidate class="input-group-field price-retail" v-model="dv.priceRetail"></inputValidate>
                       </div>
                     </label>
                   </div>
@@ -218,7 +218,7 @@
                     <label>Price One
                       <div class="input-group">
                         <span class="input-group-label">{{ currency }}</span>
-                        <inputValidate class="input-group-field" v-model="dv.price1"></inputValidate>
+                        <inputValidate class="input-group-field price-one" v-model="dv.price1"></inputValidate>
                       </div>
                     </label>
                   </div>
@@ -226,7 +226,7 @@
                     <label>Price Two
                       <div class="input-group">
                         <span class="input-group-label">{{ currency }}</span>
-                        <inputValidate class="input-group-field" v-model="dv.price2"></inputValidate>
+                        <inputValidate class="input-group-field price-two" v-model="dv.price2"></inputValidate>
                       </div>
                     </label>
                   </div>
@@ -234,7 +234,7 @@
                     <label>Price Own
                       <div class="input-group">
                         <span class="input-group-label">{{ currency }}</span>
-                        <inputValidate class="input-group-field" v-model="dv.priceOwn"></inputValidate>
+                        <inputValidate class="input-group-field price-own" v-model="dv.priceOwn"></inputValidate>
                       </div>
                     </label>
                   </div>
@@ -242,32 +242,32 @@
 
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="dv.modifications[0]">
-                        <option :value="null">Select Capacity</option>
-                        <option v-for="c in modificationsFilter(capacities)" :value="c">{{ c.value }}</option>
+                      <select class="dv-capacity" v-model="dv.modifications[0]">
+                        <option :value="0">Select Capacity</option>
+                        <option v-for="c in _.chain(capacities).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="c">{{ c.value }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="dv.modifications[1]">
-                        <option :value="null">Select Color</option>
-                        <option v-for="s in modificationsFilter(styles)" :value="s">{{ s.value }}</option>
+                      <select class="dv-style" v-model="dv.modifications[1]">
+                        <option :value="0">Select Color</option>
+                        <option v-for="s in _.chain(styles).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="s">{{ s.value }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="dv.carrierId">
-                        <option :value="null">Select Vendors</option>
+                      <select class="dv-carrier" v-model="dv.carrierId">
+                        <option :value="0">Select Vendors</option>
                         <option v-for="c in _.filter(carriers, { 'checked': true })" :value="c.id">{{ c.presentation }}</option>
                       </select>
                     </div>
                   </div>
                   <div class="large-3 small-12 columns">
                     <div class="features">
-                      <select v-model="dv.companyId">
-                        <option :value="null">Select Companies</option>
+                      <select class="dv-company" v-model="dv.companyId">
+                        <option :value="0">Select Companies</option>
                         <option v-for="c in _.filter(companies, { 'checked': true })" :value="c.id">{{ c.name}}</option>
                       </select>
                     </div>
@@ -279,13 +279,13 @@
                   <div clas="large-3 small-12 columns">
                     <label>
                       <strong class="variation">Add New:</strong>
-                      <a class="button" @click="addDeviceVariation()" id="button"><i class="fa fa-plus fa-2x"></i></a>
+                      <a class="button" @click="addDeviceVariation()"><i class="fa fa-plus fa-2x"></i></a>
                     </label>
                   </div>
                   <div clas="large-3 small-12 columns">
                     <label v-show="dv.deleted">
                       <strong class="variation">Delete:</strong>
-                      <a class="button delete" @click="removeDeviceVariation(dv)" id="button">
+                      <a class="button delete" @click="removeDeviceVariation(dv)">
                         <i class="fa fa-times fa-2x" aria-hidden="true"></i>
                       </a>
                     </label>
