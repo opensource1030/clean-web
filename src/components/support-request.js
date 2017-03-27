@@ -1,5 +1,6 @@
 import  populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
+const gaId = 'UA-42900219-2';
 function supportRequest() {
   populateCountries.populateCountries("country2");
   $('.eq-Hght').matchHeight({
@@ -39,12 +40,13 @@ function supportRequest() {
 
   });
   $('.btn-provision').click(function () {
+
     $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
     $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
     $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
     $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
-
     $('.support-form-holder').show(200);
+
   });
 
   $('#btn-close').click(function () {

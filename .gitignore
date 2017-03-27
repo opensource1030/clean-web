@@ -8,3 +8,7 @@ selenium-debug.log
 .idea/*
 $CIRCLE_ARTIFACTS
 log/
+
+# ignore backup files
+*.bak
+*.org

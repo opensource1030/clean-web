@@ -1,54 +1,38 @@
-import Vue from 'vue';
-import auth from './auth.js';
+import {http} from 'vue';
 
-const {Store,} = require('yayson')();
+const {Store} = require('yayson')();
 const store = new Store();
-import {
-  filterByFilters,orderFilters
-} from './../components/filters.js';
+import {filterByFilters, orderFilters} from './../components/filters.js';
 export default {
-getCarriers (context) {
+  getCarriers(params, cb, errCb) {
+    let data = params
+    http.get(process.env.URL_API + '/carriers', params).then((res) => {
+      cb(res.data)
 
-    let params1 = {
-        params: {
-            'filter[active]':1,
-        }
-    };
+    }, (err) => {
+      errCb(err)
 
-  context.$http.get(process.env.URL_API + '/carriers', params1).then((response) =>
-                        {
-              let event = store.sync(response.data);
-              if(event.lenght!=0){
-                context.filter.carriers = orderFilters(event, 'presentation', 'string', 'asc');
-              }
-                        }, (response) => {}
-                    );
+    });
+  },
+  getModifications(context) {
 
+    http.get(process.env.URL_API + '/modifications').then((res) => {
+      cb(res.data)
 
-},
-getModifications(context) {
+    }, (err) => {
+      errCb(err)
 
+    });
 
-  context.$http.get(process.env.URL_API + '/modifications').then((response) =>
-                        {
-                            let event = store.sync(response.data);
-                              if(event.lenght!=0){
-                            context.filter.modifications =orderFilters(event, 'value', 'string', 'asc');
-                          }
-                        }, (response) => {}
-                    );
+  },
+  getDeviceTypes(context) {
 
-},
-getDeviceTypes(context) {
+    http.get(process.env.URL_API + '/deviceTypes').then((res) => {
+      cb(res.data)
+    }, (err) => {
+      errCb(err)
 
-          context.$http.get(process.env.URL_API + '/devicetypes').then((response) =>
-      {
-                let event = store.sync(response.data);
-                  if(event.lenght!=0){
-              context.filter.deviceType = orderFilters(event, 'name', 'string', 'asc');
-                }
-                        }, (response) => {}
-                    );
+    });
 
-},
+  }
 }

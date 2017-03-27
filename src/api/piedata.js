@@ -1,8 +1,4 @@
-// import {
-//   router
-// } from 'vue-router'
 import Vue from 'vue';
-import auth from './auth.js';
 
 var {
   Store,
