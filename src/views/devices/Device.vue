@@ -244,7 +244,7 @@
                     <div class="features">
                       <select class="dv-capacity" v-model="dv.modifications[0]">
                         <option :value="0">Select Capacity</option>
-                        <option v-for="c in _.chain(capacities).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="c">{{ c.value }}</option>
+                        <option v-for="c in filterModifications(capacities)" :value="c">{{ c.value }}</option>
                       </select>
                     </div>
                   </div>
@@ -252,7 +252,7 @@
                     <div class="features">
                       <select class="dv-style" v-model="dv.modifications[1]">
                         <option :value="0">Select Color</option>
-                        <option v-for="s in _.chain(styles).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()" :value="s">{{ s.value }}</option>
+                        <option v-for="s in filterModifications(styles)" :value="s">{{ s.value }}</option>
                       </select>
                     </div>
                   </div>

@@ -215,6 +215,9 @@ export default {
       let _defaultValue = { 'id': 0, 'type': type }
       return _defaultValue
     },
+    filterModifications(modi){
+    return  _.chain(modi).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
+    }
 
     getImageUrl (id) {
       return process.env.URL_API + '/images/' + id
@@ -345,7 +348,7 @@ export default {
         _.each(_jsonData['data']['relationships']['images']['data'], (item) => { item.id = parseInt(item.id) })
         _.each(_jsonData['data']['relationships']['modifications']['data'], (item) => { item.id = parseInt(item.id) })
       }
-      
+
       let _params = JSON.stringify(_jsonData)
       // console.log('json_data', _jsonData)
       // console.log('params', _params)
