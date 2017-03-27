@@ -217,7 +217,7 @@ export default {
     },
     filterModifications(modi){
     return  _.chain(modi).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
-    }
+  },
 
     getImageUrl (id) {
       return process.env.URL_API + '/images/' + id
