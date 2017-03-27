@@ -15,6 +15,7 @@ import Register from './../components/Register.vue'
 import LoginLocal from './../components/LoginLocal.vue'
 import ResetPassword from './../components/ResetPassword.vue'
 import ResetPasswordCode from './../components/ResetPasswordCode.vue'
+import AcceptUser from './../components/AcceptUser.vue'
 
 //rutes main
 import Dashboard from './../components/Dashboard.vue'
@@ -60,6 +61,7 @@ const router = new VueRouter({
     { path: '/loginLocal', component: LoginLocal, name: 'loginLocal' },
     { path: '/resetPassword', component: ResetPassword, name: 'Reset Password' },
     { path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code' },
+    { path: '/acceptUser/:identification/:code', component: AcceptUser, name: 'Accept User' },
     // main
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
