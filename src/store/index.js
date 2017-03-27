@@ -11,6 +11,7 @@ import carrier from './modules/carrier'
 import company from './modules/company'
 import services from './modules/services/services'
 import service from './modules/services/service'
+import presets from './modules/presets/presets'
 
 Vue.use(Vuex)
 
@@ -28,7 +29,8 @@ export default new Vuex.Store({
     carrier,
     company,
     services,
-    service
+    service,
+    presets
   },
   strict: debug,
   plugins: [

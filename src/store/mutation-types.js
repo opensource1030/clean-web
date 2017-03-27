@@ -11,6 +11,14 @@ export const AUTH_PASSWORD_RECOVERY ='RECOVERY_VARIATIONS'
 export const ERROR_ADD_NEW = 'ADD_NEW'
 export const ERROR_CLEAR_ALL = 'CLEAR_ALL'
 
+export const PRESET_GET_ALL = 'GET_ALL'
+export const PRESETS_GET_PRESET = 'GET_ONE'
+export const PRESET_ADD_NEW = 'ADD_NEW_PRESET'
+export const PRESET_UPDATE = 'UPDATE_PRESET'
+export const PRESET_NEXT_PAGE = 'NEXT_PAGE'
+export const PRESET_PREV_PAGE = 'PREV_PAGE'
+
+
 
 export const SERVICES_GET_ALL = 'GET_ALL'
 export const SERVICES_GET_SERVICE = 'GET_ONE'

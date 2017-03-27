@@ -24,9 +24,9 @@ getPreset(context, pages) {
        let presets = [];
        let total=0;
         for (let preset of event) {
-          if(preset.devicevariations.length==0 || preset.devicevariations==null){
+          if(  preset.devicevariations==null || preset.devicevariations.length==0){
 
-            
+
           }
 else{
             preset = Object.assign({}, preset, {
