@@ -215,9 +215,6 @@ export default {
       let _defaultValue = { 'id': 0, 'type': type }
       return _defaultValue
     },
-    filterModifications(modi){
-    return  _.chain(modi).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
-  },
 
     getImageUrl (id) {
       return process.env.URL_API + '/images/' + id
