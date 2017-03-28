@@ -1,0 +1,20 @@
+@import "../base/clean-variables";
+@import "../plugins/material-color";
+
+.page.company-page.company-index-page {
+  table {
+    td {
+      .switch {
+        margin-bottom: 0;
+      }
+
+      .label.remove {
+        background-color: material-color('red', '600');
+      }
+
+      .label.edit {
+        background-color: material-color('orange', '600'); 
+      }
+    }
+  }
+}
