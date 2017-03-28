@@ -223,6 +223,10 @@ export default {
       return process.env.URL_API + '/images/' + id
     },
 
+    availableOptions (items) {
+      return _.chain(items).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
+    },
+
     onDeviceImageChange (e) {
       var files = e.target.files || e.dataTransfer.files;
       var formData = new FormData();
