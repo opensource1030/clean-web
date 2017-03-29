@@ -24,6 +24,12 @@
 .w1{overflow: hidden;}
 
 body{
+  &.full-height {
+    min-height: 3000px;
+    .content-right {
+      height: 3000px;
+    }
+  }
 
   &.sticky-header{
 
