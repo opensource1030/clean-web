@@ -3,6 +3,7 @@ import packaging from './../../api/packages/packageid';
 import modal from './../../components/modal.vue';
 import SwiperOption from './../../models/objects/SwiperOption.js';
 import inputValidate from './../../components/inputValidate.vue';
+import multiselect from 'vue-multiselect';
 //import vueSlider from 'vue-slider-component';
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { deleteRepeated } from './../../components/filters.js';
@@ -22,15 +23,10 @@ export default {
     inputValidate,
     swiper,
     swiperSlide,
+    multiselect,
   },
 
   beforeCreate() {
-    //let presetOptions = new SwiperOption(this.goForwardPreset, this.goBackPreset, this.reloadArrowsForPresetsSwiper);
-    //let presetOptionsJSON = presetOptions.toJSON('1200', '1000', '750', '450');
-    //console.log(presetOptionsJSON);
-    //console.log(this);
-    //this.swiperOption.preset = presetOptionsJSON;
-
     if (this.$route.params.id != null) {
       packaging.getDataPackages(this, this.$route.params.id);
     } else {

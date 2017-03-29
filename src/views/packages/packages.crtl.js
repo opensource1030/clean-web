@@ -17,80 +17,11 @@ export default {
   beforeCreate() {
 
   },
-  computed: {
-    getTheEmployeesThatAccomplishesTheConditions: function() {
-      return '423 Employees';
-    },
-    getTheConditions: function() {
-      let text = '';
-      for (let cond of this.packagesList[this.active].conditions) {
-        let aux = '';
-        if (cond.condition == 'contains') {
-          aux = cond.nameCond + ' ' + cond.condition + ' "' + cond.value + '"';
-        } else {
-          aux = cond.nameCond + ' ' + cond.condition + ' ' + cond.value;
-        }
-
-        if (text == '') {
-          text = aux;
-        } else {
-          text = text + ', ' + aux;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        return 'All users are allowed.';
-      }
-      return text + ' ...';
-    },
-    getTheServices: function() {
-      let text = '';
-      for (let serv of this.packagesList[this.active].services) {
-        if (text == '') {
-          text = serv.title;
-        } else {
-          text = text + ', ' + serv.title;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        return 'No Services Provided.';
-      }
-      return text + ' ...';
-    },
-    getTheDevices: function() {
-      let text = '';
-      let i = 5;
-      for (let dv of this.packagesList[this.active].devicevariations) {
-        if (text == '') {
-          text = dv.devices[0].name;
-        } else {
-          text = text + ', ' + dv.devices[0].name;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        return 'No Devices Provided.';
-      }
-      return text + ' ...';
-    }
-  },
+  computed: {},
   methods : {
     orderFilters,
     loadData() {
-      packages.getPackagesPage(this, 1);
+      packages.getUserInformation(this);
     },
     setActive: function(index) {
       if(this.active == index) {
@@ -101,6 +32,7 @@ export default {
         this.packageSelected = this.packagesList[index];
       }
       this.active = index;
+      this.retrieveInformationAboutPackage();
     },
     onSelectValue: function() {
       this.nameShow = '';
@@ -139,14 +71,97 @@ export default {
         // NOTHING
       }
 
-    }/*,
+    },
+    /*,
     showInputFilter() {
       this.showInput = !this.showInput;
-    }*/
+    },*/
+    retrieveInformationAboutPackage: function()  {
+      this.getTheEmployeesThatAccomplishesTheConditions();
+      this.getTheConditions();
+      this.getTheServices();
+      this.getTheDevices();
+    },
+    getTheEmployeesThatAccomplishesTheConditions: function() {
+      this.numberOfUsers = 0;
+      packages.updateTheUsersThatAccomplishesTheConditions(this, this.packagesList[this.active].conditions);
+    },
+    getTheConditions: function() {
+      this.textConditions = '';
+      let text = '';
+      for (let cond of this.packagesList[this.active].conditions) {
+        let aux = '';
+        if (cond.condition == 'contains') {
+          aux = cond.nameCond + ' ' + cond.condition + ' "' + cond.value + '"';
+        } else {
+          aux = cond.nameCond + ' ' + cond.condition + ' ' + cond.value;
+        }
 
+        if (text == '') {
+          text = aux;
+        } else {
+          text = text + ', ' + aux;
+        }
+      }
+
+      if (text.length > 100) {
+        text = text.slice(0, 100);
+      }
+
+      if (text == '') {
+        this.textConditions =  'All users are allowed.';
+      } else {
+        this.textConditions = text + ' ...';
+      }
+
+    },
+    getTheServices: function() {
+      this.textServices = '';
+      let text = '';
+      for (let serv of this.packagesList[this.active].services) {
+        if (text == '') {
+          text = serv.title;
+        } else {
+          text = text + ', ' + serv.title;
+        }
+      }
+
+      if (text.length > 100) {
+        text = text.slice(0, 100);
+      }
+
+      if (text == '') {
+        this.textServices = 'No Services Provided.';
+      } else {
+        this.textServices = text + ' ...';
+      }
+    },
+    getTheDevices: function() {
+      this.textDevices = '';
+      let text = '';
+      let i = 5;
+      for (let dv of this.packagesList[this.active].devicevariations) {
+        if (text == '') {
+          text = dv.devices[0].name;
+        } else {
+          text = text + ', ' + dv.devices[0].name;
+        }
+      }
+
+      if (text.length > 100) {
+        text = text.slice(0, 100);
+      }
+
+      if (text == '') {
+        this.textDevices = 'No Devices Provided.';
+      } else {
+        this.textDevices = text + ' ...';
+      }
+    }
   },
   data() {
     return {
+      companyId: 0,
       active: 0,
       firstTime: true,
       loading: true,
@@ -161,6 +176,10 @@ export default {
       nameList: [],
       pricesOnce: [],
       pricesMonth: [],
+      numberOfUsers: 0,
+      textConditions: '',
+      textServices: '',
+      textDevices: '',
       details: [],
       // Pagination
       pagination: {

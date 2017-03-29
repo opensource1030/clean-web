@@ -47,10 +47,10 @@
               </div>
             </div>
             <div class="large-12 columns">
-              <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
+              <ul class="acordeon" data-accordion data-allow-all-closed="true">
                 <!--CONDITIONS-->
-                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()">
+                <li class="acordeon-item" data-accordion-item>
+                  <a href="#" class="accordion-title">
                     <table class="textbold">
                       <tr>
                         <td>{{conditions.names.title}}</td>
@@ -58,32 +58,26 @@
                       </tr>
                     </table>
                   </a>
-                  <div class="accordion-content overview" data-tab-content v-f-accordion>
+                  <div class="accordion-content overview" data-tab-content>
                     <div class="row" v-for="(condition,index) in conditions.selected">
                       <div class="large-3 small-12 columns">
                         <label>{{conditions.names.titleField}}
-                          <select :class="{ 'error-input': condition.nameError }" v-model="condition.nameCond" @click="updatePackageCondition(index, condition.nameCond, 'name')">
-                            <option value="" manufactured>{{conditions.names.selectName}}</option>
-                            <option v-for="item in information.conditionsFieldsOptions" :value="item" >{{item}}</option>
-                          </select>
+                          <multiselect :class="{ 'error-input': condition.nameError }" v-model="condition.nameCond" placeholder="Select a Label" :value="condition.nameCond" :options="information.conditionsFieldsOptions" :searchable="false" @input="updatePackageCondition(index, condition.nameCond, 'name')" :show-labels="false">
+                          </multiselect>
                         </label>
                       </div>
                       <div v-if="condition.nameCond != ''" class="large-3 small-12 columns">
                         <label>{{conditions.names.conditionField}}
-                          <select :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" @click="updatePackage(index, condition.condition, 'condition')">
-                            <option value="" manufactured>{{conditions.names.selectCondition}}</option>
-                            <option v-for="item in condition.conditionsConditionsOptions" :value="item" >{{item}}</option>
-                          </select>
+                          <multiselect :class="{ 'error-input': condition.conditionError }" v-model="condition.condition" placeholder="Select a Condition" :value="condition.condition" :options="condition.conditionsConditionsOptions" :searchable="false" @input="updatePackage(index, condition.condition, 'condition')" :show-labels="false">
+                          </multiselect>
                         </label>
                       </div>
                       <div v-if="condition.nameCond != ''" class="large-4 small-12 columns">
                         <label>{{conditions.names.valueField}}
-                          <select v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" @click="updatePackage(index, condition.value, 'value')">
-                            <option value="" manufactured>{{conditions.names.selectValue}}</option>
-                            <option v-for="item in condition.conditionsValuesOptions" :value="item" >{{item}}</option>
-                          </select>
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')" />
-                          <input v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')">
+                          <multiselect v-if="condition.conditionsValuesOptions.length > 0" :class="{ 'error-input': condition.valueError }" v-model="condition.value" placeholder="Select a Value" :value="condition.value" :options="condition.conditionsValuesOptions" :searchable="false" @input="updatePackage(index, condition.value, 'value')" :show-labels="false">
+                          </multiselect>
+                          <input style="padding-left: 13px;" v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'string'" :class="{ 'error-input': condition.valueError }" type="text" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')" />
+                          <input style="padding-left: 13px;" v-if="condition.conditionsValuesOptions.length == 0 && condition.inputType == 'number'" :class="{ 'error-input': condition.valueError }" type="number" placeholder="" :value="condition.value" v-model="condition.value" @keyup="updatePackage(index, condition.value, 'value')">
                         </label>
                       </div>
                       <div class="large-2 small-12 columns" style="padding-top: 2.2%">
@@ -103,8 +97,8 @@
                 </li>
                 <!-- //CONDITIONS -->
                 <!-- DEVICES -->
-                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()">
+                <li class="acordeon-item" data-accordion-item>
+                  <a href="#" class="accordion-title">
                     <table class="textbold">
                       <tr>
                         <td>{{devicevariations.names.title}}</td>
@@ -112,7 +106,7 @@
                       </tr>
                     </table>
                   </a>
-                  <div class="accordion-content" data-tab-content v-f-accordion>
+                  <div class="accordion-content" data-tab-content>
                     <!-- PRESETS -->
                     <div>
                       <div class="titlesZones">{{presets.names.available}}</div>
@@ -200,8 +194,8 @@
                 </li>
                 <!-- //DEVICES -->
                 <!-- SERVICES -->
-                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()">
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item>
+                  <a href="#" class="accordion-title">
                     <table class="textbold">
                       <tr>
                         <td>{{services.names.title}}</td>
@@ -209,7 +203,7 @@
                       </tr>
                     </table>
                   </a>
-                  <div class="accordion-content" data-tab-content v-f-accordion>
+                  <div class="accordion-content" data-tab-content>
                     <!-- CARRIERS -->
                     <div>
                       <div class="titlesZones">{{carriers.names.available}}</div>
@@ -446,15 +440,15 @@
                 </li>
                 <!-- //SERVICES -->
                 <!-- ADDRESS -->
-                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item  v-f-accordion>
-                  <a href="#" class="accordion-title" @click="showFalse()">
+                <li class="acordeon-item" style="overflow: hidden;" data-accordion-item>
+                  <a href="#" class="accordion-title">
                     <table class="textbold">
                       <tr>
                         <td>{{address.names.title}}</td>
                       </tr>
                     </table>
                   </a>
-                  <div class="accordion-content" data-tab-content v-f-accordion>
+                  <div class="accordion-content" data-tab-content>
                     <div>
                       <div class="titlesZones">{{address.names.available}}</div>
                       <div class="noinformation" v-show="address.filtered.length == 0">

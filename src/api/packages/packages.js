@@ -5,6 +5,25 @@ const {Store} = require('yayson')();
 const store = new Store();
 
 export default {
+  // GET USER INFORMATION.
+  getUserInformation(context) {
+    let params = { params: { } };
+
+    let userId = localStorage.getItem('userId');
+
+    context.$http.get(process.env.URL_API + '/users/' + userId, params).then((response) => {
+      event = store.sync(response.data);
+      console.log(event.companyId);
+      context.companyId = event.companyId;
+
+      // PACKAGES
+      this.getPackagesPage(context, 1);
+    },
+    (response) => {
+      context.errorNotFound = true;
+    });
+  },
+  // GET PACKAGES
   getPackagesPage(context, pages) {
 
     let params = {
@@ -14,6 +33,8 @@ export default {
         //sort: 'title'
       }
     };
+
+    params.params['filter[companyId]'] = context.companyId;
 
     if (context.values.name.length > 0) {
       for (let val of context.values.name) {
@@ -29,7 +50,6 @@ export default {
 
       context.packagesList = [];
 
-      console.log(response.data);
       let event = store.sync(response.data);
 
       if(event.length == 0){
@@ -149,5 +169,32 @@ export default {
       currencyMax : currencyMax
     };
     //'From ' + min + ' ' + currencyMin + ' to ' + max + ' ' + currencyMax ;
-  }
+  },
+  updateTheUsersThatAccomplishesTheConditions(context, conditions) {
+    let conds = this.prepareConditionsForSend(conditions);
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conds, "companyId": context.companyId}}).then((response) => {
+      console.log(response.body.number);
+      context.numberOfUsers = response.body.number;
+    }, (response) => {});
+  },
+  // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
+  prepareConditionsForSend(conditions) {
+    let conditionsFinal = [];
+    if (conditions.length > 0) {
+      for (let cond of conditions) {
+        if (cond.nameCond != '' && cond.condition != '' && cond.value != '') {
+          let aux = {
+            id: cond.id,
+            type: 'conditions',
+            nameCond: cond.nameCond,
+            condition: cond.condition,
+            value: cond.value,
+            inputType: cond.inputType
+          };
+          conditionsFinal.push(aux);
+        }
+      }
+    }
+    return conditionsFinal;
+  },
 }
