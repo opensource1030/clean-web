@@ -34,7 +34,7 @@ export default {
       }
     };
 
-    params.params['filter[companyId]'] = context.companyId;
+    params.params['filter[companyId]'] = 1;//context.companyId;
 
     if (context.values.name.length > 0) {
       for (let val of context.values.name) {
@@ -171,30 +171,9 @@ export default {
     //'From ' + min + ' ' + currencyMin + ' to ' + max + ' ' + currencyMax ;
   },
   updateTheUsersThatAccomplishesTheConditions(context, conditions) {
-    let conds = this.prepareConditionsForSend(conditions);
-    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conds, "companyId": context.companyId}}).then((response) => {
+    context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.companyId}}).then((response) => {
       console.log(response.body.number);
       context.numberOfUsers = response.body.number;
     }, (response) => {});
-  },
-  // PREPARE THE CONDITIONS FOR THE SEND REQUEST (deleting all the options that are not needed.)
-  prepareConditionsForSend(conditions) {
-    let conditionsFinal = [];
-    if (conditions.length > 0) {
-      for (let cond of conditions) {
-        if (cond.nameCond != '' && cond.condition != '' && cond.value != '') {
-          let aux = {
-            id: cond.id,
-            type: 'conditions',
-            nameCond: cond.nameCond,
-            condition: cond.condition,
-            value: cond.value,
-            inputType: cond.inputType
-          };
-          conditionsFinal.push(aux);
-        }
-      }
-    }
-    return conditionsFinal;
   },
 }
