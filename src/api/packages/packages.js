@@ -13,7 +13,6 @@ export default {
 
     context.$http.get(process.env.URL_API + '/users/' + userId, params).then((response) => {
       event = store.sync(response.data);
-      console.log(event.companyId);
       context.companyId = event.companyId;
 
       // PACKAGES
@@ -172,7 +171,6 @@ export default {
   },
   updateTheUsersThatAccomplishesTheConditions(context, conditions) {
     context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.companyId}}).then((response) => {
-      console.log(response.body.number);
       context.numberOfUsers = response.body.number;
     }, (response) => {});
   },

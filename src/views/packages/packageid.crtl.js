@@ -296,9 +296,6 @@ export default {
       this.goBack(this.presets.pagination, this.presets.controller, 'getPresets');
     },
     reloadArrowsForPresetsSwiper() {
-      //console.log(this.presets.pagination);
-      //console.log(this.presets.controller);
-      console.log(this.$refs.swPresets.swiper.activeIndex);
       this.reloadArrows(this.presets.pagination, this.presets.controller, this.$refs.swPresets.swiper);
     },
     presetSelected(preset) {
