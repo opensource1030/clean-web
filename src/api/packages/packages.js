@@ -34,7 +34,7 @@ export default {
       }
     };
 
-    params.params['filter[companyId]'] = 1;//context.companyId;
+    params.params['filter[companyId]'] = context.companyId;
 
     if (context.values.name.length > 0) {
       for (let val of context.values.name) {
