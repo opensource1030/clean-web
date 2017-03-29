@@ -8,6 +8,7 @@ const store = new Store()
 // initial state
 const state = {
   all: [],
+  onePage:[]
 }
 
 // getters
@@ -15,6 +16,9 @@ const getters = {
   allCarriers: (state) => {
     return _.chain(state.all).sortBy([ 'presentation' ]).value()
   },
+  getOnePage: (state) =>{
+    return _.chain(state.onePage).sortBy([ 'presentation' ]).value()
+  }
 }
 
 // actions
@@ -39,6 +43,27 @@ const actions = {
       })
     })
   },
+  getOnePage ({ dispatch, commit, state }) {
+    return new Promise((resolve, reject) => {
+      let params = {
+        params: {
+          'filter[active]': 1,
+          include: 'images',
+        }
+      };
+      carrierAPI.getOnePage(params, res => {
+        // console.log('carrier res', res)
+        const carriers = store.sync(res.data)
+        // console.log('carrier', carriers)
+        commit(types.CARRIER_GET_ONE_PAGE, { records: carriers })
+        resolve(carriers)
+      }, err => {
+        console.log('carrier err', err)
+        reject(err)
+      })
+    })
+  },
+
 }
 
 // mutations
@@ -46,6 +71,9 @@ const mutations = {
   [types.CARRIER_GET_ALL] (state, { records }) {
     state.all = records
   },
+  [types.CARRIER_GET_ONE_PAGE](state,{records}){
+      state.onePage = records
+  }
 }
 
 export default {

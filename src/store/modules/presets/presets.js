@@ -1,5 +1,4 @@
 import preset from './../../../api/preset-api'
-import filter from './../../../api/filtersApi'
 import * as types from './../../mutation-types'
 const {Store} = require('yayson')()
 const store = new Store()

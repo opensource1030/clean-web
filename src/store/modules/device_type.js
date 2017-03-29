@@ -8,6 +8,7 @@ const store = new Store()
 // initial state
 const state = {
   all: [],
+  onePage:[]
 }
 
 // getters
@@ -32,11 +33,27 @@ const actions = {
       })
     })
   },
+  getOnePage ({ dispatch, commit, state }) {
+    return new Promise((resolve, reject) => {
+      devicetypeAPI.getOnePage(res => {
+        const device_types = store.sync(res.data)
+        // console.log('device_type res', device_types)
+        commit(types.DEVICE_TYPE_GET_ONE_PAGE, { records: device_types })
+        resolve(device_types)
+      }, err => {
+        // console.log('device_type err', err)
+        reject(err)
+      })
+    })
+  },
 }
 
 // mutations
 const mutations = {
   [types.DEVICE_TYPE_GET_ALL] (state, { records }) {
+    state.all = records
+  },
+  [types.DEVICE_TYPE_GET_ONE_PAGE] (state, { records }) {
     state.all = records
   },
 }
