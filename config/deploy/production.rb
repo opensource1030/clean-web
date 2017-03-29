@@ -2,7 +2,7 @@
 role :app, %w{10.1.20.24}
 
 set :stage, :production
-set :branch, 'env/prod'
+set :branch, 'feature/request-device-scroll-issue'
 set :deploy_to, '/home/deploy/webapps/clean/app'
 
 set :log_level, :debug
