@@ -77,10 +77,12 @@ export default {
       addCapacityFilter: 'device/addCapacityFilter',
       addCarrierFilter: 'device/addCarrierFilter',
     }),
-    prevPage(){
+
+    prevPage () {
       this.$store.dispatch('device/prevPage')
     },
-    nextPage(){
+
+    nextPage () {
       this.$store.dispatch('device/nextPage')
     },
 
@@ -88,14 +90,8 @@ export default {
     filterByModifications,
     filterByCarrier,
     orderFilters,
-    prevPage(){
-      this.$store.dispatch('device/prevPage')
-    },
-   nextPage(){
-         this.$store.dispatch('device/nextPage')
-   },
 
-    setActive(device) {
+    setActive (device) {
       if (this.activeDevice && this.activeDevice.id == device.id) {
         this.$set(this, 'activeDevice', null)
       } else {

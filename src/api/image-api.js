@@ -1,6 +1,5 @@
 import {http} from 'vue'
 
-
 const API_BASE_URL = process.env.URL_API
 
 export default {

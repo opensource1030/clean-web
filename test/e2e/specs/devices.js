@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
 
   before: function (browser) {
@@ -28,73 +30,123 @@ module.exports = {
   },
 
   'AddDevice': function (browser) {
-    // const devServer = browser.globals.devServerURL;
-    // let client = browser;
-    // browser
-    // .click('.buttonTable')
-    // .assert.urlEquals(devServer + '/device')
-    // .waitForElementVisible('.devicename input ', 5000)
-    // .setValue('.devicename input', 'moto g')
-    // .setValue('#testDefaultPrice', '34')
-    // .click("#testMoney option[value='USD']")
-    // .click("#testDeviceType option[value='2']")
-    // .setValue('#testManu', 'motorola')
-    // .setValue('#testModel', 'moto x')
-    // .setValue('#testInfo', 'mobile phone x')
-    // .click('button')
-    // .setValue('input#FileUpload', __dirname + '\\mat.jpg')
-    // .click('button')
-    // .elements('link text', 'Atributes', function (result) {
-    //   client.elementIdClick(result.value[0].ELEMENT)
-    // })
-    // .waitForElementVisible('input[id="capa1"]', 15000)
-    // .pause(1000)
-    // .click('input[id="capa1"]')
-    // .element('id', 'capa1', function(response) {
-    //   client.assert.ok(response.value.ELEMENT, 'Checkbox response OK');
-    //   client.elementIdSelected(response.value.ELEMENT, function(result){
-    //     client.verify.ok(result.value, 'Checkbox selected');
-    //   });
-    // })
-    // .click('input[id="st2"]')
-    // .element('id', 'st2', function(response) {
-    //   client.assert.ok(response.value.ELEMENT, 'Checkbox response OK');
-    //   client.elementIdSelected(response.value.ELEMENT, function(result){
-    //     client.verify.ok(result.value, 'Checkbox selected');
-    //   });
-    // })
-    // .pause(1000)
-    // .elements('link text', 'Vendors', function (result) {
-    //   client.elementIdClick( result.value[0].ELEMENT)
-    // })
-    // .pause(1000)
-    // .end()
+    const devServer = browser.globals.devServerURL;
+    let client = browser;
+    // console.log('dirname', __dirname)
+    const imagePath = path.join(__dirname, '../../../src/assets/test')
+    console.log('image_path', imagePath)
+    browser
+    .click('.buttonTable')
+    .assert.urlEquals(devServer + '/device')
+    .waitForElementVisible('.devicename input ', 5000)
+    .setValue('.devicename input', 'moto g')
+    .setValue('#testDefaultPrice', '123')
+    .click("#testMoney option[value='USD']")
+    .click("#testDeviceType option[value='2']")
+    .setValue('#testManu', 'motorola')
+    .setValue('#testModel', 'moto x')
+    .setValue('#testInfo', 'mobile phone x')
+    .click('button')
+    .setValue('input#FileUpload', imagePath + '/wa-logo.png')
+    .click('button')
 
-    /*.waitForElementPresent('input[id="cr1"]',15000)
-    .click('input[id="cr1"]')
-    .element('id', 'cr1', function(response) {
-      client.assert.ok(response.value.ELEMENT, 'Checkbox response OK');
-      client.elementIdSelected(response.value.ELEMENT, function(result){
-        client.verify.ok(result.value, 'Checkbox selected');
-      });
-    })*/
+    .elements('link text', 'Attributes', function (result) {
+      client.elementIdClick(result.value[0].ELEMENT)
+    })
+    .waitForElementVisible('input[name="capacities"]', 15000)
+    .element('name', 'capacities', function (response) {
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      client.click('input[name="capacities"]')
+      client.elementIdSelected(response.value.ELEMENT, function (result) {
+        client.verify.ok(result.value, 'Checkbox selected')
+      })
+    })
+    .element('name', 'styles', function (response) {      
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      client.click('input[name="styles"]')
+      client.elementIdSelected(response.value.ELEMENT, function (result) {
+        client.verify.ok(result.value, 'Checkbox selected')
+      })
+    })
+
+    .elements('link text', 'Vendors', function (result) {
+      client.elementIdClick(result.value[0].ELEMENT)
+    })
+    // .waitForElementVisible('input[name="carriers"][value="2"]', 15000)
+    // .click('input[name="carriers"][value="2"]')
+    .waitForElementVisible('label[for="carrier-2"]', 15000)
+    .click('label[for="carrier-2"]')
+    .pause(1000)
+    .element('css selector', 'input[name="carriers"][value="2"]', function (response) {
+      // console.log('input[name="carriers"][value="2"]', response)
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      // client.elementIdSelected(response.value.ELEMENT, function (result) {
+      //   client.verify.ok(result.value, 'checkbox selected')
+      // })
+    })
+    .waitForElementVisible('label[for="carrier-4"]', 15000)
+    .click('label[for="carrier-4"]')
+    .pause(1000)
+    .element('css selector', 'input[name="carriers"][value="4"]', function (response) {
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      // client.elementIdSelected(response.value.ELEMENT, function (result) {
+      //   client.verify.ok(result.value, 'checkbox selected')
+      // })
+    })
+
+    .elements('link text', 'Companies', function (result) {
+      client.elementIdClick(result.value[0].ELEMENT)
+    })
+    .waitForElementVisible('label[for="company-2"]', 15000)
+    .click('label[for="company-2"]')
+    .pause(1000)
+    .element('css selector', 'input[name="companies"][value="2"]', function(response) {
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      // client.elementIdSelected(response.value.ELEMENT, function (result) {
+      //   client.verify.ok(result.value, 'checkbox selected')
+      // })
+    })
+    .waitForElementVisible('label[for="company-3"]', 15000)
+    .click('label[for="company-3"]')
+    .pause(1000)
+    .element('css selector', 'input[name="companies"][value="3"]', function(response) {
+      client.assert.ok(response.value.ELEMENT, 'checkbox present')
+      // client.elementIdSelected(response.value.ELEMENT, function (result) {
+      //   client.verify.ok(result.value, 'checkbox selected')
+      // })
+    })
+
+    .elements('link text', 'Prices', function (result) {
+      client.elementIdClick(result.value[0].ELEMENT)
+    })
+    .waitForElementVisible('.prices-content input.input-group-field.price-retail', 15000)
+    .setValue('.prices-content input.input-group-field.price-retail', '110')
+    .setValue('.prices-content input.input-group-field.price-one', '11')
+    .setValue('.prices-content input.input-group-field.price-two', '12')
+    .setValue('.prices-content input.input-group-field.price-own', '13')
+    .click('.prices-content select.dv-capacity option[value="0"]')
+    .pause(1000)
+    .click('.prices-content select.dv-capacity option:nth-child(2)')
+    .click('.prices-content select.dv-style option:nth-child(2)')
+    .click('.prices-content select.dv-carrier option:nth-child(2)')
+    .click('.prices-content select.dv-company option:nth-child(2)')
+    .click('#button')
+    .pause(3000)
+    .assert.urlEquals(devServer + '/devices')
   },
 
   'ManageDevice': function (browser) {
+    const devServer = browser.globals.devServerURL;
+    browser
+    .click('#open > td > a')
+    .pause(1000)
+    .assert.urlContains(devServer + '/device/')
+    .waitForElementVisible('.devicename input ', 5000)
+    .pause(5000)
+    .click('#button')
+    .pause(3000)
+    .assert.urlEquals(devServer + '/devices')
+    // .pause()
+    .end()
   }
-
-  /*var path = require('path');
-  var testFilePath = path.resolve(path.join(__dirname, '../../../tests/data/test.csv'));
-
-  module.exports = {
-    "Test Fiddle": function(browser) {
-      console.log(require('fs').existsSync(testFilePath));
-      browser.url("http://run.plnkr.co/plunks/N2jnixIyyjy1gIo2UhzT/")
-      // url ripped from the iframe src on the plunkr 'embedded' view
-      .pause(1000)
-      .setValue('#invisible_input', testFilePath)
-      .waitForElementPresent('#result', 2000)
-      .end();
-    }
-  };*/
 }

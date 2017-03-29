@@ -9,7 +9,7 @@
           <ul class="tabs" data-tabs id="spend-tabs">
             <template v-for="(allocation, index) in data">
               <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
-                <a :href="'#spend-' + index" role="tab" :aria-controls="'spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ allocation.mobile_number | phone }}</a>
+                <a :href="'#spend-' + index" role="tab" :aria-controls="'spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'" :data-index="index">{{ allocation.mobile_number | phone }}</a>
               </li>
             </template>
           </ul>
@@ -20,11 +20,11 @@
                 <div class="pie-chart-title">
                   {{ title(allocation) }}
                 </div>
-                <!-- <pie-chart :chartData="pieData(allocation)" :options="options" :height="300"></pie-chart> -->
                 <vue-chart
+                  :v-ref="'vuechart' + index"
                   chart-type="PieChart"
                   :columns="columns"
-                  :rows="pieData(allocation)"
+                  :rows="pieData(index)"
                   :options="options"
                 ></vue-chart>
               </div>
@@ -50,6 +50,7 @@
 
     data() {
       return {
+        activeIndex: 0,
         columns: [
           {
             'type': 'string',
@@ -69,22 +70,33 @@
         ],
         options: {
           width: 'auto',
+          // width: 500,
           height: 300,
+          // chartArea: {left: 0,top: 0,width: '100%', height: '100%'},
           pieHole: 0.4,
           colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
-          legend: {position: 'bottom', textStyle: {color: 'blue', fontSize: 16}}
+          legend: {position: 'bottom', textStyle: {color: 'blue', fontSize: 16}, alignment: 'center'}
 
           // focusTarget: 'category',
         }
       }
     },
 
+    mounted () {
+      // console.log('PieChart mount', $('#spend-tabs li a'))
+    },
+
     methods: {
-      title(allocation) {
+      title (allocation) {
         return this.$options.filters.phone(allocation.mobile_number) + ' (' + dateFormat(allocation.bill_month, 'mmm yyyy') + ')';
       },
 
-      pieData(allocation) {
+      pieData (index) {
+        if (index !== this.activeIndex) {
+          return [['Dummy', 0]]
+        }
+
+        let allocation = this.data[index]
         // console.log('allocation', allocation);
         var piechart_data = [
           ['Service Plan Charges', allocation.service_plan_charge],
@@ -93,6 +105,17 @@
           ['International Long Distance Voice Charges', (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0],
           ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0]
         ];
+
+        let vm = this
+        this.$nextTick(() => {
+          $('#spend-tabs li a').off('click').on('click', function(e) {
+            setTimeout(() => {
+              let index = $(this).data('index')
+              // console.log(index)
+              vm.$set(vm, 'activeIndex', index)
+            })
+          })
+        });
 
         return piechart_data;
       },
