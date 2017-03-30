@@ -26,8 +26,8 @@ export default {
     }, (response) => {});
 
   },
-  getOnePage(cb, errCb) {
-    http.get(API_BASE_URL + '/modifications').then(res => cb(res), err => errCb(err))
+  getOnePage(params,cb, errCb) {
+    http.get(API_BASE_URL + '/modifications',params).then(res => cb(res), err => errCb(err))
   },
   create(params, cb, errCb) {
     http.post(process.env.URL_API + '/modifications', params).then(res => cb(res), err => errCb(err))

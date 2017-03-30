@@ -19,7 +19,7 @@ const getters = {
   styleModifications: (state) => {
     return _.chain(state.all).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()
   },
-// 
+//
   capacityModifications: (state) => {
     return _.chain(state.all).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()
   },
@@ -53,7 +53,10 @@ const actions = {
   },
   getOnePage ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
-      modificationAPI.getOnePage(res => {
+      let params={
+        params:{}
+      }
+      modificationAPI.getOnePage(params,res => {
         // console.log('modification res', res)
         const modifications = store.sync(res.data)
         commit(types.MODIFICATION_GET_ONE_PAGE, { records: modifications })
@@ -64,6 +67,25 @@ const actions = {
       })
     })
   },
+  searchModification ({ dispatch, commit, state },{query}) {
+    return new Promise((resolve, reject) => {
+      let params={
+        params:{
+        }
+      };
+         params.params['filter[value][like]'] = '%'+query+'%';
+      modificationAPI.getOnePage(params,res => {
+        //console.log('modification res', res)
+        const modifications = store.sync(res.data)
+        commit(types.MODIFICATION_FILTER, { records: modifications })
+        resolve(modifications)
+      }, err => {
+        // console.log('modification err', err)
+        reject(err)
+      })
+    })
+  },
+
 
   create({ commit }, record) {
     return new Promise((resolve, reject) => {
@@ -86,6 +108,9 @@ const mutations = {
     state.onePage = records
   },
 
+  [types.MODIFICATION_FILTER] (state, { records }) {
+    state.onePage = records
+  },
   [types.MODIFICATION_CREATE] (state, record) {
     state.all.push(record)
   }

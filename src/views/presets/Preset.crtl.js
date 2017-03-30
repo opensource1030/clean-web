@@ -53,6 +53,13 @@ export default {
         this.variations=v;
 
       },
+      onSelectColumn(){
+
+          this.$store.dispatch('device/getAll', {
+            search: this.search,
+          })
+
+      },
     submit(){
       if(this.id==null){
       preset.addPreset(this,this.preset)
@@ -86,19 +93,13 @@ export default {
       variations:[],
       main:{},
       search: {
-              firstTime: true,
-              errorCost: false,
-              errorCostMessage: 'MIN > MAX',
-              searchShow: true,
-              searchName: 'Search',
-              resetName: 'R',
-              costMinName: 'MIN Cost',
-              costMin: 0,
-              costMaxName: 'MAX Cost',
-              costMax: 0,
-              searchFilter: false,
-              costFilterMessage: '',
-          },
+        firstTime: true,
+        searchFilter: false,
+        costFilterMessage: '',
+        searchShow: false,
+        costMax: 0,
+        costMin: 0
+      },
       error: '',
       showModal: false
     };

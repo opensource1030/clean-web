@@ -7,34 +7,21 @@ const store = new Store()
 
 // initial state
 const state = {
-  all: [],
   onePage:[]
 }
 
 // getters
 const getters = {
-  allDeviceTypes: (state) => {
-    return _.chain(state.all).sortBy([ 'name' ]).value()
-  },
+  getOnePage: (state) =>{
+    return _.chain(state.onePage).sortBy([ 'presentation' ]).value()
+  }
 }
 
 // actions
 const actions = {
-  getAll ({ dispatch, commit, state }) {
-    return new Promise((resolve, reject) => {
-      devicetypeAPI.getAll(res => {
-        const device_types = store.sync(res.data)
-        // console.log('device_type res', device_types)
-        commit(types.DEVICE_TYPE_GET_ALL, { records: device_types })
-        resolve(device_types)
-      }, err => {
-        // console.log('device_type err', err)
-        reject(err)
-      })
-    })
-  },
   getOnePage ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
+
       devicetypeAPI.getOnePage(res => {
         const device_types = store.sync(res.data)
         // console.log('device_type res', device_types)
@@ -46,15 +33,35 @@ const actions = {
       })
     })
   },
+searchDeviceType({ dispatch, commit, state },{query}) {
+    return new Promise((resolve, reject) => {
+      let params={
+        params:{
+        }
+      };
+       params.params['filter[name][like]']= '%'+query+'%';
+
+
+      devicetypeAPI.getOnePage(params,res => {
+        const types = store.sync(res.data)
+        // console.log('device_type res', device_types)
+        commit(types.DEVICE_TYPE_FILTER, { records: types })
+        resolve(types)
+      }, err =>  {
+        // console.log('device_type err', err)
+        reject(err)
+      })
+    })
+  }
 }
 
 // mutations
 const mutations = {
-  [types.DEVICE_TYPE_GET_ALL] (state, { records }) {
-    state.all = records
-  },
   [types.DEVICE_TYPE_GET_ONE_PAGE] (state, { records }) {
-    state.all = records
+    state.onePage = records
+  },
+  [types.DEVICE_TYPE_FILTER] (state, {records}) {
+    state.onePage = records
   },
 }
 

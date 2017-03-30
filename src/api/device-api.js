@@ -21,6 +21,7 @@ export default {
     //     page: 0,
     //   }
     // };
+    console.log(params)
       http.get(API_BASE_URL + '/devices', params).then(res => cb(res), err => errCb(err))
   },
 

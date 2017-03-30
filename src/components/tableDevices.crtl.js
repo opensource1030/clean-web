@@ -12,7 +12,6 @@ export default {
          Type: Function,
      }
    },
-
   components: {
     paginate,
     multiselect,
@@ -22,15 +21,7 @@ export default {
     return {
       active: 0,
       activeDevice: null,
-      search: {
-        filter: {
-          make: [],
-          price: [],
-          modifications: [],
-          carriers: [],
-          deviceType: []
-        },
-      },
+
       value: [],
     }
   },
@@ -42,30 +33,42 @@ export default {
 
     ...mapGetters({
       devices: 'device/allDevices',
-      // devices: 'device/search',
-      styles: 'modification/styleModifications',
-      capacities: 'modification/capacityModifications',
-      carriers: 'carrier/allCarriers',
+      styles: 'modification/onePagestyleModifications',
+      capacities: 'modification/onePagecapacityModifications',
+      carriers: 'carrier/getOnePage',
+      search:'device/search'
     }),
   },
 
   beforeCreate () {
-    // console.log(this.$store)
-    this.$store.dispatch('device/getAll')
-    this.$store.dispatch('modification/getAll')
-    this.$store.dispatch('carrier/getAll')
+    this.$store.dispatch('device/getAll',{
+      search:0
+    })
+    this.$store.dispatch('modification/getOnePage')
+    this.$store.dispatch('carrier/getOnePage')
   },
 
   methods: {
-    ...mapActions({
-      addStyleFilter: 'device/addStyleFilter',
-      addCapacityFilter: 'device/addCapacityFilter',
-      addCarrierFilter: 'device/addCarrierFilter',
-    }),
+
     filterByModificationsd,
     filterByModifications,
     filterByCarrier,
     orderFilters,
+    asyncFindTypes(query){
+        this.$store.dispatch('device/searchDeviceType',{query:query})
+    },
+    asyncFindManu(query){
+      this.$store.dispatch('device/searchManufactures',{query:query})
+    },
+    asyncFindPrices(query){
+        this.$store.dispatch('device/searchPrice',{query:query})
+    },
+    asyncFindCarriers(query){
+        this.$store.dispatch('carrier/searchCarriers',{query:query})
+    },
+    asyncFindModifications(query){
+      this.$store.dispatch('modification/searchModification',{query:query})
+    },
     prevPage(){
       this.$store.dispatch('device/prevPage')
     },

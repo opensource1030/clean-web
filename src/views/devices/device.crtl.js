@@ -62,7 +62,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      deviceTypes: 'device_type/allDeviceTypes',
+      deviceTypes: 'device_type/getOnePage',
       // styles: 'modification/styleModifications',
       // capacities: 'modification/capacityModifications',
     }),
@@ -90,10 +90,10 @@ export default {
 
   beforeCreate () {
     let device_id = this.$route.params.id
-    this.$store.dispatch('device_type/getAll').then(
+    this.$store.dispatch('device_type/getOnePage').then(
       res => this.$store.dispatch('modification/getAll').then(
-        res => this.$store.dispatch('carrier/getAll').then(
-          res => this.$store.dispatch('company/getAll').then(
+        res => this.$store.dispatch('carrier/getOnePage').then(
+          res => this.$store.dispatch('company/getOnePage').then(
             res => {
               if (device_id) {
                 deviceAPI.getOne(device_id, {}, res => {
@@ -162,7 +162,7 @@ export default {
       })
       selected_carriers = _.uniq(selected_carriers)
 
-      _.each(this.$store.getters['carrier/allCarriers'], (carrier) => {
+      _.each(this.$store.getters['carrier/getOnePage'], (carrier) => {
         let isChecked = _.find(selected_carriers, (c) => { return c.id == carrier.id }) ? true : false
         if (isChecked) {
           carrier['checked'] = true
@@ -180,7 +180,7 @@ export default {
       })
       selected_companies = _.uniq(selected_companies)
 
-      _.each(this.$store.getters['company/allCompanies'], (company) => {
+      _.each(this.$store.getters['company/getOnePage'], (company) => {
         let isChecked = _.find(selected_companies, company) ? true : false
         if (isChecked) {
           company['checked'] = true
@@ -276,9 +276,6 @@ export default {
           this.styles.push(res)
         }, err => console.log(err))
       }
-    },
-
-    findCompany () {
     },
 
     addDeviceVariation () {

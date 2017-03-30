@@ -5,39 +5,52 @@
     <table>
       <thead>
         <tr>
-          <th v-if="id==null"    width="100px">
+          <th v-if="id==null"    width="10%">
           </th>
-          <th>
+          <th width="20%" >
             <multiselect
               :options="$store.state.device.types"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindTypes"
+              @input="$store.dispatch('device/addFilter',{type:'type',records:$event})"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
+              :options-limit="10"
               placeholder="Device Type">
             </multiselect>
           </th>
-          <th>
+          <th width="15%">
             <multiselect
-              :options="$store.state.device.manufacturers"
+              :options="$store.state.device.manufactures"
+              :options-limit="10"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindManu"
+              @input="$store.dispatch('device/addFilter',{type:'manufactured',records:$event})"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              placeholder="Manufacturer">
+              placeholder="Manufacturer"
+              >
             </multiselect>
           </th>
-          <th width="7%">
+          <th width="10%">
             <multiselect
-              :options="[0,1,2]"
+              :options="$store.state.device.prices"
+              :options-limit="10"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindPrices"
+              @input="$store.dispatch('device/addFilter',{type:'price',records:$event})"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
@@ -48,16 +61,19 @@
           </th>
           <th width="15%">
             <multiselect
-              :value = "$store.state.device.filter.carriers"
+             :value = "$store.state.device.filter.carriers"
               :options="carriers"
+              :options-limit="10"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindCarriers"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="addCarrierFilter"
+              @input="$store.dispatch('device/addFilter',{type:'carrier',records:$event})"
               placeholder="Carrier"
               label="presentation"
               track-by="presentation">
@@ -68,13 +84,15 @@
               :value = "$store.state.device.filter.capacities"
               :options="capacities"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindModifications"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="addCapacityFilter"
+              @input="$store.dispatch('device/addFilter',{type:'capacity',records:$event})"
               placeholder="Capacity"
               label="value"
               track-by="value">
@@ -86,13 +104,16 @@
               :value = "$store.state.device.filter.styles"
               :options="styles"
               :multiple="true"
-              :searchable="false"
+              :searchable="true"
+              :internal-search="false"
+              @search-change="asyncFindModifications"
+              :options-limit="10"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="addStyleFilter"
+              @input="$store.dispatch('device/addFilter',{type:'style',records:$event})"
               placeholder="Style"
               label="value"
               track-by="value">
@@ -114,7 +135,7 @@
       </tbody>
       -->
       <tbody>
-        <template v-for="(device, index) in devices">
+        <template v-for="(device, index) in search">
           <tr @click="setActive(device)" id="open" >
             <td  v-if="id==null" ><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
             <td style="font-weight: bold;">{{ device.name }}</td>

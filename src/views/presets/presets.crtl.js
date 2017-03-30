@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import paginate from './../../components/paginate';
 import Modal from './../../components/modal';
+import searchCost from './../../components/searchCost.vue';
 import presets from './../../api/preset/presets';
 import {mapGetters, mapActions} from 'vuex'
 export default {
@@ -13,17 +14,17 @@ export default {
   },
   components : {
   paginate,
-  Modal
+  Modal,
+  searchCost
   },
   methods : {
-
-
     prevPage(){
         this.$store.dispatch('presets/prevPage')
      },
       nextPage(){
-            this.$store.dispatch('presets/nextPage')
+        this.$store.dispatch('presets/nextPage')
       },
+
 
     setActive: function(preset) {
       if (this.activeService && this.activeService.id == preset.id) {
