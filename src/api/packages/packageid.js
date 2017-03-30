@@ -11,14 +11,19 @@ export default {
   // GET USER INFORMATION.
   getUserInformation(context) {
 
-    this.getValuesForTheFirstTime(context);
-
     let params = { params: { } };
 
     let userId = localStorage.getItem('userId');
 
     context.$http.get(process.env.URL_API + '/users/' + userId, params).then((response) => {
       event = store.sync(response.data);
+      if(context.packageid.companyId == 0) {
+        context.packageid.companyId = event.companyId;
+        this.updateTheUsersThatAccomplishesTheConditions(context);
+      }
+
+      // Get the different values (SwiperOptions);
+      this.getValuesForTheFirstTime(context);
 
       // CONDITIONS
       this.getUdlsFromCompanies(context);
@@ -187,6 +192,7 @@ export default {
     (response) => {});
   },
   updateTheUsersThatAccomplishesTheConditions(context) {
+    context.conditions.numberOfUsers = 0;
     let conditions = this.prepareConditionsForSend(context.conditions.selected);
     context.$http.post(process.env.URL_API + '/packages/forUser', { "data": {"conditions": conditions, "companyId": context.packageid.companyId}}).then((response) => {
       context.conditions.numberOfUsers = response.body.number;

@@ -24,6 +24,7 @@ export default {
     return {
       device: {
         currency: 'USD',
+        identification: 0,
         images: [
           {
             type: 'images',
@@ -98,7 +99,7 @@ export default {
                 deviceAPI.getOne(device_id, {}, res => {
                   // console.log('device res', res)
                   this.$set(this, 'device', store.sync(res.data))
-                  console.log('device', this.device)
+                  // console.log('device', this.device)
 
                   this.initComponent()
                 })
@@ -131,6 +132,7 @@ export default {
       // init styles
       _.each(this.$store.getters['modification/styleModifications'], (modification) => {
         let isChecked = _.find(this.device.modifications, modification) ? true : false
+        // let isChecked = _.find(this.device.modifications, (m) => { return parseInt(m.id) == modification.id }) ? true : false
         if (isChecked) {
           modification['checked'] = true
           this.styles.push(modification)
@@ -143,6 +145,7 @@ export default {
       // init capacities
       _.each(this.$store.getters['modification/capacityModifications'], (modification) => {
         let isChecked = _.find(this.device.modifications, modification) ? true : false
+        // let isChecked = _.find(this.device.modifications, (m) => { return parseInt(m.id) == modification.id }) ? true : false
         if (isChecked) {
           modification['checked'] = true
           this.capacities.push(modification)
@@ -217,12 +220,16 @@ export default {
       return process.env.URL_API + '/images/' + id
     },
 
+    availableOptions (items) {
+      return _.chain(items).filter({ 'checked': true }).map((item) => { return _.omit(item, 'checked') }).value()
+    },
+
     onDeviceImageChange (e) {
       var files = e.target.files || e.dataTransfer.files;
       var formData = new FormData();
       formData.append('filename', files[0])
       imageAPI.create(formData, (res) => {
-        console.log('res', res)
+        // console.log('res', res)
         this.device.images[0].id = res.data.data.id
         this.device.images[0].url = 'http://' + res.data.data.links.self
       }, (err) => console.log('err', err))
@@ -331,9 +338,20 @@ export default {
       let _jsonData = DevicesPresenter.toJSON(this.device)
       _jsonData['data']['relationships']['deviceVariations'] = _jsonData['data']['relationships']['devicevariations']
       delete _jsonData['data']['relationships']['devicevariations']
-
       // console.log('submitting ...', _jsonData['data']['relationships']['deviceVariations'])
+
+      if (process.env.NODE_ENV === 'testing') {
+      // if (process.env.NODE_ENV !== 'production') {
+        _jsonData['data']['attributes']['make'] = null
+        _jsonData['data']['attributes']['model'] = null
+        _jsonData['data']['attributes']['identification'] = parseInt(_jsonData['data']['attributes']['identification'])
+
+        _.each(_jsonData['data']['relationships']['images']['data'], (item) => { item.id = parseInt(item.id) })
+        _.each(_jsonData['data']['relationships']['modifications']['data'], (item) => { item.id = parseInt(item.id) })
+      }
+
       let _params = JSON.stringify(_jsonData)
+      // console.log('json_data', _jsonData)
       // console.log('params', _params)
 
       if (this.device.id) {

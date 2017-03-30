@@ -13,7 +13,7 @@
         beforeCreate () {
             let id = this.$route.params.id;
             this.$store.dispatch('error/clearAll')
-            this.$store.dispatch('singleSignOn', {router: this.$router, id: id})
+            this.$store.dispatch('auth/singleSignOn', {router: this.$router, id: id})
         }
 }
 </script>

@@ -76,7 +76,6 @@ const actions = {
         commit,
         state
     }, {password1, password2}) {
-        console.log(password2, password1)
         if (password1 == '' || password2 == '') {
             return 'The Passwords must not be empty, please, fill it properly.';
         }
@@ -282,7 +281,7 @@ const actions = {
         dispatch('checkIfThePasswordIsStrongEnough', {
             password1: credentials.password1,
             password2: credentials.password2
-        }).then(response => {
+        }).then(res => {
             if (res != "") {
                 dispatch('error/addNew', {
                     message: res
@@ -509,7 +508,7 @@ const mutations = {
     recoveryVariations(state) {
         state.variations.allowChanges = true;
         state.variations.clickAgain = true;
-        state.variations.messageShow = true;
+        state.variations.messageShow = false;
         state.variations.message = '';
     }
 }

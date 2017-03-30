@@ -18,13 +18,14 @@
                   <span>{{names.manage}}</span>
                 </th>
                 <th title="The Name of the Package" width="25%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <div @click="showInputFilter()" class="large-12 columns">{{names.name}}</div>
-                  <div v-show="showInput" class="large-12 columns" style="padding: 0px">
-                    <!--<inputfilter
+                  <div class="large-12 columns">{{names.name}}</div>
+                  <!--@click="showInputFilter()" -->
+                  <!--<div v-show="showInput" class="large-12 columns" style="padding: 0px">
+                    <inputfilter
                       :callback="onSelectValue"
                       :val.sync="values.name">
-                    </inputfilter>-->
-                  </div>
+                    </inputfilter>
+                  </div>-->
                 </th>
                 <th title="Max price you will pay once time" width="8%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
                   <div>{{names.priceOnce}}</div>
@@ -62,26 +63,26 @@
                 </td>
                 <td></td>
               </tr>
-              <tr v-show="pack.show && pack.conditions.length > 0" class="inner-rows">
+              <tr v-show="pack.show" class="inner-rows">
                 <td></td>
-                <td>{{getTheEmployeesThatAccomplishesTheConditions}}</td>
+                <td>{{numberOfUsers}} Employees</td>
                 <td></td>
                 <td></td>
-                <td>{{getTheConditions}}</td>
+                <td>{{textConditions}}</td>
               </tr>
               <tr v-show="pack.show && pack.services.length > 0" class="inner-rows">
                 <td></td>
                 <td>Services</td>
                 <td></td>
                 <td>{{pack.valuesMonth.max}} {{pack.valuesOnce.currencyMax}}</td>
-                <td>{{getTheServices}}</td>
+                <td>{{textServices}}</td>
               </tr>
               <tr v-show="pack.show && pack.devicevariations.length > 0" class="inner-rows">
                 <td></td>
                 <td>Devices</td>
                 <td>{{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}</td>
                 <td></td>
-                <td>{{getTheDevices}}</td>
+                <td>{{textDevices}}</td>
               </tr>
               <!--<tr v-show="pack.show">
                 <td>Apps & Content</td>
