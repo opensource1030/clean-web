@@ -854,21 +854,9 @@ export default {
           serviceitems: [],
         },
         isSelectedISI: false,
-        list: [
-        {
-          serviceitems: [],
-        }
-        ], // Complete List.
-        filtered: [
-        {
-          serviceitems: [],
-        }
-        ], // Filtered List.
-        selected: [
-        {
-          serviceitems: [],
-        }
-        ], // Selected List.
+        list: [], // Complete List.
+        filtered: [], // Filtered List.
+        selected: [], // Selected List.
         names: {
           title: 'SERVICES',
           available: 'Services Available From ',
