@@ -1,4 +1,4 @@
-import Vue from 'vue';
+/*import Vue from 'vue';
 
 var {
   Store,
@@ -16,7 +16,7 @@ getPreset(context, pages) {
       page: pages, /*,filter[][like]:deviceType*/
       },
 
-    }).then((response) => {
+/*    }).then((response) => {
       context.loading=false;
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
@@ -54,4 +54,4 @@ else{
 
       });
   }
-}
+}*/
