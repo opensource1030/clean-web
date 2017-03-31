@@ -75,7 +75,7 @@ const actions = {
       };
          params.params['filter[value][like]'] = '%'+query+'%';
       modificationAPI.getOnePage(params,res => {
-        //console.log('modification res', res)
+        //     console.log('modification res', res)
         const modifications = store.sync(res.data)
         commit(types.MODIFICATION_FILTER, { records: modifications })
         resolve(modifications)
@@ -118,6 +118,7 @@ const mutations = {
 
 export default {
   namespaced: true,
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,

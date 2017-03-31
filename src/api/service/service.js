@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Service from './../../models/Service';
-import Carrier from './../carrier/carriers';
 import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';
-
 const {Store} = require('yayson')();
 const store = new Store();
 

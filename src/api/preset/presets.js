@@ -14,7 +14,7 @@ getPreset(context, pages) {
       params: {
         include: 'devicevariations,devicevariations.devices,devicevariations.modifications',
       page: pages, /*,filter[][like]:deviceType*/
-      },
+    /*  },*/
 
 /*    }).then((response) => {
       context.loading=false;

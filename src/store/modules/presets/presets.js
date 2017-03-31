@@ -125,6 +125,7 @@ else{
 
 export default {
   namespaced : true,
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,
