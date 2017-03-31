@@ -25,9 +25,6 @@
                         <li class="page-link" v-permission="'ManageServices'">
                             <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
                         </li>
-                        <li class="page-link">
-                            <a class="admin" name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a>
-                        </li>
                     </ul>
                 </li>
 
@@ -68,6 +65,7 @@
                     <ul class="treeview-menu">
                         <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
                         <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+                        <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
                     </ul>
                 </li>
             </template>
