@@ -19,7 +19,7 @@
             <table  >
               <thead>
                 <tr>
-
+                    <th ></th>
                   <th ><div class="head">  Status</div></th>
                   <th><div class="head">  5 Presets</div></th>
                     <th > <div class="head"> 753 Delivered</div></th>
@@ -33,7 +33,7 @@
                   </tr>
                 </tbody>
                 <tbody  v-for="(preset, index) in presets"  >
-                  <tr    @click="setActive(preset)" >
+                  <tr    @click="setActive(preset)" id="open" >
                     <td> <a  v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{preset.name}} </td>
                     <td >{{preset.devices}}</td>
@@ -52,7 +52,7 @@
 
                   </tr>
                   <tr  >
-                    <td v-show="preset.show" transition="device"  class="detail" colspan="8" >
+                    <td v-show="activePreset && (activePreset.id == preset.id)" transition="device"  class="detail" colspan="8" >
                       <div class="column row">
                     <div class="row">
                       <div class="small-6 columns">

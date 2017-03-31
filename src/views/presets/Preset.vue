@@ -41,7 +41,7 @@
 
 
                           <label   class="static" :style="{ backgroundImage: 'url('+process.env.URL_API+'/images/' + c.images[0].id +')',backgroundSize:'124px,180px' }" >
-                            <input type="checkbox"     @click="changeStatusPreset('active',index)"  v-model="c.checks"    >
+                            <input type="checkbox"  v-status   @click="changeStatusPreset('active',index)"  :checked="c.checks"    >
 
                           </label>
 
