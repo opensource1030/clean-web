@@ -2,8 +2,10 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import 'script!jquery'
 import 'script!select2'
-
 import 'script!jquery.cookie'
+
+import './modules/jquery.tag-editor/jquery.caret.min.js'
+import './modules/jquery.tag-editor/jquery.tag-editor.js'
 
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 

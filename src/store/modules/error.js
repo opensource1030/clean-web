@@ -27,33 +27,30 @@ const getters = {
 
 // actions
 const actions = {
-    addNew({
-        commit
-    }, {message}) {
-        commit(types.ERROR_ADD_NEW, {message})
-
+  addNew ({ commit }, { message }) {
+    commit(types.ERROR_ADD_NEW, {message})
   },
 
-    clearAll({commit}) {
+  clearAll ({commit}) {
     commit(types.ERROR_CLEAR_ALL);
   }
 }
 
 // mutations
 const mutations = {
-    [types.ERROR_ADD_NEW](state, {message}) {
+  [types.ERROR_ADD_NEW] (state, { message }) {
     state.errors.push(message)
   },
 
-    [types.ERROR_CLEAR_ALL](state) {
+  [types.ERROR_CLEAR_ALL] (state) {
     for (let i = state.errors.length; i > 0; i--) {
       state.errors.pop()
     }
-    }
+  }
 }
 
 export default {
-    namespaced: true,
+  namespaced: true,
   state,
   getters,
   actions,
