@@ -11,6 +11,8 @@ const state = {
     variations:[]
   },
   variations:[],
+  devicevariations:[]
+
 }
 
 const getters = {
@@ -30,7 +32,7 @@ const actions = {
     dispatch,
     commit,
     state
-  }, id) {
+  }, {id}) {
 
     return new Promise((resolve, reject) => {
       let params = {
@@ -38,6 +40,7 @@ const actions = {
           include: 'devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images'
         }
       }
+
       preset.getOne(params, id, res => {
 
         commit(types.PRESETS_GET_PRESET, {records: res})
@@ -56,59 +59,105 @@ const actions = {
   }, {preset}) {
     let result = JSON.parse(localStorage.getItem("userProfile"));
     preset.companyId=result.companyId;
+      dispatch('checkPreset', {
+        preset:preset,
+        }).then(response => {
+   if (response) {
 
-    let check = this.checkPreset(context,preset)
-
-    if(check==true){
-    let presetObj = new Preset('presets', id, preset.name, preset.companyId,);
+  let presetObj = new Preset('presets', id, preset.name, preset.companyId,);
+        //  commit(types.PRESET_PREPARE_VARIATIONS, {router})
     presetObj.deviceVariationsJson(preset.variations,presetObj);
 
         return new Promise((resolve, reject) => {
           preset.update(presetObj.toJSON(), id, res => {
-            commit(types.SERVICE_UPDATE, {router})
-            resolve(service)
+            commit(types.PRESET_UPDATE, {router})
+            resolve(preset)
           }, err => {
-            console.log('service err', err)
+            console.log('preset err', err)
             reject(err)
           })
         })
 
       }
 
+ })
+
 
   },
 
-  add({
-    dispatch,
-    commit,
-    state
-  }, {preset}) {
+  add({dispatch,commit,state}, {preset}) {
     let result = JSON.parse(localStorage.getItem("userProfile"));
     preset.companyId=result.companyId;
-    let check = this.checkPreset(context,preset)
-    if(check==true){
-      let presetObj = new Preset('presets', null, preset.name, preset.companyId,);
+    dispatch('checkPreset', {
+       preset:preset,
+     }).then(response => {
+      if (response) {
+     let presetObj = new Preset('presets', null, preset.name, preset.companyId,);
       presetObj.deviceVariationsJson(preset.variations,presetObj);
-
-
-
+      return new Promise((resolve, reject) => {
+            preset.add(preset.toJSON(), res => {
+          commit(types.PRESET_ADD_NEW, {router})
+          resolve(preset)
+        }, err => {
+          console.log('preset err', err)
+          reject(err)
+        })
+      })
 
     }
-
+          })
 
 
   },
   checkPreset({dispatch,commit,state},{preset}){
 
+    if(preset.name==null || preset.name==""){
+      dispatch('error/addNew', {
+        message: 'Error, empty field Name'
+      }, {root: true})
 
+        return false;
+    }
+    if(preset.companyId==null || preset.companyId==""){
+          dispatch('error/addNew', {
+            message: 'Error, empty field Name'
+          }, {root: true})
+
+        return false;
+    }
+
+    if(preset.variations==null || preset.variations.length==0){
+        dispatch('error/addNew', {
+          message: 'You don´t have selected any devicevariations'
+        }, {root: true})
+
+              return false;
+    }
+
+        return true;
 
   },
-  checkVariation({dispatch,commit,state},{}){
+  checkDeviceVariations({dispatch,commit,state},{price}){
+
+    if(state.devicevariations!=null){
+        for (let variation of state.devicevariations){
+    if(variation.id==price.id && variation.deviceId==price.deviceId){
+        price.check=true;
+    }
+      }
+    if(price.check==null){
+            price.check=false;
+
+          }
+              return price
+            }
+            else{
+              price.check=false;
+              return price
+            }
 
 
   }
-
-
 
 
 }
@@ -117,10 +166,10 @@ const actions = {
 
 const mutations = {
 
-  [types.PRESET_GET_PRESET](state, {records,id}) {
+  [types.PRESETS_GET_PRESET](state, {records,id}) {
     state.id=id;
 
-state.preset.name=  reocords.name;
+state.preset.name=  records.name;
 state.devicevariations=records.devicevariations;
 for (let v of records.devicevariations){
 v.checks=true;
@@ -134,13 +183,23 @@ state.variations=records.devicevariations;
   },
 
   [types.PRESET_ADD_NEW](state, {router}) {
+
       router.push({name: 'List Presets'});
   },
   [types.PRESET_PREPARE_VARIATIONS](state, {router}) {
 
   //  router.push({name: 'List Presets'});
 
-  }
+},
+updateVariations(){
+
+
+},
+updateField(){
+
+}
+
+
 }
 
 function presetaaa(state) {

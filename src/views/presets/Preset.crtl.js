@@ -26,10 +26,10 @@ export default {
     ...mapGetters({preset:'preset/getPreset',variations:'preset/getVariations'})
   },
   beforeCreate() {
-    this.id = this.$route.params.id;
-    if (this.id != null) {
+
+    if (this.$route.params.id != null) {
       this.$store.dispatch('preset/getOne', {
-        id:this.id
+        id:this.$route.params.id
       })
 
     }
@@ -65,7 +65,6 @@ export default {
 
     }else{
         preset.updatePreset(this,this.id,this.preset)
-
         this.$store.dispatch('error/clearAll')
         this.$store.dispatch('preset/update', {
           preset:this.preset ,

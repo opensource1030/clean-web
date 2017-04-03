@@ -129,12 +129,13 @@ const actions = {
 
                           }
                       }
-                  //    dispatch('preset/checkDeviceVariations', {
-                    //    price: price
-                    //  }, {root: true})
+                     dispatch('preset/checkDeviceVariations', {
+                       price: price
+                     }, {root: true}).then(price => {
 
-                  //  let prices= preset.checkDeviceVariations(price);
+                  let prices= preset.checkDeviceVariations(price);
                         device.priceName.push(price);
+                      })
                     }
 
                 }
