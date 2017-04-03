@@ -14,6 +14,7 @@ import service from './modules/services/service'
 import presets from './modules/presets/presets'
 import preset from './modules/presets/preset'
 
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'

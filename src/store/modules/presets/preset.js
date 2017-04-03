@@ -1,4 +1,4 @@
-import preset from './../../../api/preset-api'
+import presetApi from './../../../api/preset-api'
 import Preset from './../../../models/Service';
 import * as types from './../../mutation-types'
 const {Store} = require('yayson')()
@@ -41,10 +41,10 @@ const actions = {
         }
       }
 
-      preset.getOne(params, id, res => {
+      presetApi.getOne(params, id, res => {
 
         commit(types.PRESETS_GET_PRESET, {records: res})
-        resolve(preset)
+        resolve(presetApi)
       }, err => {
         console.log('preset  err', err)
         reject(err)
@@ -69,9 +69,9 @@ const actions = {
     presetObj.deviceVariationsJson(preset.variations,presetObj);
 
         return new Promise((resolve, reject) => {
-          preset.update(presetObj.toJSON(), id, res => {
+          presetApi.update(presetObj.toJSON(), id, res => {
             commit(types.PRESET_UPDATE, {router})
-            resolve(preset)
+            resolve(presetApi)
           }, err => {
             console.log('preset err', err)
             reject(err)
@@ -95,9 +95,9 @@ const actions = {
      let presetObj = new Preset('presets', null, preset.name, preset.companyId,);
       presetObj.deviceVariationsJson(preset.variations,presetObj);
       return new Promise((resolve, reject) => {
-            preset.add(preset.toJSON(), res => {
+            presetApi.add(preset.toJSON(), res => {
           commit(types.PRESET_ADD_NEW, {router})
-          resolve(preset)
+          resolve(presetApi)
         }, err => {
           console.log('preset err', err)
           reject(err)
@@ -168,7 +168,6 @@ const mutations = {
 
   [types.PRESETS_GET_PRESET](state, {records,id}) {
     state.id=id;
-
 state.preset.name=  records.name;
 state.devicevariations=records.devicevariations;
 for (let v of records.devicevariations){

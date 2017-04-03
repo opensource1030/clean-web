@@ -133,7 +133,7 @@ const actions = {
                        price: price
                      }, {root: true}).then(price => {
 
-                  let prices= preset.checkDeviceVariations(price);
+
                         device.priceName.push(price);
                       })
                     }
