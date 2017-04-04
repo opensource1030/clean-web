@@ -160,16 +160,16 @@
                  <div class="column row" v-for="carrier in device.priceName"  :key="carrier.carrier" >
                    <div class="checkbox"   >
                      <label>
-                       <input type="checkbox"   class="checkboxb"  >
+                       <input type="checkbox"   class="checkboxb"  @change="$store.dispatch('device/updateDeviceVariations',{e:$event,price:carrier,i:i})" :checked="carrier.check"  >
                        <span class="custom-checkbox"><i class="icon-check"></i></span>
                        {{carrier.carrier}}
                      </label>
                    </div>
                      <div class="row">
-                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id" >
+                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id"  >
                  {{price.value}},
                </div>
-                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id" >
+                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id"   >
                  {{price.value}}
              </div>
            </div>

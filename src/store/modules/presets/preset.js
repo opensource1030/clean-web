@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import presetApi from './../../../api/preset-api'
 import Preset from './../../../models/Service';
 import * as types from './../../mutation-types'
@@ -6,6 +7,7 @@ const store = new Store()
 import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
 const state = {
   preset:{
+    id:null,
     name:'',
     companyId:null,
     variations:[]
@@ -43,7 +45,7 @@ const actions = {
 
       presetApi.getOne(params, id, res => {
 
-        commit(types.PRESETS_GET_PRESET, {records: res})
+        commit(types.PRESETS_GET_PRESET, {records: res,id:id})
         resolve(presetApi)
       }, err => {
         console.log('preset  err', err)
@@ -56,20 +58,23 @@ const actions = {
     dispatch,
     commit,
     state
-  }, {preset}) {
+  }, {preset,router}) {
     let result = JSON.parse(localStorage.getItem("userProfile"));
-    preset.companyId=result.companyId;
+  //  preset.companyId=result.companyId;
+    commit('PRESET_COMPANY',{id:preset.companyId})
+    console.log("hola")
       dispatch('checkPreset', {
         preset:preset,
         }).then(response => {
+          console.log(response)
    if (response) {
 
   let presetObj = new Preset('presets', id, preset.name, preset.companyId,);
         //  commit(types.PRESET_PREPARE_VARIATIONS, {router})
-    presetObj.deviceVariationsJson(preset.variations,presetObj);
-
+        presetObj.deviceVariationsJson(preset.variations,presetObj);
         return new Promise((resolve, reject) => {
           presetApi.update(presetObj.toJSON(), id, res => {
+            console.log("hola")
             commit(types.PRESET_UPDATE, {router})
             resolve(presetApi)
           }, err => {
@@ -87,13 +92,13 @@ const actions = {
 
   add({dispatch,commit,state}, {preset}) {
     let result = JSON.parse(localStorage.getItem("userProfile"));
-    preset.companyId=result.companyId;
+    //preset.companyId=result.companyId;
     dispatch('checkPreset', {
        preset:preset,
      }).then(response => {
       if (response) {
      let presetObj = new Preset('presets', null, preset.name, preset.companyId,);
-      presetObj.deviceVariationsJson(preset.variations,presetObj);
+  /*    presetObj.deviceVariationsJson(preset.variations,presetObj);
       return new Promise((resolve, reject) => {
             presetApi.add(preset.toJSON(), res => {
           commit(types.PRESET_ADD_NEW, {router})
@@ -102,7 +107,7 @@ const actions = {
           console.log('preset err', err)
           reject(err)
         })
-      })
+      })*/
 
     }
           })
@@ -142,18 +147,20 @@ const actions = {
     if(state.devicevariations!=null){
         for (let variation of state.devicevariations){
     if(variation.id==price.id && variation.deviceId==price.deviceId){
-        price.check=true;
+        //price.check=true;
+        commit('device/checkPrice',{price:price,value:true},{root:true})
     }
       }
     if(price.check==null){
-            price.check=false;
-
+            //price.check=false;
+            commit('device/checkPrice',{price:price,value:false},{root:true})
           }
-              return price
+
             }
             else{
-              price.check=false;
-              return price
+              //price.check=false;
+              commit('device/checkPrice',{price:price,value:false},{root:true})
+
             }
 
 
@@ -167,7 +174,7 @@ const actions = {
 const mutations = {
 
   [types.PRESETS_GET_PRESET](state, {records,id}) {
-    state.id=id;
+state.preset.id=id;
 state.preset.name=  records.name;
 state.devicevariations=records.devicevariations;
 for (let v of records.devicevariations){
@@ -180,6 +187,10 @@ state.variations=records.devicevariations;
   [types.PRESET_UPDATE](state, {router}) {
     router.push({name: 'List Presets'});
   },
+  [types.PRESET_COMPANY](state,{id}){
+    state.preset.companyId=id;
+
+  },
 
   [types.PRESET_ADD_NEW](state, {router}) {
 
@@ -190,21 +201,34 @@ state.variations=records.devicevariations;
   //  router.push({name: 'List Presets'});
 
 },
-updateVariations(){
+updateVariations(state, {e, type,i}){
 
-
+  state.variations[i]=e.target.checked;
+  if(e.target.checked){
+    state.preset.variations.push(state.variations[i])
+  }else{
+      state.preset.variations.splice(i, 1);
+  }
 },
-updateField(){
+updateField(state, {e, type}){
+  state.preset[type]=e.target.value;
+},
+updateDeviceVariations(state,{e,price}){
+  let p =  _.cloneDeep(price);
+if (e.target.checked) {
+  p.checks = false;
+  state.variations.push(p)
 
+} else {
+  let i = 0;
+  for (let v of state.variations) {
+    state.variations.splice(i, 1);
+    i++;
+  }
+}
+}
 }
 
-
-}
-
-function presetaaa(state) {
-
-
-}
 
 export default {
   namespaced : true,

@@ -13,39 +13,44 @@ export default {
   },
   computed : {
     ...mapGetters({preset:'preset/getPreset',variations:'preset/getVariations'}),
-
-
   },
   beforeCreate() {
 
     if (this.$route.params.id != null) {
-      this.$store.dispatch('preset/getOne', { id:this.$route.params.id  })
+      this.$store.dispatch('preset/getOne', { id:this.$route.params.id  }).then(
+        res => {
+          this.initComponent()
+    })
     }
 
     },
   methods : {
+    initComponent(){
+      let i=0;
+        for(let v of this.variations){
+           this.changeStatusPreset('active', i);
+          i++;
+        }
+    },
     onSelectColumn(){
-          this.$store.dispatch('device/getAll', {
-            search: this.search
-          })
+          this.$store.dispatch('device/getAll', {search: this.search})
       },
     submit(){
-      if(this.id==null){
-    /*  preset.addPreset(this,this.preset)
+      if(this.preset.id==null){
+     //preset.addPreset(this,this.preset)
       this.$store.dispatch('error/clearAll')
       this.$store.dispatch('preset/add', {
         preset:this.preset ,
         router: this.$router
-      })*/
-
+      })
 
     }else{
-    /*    preset.updatePreset(this,this.id,this.preset)
+      //  preset.updatePreset(this,this.id,this.preset)
         this.$store.dispatch('error/clearAll')
         this.$store.dispatch('preset/update', {
           preset:this.preset ,
           router: this.$router
-        })*/
+        })
 
 
     }

@@ -131,11 +131,11 @@ const actions = {
                       }
                      dispatch('preset/checkDeviceVariations', {
                        price: price
-                     }, {root: true}).then(price => {
+                     }, {root: true})
 
 
                         device.priceName.push(price);
-                      })
+
                     }
 
                 }
@@ -224,6 +224,11 @@ const actions = {
        }
        return params
 
+    },
+    updateDeviceVariations({dispatch,commit,state},{e,price,i}){
+        let checked=e.target.checked;
+          commit('checkPrice',{price,checked})
+        commit('preset/updateDeviceVariations',{e,price},{root:true})
     },
     searchDeviceType({dispatch, commit, state},{query}) {
       return new Promise((resolve, reject) => {
@@ -406,6 +411,9 @@ const mutations = {
                 break
         }
     },
+    checkPrice(state,{price,value}){
+      price.check=value;
+    }
 }
 
 export default {
