@@ -4,7 +4,12 @@ module.exports = {
     browser
     .url(devServer)
     .login('Sample3433@email.com', 'user')
-    .routes('Inventory','services')
+    // .routes('Inventory','services')
+    .waitForElementVisible('a[name="Inventory"]', 15000)
+    .click('a[name="Inventory"]')
+    .waitForElementVisible('a[name="services"]', 15000)
+    .click('a[name="services"]')
+    .pause(5000)
   },
 
   'ServicesList': function (browser) {
@@ -15,18 +20,23 @@ module.exports = {
     .waitForElementVisible('table', 5000)
     .waitForElementVisible('tbody', 5000)
     .waitForElementVisible('#open', 5000)
-    .click('#open')
-    .waitForElementVisible('#updateService', 5000)
-    .click('#updateService')
+    // .click('#open')
+    // .waitForElementVisible('#updateService', 5000)
+    // .click('#updateService')
     // .waitForElementVisible('.detail', 5000)
     // .pause(1000)
   },
 
   'ManageService': function (browser) {
     const devServer = browser.globals.devServerURL;
-    let client =browser;
+    let client = browser;
     browser
-    .assert.urlEquals(devServer+'/service/11')
+    .waitForElementVisible('#app  #tables', 15000)
+    .click('#open')
+    .waitForElementVisible('#updateService', 5000)
+    .click('#updateService')
+    .pause(5000)
+    .assert.urlContains(devServer + '/service/')
     .waitForElementVisible('input[name="tittle"]', 25000)
     .assert.attributeContains('input[name="tittle"]', 'value', 'Nisi quis exercitationem voluptas.')
     .setValue('input[name="tittle"]', '')

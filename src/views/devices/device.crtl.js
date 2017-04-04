@@ -22,7 +22,9 @@ export default {
 
   data () {
     return {
+      device_id: null,
       device: {
+        id: 0,
         currency: 'USD',
         identification: 0,
         images: [
@@ -89,21 +91,26 @@ export default {
   },
 
   beforeCreate () {
-    let device_id = this.$route.params.id
+  },
+
+  created () {
+    let device_id = this.$route.params.id || 0
     this.$store.dispatch('device_type/getOnePage').then(
       res => this.$store.dispatch('modification/getAll').then(
         res => this.$store.dispatch('carrier/getOnePage').then(
           res => this.$store.dispatch('company/getOnePage').then(
             res => {
-              if (device_id) {
-                deviceAPI.getOne(device_id, {}, res => {
+              if (device_id > 0) {
+                deviceAPI.getOne(this.device_id, {}, res => {
                   // console.log('device res', res)
                   this.$set(this, 'device', store.sync(res.data))
                   // console.log('device', this.device)
 
+                  this.$set(this, 'device_id', device_id)
                   this.initComponent()
                 })
               } else {
+                this.$set(this, 'device_id', device_id)
                 this.initComponent()
               }
             }
@@ -111,9 +118,6 @@ export default {
         )
       )
     )
-  },
-
-  created () {
   },
 
   methods: {

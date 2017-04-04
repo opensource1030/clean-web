@@ -33,14 +33,14 @@ module.exports = {
     .click('.morphsearch-close')
   },
 
-  /*'Client charge data': function (browser) {
-    const devServer = browser.globals.devServerURL
-    browser
-    .waitForElementPresent('.wireless-overview table', 15000)
-    .click('.choose-issues')
-    .click('option')
-    .waitForElementVisible('.support-form-holder')
-  },*/
+  // 'Client charge data': function (browser) {
+  //   const devServer = browser.globals.devServerURL
+  //   browser
+  //   .waitForElementPresent('.wireless-overview table', 15000)
+  //   .click('.choose-issues')
+  //   .click('option')
+  //   .waitForElementVisible('.support-form-holder')
+  // },
 
   'Support Request': function (browser) {
     browser

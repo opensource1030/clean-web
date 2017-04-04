@@ -58,6 +58,11 @@ export default {
         this.addCustomField()
       } else {
         const vm = this
+        for (let i = 0; i < vm.company.udls; i++) {
+          vm.company.udls[i].pid = i + 1
+        }
+        // console.log('udls', vm.company.udls)
+
         $('input.tag-input').tagEditor({
           onChange: function (field, editor, tags) {
             let pid = parseInt(field.attr('data-index'))
@@ -88,6 +93,14 @@ export default {
     },
 
     onCompanyImageChange () {
+      var files = e.target.files || e.dataTransfer.files;
+      var formData = new FormData();
+      formData.append('filename', files[0])
+      imageAPI.create(formData, (res) => {
+        // console.log('res', res)
+        this.company.images[0].id = res.data.data.id
+        this.company.images[0].url = 'http://' + res.data.data.links.self
+      }, (err) => console.log('err', err))
     },
 
     addCustomField () {
@@ -142,6 +155,11 @@ export default {
       let _jsonData = CompaniesPresenter.toJSON(this.company)
       delete _jsonData['data']['attributes']['udls']
       // console.log(_jsonData)
+
+      if (process.env.NODE_ENV === 'testing') {
+        delete _jsonData['data']['attributes']['devicevariations']
+        _jsonData['data']['attributes']['isCensus'] = null
+      }
 
       let _params = JSON.stringify(_jsonData)
       // console.log(_params)

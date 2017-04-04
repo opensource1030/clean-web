@@ -43,7 +43,7 @@
               <td>{{ company.shortName }}</td>
               <td>
                 <span class="label remove" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></span>
-                <a :href = "'/company/' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
+                <a :href = "'/company/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
               </td>
             </tr>
           </tbody>
