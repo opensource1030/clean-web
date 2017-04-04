@@ -65,6 +65,7 @@
                     <ul class="treeview-menu">
                         <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
                         <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+                        <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
                     </ul>
                 </li>
             </template>

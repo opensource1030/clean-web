@@ -39,3 +39,7 @@ export const CARRIER_GET_ALL = 'GET_ALL'
 export const DEVICE_TYPE_GET_ALL = 'GET_ALL'
 
 export const COMPANY_GET_ALL = 'GET_ALL'
+export const COMPANY_UPDATE = 'UPDATE'
+export const COMPANY_SET_PAGINATION = 'SET_PAGINATION'
+export const COMPANY_PREV_PAGE = 'PREV_PAGE'
+export const COMPANY_NEXT_PAGE = 'NEXT_PAGE'
