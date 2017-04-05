@@ -18,6 +18,7 @@ module.exports = {
   'DevicesList': function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
+    .pause(10000)
     .assert.urlEquals(devServer + '/devices')
     .waitForElementVisible('#app #tables', 15000)
     .waitForElementVisible('table', 5000)
@@ -62,7 +63,7 @@ module.exports = {
         client.verify.ok(result.value, 'Checkbox selected')
       })
     })
-    .element('name', 'styles', function (response) {      
+    .element('name', 'styles', function (response) {
       client.assert.ok(response.value.ELEMENT, 'checkbox present')
       client.click('input[name="styles"]')
       client.elementIdSelected(response.value.ELEMENT, function (result) {

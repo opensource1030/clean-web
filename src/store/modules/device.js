@@ -88,6 +88,7 @@ const actions = {
             })
           }
         }
+
         // console.log('all devices', devices)
         commit(types.DEVICE_GET_ALL, {records: devices})
         // commit(types.DEVICE_SET_PAGINATION, { pagination: res.data.meta.pagination })
@@ -96,6 +97,7 @@ const actions = {
       }, err => {
         // console.log('devices err', err)
         reject(err)
+
       })
     })
   },

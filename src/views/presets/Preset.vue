@@ -1,7 +1,7 @@
 <template>
       <div id="preset">
-        <modal v-if="showModal" @close="showModal = false">
-          <h3 slot="body">{{error}}</h3>
+        <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
+          <h3 slot="body">{{  $store.getters['error/error'] }}</h3>
 </modal>
           <div class="small-12 columns titles">
 
@@ -39,7 +39,7 @@
 
 
                           <label   class="static"  >
-                            <input type="checkbox"   @click="changeStatusPreset('active',index)"  :checked="c.checks"  @input="$store.commit('preset/updateVariations',{e:$event,type:'variations',i:index})"   >
+                            <input type="checkbox"   @click="changeStatusPreset('active',index)"  :checked="c.checks"  @change="$store.commit('preset/updateVariations',{e:$event,type:'variations',i:index})"   >
 
                           </label>
 
