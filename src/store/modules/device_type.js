@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import devicetypeAPI from './../../api/device_type-api'
 import * as types from './../mutation-types'
+import FilterItem from './../../models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -10,10 +11,7 @@ const state = {
   records: [],
   // #TODO - we should change the filters from dictionary to array - filters: [{ property, operator, value }, { property, operator, value }, ...]
   filters: {
-    name: {
-      operator: '',
-      value: '',
-    },
+    name: new FilterItem(),
   },
 }
 
