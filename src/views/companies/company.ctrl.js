@@ -151,6 +151,12 @@ export default {
     },
 
     submit () {
+      // validation
+      if (!this.company.name) {
+        this.$store.dispatch('error/addNew', { message: 'Incorrect Company Name' })
+        return
+      }
+
       this.company.active = this.company.active ? 1 : 0
       let _jsonData = CompaniesPresenter.toJSON(this.company)
       delete _jsonData['data']['attributes']['udls']

@@ -1,56 +1,42 @@
-
 <template>
-  <div>
+<div>
   <div class="small-12 colums responsive">
     <table>
       <thead>
         <tr>
-          <th v-if="id==null"    width="10%">
+          <th width="100px">
           </th>
-          <th width="20%" >
+          <th>
             <multiselect
               :options="$store.state.device.types"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindTypes"
-              @input="$store.dispatch('device/addFilter',{type:'type',records:$event})"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              :options-limit="10"
               placeholder="Device Type">
             </multiselect>
           </th>
-          <th width="15%">
+          <th>
             <multiselect
-              :options="$store.state.device.manufactures"
-              :options-limit="10"
+              :options="$store.state.device.manufacturers"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindManu"
-              @input="$store.dispatch('device/addFilter',{type:'manufactured',records:$event})"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              placeholder="Manufacturer"
-              >
+              placeholder="Manufacturer">
             </multiselect>
           </th>
-          <th width="10%">
+          <th width="85px">
             <multiselect
-              :options="$store.state.device.prices"
-              :options-limit="10"
+              :options="[0,1,2]"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindPrices"
-              @input="$store.dispatch('device/addFilter',{type:'price',records:$event})"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
@@ -61,59 +47,51 @@
           </th>
           <th width="15%">
             <multiselect
-             :value = "$store.state.device.filter.carriers"
+              :value = "$store.state.device.filters.carriers"
               :options="carriers"
-              :options-limit="10"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindCarriers"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="$store.dispatch('device/addFilter',{type:'carrier',records:$event})"
+              @input="addCarrierFilter"
               placeholder="Carrier"
               label="presentation"
               track-by="presentation">
             </multiselect>
           </th>
-          <th width="10%">
+          <th width="105px">
             <multiselect
-              :value = "$store.state.device.filter.capacities"
+              :value = "$store.state.device.filters.capacities"
               :options="capacities"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindModifications"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="$store.dispatch('device/addFilter',{type:'capacity',records:$event})"
+              @input="addCapacityFilter"
               placeholder="Capacity"
               label="value"
               track-by="value">
             </multiselect>
           </th>
           <th width="10%">
-            <!-- v-model="$store.state.device.filter.styles" -->
+            <!-- v-model="$store.state.device.filters.styles" -->
             <multiselect
-              :value = "$store.state.device.filter.styles"
+              :value = "$store.state.device.filters.styles"
               :options="styles"
               :multiple="true"
-              :searchable="true"
-              :internal-search="false"
-              @search-change="asyncFindModifications"
-              :options-limit="10"
+              :searchable="false"
               :show-labels="false"
               :select-label="''"
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"
-              @input="$store.dispatch('device/addFilter',{type:'style',records:$event})"
+              @input="addStyleFilter"
               placeholder="Style"
               label="value"
               track-by="value">
@@ -135,9 +113,9 @@
       </tbody>
       -->
       <tbody>
-        <template v-for="(device, index) in search">
+        <template v-for="(device, index) in devices">
           <tr @click="setActive(device)" id="open" >
-            <td  v-if="id==null" ><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
+            <td><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
             <td style="font-weight: bold;">{{ device.name }}</td>
             <td>{{ device.make }}</td>
             <td>{{ device.defaultPrice }} {{ device.currency }}</td>
@@ -146,72 +124,7 @@
             <td><div v-for="style in filterByModificationsd(device.modifications, 'style')">{{ style.value }}</div></td>
           </tr>
           <tr>
-            <td v-if="id==0 || id>0"   v-show="activeDevice && (activeDevice.id == device.id)" transition="device"  class="detail" colspan="8" >
-           <div class="column row">
-       <div class="row">
-             <div class="large-6 small-6   columns ">
-               <div class="large-6 small-6    columns ">
-                 <div class="image">
-                   <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
-                 </div>
-
-               </div>
-               <div class="large-3 small-3    columns ">
-                 <div class="column row" v-for="carrier in device.priceName"  :key="carrier.carrier" >
-                   <div class="checkbox"   >
-                     <label>
-                       <input type="checkbox"   class="checkboxb"  @change="$store.dispatch('device/updateDeviceVariations',{e:$event,price:carrier,i:i})" :checked="carrier.check"  >
-                       <span class="custom-checkbox"><i class="icon-check"></i></span>
-                       {{carrier.carrier}}
-                     </label>
-                   </div>
-                     <div class="row">
-                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id"  >
-                 {{price.value}},
-               </div>
-                 <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id"   >
-                 {{price.value}}
-             </div>
-           </div>
-
-           </div>
-
-               </div>
-               <div class="large-3 small-3 columns ">
-               </div>
-                 </div>
-                   <div class="small-6 large-6   columns ">
-                     <div class="large-3 small-3    columns " >
-                     </div>
-                     <div class="large-3 small-3    columns " >
-                       <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
-                         <ul>
-                           <li >{{carrier.priceRetail}} {{device.currency}}</li>
-
-                         </ul>
-                       </div>
-                     </div>
-                     <div class="large-3  small-3   columns " >
-                     </div>
-                     <div class="large-3  small-3   columns " >
-                     </div>
-                   </div>
-
-         </div>
-         <div class="row">
-             <div class="small-6 large-6   columns ">
-               <div class="information">
-                   <span style="font-weight: bold;" >Technical Information</span><br>
-                     {{device.properties}}
-                       </div>
-
-         </div>
-             <div class="small-6 large-6   columns ">
-             </div>
-       </div>
-           </div>
-       </td>
-            <td v-else v-show="activeDevice && (activeDevice.id == device.id)" transition="device" @click="setActive(device)" class="detail" colspan="7">
+            <td v-show="activeDevice && (activeDevice.id == device.id)" transition="device" @click="setActive(device)" class="detail" colspan="7">
               <div class="column row">
                 <div class="row">
                   <div class="large-7 small-7 columns">
@@ -288,7 +201,7 @@
     :pagination="$store.state.device.pagination"
     :prev="prevPage"
     :next="nextPage"
-    v-show="$store.state.device.all.length > 0">
+    v-show="$store.state.device.records.length > 0">
   </paginate>
 </div>
 </template>

@@ -3,7 +3,7 @@ import {http} from 'vue'
 const API_BASE_URL = process.env.URL_API
 
 export default {
-  getAll(cb, errCb) {
+  getAll (cb, errCb) {
     http.get(process.env.URL_API + '/modifications', params).then((response) => {
       let i = response.data.meta.pagination.current_page;
       while (i <= response.data.meta.pagination.total_pages) {
@@ -22,14 +22,14 @@ export default {
 
         i++;
       }
-
     }, (response) => {});
+  },
 
+  search (params, cb, errCb) {
+    http.get(API_BASE_URL + '/modifications', params).then(res => cb(res), err => errCb(err))
   },
-  getOnePage(params,cb, errCb) {
-    http.get(API_BASE_URL + '/modifications',params).then(res => cb(res), err => errCb(err))
-  },
-  create(params, cb, errCb) {
+
+  create (params, cb, errCb) {
     http.post(process.env.URL_API + '/modifications', params).then(res => cb(res), err => errCb(err))
   }
 }

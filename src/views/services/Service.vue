@@ -221,11 +221,8 @@
 </div>
 </template>
 
-
 <script src="./service.crtl.js" lang="babel"></script>
 
-
-<style src="./../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style scoped>
 .multiselect {
   margin-top: 1.3rem;

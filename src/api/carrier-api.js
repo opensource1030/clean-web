@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.URL_API
 
 export default {
 
-  getOnePage(params, cb, errCb) {
+  search (params, cb, errCb) {
     http.get(API_BASE_URL + '/carriers', params).then(res => cb(res), err => errCb(err))
   }
 }

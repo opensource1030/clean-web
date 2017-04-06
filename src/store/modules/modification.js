@@ -7,113 +7,96 @@ const store = new Store()
 
 // initial state
 const state = {
-  all: [],
-  onePage:[]
+  records: [],
+  // #TODO - we should change the filters from dictionary to array - filters: [{ property, operator, value }, { property, operator, value }, ...]
+  filters: {
+    value: {
+      operator: '',
+      value: '',
+    },
+  },
 }
 
 // getters
 const getters = {
-  allModifications: (state) => {
-    return state.all
-  },
-  styleModifications: (state) => {
-    return _.chain(state.all).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()
-  },
-//
-  capacityModifications: (state) => {
-    return _.chain(state.all).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()
-  },
-  getOnePage: (state) => {
-    return state.onePage
-  },
-  onePagestyleModifications: (state) => {
-    return _.chain(state.onePage).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()
+  sorted: (state) => {
+    return _.sortBy(state.records, ['value'])
   },
 
-  onePagecapacityModifications: (state) => {
-    return _.chain(state.onePage).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()
+  filterByType: (state, getters) => (type) => {
+    return _.filter(getters.sorted, { 'modType': type })
+  },
+
+  styleModifications: (state, getters) => {
+    return getters.filterByType('style')
+  },
+
+  capacityModifications: (state, getters) => {
+    return getters.filterByType('capacity')
   },
 }
 
 // actions
 const actions = {
-  getAll ({ dispatch, commit, state }) {
-    return new Promise((resolve, reject) => {
-      modificationAPI.getAll(res => {
-        // _.each(res.data.data, (item) => { item.id = parseInt(item.id); })
-        // console.log('modification res', res)
-        const modifications = store.sync(res.data)
-        commit(types.MODIFICATION_GET_ALL, { records: modifications })
-        resolve(modifications)
-      }, err => {
-        // console.log('modification err', err)
-        reject(err)
-      })
-    })
-  },
-  getOnePage ({ dispatch, commit, state }) {
-    return new Promise((resolve, reject) => {
-      let params={
-        params:{}
-      }
-      modificationAPI.getOnePage(params,res => {
-        // console.log('modification res', res)
-        const modifications = store.sync(res.data)
-        commit(types.MODIFICATION_GET_ONE_PAGE, { records: modifications })
-        resolve(modifications)
-      }, err => {
-        // console.log('modification err', err)
-        reject(err)
-      })
-    })
-  },
-  searchModification ({ dispatch, commit, state },{query}) {
-    return new Promise((resolve, reject) => {
-      let params={
-        params:{
-        }
-      };
-         params.params['filter[value][like]'] = '%'+query+'%';
-      modificationAPI.getOnePage(params,res => {
-        //     console.log('modification res', res)
-        const modifications = store.sync(res.data)
-        commit(types.MODIFICATION_FILTER, { records: modifications })
-        resolve(modifications)
-      }, err => {
-        // console.log('modification err', err)
-        reject(err)
-      })
-    })
-  },
-
-
   create({ commit }, record) {
     return new Promise((resolve, reject) => {
       modificationAPI.create(record, (res) => {
         let record = store.sync(res.data)
         // console.log('create modification', record)
-        commit(types.MODIFICATION_CREATE, record)
+        commit(types.MODIFICATION_ADD, record)
         resolve(record)
       }, err => reject(err))
     })
-  }
+  },
+
+  search ({ dispatch, commit, state }) {
+    return new Promise((resolve, reject) => {
+      let key, value, _params = { params: {} };
+
+      if (state.filters.value.operator && state.filters.value.value) {
+        key = 'filter[value][' + state.filters.value.operator + ']'
+        switch (state.filters.value.operator) {
+          case 'like':
+            value = '%' + state.filters.value.value + '%'
+            break
+          default:
+            value = state.filters.value.value
+        }
+        console.log('modification query', key, value)
+        _params.params[key] = value
+      }
+
+      modificationAPI.search(_params, res => {
+        const modifications = store.sync(res.data)
+        // console.log('modification res', modifications)
+        commit(types.MODIFICATION_REFRESH, { records: modifications })
+        resolve(modifications)
+      }, err => {
+        // console.log('modification err', err)
+        reject(err)
+      })
+    })
+  },
+
+  searchByValue({ dispatch, commit, state }, { query }) {
+    commit(types.MODIFICATION_UPDATE_FILTERS, { value: { operator: 'like', value: query } })
+    return dispatch('search')
+  },
 }
 
 // mutations
 const mutations = {
-  [types.MODIFICATION_GET_ALL] (state, { records }) {
-    state.all = records
-  },
-  [types.MODIFICATION_GET_ONE_PAGE] (state, { records }) {
-    state.onePage = records
+  [types.MODIFICATION_REFRESH] (state, { records }) {
+    state.records = records
   },
 
-  [types.MODIFICATION_FILTER] (state, { records }) {
-    state.onePage = records
-  },
   [types.MODIFICATION_CREATE] (state, record) {
-    state.all.push(record)
-  }
+    state.records.push(record)
+  },
+
+  [types.MODIFICATION_UPDATE_FILTERS] (state, filters ) {
+    _.extend(state.filters, filters)
+  },
 }
 
 export default {

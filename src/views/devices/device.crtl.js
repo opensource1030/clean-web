@@ -10,7 +10,7 @@ import inputValidate from './../../components/inputValidate.vue'
 const { Store } = require('yayson')()
 const store = new Store()
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import {DevicesPresenter, ModificationsPresenter} from './../../presenters'
+import { DevicesPresenter, ModificationsPresenter } from './../../presenters'
 
 export default {
   name: 'Device',
@@ -64,7 +64,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      deviceTypes: 'device_type/getOnePage',
+      deviceTypes: 'device_type/sorted',
       // styles: 'modification/styleModifications',
       // capacities: 'modification/capacityModifications',
     }),
@@ -95,14 +95,13 @@ export default {
 
   created () {
     let device_id = this.$route.params.id || 0
-    this.$store.dispatch('device_type/getOnePage').then(
-      res => this.$store.dispatch('modification/getAll').then(
-        res => this.$store.dispatch('carrier/getOnePage').then(
-          res => this.$store.dispatch('company/getOnePage').then(
+    this.$store.dispatch('device_type/search').then(
+      res => this.$store.dispatch('modification/search').then(
+        res => this.$store.dispatch('carrier/search').then(
+          res => this.$store.dispatch('company/search').then(
             res => {
               if (device_id > 0) {
-                deviceAPI.getOne(this.device_id, {}, res => {
-                  // console.log('device res', res)
+                deviceAPI.getOne(device_id, {}, res => {
                   this.$set(this, 'device', store.sync(res.data))
                   // console.log('device', this.device)
 
@@ -166,7 +165,7 @@ export default {
       })
       selected_carriers = _.uniq(selected_carriers)
 
-      _.each(this.$store.getters['carrier/getOnePage'], (carrier) => {
+      _.each(this.$store.getters['carrier/sorted'], (carrier) => {
         let isChecked = _.find(selected_carriers, (c) => { return c.id == carrier.id }) ? true : false
         if (isChecked) {
           carrier['checked'] = true
@@ -184,7 +183,7 @@ export default {
       })
       selected_companies = _.uniq(selected_companies)
 
-      _.each(this.$store.getters['company/getOnePage'], (company) => {
+      _.each(this.$store.getters['company/allCompanies'], (company) => {
         let isChecked = _.find(selected_companies, company) ? true : false
         if (isChecked) {
           company['checked'] = true

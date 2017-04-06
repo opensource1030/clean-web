@@ -56,7 +56,7 @@
     :pagination="$store.state.company.pagination"
     :prev="prevPage"
     :next="nextPage"
-    v-show="$store.state.company.all.length > 0">
+    v-show="$store.state.company.records.length > 0">
   </paginate>
 </div>
 </template>

@@ -17,7 +17,7 @@
     <!-- {{ $store.state.device.filter }} -->
   </div>
 
-        <tables :id="null"  ></tables>
+  <tables :id="null"></tables>
 
   <!-- <div class="load"><i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i></div> -->
   <!-- <tables></tables> -->

@@ -7,79 +7,73 @@ const store = new Store()
 
 // initial state
 const state = {
-  all: [],
-  onePage:[]
+  records: [],
+  filters: {
+    presentation: {
+      operator: '',
+      value: '',
+    },
+  },
 }
 
 // getters
 const getters = {
-
-  getOnePage: (state) =>{
-    return _.chain(state.onePage).sortBy([ 'presentation' ]).value()
-  }
+  sorted: (state) => {
+    return _.chain(state.records).sortBy([ 'presentation' ]).value()
+  },
 }
 
 // actions
 const actions = {
-  getOnePage ({ dispatch, commit, state }) {
+  search ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
-      let params = {
-        params: {
-          'filter[active]': 1,
-          include: 'images',
+      let key, value, _params = { params: { 'filter[active]': 1, include: 'images' } };
+
+      if (state.filters.presentation.operator && state.filters.presentation.value) {
+        key = 'filter[presentation][' + state.filters.presentation.operator + ']'
+        switch (state.filters.presentation.operator) {
+          case 'like':
+            value = '%' + state.filters.presentation.value + '%'
+            break
+          default:
+            value = state.filters.presentation.value
         }
-      };
-      carrierAPI.getOnePage(params, res => {
-        // console.log('carrier res', res)
+        console.log('modification query', key, value)
+        _params.params[key] = value
+      }
+
+      carrierAPI.search(_params, res => {
         const carriers = store.sync(res.data)
-        // console.log('carrier', carriers)
-        commit(types.CARRIER_GET_ONE_PAGE, { records: carriers })
+        // console.log('carrier res', carriers)
+        commit(types.CARRIER_REFRESH, { records: carriers })
         resolve(carriers)
       }, err => {
-        console.log('carrier err', err)
-        reject(err)
-      })
-    })
-  },
-  searchCarriers({ dispatch, commit, state },{query}) {
-    return new Promise((resolve, reject) => {
-      let params = {
-        params: {
-          'filter[active]': 1,
-          include: 'images',
-
-        }
-      };
-        params.params['filter[presentation][like]']= '%'+query+'%';
-
-      carrierAPI.getOnePage(params, res => {
-
-        const carriers = store.sync(res.data)
-
-        commit(types.CARRIER_FILTER, { records: carriers })
-        resolve(carriers)
-      }, err => {
-        console.log('carrier err', err)
+        // console.log('carrier err', err)
         reject(err)
       })
     })
   },
 
+  searchByPresentation({ dispatch, commit, state }, { query }) {
+    commit(types.CARRIER_UPDATE_FILTERS, { presentation: { operator: 'like', value: query } })
+    return dispatch('search')
+  },
 }
 
 // mutations
 const mutations = {
-  [types.CARRIER_FILTER] (state, { records }) {
-    state.onePage = records
+  [types.CARRIER_REFRESH] (state, { records }) {
+    state.records = records
   },
-  [types.CARRIER_GET_ONE_PAGE](state,{records}){
-      state.onePage = records
-  }
+
+  [types.CARRIER_UPDATE_FILTERS] (state, filters ) {
+    _.extend(state.filters, filters)
+  },
 }
 
 export default {
   namespaced: true,
-    strict: process.env.NODE_ENV !== 'production',
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,

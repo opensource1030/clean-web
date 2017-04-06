@@ -22,7 +22,7 @@ export default {
   },
 
   beforeCreate () {
-    this.$store.dispatch('company/getAll')
+    this.$store.dispatch('company/search')
   },
 
   methods: {
@@ -36,7 +36,7 @@ export default {
 
     removeCompany (company_id) {
       companyAPI.remove(company_id, res => {
-        this.$store.dispatch('company/getAll')
+        this.$store.dispatch('company/search')
       }, err => console.log('company remove', err))
     },
 

@@ -7,25 +7,47 @@ const store = new Store()
 
 // initial state
 const state = {
-  onePage:[]
+  records: [],
+  // #TODO - we should change the filters from dictionary to array - filters: [{ property, operator, value }, { property, operator, value }, ...]
+  filters: {
+    name: {
+      operator: '',
+      value: '',
+    },
+  },
 }
 
 // getters
 const getters = {
-  getOnePage: (state) =>{
-    return _.chain(state.onePage).sortBy([ 'presentation' ]).value()
-  }
+  sorted: (state) =>{
+    return _.chain(state.records).sortBy([ 'presentation' ]).value()
+  },
 }
 
 // actions
 const actions = {
-  getOnePage ({ dispatch, commit, state }) {
-    return new Promise((resolve, reject) => {
 
-      devicetypeAPI.getOnePage(res => {
+  search({ dispatch, commit, state }) {
+    return new Promise((resolve, reject) => {
+      let key, value, _params = { params: {} };
+
+      if (state.filters.name.operator && state.filters.name.value) {
+        key = 'filter[name][' + state.filters.name.operator + ']'
+        switch (state.filters.name.operator) {
+          case 'like':
+            value = '%' + state.filters.name.value + '%'
+            break
+          default:
+            value = state.filters.name.value
+        }
+        console.log('device_type query', key, value)
+        _params.params[key] = value
+      }
+
+      devicetypeAPI.search(_params, res => {
         const device_types = store.sync(res.data)
         // console.log('device_type res', device_types)
-        commit(types.DEVICE_TYPE_GET_ONE_PAGE, { records: device_types })
+        commit(types.DEVICE_TYPE_REFRESH, { records: device_types })
         resolve(device_types)
       }, err => {
         // console.log('device_type err', err)
@@ -33,35 +55,21 @@ const actions = {
       })
     })
   },
-searchDeviceType({ dispatch, commit, state },{query}) {
-    return new Promise((resolve, reject) => {
-      let params={
-        params:{
-        }
-      };
-       params.params['filter[name][like]']= '%'+query+'%';
 
-
-      devicetypeAPI.getOnePage(params,res => {
-        const types = store.sync(res.data)
-        // console.log('device_type res', device_types)
-        commit(types.DEVICE_TYPE_FILTER, { records: types })
-        resolve(types)
-      }, err =>  {
-        // console.log('device_type err', err)
-        reject(err)
-      })
-    })
-  }
+  searchByName({ dispatch, commit, state }, { query }) {
+    commit(types.DEVICE_TYPE_UPDATE_FILTERS, { name: { operator: 'like', value: query } })
+    return dispatch('search')
+  },
 }
 
 // mutations
 const mutations = {
-  [types.DEVICE_TYPE_GET_ONE_PAGE] (state, { records }) {
-    state.onePage = records
+  [types.DEVICE_TYPE_REFRESH] (state, { records }) {
+    state.records = records
   },
-  [types.DEVICE_TYPE_FILTER] (state, {records}) {
-    state.onePage = records
+
+  [types.DEVICE_TYPE_UPDATE_FILTERS] (state, filters ) {
+    _.extend(state.filters, filters)
   },
 }
 

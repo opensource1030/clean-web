@@ -8,6 +8,9 @@
     <h4>Manage Device</h4>
   </div>
 
+  <div>
+  </div>
+
   <div class="small-12 columns">
     <label class="devicename">
       Device Name
