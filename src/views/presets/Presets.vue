@@ -34,7 +34,7 @@
                 </tbody>
                 <tbody  v-for="(preset, index) in presets"  >
                   <tr    @click="setActive(preset)" id="open" >
-                    <td> <a  v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
+                    <td> <a name="manage" v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{preset.name}} </td>
                     <td >{{preset.devices}}</td>
                     <td  >{{preset.total}}{{preset.devicevariations[0].devices[0].currency}}</td>

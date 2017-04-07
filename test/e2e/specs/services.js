@@ -15,7 +15,6 @@ module.exports = {
   'ServicesList': function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
-    .pause(10000)
     .assert.urlEquals(devServer+'/services')
     .waitForElementVisible('#app  #tables', 15000)
     .waitForElementVisible('table', 5000)

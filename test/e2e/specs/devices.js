@@ -18,7 +18,6 @@ module.exports = {
   'DevicesList': function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
-    .pause(10000)
     .assert.urlEquals(devServer + '/devices')
     .waitForElementVisible('#app #tables', 15000)
     .waitForElementVisible('table', 5000)

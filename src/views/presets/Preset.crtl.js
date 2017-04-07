@@ -17,21 +17,11 @@ export default {
   beforeCreate() {
 
     if (this.$route.params.id != null) {
-      this.$store.dispatch('preset/getOne', { id:this.$route.params.id  }).then(
-        res => {
-          this.initComponent()
-    })
+      this.$store.dispatch('preset/getOne', { id:this.$route.params.id  })
     }
 
     },
   methods : {
-    initComponent(){
-      let i=0;
-        for(let v of this.variations){
-           this.changeStatusPreset('active', i);
-          i++;
-        }
-    },
     onSelectColumn(){
           this.$store.dispatch('device/getAll', {search: this.search})
       },
@@ -54,13 +44,7 @@ export default {
 
 
     }
-    },
-    changeStatusPreset(className,index){
-      let el = document.getElementsByClassName('static')[index];
-      el.classList.toggle(className);
-    },
-
-
+    }
   },
   data() {
     return {
