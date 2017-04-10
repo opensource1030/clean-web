@@ -72,8 +72,11 @@ Vue.use(VueCharts);
 
 
 Vue.use(VueAnalytics, {gaId, router});
-
-
+//config
+Vue.config.productionTip = false
+if(process.env.NODE_ENV == 'production'){
+Vue.config.devtools = false;
+}
 // start up our app
 new Vue({
   router,

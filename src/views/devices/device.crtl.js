@@ -10,7 +10,7 @@ import inputValidate from './../../components/inputValidate.vue'
 const { Store } = require('yayson')()
 const store = new Store()
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import {DevicesPresenter, ModificationsPresenter} from './../../presenters'
+import { DevicesPresenter, ModificationsPresenter } from './../../presenters'
 
 export default {
   name: 'Device',
@@ -22,7 +22,9 @@ export default {
 
   data () {
     return {
+      device_id: null,
       device: {
+        id: 0,
         currency: 'USD',
         identification: 0,
         images: [
@@ -62,7 +64,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      deviceTypes: 'device_type/allDeviceTypes',
+      deviceTypes: 'device_type/sorted',
       // styles: 'modification/styleModifications',
       // capacities: 'modification/capacityModifications',
     }),
@@ -89,21 +91,25 @@ export default {
   },
 
   beforeCreate () {
-    let device_id = this.$route.params.id
-    this.$store.dispatch('device_type/getAll').then(
-      res => this.$store.dispatch('modification/getAll').then(
-        res => this.$store.dispatch('carrier/getAll').then(
-          res => this.$store.dispatch('company/getAll').then(
+  },
+
+  created () {
+    let device_id = this.$route.params.id || 0
+    this.$store.dispatch('device_type/search').then(
+      res => this.$store.dispatch('modification/search').then(
+        res => this.$store.dispatch('carrier/search').then(
+          res => this.$store.dispatch('company/search').then(
             res => {
-              if (device_id) {
+              if (device_id > 0) {
                 deviceAPI.getOne(device_id, {}, res => {
-                  // console.log('device res', res)
                   this.$set(this, 'device', store.sync(res.data))
                   // console.log('device', this.device)
 
+                  this.$set(this, 'device_id', device_id)
                   this.initComponent()
                 })
               } else {
+                this.$set(this, 'device_id', device_id)
                 this.initComponent()
               }
             }
@@ -111,9 +117,6 @@ export default {
         )
       )
     )
-  },
-
-  created () {
   },
 
   methods: {
@@ -162,7 +165,7 @@ export default {
       })
       selected_carriers = _.uniq(selected_carriers)
 
-      _.each(this.$store.getters['carrier/allCarriers'], (carrier) => {
+      _.each(this.$store.getters['carrier/sorted'], (carrier) => {
         let isChecked = _.find(selected_carriers, (c) => { return c.id == carrier.id }) ? true : false
         if (isChecked) {
           carrier['checked'] = true
@@ -276,9 +279,6 @@ export default {
           this.styles.push(res)
         }, err => console.log(err))
       }
-    },
-
-    findCompany () {
     },
 
     addDeviceVariation () {

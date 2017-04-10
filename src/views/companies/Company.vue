@@ -5,7 +5,7 @@
   </modal>
 
   <div class="columns small-12">
-    <div class="grid-box">
+    <div class="grid-box overview">
       <div class="box-heading">
         <h2>Company Information</h2>
       </div>
@@ -26,14 +26,14 @@
               <div class="columns medium-6">
                 <label>
                   <span>Company Name</span>
-                  <input type="text" placeholder="Analogic" v-model="company.name">
+                  <input type="text" name="company-name" placeholder="Analogic" v-model="company.name">
                 </label>
               </div>
 
               <div class="columns medium-6">
                 <label>
                   <span>Company Short Name</span>
-                  <input type="text" placeholder="Analogic" v-model="company.shortName">
+                  <input type="text" name="company-shortname" placeholder="Analogic" v-model="company.shortName">
                 </label>
               </div>              
             </div>
@@ -41,7 +41,7 @@
               <div class="columns medium-6">
                 <label>
                   <span>Company URL</span>
-                  <input type="text" placeholder="www.company.com">
+                  <input type="text" name="company-url" placeholder="www.company.com">
                 </label>
               </div>
 
@@ -63,7 +63,7 @@
   </div>
 
   <div class="columns small-12">
-    <div class="grid-box">
+    <div class="grid-box address">
       <div class="box-heading">
         <h2>Address</h2>
       </div>
@@ -114,7 +114,7 @@
   </div>
 
   <div class="columns small-12">
-    <div class="grid-box">
+    <div class="grid-box udl">
       <div class="box-heading">
         <h2>Custom Fields</h2>
         <div class="input-group-wrapper">
@@ -123,7 +123,7 @@
               <span><i class="fa fa-plus"></i></span>
             </div>
             <div class="input-group-button">
-              <input type="button" class="button" value="Add New Field" @click="addCustomField()">
+              <input type="button" class="button add-udl-button" value="Add New Field" @click="addCustomField()">
             </div>
           </div>
         </div>
@@ -134,14 +134,14 @@
           <div class="columns medium-4">
             <label>
               <span>Label</span>
-              <input type="text" placeholder="Department" v-model="udl.key">
+              <input type="text" name="udl-key" placeholder="Department" v-model="udl.key">
             </label>
           </div>
           <div class="columns medium-8">
             <div class="udl-value-wrapper" :data-index="udl.pid">
               <label>
                 <span>Value</span>
-                <input type="text" class="tag-input" :id="'udl-value-' + udl.pid" :value="udl.value" :data-index="udl.pid">
+                <input type="text" name="udl-value" class="tag-input" :id="'udl-value-' + udl.pid" :value="udl.value" :data-index="udl.pid">
               </label>
               <span class="label close" @click="removeCustomField($event)"><i class="fa fa-close"></i></span>
             </div>

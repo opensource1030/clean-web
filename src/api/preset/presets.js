@@ -1,4 +1,4 @@
-import Vue from 'vue';
+/*import Vue from 'vue';
 
 var {
   Store,
@@ -14,9 +14,9 @@ getPreset(context, pages) {
       params: {
         include: 'devicevariations,devicevariations.devices,devicevariations.modifications',
       page: pages, /*,filter[][like]:deviceType*/
-      },
+    /*  },*/
 
-    }).then((response) => {
+/*    }).then((response) => {
       context.loading=false;
       context.loadtable=true;
         context.pagination = response.data.meta.pagination;
@@ -24,9 +24,9 @@ getPreset(context, pages) {
        let presets = [];
        let total=0;
         for (let preset of event) {
-          if(preset.devicevariations.length==0 || preset.devicevariations==null){
+          if(  preset.devicevariations==null || preset.devicevariations.length==0){
 
-            
+
           }
 else{
             preset = Object.assign({}, preset, {
@@ -54,4 +54,4 @@ else{
 
       });
   }
-}
+}*/

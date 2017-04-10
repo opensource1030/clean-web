@@ -57,11 +57,3 @@ export default {
   }
 }
 </script>
-
-<style src="./modules/jquery.tag-editor/jquery.tag-editor.css"></style>
-<style src="./../node_modules/vue-multiselect/dist/vue-multiselect.min.css"></style>
-<style>
-  .multiselect__tag { display: none; }
-  .multiselect__option--selected { background-color: #ff690a; }
-  .multiselect__option--highlight { background-color: #ffffff; color: #35495E; }
-</style>
