@@ -1,5 +1,5 @@
 <template>
-<div id="device" v-if="!!device">
+<div id="device" v-if="device.id==device_id">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
@@ -8,7 +8,10 @@
     <h4>Manage Device</h4>
   </div>
 
-  <div class="medium-6 columns">
+  <div>
+  </div>
+
+  <div class="small-12 columns">
     <label class="devicename">
       Device Name
       <input type="text" placeholder="" v-model.trim="device.name">

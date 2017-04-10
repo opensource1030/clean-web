@@ -101,57 +101,6 @@ export default {
         costMax: 0,
         costMin: 0
       },
-      defaultServiceItems: [
-        {
-          category: "voice",
-          domain: "domestic",
-          type: "service_items",
-          unit: "minutes",
-          value: 0,
-          description: '',
-          cost: 0
-        }, {
-          category: "data",
-          domain: "domestic",
-          type: "service_items",
-          unit: "Gb",
-          value: 0,
-          description: '',
-          cost: 0
-        }, {
-          category: "messaging",
-          domain: "domestic",
-          type: "service_items",
-          unit: "messages",
-          value: 0,
-          description: '',
-          cost: 0
-        }, {
-          category: "voice",
-          domain: "international",
-          type: "service_items",
-          unit: "minutes",
-          value: 0,
-          description: '',
-          cost: 0
-        }, {
-          category: "data",
-          domain: "international",
-          type: "service_items",
-          unit: "Gb",
-          value: 0,
-          description: '',
-          cost: 0
-        }, {
-          category: "messaging",
-          domain: "international",
-          type: "service_items",
-          unit: "messages",
-          value: 0,
-          description: '',
-          cost: 0
-        }
-      ]
     }
   }
 }

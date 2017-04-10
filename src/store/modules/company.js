@@ -8,7 +8,7 @@ const store = new Store()
 
 // initial state
 const state = {
-  all: [],
+  records: [],
   pagination: {
     current_page: 1,
     total_pages: 0,
@@ -21,29 +21,28 @@ const state = {
 // getters
 const getters = {
   allCompanies: (state) => {
-    return state.all
-    // return _.chain(state.all).sortBy([ 'presentation' ]).value()
+    return state.records
   },
 }
 
 // actions
 const actions = {
-  getAll ({ dispatch, commit, state }) {
+  search ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
           page: state.pagination.current_page,
         }
       }
-      companyAPI.getAll(params, res => {
-        // console.log('company res', res)
+
+      companyAPI.search(params, res => {
         const companies = store.sync(res.data)
         // console.log('company res', companies)
-        commit(types.COMPANY_GET_ALL, companies)
+        commit(types.COMPANY_REFRESH, companies)
         dispatch('setPagination', res.data.meta.pagination)
         resolve(companies)
       }, err => {
-        console.log('company getAll err', err)
+        // console.log('company err', err)
         reject(err)
       })
     })
@@ -51,7 +50,7 @@ const actions = {
 
   update ({ dispatch, commit, state }, record) {
     return new Promise((resolve, reject) => {
-      let company = _.find(state.all, (item) => { return item.id == record.id })
+      let company = _.find(state.records, (item) => { return item.id == record.id })
       let tmp = _.extend({}, company, record)
       let _params = JSON.stringify(CompaniesPresenter.toJSON(tmp))
       // console.log(_params)
@@ -62,7 +61,7 @@ const actions = {
         commit(types.COMPANY_UPDATE, tmp)
         resolve(res)
       }, err => {
-        console.log('company update err', err)
+        // console.log('company update err', err)
         reject(err)
       })
     })
@@ -77,27 +76,27 @@ const actions = {
 
   prevPage ({ dispatch, commit, state }) {
     if (state.pagination.current_page > 1) {
-        commit(types.COMPANY_PREV_PAGE)
-        dispatch('getAll')
+      commit(types.COMPANY_PREV_PAGE)
+      dispatch('search')
     }
   },
 
   nextPage ({ dispatch, commit }) {
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.COMPANY_NEXT_PAGE)
-      dispatch('getAll')
+      dispatch('search')
     }
   },
 }
 
 // mutations
 const mutations = {
-  [types.COMPANY_GET_ALL] (state, records) {
-    state.all = records
+  [types.COMPANY_REFRESH] (state, records) {
+    state.records = records
   },
 
   [types.COMPANY_UPDATE] (state, record) {
-    let company = _.find(state.all, (item) => { return item.id == record.id })
+    let company = _.find(state.records, (item) => { return item.id == record.id })
     if (company) {
       _.extend(company, record)
     }
@@ -118,6 +117,7 @@ const mutations = {
 
 export default {
   namespaced: true,
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,
