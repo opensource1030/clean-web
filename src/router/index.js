@@ -113,6 +113,18 @@ Vue.http.interceptors.push((request, next) => {
     NProgress.done()
   })
 })
+Vue.http.interceptors.push((request, next) => {
+  next((response) => {
+
+      if(response.status==401){
+
+        store.dispatch('auth/logout')
+          router.push('login');
+
+      }
+
+  })
+})
 
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
