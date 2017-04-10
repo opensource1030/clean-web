@@ -1,5 +1,5 @@
 <template>
-<div class="page company-page company-edit-page">
+<div class="page company-page company-edit-page" v-if="company.id == company_id">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
@@ -13,7 +13,7 @@
         <div class="row">
           <div class="columns medium-4">
             <div class="company-image-wrapper">
-              <div class="company-image">
+              <div class="company-image" :style="'background-image: url(' + getCompanyImage() + ')'">
               </div>
             </div>
             <br>
@@ -131,10 +131,11 @@
 
       <div class="box-content">
         <div class="row udl-wrapper" v-for="udl in company.udls">
+          <input type="hidden" name="udl-id" :value="udl.id">
           <div class="columns medium-4">
             <label>
               <span>Label</span>
-              <input type="text" name="udl-key" placeholder="Department" v-model="udl.key">
+              <input type="text" name="udl-key" placeholder="Department" v-model="udl.name">
             </label>
           </div>
           <div class="columns medium-8">
