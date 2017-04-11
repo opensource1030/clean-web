@@ -1,6 +1,25 @@
 @import "../base/clean-variables";
+@import "../plugins/material-color";
 
-#tables {
+.page.service-page.service-index-page {
+  table {
+    td {
+      .switch {
+        margin-bottom: 0;
+      }
+
+      .label{
+        cursor: pointer;
+        &.edit {
+          background-color: material-color('orange', '600');
+        }
+      }
+    }
+  }
+}
+
+
+/*#tables {
     .load {
         text-align: center;
         height: 0rem;
@@ -31,7 +50,7 @@
         padding-left: 0.7rem
 
     }
-  
+
     .search-input {
         height: 65%;
     }
@@ -42,31 +61,6 @@
         color: red;
     }
     .detailsService {
-        display: -webkit-flex;
-        display: flex;
-        .childService {
-            text-align: left;
-            -webkit-flex-grow: 0;
-            -webkit-flex-shrink: 0;
-            -webkit-flex-basis: 13.2%;
-            flex-grow: 0;
-            flex-basis: 13.2%;
-        }
-        .childService:nth-of-type(1) {
-            -webkit-flex-basis: 7.9%;
-            flex-basis: 7.9%;
-        }
-        .childService:nth-of-type(2) {
-            -webkit-flex-basis: 38.14%;
-            flex-basis: 38.14%;
-            ul {
-                list-style-type: none;
-            }
-        }
-        .childService:nth-of-type(3) {
-            -webkit-flex-basis: 7%;
-            flex-basis: 7%;
-        }
         .plans {
             .serviceType{
             }
@@ -99,7 +93,7 @@
     .optioninblack {
         color: black;
     }
-}
+}*/
 
 #service {
     .accordion-content {

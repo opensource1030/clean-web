@@ -71,7 +71,7 @@ export default {
   methods : {
     findServiceItem,
     orderFilters,
-    ...mapActions(['carrier/getAll', 'service/getOne', 'service/update', 'service/add']),
+    ...mapActions(['carrier/search', 'service/getOne', 'service/update', 'service/add']),
     save() {
       if (this.serviceDetails.id > 0) {
         this.$store.dispatch('error/clearAll')

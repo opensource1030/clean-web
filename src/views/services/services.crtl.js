@@ -3,7 +3,7 @@ import paginate from './../../components/paginate';
 import {findServiceItem, orderFilters} from './../../components/filters.js';
 import services from './../../api/service/services';
 import modal from './../../components/modal.vue';
-import Multiselect from './../../components/Multiselect.vue';
+import multiselect from 'vue-multiselect';
 import searchCost from './../../components/searchCost.vue';
 import {mapGetters, mapActions} from 'vuex'
 
@@ -14,21 +14,21 @@ export default {
       costMin: this.search.costMin,
       values: this.values
     })
-    this.$store.dispatch('carrier/getAll')
+    this.$store.dispatch('carrier/search')
   },
   computed : {
-    ...mapGetters({Service: 'services/getService', select: 'services/getSelects', carriers: 'carrier/allCarriers', pagination: 'services/getPagination'})
+    ...mapGetters({Service: 'services/getService', select: 'services/getSelects', carriers: 'carrier/sorted', pagination: 'services/getPagination'})
   },
   components : {
     paginate,
     modal,
-    Multiselect: Multiselect,
+    multiselect,
     searchCost
   },
   methods : {
     findServiceItem,
     orderFilters,
-    ...mapActions(['carrier/getAll', 'services/getAll']),
+    ...mapActions(['carrier/search', 'services/getAll']),
     setActive(service) {
       if (this.activeService && this.activeService.id == service.id) {
         this.$set(this, 'activeService', null)
@@ -46,6 +46,7 @@ export default {
             this.Service.addonsShow = !this.Service.addonsShow;
         },*/
     onSelectColumn: function() {
+
       this.$store.dispatch('services/getAll', {
         costMax: this.search.costMax,
         costMin: this.search.costMin,
