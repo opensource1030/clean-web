@@ -8,7 +8,7 @@ const store = new Store()
 
 const API_BASE_URL = process.env.URL_API;
 
-
+Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 export default {
     login (params, cb, errCb) {
