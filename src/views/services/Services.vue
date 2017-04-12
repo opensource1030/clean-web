@@ -1,11 +1,11 @@
 <template>
 <div>
-  <div class="page.service-page.service-index-page" >
+  <div class="page service-page service-index-page" >
 
     <div class="small-12 columns">
       <a class="button large add-button" href="/service">{{names.addPlan}}</a>
     </div>
-  <searchCost :callback="onSelectColumn" :show="search.searchShow" v-model="search" :search="search"></searchCost>
+
       <div class="columns small-12">
         <div class="grid-box">
           <div class="box-heading">
@@ -16,79 +16,140 @@
           <thead>
             <tr>
               <th width="8%">
-                <select class="columnname" @change="onSelectColumn()" v-model="values.status">
+            <!--    <select class="columnname" @change="onSelectColumn()" v-model="values.status">
                     <option value="" values.status>{{names.status}}</option>
                     <option class="optioninblack" v-for="item in select.status" :value="item">{{item}}</option>
-                  </select>
+                  </select>-->
+                  <multiselect
+                      :value = "$store.state.services.filter.status"
+                    :options="select.status"
+                      :multiple="true"
+                        :searchable="true"
+                        :internal-search="false"
+                        @search-change="asyncFindStatus"
+                        @input="$store.dispatch('service/addFilter',{type:'status',records:$event})"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :options-limit="10"
+                        :placeholder="names.status">
+                      </multiselect>
               </th>
               <th width="22%">
-                <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
+            <!--    <select class="columnname" @change="onSelectColumn()" v-model="values.plans">
                     <option value="" values.plans>{{names.plans}}</option>
                     <option class="optioninblack" v-for="item in select.plans" :value="item">{{item}}</option>
-                  </select>
+                  </select>-->
+                  <multiselect
+                    :value = "$store.state.services.filter.plans"
+                      :options="select.plans"
+                        :multiple="true"
+                        :searchable="true"
+                        :internal-search="false"
+                        @search-change="asyncFindPlans"
+                        @input="$store.dispatch('service/addFilter',{type:'plans',records:$event})"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :options-limit="10"
+                        :placeholder="names.plans">
+                      </multiselect>
+
               </th>
-              <th width="35%">
-                <select class="columnname" @change="onSelectColumn()" v-model="values.details">
+              <th width="30%">
+            <!--    <select class="columnname" @change="onSelectColumn()" v-model="values.details">
                     <option value="" values.details>{{names.details}}</option>
                     <option class="optioninblack" v-for="item in select.details" :value="item">{{item}}</option>
-                  </select>
+                  </select>-->
+                  <multiselect
+                    :value = "$store.state.services.filter.details"
+                      :options="select.details"
+                        :multiple="true"
+                        :searchable="true"
+                        :internal-search="false"
+                        @search-change="asyncFindDetails"
+                        @input="$store.dispatch('service/addFilter',{type:'details',records:$event})"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :options-limit="10"
+                        :placeholder="names.details">
+                      </multiselect>
+
               </th>
               <th width="12%">
-                <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
+            <!--    <select class="columnname" @change="onSelectColumn()" v-model="values.codePlan">
                     <option value="" values.codePlan>{{names.planCode}}</option>
                     <option class="optioninblack" v-for="item in select.codePlan" :value="item">{{item}}</option>
-                  </select>
+                  </select>-->
+
+                  <multiselect
+              :value = "$store.state.services.filter.codePlan"
+               :options="select.codePlan"
+               :options-limit="10"
+               :multiple="true"
+               :searchable="true"
+               :internal-search="false"
+               @search-change="asyncFindCodePlan"
+               :show-labels="false"
+               :select-label="''"
+               :close-on-select="false"
+               :clear-on-select="false"
+               :hide-selected="false"
+               @input="$store.dispatch('service/addFilter',{type:'carriers',records:$event})"
+               :placeholder="names.planCode">
+              </multiselect>
+
+
               </th>
-              <th width="15%">
+              <th width="10%">
 
                 <multiselect
-                  :options="carriers"
-                  :multiple="true"
-                  :searchable="false"
-                  :show-labels="false"
-                  :select-label="''"
-                  @input="onSelectColumn"
-                  :value = "values.carrier"
-                  :close-on-select="false"
-                  :clear-on-select="false"
-                  :hide-selected="false"
-                  placeholder="Carriers"
-                  label="presentation"
-                  track-by="presentation">
-                </multiselect>
+            :value = "$store.state.services.filter.carriers"
+             :options="carriers"
+             :options-limit="10"
+             :multiple="true"
+             :searchable="true"
+             :internal-search="false"
+             @search-change="asyncFindCarriers"
+             :show-labels="false"
+             :select-label="''"
+             :close-on-select="false"
+             :clear-on-select="false"
+             :hide-selected="false"
+             @input="$store.dispatch('service/addFilter',{type:'carrier',records:$event})"
+             :placeholder="names.carrier"
+             label="presentation"
+             track-by="presentation">
+           </multiselect>
 
               </th>
               <th width="8%">
                 <div class="columnnamecost" name="names.cost" @click="setActiveCostOptions()">{{names.cost}}</div>
               </th>
+              <th width="5%">
+                {{names.actions}}
+              </th>
             </tr>
 
+
           </thead>
-          <tbody>
-            <tr class="filter">
-              <td>
-                <div>{{values.status}}</div>
+          <tbody v-for="(service, index) in Service.servicesList" >
+            <tr  @click="setActive(service)" id="open" >
+              <td valign="top">
+                <div class="switch tiny">
+                  <input class="switch-input" :id="'status-' + service.id" type="checkbox" :name="'status-' + service.id" :checked="service.status" @change="onServiceActiveChange($event, service.id)"  :value="service.status">
+                  <label class="switch-paddle" :for="'status-' + service.id">
+                    <span class="show-for-sr"></span>
+                  </label>
+                </div>
               </td>
-              <td>
-                <div>{{values.plans}}</div>
-              </td>
-              <td>
-                <div>{{values.details}}</div>
-              </td>
-              <td>
-                <div>{{values.codePlan}}</div>
-              </td>
-              <td>
-                <div v-for="c in values.carrier">{{c.presentation}}</div>
-              </td>
-              <td>
-                <div>{{search.costFilterMessage}}</div>
-              </td>
-            </tr>
-          </tbody>
-          <tbody >
-            <tr v-for="(service, index) in Service.servicesList" @click="setActive(service)" id="open" >
-              <td valign="top" :class="{'textbold': service.status == 'Enabled'}">{{service.status}}</td>
               <td valign="top">
                 <div class="textbold">{{service.title}}</div>
               </td>
@@ -98,9 +159,12 @@
               <td valign="top">{{service.planCode}}</td>
               <td valign="top">{{service.carriers[0].presentation}}</td>
               <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
+              <td valign="top">
+                  <span class="label remove" @click="removeService(service.id)"><i class="fa fa-trash"></i></span>
+                  <a :href = "'/service/' + service.id" :name="'edit-' + service.id"><span class="label edit"><i class="fa fa-edit"></i></span></a></td>
                 </tr>
 
-        <!--    <tr  v-show="activeService && (activeService.id == service.id)" @click="setActive(service)">
+     <tr  v-show="activeService && (activeService.id == service.id)" @click="setActive(service)">
               <td></td>
               <td colspan="2" valign="top">
                 <table class="inner-table">
@@ -156,7 +220,7 @@
                 <td colspan="3" valign="top">
 
                 </td>
-            </tr>-->
+            </tr>
 
 
                     </tbody>

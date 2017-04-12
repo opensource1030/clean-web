@@ -33,7 +33,16 @@ const state = {
     details: [],
     codePlan: [],
     cost: []
-  }
+  },
+  //FILTERS
+  filter: {
+      status: '',
+      plan:'',
+      details: '',
+      codePlan:'',
+      carriers:[],
+      cost:''
+  },
 }
 
 const getters = {
@@ -69,7 +78,7 @@ const actions = {
   getAll({
     dispatch,
     commit
-  }, {costMax, costMin, values}) {
+  }, {costMax, costMin}) {
     let params = {
       params: {
         include: 'serviceitems,carriers',
@@ -77,41 +86,41 @@ const actions = {
         //sort: 'title'
       }
     };
-    if (values.status != '') {
-      let aux = values.status;
-      if (values.status.length > 50) {
+  /*  if (state.filter.status != '') {
+      let aux = state.filter.status;
+      if (state.filter.status.length > 50) {
         aux = aux.substring(0, 50) + '%';
       }
       params.params['filter[status]'] = aux;
     }
 
-    if (values.plans != '') {
-      let aux = values.plans;
-      if (values.plans.length > 50) {
+    if (state.filter.plans != '') {
+      let aux = state.filter.plans;
+      if (state.plans.length > 50) {
         aux = aux.substring(0, 50) + '%';
       }
       params.params['filter[title][like]'] = aux;
     }
 
-    if (values.details != '') {
-      let aux = values.details;
-      if (values.details.length > 50) {
+    if (state.filter.details != '') {
+      let aux = state.filter.details;
+      if (state.details.length > 50) {
         aux = aux.substring(0, 50) + '%';
       }
       params.params['filter[description][like]'] = aux;
     }
 
-    if (values.codePlan != '') {
-      let aux = values.codePlan;
-      if (values.codePlan.length > 50) {
+    if (state.filter.codePlan != '') {
+      let aux = state.filter.codePlan;
+      if (state.codePlan.length > 50) {
         aux = aux.substring(0, 50) + '%';
       }
       params.params['filter[planCode][like]'] = aux;
     }
 
-    if (values.carrier.length > 0) {
+    if (state.filter.carriers.length > 0) {
       let aux = '';
-      for (let carr of values.carrier) {
+      for (let carr of state.filter.carriers) {
         aux = aux + carr.id + ',';
       }
       aux = aux.substring(0, aux.length - 1);
@@ -124,7 +133,7 @@ const actions = {
 
     if (costMin != 0) {
       params.params['filter[cost][ge]'] = costMin;
-    }
+    }*/
     //  commit(types.LOADING, 1)
     service.getAll(params, records => {
 
@@ -134,7 +143,12 @@ const actions = {
       console.log(err)
     })
 
-  }
+  },
+  addFilter ({dispatch,commit}, {type, records}) {
+     commit(types.SERVICE_ADD_FILTER, {type, records})
+       dispatch('getAll')
+
+ },
 }
 
 const mutations = {
@@ -143,6 +157,27 @@ const mutations = {
     // if (state.pagination.current_page > 1)
     state.pagination.current_page--
   },
+  [types.SERVICE_ADD_FILTER] (state, {type, records}) {
+     switch (type) {
+         case 'status':
+             state.filter.status = records
+             break
+         case 'plan':
+             state.filter.plan = records
+             break
+         case 'carriers':
+             state.filter.carriers = records
+         case 'details':
+             state.filter.details= records
+             break
+         case 'codePlan':
+             state.filter.codePlan= records
+             break
+         case 'cost':
+             state.filter.cost = records
+             break
+     }
+ },
 
   [types.SERVICE_NEXT_PAGE](state) {
     // if (state.pagination.current_page < state.pagination.total_pages)

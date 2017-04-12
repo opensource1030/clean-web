@@ -185,47 +185,44 @@
                       <span><i class="fa fa-plus"></i></span>
                     </div>
                     <div class="input-group-button">
-                      <input type="button" class="button add-udl-button" value="Add New Field" @click="addCustomField()">
+                      <input type="button" class="button add-udl-button" value="Add New Field" @click="$store.commit('service/hideAndPush',index)">
                     </div>
                   </div>
                 </div>
               </div>
-                <div class="row padding-bottop" v-for="(addon,index) in addons">
-                  <div class="large-5 small-12 columns">
-                    <div class="large-3 small-3 columns">
+              <div class="box-content">
+                <div class="row " v-for="(addon,index) in addons">
+                  <div class="medium-4 small-12 columns">
+                    <div class="medium-3 small-3 columns">
                       <h6 class="addon">{{names.name}}</h6>
                     </div>
-                    <div class="large-9 small-8 end columns">
+                    <div class="medium-9 small-8 end columns">
                       <label>{{names.description}}
                           <input :name="'addonDes'+index" :class="{ 'error-input': $store.getters['error/error']== 'addonNameError' }" :title="names.addonsNameMessage" type="text" placeholder="" :value="addon.description"  @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})">
                         </label>
                     </div>
                   </div>
-                  <div class="large-4 small-12 columns">
-                    <div class="large-3 small-3 columns">
+                  <div class="medium-4 columns small-6">
+                    <div class="medium-3 small-3 columns">
                       <h6 class="addon">{{names.cost}}</h6>
                     </div>
-                    <div class="large-6 small-6 columns">
+                    <div class="medium-6 small-6 columns">
                       <label>{{names.amount}}
                           <input :name="'addonCost'+index" :class="{ 'error-input': $store.getters['error/error']== 'addonPriceError' }" :title="names.addonsCostMessage" type="number" min="0" placeholder="" :value="addon.cost"  @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})">
                         </label>
                     </div>
-                    <div class="large-3 small-2 end columns padding-unit">
+                    <div class="medium-3 small-2 end columns padding-unit">
                       <h6>{{serviceDetails.currency}}</h6>
+
                     </div>
+
+
                   </div>
-                  <div class="large-3 small-12 columns">
-                    <div class="large-4 small-2 small-offset-2 columns">
-                      <a :title="names.deleteButton" class="button" @click="$store.commit('service/deleteAddOns',index)" id="button" :id="'delete'+index" v-show="addon.delete">
-                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                    <div class="large-4 end small-2 end columns">
-                      <a :title="names.addButton" class="button" @click="$store.commit('service/hideAndPush',index)" id="button" :id="'add'+index" v-show="addon.add">
-                        <i class="fa fa-plus fa-2x"></i>
-                      </a>
-                    </div>
-                  </div>
+                  <div class="medium-4 end small-6 end columns">
+                      <span class="label close" @click="$store.commit('service/deleteAddOns',index)" id="button" :id="'delete'+index"><i class="fa fa-close"></i></span>
+                 </div>
+
+                </div>
                 </div>
               </div>
             </div>
@@ -249,8 +246,7 @@
 
 <style scoped>
 .multiselect {
-
-  margin: 0 0 1.05263rem;
+  margin: 1.3rem 0 1.05263rem;
 }
 .multiselect__option span {
   margin-left: -1rem;

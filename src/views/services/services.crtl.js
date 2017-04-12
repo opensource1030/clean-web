@@ -6,15 +6,21 @@ import modal from './../../components/modal.vue';
 import multiselect from 'vue-multiselect';
 import searchCost from './../../components/searchCost.vue';
 import {mapGetters, mapActions} from 'vuex'
-
+import serviceAPI from './../../api/service-api';
 export default {
   created() {
     this.$store.dispatch('services/getAll', {
       costMax: this.search.costMax,
       costMin: this.search.costMin,
-      values: this.values
     })
     this.$store.dispatch('carrier/search')
+
+  },
+  mounted(){
+    var tableRows = document.getElementsByTagName('tbody');
+for (var i = 0; i < tableRows.length; i++) {
+  tableRows[i].style.backgroundColor = (i % 2)?"white":"#f2f2f2";
+}
   },
   computed : {
     ...mapGetters({Service: 'services/getService', select: 'services/getSelects', carriers: 'carrier/sorted', pagination: 'services/getPagination'})
@@ -45,32 +51,49 @@ export default {
     /*  showAddons: function() {
             this.Service.addonsShow = !this.Service.addonsShow;
         },*/
-    onSelectColumn: function() {
-
-      this.$store.dispatch('services/getAll', {
-        costMax: this.search.costMax,
-        costMin: this.search.costMin,
-        values: this.values
-      })
-    },
     setActiveCostOptions: function() {
       this.search.searchShow = !this.search.searchShow;
-    }
+    },
+    removeService (id) {
+      serviceAPI.remove(id, res => {
+        this.$store.dispatch('services/getAll')
+      }, err => console.log('company remove', err))
+    },
+
+    onServiceActiveChange (e, id) {
+      let isChecked = e.target.checked;
+      let params = {
+        id:id,
+        active: isChecked ? 1 : 0
+      }
+      serviceAPI.update(id, res => {
+        this.$store.dispatch('services/getAll')
+      }, err => console.log('service err', err))
+      //this.$store.dispatch('company/update', params)
+    },
+    asyncFindStatus(query){
+      // this.$store.dispatch('services/searchDeviceType',{query:query})
+   },
+   asyncFindDetails(query){
+     //this.$store.dispatch('services/searchManufactures',{query:query})
+   },
+   asyncFindCodePlan(query){
+      // this.$store.dispatch('services/searchPrice',{query:query})
+   },
+   asyncFindCarriers(query){
+       this.$store.dispatch('carrier/searchByPresentation',{query:query})
+   },
+   asyncFindPlans(query){
+    // this.$store.dispatch('services/searchModification',{query:query})
+   },
   },
   data() {
     return {
       activeService: null,
       // Selected Values
-      values: {
-        status: '',
-        plans: '', // service.title
-        details: '', // service.descriptions
-        codePlan: '', // service.codePlan
-        carrier: [], // carriers.presentation
-        cost: '', // service.cost
-      },
 
       names: {
+        actions:'Actions',
         servicePlans: 'Service Plans',
         addPlan: 'Add Plan',
         status: 'Status',
@@ -104,4 +127,5 @@ export default {
       },
     }
   }
+
 }
