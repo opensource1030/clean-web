@@ -16,8 +16,8 @@ export default {
   },
 
   update (id, params, cb, errCb) {
-    // http.patch(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
-    http.get(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
+    http.patch(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
+    // http.get(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
   remove (id, cb, errCb) {

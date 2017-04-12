@@ -36,9 +36,11 @@ export default {
     },
 
     removeCompany (company_id) {
-      companyAPI.remove(company_id, res => {
-        this.$store.dispatch('company/search')
-      }, err => console.log('company remove', err))
+      if (confirm("Are you sure you want to remove this company?") == true) {
+        companyAPI.remove(company_id, res => {
+          this.$store.dispatch('company/search')
+        }, err => console.log('company remove', err))
+      }
     },
 
     onCompanyActiveChange (e, company_id) {

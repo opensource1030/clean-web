@@ -9,9 +9,13 @@
   </div>
 
   <div class="columns small-12">
+    <div class="tag-header">
+      <div>Companies</div>
+    </div>
     <div class="grid-box">
       <div class="box-heading">
-        <h2>Companies</h2>
+        <input type="text" placeholder="Search with compnay name, shortname">
+        <i class="fa fa-search"></i>
       </div>
       <div class="box-content">
         <table class="unstriped">

@@ -3,6 +3,32 @@
 @import "../mixins/other-mixin";
 
 .page.company-page.company-index-page {
+
+  .button.add-button {
+    background-color: material-color('orange', '600');
+    font-weight: 400;
+  }
+
+  .grid-box {
+    .box-heading {
+      position: relative;
+      padding: 0;
+
+      input[type="text"] {
+        height: 40px;
+        margin: 0;
+        padding-left: 30px;
+      }
+
+      i {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        color: #666666;
+      }
+    }
+  }
+
   table.unstriped {
     tbody {
       td {
@@ -214,4 +240,19 @@
   // .button.save-button {
   //   margin-left: 10px;
   // }
+
+  .address-wrapper {
+    position: relative;
+    padding-right: 40px;
+
+    .label.close {
+      position: absolute;
+      top: 60px;
+      right: 0;
+    }
+  }
+
+  .address-wrapper + .address-wrapper {
+    border-top: 1px solid #CCCCCC;
+  }
 }

@@ -23,6 +23,15 @@ export class UdlsPresenter extends Presenter {
 }
 UdlsPresenter.prototype.type = 'udls'
 
+export class AddressesPresenter extends Presenter {
+  attributes (instance) {
+    const attrs = super.attributes(instance)
+    delete attrs['pid']
+    return attrs
+  }  
+}
+AddressesPresenter.prototype.type = 'address'
+
 export class ImagesPresenter extends Presenter {
 }
 ImagesPresenter.prototype.type = 'images'

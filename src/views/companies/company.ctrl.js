@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import companyAPI from './../../api/company-api.js'
-import { CompaniesPresenter, UdlsPresenter } from './../../presenters'
+import { CompaniesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -23,6 +23,7 @@ export default {
         udls: [
           // { pid: 1, id: 101, key: 'a', value: 'a1,a2' },
         ],
+        address: [],
       }
     }
   },
@@ -38,7 +39,7 @@ export default {
       companyAPI.get(company_id, { params: { include: 'udls' } }, res => {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
-        console.log('company', this.company)
+        // console.log('company', this.company)
         this.$set(this, 'company_id', company_id)
         this.initComponent()
       })
@@ -76,7 +77,7 @@ export default {
           vm.company.udls[i].value = this.getUDLValue(vm.company.udls[i])
           delete vm.company.udls[i].udlvalues
         }
-        console.log('udls', vm.company.udls)
+        // console.log('udls', vm.company.udls)
 
         this.$nextTick(() => {
           $('input.tag-input').tagEditor({
@@ -90,6 +91,18 @@ export default {
             },
           })
         })
+      }
+
+      if (!this.company.address) {
+        this.company.address = []
+      }
+
+      if (this.company.address.length == 0) {
+        this.addAddressField()
+      } else {
+        for (let i = 0; i < vm.company.address.length; i++) {
+          vm.company.address[i].pid = i + 1
+        }
       }
     },
 
@@ -167,9 +180,32 @@ export default {
 
       let pid = $(e.srcElement).closest('.udl-value-wrapper').attr('data-index')
       this.company.udls = _.reject(this.company.udls, (udl) => (udl.pid == pid))
+
       this.$forceUpdate()
       this.$nextTick(() => {
-        this.refreshTagEditors()
+        if (this.company.udls.length == 0) {
+          this.addCustomField()
+        } else {
+          this.refreshTagEditors()
+        }
+      })
+    },
+
+    addAddressField () {
+      let pid = this.company.address.length > 0 ? this.company.address[this.company.address.length - 1].pid + 1 : 1;
+      this.company.address.push({ pid: pid, id: 0, name: '', attn: '', phone: '', address: '', city: '', state: '', country: '', postalCode: '' })
+      this.$forceUpdate()
+    },
+
+    removeAddressField (e) {
+      let pid = $(e.srcElement).closest('.address-wrapper').attr('data-index')
+      this.company.address = _.reject(this.company.address, (address) => (address.pid == pid))
+
+      this.$forceUpdate()
+      this.$nextTick(() => {
+        if (this.company.address.length == 0) {
+          this.addAddressField()
+        }
       })
     },
 
@@ -184,7 +220,7 @@ export default {
       _.extend(_company, this.company)
       _company.active = _company.active ? 1 : 0
 
-      let values, _udls = [], _udl;
+      let values, _udls = [], _udl, _addresses = [];
       _.each(_company.udls, (udl) => {
         values = udl.value.split(spliter)
         // delete udl.pid
@@ -197,10 +233,16 @@ export default {
         _udls.push(_udl.data)
       })
 
+      _.each(_company.address, (address) => {
+        _addresses.push(AddressesPresenter.toJSON(address).data)
+      })
+
       let _jsonData = CompaniesPresenter.toJSON(this.company)
       delete _jsonData['data']['attributes']['udls']
-      _jsonData['data']['relationships'] = { udls: { data: _udls } }
-      // console.log(_jsonData)
+      delete _jsonData['data']['attributes']['address']
+
+      _jsonData['data']['relationships'] = { udls: { data: _udls } , address: { data: _addresses } }
+      console.log(_jsonData)
 
       if (process.env.NODE_ENV === 'testing') {
         delete _jsonData['data']['attributes']['devicevariations']
@@ -208,13 +250,13 @@ export default {
       }
 
       let _params = JSON.stringify(_jsonData)
-      // console.log(_params)
+      console.log(_params)
 
-      if (this.company.id > 0) {
-        companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))
-      } else {
-        companyAPI.create(_params, res => this.$router.push({ path: '/companies' }), err => console.log('create err', err))
-      }
+      // if (this.company.id > 0) {
+      //   companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))
+      // } else {
+      //   companyAPI.create(_params, res => this.$router.push({ path: '/companies' }), err => console.log('create err', err))
+      // }
     },
   },
 }
