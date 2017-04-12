@@ -69,7 +69,7 @@ const router = new VueRouter({
     // main
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
-      children : [
+      children: [
         { path: 'charge/:id', component: SpentInfo, name : 'Mobile Charges' },
         { path: 'procurement/', component: LegacyInfo, name : 'legacyInfo' }
       ]
@@ -84,6 +84,15 @@ const router = new VueRouter({
     { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
     { path: '/company/:id', component: Company, name: 'Update Company', meta: { requiresAuth: true } },
     { path: '/company', component: Company, name: 'Add Company', meta: { requiresAuth: true } },
+
+    // {
+    //   path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true, label: 'Companies' },
+    //   children: [
+    //     { path: ':id', component: Company, name: 'Update Company' },
+    //     { path: 'new', component: Company, name: 'Add Company' },
+    //   ]
+    // },
+
     // presets
     { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
     { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
@@ -111,6 +120,18 @@ Vue.http.interceptors.push((request, next) => {
   NProgress.inc(0.2)
   next((response) => {
     NProgress.done()
+  })
+})
+Vue.http.interceptors.push((request, next) => {
+  next((response) => {
+
+      if(response.status==401){
+
+        store.dispatch('auth/logout')
+          router.push('login');
+
+      }
+
   })
 })
 
