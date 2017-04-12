@@ -486,3 +486,10 @@
   font-size: $sizeValue + px; //fallback for old browsers
   font-size: (0.125 * $sizeValue) + rem;
 }
+
+// flex
+@mixin flex ($flex: 1) {
+  -webkit-flex: $flex;
+  -ms-flex: $flex;
+  flex: $flex;
+}

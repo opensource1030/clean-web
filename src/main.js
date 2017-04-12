@@ -2,8 +2,10 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import 'script!jquery'
 import 'script!select2'
-
 import 'script!jquery.cookie'
+
+import './modules/jquery.tag-editor/jquery.caret.min.js'
+import './modules/jquery.tag-editor/jquery.tag-editor.js'
 
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 
@@ -29,6 +31,8 @@ $(document).foundation();
 // filter
 var moment = require('moment');
 var numeral = require('numeral');
+
+
 
 Vue.filter('cleanDate', function (value) {
   var str = value + '';
@@ -70,8 +74,11 @@ Vue.use(VueCharts);
 
 
 Vue.use(VueAnalytics, {gaId, router});
-
-
+//config
+Vue.config.productionTip = false
+if(process.env.NODE_ENV == 'production'){
+Vue.config.devtools = false;
+}
 // start up our app
 new Vue({
   router,

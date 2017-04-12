@@ -12,6 +12,7 @@ module.exports = {
     .click('a[name="Inventory"]')
     .waitForElementVisible('a[name="Devices"]', 25000)
     .click('a[name="Devices"]')
+    .pause(5000)
   },
 
   'DevicesList': function (browser) {
@@ -26,7 +27,6 @@ module.exports = {
     .waitForElementVisible('.detail', 5000)
     .waitForElementVisible('.information span', 5000)
     .assert.containsText(".information span", "Technical Information")
-    .pause(1000)
   },
 
   'AddDevice': function (browser) {
@@ -37,8 +37,9 @@ module.exports = {
     console.log('image_path', imagePath)
     browser
     .click('.buttonTable')
+    .pause(5000)
     .assert.urlEquals(devServer + '/device')
-    .waitForElementVisible('.devicename input ', 5000)
+    .waitForElementVisible('.devicename input ', 15000)
     .setValue('.devicename input', 'moto g')
     .setValue('#testDefaultPrice', '123')
     .click("#testMoney option[value='USD']")
@@ -46,14 +47,14 @@ module.exports = {
     .setValue('#testManu', 'motorola')
     .setValue('#testModel', 'moto x')
     .setValue('#testInfo', 'mobile phone x')
-    .click('button')
-    .setValue('input#FileUpload', imagePath + '/wa-logo.png')
-    .click('button')
+    // .click('button')
+    // .setValue('input#FileUpload', imagePath + '/wa-logo.png')
+    // .click('button')
 
     .elements('link text', 'Attributes', function (result) {
       client.elementIdClick(result.value[0].ELEMENT)
     })
-    .waitForElementVisible('input[name="capacities"]', 15000)
+    .waitForElementVisible('input[name="capacities"]', 5000)
     .element('name', 'capacities', function (response) {
       client.assert.ok(response.value.ELEMENT, 'checkbox present')
       client.click('input[name="capacities"]')
@@ -61,7 +62,7 @@ module.exports = {
         client.verify.ok(result.value, 'Checkbox selected')
       })
     })
-    .element('name', 'styles', function (response) {      
+    .element('name', 'styles', function (response) {
       client.assert.ok(response.value.ELEMENT, 'checkbox present')
       client.click('input[name="styles"]')
       client.elementIdSelected(response.value.ELEMENT, function (result) {
@@ -138,10 +139,11 @@ module.exports = {
   'ManageDevice': function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
+    .waitForElementVisible('#app #tables', 15000)
     .click('#open > td > a')
     .pause(1000)
     .assert.urlContains(devServer + '/device/')
-    .waitForElementVisible('.devicename input ', 5000)
+    .waitForElementVisible('.devicename input ', 15000)
     .pause(5000)
     .click('#button')
     .pause(3000)

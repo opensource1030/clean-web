@@ -1,5 +1,4 @@
 import service from './../../../api/service-api'
-import filter from './../../../api/filtersApi'
 import * as types from './../../mutation-types'
 const {Store} = require('yayson')()
 const store = new Store()
@@ -218,7 +217,7 @@ const mutations = {
 
 export default {
   namespaced : true,
-  strict : false,
+    strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,

@@ -74,13 +74,12 @@ const state = {
   ],
   items: []
 
+
 }
 
 const getters = {
   getServiceDetails: (state) => {
-
     return state.serviceDetails
-
   },
   getDomesticPlan: (state) => {
     return state.domesticPlan
@@ -432,6 +431,7 @@ function reorderButtons(state) {
 
 export default {
   namespaced : true,
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,

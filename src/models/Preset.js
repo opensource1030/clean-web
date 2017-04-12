@@ -23,7 +23,9 @@ export default class Preset extends Device {
       self.json.attributes.priceOwn=p.priceOwn;
       self.json.attributes.carrierId=p.carrierId;
       self.json.attributes.companyId=p.companyId;
+      if(p.images!=null ){
       self.json.relationships.images.data[0].id=p.images[0].id;
+    }
       self.json.relationships.modifications.data[0].id=p.capacity;
       self.json.relationships.modifications.data[1].id=p.style;
 

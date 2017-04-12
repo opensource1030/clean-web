@@ -49,7 +49,7 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
+                        <li><a name="device" href="/presets"><i class="fa fa-circle-o"></i>Device</a></li>
                         <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
                         <li><a name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
                     </ul>
@@ -65,6 +65,7 @@
                     <ul class="treeview-menu">
                         <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
                         <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+                        <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
                     </ul>
                 </li>
             </template>

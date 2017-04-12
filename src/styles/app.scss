@@ -2,11 +2,13 @@
 @import "base/base";
 @import "mixins/other-mixin";
 
+@import "modules/all-modules";
 
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
 @import "plugins/flatpickr";
-@import "modules/all-modules";
+@import "./../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+@import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
 
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
@@ -19,7 +21,8 @@
 @import "partials/employees";
 @import "partials/nprogress";
 @import "partials/login";
-@import './../../node_modules/select2/dist/css/select2.min.css';
+@import "partials/companies";
+// @import './../../node_modules/select2/dist/css/select2.min.css';
 
 .w1{overflow: hidden;}
 
