@@ -29,13 +29,14 @@ const getters = {
 const actions = {
   search ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
-      let params = {
+      let _params = {
         params: {
           page: state.pagination.current_page,
+          include: 'udls',
         }
       }
 
-      companyAPI.search(params, res => {
+      companyAPI.search(_params, res => {
         const companies = store.sync(res.data)
         // console.log('company res', companies)
         commit(types.COMPANY_REFRESH, companies)

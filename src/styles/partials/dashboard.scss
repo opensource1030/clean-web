@@ -34,36 +34,15 @@
   margin-bottom:10px;
 
 }
+
 .grid-box{
-  p:empty {
-    display: none;
-  }
-  margin-bottom: rem-calc(15);
-    border:1px solid rgba(#979797,0.3);
-  background: #FDFDFF;
-  @include css3(border-radius,0);
-  .box-heading{
-    background: $box-heading-bg;
-    border-bottom:1px solid rgba(0, 0, 0, 0.06);
-    padding:0.5rem 0.6rem;
-    h2{
-      /*   color: rgba(57, 67, 76, 1);*/
-      color: $brand-orange;
-      font-size: 1.25rem;
-      font-weight: 500;
-      margin: 0;
-      text-transform: capitalize;
-
-    }
-    @include css3(border-radius,0);
-  }
   .box-content{
-
     .note{
       display: block;
       font-weight: 600;
       padding: 0.7rem 1rem 1rem;
     }
+
     canvas{
       max-width: 100%;
       height: 300px !important;
@@ -90,7 +69,11 @@
     }
   }
 
+  p:empty {
+    display: none;
+  }
 }
+
 .icon-list{
   @extend %listreset;
   li{

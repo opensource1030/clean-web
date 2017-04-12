@@ -1,0 +1,51 @@
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
+@import "../plugins/material-color";
+
+.grid-box {
+  margin-bottom: rem-calc(15);
+  border:1px solid rgba(#979797,0.3);
+  @include css3(border-radius,0);
+  background-color: #FDFDFF;
+
+  .box-heading {
+    padding:0.5rem 0.6rem;
+    border-bottom:1px solid rgba(0, 0, 0, 0.06);
+    @include css3(border-radius,0);
+    background-color: $box-heading-bg;
+
+    h2 {
+      margin: 0;
+      // color: rgba(57, 67, 76, 1);
+      color: $brand-orange;
+      font-size: 1.25rem;
+      font-weight: 500;
+      text-transform: capitalize;
+    }
+  }
+
+  .box-content {
+  }
+}
+
+.tag-header {
+  > div {
+    position: relative;
+    display: inline-block;
+    padding: 0px 100px 0px 20px;
+    background-color: material-color('orange', '600');
+    color: $white;
+    line-height: 40px;
+    font-weight: 400;
+
+    &:after {
+      position: absolute;
+      right: -40px;
+      top: 0;
+      content: ' ';
+      border-style: solid;
+      border-width: 40px 0 0 40px;
+      border-color: transparent transparent transparent material-color('orange', '600');
+    }
+  }
+}

@@ -1,10 +1,14 @@
-import {http} from 'vue'
+import Vue,{http} from 'vue'
+import VueResource from 'vue-resource';
 
+Vue.use(VueResource);
 
 const {Store} = require('yayson')()
 const store = new Store()
 
-const API_BASE_URL = process.env.URL_API
+const API_BASE_URL = process.env.URL_API;
+
+Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 export default {
     login (params, cb, errCb) {

@@ -18,8 +18,8 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     const client = browser
     browser
-    .assert.urlEquals(devServer + '/companies')
     .waitForElementVisible('table tbody', 25000)
+    .assert.urlEquals(devServer + '/companies')
     .click('label[for="status-1"]')
     .element('css selector', '#status-1', function (response) {
       client.assert.ok(response.value.ELEMENT, 'checkbox present')
@@ -42,8 +42,8 @@ module.exports = {
     browser
     .click('.add-button')
     .pause(1000)
+    .waitForElementVisible('.grid-box.overview input[name="company-name"]', 25000)
     .assert.urlEquals(devServer + '/company')
-    .waitForElementVisible('.grid-box.overview input[name="company-name"]', 5000)
     .setValue('.grid-box.overview input[name="company-name"]', 'ABC Co.Ltd')
     .setValue('.grid-box.overview input[name="company-shortname"]', 'ABC')
     // .click('label[for="FileUpload"]')
@@ -66,6 +66,7 @@ module.exports = {
     }, [])
     .click('.save-button')
     .pause(3000)
+    .waitForElementVisible('table tbody', 25000)
     .assert.urlEquals(devServer + '/companies')
   },
 
@@ -75,10 +76,11 @@ module.exports = {
     .waitForElementVisible('table tbody', 25000)
     .click('a[name="edit-1"]')
     .pause(5000)
+    .waitForElementVisible('.grid-box.overview input[name="company-name"]', 25000)
     .assert.urlContains(devServer + '/company/')
-    .waitForElementVisible('.grid-box.overview input[name="company-name"]', 5000)
     .click('.save-button')
     .pause(5000)
+    .waitForElementVisible('table tbody', 25000)
     .assert.urlEquals(devServer + '/companies')
     // .pause()
     .end()
