@@ -14,7 +14,7 @@ export default {
     multiselect
   },
   beforeCreate() {
-    this.$store.dispatch('carrier/getOnePage')
+    this.$store.dispatch('carrier/search')
     if (this.$route.params.id > 0) {
       //  service.getService(this, this.$route.params.id);
 
@@ -24,7 +24,7 @@ export default {
   },
   mounted() {},
   computed : {
-    ...mapGetters({serviceDetails: 'service/getServiceDetails', domesticPlan: 'service/getDomesticPlan', internationalPlan: 'service/getInternationalPlan', addons: 'service/getAddons', carriers: 'carrier/getOnePage'})
+    ...mapGetters({serviceDetails: 'service/getServiceDetails', domesticPlan: 'service/getDomesticPlan', internationalPlan: 'service/getInternationalPlan', addons: 'service/getAddons', carriers: 'carrier/sorted'})
   },
   data() {
     return {
@@ -71,7 +71,7 @@ export default {
   methods : {
     findServiceItem,
     orderFilters,
-    ...mapActions(['carrier/search', 'service/getOne', 'service/update', 'service/add']),
+    ...mapActions(['carrier/sorted', 'service/getOne', 'service/update', 'service/add']),
     save() {
       if (this.serviceDetails.id > 0) {
         this.$store.dispatch('error/clearAll')

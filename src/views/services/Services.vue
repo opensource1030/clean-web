@@ -98,8 +98,9 @@
               <td valign="top">{{service.planCode}}</td>
               <td valign="top">{{service.carriers[0].presentation}}</td>
               <td valign="top" class="textbold">{{service.cost}} {{service.currency}}</td>
-              <td  valign="bottom">
-            <div v-show="activeService && (activeService.id == service.id)" @click="setActive(service)">
+                </tr>
+
+        <!--    <tr  v-show="activeService && (activeService.id == service.id)" @click="setActive(service)">
               <td></td>
               <td colspan="2" valign="top">
                 <table class="inner-table">
@@ -151,12 +152,13 @@
                     <td></td>
                   </tr>
                 </table>
+              </td>
                 <td colspan="3" valign="top">
 
                 </td>
-            </div>
-          </td>
-              </tr>
+            </tr>-->
+
+
                     </tbody>
         </table>
       </div>
