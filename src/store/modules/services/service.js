@@ -74,13 +74,12 @@ const state = {
   ],
   items: []
 
+
 }
 
 const getters = {
   getServiceDetails: (state) => {
-
     return state.serviceDetails
-
   },
   getDomesticPlan: (state) => {
     return state.domesticPlan

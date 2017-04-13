@@ -105,9 +105,19 @@ else{
             hide: true,
             devices:preset.devicevariations.length
           });
-
+                let  modifications =[];
             for(let variation of preset.devicevariations){
               total+=variation.priceRetail
+
+              if(variation.modifications[0]==null){
+
+                variation.modifications[0]={value:"32gb"}
+
+              }
+              if(variation.modifications[1]==null){
+
+                variation.modifications[1]={value:"white"};
+              }
 
             }
               preset.total=total;
@@ -117,8 +127,6 @@ else{
       }
 
       state.presets = presets;
-
-
   }
 
 }

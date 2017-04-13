@@ -49,7 +49,7 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
+                        <li><a name="device" href="/presets"><i class="fa fa-circle-o"></i>Device</a></li>
                         <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
                         <li><a name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
                     </ul>

@@ -62,7 +62,7 @@ module.exports = {
         client.verify.ok(result.value, 'Checkbox selected')
       })
     })
-    .element('name', 'styles', function (response) {      
+    .element('name', 'styles', function (response) {
       client.assert.ok(response.value.ELEMENT, 'checkbox present')
       client.click('input[name="styles"]')
       client.elementIdSelected(response.value.ELEMENT, function (result) {

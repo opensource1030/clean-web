@@ -4,8 +4,8 @@
     <table>
       <thead>
         <tr>
-          <th width="100px">
-          </th>
+          <th v-if="id==null" width="100px">
+          </th  >
           <th>
             <multiselect
               :options="$store.state.device.types"
@@ -116,84 +116,149 @@
       <tbody>
         <template v-for="(device, index) in devices">
           <tr @click="setActive(device)" id="open" >
-            <td><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
-            <td style="font-weight: bold;">{{ device.name }}</td>
-            <td>{{ device.make }}</td>
-            <td>{{ device.defaultPrice }} {{ device.currency }}</td>
-            <td><div v-for="carrier in device.priceName">{{carrier.carrier}}</div></td>
-            <td><div v-for="capacity in filterByModificationsd(device.modifications, 'capacity')">{{ capacity.value }}</div></td>
-            <td><div v-for="style in filterByModificationsd(device.modifications, 'style')">{{ style.value }}</div></td>
-          </tr>
-          <tr>
-            <td v-show="activeDevice && (activeDevice.id == device.id)" transition="device" @click="setActive(device)" class="detail" colspan="7">
-              <div class="column row">
-                <div class="row">
-                  <div class="large-7 small-7 columns">
-                    <div class="large-3 large-offset-2 small-3 small-offset-2 columns">
-                      <div class="column row" v-for="carrier in device.priceName" :key="carrier.id">
-                        <div class="row">
-                          {{ carrier.carrier }}
-                        </div>
-                        <div class="row">
-                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications, 'style')" :key="carrier.id">
-                            {{ price.value }},
-                          </div>
-                          <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications, 'capacity')" :key="carrier.id" >
-                            {{ price.value }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="large-3 large-offset-3 small-3 small-offset-3 columns pri">
-                      <div class="listPrice" v-for="carrier in device.priceName" :key="carrier.id" >
-                        <ul>
-                          <li>{{ carrier.priceRetail }} {{ device.currency }}</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="small-5 large-5 columns">
-                    <div class="large-3 small-3 columns">
-                      <div class="image">
-                        <img :src="device.image" alt="Photo Iphone 6" width="100" height="100" />
-                      </div>
-                    </div>
-
-                    <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
-                      <span style="font-weight: bold;">Availability:</span><br>
-                      <span>Provider</span>
-                      <ul>
-                        <li v-for="carrier in device.priceName">{{ carrier.carrier }}</li>
-                      </ul>
-                    </div>
-                    <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
-                      <br>
-                      <span>Capacity</span>
-                      <ul>
-                        <li v-for="capacity in _.chain(device.modifications).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()">{{ capacity.value }}</li>
-                      </ul>
-                    </div>
-                    <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
-                      <br>
-                      <span>Style</span>
-                      <ul>
-                        <li v-for="style in _.chain(device.modifications).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()">{{ style.value }}</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="small-6 small-offset-7 large-6 large-offset-7 columns ">
-                    <div class="information">
-                      <span style="font-weight: bold;">Technical Information</span><br>{{ device.properties }}
-                    </div>
-                  </div>
-                </div>
+         <td  v-if="id==null" ><a v-bind="{ href: '/device/'+device.id}">manage</a></td>
+         <td style="font-weight: bold;">{{ device.name }}</td>
+         <td>{{ device.make }}</td>
+         <td>{{ device.defaultPrice }} {{ device.currency }}</td>
+         <td><div v-for="carrier in device.priceName">{{carrier.carrier}}</div></td>
+         <td><div v-for="capacity in filterByModificationsd(device.modifications, 'capacity')">{{ capacity.value }}</div></td>
+         <td><div v-for="style in filterByModificationsd(device.modifications, 'style')">{{ style.value }}</div></td>
+       </tr>
+       <tr>
+         <td v-if="id==0 || id>0"   v-show="activeDevice && (activeDevice.id == device.id)" transition="device"  class="detail" colspan="8" >
+        <div class="column row">
+    <div class="row">
+          <div class="large-6 small-6   columns ">
+            <div class="large-6 small-6    columns ">
+              <div class="image">
+                <img   :src="device.image" alt="Photo Iphone 6" width="100" height="00" />
               </div>
-            </td>
-          </tr>
+
+            </div>
+            <div class="large-3 small-3    columns ">
+              <div class="column row" v-for="carrier in device.priceName"  :key="carrier.carrier" >
+                <div class="checkbox"   >
+                  <label>
+                    <input type="checkbox" id="devicecheck"  class="checkboxb"  @change="$store.dispatch('device/updateDeviceVariations',{e:$event,price:carrier,i:i})" :checked="carrier.check"  >
+                    <span class="custom-checkbox"><i class="icon-check"></i></span>
+                    {{carrier.carrier}}
+                  </label>
+                </div>
+                  <div class="row">
+              <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'style' ) " :key="carrier.id"  >
+              {{price.value}},
+            </div>
+              <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications,'capacity' ) " :key="carrier.id"   >
+              {{price.value}}
+          </div>
+        </div>
+
+        </div>
+
+            </div>
+            <div class="large-3 small-3 columns ">
+            </div>
+              </div>
+                <div class="small-6 large-6   columns ">
+                  <div class="large-3 small-3    columns " >
+                  </div>
+                  <div class="large-3 small-3    columns " >
+                    <div class="listPrice" v-for="carrier in device.priceName"  :key="carrier.id" >
+                      <ul>
+                        <li >{{carrier.priceRetail}} {{device.currency}}</li>
+
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="large-3  small-3   columns " >
+                  </div>
+                  <div class="large-3  small-3   columns " >
+                  </div>
+                </div>
+
+      </div>
+      <div class="row">
+          <div class="small-6 large-6   columns ">
+            <div class="information">
+                <span style="font-weight: bold;" >Technical Information</span><br>
+                  {{device.properties}}
+                    </div>
+
+      </div>
+          <div class="small-6 large-6   columns ">
+          </div>
+    </div>
+        </div>
+    </td>
+         <td v-else v-show="activeDevice && (activeDevice.id == device.id)" transition="device" @click="setActive(device)" class="detail" colspan="7">
+           <div class="column row">
+             <div class="row">
+               <div class="large-7 small-7 columns">
+                 <div class="large-3 large-offset-2 small-3 small-offset-2 columns">
+                   <div class="column row" v-for="carrier in device.priceName" :key="carrier.id">
+                     <div class="row">
+                       {{ carrier.carrier }}
+                     </div>
+                     <div class="row">
+                       <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications, 'style')" :key="carrier.id">
+                         {{ price.value }},
+                       </div>
+                       <div class="modificationc" v-for="price in filterByModificationsd(carrier.modifications, 'capacity')" :key="carrier.id" >
+                         {{ price.value }}
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="large-3 large-offset-3 small-3 small-offset-3 columns pri">
+                   <div class="listPrice" v-for="carrier in device.priceName" :key="carrier.id" >
+                     <ul>
+                       <li>{{ carrier.priceRetail }} {{ device.currency }}</li>
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+               <div class="small-5 large-5 columns">
+                 <div class="large-3 small-3 columns">
+                   <div class="image">
+                     <img :src="device.image" alt="Photo Iphone 6" width="100" height="100" />
+                   </div>
+                 </div>
+
+                 <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
+                   <span style="font-weight: bold;">Availability:</span><br>
+                   <span>Provider</span>
+                   <ul>
+                     <li v-for="carrier in device.priceName">{{ carrier.carrier }}</li>
+                   </ul>
+                 </div>
+                 <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
+                   <br>
+                   <span>Capacity</span>
+                   <ul>
+                     <li v-for="capacity in _.chain(device.modifications).filter({ 'modType': 'capacity' }).sortBy([ 'value' ]).value()">{{ capacity.value }}</li>
+                   </ul>
+                 </div>
+                 <div class="large-3 small-3 columns" :class="{ 'up': device.show }">
+                   <br>
+                   <span>Style</span>
+                   <ul>
+                     <li v-for="style in _.chain(device.modifications).filter({ 'modType': 'style' }).sortBy([ 'value' ]).value()">{{ style.value }}</li>
+                   </ul>
+                 </div>
+               </div>
+             </div>
+
+             <div class="row">
+               <div class="small-6 small-offset-7 large-6 large-offset-7 columns ">
+                 <div class="information">
+                   <span style="font-weight: bold;">Technical Information</span><br>{{ device.properties }}
+                 </div>
+               </div>
+             </div>
+           </div>
+         </td>
+       </tr>
         </template>
       </tbody>
     </table>
