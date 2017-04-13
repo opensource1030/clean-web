@@ -68,5 +68,8 @@ export default {
     getUDLValue (udl) {
       return _.map(udl.sections, (section) => (section.name)).join(spliter)
     },
+
+    searchCompanies() {
+    }
   }
 }

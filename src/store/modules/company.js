@@ -2,6 +2,7 @@ import _ from 'lodash'
 import companyAPI from './../../api/company-api'
 import * as types from './../mutation-types'
 import { CompaniesPresenter } from './../../presenters'
+import FilterItem from './../../models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -15,6 +16,9 @@ const state = {
     count: 0,
     total: 0,
     per_page: 25
+  },
+  filters: {
+    presentation: new FilterItem(),
   },
 }
 
@@ -32,7 +36,7 @@ const actions = {
       let _params = {
         params: {
           page: state.pagination.current_page,
-          include: 'udls',
+          include: 'udls,address',
         }
       }
 
