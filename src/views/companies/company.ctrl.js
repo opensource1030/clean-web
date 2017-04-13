@@ -1,11 +1,13 @@
 import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import companyAPI from './../../api/company-api.js'
-import { CompaniesPresenter } from './../../presenters'
+import addressAPI from './../../api/address-api.js'
+import { CompaniesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
 
 const { Store } = require('yayson')()
 const store = new Store()
 
+const spliter = ';'
 export default {
   components: {
     modal,
@@ -13,14 +15,16 @@ export default {
 
   data () {
     return {
+      company_id: null,
       company: {
         id: 0,
         name: '',
         label: '',
         shortName: '',
         udls: [
-          // { pid: 1, key: 'a', value: 'a1,a2' },
+          // { pid: 1, id: 101, key: 'a', value: 'a1,a2' },
         ],
+        address: [],
       }
     }
   },
@@ -30,16 +34,18 @@ export default {
 
   created () {
     // console.log('company created')
-    let company_id = this.$route.params.id
+    let company_id = this.$route.params.id || 0
 
-    if (company_id) {
-      companyAPI.get(company_id, {}, res => {
+    if (company_id > 0) {
+      companyAPI.get(company_id, { params: { include: 'udls,address' } }, res => {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
         // console.log('company', this.company)
+        this.$set(this, 'company_id', company_id)
         this.initComponent()
       })
     } else {
+      this.$set(this, 'company_id', company_id)
       this.initComponent()
     }
   },
@@ -49,28 +55,55 @@ export default {
   },
 
   methods: {
+
+    getUDLValue (udl) {
+      return _.map(udl.sections, (section) => (section.name)).join(spliter)
+    },
+
+    getCompanyImage () {
+      return '/assets/clean-platform.png'
+    },
+
     initComponent () {
       if (!this.company.udls) {
         this.company.udls = []
       }
-      
+
       if (this.company.udls.length == 0) {
         this.addCustomField()
       } else {
         const vm = this
-        for (let i = 0; i < vm.company.udls; i++) {
+        for (let i = 0; i < vm.company.udls.length; i++) {
           vm.company.udls[i].pid = i + 1
+          vm.company.udls[i].value = this.getUDLValue(vm.company.udls[i])
+          delete vm.company.udls[i].udlvalues
         }
         // console.log('udls', vm.company.udls)
 
-        $('input.tag-input').tagEditor({
-          onChange: function (field, editor, tags) {
-            let pid = parseInt(field.attr('data-index'))
-            let udl = _.find(vm.company.udls, (udl) => (udl.pid == pid))
-            udl.value = field.val()
-            // console.log(pid, udl)
-          },
+        this.$nextTick(() => {
+          $('input.tag-input').tagEditor({
+            delimiter: spliter,
+            forceLowercase: false,
+            onChange: function (field, editor, tags) {
+              let pid = parseInt(field.attr('data-index'))
+              let udl = _.find(vm.company.udls, (udl) => (udl.pid == pid))
+              udl.value = field.val()
+              // console.log(pid, udl)
+            },
+          })
         })
+      }
+
+      if (!this.company.address) {
+        this.company.address = []
+      }
+
+      if (this.company.address.length == 0) {
+        this.addAddressField()
+      } else {
+        for (let i = 0; i < this.company.address.length; i++) {
+          this.company.address[i].pid = i + 1
+        }
       }
     },
 
@@ -82,6 +115,8 @@ export default {
       const vm = this
       setTimeout(() => {
         $('input.tag-input').tagEditor({
+          delimiter: spliter,
+          forceLowercase: false,
           onChange: function (field, editor, tags) {
             let pid = parseInt(field.attr('data-index'))
             let udl = _.find(vm.company.udls, (udl) => (udl.pid == pid))
@@ -106,13 +141,15 @@ export default {
     addCustomField () {
       // console.log('addCustomField')
       let pid = this.company.udls.length > 0 ? this.company.udls[this.company.udls.length - 1].pid + 1 : 1;
-      this.company.udls.push({ pid: pid, key: '', value: '' })
+      this.company.udls.push({ pid: pid, id: 0, name: '', value: '' })
       const vm = this
 
       this.$forceUpdate()
       this.$nextTick(() => {
         setTimeout(() => {
           $('#udl-value-' + pid).tagEditor({
+            delimiter: spliter,
+            forceLowercase: false,
             onChange: function (field, editor, tags) {
               let pid = parseInt(field.attr('data-index'))
               let udl = _.find(vm.company.udls, (udl) => (udl.pid == pid))
@@ -144,9 +181,32 @@ export default {
 
       let pid = $(e.srcElement).closest('.udl-value-wrapper').attr('data-index')
       this.company.udls = _.reject(this.company.udls, (udl) => (udl.pid == pid))
+
       this.$forceUpdate()
       this.$nextTick(() => {
-        this.refreshTagEditors()
+        if (this.company.udls.length == 0) {
+          this.addCustomField()
+        } else {
+          this.refreshTagEditors()
+        }
+      })
+    },
+
+    addAddressField () {
+      let pid = this.company.address.length > 0 ? this.company.address[this.company.address.length - 1].pid + 1 : 1;
+      this.company.address.push({ pid: pid, id: 0, name: '', attn: '', phone: '', address: '', city: '', state: '', country: '', postalCode: '' })
+      this.$forceUpdate()
+    },
+
+    removeAddressField (e) {
+      let pid = $(e.srcElement).closest('.address-wrapper').attr('data-index')
+      this.company.address = _.reject(this.company.address, (address) => (address.pid == pid))
+
+      this.$forceUpdate()
+      this.$nextTick(() => {
+        if (this.company.address.length == 0) {
+          this.addAddressField()
+        }
       })
     },
 
@@ -157,9 +217,36 @@ export default {
         return
       }
 
-      this.company.active = this.company.active ? 1 : 0
+      let _company = {}
+      _.extend(_company, this.company)
+      _company.active = _company.active ? 1 : 0
+
+      let values, _udls = [], _udl, _addresses = [], _address;
+      _.each(_company.udls, (udl) => {
+        values = udl.value.split(spliter)
+        // delete udl.pid
+        // delete udl.value
+        delete udl.udlvalues
+        delete udl.sections
+        _udl = UdlsPresenter.toJSON(udl)
+        _udl['data']['relationships'] = { udlvalues: { data: [] } }
+        _.each(values, (value) => { _udl['data']['relationships']['udlvalues']['data'].push({ id: 0, name: value, type: 'udlvalues', externalId: 0 })})
+        _udls.push(_udl.data)
+      })
+
+      _.each(_company.address, (address) => {
+        _address = AddressesPresenter.toJSON(address)
+        _addresses.push(_address.data)
+        if (parseInt(address.id) > 0) {
+          addressAPI.update(address.id, _address, () => {}, () => {})
+        }
+      })
+
       let _jsonData = CompaniesPresenter.toJSON(this.company)
       delete _jsonData['data']['attributes']['udls']
+      delete _jsonData['data']['attributes']['address']
+
+      _jsonData['data']['relationships'] = { udls: { data: _udls } , address: { data: _addresses } }
       // console.log(_jsonData)
 
       if (process.env.NODE_ENV === 'testing') {

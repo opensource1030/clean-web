@@ -1,7 +1,7 @@
 import Breadcrumb from 'vue-bulma-breadcrumb'
 import Vue from 'vue'
 module.exports = {
-  template: `  <nav class="level app-levelbar">
+  template: `<nav class="level app-levelbar">
       <div class="level-left">
         <div class="level-item">
           <h3 class="subtitle is-5">
@@ -18,11 +18,12 @@ module.exports = {
     Breadcrumb
   },
   computed: {
-        name() {
-            return this.$route.name
-        },
-        list() {
-            return this.$route.matched
-        },
-    }
+    name() {
+      return this.$route.name
+    },
+    list() {
+      // console.log('matched', this.$route.matched)
+      return this.$route.matched
+    },
+  }
 };
