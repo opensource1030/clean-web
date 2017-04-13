@@ -5,7 +5,7 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/company">Add Company</a>
+    <a class="button large add-button" href="/companies/new">Add Company</a>
   </div>
 
   <div class="columns small-12">
@@ -14,7 +14,7 @@
     </div>
     <div class="grid-box">
       <div class="box-heading">
-        <input type="text" placeholder="Search with compnay name, shortname">
+        <input type="text" placeholder="Search with company name, shortname" v-model="query" @keyup.enter="searchCompanies()">
         <i class="fa fa-search"></i>
       </div>
       <div class="box-content">
@@ -33,7 +33,7 @@
             <template v-for="company in companies">
               <tr class="overview-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
                 <td>
-                  <span class="badge" @click="setActive(company)"><i class="fa fa-plus"></i></span>
+                  <span class="badge" @click="setActive(company)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
                 </td>
                 <td>{{ company.id }}</td>
                 <td>
@@ -48,7 +48,7 @@
                 <td>{{ company.shortName }}</td>
                 <td>
                   <span class="label remove" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></span>
-                  <a :href = "'/company/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
+                  <a :href = "'/companies/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
                 </td>
               </tr>
               <tr class="detail-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
@@ -58,28 +58,30 @@
                       <img :src="getCompanyImage()">
                     </div>
                     <div class="content">
-                      <div class="address-wrapper">
-                        <div class="pair">
-                          <span class="key">Country: </span>
-                          <span class="value">Spain</span>
+                      <template v-for="address in company.address">
+                        <div class="address-wrapper">
+                          <div class="pair">
+                            <span class="key">Country: </span>
+                            <span class="value">{{ address.country }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">State: </span>
+                            <span class="value">{{ address.state }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">City: </span>
+                            <span class="value">{{ address.city }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Postal Code: </span>
+                            <span class="value">{{ address.postalCode }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Address: </span>
+                            <span class="value">{{ address.address }}</span>
+                          </div>
                         </div>
-                        <div class="pair">
-                          <span class="key">State: </span>
-                          <span class="value">Heusca</span>
-                        </div>
-                        <div class="pair">
-                          <span class="key">City: </span>
-                          <span class="value">El Grado</span>
-                        </div>
-                        <div class="pair">
-                          <span class="key">Postal Code: </span>
-                          <span class="value">El Grado</span>
-                        </div>
-                        <div class="pair">
-                          <span class="key">Address: </span>
-                          <span class="value">C/heusca 8</span>
-                        </div>
-                      </div>
+                      </template>
                       <div class="udl-wrapper">
                         <template v-for="udl in company.udls">
                           <div class="pair">

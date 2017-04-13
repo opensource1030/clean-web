@@ -2,6 +2,7 @@ import _ from 'lodash'
 import companyAPI from './../../api/company-api'
 import * as types from './../mutation-types'
 import { CompaniesPresenter } from './../../presenters'
+import FilterItem from './../../models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -15,6 +16,10 @@ const state = {
     count: 0,
     total: 0,
     per_page: 25
+  },
+  filters: {
+    name: new FilterItem(),
+    // shortName: new FilterItem(),
   },
 }
 
@@ -32,8 +37,23 @@ const actions = {
       let _params = {
         params: {
           page: state.pagination.current_page,
-          include: 'udls',
+          include: 'udls,address',
         }
+      }
+
+      let key, value;
+
+      if (state.filters.name.operator && state.filters.name.value) {
+        key = 'filter[name][' + state.filters.name.operator + ']'
+        switch (state.filters.name.operator) {
+          case 'like':
+            value = state.filters.name.value
+            break
+          default:
+            value = state.filters.name.value
+        }
+        // console.log('modification query', key, value)
+        _params.params[key] = value
       }
 
       companyAPI.search(_params, res => {
@@ -47,6 +67,11 @@ const actions = {
         reject(err)
       })
     })
+  },
+
+  searchByName({ dispatch, commit, state }, { query }) {
+    commit(types.COMPANY_UPDATE_FILTERS, { name: { operator: 'like', value: query } })
+    return dispatch('search')
   },
 
   update ({ dispatch, commit, state }, record) {
@@ -113,6 +138,10 @@ const mutations = {
 
   [types.COMPANY_NEXT_PAGE] (state) {
     state.pagination.current_page++
+  },
+
+  [types.COMPANY_UPDATE_FILTERS] (state, filters ) {
+    _.extend(state.filters, filters)
   },
 }
 

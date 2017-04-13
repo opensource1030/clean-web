@@ -22,7 +22,7 @@ module.exports = {
       return this.$route.name
     },
     list() {
-      console.log('matched', this.$route.matched)
+      // console.log('matched', this.$route.matched)
       return this.$route.matched
     },
   }
