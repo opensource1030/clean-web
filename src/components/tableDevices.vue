@@ -13,6 +13,7 @@
               :searchable="false"
               :show-labels="false"
               :select-label="''"
+
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="false"

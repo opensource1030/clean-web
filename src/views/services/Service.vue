@@ -1,80 +1,87 @@
 <template>
-<div>
-  <div class="full-height row">
-    <div id="service">
-      <div class="header"></div>
-      <div class="expanded row">
-        <div class="large-12 columns titles">
-          <h4>{{names.managePlan}}</h4>
-        </div>
-        <div class="large-12 columns padding-responsive">
-          <ul class="acordeon" data-accordion data-allow-all-closed="true" v-f-accordion>
-            <li class="acordeon-item is-active" data-accordion-item v-f-accordion>
-              <a href="#" class="accordion-title" @click="showFalse()">{{names.planDetails}}</a>
-              <div class="accordion-content overview padding-responsive" data-tab-content v-f-accordion>
-                <div class="row padding-bottop">
-                  <div class="large-12 small-12 columns">
-                    <div class="large-7 small-12 columns">
+<div class="page service-page service-edit-page">
+
+
+          <div class="columns small-12">
+            <div class="grid-box overview">
+              <div class="box-heading">
+            <h2>{{names.planDetails}}</h2>
+          </div>
+          <div class="box-content">
+            <div class="row">
+                    <div class="medium-6 columns">
                       <label>{{names.title}}
                         <input :title="names.titleMessage" name="tittle" :class="{ 'error-input': $store.getters['error/error']=='titleError' }" type="text" placeholder="" :value="serviceDetails.title" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'title'})">
                       </label>
                     </div>
-                    <div class="large-5 small-12 columns padding-responsive">
-                      <div class="large-5 small-5 columns">
+                    <div class="medium-6 columns padding-responsive">
+                      <div class="medium-5 columns">
                         <label>{{names.planCode}}
                           <input :title="names.planCodeMessage" name="planCode" :class="{ 'error-input': $store.getters['error/error']=='planCodeError' }" type="text" placeholder="" :value="serviceDetails.code" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})">
                         </label>
                       </div>
-                      <div class="large-3 small-3 columns">
+                      <div class="medium-4 columns">
                         <label>{{names.cost}}
                           <input :title="names.costMessage" type="number" name="cost" min="0"  :class="{ 'error-input': $store.getters['error/error']== 'costError' }" placeholder="" :value="serviceDetails.cost" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'cost'})">
                         </label>
                       </div>
-                      <div class="large-4 small-4 columns padding-unit" id="currency">
+                      <div class="medium-3 columns padding-unit" id="currency">
 
                         <multiselect   :value="serviceDetails.currency" :options="names.currency" :searchable="false" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})" :show-labels="false">
                         </multiselect>
                       </div>
                     </div>
-                  </div>
-                  <div class="large-12 small-12 columns padding-description">
+                </div>
+                <div class="row">
+                    <div class="columns medium-12">
                     <label>{{names.description}}
                       <textarea :title="names.descriptionMessage" name="description" rows="3" :class="{ 'error-input': $store.getters['error/error']== 'description' }" :value="serviceDetails.description" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'description'})"></textarea>
                     </label>
                   </div>
-                  <div class="large-12 small-12 columns">
-                    <div class="large-7 small-7 columns" id="carriers">
+                  </div>
+
+                  <div class="row">
+                    <div class="medium-6 columns" >
                       <label>{{names.carriers}}
                         <multiselect
-
                         :value="serviceDetails.carrierId"
                          :options="carriers"
                          :searchable="false"
                          @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})"
                           label="presentation"
-                          track-by="id"
                           :show-labels="false"
                           :option-width="100"
                         >
                         </multiselect>
-                          </label>
+                        </label>
 
                     </div>
-                    <div class="large-3 large-offset-2 small-5 columns">
-                      <label class="status">
-                        <input :title="names.statusMessage" id="status" class="checkboxbigger" type="checkbox" :checked="serviceDetails.status" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})"  :value="serviceDetails.status">
-                        <span class="custom-checkbox"><i class="icon-check"></i></span>{{names.status}}
+                    <div class="columns medium-6">
+                      <label>
+                        <span>Active</span>
+                        <div class="switch tiny">
+                          <input class="switch-input" :id="'status-' + serviceDetails.id" type="checkbox" :name="'status-' + serviceDetails.id" @input="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})">
+                          <label class="switch-paddle" :for="'status-' + serviceDetails.id">
+                          </label>
+                        </div>
                       </label>
                     </div>
                   </div>
+
+                </div>
                 </div>
               </div>
-            </li>
-            <li class="acordeon-item" data-accordion-item v-f-accordion>
-              <a href="#" class="accordion-title" @click="showFalse()">{{names.domesticServices}}</a>
-              <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
+
+
+
+              <div class="columns small-12">
+                <div class="grid-box overview">
+                  <div class="box-heading">
+                    <h2>{{names.domesticServices}}</h2>
+                  </div>
+                  <div class="box-content">
                 <div class="row padding-bottop">
-                  <div class="large-4 small-12 columns">
+                  <div class="medium-4 small-12 columns">
                     <div class="large-6 small-4 columns">
                       <h6><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>&emsp;{{names.minutes}}</h6>
                     </div>
@@ -115,10 +122,14 @@
                   </div>
                 </div>
               </div>
-            </li>
-            <li class="acordeon-item" data-accordion-item v-f-accordion>
-              <a href="#" class="accordion-title" @click="showFalse()">{{names.internationalServices}}</a>
-              <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
+            </div>
+          </div>
+          <div class="columns small-12">
+            <div class="grid-box overview">
+              <div class="box-heading">
+                <h2>{{names.internationalServices}}</h2>
+              </div>
+              <div class="box-content">
                 <div class="row padding-bottop">
                   <div class="large-4 small-12 columns">
                     <div class="large-6 small-4 columns">
@@ -162,52 +173,63 @@
                   </div>
                 </div>
               </div>
-            </li>
-            <li class="acordeon-item" data-accordion-item v-f-accordion>
-              <a href="#" class="accordion-title" @click="showFalse()">{{names.addons}}</a>
-              <div class="accordion-content padding-responsive" data-tab-content v-f-accordion>
-                <div class="row padding-bottop" v-for="(addon,index) in addons">
-                  <div class="large-5 small-12 columns">
-                    <div class="large-3 small-3 columns">
+            </div>
+          </div>
+          <div class="columns small-12">
+            <div class="grid-box udl">
+              <div class="box-heading">
+                <h2>{{names.addons}}</h2>
+                <div class="input-group-wrapper">
+                  <div class="input-group">
+                    <div class="input-group-label">
+                      <span><i class="fa fa-plus"></i></span>
+                    </div>
+                    <div class="input-group-button">
+                      <input type="button" class="button add-udl-button" value="Add New Field" @click="$store.commit('service/hideAndPush',index)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="box-content">
+                <div class="row " v-for="(addon,index) in addons">
+                  <div class="medium-4 small-12 columns">
+                    <div class="medium-3 small-3 columns">
                       <h6 class="addon">{{names.name}}</h6>
                     </div>
-                    <div class="large-9 small-8 end columns">
+                    <div class="medium-9 small-8 end columns">
                       <label>{{names.description}}
                           <input :name="'addonDes'+index" :class="{ 'error-input': $store.getters['error/error']== 'addonNameError' }" :title="names.addonsNameMessage" type="text" placeholder="" :value="addon.description"  @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})">
                         </label>
                     </div>
                   </div>
-                  <div class="large-4 small-12 columns">
-                    <div class="large-3 small-3 columns">
+                  <div class="medium-4 columns small-6">
+                    <div class="medium-3 small-3 columns">
                       <h6 class="addon">{{names.cost}}</h6>
                     </div>
-                    <div class="large-6 small-6 columns">
+                    <div class="medium-6 small-6 columns">
                       <label>{{names.amount}}
                           <input :name="'addonCost'+index" :class="{ 'error-input': $store.getters['error/error']== 'addonPriceError' }" :title="names.addonsCostMessage" type="number" min="0" placeholder="" :value="addon.cost"  @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})">
                         </label>
                     </div>
-                    <div class="large-3 small-2 end columns padding-unit">
+                    <div class="medium-3 small-2 end columns padding-unit">
                       <h6>{{serviceDetails.currency}}</h6>
+
                     </div>
+
+
                   </div>
-                  <div class="large-3 small-12 columns">
-                    <div class="large-4 small-2 small-offset-2 columns">
-                      <a :title="names.deleteButton" class="button" @click="$store.commit('service/deleteAddOns',index)" id="button" :id="'delete'+index" v-show="addon.delete">
-                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                    <div class="large-4 end small-2 end columns">
-                      <a :title="names.addButton" class="button" @click="$store.commit('service/hideAndPush',index)" id="button" :id="'add'+index" v-show="addon.add">
-                        <i class="fa fa-plus fa-2x"></i>
-                      </a>
-                    </div>
-                  </div>
+                  <div class="medium-4 end small-6 end columns">
+                      <span class="label close" @click="$store.commit('service/deleteAddOns',index)" id="button" :id="'delete'+index"><i class="fa fa-close"></i></span>
+                 </div>
+
+                </div>
                 </div>
               </div>
-            </li>
-          </ul>
-        </div>
-      </div>
+            </div>
+
+
+
+
       <div v-if="$store.getters['error/hasError']" v-show="$store.getters['error/hasError']">
         <div class="is-error callout" data-closable>
           <div class="container">
@@ -216,8 +238,7 @@
         </div>
       </div>
       <a class="button large save" @click="save()" id="button">{{names.saveChanges}}</a>
-    </div>  </div>
-</div>
+
 </div>
 </template>
 
@@ -225,7 +246,7 @@
 
 <style scoped>
 .multiselect {
-  margin-top: 1.3rem;
+  margin: 1.3rem 0 1.05263rem;
 }
 .multiselect__option span {
   margin-left: -1rem;

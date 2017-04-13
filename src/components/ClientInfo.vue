@@ -37,7 +37,8 @@
         <div class="box-content-holder">
           <div v-html="client.object.metafields[1].value"></div>
           <div class="action-button" id="action-buttons">
-            <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click to
+            <router-link v-show="noclient !== 12" class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click
+              to
               Get Started
             </router-link>
           </div>

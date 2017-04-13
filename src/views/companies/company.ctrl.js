@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import companyAPI from './../../api/company-api.js'
+import addressAPI from './../../api/address-api.js'
 import { CompaniesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
 
 const { Store } = require('yayson')()
@@ -36,7 +37,7 @@ export default {
     let company_id = this.$route.params.id || 0
 
     if (company_id > 0) {
-      companyAPI.get(company_id, { params: { include: 'udls' } }, res => {
+      companyAPI.get(company_id, { params: { include: 'udls,address' } }, res => {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
         // console.log('company', this.company)
@@ -100,8 +101,8 @@ export default {
       if (this.company.address.length == 0) {
         this.addAddressField()
       } else {
-        for (let i = 0; i < vm.company.address.length; i++) {
-          vm.company.address[i].pid = i + 1
+        for (let i = 0; i < this.company.address.length; i++) {
+          this.company.address[i].pid = i + 1
         }
       }
     },
@@ -220,7 +221,7 @@ export default {
       _.extend(_company, this.company)
       _company.active = _company.active ? 1 : 0
 
-      let values, _udls = [], _udl, _addresses = [];
+      let values, _udls = [], _udl, _addresses = [], _address;
       _.each(_company.udls, (udl) => {
         values = udl.value.split(spliter)
         // delete udl.pid
@@ -234,7 +235,11 @@ export default {
       })
 
       _.each(_company.address, (address) => {
-        _addresses.push(AddressesPresenter.toJSON(address).data)
+        _address = AddressesPresenter.toJSON(address)
+        _addresses.push(_address.data)
+        if (parseInt(address.id) > 0) {
+          addressAPI.update(address.id, _address, () => {}, () => {})
+        }
       })
 
       let _jsonData = CompaniesPresenter.toJSON(this.company)
@@ -242,7 +247,7 @@ export default {
       delete _jsonData['data']['attributes']['address']
 
       _jsonData['data']['relationships'] = { udls: { data: _udls } , address: { data: _addresses } }
-      console.log(_jsonData)
+      // console.log(_jsonData)
 
       if (process.env.NODE_ENV === 'testing') {
         delete _jsonData['data']['attributes']['devicevariations']
@@ -250,13 +255,13 @@ export default {
       }
 
       let _params = JSON.stringify(_jsonData)
-      console.log(_params)
+      // console.log(_params)
 
-      // if (this.company.id > 0) {
-      //   companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))
-      // } else {
-      //   companyAPI.create(_params, res => this.$router.push({ path: '/companies' }), err => console.log('create err', err))
-      // }
+      if (this.company.id > 0) {
+        companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))
+      } else {
+        companyAPI.create(_params, res => this.$router.push({ path: '/companies' }), err => console.log('create err', err))
+      }
     },
   },
 }

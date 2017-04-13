@@ -22,6 +22,8 @@ export default {
             }).then((response) => {
 
                 var event = store.sync(response.data);
+                this.noclient = event.companyId;
+
 
                 if(event.companies.length>0){
 
@@ -32,6 +34,7 @@ export default {
                     }).then((response) => {
 
                         this.client= response.data;
+                        console.log(this.client);
 
                         setTimeout(function(){
                             $(function() {
@@ -49,6 +52,7 @@ export default {
                 }
 
 
+
             });
         },
         openTicket () {
@@ -60,6 +64,7 @@ export default {
     data(){
         return {
             client: {},
+            noclient: 0,
 
         }
     }
