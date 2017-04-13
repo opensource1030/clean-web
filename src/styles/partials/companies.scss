@@ -57,8 +57,27 @@
         background-color: #f9f9f9;
       }
 
-      tr.overview-tr.active {
-        background-color: rgba(251, 243, 238, 1);
+      tr.overview-tr {
+
+        i.fa.fa-plus {
+          display: inline-block;
+        }
+
+        i.fa.fa-minus {
+          display: none;
+        }
+
+        &.active {
+          background-color: rgba(251, 243, 238, 1);
+
+          i.fa.fa-plus {
+            display: none;
+          }
+
+          i.fa.fa-minus {
+            display: inline-block;
+          }
+        }
       }
 
       tr.detail-tr {

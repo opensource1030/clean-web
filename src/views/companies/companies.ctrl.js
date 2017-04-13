@@ -13,6 +13,7 @@ export default {
   data () {
     return {
       activeCompany: null,
+      query: '',
     }
   },
 
@@ -58,7 +59,7 @@ export default {
       } else {
         this.$set(this, 'activeCompany', company)
       }
-      console.log('setActive', this.activeCompany)
+      // console.log('setActive', this.activeCompany)
     },
 
     getCompanyImage (company) {
@@ -70,6 +71,9 @@ export default {
     },
 
     searchCompanies() {
+      // console.log(this.query, this.query.length)
+      // if (this.query.length > 1)
+      this.$store.dispatch('company/searchByName', {query: this.query})
     }
   }
 }
