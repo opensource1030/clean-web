@@ -1,10 +1,10 @@
 import auth from './../../api/auth-api'
 import * as types from './../mutation-types'
 import user from './../../models/User'
-import Vue from 'vue'
-import VueResource from 'vue-resource';
+// import Vue from 'vue'
+// import VueResource from 'vue-resource';
 
-Vue.use(VueResource);
+// Vue.use(VueResource);
 // initial state
 const state = {
     // email: localStorage.getItem('email') || '',
@@ -60,7 +60,7 @@ const actions = {
                 }
 
                 commit('LOGIN_SUCCESS', result)
-                Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+                // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
                 router.push({name: 'dashboard'});
                 resolve(result)
             }, (error) => {
