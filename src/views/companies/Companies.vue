@@ -1,20 +1,24 @@
 <template>
-<div class="page company-page company-index-page">
+<div class="page company-page company-index-page" v-if="companies.length > 0">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/company">Add Company</a>
+    <a class="button large add-button" href="/companies/new">Add Company</a>
   </div>
 
   <div class="columns small-12">
+    <div class="tag-header">
+      <div>Companies</div>
+    </div>
     <div class="grid-box">
       <div class="box-heading">
-        <h2>Companies</h2>
+        <input type="text" placeholder="Search with company name, shortname" v-model="query" @keyup.enter="searchCompanies()">
+        <i class="fa fa-search"></i>
       </div>
       <div class="box-content">
-        <table>
+        <table class="unstriped">
           <thead>
             <tr>
               <th width="50">&nbsp;</th>
@@ -26,26 +30,72 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="company in companies">
-              <td>
-                <span class="badge"><i class="fa fa-plus"></i></span>
-              </td>
-              <td>{{ company.id }}</td>
-              <td>
-                <div class="switch tiny">
-                  <input class="switch-input" :id="'status-' + company.id" type="checkbox" :name="'status-' + company.id" v-bind:checked="company.active" @change="onCompanyActiveChange($event, company.id)">
-                  <label class="switch-paddle" :for="'status-' + company.id">
-                    <span class="show-for-sr">Tiny Sandwiches Enabled</span>
-                  </label>
-                </div>
-              </td>
-              <td>{{ company.name }}</td>
-              <td>{{ company.shortName }}</td>
-              <td>
-                <span class="label remove" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></span>
-                <a :href = "'/company/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
-              </td>
-            </tr>
+            <template v-for="company in companies">
+              <tr class="overview-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
+                <td>
+                  <span class="badge" @click="setActive(company)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+                </td>
+                <td>{{ company.id }}</td>
+                <td>
+                  <div class="switch tiny">
+                    <input class="switch-input" :id="'status-' + company.id" type="checkbox" :name="'status-' + company.id" v-bind:checked="company.active" @change="onCompanyActiveChange($event, company.id)">
+                    <label class="switch-paddle" :for="'status-' + company.id">
+                      <span class="show-for-sr">Tiny Sandwiches Enabled</span>
+                    </label>
+                  </div>
+                </td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.shortName }}</td>
+                <td>
+                  <span class="label remove" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></span>
+                  <a :href = "'/companies/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
+                </td>
+              </tr>
+              <tr class="detail-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
+                <td colspan="7">
+                  <div class="detail-box">
+                    <div class="image">
+                      <img :src="getCompanyImage()">
+                    </div>
+                    <div class="content">
+                      <template v-for="address in company.address">
+                        <div class="address-wrapper">
+                          <div class="pair">
+                            <span class="key">Country: </span>
+                            <span class="value">{{ address.country }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">State: </span>
+                            <span class="value">{{ address.state }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">City: </span>
+                            <span class="value">{{ address.city }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Postal Code: </span>
+                            <span class="value">{{ address.postalCode }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Address: </span>
+                            <span class="value">{{ address.address }}</span>
+                          </div>
+                        </div>
+                      </template>
+                      <div class="udl-wrapper">
+                        <template v-for="udl in company.udls">
+                          <div class="pair">
+                            <span class="key">{{ udl.name }}:&nbsp;</span>
+                            <span class="value">{{ getUDLValue(udl) }}</span>
+                          </div>
+                        </template>
+                      </div>
+                      <a href="#" class="button view-button">View User</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </div>

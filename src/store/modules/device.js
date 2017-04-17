@@ -87,7 +87,20 @@ const actions = {
               image: '/assets/img/logo.a521535.png'
             })
           }
+          for (let price of device.devicevariations) {
+            let max = Math.max(price.priceRetail,price.price1,price.price2,price.priceOwn);
+                   _.extend(device, {
+                       pricemax:max
+                   })
+                  dispatch('preset/checkDeviceVariations', {
+                    price: price
+                  }, {root: true})
+
+                     device.priceName.push(price);
+                 }
+
         }
+
         // console.log('all devices', devices)
         commit(types.DEVICE_GET_ALL, {records: devices})
         // commit(types.DEVICE_SET_PAGINATION, { pagination: res.data.meta.pagination })
@@ -96,6 +109,7 @@ const actions = {
       }, err => {
         // console.log('devices err', err)
         reject(err)
+
       })
     })
   },
@@ -105,7 +119,11 @@ const actions = {
       commit(types.DEVICE_ADD_NEW, {record})
     })
   },
-
+  updateDeviceVariations({dispatch,commit,state},{e,price,i}){
+       let checked=e.target.checked;
+         commit('checkPrice',{price:price,value:checked})
+       commit('preset/updateDeviceVariations',{e:e,price:price},{root:true})
+   },
   setPagination ({commit}, {pagination}) {
     commit(types.DEVICE_SET_PAGINATION, {pagination})
   },
@@ -186,6 +204,9 @@ const mutations = {
         break
     }
   },
+  checkPrice(state,{price,value}){
+  price.check=value;
+}
 }
 
 export default {

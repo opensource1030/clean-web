@@ -32,6 +32,8 @@ $(document).foundation();
 var moment = require('moment');
 var numeral = require('numeral');
 
+
+
 Vue.filter('cleanDate', function (value) {
   var str = value + '';
   return value = moment(str, 'YYYY-MM-DD').format('MMM Y');

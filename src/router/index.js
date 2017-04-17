@@ -66,24 +66,36 @@ const router = new VueRouter({
     { path: '/resetPassword', component: ResetPassword, name: 'Reset Password' },
     { path: '/resetPassword/:identification/:code', component: ResetPasswordCode, name: 'Reset Password Code' },
     { path: '/acceptUser/:identification/:code', component: AcceptUser, name: 'Accept User' },
+
     // main
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
-      children : [
+      children: [
         { path: 'charge/:id', component: SpentInfo, name : 'Mobile Charges' },
         { path: 'procurement/', component: LegacyInfo, name : 'legacyInfo' }
       ]
     },
     { path: '/sso/:id', component: Sso, name: 'sso' },
     { path: '/sidemenu', component: Sidemenu },
+
     // devices
     { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-    { path: '/device', component: Device, name: 'Add Device', meta: { requiresAuth: true } },
+    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
+
     // companies
-    { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
-    { path: '/company/:id', component: Company, name: 'Update Company', meta: { requiresAuth: true } },
-    { path: '/company', component: Company, name: 'Add Company', meta: { requiresAuth: true } },
+    // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
+    // { path: '/company/:id', component: Company, name: 'Update Company', meta: { requiresAuth: true } },
+    // { path: '/company', component: Company, name: 'Add Company', meta: { requiresAuth: true } },
+    {
+      path: '/companies', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Companies' },
+      children: [
+        { path: '', component: Companies, name: 'List Companies', meta: { label: 'All' } },
+        { path: 'new', component: Company, name: 'Add Company', meta: { label: 'Create'} },
+        { path: ':id', component: Company, name: 'Update Company', meta: { label: 'Edit'} },
+      ]
+    },
+
     // presets
     { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
     { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
@@ -113,6 +125,19 @@ Vue.http.interceptors.push((request, next) => {
     NProgress.done()
   })
 })
+
+// Vue.http.interceptors.push((request, next) => {
+//   next((response) => {
+
+//       if(response.status==401){
+
+//         store.dispatch('auth/logout')
+//           router.push('login');
+
+//       }
+
+//   })
+// })
 
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)

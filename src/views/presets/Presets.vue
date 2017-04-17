@@ -34,25 +34,17 @@
                 </tbody>
                 <tbody  v-for="(preset, index) in presets"  >
                   <tr    @click="setActive(preset)" id="open" >
-                    <td> <a  v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
+                    <td> <a name="manage" v-bind="{ href: '/preset/'+preset.id}">Manage</a></td>
                     <td style="font-weight: bold;" >  {{preset.name}} </td>
                     <td >{{preset.devices}}</td>
                     <td  >{{preset.total}}{{preset.devicevariations[0].devices[0].currency}}</td>
-                    <td  ><label class="variations" v-for="variation in preset.devicevariations" v-if="preset.devicevariations.length-1" >
-                      <div v-if="variation.devices[0]!=null"  >   {{variation.devices[0].name}}
-                    </div> ,<div v-if="variation.modifications!=null || variation.modifications[0]!=''"   > {{variation.modifications[0]}} </div>
-                      ,<div v-if="variation.modifications!=null || variation.modifications[1]!=null" > {{variation.modifications[1]}} </div> </label>
-      <label class="variations" v-for="variation in preset.devicevariations" v-else >
-        <div v-if="variation.devices[0]!=null">{{variation.devices[0].name}} </div>,
-        <div  v-if="variation.modifications!=null || variation.modifications[0]!=null ">{{variation.modifications[0]}} </div>,
-        <div v-if="variation.modifications!=null || variation.modifications[1]!=null   ">{{variation.modifications[1]}} </div>
-      </label>
-
-                      </td>
+                    <td  ><label class="variations" v-for="variation in preset.devicevariations" v-if="preset.devicevariations.length-1" >    {{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}}  </label>
+                            <label class="variations" v-for="variation in preset.devicevariations" v-else >{{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}} </label>
+                    </td>
 
                   </tr>
                   <tr  >
-                    <td v-show="activePreset && (activePreset.id == preset.id)" transition="device"  class="detail" colspan="8" >
+                    <td v-show="activePreset && (activePreset.id == preset.id)" transition=""  class="detail" colspan="8" >
                       <div class="column row">
                     <div class="row">
                       <div class="small-6 columns">
@@ -61,15 +53,15 @@
                         </div>
                         <div class="small-4 columns">
 
-                          <div class="price" v-for="variation in preset.devicevariations" >{{variation.priceRetail}}{{variation.devices[0].currency}}</div>
+                  <div class="price" v-for="variation in preset.devicevariations" >{{variation.priceRetail}}{{variation.devices[0].currency}}</div>
 
                         </div>
   </div>
           <div class="small-6 columns">
             <div class="small-6 columns">
-              <!--
-              <div v-for="variation in preset.devicevariations">{{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}} </div>
-            -->
+
+  <div v-for="variation in preset.devicevariations">{{variation.devices[0].name}} , {{variation.modifications[0].value}} , {{variation.modifications[1].value}} </div>
+
             </div>
 
               <div class="small-6 columns">

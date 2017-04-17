@@ -27,7 +27,7 @@ export default {
 
 
     setActive: function(preset) {
-      if (this.activeService && this.activeService.id == preset.id) {
+      if (this.activePreset && this.activePreset.id == preset.id) {
         this.$set(this, 'activePreset', null)
       } else {
         this.$set(this, 'activePreset', preset)

@@ -8,11 +8,11 @@ export default {
   },
 
   get (id, params, cb, errCb) {
-  	http.get(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
+    http.get(API_BASE_URL + '/companies/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
   create (params, cb, errCb) {
-  	http.post(API_BASE_URL + '/companies', params).then(res => cb(res), err => errCb(err))
+    http.post(API_BASE_URL + '/companies', params).then(res => cb(res), err => errCb(err))
   },
 
   update (id, params, cb, errCb) {
@@ -21,6 +21,6 @@ export default {
   },
 
   remove (id, cb, errCb) {
-  	http.delete(API_BASE_URL + '/companies/' + id).then(res => cb(res), err => errCb(errCb))
+    http.delete(API_BASE_URL + '/companies/' + id).then(res => cb(res), err => errCb(errCb))
   }
 }
