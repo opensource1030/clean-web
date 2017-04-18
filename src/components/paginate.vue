@@ -1,8 +1,8 @@
 <template>
   <ul class="pagination" role="navigation" aria-label="Pagination">
-      <li class="pagination-prev"><a @click="prev()" title="Previous"><i class="fa fa-caret-left"> </i></a></li>
-      <li><span class="current">{{ pagination.current_page }}</span> of <span>{{ pagination.total_pages }}</span></li>
-      <li class="pagination-next"><a @click="next()" title="Next"><i class="fa fa-caret-right"> </i></a></li>
+    <li class="pagination-previous"><a @click="prev()">Previus</a></li>
+    <li>Page <div class="current">{{ pagination.current_page }}</div> of <div class="current">{{ pagination.total_pages }}</div> Pages</li>
+    <li class="pagination-next"><a @click="next()">Next</a></li>
   </ul>
 </template>
 

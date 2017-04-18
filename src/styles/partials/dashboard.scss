@@ -102,10 +102,6 @@
     max-width: 180px;
     margin-bottom: 0;
     border:none;
-    background: transparent;
-    &:focus {
-      @include css3(box-shadow, none);
-    }
   }
 
   .btn-next{
@@ -115,18 +111,6 @@
     line-height: 1.2rem;
   }
 
-  .monthly-charge {
-    display: inline-block;
-    color: $white;
-    font-weight: 400;
-    padding: 0 0.3rem;
-    font-size: 0.8rem;
-    background: lighten($brand-orange, 10%);
-  }
-}
-
-.table-holder {
-  position: relative;
   table{
     border:none;
     margin-bottom: 0;
@@ -175,11 +159,14 @@
       display: table;
     }
   }
-  .load {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -70px;
+
+  .monthly-charge{
+    display: inline-block;
+    color:$white;
+    font-weight: 400;
+    padding: 0 0.3rem;
+    font-size: 0.8rem;
+    background: lighten($brand-orange,10%);
   }
 }
 
