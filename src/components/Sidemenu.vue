@@ -18,31 +18,31 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_trend.asp?access_token='"><i
+                                                 :href="legacyLink + '/dashboard_trend.asp?token='"><i
                             class="fa fa-circle-o"></i> Trends</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_cycle.asp?access_token='"><i
+                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
                             class="fa fa-circle-o"></i> Bill Cycle</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/dashboard_top_ten.asp?access_token='"><i
+                                                 :href="legacyLink +'/dashboard_top_ten.asp?token='"><i
                             class="fa fa-circle-o"></i> Top 10 Reports</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_allocation.asp?access_token='"><i
+                                                 :href="legacyLink +'/report_allocation.asp?token='"><i
                             class="fa fa-circle-o"></i> Charge</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_data.asp?access_token='"><i
+                                                 :href="legacyLink +'/report_data.asp?token='"><i
                             class="fa fa-circle-o"></i> Data</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_international.asp?access_token='"><i
+                                                 :href="legacyLink +'/report_international.asp?token='"><i
                             class="fa fa-circle-o"></i> International</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_usage.asp?access_token='"><i
+                                                 :href="legacyLink +'/report_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Usage</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/report_ap.asp?access_token='"><i
+                                                 :href="legacyLink + '/report_ap.asp?token='"><i
                             class="fa fa-circle-o"></i> Intercompany Charge</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?access_token='"><i
+                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Zero Usage</a></li>
                 </ul>
             </li>
@@ -147,6 +147,7 @@
             return {
                 features: features,
                 legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
+
             }
         },
         mounted() {
@@ -156,7 +157,7 @@
                 var id = localStorage.userId;
                 var email = localStorage.email;
                 $('.redirect-link a').attr('href', function (index, href) {
-                    var param = token + '&email=' + email;
+                    var param = token + '&version=v4';
                     if (href.charAt(href.length - 1) === '?') //Very unlikely
                         return href + param;
                     else if (href.indexOf('?') > 0)
