@@ -9,7 +9,6 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
-
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-bar-chart"></i>
@@ -19,41 +18,105 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_trend.asp?access_token="><i
+                                                 :href="legacyLink + '/dashboard_trend.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Trends</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_cycle.asp?access_token="><i
+                                                 :href="legacyLink + '/dashboard_cycle.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Bill Cycle</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/dashboard_top_ten.asp?access_token="><i
+                                                 :href="legacyLink +'/dashboard_top_ten.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Top 10 Reports</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_allocation.asp?access_token="><i
+                                                 :href="legacyLink +'/report_allocation.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Charge</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_data.asp?access_token="><i
+                                                 :href="legacyLink +'/report_data.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Data</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_international.asp?access_token="><i
+                                                 :href="legacyLink +'/report_international.asp?access_token='"><i
                             class="fa fa-circle-o"></i> International</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_usage.asp?access_token="><i
+                                                 :href="legacyLink +'/report_usage.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Usage</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_ap.asp?access_token="><i
+                                                 :href="legacyLink + '/report_ap.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Intercompany Charge</a></li>
                     <li class="redirect-link"><a target="_blank"
-                                                 href="http://app.wirelessanalytics.com/helpdesk/udl/report_zero_usage.asp?access_token="><i
+                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?access_token='"><i
                             class="fa fa-circle-o"></i> Zero Usage</a></li>
                 </ul>
             </li>
-            <li>
-                <router-link :to="{ name: 'legacyInfo'}">
-                    <i class="fa fa-phone"></i> <span>Support</span>
-                </router-link>
+
+            <template v-if="features.FEATURE_IN_DEVELOPMENT">
+                <li v-permission="'Procurements'" class="treeview">
+                    <a href="javascript:;" name="Inventory">
+                        <i class="fa fa-list-alt"></i>
+                        <span>Inventory</span>
+                        <i class="fa fa-plus pull-right"></i>
+                        <i class="fa fa-minus pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="page-link" v-permission="'ManageDevices'">
+                            <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
+                        </li>
+                        <li class="page-link" v-permission="'ManageServices'">
+                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services &
+                                Plans</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li v-permission="'Packages'" class="treeview">
+                    <a href="javascript:;" name="Polices">
+                        <i class="fa fa-th-large"></i>
+                        <span>Policies</span>
+                        <i class="fa fa-plus pull-right"></i>
+                        <i class="fa fa-minus pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a>
+                        </li>
+                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li v-permission="'Presets'" class="treeview">
+                    <a href="javascript:;" name="presets">
+                        <i class="fa fa-tasks"></i>
+                        <span>Presets</span>
+                        <i class="fa fa-plus pull-right"></i>
+                        <i class="fa fa-minus pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
+                        <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
+                        <li><a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
+                    </ul>
+                </li>
+
+                <li v-permission="'Presets'" class="treeview">
+                    <a href="javascript:;" name="configuration">
+                        <i class="fa fa-tasks"></i>
+                        <span>Configuration</span>
+                        <i class="fa fa-plus pull-right"></i>
+                        <i class="fa fa-minus pull-right"></i>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
+                        <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
+                        <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
+                    </ul>
+                </li>
+            </template>
+            <li class="support-link">
+                <a href="javascript:;">
+                    <i class="fa fa-envelope"></i> <span>Support</span>
+                </a>
 
 
             </li>
+
 
         </ul>
 
@@ -82,7 +145,8 @@
         name: "Sidemenu",
         data() {
             return {
-                features: features
+                features: features,
+                legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
             }
         },
         mounted() {
@@ -161,6 +225,9 @@
                 }
             });
             $('#menu').slicknav({prependTo: 'section.top-bar-section'});
+            $('.support-link').click(function () {
+                $('.btn-provision').click();
+            })
         },
     }
 </script>
