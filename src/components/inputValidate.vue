@@ -1,5 +1,5 @@
 <template>
-    <input ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)" type="text"/>
+<input ref="input" v-bind:value="value" v-on:input="updateValue($event.target.value)" />
 </template>
 <script>
 export default {

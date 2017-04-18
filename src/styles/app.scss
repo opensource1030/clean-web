@@ -78,19 +78,3 @@ body{
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   -webkit-appearance: none;
 }
-
-.input-group-field {
-  height: 2.5rem;
-}
-
-.inline-block-items {
-  display: inline-block;
-}
-
-div.multiselect__tags {
-  @include css3(border-radius, 0);
-}
-
-.mg-l-5 {
-  margin-right: 0.329rem;
-}

@@ -81,7 +81,7 @@ const router = new VueRouter({
     // devices
     { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-      {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},
+    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
