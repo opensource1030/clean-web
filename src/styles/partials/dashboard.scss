@@ -495,6 +495,7 @@
       z-index: 9999;
       > li > a{
         padding-left: 0;
+        white-space: nowrap;
       }
       .treeview-menu.menu-open{
         position: static;
@@ -751,7 +752,9 @@ a.btn-provision:hover .support-form-holder{
 #modal{
   &.is-error{
     background: $brand-red;
+    padding: 4.5rem 4rem;
     color: $white;
+    max-width: 50%;
   }
   &.is-success{
     background: $brand-green;
