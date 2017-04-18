@@ -60,11 +60,11 @@ export default {
         var link = this.href;
         var $modalredirect = $('#modal');
         e.preventDefault();
-        $modalredirect.addClass('is-error').html("<h5 class='text-center'>You will now be redirected to this section in our legacy app</h5>").foundation('open');
+          $modalredirect.addClass('is-error large').html("<h2 class='text-center'>Redirecting to our Legacy reports (Press \"esc\" to cancel)</h2>").foundation('open');
         setTimeout(function () {
           $('.for-dashboard').hide(100);
           $modalredirect.foundation('close');
-          window.location = link;
+            window.location = (link);
         }, 2000);
       });
     });

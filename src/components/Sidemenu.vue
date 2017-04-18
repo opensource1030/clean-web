@@ -1,18 +1,63 @@
 <template>
-    <section class="menu-left test">
+    <section class="menu-left ">
         <ul id="menu" class="sidebar-menu">
             <li class="menu-toggle">
                 <a class="icon-close"><i class="fa fa-bars"></i></a>
             </li>
             <li class="menu-title">
                 <a href="/dashboard">
-                    <i class="fa fa-home"></i> <span>Home</span>
+                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-bar-chart"></i>
+                    <span>Reports</span>
+                    <i class="fa fa-plus pull-right"></i>
+                    <i class="fa fa-minus pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/report_allocation.asp?token='"><i
+                            class="fa fa-circle-o"></i> Charge</a></li>
+                    
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/dashboard_top_ten.asp?token='"><i
+                            class="fa fa-circle-o"></i> Top 10 Reports</a></li>
+                    
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
+                            class="fa fa-circle-o"></i> Zero Usage</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink + '/dashboard_trend.asp?token='"><i
+                            class="fa fa-circle-o"></i> Trends</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/report_usage.asp?token='"><i
+                            class="fa fa-circle-o"></i> Usage</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
+                            class="fa fa-circle-o"></i> Bill Cycle</a></li>
+                   
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/report_data.asp?token='"><i
+                            class="fa fa-circle-o"></i> Data</a></li>
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/report_international.asp?token='"><i
+                            class="fa fa-circle-o"></i> International</a></li>
+                   
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink + '/report_ap.asp?token='"><i
+                            class="fa fa-circle-o"></i> Intercompany Charge</a></li>
+                    
+                </ul>
             </li>
 
             <template v-if="features.FEATURE_IN_DEVELOPMENT">
-                <li v-permission="'Procurements'"  class="treeview">
-                    <a href="javascript:;"  name="Inventory" >
+                <li v-permission="'Procurements'" class="treeview">
+                    <a href="javascript:;" name="Inventory">
                         <i class="fa fa-list-alt"></i>
                         <span>Inventory</span>
                         <i class="fa fa-plus pull-right"></i>
@@ -23,7 +68,8 @@
                             <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
                         </li>
                         <li class="page-link" v-permission="'ManageServices'">
-                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
+                            <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services &
+                                Plans</a>
                         </li>
                     </ul>
                 </li>
@@ -36,8 +82,10 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
-                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a></li>
+                        <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a>
+                        </li>
+                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -49,9 +97,9 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="device" href="/presets"><i class="fa fa-circle-o"></i>Device</a></li>
+                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
                         <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
-                        <li><a name="address"  href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
+                        <li><a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
                     </ul>
                 </li>
 
@@ -69,6 +117,15 @@
                     </ul>
                 </li>
             </template>
+            <li class="support-link">
+                <a href="javascript:;">
+                    <i class="fa fa-envelope"></i> <span>Support</span>
+                </a>
+
+
+            </li>
+
+
         </ul>
 
         <div class="nav-poweredby">
@@ -96,7 +153,9 @@
         name: "Sidemenu",
         data() {
             return {
-                features: features
+                features: features,
+                legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
+
             }
         },
         mounted() {
@@ -106,11 +165,11 @@
                 var id = localStorage.userId;
                 var email = localStorage.email;
                 $('.redirect-link a').attr('href', function (index, href) {
-                    var param = 'access_token=' + token + '&email=' + email;
+                    var param = token + '&version=v4';
                     if (href.charAt(href.length - 1) === '?') //Very unlikely
                         return href + param;
                     else if (href.indexOf('?') > 0)
-                        return href + '&' + param;
+                        return href + param;
                     else
                         return href + '?' + param;
                 });
@@ -157,24 +216,28 @@
             $.sidebarMenu($('.sidebar-menu'));
            /* $.cookie("isMenuActive", "1");*/
             if ($.cookie("isMenuActive") == 1) {
-                $('.menu-left').toggleClass("test");
-                $('.content-right').toggleClass("test");
+                $('.menu-left').addClass("test");
+                $('.content-right').addClass("test");
             }
             $(".icon-close").click(function () {
                 if ($(".menu-left").hasClass("test") == true) {
                     //button was active, de-activate it and update cookie
                     $(".menu-left").removeClass("test");
                     $(".content-right").removeClass("test");
-                    $.cookie("isMenuActive", "1");
+                    $.cookie("isMenuActive", "0");
                 }
                 else {
                     //button is not active. add active class and update cookie.
                     $(".menu-left").addClass("test");
                      $(".content-right").addClass("test");
-                    $.cookie("isMenuActive", "0");
+                    $.cookie("isMenuActive", "1");
                 }
             });
             $('#menu').slicknav({prependTo: 'section.top-bar-section'});
+            $('.support-link').click(function () {
+                $('.btn-provision').click();
+            })
         },
     }
 </script>
+
