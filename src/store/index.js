@@ -9,6 +9,7 @@ import device_type from './modules/device_type'
 import modification from './modules/modification'
 import carrier from './modules/carrier'
 import company from './modules/company'
+import employee from './modules/employee'
 import services from './modules/services/services'
 import service from './modules/services/service'
 import presets from './modules/presets/presets'
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     modification,
     carrier,
     company,
+    employee,
     services,
     service,
     presets,

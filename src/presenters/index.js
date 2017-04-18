@@ -53,6 +53,10 @@ export class CompaniesPresenter extends Presenter {
 }
 CompaniesPresenter.prototype.type = 'companies'
 
+export class EmployeesPresenter extends Presenter {
+}
+EmployeesPresenter.prototype.type = 'users'
+
 export class DeviceTypesPresenter extends Presenter {
 }
 DeviceTypesPresenter.prototype.type = 'devicetypes'
