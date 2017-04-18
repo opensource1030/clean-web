@@ -18,32 +18,40 @@
                 </a>
                 <ul class="treeview-menu">
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_trend.asp?token='"><i
-                            class="fa fa-circle-o"></i> Trends</a></li>
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
-                            class="fa fa-circle-o"></i> Bill Cycle</a></li>
+                                                 :href="legacyLink +'/report_allocation.asp?token='"><i
+                            class="fa fa-circle-o"></i> Charge</a></li>
+                    
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/dashboard_top_ten.asp?token='"><i
                             class="fa fa-circle-o"></i> Top 10 Reports</a></li>
+                    
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_allocation.asp?token='"><i
-                            class="fa fa-circle-o"></i> Charge</a></li>
+                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
+                            class="fa fa-circle-o"></i> Zero Usage</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink + '/dashboard_trend.asp?token='"><i
+                            class="fa fa-circle-o"></i> Trends</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink +'/report_usage.asp?token='"><i
+                            class="fa fa-circle-o"></i> Usage</a></li>
+
+                    <li class="redirect-link"><a target="_blank"
+                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
+                            class="fa fa-circle-o"></i> Bill Cycle</a></li>
+                   
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/report_data.asp?token='"><i
                             class="fa fa-circle-o"></i> Data</a></li>
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/report_international.asp?token='"><i
                             class="fa fa-circle-o"></i> International</a></li>
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_usage.asp?token='"><i
-                            class="fa fa-circle-o"></i> Usage</a></li>
+                   
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink + '/report_ap.asp?token='"><i
                             class="fa fa-circle-o"></i> Intercompany Charge</a></li>
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
-                            class="fa fa-circle-o"></i> Zero Usage</a></li>
+                    
                 </ul>
             </li>
 
