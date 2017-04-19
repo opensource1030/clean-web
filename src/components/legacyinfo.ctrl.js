@@ -9,6 +9,7 @@ export default {
     },
     mounted(){
         $('body').addClass('full-height');
+        this.greet();
     },
     data(){
         return {
@@ -17,9 +18,6 @@ export default {
             token: localStorage.token
 
         }
-    },
-    mounted(){
-        this.greet();
     },
     methods: {
         closePop(){
