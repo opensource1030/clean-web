@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import employeeAPI from './../../api/employee-api.js'
-import { CompaniesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
+import { EmployeesPresenter } from './../../presenters'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -18,6 +18,8 @@ export default {
       employee_id: null,
       employee: {
         id: 0,
+        email: '',
+        username: '',
         firstName: '',
         lastName: '',
         companies: [{
@@ -60,7 +62,32 @@ export default {
     },
 
     submit () {
-      console.log('employee submit')
+      // validation
+      if (!this.employee.email) {
+        this.$store.dispatch('error/addNew', { message: 'Please enter employee email' })
+        return
+      }
+
+      if (!this.employee.username) {
+        this.$store.dispatch('error/addNew', { message: 'Please enter employee username' })
+        return
+      }
+
+      if (!this.employee.firstName) {
+        this.$store.dispatch('error/addNew', { message: 'Please enter employee first name' })
+        return
+      }
+
+      if (!this.employee.lastName) {
+        this.$store.dispatch('error/addNew', { message: 'Please enter employee first name' })
+        return
+      }
+
+      let _jsonData = EmployeesPresenter.toJSON(this.employee)
+      console.log(_jsonData)
+
+      let _params = JSON.stringify(_jsonData)
+      console.log(_params)
     },
   }
 }
