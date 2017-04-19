@@ -3,7 +3,7 @@
   <div class="off-canvas-wrapper">
     <sidemenu v-if="$store.getters['auth/isAuthenticated']"> </sidemenu>
 
-    <div :class="{ 'content-right test': $store.getters['auth/isAuthenticated'] }" >
+    <div :class="{ 'content-right ': $store.getters['auth/isAuthenticated'] }">
       <div class="expanded row">
         <headers v-if="$store.getters['auth/isAuthenticated']" :user="$store.state.auth.profile"></headers>
         <div class="clearfix"></div>
