@@ -204,9 +204,9 @@ const mutations = {
         break
     }
   },
-  checkPrice(state,{price,value}){
-  price.check=value;
-}
+  checkPrice(state,{price,value}) {
+    price.check=value;
+  }
 }
 
 export default {

@@ -33,6 +33,7 @@ import Company from './../views/companies/Company.vue'
 // employees
 import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
 import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
+import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
 
 // routes presets
 import Presets from './../views/presets/Presets.vue'
@@ -105,6 +106,7 @@ const router = new VueRouter({
       path: '/employees', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Employees' },
       children: [
         { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
+        { path: 'bulk', component: EmployeeBulkAdd, name: 'Add Bulk Employees', meta: { label: 'Bulk Add' } },
         { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create'} },
         { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit'} },
       ]

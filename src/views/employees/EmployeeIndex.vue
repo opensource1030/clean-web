@@ -51,7 +51,7 @@
                 <td>{{ employee.firstName }}</td>
                 <td>{{ employee.lastName }}</td>
                 <td>{{ employee.email }}</td>
-                <td>{{ !!employee.companies[0] ? employee.companies[0].name : '' }}</td>
+                <td>{{ !!employee.companies && !!employee.companies[0] ? employee.companies[0].name : '' }}</td>
                 <td>
                   <span class="label remove" @click="removeEmployee(employee.id)"><i class="fa fa-trash"></i></span>
                   <a :href = "'/employees/' + employee.id" :name="'edit-' + employee.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
@@ -60,7 +60,7 @@
               <tr class="detail-tr" :data-id="employee.id" :class="activeEmployee && (activeEmployee.id == employee.id) ? 'active' : ''">
                 <td colspan="8">
                   <div class="detail-box">
-                    <div class="content" v-if="!!employee.companies[0]">
+                    <div class="content" v-if="!!employee.companies && !!employee.companies[0]">
 
                       <template v-for="address in employee.companies[0].address">
                         <div class="address-wrapper">
