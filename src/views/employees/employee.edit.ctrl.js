@@ -39,7 +39,7 @@ export default {
     if (employee_id > 0) {
       employeeAPI.get(employee_id, { params: { include: 'companies,companies.udls,companies.address' } }, res => {
         this.$set(this, 'employee', store.sync(res.data))
-        // console.log('employee', this.employee)
+        console.log('employee', this.employee)
         this.$set(this, 'employee_id', employee_id)
         this.initComponent()
       })
