@@ -31,7 +31,7 @@ export default new Vuex.Store({
     modification,
     carrier,
     company,
-    employee,
+      employee,
     services,
     service,
     presets,

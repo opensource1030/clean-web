@@ -83,9 +83,9 @@ const router = new VueRouter({
     { path: '/sidemenu', component: Sidemenu },
 
     // devices
-    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+      {path: '/devices', component: Devices, name: 'List Devices', meta: {requiresAuth: true}},
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
+      {path: '/device', component: Device, name: 'Ad Device', meta: {requiresAuth: true}},
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
@@ -100,15 +100,17 @@ const router = new VueRouter({
       ]
     },
 
-    // employees
-    {
-      path: '/employees', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Employees' },
-      children: [
-        { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
-        { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create'} },
-        { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit'} },
-      ]
-    },
+      // employees
+      {
+          path: '/employees',
+          component: {template: '<router-view></router-view>'},
+          meta: {requiresAuth: true, label: 'Employees'},
+          children: [
+              {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
+              {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
+              {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
+          ]
+      },
 
     // presets
     { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
@@ -132,7 +134,7 @@ const router = new VueRouter({
       },
 
     // employees
-    // profile
+      // profile
     { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
     { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },
     { path: '/addservice', component: AddService, name: 'addService', meta: { requiresAuth: true } },
