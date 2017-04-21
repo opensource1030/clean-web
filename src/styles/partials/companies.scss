@@ -4,30 +4,7 @@
 
 .page.company-page.company-index-page {
 
-  .button.add-button {
-    background-color: material-color('orange', '600');
-    font-weight: 400;
-  }
 
-  .grid-box {
-    .box-heading {
-      position: relative;
-      padding: 0;
-
-      input[type="text"] {
-        height: 40px;
-        margin: 0;
-        padding-left: 30px;
-      }
-
-      i {
-        position: absolute;
-        left: 10px;
-        top: 12px;
-        color: #666666;
-      }
-    }
-  }
 
   table.unstriped {
     tbody {
@@ -55,29 +32,6 @@
 
       tr:nth-of-type(4n+3) {
         background-color: #f9f9f9;
-      }
-
-      tr.overview-tr {
-
-        i.fa.fa-plus {
-          display: inline-block;
-        }
-
-        i.fa.fa-minus {
-          display: none;
-        }
-
-        &.active {
-          background-color: rgba(251, 243, 238, 1);
-
-          i.fa.fa-plus {
-            display: none;
-          }
-
-          i.fa.fa-minus {
-            display: inline-block;
-          }
-        }
       }
 
       tr.detail-tr {
@@ -149,61 +103,9 @@
 
 .page.company-page.company-edit-page {
 
-  .grid-box {
-    .box-heading {
-    }
 
-    .box-content {
-      padding: 15px 15px 15px 15px;
-    }
-  }
 
-  .input-group-wrapper {
-    // position: absolute;
-    // top: 6px;
-    // right: 6px;
-    float: right;
-    width: 160px;
-    margin-right: 15px;
-    border: 1px solid material-color('orange', '600');
 
-    .input-group {
-      margin-bottom: 0;
-
-      .input-group-label {
-        width: 30px;
-        padding: 0;
-        border: 0 none;
-        background-color: material-color('orange', '600');
-        font-size: 10px;
-
-        span {
-          background-color: #FFFFFF;
-          color: material-color('orange', '600');
-          border-radius: 2px;
-          padding: 1px 2px;
-        }
-      }
-
-      .input-group-button {
-        input[type="button"] {
-          width: 130px;
-          height: 26px;
-          padding: 0;
-          background-color: #FFFFFF;
-          color: material-color('orange', '600');
-          font-size: 14px;
-          font-weight: 600;
-        }
-      }
-    }
-  }
-
-  label {
-    > span {
-      font-weight: 600;
-    }
-  }
 
   ul.tag-editor {
     border: 1px solid #CCCCCC;
@@ -246,37 +148,4 @@
     // }
   }
 
-  .udl-value-wrapper {
-    position: relative;
-    padding-right: 40px;
-
-    .label.close {
-      position: absolute;
-      top: 32px;
-      right: 0;
-    }
-
-    ul {
-      margin-bottom: 16px;
-    }
-  }
-
-  // .button.save-button {
-  //   margin-left: 10px;
-  // }
-
-  .address-wrapper {
-    position: relative;
-    padding-right: 40px;
-
-    .label.close {
-      position: absolute;
-      top: 60px;
-      right: 0;
-    }
-  }
-
-  .address-wrapper + .address-wrapper {
-    border-top: 1px solid #CCCCCC;
-  }
 }

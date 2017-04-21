@@ -10,7 +10,7 @@
          </div>-->
 
   <div class="small-12 columns">
-      <a class="button large" href="/device">Add device</a>
+      <a class="button large btn-orange" href="/device">Add device</a>
   </div>
 
   <div>
@@ -18,10 +18,8 @@
     <!-- {{ $store.state.device.filter }} -->
   </div>
         <div class="large-12 columns">
+            <header class="tag-header"><h1>Manage Devices</h1></header>
             <div class="grid-box">
-                <header class="box-heading">
-                    <h2>Manage Devices</h2>
-                </header>
                 <div class="table-holder">
                     <tables :id="null"></tables>
                 </div>

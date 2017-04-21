@@ -179,7 +179,8 @@ export default {
       }
       */
 
-      let pid = $(e.srcElement).closest('.udl-value-wrapper').attr('data-index')
+
+        let pid = $(e.srcElement).closest('.columns').find('.udl-value-wrapper').attr('data-index');
       this.company.udls = _.reject(this.company.udls, (udl) => (udl.pid == pid))
 
       this.$forceUpdate()

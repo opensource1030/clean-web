@@ -79,9 +79,21 @@ const router = new VueRouter({
     { path: '/sidemenu', component: Sidemenu },
 
     // devices
-    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+      /*   { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-      {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},
+       {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},*/
+
+      // Equipment
+      {
+          path: '/devices',
+          component: {template: '<router-view></router-view>'},
+          meta: {requiresAuth: true, label: 'Equipments'},
+          children: [
+              {path: '', component: Devices, name: 'List Equipments', meta: {label: 'All'}},
+              {path: '/device', component: Device, name: 'Add Equipment', meta: {label: 'Create'}},
+              {path: '/device/:id', component: Device, name: 'Update Equipment', meta: {label: 'Edit'}},
+          ]
+      },
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
@@ -101,9 +113,22 @@ const router = new VueRouter({
     { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
     { path: '/preset', component: Preset, name: 'Add Preset', meta: { requiresAuth: true } },
     // services
-    { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
+
+      /*  { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
     { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
     { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
+       */
+      {
+          path: '/services',
+          component: {template: '<router-view></router-view>'},
+          meta: {requiresAuth: true, label: 'Services'},
+          children: [
+              {path: '', component: Services, name: 'List Services', meta: {label: 'All'}},
+              {path: '/service', component: Service, name: 'Add Service', meta: {label: 'Create'}},
+              {path: '/service/:id', component: Service, name: 'Update Service', meta: {label: 'Edit'}},
+          ]
+      },
+
     // employees
     { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
     { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },

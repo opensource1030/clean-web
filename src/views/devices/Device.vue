@@ -244,7 +244,8 @@
                 <img class="phoneImg" :src="getImageUrl(dv.images[0].id)" alt="Photo Devices" />
                 <input type="file" :id="'FileUpload' + index" @change="onPriceImageChange($event, dv)" class="show-for-sr">
                 <div class="clearfix"></div>
-                <label :for="'FileUpload' + index" :id="'f' + index" class="button large expanded">Upload File</label>
+                <label :for="'FileUpload' + index" :id="'f' + index" class="button large expanded no-margin">Upload
+                  File</label>
               </div>
               <div class="small-12 large-10 columns">
                 <div class="row expanded row-wrapper">

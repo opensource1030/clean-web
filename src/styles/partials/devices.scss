@@ -279,13 +279,11 @@
 
 .addlist {
   border: 1px rgba($gainsboro, 0.3) solid;
-  padding: 0.9rem 2rem 0 0;
-  margin-top: 0.8rem;
+  padding: 1rem 2rem 1rem 0;
+  margin-bottom: 0.8rem;
 
   position: relative;
-  &:first-child {
-    margin-top: 0;
-  }
+
   .btn-control {
     position: absolute;
     right: -11px;
@@ -328,5 +326,8 @@
     color: $white;
     height: 30px;
     text-align: center;
+    &:hover {
+      color: $white;
+    }
   }
 }

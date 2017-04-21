@@ -130,8 +130,9 @@
             <td><span v-for="style in filterByModificationsd(device.modifications, 'style')"> {{ style.value }} </span>
             </td>
             <td>
-              <div class="action-buttons"><a class="button alert" title="Delete"><i class="fa fa-trash"> </i> </a> <a
-                      title="Edit" class="button warning" v-bind="{ href: '/device/'+device.id}"> <i
+              <div class="action-buttons">
+                <a class="button alert" title="Delete"><i class="fa fa-trash"> </i> </a>
+                <a title="Edit" class="button warning" v-bind="{ href: '/device/'+device.id}"> <i
                       class="fa fa-edit"> </i> </a></div>
             </td>
           </tr>

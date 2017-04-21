@@ -15,6 +15,7 @@ import './../node_modules/stacktable.js/stacktable.js'
 
 import './styles/app.scss'
 import './../node_modules/font-awesome/scss/font-awesome.scss'
+import './../node_modules/sweetalert2/src/sweetalert2.scss'
 
 import 'script!what-input'
 import 'script!foundation-sites'

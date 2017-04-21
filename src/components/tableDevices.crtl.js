@@ -101,7 +101,7 @@ export default {
 
     addStyleFilter () {
       console.log('addStyleFilter')
-    },
+    }
 
   },
 };

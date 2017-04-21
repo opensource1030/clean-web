@@ -94,3 +94,38 @@ div.multiselect__tags {
 .mg-l-5 {
   margin-right: 0.329rem;
 }
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.input-static {
+  height: 2.51316rem;
+  margin: 0 0 1.05263rem;
+  padding: 0.52632rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.row {
+  .row {
+    &.default {
+      margin-right: -0.65789rem;
+      margin-left: -0.65789rem;
+    }
+  }
+}
+
+.border-all {
+  border: 1px $gainsboro solid;
+}
+
+.form-label {
+  @extend label;
+  strong {
+    display: block;
+  }
+}
