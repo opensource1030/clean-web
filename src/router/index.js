@@ -30,6 +30,10 @@ import Device from './../views/devices/Device.vue'
 import Companies from './../views/companies/Companies.vue'
 import Company from './../views/companies/Company.vue'
 
+// employees
+import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
+import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
+
 // routes presets
 import Presets from './../views/presets/Presets.vue'
 import Preset from './../views/presets/Preset.vue'
@@ -79,21 +83,9 @@ const router = new VueRouter({
     { path: '/sidemenu', component: Sidemenu },
 
     // devices
-      /*   { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-       {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},*/
-
-      // Equipment
-      {
-          path: '/devices',
-          component: {template: '<router-view></router-view>'},
-          meta: {requiresAuth: true, label: 'Equipments'},
-          children: [
-              {path: '', component: Devices, name: 'List Equipments', meta: {label: 'All'}},
-              {path: '/device', component: Device, name: 'Add Equipment', meta: {label: 'Create'}},
-              {path: '/device/:id', component: Device, name: 'Update Equipment', meta: {label: 'Edit'}},
-          ]
-      },
+    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
@@ -105,6 +97,16 @@ const router = new VueRouter({
         { path: '', component: Companies, name: 'List Companies', meta: { label: 'All' } },
         { path: 'new', component: Company, name: 'Add Company', meta: { label: 'Create'} },
         { path: ':id', component: Company, name: 'Update Company', meta: { label: 'Edit'} },
+      ]
+    },
+
+    // employees
+    {
+      path: '/employees', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Employees' },
+      children: [
+        { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
+        { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create'} },
+        { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit'} },
       ]
     },
 
@@ -130,6 +132,7 @@ const router = new VueRouter({
       },
 
     // employees
+    // profile
     { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
     { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },
     { path: '/addservice', component: AddService, name: 'addService', meta: { requiresAuth: true } },

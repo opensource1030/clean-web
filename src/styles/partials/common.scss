@@ -1,0 +1,103 @@
+@import "../base/clean-variables";
+@import "../plugins/material-color";
+@import "../mixins/other-mixin";
+
+.page {
+
+  .button.add-button,
+  .button.add-bulk-button {
+    background-color: material-color('orange', '600');
+    font-weight: 400;
+  }
+
+  .grid-box {
+    .box-heading {
+      position: relative;
+      padding: 0;
+
+      h2 {
+        padding: 10px 20px;
+      }
+
+      input[type="text"] {
+        height: 40px;
+        margin: 0;
+        padding-left: 30px;
+      }
+
+      i {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        color: #666666;
+      }
+    }
+  }
+
+  table.unstriped {
+    tbody {
+      td {
+        span.badge {
+          cursor: pointer;
+        }
+
+        .switch {
+          margin-bottom: 0;
+        }
+
+        .label {
+          cursor: pointer;
+
+          &.remove {
+            background-color: material-color('red', '600');
+          }
+
+          &.edit {
+            background-color: material-color('orange', '600'); 
+          }
+        }
+      }
+
+      tr:nth-of-type(4n+3) {
+        background-color: #f9f9f9;
+      }
+
+      tr.overview-tr {
+
+        i.fa.fa-plus {
+          display: inline-block;
+        }
+
+        i.fa.fa-minus {
+          display: none;
+        }
+
+        &.active {
+          background-color: rgba(251, 243, 238, 1);
+
+          i.fa.fa-plus {
+            display: none;
+          }
+
+          i.fa.fa-minus {
+            display: inline-block;
+          }
+        }
+      }
+
+      tr.detail-tr {
+        display: none;
+
+        &.active {
+          display: table-row;
+          // background-color: rgba(251, 243, 238, 0.6);
+        }
+
+        .detail-box {
+          display: flex;
+          padding: 10px 20px 10px 20px;
+        }
+      }
+    }
+  }
+}

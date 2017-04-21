@@ -10,6 +10,7 @@
 @import "./../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
 @import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
 
+@import "partials/common";
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
 @import "partials/footer";
@@ -18,10 +19,11 @@
 @import "partials/modal";
 @import "partials/services";
 @import "partials/packages";
-@import "partials/employees";
+@import "partials/employees_old";
 @import "partials/nprogress";
 @import "partials/login";
 @import "partials/companies";
+@import "partials/employees";
 // @import './../../node_modules/select2/dist/css/select2.min.css';
 
 .w1{overflow: hidden;}

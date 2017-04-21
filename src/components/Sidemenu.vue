@@ -26,7 +26,7 @@
                             class="fa fa-circle-o"></i> Top 10 Reports</a></li>
                     
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
+                                                 :href="legacyLink +'/report_zero_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Zero Usage</a></li>
 
                     <li class="redirect-link"><a target="_blank"
@@ -37,13 +37,6 @@
                                                  :href="legacyLink +'/report_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Usage</a></li>
 
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
-                            class="fa fa-circle-o"></i> Bill Cycle</a></li>
-                   
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_data.asp?token='"><i
-                            class="fa fa-circle-o"></i> Data</a></li>
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/report_international.asp?token='"><i
                             class="fa fa-circle-o"></i> International</a></li>
@@ -114,6 +107,7 @@
                         <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
                         <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
                         <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
+                        <li><a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a></li>
                     </ul>
                 </li>
             </template>
