@@ -5,20 +5,19 @@
         </modal>
 
         <div class="small-12 columns">
-            <a class="button large add-button" href="/employees/new">Add Employee</a>
-            <a class="button large add-bulk-button" href="/employees/bulk">Add Bulk Employees</a>
+            <a class="button large btn-orange" href="/employees/new">Add Employee</a>
+            <a class="button large btn-orange float-right" href="/employees/bulk">Add Bulk Employees</a>
         </div>
 
         <div class="small-12 columns">
-            <div class="tag-header">
-                <div>Employees</div>
-            </div>
+            <header class="tag-header">
+                <h1>Employees</h1>
+            </header>
 
             <div class="grid-box">
-                <div class="box-heading">
-                    <input type="text" placeholder="Search with employee name" v-model="query"
+                <div class="search-holder">
+                    <input type="text" class="input-search" placeholder="Search with employee name" v-model="query"
                            @keyup.enter="searchEmployees()">
-                    <i class="fa fa-search"></i>
                 </div>
                 <div class="box-content">
                     <table class="unstriped" v-if="employees.length > 0">
@@ -37,9 +36,9 @@
                         <tbody>
                         <template v-for="employee in employees">
                             <tr class="overview-tr" :data-id="employee.id"
-                                :class="activeEmployee && (activeEmployee.id == employee.id) ? 'active' : ''">
-                                <td>
-                                    <span class="badge" @click="setActive(employee)"><i class="fa fa-plus"></i><i
+                                :class="activeEmployee && (activeEmployee.id == employee.id) ? 'row-active' : ''">
+                                <td class="icon-toggle">
+                                    <span @click="setActive(employee)"><i class="fa fa-plus"></i><i
                                             class="fa fa-minus"></i></span>
                                 </td>
                                 <td>{{ employee.id }}</td>
@@ -58,10 +57,12 @@
                                 <td>{{ employee.email }}</td>
                                 <td>{{ !!employee.companies[0] ? employee.companies[0].name : '' }}</td>
                                 <td>
-                                    <span class="label remove" @click="removeEmployee(employee.id)"><i
-                                            class="fa fa-trash"></i></span>
-                                    <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id"><span
-                                            class="label edit"><i class="fa fa-edit"></i></span></a>
+                                    <div class="action-buttons">
+                                        <a class="button alert" @click="removeEmployee(employee.id)"><i
+                                                class="fa fa-trash"></i></a>
+                                        <a class="button warning" :href="'/employees/' + employee.id"
+                                           :name="'edit-' + employee.id"><i class="fa fa-edit"></i></a>
+                                    </div>
                                 </td>
                             </tr>
                             <tr class="detail-tr" :data-id="employee.id"
