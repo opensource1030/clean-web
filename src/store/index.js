@@ -15,6 +15,7 @@ import services from './modules/services/services'
 import service from './modules/services/service'
 import presets from './modules/presets/presets'
 import preset from './modules/presets/preset'
+import packages from './modules/package'
 
 Vue.use(Vuex)
 
@@ -36,7 +37,8 @@ export default new Vuex.Store({
     services,
     service,
     presets,
-    preset
+    preset,
+    packages
   },
   strict: debug,
   plugins: [
