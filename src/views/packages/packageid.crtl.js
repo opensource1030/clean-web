@@ -12,9 +12,8 @@ export default {
   data () {
     return {
       status: 'new',
-      onePackage: {
-        name: ''
-      },
+      packageName: '',
+      packageId: 0,
       presetLoading: true,
       carrierLoading: true,
       activePreset: {},
@@ -237,6 +236,11 @@ export default {
           this.addresses.selected.splice(i, 1);
       }
       this.activeAddress = {};
+    },
+
+    // Update or Create Package
+    savePackage() {
+
     }
   }
 }
