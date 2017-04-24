@@ -10,7 +10,7 @@
         <h2>Employee CSV</h2>
       </div>
       <div class="box-content">
-        <uploader accept="*/*" :autoUpload="true"></uploader>
+        <uploader accept=".csv" :autoUpload="false"></uploader>
       </div>
     </div>
   </div>

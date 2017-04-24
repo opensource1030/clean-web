@@ -25,11 +25,10 @@
           </div>
           <div class="columns medium-4">
             <label>
-              <span>Supervisor</span>
-              <div class="switch tiny">
-                <input class="switch-input" :id="'supervisor-' + employee.id" type="checkbox" v-model="employee.isSupervisor">
-                <label class="switch-paddle" :for="'supervisor-' + employee.id"></label>
-              </div>
+              <span>Company</span>
+              <select name="employee-company" @change="onChange_Company($event)">
+                <option v-for="c in companies" :value="c.id" :selected="c.id == employee.companyId">{{ c.name }}</option>
+              </select>
             </label>
           </div>
         </div>
@@ -62,7 +61,16 @@
               <textarea name="employee-notes" placeholder="" v-model="employee.notes"></textarea>
             </label>
           </div>
-          <div class="columns medium-4">
+          <div class="columns medium-2">
+            <label>
+              <span>Supervisor</span>
+              <div class="switch tiny">
+                <input class="switch-input" :id="'supervisor-' + employee.id" type="checkbox" v-model="employee.isSupervisor">
+                <label class="switch-paddle" :for="'supervisor-' + employee.id"></label>
+              </div>
+            </label>
+          </div>
+          <div class="columns medium-2">
             <label>
               <span>Active</span>
               <div class="switch tiny">
