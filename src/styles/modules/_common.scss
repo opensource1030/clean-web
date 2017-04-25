@@ -6,8 +6,10 @@
   border:1px solid rgba(#979797,0.3);
   @include css3(border-radius,0);
   background-color: #FDFDFF;
+
   .search-holder {
     position: relative;
+
     &:before {
       content: '\F002';
       font-family: FontAwesome;
@@ -17,14 +19,14 @@
       left: 8px;
       top: 7px;
     }
+
     .input-search {
       height: 40px;
       margin: 0;
       padding-left: 30px;
-
     }
-
   }
+
   .box-heading {
     padding:0.5rem 0.6rem;
     border-bottom:1px solid rgba(0, 0, 0, 0.06);
@@ -40,6 +42,7 @@
       text-transform: capitalize;
     }
   }
+
   .box-content {
     .note {
       display: block;
@@ -54,6 +57,7 @@
 
     &-holder {
       padding: 0.9rem;
+
       p {
         margin-bottom: 0;
         &:first-child {
@@ -61,6 +65,7 @@
         }
       }
     }
+
     &.coming-soon {
       position: relative;
       min-height: 350px;
@@ -76,6 +81,7 @@
   p:empty {
     display: none;
   }
+
   .input-static {
     @media screen and (max-width: $medium) {
       text-align: center;
@@ -83,6 +89,7 @@
     }
   }
 }
+
 .tag-header {
   > h1 {
     position: relative;
