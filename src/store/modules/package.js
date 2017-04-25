@@ -135,7 +135,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
-          include: 'udls,devicevariations,devicevariations.images,devicevariations.devices,address'
+          include: 'udls,addresses'
         }
       };
 
@@ -151,6 +151,24 @@ const actions = {
     })
   },
 
+  createPackage ({dispatch, commit, state}, data) {
+    return new Promise((resolve, reject) => {
+      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
+      data.attributes.companyId = userProfile.companyId;
+
+      let params = {
+        data: data
+      };
+
+      packageAPI.create(params, res => {
+        let results = res;
+        debugger;
+        resolve(results);
+      }, err => {
+        reject(err)
+      })
+    })
+  }
 };
 
 // mutations

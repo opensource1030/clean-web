@@ -26,39 +26,44 @@
               </div>
             </div>
             <div class="columns small-12" v-else>
-              <div class="row extend" v-for="(condition, index) in conditions.selected">
-                <div class="large-3 small-12 columns">
-                  <label>
-                    <span>Label</span>
-                    <multiselect v-model="condition.nameCond" placeholder="Select a Label" :searchable="false"
-                                 :options="conditions.labels" @input="updateConditionFields(condition.nameCond, index)"
-                                 :show-labels="false"></multiselect>
-                  </label>
-                </div>
-                <div class="large-3 small-12 columns" v-if="condition.nameCond">
-                  <label>
-                    <span>Condition</span>
-                    <multiselect v-model="condition.condition" placeholder="Select a Condition" :searchable="false"
-                                 :options="condition.conditionOptions" :show-labels="false"></multiselect>
-                  </label>
-                </div>
-                <div class="large-4 small-12 columns" v-if="condition.nameCond">
-                  <label>
-                    <span>Value</span>
-                    <multiselect v-model="condition.value" placeholder="Select a Value" :searchable="false"
-                                 :options="condition.valueOptions" :show-labels="false"></multiselect>
-                  </label>
-                </div>
-                <div class="large-2 small-12 columns p-t-25">
-                  <a class="button delete m-r-10" @click="deleteCondition(index)" v-show="condition.nameCond">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                  </a>
+              <div class="row extend" v-if="conditions.labels.length">
+                <div class="row extend" v-for="(condition, index) in conditions.selected">
+                  <div class="large-3 small-12 columns">
+                    <label>
+                      <span>Label</span>
+                      <multiselect v-model="condition.nameCond" placeholder="Select a Label" :searchable="false"
+                                  :options="conditions.labels" @input="updateConditionFields(condition.nameCond, index)"
+                                  :show-labels="false"></multiselect>
+                    </label>
+                  </div>
+                  <div class="large-3 small-12 columns" v-if="condition.nameCond">
+                    <label>
+                      <span>Condition</span>
+                      <multiselect v-model="condition.condition" placeholder="Select a Condition" :searchable="false"
+                                  :options="condition.conditionOptions" :show-labels="false"></multiselect>
+                    </label>
+                  </div>
+                  <div class="large-4 small-12 columns" v-if="condition.nameCond">
+                    <label>
+                      <span>Value</span>
+                      <multiselect v-model="condition.value" placeholder="Select a Value" :searchable="false"
+                                  :options="condition.valueOptions" :show-labels="false"></multiselect>
+                    </label>
+                  </div>
+                  <div class="large-2 small-12 columns p-t-25">
+                    <a class="button delete m-r-10" @click="deleteCondition(index)" v-show="condition.nameCond">
+                      <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
 
-                  <a class="button" @click="addCondition()"
-                     v-show="condition.nameCond && condition.condition && condition.value && (index == conditions.selected.length - 1)">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </a>
+                    <a class="button" @click="addCondition()"
+                      v-show="condition.nameCond && condition.condition && condition.value && (index == conditions.selected.length - 1)">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </a>
+                  </div>
                 </div>
+              </div>
+              <div class="row extend" v-else>
+                <div class="sub-title">No Available Conditions</div>
               </div>
             </div>
           </div>
@@ -359,8 +364,7 @@
     </div>
 
     <div class="columns small-12">
-      <a class="button large save-button" @click="savePackage()"
-         :disabled="(packageName == '') || (conditions.selected.length == 1) || (devices.selected.length == 0) || (services.selected.length == 0) || (addresses.selected.length == 0)">
+      <a class="button large save-button" @click="savePackage()" :disabled="packageName == ''">
         Save Package
       </a>
     </div>

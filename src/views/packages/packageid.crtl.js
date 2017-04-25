@@ -13,7 +13,6 @@ export default {
     return {
       status: 'new',
       packageName: '',
-      packageId: 0,
       presetLoading: true,
       carrierLoading: true,
       activePreset: {},
@@ -51,9 +50,9 @@ export default {
   },
   beforeCreate() {
     if (this.$route.params.id != null) {
-      this.$set(this, 'status', 'manage');
+      this.status = 'manage';
     } else {
-      this.$set(this, 'status', 'new');
+      this.status = 'new';
       this.$store.dispatch('packages/getCompanyInfo').then(
         res => {
           // Conditions Mapping
@@ -72,6 +71,8 @@ export default {
                 break;
               case 'boolean':
                 newCondition.options = ['equal'];
+              default:
+                newCondition.options = ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'];
                 break;
             }
 
@@ -85,7 +86,7 @@ export default {
           this.conditions.loading = false;
 
           // Address Mapping
-          this.addresses.availableAddresses = res.address;
+          this.addresses.availableAddresses = res.addresses;
           this.addresses.loading = false;
 
           this.$store.dispatch('packages/getPresets').then(
@@ -240,7 +241,45 @@ export default {
 
     // Update or Create Package
     savePackage() {
+      var newPackage = {
+        type: 'packages',
+        attributes: {
+          name: this.packageName,
+        },
+        relationships: {
+          conditions: { data: [] },
+          services: { data: [] },
+          devicevariations: { data: [] },
+          addresses: { data: [] }
+        }
+      };
 
+      for(let condition of this.conditions.selected) {
+        if(condition.nameCond)
+          newPackage.relationships.conditions.data.push({id: 0, nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
+      }
+
+      for(let device of this.devices.selected) {
+        newPackage.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
+      }
+
+      for(let service of this.services.selected) {
+        newPackage.relationships.services.data.push({type: "services", id: parseInt(service.id)});
+      }
+
+      for(let address of this.addresses.selected) {
+        newPackage.relationships.addresses.data.push({type: 'address', id: parseInt(address.id)});
+      }
+
+      if(this.status == 'manage') {
+
+      } else {
+        this.$store.dispatch('packages/createPackage', newPackage).then(
+          res => {
+            console.log(res);
+          }
+        )
+      }
     }
   }
 }
