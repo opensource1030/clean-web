@@ -23,6 +23,7 @@ $light-gray: #e6e6e6;
 $medium-gray: #cacaca;
 $dark-gray: #8a8a8a;
 
+
 // body
 $global-font-size : 0.95rem;
 $global-weight-normal : 300;
@@ -31,6 +32,7 @@ $body-font-family : 'Roboto', sans-serif;
 $header-font-family : 'Roboto', sans-serif;
 $body-font-color : #01203F;
 
+$brand-gray: #4A4A4A;
 $brand-orange:  #FF690A;
 $brand-green: #17BCBC;
 $brand-dark : #434A4F;
@@ -58,7 +60,7 @@ $foundation-palette: (
         secondary: #777,
         success: #46C35F,
         warning: #FF7721,
-        alert: #F92932,
+        alert: #E05139,
 ) ;
 
 
@@ -68,7 +70,7 @@ $foundation-palette: (
 $box-heading-bg: #fff8f2;
 
 $accordion-plusminus:false;
-$accordion-item-color:#FF690A;
+$accordion-item-color: $brand-orange;
 
 $accordion-item-padding:1.65rem 1rem;
 

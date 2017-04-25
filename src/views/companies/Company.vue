@@ -68,9 +68,9 @@
         <h2>Address</h2>
       </div>
       <div class="box-content">
-        <div class="address-wrapper" v-for="address in company.address" :data-index="address.pid">
-          <div class="row">
-            <div class="columns medium-4">
+          <div class="row addlist address-wrapper" v-for="address in company.address" :data-index="address.pid">
+
+              <div class="columns medium-4">
               <label>
                 <span>Name</span>
                 <input type="text" placeholder="Address Nickname" v-model="address.name">
@@ -88,9 +88,9 @@
                 <input type="text" placeholder="" v-model="address.state">
               </label>
             </div>
-          </div>
 
-          <div class="row">
+
+              <div class="clearfix"></div>
             <div class="columns medium-4">
               <label>
                 <span>City</span>
@@ -109,9 +109,11 @@
                 <input type="text" placeholder="" v-model="address.address">
               </label>
             </div>
-          </div>
+              <div class="btn-control">
+                  <a class="button delete" @click="removeAddressField($event)"><i class="fa fa-close"></i></a>
+              </div>
 
-          <span class="label close" @click="removeAddressField($event)"><i class="fa fa-close"></i></span>
+
         </div>
 
         <div class="row">
@@ -137,7 +139,7 @@
       </div>
 
       <div class="box-content">
-        <div class="row udl-wrapper" v-for="udl in company.udls">
+          <div class="row addlist  udl-wrapper" v-for="udl in company.udls">
           <input type="hidden" name="udl-id" :value="udl.id">
           <div class="columns medium-4">
             <label>
@@ -151,9 +153,12 @@
                 <span>Value</span>
                 <input type="text" name="udl-value" class="tag-input" :id="'udl-value-' + udl.pid" :value="udl.value" :data-index="udl.pid">
               </label>
-              <span class="label close" @click="removeCustomField($event)"><i class="fa fa-close"></i></span>
+
             </div>
           </div>
+              <div class="btn-control">
+                  <a class="button delete" @click="removeCustomField($event)"><i class="fa fa-close"></i></a>
+              </div>
         </div>
 
         <div class="row">

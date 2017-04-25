@@ -1,5 +1,5 @@
 @import "../base/clean-variables";
-
+@import "../mixins/other-mixin";
 #tables {
   .filterBy {
     display: inline-block;
@@ -85,13 +85,7 @@
     margin: 1.8rem 0 0 0;
   }
 
-  .delete{
-    margin-left: 4.6rem !important;
-  }
 
-  .button{
-    margin: 0 0 1rem 3rem;
-  }
 
   .titles {
     background: $ghost;
@@ -103,12 +97,7 @@
     }
   }
 
-  .devicename {
-      padding: 0 3.2rem;
-      margin:1rem 0 0 0;
-  }
-
-  .acordeon {
+  /*.acordeon {
     .prices {
       img{
         margin:1rem 0 0 0;
@@ -126,7 +115,7 @@
         padding: 0;
       }
 
-      .filterprices {
+      !*.filterprices {
         width: 45%;
         position: absolute;
         margin: -3.8rem;
@@ -140,7 +129,7 @@
           background-color: inherit;
           margin: 0 0.4rem;
         }
-      }
+      }*!
 
       tbody {
         .filter {
@@ -168,7 +157,7 @@
       }
     }
 
-    .acordeon-item {
+ !*   .acordeon-item {
       margin: 2rem;
 
       .overview {
@@ -202,42 +191,7 @@
         }
       }
 
-      .carriers {
-        .imagescheck {
-          .crop {
-            width: 125px;
-            height: 125px;
-            overflow: hidden;
-            display: inline-block;
-            border: 1px grey;
-            border-style: groove;
-            margin: 1rem 0.6rem;
 
-            label {
-              width: 125px;
-              height: 125px;
-              margin: 0;
-            }
-          }
-
-          label:hover {
-            box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
-          }
-
-          input[type=checkbox] {
-            display: none;
-
-            &:hover {
-              box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
-            }
-          }
-
-          // .active
-          input[type=checkbox]:checked + label {
-            box-shadow: inset 0 0 0 1000px rgba(0,0,255,0.5);
-          }
-        }
-      }
 
       .companies {
         .button {
@@ -260,6 +214,120 @@
           }
         }
       }
+    }*!
+  }*/
+}
+
+.carriers {
+  .imagescheck {
+    .crop {
+      width: 125px;
+      height: 125px;
+      overflow: hidden;
+      display: inline-block;
+      border: 1px grey;
+      border-style: groove;
+      margin: 1rem 0.6rem;
+
+      label {
+        width: 125px;
+        height: 125px;
+        margin: 0;
+      }
+    }
+
+    label:hover {
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
+    }
+
+    input[type=checkbox] {
+      display: none;
+
+      &:hover {
+        box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
+      }
+    }
+
+    // .active
+    input[type=checkbox]:checked + label {
+      box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
+    }
+  }
+}
+
+// * new from here */
+.filterprices {
+  float: right;
+  width: 570px;
+  margin-top: 15px;
+  select {
+    background: transparent;
+    border: none;
+    &:focus {
+      border: none;
+      @include css3(box-shadow, none);
+
+    }
+  }
+}
+
+.phoneImg {
+  height: 130px;
+  width: 100%;
+  margin-bottom: 13px;
+}
+
+.addlist {
+  border: 1px rgba($gainsboro, 0.3) solid;
+  padding: 1rem 2rem 1rem 0;
+  margin-bottom: 0.8rem;
+
+  position: relative;
+
+  .btn-control {
+    position: absolute;
+    right: -11px;
+    top: 8px;
+    width: 26px;
+    .button {
+      padding: .33333rem .5rem;
+      margin-bottom: 0.6rem;
+      line-height: 0.8rem;
+      &.delete {
+        background: $brand-red;
+      }
+    }
+  }
+}
+
+.row-active {
+  background: #FAF0EB !important;
+
+}
+
+.icon-toggle {
+  .fa {
+    @include css3(border-radius, 50%);
+    background: $brand-blue;
+    color: $white;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    line-height: 0.9rem;
+    width: 16px;
+    text-align: center;
+    height: 17px;
+  }
+}
+
+.action-buttons {
+  .button {
+    width: 30px;
+    padding: 0.5rem;
+    color: $white;
+    height: 30px;
+    text-align: center;
+    &:hover {
+      color: $white;
     }
   }
 }

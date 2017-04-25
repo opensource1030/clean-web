@@ -36,7 +36,7 @@
     .breadcrumb{
       justify-content: flex-start;
       position: relative;
-      padding-left: 1.3rem;
+      padding-left: 1.1rem;
       margin-bottom: 0;
       &:before{
         font-family: FontAwesome;
@@ -53,4 +53,14 @@
 
 .breadcrumb{
   margin-left: 0.5rem;
+  > li + li:before {
+    color: #cacaca;
+    content: "" !important;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 0;
+
+}
+
 }

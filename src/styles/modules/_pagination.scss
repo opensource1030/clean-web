@@ -1,8 +1,29 @@
+@import "../base/clean-variables";
+@import "../mixins/other-mixin";
+
 .pagination {
   text-align: center;
   margin: 2rem;
 
+  a {
+    padding: 0.19737rem 0.8rem;
+  }
+
   .current {
     display: inline-block;
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    background: $white-smoke;
+    @include css3(box-shadow, 0 0 1px $iron inset);
+  }
+
+  .pagination-next {
+    a {
+      &:after, &:before {
+        content: none;
+      }
+    }
   }
 }

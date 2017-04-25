@@ -1,10 +1,10 @@
 module.exports = {
   NODE_ENV: '"productionDev"',
-  URL_API: '"https://devapi.wirelessanalytics.com"',
-  URL: '"https://dev.wirelessanalytics.com"',
+    URL_API: '"https://devapi.wirelessanalytics.com"',
+    URL: '"https://dev.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-  LEGACY_URL: '"https://devlegacy.wirelessanalytics.com"',
+    LEGACY_URL: '"https://devlegacy.wirelessanalytics.com"',
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,

@@ -26,7 +26,7 @@
                             class="fa fa-circle-o"></i> Top 10 Reports</a></li>
                     
                     <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/helpdesk/udl/report_zero_usage.asp?token='"><i
+                                                 :href="legacyLink +'/report_zero_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Zero Usage</a></li>
 
                     <li class="redirect-link"><a target="_blank"
@@ -37,13 +37,6 @@
                                                  :href="legacyLink +'/report_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Usage</a></li>
 
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink + '/dashboard_cycle.asp?token='"><i
-                            class="fa fa-circle-o"></i> Bill Cycle</a></li>
-                   
-                    <li class="redirect-link"><a target="_blank"
-                                                 :href="legacyLink +'/report_data.asp?token='"><i
-                            class="fa fa-circle-o"></i> Data</a></li>
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/report_international.asp?token='"><i
                             class="fa fa-circle-o"></i> International</a></li>

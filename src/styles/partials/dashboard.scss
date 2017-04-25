@@ -35,44 +35,7 @@
 
 }
 
-.grid-box{
-  .box-content{
-    .note{
-      display: block;
-      font-weight: 600;
-      padding: 0.7rem 1rem 1rem;
-    }
 
-    canvas{
-      max-width: 100%;
-      height: 300px !important;
-    }
-
-    &-holder{
-      padding: 0.9rem 0.8rem ;
-      p{
-        margin-bottom: 0;
-        &:first-child{
-          margin-bottom: 0.7em;
-        }
-      }
-    }
-    &.coming-soon{
-      position: relative;
-      min-height: 350px;
-      .tabs-content{
-        border:none;
-      }
-      .pie-chart-title {
-        font-weight: 600;
-      }
-    }
-  }
-
-  p:empty {
-    display: none;
-  }
-}
 
 .icon-list{
   @extend %listreset;
@@ -102,6 +65,10 @@
     max-width: 180px;
     margin-bottom: 0;
     border:none;
+    background: transparent;
+    &:focus {
+      @include css3(box-shadow, none);
+    }
   }
 
   .btn-next{
@@ -111,6 +78,23 @@
     line-height: 1.2rem;
   }
 
+  .monthly-charge {
+    display: inline-block;
+    color: $white;
+    font-weight: 400;
+    padding: 0 0.3rem;
+    font-size: 0.8rem;
+    background: lighten($brand-orange, 10%);
+  }
+}
+
+.table-holder {
+  .multiselect {
+    .multiselect__input {
+      margin: -6px 0 0;
+    }
+  }
+  position: relative;
   table{
     border:none;
     margin-bottom: 0;
@@ -159,14 +143,22 @@
       display: table;
     }
   }
-
-  .monthly-charge{
-    display: inline-block;
-    color:$white;
-    font-weight: 400;
-    padding: 0 0.3rem;
-    font-size: 0.8rem;
-    background: lighten($brand-orange,10%);
+  .load {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+    background: rgba($black, 0.2);
+    text-align: center;
+  }
+  .multiselect__input {
+    @include css3(box-shadow, none);
+    @include placeholder {
+      color: $jet;
+      font-weight: 400
+    }
   }
 }
 
@@ -748,7 +740,17 @@ a.btn-provision:hover .support-form-holder{
     display: none;
   }
 }
-.callout,
+
+.callout {
+  &.is-error {
+    background: $brand-red;
+    color: $white;
+  }
+  &.is-success {
+    background: $brand-green;
+    color: $white;
+  }
+}
 #modal{
   &.is-error{
     background: $brand-red;

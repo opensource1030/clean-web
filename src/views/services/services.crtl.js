@@ -7,6 +7,7 @@ import multiselect from 'vue-multiselect';
 import searchCost from './../../components/searchCost.vue';
 import {mapGetters, mapActions} from 'vuex'
 import serviceAPI from './../../api/service-api';
+import swal from 'sweetalert2'
 export default {
   created() {
     this.$store.dispatch('services/getAll', {
@@ -15,12 +16,6 @@ export default {
     })
     this.$store.dispatch('carrier/search')
 
-  },
-  mounted(){
-    var tableRows = document.getElementsByTagName('tbody');
-for (var i = 0; i < tableRows.length; i++) {
-  tableRows[i].style.backgroundColor = (i % 2)?"white":"#f2f2f2";
-}
   },
   computed : {
     ...mapGetters({Service: 'services/getService', select: 'services/getSelects', carriers: 'carrier/sorted', pagination: 'services/getPagination'})
@@ -55,9 +50,37 @@ for (var i = 0; i < tableRows.length; i++) {
       this.search.searchShow = !this.search.searchShow;
     },
     removeService (id) {
-      serviceAPI.remove(id, res => {
-        this.$store.dispatch('services/getAll')
-      }, err => console.log('company remove', err))
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(function () {
+                serviceAPI.remove(id, res => {
+                    this.$store.dispatch('services/getAll')
+                }, err => console.log('company remove', err))
+                swal(
+                    'Deleted!',
+                    'Requested service has been deleted.',
+                    'success'
+                )
+            }, function (dismiss) {
+                // dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                if (dismiss === 'cancel') {
+                    swal(
+                        'Cancelled',
+                        'Selected service is safe :)',
+                        'error'
+                    )
+                }
+
+            }
+        );
+
     },
 
     onServiceActiveChange (e, id) {

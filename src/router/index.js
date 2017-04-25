@@ -43,17 +43,17 @@ import Preset from './../views/presets/Preset.vue'
 import Services from './../views/services/Services.vue'
 import Service from './../views/services/Service.vue'
 
-// routes packages
+// routes Packages
 import Packages from './../views/packages/Packages.vue'
 import Packageid from './../views/packages/Packageid.vue'
 
-// routes profile
+// routes Employees
 import Profile from './../views/employees/Profile.vue'
 import AddDevice from './../views/employees/AddDevice.vue'
 import AddService from './../views/employees/AddService.vue'
 import UpdateProfile from './../views/employees/UpdateProfile.vue'
 
-// routes settings
+// routes Settings
 import Settings from './../views/settings/Settings.vue'
 
 // popover
@@ -84,9 +84,9 @@ const router = new VueRouter({
     { path: '/sidemenu', component: Sidemenu },
 
     // devices
-    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    {path: '/devices', component: Devices, name: 'List Devices', meta: {requiresAuth: true}},
     { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
+    {path: '/device', component: Device, name: 'Ad Device', meta: {requiresAuth: true}},
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
@@ -103,12 +103,14 @@ const router = new VueRouter({
 
     // employees
     {
-      path: '/employees', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Employees' },
+      path: '/employees',
+      component: {template: '<router-view></router-view>'},
+      meta: {requiresAuth: true, label: 'Employees'},
       children: [
-        { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
-        { path: 'bulk', component: EmployeeBulkAdd, name: 'Add Bulk Employees', meta: { label: 'Bulk Add' } },
-        { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create'} },
-        { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit'} },
+        {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
+        {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
+        {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
+        {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
       ]
     },
 
@@ -116,21 +118,36 @@ const router = new VueRouter({
     { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
     { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
     { path: '/preset', component: Preset, name: 'Add Preset', meta: { requiresAuth: true } },
+
     // services
-    { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
-    { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
-    { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
+    // { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
+    // { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
+    // { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
+  
+    {
+      path: '/services',
+      component: {template: '<router-view></router-view>'},
+      meta: {requiresAuth: true, label: 'Services'},
+      children: [
+        { path: '', component: Services, name: 'List Services', meta: { label: 'All' } },
+        { path: '/service', component: Service, name: 'Add Service', meta: { label: 'Create' } },
+        { path: '/service/:id', component: Service, name: 'Update Service', meta: { label: 'Edit' } },
+      ]
+    },
+
     // profile
     { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
     { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },
     { path: '/addservice', component: AddService, name: 'addService', meta: { requiresAuth: true } },
     { path: '/adddevice', component: AddDevice, name: 'addDevice', meta: { requiresAuth: true } },
     { path: '/configuration', component: Settings, name: 'configuration', meta: { requiresAuth: true } },
-    // packages
+
+    //packages
     { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
     { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
     { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
-    // redirect
+
+    //redirect
     { path: '*', redirect: '/dashboard' }
   ]
 })
@@ -144,9 +161,9 @@ Vue.http.interceptors.push((request, next) => {
 
 // Vue.http.interceptors.push((request, next) => {
 //   next((response) => {
-//     if(response.status==401){
+//     if (response.status==401) {
 //       store.dispatch('auth/logout')
-//       router.push('login')
+//       router.push('login');
 //     }
 //   })
 // })

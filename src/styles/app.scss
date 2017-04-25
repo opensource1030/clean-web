@@ -9,7 +9,6 @@
 @import "plugins/flatpickr";
 @import "./../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
 @import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
-
 @import "partials/common";
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
@@ -79,4 +78,55 @@ body{
   border-radius: 0;
   transition: box-shadow 0.5s, border-color 0.25s ease-in-out;
   -webkit-appearance: none;
+}
+
+.input-group-field {
+  height: 2.5rem;
+}
+
+.inline-block-items {
+  display: inline-block;
+}
+
+div.multiselect__tags {
+  @include css3(border-radius, 0);
+}
+
+.mg-l-5 {
+  margin-right: 0.329rem;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.input-static {
+  height: 2.51316rem;
+  margin: 0 0 1.05263rem;
+  padding: 0.52632rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #000000;
+}
+
+.row {
+  .row {
+    &.default {
+      margin-right: -0.65789rem;
+      margin-left: -0.65789rem;
+    }
+  }
+}
+
+.border-all {
+  border: 1px $gainsboro solid;
+}
+
+.form-label {
+  @extend label;
+  strong {
+    display: block;
+  }
 }
