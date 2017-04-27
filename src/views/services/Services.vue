@@ -252,8 +252,7 @@
 
               </template>
             </table>
-            <div v-show="Service.loading" class="load">
-              <i class="fa fa-spinner fa-spin fa-5x"></i>
+              <div v-show="Service.loading" class="is-loading">
             </div>
           </div>
         </div>

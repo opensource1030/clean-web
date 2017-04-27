@@ -95,6 +95,7 @@
     }
   }
   position: relative;
+  min-height: 200px;
   table{
     border:none;
     margin-bottom: 0;
@@ -143,16 +144,7 @@
       display: table;
     }
   }
-  .load {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    margin-top: 0;
-    background: rgba($black, 0.2);
-    text-align: center;
-  }
+
   .multiselect__input {
     @include css3(box-shadow, none);
     @include placeholder {
@@ -160,6 +152,20 @@
       font-weight: 400
     }
   }
+}
+
+.is-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin-top: 0;
+  padding: 20px;
+  background-origin: padding-box;
+  background: #ebeef4 url('../../src/images/loading.svg') center center no-repeat;
+  background-size: 60px 60px;
+  text-align: center;
 }
 
 .welcome-box{

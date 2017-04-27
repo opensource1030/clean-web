@@ -9,8 +9,8 @@
       <div class="box-heading">
         <h2>Company Information</h2>
       </div>
-      <div class="box-content">
-        <div class="row">
+      <div class="box-content-holder">
+        <div class="row default">
           <div class="columns medium-4">
             <div class="company-image-wrapper">
               <div class="company-image" :style="'background-image: url(' + getCompanyImage() + ')'">
@@ -67,7 +67,7 @@
       <div class="box-heading">
         <h2>Address</h2>
       </div>
-      <div class="box-content">
+      <div class="box-content-holder">
           <div class="row addlist address-wrapper" v-for="address in company.address" :data-index="address.pid">
 
               <div class="columns medium-4">
@@ -138,7 +138,7 @@
         <h2>Custom Fields</h2>
       </div>
 
-      <div class="box-content">
+      <div class="box-content-holder">
           <div class="row addlist  udl-wrapper" v-for="udl in company.udls">
           <input type="hidden" name="udl-id" :value="udl.id">
           <div class="columns medium-4">
