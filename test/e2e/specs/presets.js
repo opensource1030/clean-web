@@ -1,3 +1,4 @@
+/*
 module.exports = {
   before: function(browser) {
     const devServer = browser.globals.devServerURL;
@@ -12,7 +13,7 @@ module.exports = {
     browser
     .pause(10000)
     .assert.urlEquals(devServer+'/presets')
-    .waitForElementVisible('#app  #tables', 15000)
+    .waitForElementVisible('#app  #tables', 25000)
     .waitForElementVisible('table', 5000)
     .waitForElementVisible('tbody', 5000)
     .waitForElementVisible('#open', 5000)
@@ -53,8 +54,6 @@ module.exports = {
       })
     })
    .click('#button')
-
-
   },
 
   'addPreset': function (browser) {
@@ -91,5 +90,5 @@ module.exports = {
     .click('#button')
     .end()
   }
-
 }
+*/

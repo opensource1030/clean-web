@@ -67,53 +67,51 @@
       <div class="box-heading">
         <h2>Address</h2>
       </div>
-      <div class="box-content-holder">
-          <div class="row addlist address-wrapper" v-for="address in company.address" :data-index="address.pid">
 
-              <div class="columns medium-4">
-              <label>
-                <span>Name</span>
-                <input type="text" placeholder="Address Nickname" v-model="address.name">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>Country</span>
-                <input type="text" placeholder="" v-model="address.country">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>State</span>
-                <input type="text" placeholder="" v-model="address.state">
-              </label>
-            </div>
+      <div class="box-content">
+        <div class="row addlist address-wrapper" v-for="address in company.address" :data-index="address.pid">
+          <div class="columns medium-4">
+            <label>
+              <span>Name</span>
+              <input type="text" placeholder="Address Nickname" v-model="address.name">
+            </label>
+          </div>
+          <div class="columns medium-4">
+            <label>
+              <span>Country</span>
+              <input type="text" placeholder="" v-model="address.country">
+            </label>
+          </div>
+          <div class="columns medium-4">
+            <label>
+              <span>State</span>
+              <input type="text" placeholder="" v-model="address.state">
+            </label>
+          </div>
+          <div class="clearfix"></div>
 
+          <div class="columns medium-4">
+            <label>
+              <span>City</span>
+              <input type="text" placeholder="" v-model="address.city">
+            </label>
+          </div>
+          <div class="columns medium-4">
+            <label>
+              <span>Postal Code</span>
+              <input type="text" placeholder="" v-model="address.postalCode">
+            </label>
+          </div>
+          <div class="columns medium-4">
+            <label>
+              <span>Address</span>
+              <input type="text" placeholder="" v-model="address.address">
+            </label>
+          </div>
 
-              <div class="clearfix"></div>
-            <div class="columns medium-4">
-              <label>
-                <span>City</span>
-                <input type="text" placeholder="" v-model="address.city">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>Postal Code</span>
-                <input type="text" placeholder="" v-model="address.postalCode">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>Address</span>
-                <input type="text" placeholder="" v-model="address.address">
-              </label>
-            </div>
-              <div class="btn-control">
-                  <a class="button delete" @click="removeAddressField($event)"><i class="fa fa-close"></i></a>
-              </div>
-
-
+          <div class="btn-control">
+            <a class="button delete" @click="removeAddressField($event)"><i class="fa fa-close"></i></a>
+          </div>
         </div>
 
         <div class="row">
@@ -123,7 +121,7 @@
                 <span><i class="fa fa-plus"></i></span>
               </div>
               <div class="input-group-button">
-                <input type="button" class="button add-udl-button" value="Add New Address" @click="addAddressField()">
+                <input type="button" class="button add-address-button" value="Add New Address" @click="addAddressField()">
               </div>
             </div>
           </div>
@@ -138,8 +136,8 @@
         <h2>Custom Fields</h2>
       </div>
 
-      <div class="box-content-holder">
-          <div class="row addlist  udl-wrapper" v-for="udl in company.udls">
+      <div class="box-content">
+        <div class="row addlist  udl-wrapper" v-for="udl in company.udls">
           <input type="hidden" name="udl-id" :value="udl.id">
           <div class="columns medium-4">
             <label>
@@ -153,12 +151,12 @@
                 <span>Value</span>
                 <input type="text" name="udl-value" class="tag-input" :id="'udl-value-' + udl.pid" :value="udl.value" :data-index="udl.pid">
               </label>
-
             </div>
           </div>
-              <div class="btn-control">
-                  <a class="button delete" @click="removeCustomField($event)"><i class="fa fa-close"></i></a>
-              </div>
+
+          <div class="btn-control">
+            <a class="button delete" @click="removeCustomField($event)"><i class="fa fa-close"></i></a>
+          </div>
         </div>
 
         <div class="row">

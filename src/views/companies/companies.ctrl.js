@@ -38,37 +38,27 @@ export default {
     },
 
     removeCompany (company_id) {
-        swal({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then(function () {
-                companyAPI.remove(company_id, res => {
-                    this.$store.dispatch('company/search')
-                }, err => console.log('company remove', err))
-                swal(
-                    'Deleted!',
-                    'Requested company has been deleted.',
-                    'success'
-                )
-            }, function (dismiss) {
-                // dismiss can be 'cancel', 'overlay',
-                // 'close', and 'timer'
-                if (dismiss === 'cancel') {
-                    swal(
-                        'Cancelled',
-                        'Selected company is safe :)',
-                        'error'
-                    )
-                }
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function () {
+        companyAPI.remove(company_id, res => {
+          this.$store.dispatch('company/search')
+        }, err => console.log('company remove', err))
 
-            }
-        );
-
+        swal('Deleted!', 'Requested company has been deleted.', 'success')
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal('Cancelled', 'Selected company is safe :)', 'error')
+        }
+      });
     },
 
     onCompanyActiveChange (e, company_id) {

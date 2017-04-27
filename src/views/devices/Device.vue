@@ -4,13 +4,6 @@
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
-  <!--<div class="small-12 columns titles">
-    <h4>Manage Device</h4>
-  </div>-->
-
-  <div>
-  </div>
-
   <div class="large-6 columns">
     <label class="devicename">
       <strong>Device Name</strong>
@@ -104,31 +97,23 @@
                       <div class="input-group-button">
                         <a @click="addCapacity()" class="button ">Add</a>
                       </div>
-
                     </div>
                   </label>
-                  <div class="small-4 columns money">
-
-                  </div>
-                  <div class="small-2 columns end">
-
-                  </div>
                 </div>
               </div>
 
               <div class="row collapse">
                 <div class="checkbox large-6 medium-6 small-6 columns " v-for="c in capacities">
-                <label>
-                  <input type="checkbox" name="capacities" :value="c.id" v-model="c.checked">
-                  <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
-                  {{ c.value }}
-                </label>
-              </div>
+                  <label>
+                    <input type="checkbox" name="capacities" :value="c.id" v-model="c.checked">
+                    <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
+                    {{ c.value }}
+                  </label>
+                </div>
               </div>
             </div>
 
             <div class="large-4  small-12 columns end">
-
               <label><strong>Color</strong>
                 <div class="input-group">
                   <input type="text" class="input-group-field" v-model="style" placeholder="Custom">
@@ -136,7 +121,6 @@
                     <a @click="addStyle()" class="button ">Add</a>
                   </div>
                 </div>
-
               </label>
 
               <div class="row collapse">
@@ -333,7 +317,7 @@
 
     </ul>
 
-    <a class="button large" @click="submit()" id="button">Save Changes</a>
+    <a class="button large save-button" @click="submit()">Save Changes</a>
     <!-- <div>{{ device.devicevariations[0].images[0] }}</div> -->
   </div>
 </div>

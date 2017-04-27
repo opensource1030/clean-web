@@ -27,7 +27,7 @@ import router from './router'
 import {sync} from 'vuex-router-sync'
 sync(store, router)
 
-$(document).foundation();
+// $(document).foundation();
 
 // filter
 var moment = require('moment');

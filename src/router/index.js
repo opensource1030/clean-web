@@ -83,10 +83,17 @@ const router = new VueRouter({
     { path: '/sso/:id', component: Sso, name: 'sso' },
     { path: '/sidemenu', component: Sidemenu },
 
-    // devices
-    {path: '/devices', component: Devices, name: 'List Devices', meta: {requiresAuth: true}},
-    { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-      {path: '/device', component: Device, name: 'Add Device', meta: {requiresAuth: true}},
+    // { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    // { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
+    // { path: '/device', component: Device, name: 'Add Device', meta: { requiresAuth: true } },
+    {
+      path: '/devices', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Devices' },
+      children: [
+        { path: '', component: Devices, name: 'List Devices', meta: { label: 'All' } },
+        { path: 'new', component: Device, name: 'Add Device', meta: { label: 'Create'} },
+        { path: ':id', component: Device, name: 'Update Device', meta: { label: 'Edit'} },
+      ]
+    },
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },

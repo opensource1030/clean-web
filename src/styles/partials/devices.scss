@@ -1,63 +1,18 @@
 @import "../base/clean-variables";
+@import "../plugins/material-color";
 @import "../mixins/other-mixin";
 
-
-
-.carriers {
-  .imagescheck {
-    .crop {
-      width: 125px;
-      height: 125px;
-      overflow: hidden;
-      display: inline-block;
-      border: 1px grey;
-      border-style: groove;
-      margin: 1rem 0.6rem;
-
-      label {
-        width: 125px;
-        height: 125px;
-        margin: 0;
+.page.device-page.device-index-page {
+  
+  table.unstriped {
+    tbody {
+      tr {
+        td {
+          .label {
+            margin-right: 10px;
+          }
+        }
       }
     }
-
-    label:hover {
-      box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
-    }
-
-    input[type=checkbox] {
-      display: none;
-
-      &:hover {
-        box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
-      }
-    }
-
-    // .active
-    input[type=checkbox]:checked + label {
-      box-shadow: inset 0 0 0 1000px rgba(0, 0, 255, 0.5);
-    }
   }
-}
-
-// * new from here */
-.filterprices {
-  float: right;
-  width: 570px;
-  margin-top: 15px;
-  select {
-    background: transparent;
-    border: none;
-    &:focus {
-      border: none;
-      @include css3(box-shadow, none);
-
-    }
-  }
-}
-
-.phoneImg {
-  height: 130px;
-  width: 100%;
-  margin-bottom: 13px;
 }

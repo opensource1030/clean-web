@@ -1,3 +1,4 @@
+/*
 module.exports = {
   before: function(browser) {
     const devServer = browser.globals.devServerURL;
@@ -16,8 +17,8 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     browser
     .assert.urlEquals(devServer+'/services')
-    .waitForElementVisible('#app  #tables', 15000)
-    .waitForElementVisible('table', 5000)
+    // .waitForElementVisible('#app  #tables', 15000)
+    .waitForElementVisible('table', 25000)
     .waitForElementVisible('tbody', 5000)
     .waitForElementVisible('#open', 5000)
     // .click('#open')
@@ -31,7 +32,8 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     let client = browser;
     browser
-    .waitForElementVisible('#app  #tables', 15000)
+    // .waitForElementVisible('#app  #tables', 15000)
+    .waitForElementVisible('table', 25000)
     .click('#open')
     .waitForElementVisible('#updateService', 5000)
     .click('#updateService')
@@ -166,3 +168,4 @@ module.exports = {
     .click('.save')
   }
 }
+*/

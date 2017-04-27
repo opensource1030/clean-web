@@ -19,8 +19,8 @@
         <input type="text" placeholder="Search with employee name" v-model="query" @keyup.enter="searchEmployees()">
         <i class="fa fa-search"></i>
       </div>
-      <div class="box-content">
-        <table class="unstriped" v-if="employees.length > 0">
+      <div class="box-content" v-if="employees.length > 0">
+        <table class="unstriped">
           <thead>
             <tr>
               <th width="50">&nbsp;</th>
@@ -114,6 +114,8 @@
       :next="nextPage"
       v-show="$store.state.employee.records.length > 0">
     </paginate>
+
+    <div class="load-wrapper" v-hide="$store.state.company.records.length > 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
   </div>
 </div>
 </template>

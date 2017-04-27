@@ -230,6 +230,7 @@ export default {
         delete udl.udlvalues
         delete udl.sections
         _udl = UdlsPresenter.toJSON(udl)
+        _udl['data']['id'] = parseInt(_udl['data']['id'])
         _udl['data']['relationships'] = { udlvalues: { data: [] } }
         _.each(values, (value) => { _udl['data']['relationships']['udlvalues']['data'].push({ id: 0, name: value, type: 'udlvalues', externalId: 0 })})
         _udls.push(_udl.data)
@@ -243,20 +244,20 @@ export default {
         }
       })
 
-      let _jsonData = CompaniesPresenter.toJSON(this.company)
+      let _jsonData = CompaniesPresenter.toJSON(_company)
       delete _jsonData['data']['attributes']['udls']
       delete _jsonData['data']['attributes']['address']
 
       _jsonData['data']['relationships'] = { udls: { data: _udls } , address: { data: _addresses } }
       // console.log(_jsonData)
 
-      if (process.env.NODE_ENV === 'testing') {
+      // if (process.env.NODE_ENV === 'testing') {
         delete _jsonData['data']['attributes']['devicevariations']
-        _jsonData['data']['attributes']['isCensus'] = null
-      }
+        _jsonData['data']['attributes']['isCensus'] = 0
+      // }
 
       let _params = JSON.stringify(_jsonData)
-      // console.log(_params)
+      console.log(_params)
 
       if (this.company.id > 0) {
         companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))

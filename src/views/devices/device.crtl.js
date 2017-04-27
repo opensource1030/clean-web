@@ -104,13 +104,15 @@ export default {
                 deviceAPI.getOne(device_id, {}, res => {
                   this.$set(this, 'device', store.sync(res.data))
                   // console.log('device', this.device)
-
-                  this.$set(this, 'device_id', device_id)
+                  
                   this.initComponent()
+                  this.$set(this, 'device_id', device_id)
+                  // console.log(this.device_id, this.device.id, this.device_id == this.device.id)
                 })
               } else {
-                this.$set(this, 'device_id', device_id)
                 this.initComponent()
+                this.$set(this, 'device_id', device_id)
+                // console.log(this.device_id, this.device)
               }
             }
           )
@@ -209,9 +211,11 @@ export default {
       })
 
       // init foundation to enable accordion
-      Vue.nextTick(function() {
-        $(document).foundation();
-      });
+      this.$nextTick(() => {
+        $(document).foundation();  
+      })
+
+      this.$forceUpdate()
     },
 
     getDefaultValue (type) {

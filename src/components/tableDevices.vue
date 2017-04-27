@@ -5,7 +5,6 @@
         <tr>
           <th width="30px">
           </th>
-
           <th>
             <multiselect
                     :options="$store.state.device.types"

@@ -50,7 +50,7 @@ export default {
 
     this.$store.dispatch('company/searchByActive', { query: 1 }).then(res => {
       if (employee_id > 0) {
-        employeeAPI.get(employee_id, { params: { include: 'companies,companies.udls,companies.address' } }, res => {
+        employeeAPI.get(employee_id, { params: { include: 'companies,companies.udls,companies.addresses' } }, res => {
           this.$set(this, 'employee', store.sync(res.data))
           // this.$set(this, 'activeCompany', (this.employee.companies.length > 0 && !!this.employee.companies[0] ? this.employee.companies[0] : null))
           // console.log('employee', this.employee)

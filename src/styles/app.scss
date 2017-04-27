@@ -13,7 +13,7 @@
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
 @import "partials/footer";
-@import "partials/devices";
+@import "partials/devices_old";
 @import "partials/presets";
 @import "partials/modal";
 @import "partials/services";
@@ -21,8 +21,10 @@
 @import "partials/employees_old";
 @import "partials/nprogress";
 @import "partials/login";
+
 @import "partials/companies";
 @import "partials/employees";
+@import "partials/devices";
 // @import './../../node_modules/select2/dist/css/select2.min.css';
 
 .w1{overflow: hidden;}

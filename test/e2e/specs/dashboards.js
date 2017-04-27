@@ -1,3 +1,4 @@
+/*
 module.exports = {
   before: function (browser) {
     const devServer = browser.globals.devServerURL;
@@ -85,3 +86,4 @@ module.exports = {
     .end()
   },
 }
+*/

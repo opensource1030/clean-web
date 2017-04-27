@@ -101,6 +101,10 @@
         .detail-box {
           display: flex;
           padding: 10px 20px 10px 20px;
+
+          .content {
+            width: 100%;
+          }
         }
       }
     }

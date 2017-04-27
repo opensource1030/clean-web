@@ -1,11 +1,11 @@
 <template>
-<div class="page company-page company-index-page" v-if="companies.length > 0">
+<div class="page company-page company-index-page">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large btn-orange" href="/companies/new">Add Company</a>
+    <a class="button large btn-orange add-button" href="/companies/new">Add Company</a>
   </div>
 
   <div class="columns small-12">
@@ -14,10 +14,9 @@
     </div>
     <div class="grid-box">
       <div class="search-holder">
-        <input type="text" class="input-search" placeholder="Search with company name, shortname" v-model="query"
-               @keyup.enter="searchCompanies()">
+        <input type="text" class="input-search" placeholder="Search with company name, shortname" v-model="query" @keyup.enter="searchCompanies()">
       </div>
-      <div class="box-content">
+      <div class="box-content" v-if="companies.length > 0">
         <div class="table-holder">
           <table class="unstriped">
             <thead>
@@ -32,11 +31,9 @@
             </thead>
             <tbody>
             <template v-for="company in companies">
-              <tr class="overview-tr" :data-id="company.id"
-                  :class="activeCompany && (activeCompany.id == company.id) ? 'row-active' : ''">
-                <td class="icon-toggle">
-                  <span @click="setActive(company)"><i
-                          :class="activeCompany && (activeCompany.id == company.id) ? 'fa fa-minus' : 'fa fa-plus'"></i></span>
+              <tr class="overview-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
+                <td>
+                  <span class="badge" @click="setActive(company)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
                 </td>
                 <td>{{ company.id }}</td>
                 <td>
@@ -52,8 +49,7 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></a>
-                    <a :href="'/companies/' + company.id" :name="'edit-' + company.id" class="button warning"><i
-                            class="fa fa-edit"></i></a>
+                    <a :href="'/companies/' + company.id" :name="'edit-' + company.id" class="button warning"><i class="fa fa-edit"></i></a>
                   </div>
                 </td>
               </tr>
@@ -115,6 +111,8 @@
     :next="nextPage"
     v-show="$store.state.company.records.length > 0">
   </paginate>
+
+  <div class="load-wrapper" v-hide="$store.state.company.records.length > 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
 </div>
 </template>
 
