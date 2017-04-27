@@ -112,7 +112,7 @@
     v-show="$store.state.company.records.length > 0">
   </paginate>
 
-  <div class="load-wrapper" v-hide="$store.state.company.records.length > 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="load-wrapper" v-show="$store.state.company.records.length == 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
 </div>
 </template>
 

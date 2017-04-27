@@ -219,7 +219,7 @@
     v-show="$store.state.device.records.length > 0">
   </paginate>
 
-  <div class="load-wrapper" v-hide="isReady"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="load-wrapper" v-show="!isReady"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
 </div>
 </template>
 
