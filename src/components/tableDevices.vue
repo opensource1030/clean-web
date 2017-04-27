@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="small-12 colums responsive">
       <table width="100%" class="responsive">
         <thead>
         <tr>
@@ -217,8 +216,8 @@
         </template>
         </tbody>
       </table>
-    </div>
-    <hr>
+      <div v-show="devices.length < 1 || devices.length == null" class="is-loading"></div>
+      <hr v-show="devices.length > 1">
     <paginate
             :pagination="$store.state.device.pagination"
             :prev="prevPage"
