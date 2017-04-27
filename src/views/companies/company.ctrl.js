@@ -41,6 +41,7 @@ export default {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
         // console.log('company', this.company)
+
         this.$set(this, 'company_id', company_id)
         this.initComponent()
       })

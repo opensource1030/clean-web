@@ -104,14 +104,14 @@ export default {
                 deviceAPI.getOne(device_id, {}, res => {
                   this.$set(this, 'device', store.sync(res.data))
                   // console.log('device', this.device)
-                  
-                  this.initComponent()
+
                   this.$set(this, 'device_id', device_id)
+                  this.initComponent()
                   // console.log(this.device_id, this.device.id, this.device_id == this.device.id)
                 })
               } else {
-                this.initComponent()
                 this.$set(this, 'device_id', device_id)
+                this.initComponent()
                 // console.log(this.device_id, this.device)
               }
             }
@@ -212,10 +212,9 @@ export default {
 
       // init foundation to enable accordion
       this.$nextTick(() => {
-        $(document).foundation();  
+        $(document).foundation()
       })
-
-      this.$forceUpdate()
+      // this.$forceUpdate()
     },
 
     getDefaultValue (type) {

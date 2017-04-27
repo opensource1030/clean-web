@@ -85,8 +85,6 @@
     margin: 1.8rem 0 0 0;
   }
 
-
-
   .titles {
     background: $ghost;
 
@@ -256,20 +254,6 @@
 }
 
 // * new from here */
-.filterprices {
-  float: right;
-  width: 570px;
-  margin-top: 15px;
-  select {
-    background: transparent;
-    border: none;
-    &:focus {
-      border: none;
-      @include css3(box-shadow, none);
-
-    }
-  }
-}
 
 .phoneImg {
   height: 130px;
