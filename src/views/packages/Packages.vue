@@ -1,105 +1,97 @@
 <template>
-  <div>
-    <div id="tables">
-      <div class="header"></div>
-      <div class="expanded row">
-        <div class="large-12 columns titles">
-          <h4>{{names.packagePlans}}</h4>
+  <div class="page package-page package-index-page">
+    <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
+      <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
+    </modal>
+
+    <div class="small-12 columns">
+      <a class="button large btn-orange" href="/packages/new">Add Package</a>
+    </div>
+
+    <div class="columns small-12">
+      <div class="tag-header">
+        <h1>Packages</h1>
+      </div>
+      <div class="grid-box">
+        <div class="search-holder">
+          <input type="text" class="input-search" placeholder="Search with package name" v-model="searchQuery" @keyup.enter="searchPackages()">
         </div>
-        <div class="large-4 columns">
-          <a class="button buttonTable" href="/package">{{names.addPackage}}</a>
-        </div>
-        <searchCost :callback="onSelectColumn" :show="search.searchShow" v-model="search" :search="search" ></searchCost>
-        <div v-show="!loading" class="small-12 columns">
-          <table cellspacing=0 cellpadding=0>
-            <thead>
-              <tr>
-                <th height="70" width="10%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <span>{{names.manage}}</span>
-                </th>
-                <th title="The Name of the Package" width="25%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <div class="large-12 columns">{{names.name}}</div>
-                  <!--@click="showInputFilter()" -->
-                  <!--<div v-show="showInput" class="large-12 columns" style="padding: 0px">
-                    <inputfilter
-                      :callback="onSelectValue"
-                      :val.sync="values.name">
-                    </inputfilter>
-                  </div>-->
-                </th>
-                <th title="Max price you will pay once time" width="8%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <div>{{names.priceOnce}}</div>
-                </th>
-                <th title="Max price you will pay monthly" width="8%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <div>{{names.priceMonth}}</div>
-                </th>
-                <th width="51%" style="color: #FF690A; box-sizing: border-box; font-weight: bold; font-size: 18px; padding: 0px 0px 3px 13px;">
-                  <span>{{names.details}}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="filter">
-                <td><div></div></td>
-                <td><div v-show="values.name.length > 0" style="padding-left: 5px">{{values.nameShow}}</div></td>
-                <td></td>
-                <td></td>
-                <td><div></div></td>
-              </tr>
-            </tbody>
-            <tbody v-for="(pack, index) in packagesList">
-              <tr :class="{'active': pack.show,'desactive': !pack.show}" @click="setActive(index)">
-                <td valign="top">
-                  <h6><a v-bind="{ href: '/package/'+pack.id}">{{names.manageButton}}</a></h6>
-                </td>
-                <td valign="top">
-                  <div class="textbold">{{pack.name}}</div>
-                </td>
-                <td class="textbold" valign="top">
-                  {{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}
-                </td>
-                <td class="textbold" valign="top">
-                  {{pack.valuesMonth.max}} {{pack.valuesMonth.currencyMax}}
-                </td>
-                <td></td>
-              </tr>
-              <tr v-show="pack.show" class="inner-rows">
-                <td></td>
-                <td>{{numberOfUsers}} Employees</td>
-                <td></td>
-                <td></td>
-                <td>{{textConditions}}</td>
-              </tr>
-              <tr v-show="pack.show && pack.services.length > 0" class="inner-rows">
-                <td></td>
-                <td>Services</td>
-                <td></td>
-                <td>{{pack.valuesMonth.max}} {{pack.valuesOnce.currencyMax}}</td>
-                <td>{{textServices}}</td>
-              </tr>
-              <tr v-show="pack.show && pack.devicevariations.length > 0" class="inner-rows">
-                <td></td>
-                <td>Devices</td>
-                <td>{{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}</td>
-                <td></td>
-                <td>{{textDevices}}</td>
-              </tr>
-              <!--<tr v-show="pack.show">
-                <td>Apps & Content</td>
-                <td></td>
-                <td></td>
-                <td>Information about Apps & Content</td>
-              </tr>-->
-            </tbody>
-          </table>
-          <div v-show="errorNotFound" class="error-message">{{names.noPackageFound}}</div>
-          <div class="load">
-            <i v-show="loading" class="fa fa-spinner fa-spin fa-5x"></i>
+        <div class="box-content">
+          <div class="table-holder">
+            <table class="unstriped">
+              <thead>
+                <tr>
+                  <th width="50">&nbsp;</th>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th title="Max price you will pay once time" width="90">Once</th>
+                  <th title="Max price you will pay monthly" width="90">Month</th>
+                  <th width="400">Actions</th>
+                </tr>
+              </thead>
+              <tbody v-for="(pack, index) in packages">
+                <tr class="overview-tr" :data-id="pack.id" :class="activePackage && (activePackage.id == pack.id) ? 'row-active' : ''">
+                  <td class="icon-toggle">
+                    <span @click="setActive(pack)"><i
+                          :class="activePackage && (activePackage.id == pack.id) ? 'fa fa-minus' : 'fa fa-plus'"></i></span>
+                  </td>
+                  <td>{{pack.id}}</td>
+                  <td>{{pack.name}}</td>
+                  <td>{{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}</td>
+                  <td>{{pack.valuesMonth.max}} {{pack.valuesMonth.currencyMax}}</td>
+                  <td>
+                    <div class="action-buttons">
+                      <a class="button alert" @click="removePackage(pack.id)"><i class="fa fa-trash"></i></a>
+                      <a :href="'/packages/' + pack.id" :name="'edit-' + pack.id" class="button warning"><i
+                              class="fa fa-edit"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="detail-tr" :data-id="pack.id" :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''">
+                  <td colspan="2"></td>
+                  <td>Employees</td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <span v-if="packageConditions">{{packageConditions | truncate(100)}}</span>
+                    <span v-else>All users are allowed.</span>
+                  </td>
+                </tr>
+                <tr class="detail-tr" :data-id="pack.id" :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''" 
+                    v-show="pack.id == activePackage.id && pack.services.length">
+                  <td colspan="2"></td>
+                  <td>Services</td>
+                  <td></td>
+                  <td>{{pack.valuesMonth.max}} {{pack.valuesMonth.currencyMax}}</td>
+                  <td>
+                    <span v-if="packageServices">{{packageServices | truncate(100)}}</span>
+                    <span v-else>No Services Provided.</span>
+                  </td>
+                </tr>
+                <tr class="detail-tr" :data-id="pack.id" :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''" 
+                    v-show="pack.id == activePackage.id && pack.devicevariations.length">
+                  <td colspan="2"></td>
+                  <td>Devices</td>
+                  <td>{{pack.valuesOnce.max}} {{pack.valuesOnce.currencyMax}}</td>
+                  <td></td>
+                  <td>
+                    <span v-if="packageDevices">{{packageDevices | truncate(100)}}</span>
+                    <span v-else>No Devices Provided.</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-      <pagination :pagination="pagination" :callback="loadData" v-show="pagination.total_pages > 1"></pagination>
     </div>
+
+    <paginate
+      :pagination="$store.state.packages.pagination"
+      :prev="prevPage"
+      :next="nextPage"
+      v-show="packages.length > 0">
+    </paginate>
   </div>
 </template>
 <script  src="./packages.crtl.js" lang="babel"></script>

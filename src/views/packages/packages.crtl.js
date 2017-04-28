@@ -1,221 +1,123 @@
-import Vue from 'vue';
-import pagination from './../../components/pagination';
-import {orderFilters} from './../../components/filters.js';
-import packages from './../../api/packages/packages';
-import modal from './../../components/modal.vue';
-import Multiselect from './../../components/Multiselect.vue';
-import searchCost from './../../components/searchCost.vue';
-//import Inputfilter from './../../components/inputFilter.vue';
+import modal from './../../components/modal.vue'
+import paginate from './../../components/paginate.vue'
+import {mapGetters, mapActions } from 'vuex'
+import swal from 'sweetalert2'
 
 export default {
-  components : {
-    pagination,
+  name: 'packages',
+  components: {
     modal,
-//    Inputfilter : Inputfilter,
-    searchCost
+    paginate
   },
-  beforeCreate() {
-
-  },
-  computed: {},
-  methods : {
-    orderFilters,
-    loadData() {
-      packages.getUserInformation(this);
-    },
-    setActive: function(index) {
-      if(this.active == index) {
-        this.packagesList[index].show = !this.packagesList[index].show;
-      } else {
-        this.packagesList[this.active].show = false;
-        this.packagesList[index].show = true;
-        this.packageSelected = this.packagesList[index];
-      }
-      this.active = index;
-      this.retrieveInformationAboutPackage();
-    },
-    onSelectValue: function() {
-      this.nameShow = '';
-      for (let names of this.values.name) {
-        if (this.nameShow == '') {
-          this.nameShow = name;
-        } else {
-          this.nameShow = this.nameShow + ', ' + name;
-        }
-      }
-      packages.getPackagesPage(this, 1);
-    },
-    setActiveCostOptions: function() {
-      this.search.searchShow = !this.search.searchShow;
-    },
-    orderBy: function(type) {
-      if (type == 'once') {
-        this.packagesList = this.orderFilters(this.packagesList, 'valuesOnce.max', 'number', this.order.orderOnce);
-        if (this.order.orderOnce == 'Asc') {
-          this.order.orderOnce = 'Desc';
-        } else {
-          this.order.orderOnce = 'Asc';
-        }
-        this.order.showOrderOnce = true;
-        this.order.showOrderMonth = false;
-      } else if (type == 'month') {
-        this.packagesList = this.orderFilters(this.packagesList, 'valuesMonth.max', 'number', this.order.orderMonth);
-        if (this.order.orderMonth == 'Asc') {
-          this.order.orderMonth = 'Desc';
-        } else {
-          this.order.orderMonth = 'Asc';
-        }
-        this.order.showOrderOnce = false;
-        this.order.showOrderMonth = true;
-      } else {
-        // NOTHING
-      }
-
-    },
-    /*,
-    showInputFilter() {
-      this.showInput = !this.showInput;
-    },*/
-    retrieveInformationAboutPackage: function()  {
-      this.getTheEmployeesThatAccomplishesTheConditions();
-      this.getTheConditions();
-      this.getTheServices();
-      this.getTheDevices();
-    },
-    getTheEmployeesThatAccomplishesTheConditions: function() {
-      this.numberOfUsers = 0;
-      packages.updateTheUsersThatAccomplishesTheConditions(this, this.packagesList[this.active].conditions);
-    },
-    getTheConditions: function() {
-      this.textConditions = '';
-      let text = '';
-      for (let cond of this.packagesList[this.active].conditions) {
-        let aux = '';
-        if (cond.condition == 'contains') {
-          aux = cond.nameCond + ' ' + cond.condition + ' "' + cond.value + '"';
-        } else {
-          aux = cond.nameCond + ' ' + cond.condition + ' ' + cond.value;
-        }
-
-        if (text == '') {
-          text = aux;
-        } else {
-          text = text + ', ' + aux;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        this.textConditions =  'All users are allowed.';
-      } else {
-        this.textConditions = text + ' ...';
-      }
-
-    },
-    getTheServices: function() {
-      this.textServices = '';
-      let text = '';
-      for (let serv of this.packagesList[this.active].services) {
-        if (text == '') {
-          text = serv.title;
-        } else {
-          text = text + ', ' + serv.title;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        this.textServices = 'No Services Provided.';
-      } else {
-        this.textServices = text + ' ...';
-      }
-    },
-    getTheDevices: function() {
-      this.textDevices = '';
-      let text = '';
-      let i = 5;
-      for (let dv of this.packagesList[this.active].devicevariations) {
-        if (text == '') {
-          text = dv.devices[0].name;
-        } else {
-          text = text + ', ' + dv.devices[0].name;
-        }
-      }
-
-      if (text.length > 100) {
-        text = text.slice(0, 100);
-      }
-
-      if (text == '') {
-        this.textDevices = 'No Devices Provided.';
-      } else {
-        this.textDevices = text + ' ...';
-      }
+  data () {
+    return {
+      searchQuery: '',
+      activePackage: {},
+      packageConditions: '',
+      packageServices: '',
+      packageDevices: ''
     }
   },
-  data() {
-    return {
-      companyId: 0,
-      active: 0,
-      firstTime: true,
-      loading: true,
-      showtable: false,
-      errorNotFound:false,
-      showInput: false,
-      // Packages List
-      packages: [], // Packages for Filters
-      packagesList: [],
-      packageSelected: {},
-      // Information Needed for the Selects
-      nameList: [],
-      pricesOnce: [],
-      pricesMonth: [],
-      numberOfUsers: 0,
-      textConditions: '',
-      textServices: '',
-      textDevices: '',
-      details: [],
-      // Pagination
-      pagination: {
-        current_page: 1,
-        total_pages: null,
-        count: null,
-        total: null,
-        per_page: 25
-      },
-      values: {
-        name: [], // package.name
-        nameShow: '',
-        once: '', // devicevariations - price once
-        month: '', // services - price month
-        details: '',
-      },
-      order: {
-        orderOnce: 'Asc',
-        orderMonth: 'Asc',
-        showOrderOnce: false,
-        showOrderMonth: false,
-      },
-      names: {
-        packagePlans: 'Package Plans',
-        addPackage: 'Add Package',
-        manage: 'Manage',
-        name: 'Name',
-        priceOnce: 'Once',
-        priceMonth: 'Month',
-        details: 'Details',
-        manageButton: 'Manage',
-        noPackageFound: 'No Packages provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'
-      },
-      search: {
-        firstTime: true,
+  filters: {
+    truncate: function(str, value) {
+      if(str.length < value)
+        return str;
+      else
+        return str.substring(0, value) + '...';
+    }
+  },
+  computed: {
+    _ () {
+      return _
+    },
+
+    ...mapGetters({
+      packages: 'packages/allPackages'
+    })
+  },
+  beforeCreate () {
+    this.$store.dispatch('packages/getAll')
+  },
+  methods: {
+    searchPackages: function() {
+      this.$store.dispatch('packages/searchByName', this.searchQuery)
+    },
+    setActive: function(pack) {
+      if(this.activePackage && this.activePackage.id == pack.id) {
+        this.$set(this, 'activePackage', {});
+      } else {
+        this.$set(this, 'activePackage', pack);
+        this.getPackageDetail(pack);
       }
+    },
+    getPackageDetail: function(pack) {
+      let conditions = [];
+      for (let condition of pack.conditions) {
+        if(condition.condition == 'contains') {
+          conditions.push(condition.nameCond + ' ' + condition.condition + ' "' + condition.value + '"');
+        } else {
+          conditions.push(condition.nameCond + ' ' + condition.condition + ' ' + condition.value);
+        }
+      }
+
+      let services = [];
+      for (let service of pack.services)
+        services.push(service.title);
+
+      let devices = [];
+      for (let device of pack.devicevariations)
+        devices.push(device.devices[0].name);
+
+      this.packageConditions = conditions.join(", ");
+      this.packageServices = services.join(", ");
+      this.packageDevices = devices.join(', ');
+    },
+    nextPage() {
+      this.$store.dispatch('packages/nextPage')
+    },
+    prevPage() {
+      this.$store.dispatch('packages/prevPage')
+    },
+    removePackage(package_id) {
+      var app = this;
+
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function () {
+        app.$store.dispatch('packages/deletePackage', package_id).then(
+          res => {
+            swal({
+              title: 'Deleted!',
+              text: 'Requested Package has been removed',
+              type: 'success',
+              timer: 2000,
+              showConfirmButton: false
+            }).then(
+              function () {},
+              // handling the promise rejection
+              function (dismiss) {
+                app.$store.dispatch('packages/searchByName', app.searchQuery)
+              }
+            )
+          }
+        )
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal(
+            'Cancelled',
+            'Selected package is safe.',
+            'error'
+          )
+        }
+      });
     }
   }
 }
