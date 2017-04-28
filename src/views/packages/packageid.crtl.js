@@ -17,6 +17,7 @@ export default {
       packageId: 0,
       packageData: {},
       packageName: '',
+      packageDescription: '',
       presetLoading: true,
       carrierLoading: true,
       activePreset: {},
@@ -59,6 +60,7 @@ export default {
         res => {
           this.packageData = res;
           this.packageName = res.name;
+          this.packageDescription = res.information;
           this.getNecessaryData();
         }
       )
@@ -121,7 +123,6 @@ export default {
                 res => {
                   this.carrierLoading = false;
                   
-                  console.log(this.packageData);
                   // Prepare Data if packageId is existing
                   if(this.packageId) {
                     // Set Conditions
@@ -291,6 +292,7 @@ export default {
         id: this.packageId,
         attributes: {
           name: this.packageName,
+          information: this.packageDescription
         },
         relationships: {
           conditions: { data: [] },

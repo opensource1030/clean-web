@@ -16,6 +16,10 @@
         <span>Title</span>
         <input type="text" v-model="packageName">
       </label>
+      <label>
+        <span>Description</span>
+        <textarea type="text" v-model="packageDescription" rows="5"></textarea>
+      </label>
     </div>
 
     <div class="columns small-12">
