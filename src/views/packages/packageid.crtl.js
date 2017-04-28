@@ -320,26 +320,28 @@ export default {
         this.packageData.relationships.addresses.data.push({type: 'addresses', id: parseInt(address.id)});
       }
 
-      if(this.packageId) {
-        this.$store.dispatch('packages/updatePackage', this.packageData).then(
-          res => {
-            swal(
-              'Updated!',
-              'Requested Package is updated.',
-              'success'
-            )
-          }
-        )
-      } else {
-        this.$store.dispatch('packages/createPackage', this.packageData).then(
-          res => {
-            swal(
-              'Created!',
-              'Requested Package is created.',
-              'success'
-            )
-          }
-        )
+      if(this.packageName) {
+        if(this.packageId) {
+          this.$store.dispatch('packages/updatePackage', this.packageData).then(
+            res => {
+              swal(
+                'Updated!',
+                'Requested Package is updated.',
+                'success'
+              )
+            }
+          )
+        } else {
+          this.$store.dispatch('packages/createPackage', this.packageData).then(
+            res => {
+              swal(
+                'Created!',
+                'Requested Package is created.',
+                'success'
+              )
+            }
+          )
+        }  
       }
     }
   }

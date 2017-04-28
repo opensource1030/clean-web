@@ -15,7 +15,8 @@ export default {
       activePackage: {},
       packageConditions: '',
       packageServices: '',
-      packageDevices: ''
+      packageDevices: '',
+      packagesLoading: true
     }
   },
   filters: {
@@ -36,7 +37,11 @@ export default {
     })
   },
   beforeCreate () {
-    this.$store.dispatch('packages/getAll')
+    this.$store.dispatch('packages/getAll').then(
+      res => {
+        this.packagesLoading = false;
+      }
+    )
   },
   methods: {
     searchPackages: function() {

@@ -16,7 +16,10 @@
         <div class="search-holder">
           <input type="text" class="input-search" placeholder="Search with package name" v-model="searchQuery" @keyup.enter="searchPackages()">
         </div>
-        <div class="box-content">
+        <div class="box-content-holder is-relative" v-if="packagesLoading">
+          <div class="is-loading"></div>
+        </div>
+        <div class="box-content" v-else>
           <div class="table-holder">
             <table class="unstriped">
               <thead>

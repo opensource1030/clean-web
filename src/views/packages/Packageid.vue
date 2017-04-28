@@ -23,14 +23,12 @@
         <div class="box-heading">
           <h2>Conditions</h2>
         </div>
-        <div class="box-content">
+        <div class="box-content-holder is-relative" v-if="conditions.loading">
+          <div class="is-loading"> </div>
+        </div>
+        <div class="box-content" v-else>
           <div class="row extend">
-            <div class="columns small-12" v-if="conditions.loading">
-              <div class="loading_zone">
-                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-              </div>
-            </div>
-            <div class="columns small-12" v-else>
+            <div class="columns small-12">
               <div class="row extend" v-if="conditions.labels.length">
                 <div class="row extend" v-for="(condition, index) in conditions.selected">
                   <div class="large-3 small-12 columns">
@@ -81,14 +79,12 @@
         <div class="box-heading">
           <h2>Devices</h2>
         </div>
-        <div class="box-content">
+        <div class="box-content-holder is-relative" v-if="presetLoading">
+          <div class="is-loading"> </div>
+        </div>
+        <div class="box-content" v-else>
           <div class="row extend">
-            <div class="columns small-12" v-if="presetLoading">
-              <div class="loading_zone">
-                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-              </div>
-            </div>
-            <div class="columns small-12" v-else>
+            <div class="columns small-12">
               <div class="row extend" v-if="presets.length">
                 <div class="sub-title">Presets Available</div>
                 <carousel :perPage="6">
@@ -105,10 +101,8 @@
               </div>
 
               <div class="row extend" v-if="activePreset.id">
-                <div class="columns small-12" v-if="devices.loading">
-                  <div class="loading_zone">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                  </div>
+                <div class="box-content-holder is-relative" v-if="devices.loading">
+                  <div class="is-loading"> </div>
                 </div>
                 <div class="columns small-12" v-else>
                   <div class="row extend" v-if="devices.availableDevices.length">
@@ -158,14 +152,12 @@
         <div class="box-heading">
           <h2>Services</h2>
         </div>
-        <div class="box-content">
+        <div class="box-content-holder is-relative" v-if="carrierLoading">
+          <div class="is-loading"> </div>
+        </div>
+        <div class="box-content" v-else>
           <div class="row extend">
-            <div class="columns small-12" v-if="carrierLoading">
-              <div class="loading_zone">
-                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-              </div>
-            </div>
-            <div class="columns small-12" v-else>
+            <div class="columns small-12">
               <div class="row extend" v-if="carriers.length">
                 <div class="sub-title">Carriers Available</div>
                 <carousel :perPage="6">
@@ -182,10 +174,8 @@
               </div>
 
               <div class="row extend" v-if="activeCarrier.id">
-                <div class="columns small-12" v-if="services.loading">
-                  <div class="loading_zone">
-                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-                  </div>
+                <div class="box-content-holder is-relative" v-if="services.loading">
+                  <div class="is-loading"> </div>
                 </div>
                 <div class="columns small-12" v-else>
                   <div class="row extend" v-if="services.availableServices.length">
@@ -293,14 +283,12 @@
         <div class="box-heading">
           <h2>Addresses</h2>
         </div>
-        <div class="box-content">
+        <div class="box-content-holder is-relative" v-if="addresses.loading">
+          <div class="is-loading"> </div>
+        </div>
+        <div class="box-content" v-else>
           <div class="row extend">
-            <div class="columns small-12" v-if="addresses.loading">
-              <div class="loading_zone">
-                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
-              </div>
-            </div>
-            <div class="columns small-12" v-else>
+            <div class="columns small-12">
               <div class="row extend" v-if="addresses.availableAddresses.length">
                 <div class="sub-title">Addresses Available</div>
                 <carousel :perPage="6">

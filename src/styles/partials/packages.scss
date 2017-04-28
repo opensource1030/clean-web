@@ -6,6 +6,10 @@
       padding: 10px 20px;
     }
 
+    .box-content-holder {
+      height: 150px;
+    }
+
     .box-content {
       padding: 15px;
     }
@@ -111,6 +115,10 @@
 }
 
 .package-index-page {
+  .box-content-holder {
+    height: 150px;
+  }
+
   table.unstriped {
     & > tbody:nth-of-type(2n) {
       background-color: #f9f9f9;
