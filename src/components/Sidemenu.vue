@@ -77,7 +77,7 @@
                     <ul class="treeview-menu">
                         <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a>
                         </li>
-                        <li><a name="createPackage" href="/package"><i class="fa fa-circle-o"></i>Create a Package</a>
+                        <li><a name="createPackage" href="/packages/new"><i class="fa fa-circle-o"></i>Create a Package</a>
                         </li>
                     </ul>
                 </li>

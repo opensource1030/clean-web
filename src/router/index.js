@@ -150,9 +150,17 @@ const router = new VueRouter({
     { path: '/configuration', component: Settings, name: 'configuration', meta: { requiresAuth: true } },
 
     //packages
-    { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
-    { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
-    { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
+    // { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
+    // { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
+    // { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
+    {
+      path: '/packages', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Packages' },
+      children: [
+        { path: '', component: Packages, name: 'List Packages', meta: { label: 'All' } },
+        { path: 'new', component: Packageid, name: 'Add Package', meta: { label: 'Create'} },
+        { path: ':id', component: Packageid, name: 'Update Package', meta: { label: 'Edit'} },
+      ]
+    },
 
     //redirect
     { path: '*', redirect: '/dashboard' }
