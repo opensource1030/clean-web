@@ -1,17 +1,21 @@
+import modal from './../../components/modal.vue'
 import { mapGetters, mapActions } from 'vuex'
 import multiselect from 'vue-multiselect'
 import { Carousel, Slide } from 'vue-carousel'
+import swal from 'sweetalert2'
 
 export default {
   name : 'package',
   components: {
+    modal,
     multiselect,
     Carousel,
     Slide
   },
   data () {
     return {
-      status: 'new',
+      packageId: 0,
+      packageData: {},
       packageName: '',
       presetLoading: true,
       carrierLoading: true,
@@ -48,11 +52,32 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    if (this.$route.params.id != null) {
-      this.status = 'manage';
+  created() {
+    if (this.$route.params.id) {
+      this.packageId = this.$route.params.id;
+      this.$store.dispatch('packages/getOne', this.packageId).then(
+        res => {
+          this.packageData = res;
+          this.packageName = res.name;
+          this.getNecessaryData();
+        }
+      )
     } else {
-      this.status = 'new';
+      this.getNecessaryData();
+    }
+  },
+  computed: {
+    _ () {
+      return _
+    },
+
+    ...mapGetters({
+      presets: 'packages/allPresets',
+      carriers: 'packages/allCarriers'
+    }),
+  },
+  methods : {
+    getNecessaryData() {
       this.$store.dispatch('packages/getCompanyInfo').then(
         res => {
           // Conditions Mapping
@@ -95,25 +120,45 @@ export default {
               this.$store.dispatch('packages/getCarriers').then(
                 res => {
                   this.carrierLoading = false;
+                  
+                  console.log(this.packageData);
+                  // Prepare Data if packageId is existing
+                  if(this.packageId) {
+                    // Set Conditions
+                    for(let condition of this.packageData.conditions) {
+                      this.conditions.selected.splice(this.conditions.selected.length - 1, 0, {nameCond: condition.nameCond, condition: condition.condition, value: condition.value, id: condition.id});
+                      this.updateConditionFields(condition.nameCond, this.conditions.selected.length - 2);
+                    }
+
+                    // Set Devices
+                    for(let device of this.packageData.devicevariations)
+                      this.devices.selected.push(device);
+
+                    // Set Presets
+                    for(let service of this.packageData.services) {
+                      service.status = 1;
+                      this.services.selected.push(service);
+                    }
+                      
+                    // Set Addresses
+                    for(let address of this.packageData.addresses) {
+                      address.status = 1;
+                      this.addresses.selected.push(address);
+
+                      for(let i = this.addresses.availableAddresses.length - 1; i >= 0; i--) {
+                        if(this.addresses.availableAddresses[i].id == address.id)
+                          this.addresses.availableAddresses.splice(i, 1);
+                      }
+                    }
+                  }
                 }
               )
             }
           )
         }
       )
-    }
-  },
-  computed: {
-    _ () {
-      return _
     },
 
-    ...mapGetters({
-      presets: 'packages/allPresets',
-      carriers: 'packages/allCarriers'
-    }),
-  },
-  methods : {
     // CONDITION METHODS
     updateConditionFields(label, index) {
       for(let condition of this.conditions.availableConditions) {
@@ -241,8 +286,9 @@ export default {
 
     // Update or Create Package
     savePackage() {
-      var newPackage = {
+      this.packageData = {
         type: 'packages',
+        id: this.packageId,
         attributes: {
           name: this.packageName,
         },
@@ -255,28 +301,43 @@ export default {
       };
 
       for(let condition of this.conditions.selected) {
-        if(condition.nameCond)
-          newPackage.relationships.conditions.data.push({id: 0, nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
+        if(condition.nameCond) {
+          var id = 0;
+          condition.id ? id = condition.id : null;
+          this.packageData.relationships.conditions.data.push({type: "conditions", id: parseInt(id), nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
+        }
       }
 
       for(let device of this.devices.selected) {
-        newPackage.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
+        this.packageData.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
       }
 
       for(let service of this.services.selected) {
-        newPackage.relationships.services.data.push({type: "services", id: parseInt(service.id)});
+        this.packageData.relationships.services.data.push({type: "services", id: parseInt(service.id)});
       }
 
       for(let address of this.addresses.selected) {
-        newPackage.relationships.addresses.data.push({type: 'address', id: parseInt(address.id)});
+        this.packageData.relationships.addresses.data.push({type: 'addresses', id: parseInt(address.id)});
       }
 
-      if(this.status == 'manage') {
-
-      } else {
-        this.$store.dispatch('packages/createPackage', newPackage).then(
+      if(this.packageId) {
+        this.$store.dispatch('packages/updatePackage', this.packageData).then(
           res => {
-            console.log(res);
+            swal(
+              'Updated!',
+              'Requested Package is updated.',
+              'success'
+            )
+          }
+        )
+      } else {
+        this.$store.dispatch('packages/createPackage', this.packageData).then(
+          res => {
+            swal(
+              'Created!',
+              'Requested Package is created.',
+              'success'
+            )
           }
         )
       }

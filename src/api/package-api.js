@@ -4,12 +4,7 @@ const API_BASE_URL = process.env.URL_API
 
 export default {
   getOne (id, params, cb, errCb) {
-    let data = {
-      params: {
-        include: 'conditions,services,apps,address,companies,companies.udls,devicevariations,devicevariations.carriers,devicevariations.companies,devicevariations.devices,devicevariations.modifications,devicevariations.images,services.serviceitems'
-      }
-    };
-    http.get(API_BASE_URL + '/packages/' + id, data).then(res => cb(res), err => errCb(err))
+    http.get(API_BASE_URL + '/packages/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
   getAll (params, cb, errCb) {
@@ -27,6 +22,7 @@ export default {
     http.patch(API_BASE_URL + '/packages/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
-  remove (params, cb, errCb) {
+  remove (id, cb, errCb) {
+    http.delete(API_BASE_URL + '/packages/' + id).then(res => cb(res), err => errCb(err))
   }
 }

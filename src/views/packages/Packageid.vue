@@ -1,8 +1,13 @@
 <template>
   <div class="page package-new-page">
+    <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
+      <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
+    </modal>
+    
     <div class="columns small-12 m-b-15">
       <header class="tag-header">
-        <h1>New Package</h1>
+        <h1 v-if="packageId">Update Package</h1>
+        <h1 v-else>New Package</h1>
       </header>
     </div>
 
@@ -365,7 +370,8 @@
 
     <div class="columns small-12">
       <a class="button large save-button" @click="savePackage()" :disabled="packageName == ''">
-        Save Package
+        <span v-if="packageId">Update Package</span>
+        <span v-else>Create Package</span>
       </a>
     </div>
   </div>
