@@ -1,5 +1,5 @@
 <template>
-<div class="page device-page device-index-page" v-if="devices.length > 0">
+<div class="page device-page device-index-page is-relative">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
@@ -219,7 +219,8 @@
     v-show="$store.state.device.records.length > 0">
   </paginate>
 
-  <div class="load-wrapper" v-show="!isReady"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <!-- <div class="load-wrapper"><i class="fa fa-spinner fa-spin fa-5x"></i></div> -->
+  <div class="is-loading" v-show="!isReady"></div>
 </div>
 </template>
 

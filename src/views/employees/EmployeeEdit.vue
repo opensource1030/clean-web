@@ -110,7 +110,9 @@
     </div>
   </div>
 
-  <div class="load-wrapper" v-show="employee.id !== employee_id"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="is-relative" v-show="employee.id !== employee_id">
+    <div class="is-loading"></div>
+  </div>
 </div>
 </template>
 

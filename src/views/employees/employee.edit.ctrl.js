@@ -114,6 +114,10 @@ export default {
       }
 
       let _jsonData = EmployeesPresenter.toJSON(this.employee)
+
+      if (process.env.NODE_ENV === 'testing') {
+        _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
+      }
       // console.log(_jsonData)
 
       let _params = JSON.stringify(_jsonData)

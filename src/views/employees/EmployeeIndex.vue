@@ -115,7 +115,9 @@
       v-show="$store.state.employee.records.length > 0">
     </paginate>
 
-    <div class="load-wrapper" v-show="$store.state.employee.records.length == 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+    <div class="is-relative" v-show="employees.length == 0">
+      <div class="is-loading"></div>
+    </div>
   </div>
 </div>
 </template>

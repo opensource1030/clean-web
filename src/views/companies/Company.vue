@@ -180,7 +180,9 @@
     </div>
   </div>
 
-  <div class="load-wrapper" v-show="company.id !== company_id"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="is-relative" v-show="company.id !== company_id">
+    <div class="is-loading"></div>
+  </div>
 </div>
 </template>
 

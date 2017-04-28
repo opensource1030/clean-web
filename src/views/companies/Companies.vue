@@ -105,14 +105,17 @@
     </div>
   </div>
 
-  <paginate
+  <!-- <paginate
     :pagination="$store.state.company.pagination"
     :prev="prevPage"
     :next="nextPage"
     v-show="$store.state.company.records.length > 0">
-  </paginate>
+  </paginate> -->
 
-  <div class="load-wrapper" v-show="$store.state.company.records.length == 0"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="clearfix"></div>
+  <div class="is-relative" v-show="companies.length == 0">
+    <div class="is-loading"></div>
+  </div>
 </div>
 </template>
 

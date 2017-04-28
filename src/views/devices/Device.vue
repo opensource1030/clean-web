@@ -1,5 +1,5 @@
 <template>
-<div class="page device-page device-edit-page">
+<div class="page device-page device-edit-page is-relative">
   <div class="row" v-if="device.id == device_id">
     <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
       <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
@@ -320,7 +320,7 @@
     </div>
   </div>
 
-  <div class="load-wrapper" v-show="device.id !== device_id"><i class="fa fa-spinner fa-spin fa-5x"></i></div>
+  <div class="is-loading" v-show="device.id !== device_id"></div>
 </div>
 </template>
 
