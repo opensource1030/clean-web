@@ -27,8 +27,8 @@
 </template>
 
 <script>
-  var {Store} = require('yayson')()
-  var store = new Store()
+    const {Store} = require('yayson')()
+    const store = new Store()
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import supportRequest from './support-request'
@@ -53,24 +53,49 @@
     },
     created() {
       this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies.contents', {}).then((response) => {
-        var event = store.sync(response.data)
+          let event = store.sync(response.data)
         if (event.companies.length > 0) {
-          var cosmicdata = event.companies[0].contents[1].content
+            let cosmicdata = event.companies[0].contents[1].content
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.data;
           })
         }
       });
+        (function () {
+
+            let t,
+                timeout = 7.2e+6;
+
+            function resetTimer() {
+                if (t) {
+                    window.clearTimeout(t);
+                }
+                t = window.setTimeout(logOut, timeout);
+            }
+
+            function logOut() {
+                localStorage.clear('Token');
+                location.reload();
+            }
+
+            resetTimer();
+            //And bind the events to call `resetTimer()`
+            ["click", "mousemove", "keypress"].forEach(function (name) {
+                document.addEventListener(name, resetTimer);
+            });
+
+        }());
     },
     mounted() {
-      $(document).foundation()
-      var config = {
+        $(document).foundation();
+        let config = {
         selector: ".HW-container",
         account: "JPYPKy",
         enabled: true
       };
       Headway.init(config);
+
     },
     methods: {
       logout() {
