@@ -18,7 +18,7 @@
                     <div class="input-group bg-orange">
                       <span class="input-group-label"> <i class="fa fa-home"> </i> </span>
                         <input name="email" id="email" class="input-group-field" type="text"
-                               v-model.trim="credentials.email" placeholder="Enter your company email" readonly/>
+                               v-model.trim="credentials.email" placeholder="Enter your company email" />
                     </div>
                   </div>
                 </div>
