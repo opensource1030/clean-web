@@ -60,17 +60,32 @@
                         <li class="page-link" v-permission="'ManageDevices'">
                             <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
                         </li>
+
+                        <li class="page-link" v-permission="'ManageEquipmentGroups'">
+                             <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
+                        </li>
+
                         <li class="page-link" v-permission="'ManageServices'">
                             <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services &
                                 Plans</a>
                         </li>
+
+                       
+                        <li class="page-link" v-permission="'ManageEmployees'">
+                            <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a>
+                        </li>
+
+                        <li class="page-link" v-permissions="'ManageCompanies'">
+                            <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a>
+                        </li>
+
                     </ul>
                 </li>
 
                 <li v-permission="'Packages'" class="treeview">
                     <a href="javascript:;" name="Polices">
                         <i class="fa fa-th-large"></i>
-                        <span>Policies</span>
+                        <span>Packages</span>
                         <i class="fa fa-plus pull-right"></i>
                         <i class="fa fa-minus pull-right"></i>
                     </a>
@@ -79,22 +94,13 @@
                         </li>
                         <li><a name="createPackage" href="/packages/new"><i class="fa fa-circle-o"></i>Create a Package</a>
                         </li>
+                        <li>
+                            <a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Shipping Addresses</a>
+                        </li>
+
                     </ul>
                 </li>
 
-                <li v-permission="'Presets'" class="treeview">
-                    <a href="javascript:;" name="presets">
-                        <i class="fa fa-tasks"></i>
-                        <span>Presets</span>
-                        <i class="fa fa-plus pull-right"></i>
-                        <i class="fa fa-minus pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a name="device" href="javascript:;"><i class="fa fa-circle-o"></i>Device</a></li>
-                        <li><a name="app" href="javascript:;"><i class="fa fa-circle-o"></i>App</a></li>
-                        <li><a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Addresses</a></li>
-                    </ul>
-                </li>
 
                 <li v-permission="'Presets'" class="treeview">
                     <a href="javascript:;" name="configuration">
@@ -104,10 +110,8 @@
                         <i class="fa fa-minus pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a></li>
-                        <li><a name="procurement" href="javascript:;"><i class="fa fa-circle-o"></i>Procurement</a></li>
-                        <li><a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a></li>
-                        <li><a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a></li>
+                        <li><a name="portal" href="#"><i class="fa fa-circle-o"></i>Portal</a></li>
+                        <li><a name="procurement" href="#"><i class="fa fa-circle-o"></i>Procurement</a></li>
                     </ul>
                 </li>
             </template>
@@ -115,7 +119,6 @@
                 <a href="javascript:;">
                     <i class="fa fa-envelope"></i> <span>Support</span>
                 </a>
-
 
             </li>
 
