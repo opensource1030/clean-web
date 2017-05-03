@@ -93,9 +93,9 @@
                 <div class="sub-title">Presets Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(preset, index) in presets">
-                    <div class="eachPreset" :class="{'active': preset.id == activePreset.id}" @click="setActive('activePreset', preset)">
-                      <span class="preset-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
-                      <div class="preset-content">{{preset.name}}</div>
+                    <div class="box-type-1" :class="{'active': preset.id == activePreset.id}" @click="setActive('activePreset', preset)">
+                      <span class="box-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+                      <div class="box-content">{{preset.name}}</div>
                     </div>
                   </slide>
                 </carousel>
@@ -166,9 +166,9 @@
                 <div class="sub-title">Carriers Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(carrier, index) in carriers">
-                    <div class="eachCarrier" :class="{'active': carrier.id == activeCarrier.id}" @click="setActive('activeCarrier', carrier)">
-                      <span class="carrier-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
-                      <div class="carrier-content">{{carrier.shortName}}</div>
+                    <div class="box-type-1" :class="{'active': carrier.id == activeCarrier.id}" @click="setActive('activeCarrier', carrier)">
+                      <span class="box-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
+                      <div class="box-content">{{carrier.shortName}}</div>
                     </div>
                   </slide>
                 </carousel>
@@ -186,9 +186,9 @@
                     <div class="sub-title">Services Available From {{activeCarrier.shortName}}</div>
                     <carousel :perPage="5">
                       <slide v-for="(service, index) in services.availableServices">
-                        <div class="eachService" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
-                          <span class="service-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
-                          <div class="service-content">{{service.title}}</div>
+                        <div class="box-type-2" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
+                          <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
+                          <div class="box-content">{{service.title}}</div>
                         </div>
                       </slide>
                     </carousel>
@@ -269,9 +269,9 @@
                 <div class="sub-title">Selected Services</div>
                 <carousel :perPage="5">
                   <slide v-for="(service, index) in services.selected">
-                    <div class="eachService" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
-                      <span class="service-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
-                      <div class="service-content">{{service.title}}</div>
+                    <div class="box-type-2" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
+                      <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
+                      <div class="box-content">{{service.title}}</div>
                     </div>
                   </slide>
                 </carousel>
@@ -297,9 +297,9 @@
                 <div class="sub-title">Addresses Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(address, index) in addresses.availableAddresses">
-                    <div class="eachAddress" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
-                      <span class="address-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                      <div class="address-content">{{address.name}}</div>
+                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
+                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                      <div class="box-content">{{address.name}}</div>
                     </div>
                   </slide>
                 </carousel>
@@ -347,9 +347,9 @@
                 <div class="sub-title">Selected Addresses</div>
                 <carousel :perPage="6">
                   <slide v-for="(address, index) in addresses.selected">
-                    <div class="eachAddress" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
-                      <span class="address-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                      <div class="address-content">{{address.name}}</div>
+                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
+                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                      <div class="box-content">{{address.name}}</div>
                     </div>
                   </slide>
                 </carousel>
