@@ -98,8 +98,10 @@
                   <multiselect
                     id="ajax"
                     placeholder="Carrier"
+                    label="presentation"
+                    track-by="id"
                     :options="filters.carriers.options"
-                    :value = "$store.state.device.filters.carrierNames"
+                    :value = "$store.state.device.filters.carriers"
                     :multiple="true"
                     :searchable="true"
                     :loading="filters.carriers.isLoading"

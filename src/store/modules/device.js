@@ -17,10 +17,10 @@ const state = {
     deviceNames: [],
     deviceMakers: [],
     typeNames: [],
-    carrierNames: [],
 
-    styles: [],
+    carriers: [],
     capacities: [],
+    styles: [],
   },
 
   pagination: {
@@ -80,16 +80,16 @@ const actions = {
         _params.params['filter[devicetypes.name][like]'] = state.filters.typeNames.join(',')
       }
 
-      // if (state.filters.carrierNames.length > 0) {
-      //   _params.params['filter[devicevariations.carriers.name][like]'] = state.filters.carrierNames.join(',')
-      // }
-
-      if (state.filters.styles.length > 0) {
-        _params.params['filter[modifications.id][like]'] = _.map(state.filters.styles, 'id').join(',')
+      if (state.filters.carriers.length > 0) {
+        _params.params['filter[devicevariations.carrierId][eq]'] = _.map(state.filters.carriers, 'id').join(',')
       }
 
-      if (state.filters.typeNames.length > 0) {
-        _params.params['filter[modifications.id][like]'] = _.map(state.filters.styles, 'id').join(',')
+      if (state.filters.capacities.length > 0) {
+        _params.params['filter[modifications.id][eq]'] = _.map(state.filters.capacities, 'id').join(',')
+      }
+
+      if (state.filters.styles.length > 0) {
+        _params.params['filter[modifications.value][like]'] = _.map(state.filters.styles, 'value').join(',')
       }
       // console.log(_params)
 
@@ -109,7 +109,7 @@ const actions = {
             })
           }
         }
-        console.log('search', devices)
+        // console.log('search', devices)
         commit(types.DEVICE_REFRESH, {records: devices})
         // commit(types.DEVICE_SET_PAGINATION, { pagination: res.data.meta.pagination })
         dispatch('setPagination', {pagination: res.data.meta.pagination})
@@ -145,16 +145,6 @@ const actions = {
       commit(types.DEVICE_NEXT_PAGE)
       dispatch('search')
     }
-  },
-
-  addStyleFilter ({ dispatch, commit }, records) {
-    // commit(types.DEVICE_ADD_FILTER, { type: 'style', records: records })
-    dispatch('addFilter', { type: 'style', records: records })
-  },
-
-  addCapacityFilter ({ dispatch, commit }, records) {
-    // commit(types.DEVICE_ADD_FILTER, { type: 'capacity', records: records })
-    dispatch('addFilter', { type: 'capacity', records: records })
   },
 
   addFilter ({ dispatch, commit }, { type, records }) {
@@ -202,13 +192,13 @@ const mutations = {
         state.filters.typeNames = records
         break
       case 'carrier':
-        state.filters.carrierNames = records
-        break
-      case 'style':
-        state.filters.styles = records
+        state.filters.carriers = records
         break
       case 'capacity':
         state.filters.capacities = records
+        break
+      case 'style':
+        state.filters.styles = records
         break
     }
   },
