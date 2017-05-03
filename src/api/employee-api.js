@@ -24,6 +24,6 @@ export default {
   },
 
   add_bulk (form, cb, errCb) {
-    http.post(API_BASE_URL + '/users/bulk', form).then(res => cb(res), err => errCb(err))
+    http.post(API_BASE_URL + '/users/upload', form).then(res => cb(res), err => errCb(err))
   }
 }
