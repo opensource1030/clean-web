@@ -28,7 +28,6 @@
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink +'/report_zero_usage.asp?token='"><i
                             class="fa fa-circle-o"></i> Zero Usage</a></li>
-
                     <li class="redirect-link"><a target="_blank"
                                                  :href="legacyLink + '/dashboard_trend.asp?token='"><i
                             class="fa fa-circle-o"></i> Trends</a></li>
