@@ -128,7 +128,6 @@ export default {
     },
 
     addFilter_DeviceTypeNames (values) {
-      // console.log('addFilter_DeviceNames', values)
       this.$store.dispatch('device/addFilter', { type: 'type', records: values })
     },
 
@@ -138,7 +137,8 @@ export default {
         'filter[presentation][like]': query
       }
       carrierAPI.search(_params, (res) => {
-        this.filters.carriers.options = _.uniq(_.map(store.sync(res.data), 'presentation'))
+        // this.filters.carriers.options = _.uniq(_.map(store.sync(res.data), 'presentation'))
+        this.filters.carriers.options = store.sync(res.data)
         this.filters.carriers.isLoading = false
       }, (err) => {
         this.filters.carriers.isLoading = false
@@ -146,14 +146,13 @@ export default {
     },
 
     addFilter_CarrierNames (values) {
-      // console.log('addFilter_DeviceNames', values)
+      // console.log('addFilter_CarrierNames', values)
       this.$store.dispatch('device/addFilter', { type: 'carrier', records: values })
     },
 
     addCapacityFilter (values) {
       // console.log('addCapacityFilter', values)
       this.$store.dispatch('device/addFilter', { type: 'capacity', records: values })
-      // this.$store.dispatch('device/addCapacityFilter', values)
     },
 
     addStyleFilter (values) {
