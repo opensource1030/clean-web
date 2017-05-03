@@ -1,0 +1,146 @@
+@import "../base/clean-variables";
+@import "../plugins/material-color";
+@import "../mixins/other-mixin";
+
+.page {
+
+  .button.add-button,
+  .button.add-bulk-button {
+    background-color: material-color('orange', '800');
+    font-weight: 400;
+  }
+
+  .grid-box {
+    .box-heading {
+      position: relative;
+      padding: 0;
+
+      h2 {
+        padding: 10px 20px;
+      }
+
+      input[type="text"] {
+        height: 40px;
+        margin: 0;
+        padding-left: 30px;
+      }
+
+      i {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        color: #666666;
+      }
+    }
+  }
+
+  table.unstriped {
+    tbody {
+      td {
+        span.badge {
+          cursor: pointer;
+        }
+
+        .switch {
+          margin-bottom: 0;
+        }
+
+        .action-buttons {
+          .button {
+            margin-bottom: 0;
+            font-size: 14px;
+          }
+        }
+      }
+
+      tr:nth-of-type(4n+3) {
+        background-color: #f9f9f9;
+      }
+
+      tr.overview-tr {
+
+        i.fa.fa-plus {
+          display: inline-block;
+        }
+
+        i.fa.fa-minus {
+          display: none;
+        }
+
+        &.active {
+          background-color: rgba(251, 243, 238, 1);
+
+          i.fa.fa-plus {
+            display: none;
+          }
+
+          i.fa.fa-minus {
+            display: inline-block;
+          }
+        }
+      }
+
+      tr.detail-tr {
+        display: none;
+
+        &.active {
+          display: table-row;
+          // background-color: rgba(251, 243, 238, 0.6);
+        }
+
+        .detail-box {
+          display: flex;
+          padding: 10px 20px 10px 20px;
+
+          .content {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .accordion {
+    background-color: transparent;
+
+    .accordion-item {
+      margin-bottom: 15px;
+      background-color: $white;
+
+      > .accordion-title {
+        display: block;
+        padding: 10px 20px;
+        background-color: #fff8f2;
+        color: material-color('orange', '800');
+        font-size: 18px;
+        line-height: 26px;
+        font-weight: 400;
+      }
+
+      > .accordion-content {
+        padding: 15px 0;
+      }
+    }
+
+    .accordion-item.is-active {
+      > a {
+        background-color: material-color('orange', '800');
+        color: $white;
+      }
+    }
+  }
+
+  .multiselect {
+
+    .multiselect__input {
+      &:focus {
+        border-radius: 0;
+      }
+    }
+
+    .multiselect__select {
+      top: initial;
+      bottom: 1px;
+    }
+  }
+}

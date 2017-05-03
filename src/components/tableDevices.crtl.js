@@ -42,7 +42,7 @@ export default {
   },
 
   beforeCreate () {
-    this.$store.dispatch('device/getAll',{ search: 0 })
+    this.$store.dispatch('device/search',{ search: 0 })
     this.$store.dispatch('modification/search')
     this.$store.dispatch('carrier/search')
   },
@@ -101,7 +101,7 @@ export default {
 
     addStyleFilter () {
       console.log('addStyleFilter')
-    },
+    }
 
   },
 };

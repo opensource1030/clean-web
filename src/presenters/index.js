@@ -1,4 +1,5 @@
 const Presenter = require('yayson')({ adapter: 'default' }).Presenter
+// const Presenter = require('yayson')({ adapter: 'sequelize' }).Presenter
 
 export class UdlValuesPresenter extends Presenter {
 }
@@ -52,6 +53,10 @@ export class CompaniesPresenter extends Presenter {
   // }
 }
 CompaniesPresenter.prototype.type = 'companies'
+
+export class EmployeesPresenter extends Presenter {
+}
+EmployeesPresenter.prototype.type = 'users'
 
 export class DeviceTypesPresenter extends Presenter {
 }

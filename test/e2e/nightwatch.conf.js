@@ -35,7 +35,10 @@ module.exports = {
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "chromeOptions" : {
-          "args" : ["--disable-web-security"]
+          "args" : [
+            "--disable-web-security",
+            "window-size=1280,960"
+          ]
         }
       }
     },

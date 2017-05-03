@@ -107,10 +107,12 @@ export default {
 
                   this.$set(this, 'device_id', device_id)
                   this.initComponent()
+                  // console.log(this.device_id, this.device.id, this.device_id == this.device.id)
                 })
               } else {
                 this.$set(this, 'device_id', device_id)
                 this.initComponent()
+                // console.log(this.device_id, this.device)
               }
             }
           )
@@ -209,9 +211,10 @@ export default {
       })
 
       // init foundation to enable accordion
-      Vue.nextTick(function() {
-        $(document).foundation();
-      });
+      this.$nextTick(() => {
+        $(document).foundation()
+      })
+      // this.$forceUpdate()
     },
 
     getDefaultValue (type) {

@@ -1,5 +1,6 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
+
 .login-form-holder{
   margin-top:120px;
   color:$white;
@@ -11,6 +12,7 @@
     border-bottom: 1px rgba($brand-dark,0.6) solid;
   }
 }
+
 .login{
   background: lighten($bg-login,30%);
   position: fixed;
@@ -24,14 +26,16 @@
   margin: 0 0 35px;
   padding: 20px 0 5px;
 }
-.title{
+
+.title {
   font-size: 35px;
   letter-spacing: 5px;
   /*text-shadow: 0 0 15px rgba($smoke,0.7);*/
   padding: 0;
   text-align: center;
   text-transform: uppercase;
-  .version{
+
+  .version {
     color: rgba($brand-blue,0.4);
     font-size: 16px;
     letter-spacing: 8px;
@@ -41,12 +45,14 @@
     padding-bottom: 0.2rem;
     @include css3(text-shadow,none);
   }
+
   img{
     max-width: 47%;
     display: block;
     margin: 0 auto 1.2rem;
   }
 }
+
 .by{
   > span{
     display: inline-block;
@@ -56,12 +62,12 @@
     color:$body-font-color;
   }
 }
-.input-group{
-    &.bg-orange{
-      .input-group-label{
-        background: $brand-orange;
-        color:$white;
-      }
 
+.input-group{
+  &.bg-orange{
+    .input-group-label{
+      background: $brand-orange;
+      color:$white;
     }
+  }
 }

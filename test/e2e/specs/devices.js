@@ -5,10 +5,11 @@ module.exports = {
   before: function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
+    .resizeWindow(1200, 800)
     .url(devServer)
     .login('Sample3433@email.com', 'user')
     // .routes('Inventory', 'Devices')
-    .waitForElementVisible('a[name="Inventory"]', 15000)
+    .waitForElementVisible('a[name="Inventory"]', 25000)
     .click('a[name="Inventory"]')
     .waitForElementVisible('a[name="Devices"]', 25000)
     .click('a[name="Devices"]')
@@ -19,12 +20,11 @@ module.exports = {
     const devServer = browser.globals.devServerURL;
     browser
     .assert.urlEquals(devServer + '/devices')
-    .waitForElementVisible('#app #tables', 15000)
-    .waitForElementVisible('table', 5000)
-    .waitForElementVisible('tbody', 5000)
-    .waitForElementVisible('#open', 5000)
-    .click('#open')
-    .waitForElementVisible('.detail', 5000)
+    // .waitForElementVisible('#app #tables', 15000)
+    .waitForElementVisible('table', 25000)
+    .waitForElementVisible('tr.overview-tr .toggle-button', 5000)
+    .click('.toggle-button')
+    .waitForElementVisible('.detail-box', 5000)
     .waitForElementVisible('.information span', 5000)
     .assert.containsText(".information span", "Technical Information")
   },
@@ -34,22 +34,24 @@ module.exports = {
     let client = browser;
     // console.log('dirname', __dirname)
     const imagePath = path.join(__dirname, '../../../src/assets/test')
-    console.log('image_path', imagePath)
+    // console.log('image_path', imagePath)
     browser
-    .click('.buttonTable')
-    .pause(5000)
-    .assert.urlEquals(devServer + '/device')
-    .waitForElementVisible('.devicename input ', 15000)
+    .click('.add-button')
+    .waitForElementVisible('.devicename input', 25000)
+    .assert.urlEquals(devServer + '/devices/new')
     .setValue('.devicename input', 'moto g')
+
+    // .elements('link text', 'Device Overview', function (result) {
+    //   client.elementIdClick(result.value[0].ELEMENT)
+    // })
+    // .waitForElementVisible('#testDefaultPrice', 5000)
     .setValue('#testDefaultPrice', '123')
     .click("#testMoney option[value='USD']")
     .click("#testDeviceType option[value='2']")
     .setValue('#testManu', 'motorola')
     .setValue('#testModel', 'moto x')
     .setValue('#testInfo', 'mobile phone x')
-    // .click('button')
     // .setValue('input#FileUpload', imagePath + '/wa-logo.png')
-    // .click('button')
 
     .elements('link text', 'Attributes', function (result) {
       client.elementIdClick(result.value[0].ELEMENT)
@@ -131,22 +133,21 @@ module.exports = {
     .click('.prices-content select.dv-style option:nth-child(2)')
     .click('.prices-content select.dv-carrier option:nth-child(2)')
     .click('.prices-content select.dv-company option:nth-child(2)')
-    .click('#button')
-    .pause(3000)
+    .click('.save-button')
+    .waitForElementVisible('table', 25000)
     .assert.urlEquals(devServer + '/devices')
   },
 
   'ManageDevice': function (browser) {
     const devServer = browser.globals.devServerURL;
     browser
-    .waitForElementVisible('#app #tables', 15000)
-    .click('#open > td > a')
-    .pause(1000)
-    .assert.urlContains(devServer + '/device/')
-    .waitForElementVisible('.devicename input ', 15000)
-    .pause(5000)
-    .click('#button')
-    .pause(3000)
+    .waitForElementVisible('table', 25000)
+    .waitForElementVisible('tr.overview-tr .edit-button', 5000)
+    .click('.edit-button')
+    .waitForElementVisible('.devicename input ', 25000)
+    .assert.urlContains(devServer + '/devices/')
+    .click('.save-button')
+    .waitForElementVisible('table', 25000)
     .assert.urlEquals(devServer + '/devices')
     // .pause()
     .end()

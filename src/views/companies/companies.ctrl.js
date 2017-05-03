@@ -2,6 +2,7 @@ import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
 import companyAPI from './../../api/company-api.js'
 import { mapGetters, mapActions } from 'vuex'
+import swal from 'sweetalert2'
 
 const spliter = ', '
 export default {
@@ -37,11 +38,27 @@ export default {
     },
 
     removeCompany (company_id) {
-      if (confirm("Are you sure you want to remove this company?") == true) {
+      swal({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function () {
         companyAPI.remove(company_id, res => {
           this.$store.dispatch('company/search')
         }, err => console.log('company remove', err))
-      }
+
+        swal('Deleted!', 'Requested company has been deleted.', 'success')
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal('Cancelled', 'Selected company is safe :)', 'error')
+        }
+      });
     },
 
     onCompanyActiveChange (e, company_id) {

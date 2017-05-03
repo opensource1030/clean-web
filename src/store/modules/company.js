@@ -19,6 +19,7 @@ const state = {
   },
   filters: {
     name: new FilterItem(),
+    active: new FilterItem(),
     // shortName: new FilterItem(),
   },
 }
@@ -37,7 +38,7 @@ const actions = {
       let _params = {
         params: {
           page: state.pagination.current_page,
-          include: 'udls,address',
+          include: 'udls,addresses',
         }
       }
 
@@ -56,6 +57,12 @@ const actions = {
         _params.params[key] = value
       }
 
+      if (state.filters.active.value !== '') {
+        key = 'filter[active][eq]'
+        value = state.filters.active.value
+        _params.params[key] = value
+      }
+
       companyAPI.search(_params, res => {
         const companies = store.sync(res.data)
         // console.log('company res', companies)
@@ -67,6 +74,11 @@ const actions = {
         reject(err)
       })
     })
+  },
+
+  searchByActive({ dispatch, commit, state }, { query }) {
+    commit(types.COMPANY_UPDATE_FILTERS, { active: { operator: 'eq', value: query } })
+    return dispatch('search')
   },
 
   searchByName({ dispatch, commit, state }, { query }) {

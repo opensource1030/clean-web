@@ -12,10 +12,8 @@ export default {
 
     context.$http.get(process.env.URL_API + '/companies/' + result.companyId, {
       params: {
-      include:'udls'
+        include:'udls'
       },
-
-
     }).then((response) => {
 
 

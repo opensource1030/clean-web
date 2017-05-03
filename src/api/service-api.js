@@ -27,6 +27,7 @@ export default {
     http.patch(API_BASE_URL + '/services/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  remove (params, cb, errCb) {
+    remove (params, id, cb, errCb) {
+        http.delete(API_BASE_URL + '/services/' + id).then(res => cb(res), err => errCb(errCb))
   }
 }

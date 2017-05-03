@@ -6,7 +6,7 @@
           <h2> Wireless Line Overview</h2>
         </header>
         <div class="box-content no-pad">
-          <div class="wireless-overview">
+            <div class="wireless-overview table-holder">
             <table width="100%" class="responsive">
               <thead>
               <tr>

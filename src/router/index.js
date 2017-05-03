@@ -30,6 +30,11 @@ import Device from './../views/devices/Device.vue'
 import Companies from './../views/companies/Companies.vue'
 import Company from './../views/companies/Company.vue'
 
+// employees
+import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
+import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
+import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
+
 // routes presets
 import Presets from './../views/presets/Presets.vue'
 import Preset from './../views/presets/Preset.vue'
@@ -78,10 +83,17 @@ const router = new VueRouter({
     { path: '/sso/:id', component: Sso, name: 'sso' },
     { path: '/sidemenu', component: Sidemenu },
 
-    // devices
-    { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
-    { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
-    { path: '/device', component: Device, name: 'Ad Device', meta: { requiresAuth: true } },
+    // { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
+    // { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
+    // { path: '/device', component: Device, name: 'Add Device', meta: { requiresAuth: true } },
+    {
+      path: '/devices', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Devices' },
+      children: [
+        { path: '', component: Devices, name: 'List Devices', meta: { label: 'All' } },
+        { path: 'new', component: Device, name: 'Add Device', meta: { label: 'Create'} },
+        { path: ':id', component: Device, name: 'Update Device', meta: { label: 'Edit'} },
+      ]
+    },
 
     // companies
     // { path: '/companies', component: Companies, name: 'List Companies', meta: { requiresAuth: true } },
@@ -96,24 +108,60 @@ const router = new VueRouter({
       ]
     },
 
+    // employees
+    {
+      path: '/employees',
+      component: {template: '<router-view></router-view>'},
+      meta: {requiresAuth: true, label: 'Employees'},
+      children: [
+        {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
+        {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
+        {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
+        {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
+      ]
+    },
+
     // presets
     { path: '/presets', component: Presets, name: 'List Presets', meta: { requiresAuth: true } },
     { path: '/preset/:id', component: Preset, name: 'Update Preset', meta: { requiresAuth: true } },
     { path: '/preset', component: Preset, name: 'Add Preset', meta: { requiresAuth: true } },
+
     // services
-    { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
-    { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
-    { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
-    // employees
+    // { path: '/services', component: Services, name: 'List Services', meta: { requiresAuth: true } },
+    // { path: '/service/:id', component: Service, name: 'Update Service', meta: { requiresAuth: true } },
+    // { path: '/service', component: Service, name: 'Add Service', meta: { requiresAuth: true } },
+
+      {
+      path: '/services',
+      component: {template: '<router-view></router-view>'},
+      meta: {requiresAuth: true, label: 'Services'},
+      children: [
+        { path: '', component: Services, name: 'List Services', meta: { label: 'All' } },
+        { path: '/service', component: Service, name: 'Add Service', meta: { label: 'Create' } },
+        { path: '/service/:id', component: Service, name: 'Update Service', meta: { label: 'Edit' } },
+      ]
+    },
+
+    // profile
     { path: '/profile', component: Profile, name: 'profile', meta: { requiresAuth: true } },
     { path: '/updateprofile/:id', component: UpdateProfile, name: 'UpdateProfile', meta: { requiresAuth: true } },
     { path: '/addservice', component: AddService, name: 'addService', meta: { requiresAuth: true } },
     { path: '/adddevice', component: AddDevice, name: 'addDevice', meta: { requiresAuth: true } },
     { path: '/configuration', component: Settings, name: 'configuration', meta: { requiresAuth: true } },
+
     //packages
-    { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
-    { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
-    { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
+    // { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
+    // { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
+    // { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
+    {
+      path: '/packages', component: { template: '<router-view></router-view>' }, meta: { requiresAuth: true, label: 'Packages' },
+      children: [
+        { path: '', component: Packages, name: 'List Packages', meta: { label: 'All' } },
+        { path: 'new', component: Packageid, name: 'Add Package', meta: { label: 'Create'} },
+        { path: ':id', component: Packageid, name: 'Update Package', meta: { label: 'Edit'} },
+      ]
+    },
+
     //redirect
     { path: '*', redirect: '/dashboard' }
   ]
@@ -128,14 +176,10 @@ Vue.http.interceptors.push((request, next) => {
 
 // Vue.http.interceptors.push((request, next) => {
 //   next((response) => {
-
-//       if(response.status==401){
-
-//         store.dispatch('auth/logout')
-//           router.push('login');
-
-//       }
-
+//     if (response.status==401) {
+//       store.dispatch('auth/logout')
+//       router.push('login');
+//     }
 //   })
 // })
 

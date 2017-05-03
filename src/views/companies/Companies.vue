@@ -1,25 +1,25 @@
 <template>
-<div class="page company-page company-index-page" v-if="companies.length > 0">
+<div class="page company-page company-index-page">
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/companies/new">Add Company</a>
+    <a class="button large btn-orange add-button" href="/companies/new">Add Company</a>
   </div>
 
   <div class="columns small-12">
     <div class="tag-header">
-      <div>Companies</div>
+      <h1>Companies</h1>
     </div>
     <div class="grid-box">
-      <div class="box-heading">
-        <input type="text" placeholder="Search with company name, shortname" v-model="query" @keyup.enter="searchCompanies()">
-        <i class="fa fa-search"></i>
+      <div class="search-holder">
+        <input type="text" class="input-search" placeholder="Search with company name, shortname" v-model="query" @keyup.enter="searchCompanies()">
       </div>
-      <div class="box-content">
-        <table class="unstriped">
-          <thead>
+      <div class="box-content" v-if="companies.length > 0">
+        <div class="table-holder">
+          <table class="unstriped">
+            <thead>
             <tr>
               <th width="50">&nbsp;</th>
               <th>ID</th>
@@ -28,8 +28,8 @@
               <th>Short Name</th>
               <th>Actions</th>
             </tr>
-          </thead>
-          <tbody>
+            </thead>
+            <tbody>
             <template v-for="company in companies">
               <tr class="overview-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
                 <td>
@@ -47,8 +47,10 @@
                 <td>{{ company.name }}</td>
                 <td>{{ company.shortName }}</td>
                 <td>
-                  <span class="label remove" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></span>
-                  <a :href = "'/companies/' + company.id" :name="'edit-' + company.id"><span class="label edit"><i class="fa fa-edit"></i></span></a>
+                  <div class="action-buttons">
+                    <a class="button alert" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></a>
+                    <a :href="'/companies/' + company.id" :name="'edit-' + company.id" class="button warning"><i class="fa fa-edit"></i></a>
+                  </div>
                 </td>
               </tr>
               <tr class="detail-tr" :data-id="company.id" :class="activeCompany && (activeCompany.id == company.id) ? 'active' : ''">
@@ -96,18 +98,24 @@
                 </td>
               </tr>
             </template>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <paginate
+  <!-- <paginate
     :pagination="$store.state.company.pagination"
     :prev="prevPage"
     :next="nextPage"
     v-show="$store.state.company.records.length > 0">
-  </paginate>
+  </paginate> -->
+
+  <div class="clearfix"></div>
+  <div class="is-relative" v-show="companies.length == 0">
+    <div class="is-loading"></div>
+  </div>
 </div>
 </template>
 
