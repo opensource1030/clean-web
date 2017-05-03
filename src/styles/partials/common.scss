@@ -129,4 +129,18 @@
       }
     }
   }
+
+  .multiselect {
+
+    .multiselect__input {
+      &:focus {
+        border-radius: 0;
+      }
+    }
+
+    .multiselect__select {
+      top: initial;
+      bottom: 1px;
+    }
+  }
 }

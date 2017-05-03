@@ -12,7 +12,7 @@ export default {
     http.get(API_BASE_URL + '/devices/' + id, data).then(res => cb(res), err => errCb(err))
   },
 
-  getAll (params, cb, errCb) {
+  search (params, cb, errCb) {
     // let data = params
     // let data = {
     //   params: {
