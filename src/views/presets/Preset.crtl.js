@@ -23,7 +23,7 @@ export default {
     },
   methods : {
     onSelectColumn(){
-          this.$store.dispatch('device/getAll', {search: this.search})
+          this.$store.dispatch('device/search', {search: this.search})
       },
     submit(){
       if(this.preset.id==null){

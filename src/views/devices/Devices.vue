@@ -4,6 +4,8 @@
     <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
+  <!-- <div>{{ $data.filters.devices }}</div> -->
+
   <div class="small-12 columns">
     <a class="button large btn-orange add-button" href="/devices/new">Add Device</a>
   </div>
@@ -22,31 +24,63 @@
                 <th width="30px"></th>
                 <th>
                   <multiselect
-                    :options="$store.state.device.types"
+                    id="ajax"
+                    placeholder="Device Name"
+                    :options="filters.names.options"
+                    :value = "$store.state.device.filters.deviceNames"
                     :multiple="true"
-                    :searchable="false"
+                    :searchable="true"
+                    :loading="filters.names.isLoading"
                     :show-labels="false"
                     :select-label="''"
                     :close-on-select="false"
                     :clear-on-select="false"
                     :hide-selected="false"
-                    placeholder="Device Type">
+                    :limit="3"
+                    @search-change="asyncFind_DeviceNames"
+                    @input="addFilter_DeviceNames">
                   </multiselect>
                 </th>
                 <th>
                   <multiselect
-                    :options="$store.state.device.manufacturers"
+                    id="ajax"
+                    placeholder="Device Type"
+                    :options="filters.types.options"
+                    :value = "$store.state.device.filters.typeNames"
                     :multiple="true"
-                    :searchable="false"
+                    :searchable="true"
+                    :loading="filters.types.isLoading"
                     :show-labels="false"
                     :select-label="''"
                     :close-on-select="false"
                     :clear-on-select="false"
                     :hide-selected="false"
-                    placeholder="Manufacturer">
+                    :limit="3"
+                    @search-change="asyncFind_DeviceTypeNames"
+                    @input="addFilter_DeviceTypeNames">
+                  </multiselect>
+                </th>
+                <th>
+                  <multiselect
+                    id="ajax"
+                    placeholder="Manufacturer"
+                    :options="filters.makers.options"
+                    :value = "$store.state.device.filters.deviceMakers"
+                    :multiple="true"
+                    :searchable="true"
+                    :loading="filters.makers.isLoading"
+                    :show-labels="false"
+                    :select-label="''"
+                    :close-on-select="false"
+                    :clear-on-select="false"
+                    :hide-selected="false"
+                    :limit="3"
+                    @search-change="asyncFind_DeviceMakers"
+                    @input="addFilter_DeviceMakers">
                   </multiselect>
                 </th>
                 <th width="85px">
+                  <!--
                   <multiselect
                     :options="[0,1,2]"
                     :multiple="true"
@@ -58,22 +92,25 @@
                     :hide-selected="false"
                     placeholder="Price">
                   </multiselect>
+                  -->
                 </th>
                 <th>
                   <multiselect
-                    :value="$store.state.device.filters.carriers"
-                    :options="carriers"
+                    id="ajax"
+                    placeholder="Carrier"
+                    :options="filters.carriers.options"
+                    :value = "$store.state.device.filters.carrierNames"
                     :multiple="true"
-                    :searchable="false"
+                    :searchable="true"
+                    :loading="filters.carriers.isLoading"
                     :show-labels="false"
                     :select-label="''"
                     :close-on-select="false"
                     :clear-on-select="false"
                     :hide-selected="false"
-                    @input="addCarrierFilter"
-                    placeholder="Carrier"
-                    label="presentation"
-                    track-by="presentation">
+                    :limit="3"
+                    @search-change="asyncFind_CarrierNames"
+                    @input="addFilter_CarrierNames">
                   </multiselect>
                 </th>
                 <th>
@@ -90,7 +127,7 @@
                     @input="addCapacityFilter"
                     placeholder="Capacity"
                     label="value"
-                    track-by="value">
+                    track-by="id">
                   </multiselect>
                 </th>
                 <th width="10%">
@@ -107,10 +144,10 @@
                     @input="addStyleFilter"
                     placeholder="Style"
                     label="value"
-                    track-by="value">
+                    track-by="id">
                   </multiselect>
                 </th>
-                <th>Actions</th>
+                <th width="100px">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -120,9 +157,10 @@
                    <span class="badge toggle-button" @click="setActive(device)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
                   </td>
                   <td>{{ device.name }}</td>
+                  <td>{{ device.devicetypes[0].name }}</td>
                   <td>{{ device.make }}</td>
                   <td>{{ device.defaultPrice }} {{ device.currency }}</td>
-                  <td><span v-for="carrier in device.priceName">{{carrier.carrier}}</span></td>
+                  <td>{{ getCarrierNames(device) }}</td>
                   <td>{{ filterModificationsByType(device.modifications, 'capacity').join(', ') }}</td>
                   <td>{{ filterModificationsByType(device.modifications, 'style').join(', ') }}</span></td>
                   <td>
@@ -135,7 +173,7 @@
 
                 <tr class="detail-tr" :data-id="device.id" :class="activeDevice && (activeDevice.id == device.id) ? 'active' : ''">
                   <td></td>
-                  <td colspan="7">
+                  <td colspan="8">
                     <div class="detail-box">
                       <div class="content">
                         <div class="row">
