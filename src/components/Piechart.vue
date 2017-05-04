@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  var dateFormat = require('dateformat');
+  const dateFormat = require('dateformat');
   import phone from './../filters/phone-formatter.js';
   // import PieChart from './PieChart';
 
