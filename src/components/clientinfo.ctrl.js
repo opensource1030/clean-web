@@ -34,7 +34,7 @@ export default {
                     }).then((response) => {
 
                         this.client= response.data;
-                        console.log(this.client);
+                        // console.log(this.client);
 
                         setTimeout(function(){
                             $(function() {

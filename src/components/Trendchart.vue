@@ -36,9 +36,8 @@
 </template>
 
 <script>
-  var dateFormat = require('dateformat');
+  const dateFormat = require('dateformat');
   import _ from 'lodash';
-  import Vue from 'vue';
   import phone from './../filters/phone-formatter.js';
   // import PieData from './../api/piedata';
   // import TrendChart from './TrendChart';
@@ -136,11 +135,15 @@
         let allocations = _.get(this.groupData, key, null);
         // console.log('allocations', allocations);
         let trendchart_data = [];
-        let bill_month = new Date();
+        let bill_month = null;
 
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
             // console.log("allocation", allocation);
+            if (bill_month == null && !!allocation.bill_month) {
+              bill_month = new Date(allocation.bill_month)
+            }
+
             return [
               dateFormat(allocation.bill_month, 'mmm / yyyy'),
               allocation.service_plan_charge,
@@ -152,10 +155,10 @@
           }).value();
         }
 
-        let len = trendchart_data.length;
-        if (len > 0) {
-          bill_month = new Date(trendchart_data[0][0])
+        if (bill_month == null) {
+          bill_month = new Date()
         }
+        let len = trendchart_data.length;
         if (len < 3) {
           for (let i = 0; i < (3 - len); i ++) {
             bill_month.setMonth(bill_month.getMonth() - 1);
@@ -163,6 +166,7 @@
           }
         }
 
+        // console.log(bill_month, trendchart_data);
         return trendchart_data;
       }
     }
