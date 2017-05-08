@@ -43,7 +43,11 @@ import AddDevice from "./../views/employees/AddDevice.vue";
 import AddService from "./../views/employees/AddService.vue";
 import UpdateProfile from "./../views/employees/UpdateProfile.vue";
 // routes Settings
-import Settings from "./../views/settings/Settings.vue";
+import Settings from './../views/settings/Settings.vue'
+
+// routes placeOrder
+import PlaceOrder from './../views/placeOrder/Placeorder.vue'
+
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
 import LegacyInfo from "./../components/LegacyInfo.vue";
@@ -157,7 +161,7 @@ const router = new VueRouter({
     {path: '/adddevice', component: AddDevice, name: 'addDevice', meta: {requiresAuth: true}},
     {path: '/configuration', component: Settings, name: 'configuration', meta: {requiresAuth: true}},
 
-    //packages
+    // packages
     // { path: '/packages', component: Packages, name: 'packages', meta: { requiresAuth: true } },
     // { path: '/package/:id', component: Packageid, name: 'packageEdit', meta: { requiresAuth: true } },
     // { path: '/package', component: Packageid, name: 'package', meta: { requiresAuth: true } },
@@ -171,6 +175,9 @@ const router = new VueRouter({
         {path: ':id', component: Packageid, name: 'Update Package', meta: {label: 'Edit'}},
       ]
     },
+
+    // place order
+    { path: '/placeOrder', component: PlaceOrder, name: 'Place Order', meta: {requiresAuth: true, label: 'Place Order'} },
 
     //redirect
     {path: '*', redirect: '/dashboard'}
