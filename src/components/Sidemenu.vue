@@ -112,14 +112,9 @@
                         <li><a name="portal" href="#"><i class="fa fa-circle-o"></i>Portal</a></li>
                         <li><a name="procurement" href="#"><i class="fa fa-circle-o"></i>Procurement</a></li>
                     </ul>
-                </li>
-            </template>
-            <li class="support-link">
-                <a href="javascript:;">
-                    <i class="fa fa-envelope"></i> <span>Support</span>
-                </a>
+                </li>            
 
-            </li>
+            </template>
 
 
         </ul>
