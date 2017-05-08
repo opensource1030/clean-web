@@ -21,9 +21,13 @@ import Device from "./../views/devices/Device.vue";
 import Companies from "./../views/companies/Companies.vue";
 import Company from "./../views/companies/Company.vue";
 // employees
-import EmployeeIndex from "./../views/employees/EmployeeIndex.vue";
-import EmployeeEdit from "./../views/employees/EmployeeEdit.vue";
-import EmployeeBulkAdd from "./../views/employees/EmployeeBulkAdd.vue";
+import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
+import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
+import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
+
+// orders
+import OrderIndex from './../views/orders/OrderIndex.vue'
+
 // routes presets
 import Presets from "./../views/presets/Presets.vue";
 import Preset from "./../views/presets/Preset.vue";
@@ -109,6 +113,16 @@ const router = new VueRouter({
         {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
         {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
+      ]
+    },
+
+    // orders
+    {
+      path: '/orders',
+      component: { template: '<router-view></router-view>' },
+      meta: { requiresAuth: true, label: 'Procurements' },
+      children: [
+        { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
       ]
     },
 

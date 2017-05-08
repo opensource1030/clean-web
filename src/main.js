@@ -10,7 +10,6 @@ import './modules/jquery.tag-editor/jquery.tag-editor.js'
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 
 import './../node_modules/slicknav/dist/jquery.slicknav.js'
-
 import './../node_modules/stacktable.js/stacktable.js'
 
 import './styles/app.scss'
@@ -22,6 +21,7 @@ import 'script!foundation-sites'
 
 import App from './App.vue'
 import VeeValidate from 'vee-validate'
+import Vue2Filters from 'vue2-filters'
 import store from './store'
 import router from './router'
 import {sync} from 'vuex-router-sync'
@@ -32,8 +32,6 @@ sync(store, router)
 // filter
 var moment = require('moment');
 var numeral = require('numeral');
-
-
 
 Vue.filter('cleanDate', function (value) {
   var str = value + '';
@@ -47,20 +45,17 @@ Vue.filter('formatBytes', function (value) {
   else {
     value *= 1000; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
     return numeral(value).format('0.00b')
-
   }
-});
+})
 
 Vue.filter('formatCurrency', function (value, locale = "us") {
   if (value === null || value === undefined) {
     return value = '-'
-
   }
   else {
     return numeral(value).format('$0,0.00')
   }
 })
-
 
 // event
 const eventHub = new Vue()
@@ -68,18 +63,18 @@ exports.eventHub = eventHub
 
 // install plugins
 Vue.use(VeeValidate)
-const gaId = 'UA-42900219-2'
-// Install plugins
-
+Vue.use(Vue2Filters)
 Vue.use(VueCharts);
 
-
+const gaId = 'UA-42900219-2'
 Vue.use(VueAnalytics, {gaId, router});
-//config
+
+// config
 Vue.config.productionTip = false
 if(process.env.NODE_ENV == 'production'){
-Vue.config.devtools = false;
+  Vue.config.devtools = false;
 }
+
 // start up our app
 new Vue({
   router,
