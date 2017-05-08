@@ -37,7 +37,7 @@ export default {
     let company_id = this.$route.params.id || 0
 
     if (company_id > 0) {
-      companyAPI.get(company_id, { params: { include: 'udls,address' } }, res => {
+      companyAPI.get(company_id, { params: { include: 'udls,addresses' } }, res => {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
         // console.log('company', this.company)
