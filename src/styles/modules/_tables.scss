@@ -1,93 +1,68 @@
 @import "../base/clean-variables";
-#tables {
-  .titles {
-    padding: 0.7rem 2rem;
-    background: $ghost;
+@import "../mixins/other-mixin";
 
-    h4 {
-      font-size: 18px;
-      font-weight: 700;
+.table-holder {
+  .multiselect {
+    .multiselect__input {
+      margin: -6px 0 0;
     }
   }
-
-  .buttonTable {
-    font-weight: 700;
-    margin-bottom: 20px;
-    padding: 0.875rem 2.75rem 0.9375rem;
-    font-size: 17px;
-    border-radius: 0.5rem;
-    margin: 2rem 1rem;
-  }
-
-  select {
-    border: 0;
-    outline: 0;
-    background-color: inherit;
-    width: 80%;
-  }
-
-  .up{
-      margin-top: -2.8rem;
-  }
-
+  position: relative;
+  min-height: 200px;
   table {
-    margin: 0 1rem 0rem 0rem;
-    background: #FDFDFF;
-    border: 1px solid rgba(151, 151, 151, 0.3);
+    border: none;
+    margin-bottom: 0;
+    border-collapse: unset;
 
-    thead {
-      background: #fff8f2 !important;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      padding: 0.5rem 0.6rem;
-
-      th {
-        padding: 0;
-
+    tr {
+      &:nth-child(2n) {
+        background: #F9F9F9;
       }
     }
 
-    tbody {
-      .filter {
-        background-color: #F0EEDD;
+    th {
+      background: $white;
+      line-height: 1.110rem;
+      font-weight: 400;
+      border-bottom: 1px rgba(108, 122, 134, 0.08) solid;
+      text-align: left;
+      padding: 0.7rem 0.56667rem;
+    }
+    td {
+      padding: 0.53333rem 0.56667rem 0.56667rem;
 
-        td {
-          padding: 0 8px;
+    }
+    select {
+      font-size: 1rem;
+      height: 2.3rem;
 
-          div {
-            overflow: hidden;
-          }
-        }
-      }
-
-      tr:hover {
-        background-color: #F0EEDD;
-        cursor: pointer;
-      }
-
-      tr {
-        .detail {
-          padding-bottom: 3em;
-          background-color: #f0eedd;
-        }
-
-        td {
-          padding-bottom: 1em;
-          background-color: #F0EEDD;
-        }
-      }
     }
   }
 
-  .active {
-    background-color: #F0EEDD;
-  }
-  .act {
-    background-color: #F0EEDD;
+  table.large-only {
+    display: table;
   }
 
-  @media only screen and (max-width: 767px) {
-    .responsive {
-      overflow-x:auto;
+  table.small-only {
+    display: none;
+  }
+
+  @media screen and (max-width: 800px) {
+
+    table.large-only {
+      display: none;
+    }
+
+    table.small-only {
+      display: table;
+    }
+  }
+
+  .multiselect__input {
+    @include css3(box-shadow, none);
+    @include placeholder {
+      color: $jet;
+      font-weight: 400
     }
   }
 }

@@ -4,36 +4,28 @@
 
 .page.device-page.device-index-page {
   
-  table.unstriped {
-    tbody {
-      tr {
-        td {
-          .label {
-            margin-right: 10px;
-          }
-        }
-      }
-    }
-  }
+
 }
 
 .page.device-page.device-edit-page {
 
   .accordion-navigation.prices {
-    .filterprices {
-      float: right;
-      width: 570px;
-      margin-top: 5px;
 
-      select {
-        background: transparent;
-        border: none;
+  }
+}
 
-        &:focus {
-          border: none;
-          @include css3(box-shadow, none);
-        }
-      }
+.filterprices {
+  float: right;
+  width: 570px;
+  margin-top: 15px;
+
+  select {
+    background: transparent;
+    border: none;
+
+    &:focus {
+      border: none;
+      @include css3(box-shadow, none);
     }
   }
 }
