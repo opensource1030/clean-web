@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import avatar from 'vue-avatar/dist/Avatar';
 import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
 import orderAPI from './../../api/order-api.js'
@@ -8,6 +9,7 @@ export default {
   name: 'OrderIndex',
 
   components: {
+    avatar,
     modal,
     paginate,
   },
@@ -16,8 +18,9 @@ export default {
     return {
       activeOrder: null,
       isReady: false,
+      avatarSize: 100,
       packageCostChart: {
-        type: 'Bar',
+        type: 'BarChart',
         columns: [
           {
             'type': 'string',
@@ -39,13 +42,19 @@ export default {
         options: {
           height: 250,
           legend: { position: 'none' },
-          chart: { title: 'PACKAGE COST' },
-          bars: 'vertical',
-          axes: {
-            x: {
-              0: { side: 'bottom', label: ''}
-            }
-          },
+          title: 'PACKAGE COST',
+          chartArea: { left: '10%', top: '20%', width: '80%', height: '70%' },
+          orientation: 'horizontal',
+          hAxis: {
+            textPosition: 'none'
+          }
+          // orientation: 'vertical'
+          // bars: 'vertical',
+          // axes: {
+          //   x: {
+          //     0: { side: 'bottom', label: ''}
+          //   }
+          // },
         }
       },
       monthlyCostChart: {
@@ -131,7 +140,7 @@ export default {
     },
 
     getPriceOnce (order) {
-      return _.map(_.flatMap(order.devicevariations, 'devices'), 'name').join(', ')
+      return _.sumBy(order.devicevariations, 'priceOwn')
     },
 
     prevPage () {

@@ -72,13 +72,31 @@
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
                 <td>{{ order.services[0].cost | currency }}</td>
-                <td></td>
+                <td>{{ ( getPriceOnce(order) + order.services[0].cost) | currency }}</td>
               </tr>
               <tr class="detail-tr" :class="activeOrder && (activeOrder.id == order.id) ? 'active' : ''">
                 <td></td>
-                <td colspan="9">
-                  {{ `Here goes order - ${order.id}` }}
+                <td>
+                  <avatar :username="order.users[0] ? `${order.users[0].firstName} ${order.users[0].lastName}` : 'Guest'" :size="avatarSize"></avatar>
                 </td>
+                <td></td>
+                <td></td>
+                <td colspan="3">
+                  <div v-for="dv in order.devicevariations">
+                    {{ `${dv.devices[0].name} ${dv.modifications[0] ? ', ' + dv.modifications[0].value : ''} ${dv.modifications[1] ? ', ' + dv.modifications[1].value : ''}` }}
+                  </div>
+                  <div>{{ order.services[0].title }}</div>
+                </td>
+                <td>
+                  <div v-for="dv in order.devicevariations">
+                    {{ dv.priceOwn | currency }}
+                  </div>
+                </td>
+                <td>
+                  <div v-for="dv in order.devicevariations">&nbsp;</div>
+                  <div>{{ order.services[0].cost | currency }}</div>
+                </td>
+                <td></td>
               </tr>
             </template>
           </tbody>

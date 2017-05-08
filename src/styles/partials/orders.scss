@@ -7,4 +7,12 @@
   .row.charts {
     margin-bottom: 15px;
   }
+
+  table.unstriped {
+    tbody {
+      td {
+        vertical-align: top;
+      }
+    }
+  }
 }
