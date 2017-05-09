@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="large-6 columns">
-      <div class="grid-box " data-mh="box2">
+      <div class="grid-box" data-mh="box2">
         <header class="box-heading">
           <h2>Trend By Category</h2>
         </header>
@@ -9,7 +9,7 @@
           <ul class="tabs" data-tabs id="trend-tabs">
             <template v-for="(key, index) in groupDataKeys">
               <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
-                <a :href="'#trend-' + index" role="tab" :aria-controls="'trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'">{{ key | phone }}</a>
+                <a :href="'#trend-' + index" role="tab" :aria-controls="'trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'" :data-index="index">{{ key | phone }}</a>
               </li>
             </template>
           </ul>
@@ -23,8 +23,9 @@
                 <vue-chart
                   chart-type="LineChart"
                   :columns="columns"
-                  :rows="seriesData(key)"
+                  :rows="seriesData(key, index)"
                   :options="options"
+                  v-if="index == activeIndex"
                 ></vue-chart>
               </div>
             </template>
@@ -56,6 +57,7 @@
         prefix: currency
       });
       return {
+        activeIndex: 0,
         columns: [
           {
             'type': 'string',
@@ -131,11 +133,19 @@
         return menuMonths;
       },
 
-      seriesData(key) {
+      seriesData (key, index) {
+        let bill_month = null
+        let trendchart_data = []
+
+        // if (index !== this.activeIndex) {
+        //   bill_month = new Date()
+        //   return []
+        // }
+
         let allocations = _.get(this.groupData, key, null);
         // console.log('allocations', allocations);
-        let trendchart_data = [];
-        let bill_month = null;
+        trendchart_data = []
+        bill_month = null;
 
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
@@ -165,6 +175,17 @@
             trendchart_data.unshift([dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]);
           }
         }
+
+        let vm = this
+        this.$nextTick(() => {
+          $('#trend-tabs li a').off('click').on('click', function(e) {
+            setTimeout(() => {
+              let index = $(this).data('index')
+              // console.log(index)
+              vm.$set(vm, 'activeIndex', index)
+            })
+          })
+        });
 
         // console.log(bill_month, trendchart_data);
         return trendchart_data;

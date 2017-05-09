@@ -47,6 +47,16 @@ const actions = {
       dispatch('getAll')
     }
   },
+  deletePreset ({dispatch, commit, state}, presetId) {
+    return new Promise((resolve, reject) => {
+      preset.remove(presetId, res => {
+        let results = res;
+        resolve(results);
+      }, err => {
+        reject(err)
+      })
+    })
+  },
 
   getAll({
     dispatch,

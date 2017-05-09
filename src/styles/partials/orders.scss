@@ -1,0 +1,18 @@
+@import "../base/clean-variables";
+@import "../plugins/material-color";
+@import "../mixins/other-mixin";
+
+.page.order-page.order-index-page {
+  
+  .row.charts {
+    margin-bottom: 15px;
+  }
+
+  table.unstriped {
+    tbody {
+      td {
+        vertical-align: top;
+      }
+    }
+  }
+}

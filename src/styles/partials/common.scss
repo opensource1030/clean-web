@@ -100,36 +100,6 @@
     }
   }
 
-  .accordion {
-    background-color: transparent;
-
-    .accordion-item {
-      margin-bottom: 15px;
-      background-color: $white;
-
-      > .accordion-title {
-        display: block;
-        padding: 10px 20px;
-        background-color: #fff8f2;
-        color: material-color('orange', '800');
-        font-size: 18px;
-        line-height: 26px;
-        font-weight: 400;
-      }
-
-      > .accordion-content {
-        padding: 15px 0;
-      }
-    }
-
-    .accordion-item.is-active {
-      > a {
-        background-color: material-color('orange', '800');
-        color: $white;
-      }
-    }
-  }
-
   .multiselect {
 
     .multiselect__input {

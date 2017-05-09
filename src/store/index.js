@@ -10,12 +10,14 @@ import modification from './modules/modification'
 import carrier from './modules/carrier'
 import company from './modules/company'
 import employee from './modules/employee'
+import order from './modules/order'
 import file from './modules/file'
 import services from './modules/services/services'
 import service from './modules/services/service'
 import presets from './modules/presets/presets'
 import preset from './modules/presets/preset'
 import packages from './modules/package'
+import placeOrder from './modules/place_order'
 
 Vue.use(Vuex)
 
@@ -33,12 +35,14 @@ export default new Vuex.Store({
     carrier,
     company,
     employee,
+    order,
     file,
     services,
     service,
     presets,
     preset,
-    packages
+    packages,
+    placeOrder
   },
   strict: debug,
   plugins: [

@@ -1,15 +1,14 @@
 @import "base/clean-variables";
 @import "base/base";
 @import "mixins/other-mixin";
-
 @import "modules/all-modules";
-
 @import './../../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
+
 @import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
 @import "plugins/flatpickr";
-
+@import "plugins/select2";
 @import "partials/common";
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
@@ -20,15 +19,18 @@
 @import "partials/packages";
 @import "partials/nprogress";
 @import "partials/login";
-
 @import "partials/companies";
 @import "partials/employees";
 @import "partials/devices";
+@import "partials/orders";
+@import "partials/placeOrder";
 // @import './../../node_modules/select2/dist/css/select2.min.css';
 
-.w1{overflow: hidden;}
+.w1 {
+  overflow: hidden;
+}
 
-body{
+body {
   &.full-height {
     min-height: 3000px;
     .content-right {
@@ -36,29 +38,32 @@ body{
     }
   }
 
-  &.sticky-header{
+  &.sticky-header {
+    iframe {
+      border: 0;
+    }
 
-    .top-bar-section{
-      &.sticky-top{
+    .top-bar-section {
+      &.sticky-top {
         padding: 5px 0 7px 0;
-        .logo img{
+        .logo img {
           max-width: 90%;
         }
-        .logo-holder{
+        .logo-holder {
           text-align: left;
         }
-        .morphsearch{
-           //margin: 6px 0 0 2rem;
+        .morphsearch {
+          //margin: 6px 0 0 2rem;
           width: 620px;
           margin-top: 8px;
         }
       }
     }
     .menu-left {
-      top:62px;
+      top: 62px;
     }
-    .nav-poweredby{
-      bottom: 62px;
+    .nav-poweredby {
+      bottom: 70px;
     }
   }
 }
@@ -135,4 +140,14 @@ div.multiselect__tags {
 .is-relative {
   position: relative;
   min-height: 300px;
+}
+
+.swal2-modal {
+  @include css3(border-radius, 0 !important);
+  .swal2-styled {
+    @include css3(border-radius, 0 !important);
+  }
+  .swal2-icon {
+    margin-top: 10px !important;
+  }
 }

@@ -60,6 +60,9 @@
 }
 
 .wireless-overview{
+  &.table-holder {
+    min-height: inherit;
+  }
 
   .user-actions{
     max-width: 180px;
@@ -88,71 +91,7 @@
   }
 }
 
-.table-holder {
-  .multiselect {
-    .multiselect__input {
-      margin: -6px 0 0;
-    }
-  }
-  position: relative;
-  min-height: 200px;
-  table{
-    border:none;
-    margin-bottom: 0;
-    border-collapse:unset;
 
-    tr{
-      &:nth-child(2n){
-        background: #F9F9F9;
-      }
-    }
-
-    th{
-      background: $white;
-      line-height: 1.110rem;
-      font-weight: 400;
-      border-bottom:1px rgba(108, 122, 134, 0.08) solid;
-      text-align: left;
-      padding: 0.7rem 0.56667rem;
-    }
-    td{
-      padding: 0.53333rem 0.56667rem 0.56667rem;
-
-    }
-    select{
-      font-size: 1rem;
-      height: 2.3rem;
-
-    }
-  }
-
-  table.large-only {
-    display: table;
-  }
-
-  table.small-only {
-    display: none;
-  }
-
-  @media screen and (max-width: 800px) {
-
-    table.large-only {
-      display: none;
-    }
-
-    table.small-only {
-      display: table;
-    }
-  }
-
-  .multiselect__input {
-    @include css3(box-shadow, none);
-    @include placeholder {
-      color: $jet;
-      font-weight: 400
-    }
-  }
-}
 
 .is-loading {
   position: absolute;
@@ -438,7 +377,7 @@
   position: fixed;
   width: 200px;
   z-index: 99;
-  background: #0c2e82;
+  background: $brand-blue;
   height: 100%;
   left: 0;
   top:72px;

@@ -1,13 +1,13 @@
-import { http } from 'vue'
-const { Store } = require('yayson')()
+import {http} from "vue";
+const {Store} = require('yayson')()
 const store = new Store()
 
 const API_BASE_URL = process.env.URL_API
 
 export default {
-  getOne (params,id ,cb, errCb) {
+  getOne (params, id, cb, errCb) {
     let data = params
-    http.get(API_BASE_URL + '/presets/'+id, data).then(res => cb(store.sync(res.data)), (err) => errCb(err))
+    http.get(API_BASE_URL + '/presets/' + id, data).then(res => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   getAll (params, cb, errCb) {
@@ -16,16 +16,17 @@ export default {
   },
 
   add (params, cb, errCb) {
-    let data = { data: params } // or data = params
+    let data = {data: params} // or data = params
     http.post(API_BASE_URL + '/presets', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  update (params, id,cb, errCb) {
-    let data = { data: params } // or data = params
-    http.patch(API_BASE_URL + '/presets/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
+  update (params, id, cb, errCb) {
+    let data = {data: params} // or data = params
+    http.patch(API_BASE_URL + '/presets/' + id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  remove (params, cb, errCb) {
+  remove (id, cb, errCb) {
+    http.delete(API_BASE_URL + '/presets/' + id).then(res => cb(res), err => errCb(err))
   }
 
 }
