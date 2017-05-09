@@ -25,6 +25,7 @@
                   :columns="columns"
                   :rows="seriesData(key, index)"
                   :options="options"
+                  v-if="index == activeIndex"
                 ></vue-chart>
               </div>
             </template>
@@ -136,18 +137,9 @@
         let bill_month = null
         let trendchart_data = []
 
-        if (index !== this.activeIndex) {
-          bill_month = new Date()
-          for (let i = 0; i < 3; i ++) {
-            bill_month.setMonth(bill_month.getMonth() - 1);
-            trendchart_data.unshift([dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]);
-          }
-          return trendchart_data
-        }
-
         // if (index !== this.activeIndex) {
         //   bill_month = new Date()
-        //   return [[dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]]
+        //   return []
         // }
 
         let allocations = _.get(this.groupData, key, null);
