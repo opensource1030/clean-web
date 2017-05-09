@@ -1,30 +1,30 @@
-import Vue from 'vue'
-import VueAnalytics from 'vue-analytics'
-import 'script!jquery'
-import 'script!select2'
-import 'script!jquery.cookie'
+import Vue from "vue";
+import VueAnalytics from "vue-analytics";
+import "script!jquery";
+import "script!select2";
+import "script!jquery.cookie";
 
-import './modules/jquery.tag-editor/jquery.caret.min.js'
-import './modules/jquery.tag-editor/jquery.tag-editor.js'
+import "./modules/jquery.tag-editor/jquery.caret.min.js";
+import "./modules/jquery.tag-editor/jquery.tag-editor.js";
 
-import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
+import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
 
-import './../node_modules/slicknav/dist/jquery.slicknav.js'
-import './../node_modules/stacktable.js/stacktable.js'
+import "./../node_modules/slicknav/dist/jquery.slicknav.js";
+import "./../node_modules/stacktable.js/stacktable.js";
 
-import './styles/app.scss'
-import './../node_modules/font-awesome/scss/font-awesome.scss'
-import './../node_modules/sweetalert2/src/sweetalert2.scss'
+import "./styles/app.scss";
+import "./../node_modules/font-awesome/scss/font-awesome.scss";
+import "./../node_modules/sweetalert2/src/sweetalert2.scss";
 
-import 'script!what-input'
-import 'script!foundation-sites'
+import "script!what-input";
+import "script!foundation-sites";
 
-import App from './App.vue'
-import VeeValidate from 'vee-validate'
-import Vue2Filters from 'vue2-filters'
-import store from './store'
-import router from './router'
-import {sync} from 'vuex-router-sync'
+import App from "./App.vue";
+import VeeValidate from "vee-validate";
+import Vue2Filters from "vue2-filters";
+import store from "./store";
+import router from "./router";
+import {sync} from "vuex-router-sync";
 sync(store, router)
 
 // $(document).foundation();
@@ -34,9 +34,13 @@ var moment = require('moment');
 var numeral = require('numeral');
 
 Vue.filter('cleanDate', function (value) {
-  var str = value + '';
-  return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
-})
+  if (value === 'N/A' || value === null || value === undefined) {
+    return 'N/A'
+  } else {
+    let str = value + '';
+    return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
+  }
+});
 
 Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
@@ -71,7 +75,7 @@ Vue.use(VueAnalytics, {gaId, router});
 
 // config
 Vue.config.productionTip = false
-if(process.env.NODE_ENV == 'production'){
+if (process.env.NODE_ENV == 'production') {
   Vue.config.devtools = false;
 }
 

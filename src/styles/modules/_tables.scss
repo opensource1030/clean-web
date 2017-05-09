@@ -16,14 +16,14 @@
 
     tr {
       &:nth-child(2n) {
-        background: #F9F9F9;
+        background: $snow;
       }
     }
 
     th {
       background: $white;
       line-height: 1.110rem;
-      font-weight: 400;
+      font-weight: 500;
       border-bottom: 1px rgba(108, 122, 134, 0.08) solid;
       text-align: left;
       padding: 0.7rem 0.56667rem;

@@ -1,21 +1,20 @@
 var {Store} = require('yayson')()
 var store = new Store()
-import {format, parse} from 'libphonenumber-js'
+import {format, parse} from "libphonenumber-js";
+import supportRequest from "./support-request";
+import Avatar from "vue-avatar/dist/Avatar";
+import Breadcrumb from "vue-bulma-breadcrumb";
+import ClientInfo from "./ClientInfo.vue";
+import ChargeInfo from "./ChargeInfo.vue";
+import Morphsearch from "./Morphsearch.vue";
+import Piechart from "./Piechart.vue";
+import Trendchart from "./Trendchart.vue";
+import SpentInfo from "./SpentInfo.vue";
+import LegacyInfo from "./LegacyInfo.vue";
+import swal from "sweetalert2";
 require('script!jquery');
 require('script!jquery-match-height');
 require('script!jquery-validation');
-import _ from 'lodash';
-import supportRequest from './support-request'
-import Vue from 'vue'
-import Avatar from 'vue-avatar/dist/Avatar'
-import Breadcrumb from 'vue-bulma-breadcrumb'
-import ClientInfo from './ClientInfo.vue'
-import ChargeInfo from './ChargeInfo.vue'
-import Morphsearch from './Morphsearch.vue'
-import Piechart from './Piechart.vue'
-import Trendchart from './Trendchart.vue'
-import SpentInfo from './SpentInfo.vue'
-import LegacyInfo from './LegacyInfo.vue'
 const Flatpickr = require("flatpickr");
 
 export default {
@@ -57,15 +56,34 @@ export default {
 
     $('.redirect-link a').each(function (e) {
       $(this).click(function (e) {
-        var link = this.href;
-        var $modalredirect = $('#modal');
+        let link = this.href;
         e.preventDefault();
-          $modalredirect.addClass('is-success large').html("<h2 class='text-center'>Redirecting to our Legacy Reports (Press \"esc\" to cancel)</h2>").foundation('open');
-        setTimeout(function () {
-          $('.for-dashboard').hide(100);
-          $modalredirect.foundation('close');
-            window.location = (link);
-        }, 2000);
+        swal({
+          title: 'Are you sure?',
+          text: "You will be redirected to our Legacy Reports",
+          type: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, redirect !'
+        }).then(function () {
+          swal(
+            'Hurray!',
+            'Your have been redirected',
+            'success'
+          )
+          window.location = (link);
+        }, function (dismiss) {
+          // dismiss can be 'cancel', 'overlay',
+          // 'close', and 'timer'
+          if (dismiss === 'cancel') {
+            swal(
+              'Cancelled',
+              'You have cancelled redirect',
+              'error'
+            )
+          }
+        });
       });
     });
 
@@ -98,6 +116,5 @@ export default {
 
   },
 
-  methods: {
-  },
+  methods: {},
 }

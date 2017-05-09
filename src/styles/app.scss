@@ -3,10 +3,12 @@
 @import "mixins/other-mixin";
 @import "modules/all-modules";
 @import './../../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
+
 @import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
 @import "plugins/flatpickr";
+@import "plugins/select2";
 @import "partials/common";
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
