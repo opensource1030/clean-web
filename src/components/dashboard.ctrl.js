@@ -65,11 +65,11 @@ export default {
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, redirect !'
+          confirmButtonText: 'Yes, redirect'
         }).then(function () {
           swal(
-            'Hurray!',
-            'Your have been redirected',
+            'Please Hold on...',
+            'You are being redirected',
             'success'
           )
           window.location = (link);
