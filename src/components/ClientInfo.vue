@@ -29,17 +29,30 @@
     </div>
   </div>
   <div class="large-6 columns" >
-    <div class="grid-box eq-Hght">
+    <div class="grid-box eq-Hght" v-if="client.object">
       <header class="box-heading">
-        <h2>Support Resources</h2>
+        <h2 v-html="client.object.metafields[1].title"> </h2>
       </header>
       <div class="box-content">
         <div class="box-content-holder">
-          <div v-if="client.object" v-html="client.object.metafields[1].value"></div>
+          <div v-html="client.object.metafields[1].value"></div>
           <div class="action-button" id="action-buttons">
-            <router-link class="button btn-round btn-started" :to="{ name: 'Place Order'}">Click to Get Started
-            </router-link>
+          <template v-if="features.FEATURE_IN_DEVELOPMENT">
+           <router-link class="button btn-round btn-started" :to="{ name: 'Place Order'}">Click to Get Started
+                  </router-link>
+          </template>
+          
+          <template v-else>
+         <router-link v-show="noclient !== 12" class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click
+                      to
+                      Get Started
+                    </router-link>
+          </template>
+     
+
+           
           </div>
+
         </div>
       </div>
     </div>

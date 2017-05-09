@@ -1,6 +1,7 @@
 var {Store} = require('yayson')()
 var  store = new Store()
 import supportRequest from './support-request';
+
 export default {
     name: "ClientInfo",
     created(){
@@ -64,6 +65,7 @@ export default {
     data(){
         return {
             client: {},
+            features: features,
             noclient: 0,
 
         }
