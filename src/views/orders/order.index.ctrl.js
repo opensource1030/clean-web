@@ -2,8 +2,18 @@ import _ from 'lodash'
 import avatar from 'vue-avatar/dist/Avatar';
 import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
+import multiselect from 'vue-multiselect'
+import phone from './../../filters/phone-formatter.js'
 import orderAPI from './../../api/order-api.js'
+import packageAPI from './../../api/package-api.js'
+import carrierAPI from './../../api/carrier-api.js'
+import deviceAPI from './../../api/device-api.js'
+import employeeAPI from './../../api/employee-api.js'
+import addressAPI from './../../api/address-api.js'
 import { mapGetters, mapActions } from 'vuex'
+
+const {Store} = require('yayson')()
+const store = new Store()
 
 export default {
   name: 'OrderIndex',
@@ -12,6 +22,7 @@ export default {
     avatar,
     modal,
     paginate,
+    multiselect,
   },
 
   data () {
@@ -19,6 +30,33 @@ export default {
       activeOrder: null,
       isReady: false,
       avatarSize: 100,
+      filters: {
+        statuses: {
+          values: [],
+          options: ['New', 'Pending', 'Approved', 'Delivered', 'Expired']
+        },
+        employees: {
+          isLoading: false,
+          options: [],
+        },
+        packages: {
+          isLoading: false,
+          options: [],
+        },
+        carriers: {
+          isLoading: false,
+          options: [],
+        },
+        devices: {
+          isLoading: false,
+          options: [],
+        },
+        addresses: {
+          isLoading: false,
+          options: [],
+        },
+      },
+
       packageCostChart: {
         type: 'BarChart',
         columns: [
@@ -134,6 +172,95 @@ export default {
   },
 
   methods: {
+
+    addFilter_OrderStatuses (values) {
+      this.$store.dispatch('order/addFilter', { type: 'status', records: values })
+    },
+
+    asyncFind_EmployeeNames (query) {
+      this.filters.employees.isLoading = true
+      let _params = {
+        'filter[firstName][like]': query
+      }
+      employeeAPI.search(_params, (res) => {
+        this.filters.employees.options = _.map(store.sync(res.data), 'firstName')
+        this.filters.employees.isLoading = false
+      }, (err) => {
+        this.filters.employees.isLoading = false
+      })
+    },
+
+    addFilter_EmployeeNames (values) {
+      this.$store.dispatch('order/addFilter', { type: 'employee', records: values })
+    },
+
+    asyncFind_PackageNames (query) {
+      this.filters.packages.isLoading = true
+      let _params = {
+        'filter[name][like]': query
+      }
+      packageAPI.search(_params, (res) => {
+        this.filters.packages.options = _.uniq(_.map(store.sync(res.data), 'name'))
+        this.filters.packages.isLoading = false
+      }, (err) => {
+        this.filters.packages.isLoading = false
+      })
+    },
+
+    addFilter_PackageNames (values) {
+      this.$store.dispatch('order/addFilter', { type: 'package', records: values })
+    },
+
+    asyncFind_CarrierNames (query) {
+      this.filters.carriers.isLoading = true
+      let _params = {
+        'filter[presentation][like]': query
+      }
+      carrierAPI.search(_params, (res) => {
+        this.filters.carriers.options = _.uniq(_.map(store.sync(res.data), 'presentation'))
+        this.filters.carriers.isLoading = false
+      }, (err) => {
+        this.filters.carriers.isLoading = false
+      })
+    },
+
+    addFilter_CarrierNames (values) {
+      this.$store.dispatch('order/addFilter', { type: 'carrier', records: values })
+    },
+
+    asyncFind_DeviceNames (query) {
+      this.filters.devices.isLoading = true
+      let _params = {
+        'filter[name][like]': query
+      }
+      deviceAPI.search(_params, (res) => {
+        this.filters.devices.options = _.uniq(_.map(store.sync(res.data), 'name'))
+        this.filters.devices.isLoading = false
+      }, (err) => {
+        this.filters.devices.isLoading = false
+      })
+    },
+
+    addFilter_DeviceNames (values) {
+      this.$store.dispatch('order/addFilter', { type: 'device', records: values })
+    },
+
+    asyncFind_AddressPhones (query) {
+      this.filters.addresses.isLoading = true
+      let _params = {
+        'filter[phone][like]': query
+      }
+      addressAPI.search(_params, (res) => {
+        this.filters.addresses.options = _.uniq(_.map(store.sync(res.data), 'phone'))
+        this.filters.addresses.isLoading = false
+      }, (err) => {
+        this.filters.addresses.isLoading = false
+      })
+    },
+
+    addFilter_AddressPhones (values) {
+      this.$store.dispatch('order/addFilter', { type: 'address', records: values })
+    },
 
     getDeviceVariations (order) {
       return _.uniq(_.map(_.flatMap(order.devicevariations, 'devices'), 'name')).join(', ')

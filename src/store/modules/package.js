@@ -116,7 +116,7 @@ const actions = {
         };
       }
 
-      packageAPI.getAll(params, res => {
+      packageAPI.search(params, res => {
         let results = store.sync(res.data);
         for (let eachPackage of results) {
           _.extend(eachPackage, {

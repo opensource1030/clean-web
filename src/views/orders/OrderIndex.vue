@@ -44,13 +44,116 @@
           <thead>
             <tr>
               <th width="50">&nbsp;</th>
-              <!-- <th>ID</th> -->
-              <th>Status</th>
-              <th>Employee Name</th>
-              <th>Phone Number</th>
-              <th>Package Name</th>
-              <th>Carrier</th>
-              <th>Device</th>
+              <th>
+                <multiselect
+                        placeholder="Status"
+                        :options="filters.statuses.options"
+                        :value="$store.state.order.filters.orderStatuses"
+                        :multiple="true"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @input="addFilter_OrderStatuses">
+                </multiselect>
+              </th>
+              <th>
+                <multiselect
+                        id="ajax"
+                        placeholder="Employee Name"
+                        :options="filters.employees.options"
+                        :value="$store.state.order.filters.employeeNames"
+                        :multiple="true"
+                        :searchable="true"
+                        :loading="filters.employees.isLoading"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @search-change="asyncFind_EmployeeNames"
+                        @input="addFilter_EmployeeNames">
+                </multiselect>
+              </th>
+              <th>
+                <multiselect
+                        id="ajax"
+                        placeholder="Phone Number"
+                        :options="filters.addresses.options"
+                        :value="$store.state.order.filters.addressPhones"
+                        :multiple="true"
+                        :searchable="true"
+                        :loading="filters.addresses.isLoading"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @search-change="asyncFind_AddressPhones"
+                        @input="addFilter_AddressPhones">
+                </multiselect>
+              </th>
+              <th>
+                <multiselect
+                        id="ajax"
+                        placeholder="Package Name"
+                        :options="filters.packages.options"
+                        :value="$store.state.order.filters.packageNames"
+                        :multiple="true"
+                        :searchable="true"
+                        :loading="filters.packages.isLoading"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @search-change="asyncFind_PackageNames"
+                        @input="addFilter_PackageNames">
+                </multiselect>
+              </th>
+              <th>
+                <multiselect
+                        id="ajax"
+                        placeholder="Carrier"
+                        :options="filters.carriers.options"
+                        :value="$store.state.order.filters.carrierNames"
+                        :multiple="true"
+                        :searchable="true"
+                        :loading="filters.carriers.isLoading"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @search-change="asyncFind_CarrierNames"
+                        @input="addFilter_CarrierNames">
+                </multiselect>
+              </th>
+              <th>
+                <multiselect
+                        id="ajax"
+                        placeholder="Device Name"
+                        :options="filters.devices.options"
+                        :value="$store.state.order.filters.deviceNames"
+                        :multiple="true"
+                        :searchable="true"
+                        :loading="filters.devices.isLoading"
+                        :show-labels="false"
+                        :select-label="''"
+                        :close-on-select="false"
+                        :clear-on-select="false"
+                        :hide-selected="false"
+                        :limit="3"
+                        @search-change="asyncFind_DeviceNames"
+                        @input="addFilter_DeviceNames">
+                </multiselect>
+              </th>
               <th>Once</th>
               <th>Monthly</th>
               <th>Total</th>
@@ -66,26 +169,30 @@
                 </td>
                 <td>{{ order.status }}</td>
                 <td>{{ order.users[0] ? `${order.users[0].firstName} ${order.users[0].lastName}` : '' }}</td>
-                <td></td>
+                <td>{{ order.addresses[0] ? $options.filters.phone(order.addresses[0].phone) : '' }}</td>
                 <td>{{ order.packages[0] ? order.packages[0].name : '' }}</td>
-                <td>{{ order.services[0].carriers[0].presentation }}</td>
+                <td>{{ order.services[0] ? order.services[0].carriers[0].presentation : '' }}</td>
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
-                <td>{{ order.services[0].cost | currency }}</td>
-                <td>{{ ( getPriceOnce(order) + order.services[0].cost) | currency }}</td>
+                <td>{{ (order.services[0] ? order.services[0].cost : '') | currency }}</td>
+                <td>{{ (getPriceOnce(order) + order.services[0].cost) | currency }}</td>
               </tr>
               <tr class="detail-tr" :class="activeOrder && (activeOrder.id == order.id) ? 'active' : ''">
                 <td></td>
                 <td>
                   <avatar :username="order.users[0] ? `${order.users[0].firstName} ${order.users[0].lastName}` : 'Guest'" :size="avatarSize"></avatar>
                 </td>
-                <td></td>
-                <td></td>
+                <td>{{ order.users[0] ? order.users[0].email : '' }}</td>
+                <td>
+                  <div>{{ order.addresses[0] ? order.addresses[0].address : '' }}</div>
+                  <div>{{ order.addresses[0] ? order.addresses[0].city : '' }}</div>
+                  <div>{{ order.addresses[0] ? order.addresses[0].country : '' }}</div>
+                </td>
                 <td colspan="3">
                   <div v-for="dv in order.devicevariations">
-                    {{ `${dv.devices[0].name} ${dv.modifications[0] ? ', ' + dv.modifications[0].value : ''} ${dv.modifications[1] ? ', ' + dv.modifications[1].value : ''}` }}
+                    {{ `${dv.devices[0] ? dv.devices[0].name : ''} ${dv.modifications && dv.modifications[0] ? ', ' + dv.modifications[0].value : ''} ${dv.modifications && dv.modifications[1] ? ', ' + dv.modifications[1].value : ''}` }}
                   </div>
-                  <div>{{ order.services[0].title }}</div>
+                  <div>{{ order.services[0] ? order.services[0].title : '' }}</div>
                 </td>
                 <td>
                   <div v-for="dv in order.devicevariations">
@@ -94,7 +201,7 @@
                 </td>
                 <td>
                   <div v-for="dv in order.devicevariations">&nbsp;</div>
-                  <div>{{ order.services[0].cost | currency }}</div>
+                  <div>{{ (order.services[0] ? order.services[0].cost : '') | currency }}</div>
                 </td>
                 <td></td>
               </tr>

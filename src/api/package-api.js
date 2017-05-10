@@ -7,7 +7,7 @@ export default {
     http.get(API_BASE_URL + '/packages/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
-  getAll (params, cb, errCb) {
+  search (params, cb, errCb) {
     // let data = params
     http.get(API_BASE_URL + '/packages', params).then(res => cb(res), err => errCb(err))
   },
