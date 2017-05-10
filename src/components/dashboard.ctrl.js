@@ -67,11 +67,13 @@ export default {
           cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, redirect'
         }).then(function () {
-          swal(
-            'Please Hold on...',
-            'You are being redirected',
-            'success'
-          )
+          swal({
+              title: 'Please Hold on...',
+              text: 'You are being redirected',
+              type: 'success',
+              showConfirmButton: false
+            }
+          );
           window.location = (link);
         }, function (dismiss) {
           // dismiss can be 'cancel', 'overlay',
