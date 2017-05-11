@@ -10,6 +10,28 @@
         <h2>Employee CSV</h2>
       </div>
       <div class="box-content">
+        <div class="row extend">
+          <div class="columns medium-4">
+            <multiselect
+                    id="ajax"
+                    v-model="company.value"
+                    placeholder="Company Name"
+                    label="name"
+                    track-by="id"
+                    :options="company.options"
+                    :multiple="false"
+                    :searchable="true"
+                    :show-labels="false"
+                    :select-label="''"
+                    :close-on-select="true"
+                    :clear-on-select="false"
+                    :hide-selected="false"
+                    :limit="3"
+                    @search-change="asyncFind_CompanyNames">
+            </multiselect>
+          </div>
+        </div>
+
         <uploader accept=".csv" :autoUpload="false"></uploader>
       </div>
     </div>

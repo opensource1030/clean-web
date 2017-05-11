@@ -22,5 +22,9 @@ export default {
 
   remove (id, cb, errCb) {
     http.delete(API_BASE_URL + '/companies/' + id).then(res => cb(res), err => errCb(errCb))
-  }
+  },
+
+  jobs (id, form, cb, errCb) {
+    http.post(API_BASE_URL + '/companies/' + id + '/jobs', form).then(res => cb(res), err => errCb(err))
+  },
 }
