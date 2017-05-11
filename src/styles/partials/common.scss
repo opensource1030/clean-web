@@ -102,7 +102,16 @@
 
   .multiselect {
 
-    .multiselect__input {
+    .multiselect__tags {
+      padding: 8px 40px 8px 8px;
+    }
+
+
+    .multiselect__input,
+    .multiselect__single {
+      margin-bottom: 0;
+      box-shadow: none;
+
       &:focus {
         border-radius: 0;
       }
@@ -110,7 +119,7 @@
 
     .multiselect__select {
       top: initial;
-      bottom: 1px;
+      bottom: 8px;
     }
   }
 }
