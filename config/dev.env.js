@@ -1,7 +1,7 @@
 module.exports = {
   NODE_ENV: '"productionDev"',
-    URL_API: '"https://devapi.wirelessanalytics.com"',
-    URL: '"https://dev.wirelessanalytics.com"',
+    URL_API: '"https://staging.api.wirelessanalytics.com"',
+    URL: '"https://staging.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
     LEGACY_URL: '"https://devlegacy.wirelessanalytics.com"',
@@ -46,6 +46,6 @@ module.exports = {
       }
     }
   },
-  SUPPORT_EMAIL: '"evsandbox@wirelessanalytics.com"'
+  SUPPORT_EMAIL: '"product.support@wirelessanalytics.com"'
 
 };
