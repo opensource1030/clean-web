@@ -24,6 +24,10 @@
   background-color: #FFF;
   padding: 20px 15px;
 
+  .asterisk {
+    color: red;
+  }
+
   .border-bottom {
     border-bottom: 1px solid #eee;
   }
@@ -227,50 +231,34 @@
       }
     }
 
-    .device-capacity {
+    .device-variation {
       display: inline-block;
-      width: 45px;
       font-size: 13px;
       border: 1px solid #FF690A;
       text-align: center;
       margin-right: 10px;
       float: left;
       cursor: pointer;
+      padding: 0 5px;
 
-      &.last {
-        margin-right: 21px;
+      &.seperator {
+        height: 22px;
         position: relative;
+        padding: 0;
+        border: none;
 
         &:after {
           position: absolute;
           content: '';
           height: 100%;
           border-left: 1px solid #444;
-          right: -13px;
+          right: -1px;
         }
       }
 
       &.active {
         background: #FF690A;
         color: #FFF;
-      }
-    }
-
-    .device-style {
-      display: inline-block;
-      float: left;
-      font-size: 13px;
-      border: 1px solid rgba(68, 68, 68, 0.3);
-      border-radius: 50%;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-      height: 22px;
-      width: 22px;
-      margin-right: 10px;
-      cursor: pointer;
-
-      i {
-        color: rgba(0, 0, 0, 0.4);
-        padding-left: 3px;
       }
     }
   }
@@ -292,10 +280,9 @@
   }
 
   .review-usage {
-    p:not(:first-child) {
+    & > div > p {
       font-size: 15px;
       margin-bottom: 0;
-      padding: 2px 0;
     }
   }
 
