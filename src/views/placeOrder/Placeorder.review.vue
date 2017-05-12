@@ -87,7 +87,7 @@
       </div>
       <div class="columns small-12 large-6 black review-usage">
         <p class="section-title">Service Info</p>
-        <div v-if="selectedKeepService == 'Yes'">
+        <div v-if="currentOrderType == 'upgradeDevice' && selectedKeepService == 'Yes'">
           <p>
             <span class="bold">Previous IMEI</span> : {{typedServiceInfo.IMEI}}
           </p>
