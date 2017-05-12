@@ -1,16 +1,16 @@
-role :app, %w{204.156.175.49}
+role :app, %w{54.90.108.69}
 
 set :stage, :development
 set :branch, 'master'
-set :deploy_to, '/home/deploy/webapps/clean/app'
+set :deploy_to, '/home/forge/default'
 
 set :log_level, :debug
 
 set :ssh_options, {
-  user: 'deploy'
+  user: 'forge'
 }
 
-set :tmp_dir, '/home/deploy/tmp'
+set :tmp_dir, '/home/forge/default/tmp'
 namespace :ops do
 
   desc 'Assets Compile'
