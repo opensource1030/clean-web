@@ -20,7 +20,7 @@
           <div class="accordion-content overview" data-tab-content>
             <div class="row expanded">
                 <div class="small-12 large-2 columns">
-                  <img class="phoneImg" :src="getImageUrl(device.images[0].id)" alt="Photo Devices"/>
+                  <img class="phoneImg" :src="getImageUrl(device.images[0])" alt="Photo Devices"/>
                   <label for="FileUpload" class="button large expanded"><strong>Upload File</strong></label>
                   <input type="file" id="FileUpload" @change="onDeviceImageChange" class="show-for-sr">
                 </div>
@@ -104,10 +104,9 @@
                 </div>
 
                 <div class="row collapse">
-                  <div class="checkbox large-6 medium-6 small-6 columns " v-for="c in capacities">
+                  <div class="checkbox large-6 medium-6 small-6 columns" v-for="c in capacities">
                     <label>
                       <input type="checkbox" name="capacities" :value="c.id" v-model="c.checked">
-                      <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
                       {{ c.value }}
                     </label>
                   </div>
@@ -128,7 +127,6 @@
                   <div class="checkbox large-6 small-6 columns" v-for="s in styles">
                   <label>
                     <input type="checkbox" name="styles" :value="s.id" v-model="s.checked">
-                    <!-- <span class="custom-checkbox"><i class="icon-check"></i></span> -->
                     {{ s.value }}
                   </label>
                 </div>
@@ -164,7 +162,6 @@
                       <a id="bl" class="button " @click="findCompany()">Find Company</a>
                     </div>
                   </div>
-
                 </label>
               </div>
             </div>
@@ -223,7 +220,7 @@
                  :style="{ backgroundColor: color }">
               <div class="row expanded">
                 <div class="small-12 large-2 columns">
-                  <img class="phoneImg" :src="getImageUrl(dv.images[0].id)" alt="Photo Devices" />
+                  <img class="phoneImg" :src="getImageUrl(dv.images[0])" alt="Photo Devices" />
                   <input type="file" :id="'FileUpload' + index" @change="onPriceImageChange($event, dv)" class="show-for-sr">
                   <div class="clearfix"></div>
                   <label :for="'FileUpload' + index" :id="'f' + index" class="button large expanded no-margin">Upload
@@ -298,6 +295,7 @@
                       </div>
                     </div>
                     <div class="clearfix"></div>
+
                     <div class="btn-control">
                       <a title="Add New" class="button add" @click="addDeviceVariation()"><i class="fa fa-plus"></i></a>
                       <div v-show="dv.deleted">

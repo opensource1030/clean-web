@@ -10,7 +10,7 @@ import inputValidate from './../../components/inputValidate.vue'
 const { Store } = require('yayson')()
 const store = new Store()
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import { DevicesPresenter, ModificationsPresenter } from './../../presenters'
+import { DevicesPresenter, ModificationsPresenter, DeviceVariationsPresenter } from './../../presenters'
 
 export default {
   name: 'Device',
@@ -101,9 +101,14 @@ export default {
           res => this.$store.dispatch('company/search').then(
             res => {
               if (device_id > 0) {
-                deviceAPI.getOne(device_id, {}, res => {
+                let _params = {
+                  params: {
+                    include: 'devicetypes,modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications,devicevariations.images',
+                  }
+                }
+                deviceAPI.getOne(device_id, _params, res => {
                   this.$set(this, 'device', store.sync(res.data))
-                  // console.log('device', this.device)
+                  console.log('device', this.device)
 
                   this.$set(this, 'device_id', device_id)
                   this.initComponent()
@@ -200,8 +205,10 @@ export default {
       if (this.device.devicevariations.length == 0) {
         this.addDeviceVariation()
       }
+
       let index = 0
       _.each(this.device.devicevariations, (dv) => {
+
         if (index == 0) {
           dv['deleted'] = false
         } else {
@@ -222,8 +229,12 @@ export default {
       return _defaultValue
     },
 
-    getImageUrl (id) {
-      return process.env.URL_API + '/images/' + id
+    getImageUrl (image) {
+      if (image == void(0)) {
+        return ''
+      } else {
+        return process.env.URL_API + '/images/' + image.id
+      }
     },
 
     availableOptions (items) {
@@ -337,10 +348,23 @@ export default {
       // set values
       this.device.modifications = _.filter(_.concat(this.styles, this.capacities), { 'checked': true })
 
+      let _device = {}
+      _.extend(_device, this.device)
+      let _devicevariations = _device.devicevariations
+      delete _device.devicevariations
+
+      let _jsonDeviceVariation = DeviceVariationsPresenter.toJSON(_devicevariations)
+      _.each(_jsonDeviceVariation['data'], (dv) => {
+        delete dv['relationships']['carriers']
+        delete dv['relationships']['companies']
+      })
+      delete _jsonDeviceVariation['included']
+      // console.log(_jsonDeviceVariation)
+
       // #TODO it is an API issue which require 'deviceVariations' rather than 'devicevariations'
-      let _jsonData = DevicesPresenter.toJSON(this.device)
-      _jsonData['data']['relationships']['deviceVariations'] = _jsonData['data']['relationships']['devicevariations']
-      delete _jsonData['data']['relationships']['devicevariations']
+      let _jsonData = DevicesPresenter.toJSON(_device)
+      // _jsonData['data']['relationships']['deviceVariations'] = _jsonData['data']['relationships']['devicevariations']
+      // delete _jsonData['data']['relationships']['devicevariations']
       // console.log('submitting ...', _jsonData['data']['relationships']['deviceVariations'])
 
       if (process.env.NODE_ENV === 'testing') {
@@ -353,9 +377,11 @@ export default {
         _.each(_jsonData['data']['relationships']['modifications']['data'], (item) => { item.id = parseInt(item.id) })
       }
 
+      _jsonData['data']['relationships']['deviceVariations'] = _jsonDeviceVariation
+      delete _jsonData['included']
       let _params = JSON.stringify(_jsonData)
       // console.log('json_data', _jsonData)
-      // console.log('params', _params)
+      console.log('params', _params)
 
       if (this.device.id) {
         deviceAPI.update(this.device.id, _params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })

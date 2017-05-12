@@ -4,23 +4,10 @@ const API_BASE_URL = process.env.URL_API
 
 export default {
   getOne (id, params, cb, errCb) {
-    let data = {
-      params: {
-        include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images,images'
-      }
-    };
-    http.get(API_BASE_URL + '/devices/' + id, data).then(res => cb(res), err => errCb(err))
+    http.get(API_BASE_URL + '/devices/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
   search (params, cb, errCb) {
-    // let data = params
-    // let data = {
-    //   params: {
-    //     include: 'modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications,devicevariations.images',
-    //     page: 0,
-    //   }
-    // };
-    // console.log(params)
     http.get(API_BASE_URL + '/devices', params).then(res => cb(res), err => errCb(err))
   },
 
@@ -35,5 +22,6 @@ export default {
   },
 
   remove (params, cb, errCb) {
+
   }
 }
