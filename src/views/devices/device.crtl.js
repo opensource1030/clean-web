@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import deviceAPIv0 from './../../api/device/device'
 import deviceAPI from './../../api/device-api.js'
+import dvAPI from './../../api/device_variation-api.js'
 import imageAPI from './../../api/image-api.js'
 import {findByPrices, filterByModifications} from './../../components/filters.js'
 import modal from './../../components/modal.vue'
@@ -191,7 +192,7 @@ export default {
       selected_companies = _.uniq(selected_companies)
 
       _.each(this.$store.getters['company/allCompanies'], (company) => {
-        let isChecked = _.find(selected_companies, company) ? true : false
+        let isChecked = _.find(selected_companies, (c) => (parseInt(c.id) == parseInt(company.id))) ? true : false
         if (isChecked) {
           company['checked'] = true
           this.companies.push(company)
@@ -357,6 +358,14 @@ export default {
       _.each(_jsonDeviceVariation['data'], (dv) => {
         delete dv['relationships']['carriers']
         delete dv['relationships']['companies']
+
+        if (dv['relationships']['images']['data'].length == 0 || parseInt(dv['relationships']['images']['data'][0]['id']) == 0) {
+          delete dv['relationships']['images']
+        }
+
+        if (parseInt(dv['id']) > 0) {
+          dvAPI.update(dv['id'], {data: dv}, () => {}, () => {})
+        }
       })
       delete _jsonDeviceVariation['included']
       // console.log(_jsonDeviceVariation)
@@ -381,7 +390,7 @@ export default {
       delete _jsonData['included']
       let _params = JSON.stringify(_jsonData)
       // console.log('json_data', _jsonData)
-      console.log('params', _params)
+      // console.log('params', _params)
 
       if (this.device.id) {
         deviceAPI.update(this.device.id, _params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })
