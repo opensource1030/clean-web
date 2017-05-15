@@ -33,7 +33,7 @@ export default {
       filters: {
         statuses: {
           values: [],
-          options: ['New', 'Pending', 'Approved', 'Delivered', 'Expired']
+          options: ['New', 'Pending', 'Accepted', 'Delivered', 'Expired', 'Denied']
         },
         employees: {
           isLoading: false,
@@ -162,11 +162,25 @@ export default {
 
   created () {
     this.isReady = false
-    Promise.all([
-      this.$store.dispatch('modification/search'),
-      this.$store.dispatch('carrier/search'),
-      this.$store.dispatch('order/search'),
-    ]).then((data) => {
+    // Promise.all([
+    //   this.$store.dispatch('order/search'),
+    //   this.$store.dispatch('pack/search'),
+    //   this.$store.dispatch('carrier/search'),
+    //   this.$store.dispatch('device/search'),
+    // ]).then((data) => {
+    //   // this.filters.packages.options = _.uniq(_.map(this.$store.state.pack.records, 'name'))
+    //   this.filters.packages.options = _.uniq(_.map(this.$store.getters['pack/sorted'], 'name'))
+    //   this.filters.carriers.options = _.map(this.$store.getters['carrier/sorted'], 'presentation')
+    //   this.filters.devices.options = _.uniq(_.map(this.$store.getters['device/sorted'], 'name'))
+    //   this.isReady = true
+    // })
+    this.$store.dispatch('order/search').then((res) => {
+      // console.log(this.orders)
+      this.filters.employees.options = _.uniq(_.map(_.flatMap(this.orders, 'users'), 'firstName'))
+      this.filters.addresses.options = _.uniq(_.map(_.flatMap(this.orders, 'addresses'), 'phone'))
+      this.filters.packages.options = _.uniq(_.map(_.flatMap(this.orders, 'packages'), 'name'))
+      this.filters.carriers.options = _.uniq(_.chain(this.orders).flatMap('services').flatMap('carriers').map('presentation').value())
+      this.filters.devices.options = _.uniq(_.chain(this.orders).flatMap('devicevariations').flatMap('devices').map('name').value())
       this.isReady = true
     })
   },

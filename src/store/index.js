@@ -16,7 +16,8 @@ import services from './modules/services/services'
 import service from './modules/services/service'
 import presets from './modules/presets/presets'
 import preset from './modules/presets/preset'
-import packages from './modules/package'
+import pack from './modules/package'
+import packages from './modules/packages'
 import placeOrder from './modules/place_order'
 
 Vue.use(Vuex)
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     carrier,
     company,
     employee,
+    pack,
     order,
     file,
     services,
