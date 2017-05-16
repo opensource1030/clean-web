@@ -15,10 +15,7 @@
             <div class="row expanded">
               <div v-html="clientInfo.data.metafields[2].value"></div>
               <p class="ft-18 bold color-tuatara m-b-10">Get Support</p>
-              <p>Below are three easy ways to get support for your mobile device</p>
-              <p><i class="fa fa-envelope color-tuatara m-r-5"></i><a href="mailto:support@wirelessanalytics.com">support@wirelessanalytics.com</a></p>
-              <p><i class="fa fa-phone color-tuatara m-r-5"></i>Submit a Support Request</p>
-              <p><i class="fa fa-info-circle color-tuatara m-r-5"></i>Call the Service Desk at <a>978-762-0900</a> or <a>888-588-5550</a> and select option 1</p>
+              <div v-html="clientInfo.data.metafields[0].value"></div>
             </div>
           </div>
         </div>
