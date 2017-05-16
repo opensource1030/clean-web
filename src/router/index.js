@@ -12,8 +12,8 @@ import ResetPassword from "./../components/ResetPassword.vue";
 import ResetPasswordCode from "./../components/ResetPasswordCode.vue";
 import AcceptUser from "./../components/AcceptUser.vue";
 // routes main
-import Dashboard from "./../components/Dashboard.vue";
 import Sidemenu from "./../components/Sidemenu.vue";
+import Dashboard from "./../views/dashboard/Dashboard.vue";
 // routes devices
 import Devices from "./../views/devices/Devices.vue";
 import Device from "./../views/devices/Device.vue";
@@ -68,15 +68,9 @@ const router = new VueRouter({
     {path: '/acceptUser/:identification/:code', component: AcceptUser, name: 'Accept User'},
 
     // main
-    {
-      path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true},
-      children: [
-        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'},
-        {path: 'procurement/', component: LegacyInfo, name: 'legacyInfo'}
-      ]
-    },
     {path: '/sso/:id', component: Sso, name: 'sso'},
     {path: '/sidemenu', component: Sidemenu},
+    {path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true}},
 
     // { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     // { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },

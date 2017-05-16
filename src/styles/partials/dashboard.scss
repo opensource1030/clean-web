@@ -984,3 +984,235 @@ a.btn-provision:hover .support-form-holder{
 .select-me {
   display: block;
 }
+
+#dashboard {
+  color: #8A8A8A;
+
+  .color-tuatara {
+    color: #444;
+  }
+
+  .color-orange {
+    color: #FF690A;
+  }
+
+  .box-content-holder.is-relative {
+    min-height: 200px;
+  }
+
+  .client-info {
+    p {
+      i {
+        width: 16px;
+      }
+    }
+  }
+
+  .overview {
+    padding: 0;
+
+    .device-detail {
+      width: 37.5%;
+      float: left;
+
+      .overview-item {
+        width: 50%;
+        float: left;
+        border-bottom: 1px solid rgba(151, 151, 151, 0.3);
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        p {
+          margin-bottom: 0;
+
+          &.user-actions {
+            padding: 0 50px;
+          }
+
+          select {
+            background-image: none;
+            margin-bottom: 0;
+          }
+        }
+
+        &.full {
+          width: 100%;
+          border-bottom: none;
+        }
+      }
+
+      &.first {
+        .overview-item {
+          border-right: 1px solid rgba(151, 151, 151, 0.3);
+        }
+      }
+
+      &.second {
+        .overview-item {
+          border-left: 1px solid rgba(151, 151, 151, 0.3);
+        }
+      }
+    }
+
+    .device-image {
+      width: 25%;
+      float: left;
+      height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      div {
+        width: calc(100% - 20px);
+        max-width: 220px;        
+        height: 220px;
+        margin-bottom: 20px;
+        background-color: #DDDDDD;
+        text-align: center;
+
+        i {
+          font-size: 220px;
+        }
+      }
+
+      a {
+        width: calc(100% - 20px);
+        max-width: 220px;
+
+        i {
+          padding-right: 10px;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 635px) {
+      .device-detail {
+        width: 100%;
+
+        &.first {
+          .row {
+            &>div:last-child {
+              border-right: none;
+            }
+          }
+        }
+
+        &.last {
+          .row {
+            &>div:first-child {
+              border-right: none;
+            }
+          }
+        }
+      }
+
+      .device-image {
+        width: 100%;
+        border-top: 1px solid rgba(151, 151, 151, 0.3);
+        border-bottom: 1px solid rgba(151, 151, 151, 0.3);
+      }
+    }
+
+    .custom-pagination {
+      width: 100%;
+      min-height: 60px;
+      background-color: rgba(255,105,10,0.2);
+      position: relative;
+
+      a.item-prev, a.item-next {
+        height: 100%;
+        width: 50px;
+        color: #FFF;
+        background-color: rgb(255,105,10);
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.inactive {
+          background-color: #DDDDDD;
+          cursor: not-allowed;
+        }
+      }
+
+      a.item-prev {
+        left: 0;
+        top: 0;
+      }
+
+      a.item-next {
+        right: 0;
+        top: 0;
+      }
+
+      div.pagination-pages {
+        width: 100%;
+        min-height: 60px;
+        padding: 0 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .page-item {
+          display: inline-block;
+          float: left;
+          margin: 3px;
+          height: 18px;
+          width: 18px;
+          background-color: #fff;
+          border-radius: 50%;
+          border: 1px solid #FF690A;
+
+          &.active {
+            background-color: #FF690A;
+          }
+        }
+      }
+    }
+  }
+  
+  .place-order {
+    .each-order {
+      text-align: center;
+      color: #444;
+      cursor: pointer;
+      margin: 5px 0;
+
+      i {
+        padding: 20px;
+        border: 3px solid #444;
+        border-radius: 50%;
+        width: 124px;
+        height: 124px;
+        position: relative;
+
+        &.active {
+          border-color: #f35d0a;
+          color: #f35d0a;
+
+          &:after {
+            display: inline-block;
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: 20px;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+
+            content: "\f00c";
+            position: absolute;
+            bottom: 5px;
+            right: 0;
+            color: #f35d0a;
+            background: #fff;
+            border-radius: 50%;
+
+            border: 1px solid #f35d0a;
+            padding: 4px;
+          }
+        }
+      }
+    }
+  }
+}

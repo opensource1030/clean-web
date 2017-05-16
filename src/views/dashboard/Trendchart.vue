@@ -1,37 +1,20 @@
 <template>
-  <div>
-    <div class="large-6 columns">
-      <div class="grid-box" data-mh="box2">
-        <header class="box-heading">
-          <h2>Trend By Category</h2>
-        </header>
-        <div class="box-content coming-soon">
-          <ul class="tabs" data-tabs id="trend-tabs">
-            <template v-for="(key, index) in groupDataKeys">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
-                <a :href="'#trend-' + index" role="tab" :aria-controls="'trend-' + index" :aria-selected="index == 0 ? 'true' : 'false'" :data-index="index">{{ key | phone }}</a>
-              </li>
-            </template>
-          </ul>
+  <div class="coming-soon">
+    <ul class="tabs" data-tabs id="trend-tabs">
+      <template v-for="(key, index) in groupDataKeys">
+        <li :class="'tabs-title ' + (index == activeIndex ? 'is-active' : '')">
+          <a role="tab" :aria-controls="'trend-' + index" :aria-selected="index == activeIndex ? 'true' : 'false'" :data-index="index">{{ key | phone }}</a>
+        </li>
+      </template>
+    </ul>
 
-          <div class="tabs-content" data-tabs-content="trend-tabs">
-            <template v-for="(key, index) in groupDataKeys">
-              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
-                <div class="pie-chart-title">
-                  &nbsp;
-                </div>
-                <vue-chart
-                  chart-type="LineChart"
-                  :columns="columns"
-                  :rows="seriesData(key, index)"
-                  :options="options"
-                  v-if="index == activeIndex"
-                ></vue-chart>
-              </div>
-            </template>
-          </div>
+    <div class="tabs-content" data-tabs-content="trend-tabs">
+      <template v-for="(key, index) in groupDataKeys">
+        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+          <div class="pie-chart-title">&nbsp;</div>
+          <vue-chart chart-type="LineChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -39,15 +22,8 @@
 <script>
   const dateFormat = require('dateformat');
   import _ from 'lodash';
-  import phone from './../filters/phone-formatter.js';
-  // import PieData from './../api/piedata';
-  // import TrendChart from './TrendChart';
 
   export default {
-    components: {
-      // TrendChart
-    },
-
     props: ['data'],
 
      data: function () {
@@ -107,15 +83,12 @@
 
     computed: {
       groupData() {
-        // console.log('data', this.data);
         let group_data = _.groupBy(this.data, 'mobile_number');
-        // console.log('group_data', group_data);
         return group_data;
       },
 
       groupDataKeys() {
         let group_data_keys = _.keys(this.groupData);
-        // console.log('keys', group_data_keys);
         return group_data_keys;
       }
     },
@@ -137,19 +110,13 @@
         let bill_month = null
         let trendchart_data = []
 
-        // if (index !== this.activeIndex) {
-        //   bill_month = new Date()
-        //   return []
-        // }
-
         let allocations = _.get(this.groupData, key, null);
-        // console.log('allocations', allocations);
+
         trendchart_data = []
         bill_month = null;
 
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
-            // console.log("allocation", allocation);
             if (bill_month == null && !!allocation.bill_month) {
               bill_month = new Date(allocation.bill_month)
             }
@@ -181,13 +148,11 @@
           $('#trend-tabs li a').off('click').on('click', function(e) {
             setTimeout(() => {
               let index = $(this).data('index')
-              // console.log(index)
               vm.$set(vm, 'activeIndex', index)
             })
           })
         });
 
-        // console.log(bill_month, trendchart_data);
         return trendchart_data;
       }
     }

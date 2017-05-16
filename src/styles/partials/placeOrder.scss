@@ -20,6 +20,78 @@
   padding: 20px;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.m-t-25 {
+  margin-top: 25px;
+}
+
+.m-t-15 {
+  margin-top: 15px;
+}
+
+.m-b-40 {
+  margin-bottom: 40px;
+}
+
+.m-b-20 {
+  margin-bottom: 20px !important;
+}
+
+.m-b-10 {
+  margin-bottom: 10px !important;
+}
+
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.m-b-0 {
+  margin-bottom: 0;
+}
+
+.p-b-5 {
+  padding-bottom: 5px;
+}
+
+.p-r-5s {
+  padding-right: 5%;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.ft-18 {
+  font-size: 18px;
+}
+
+.ft-13 {
+  font-size: 13px;
+}
+
+.ft-20 {
+  font-size: 20px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.black {
+  color: #000;
+}
+
 #placeorder {
   background-color: #FFF;
   padding: 20px 15px;
@@ -44,79 +116,13 @@
     color: #FF690A;
   }
 
-  .inline-block {
-    display: inline-block;
-  }
-
-  .bold {
-    font-weight: bold;
-  }
-
-  .capitalize {
-    text-transform: capitalize;
-  }
-
-  .m-t-25 {
-    margin-top: 25px;
-  }
-
-  .m-t-15 {
-    margin-top: 15px;
-  }
-
-  .m-b-40 {
-    margin-bottom: 40px;
-  }
-
-  .m-b-20 {
-    margin-bottom: 20px;
-  }
-
-  .m-b-10 {
-    margin-bottom: 10px !important;
-  }
-
-  .m-b-0 {
-    margin-bottom: 0;
-  }
-
-  .p-b-5 {
-    padding-bottom: 5px;
-  }
-
-  .p-r-5s {
-    padding-right: 5%;
-  }
-
-  .p-10 {
-    padding: 10px;
-  }
+  
 
 
   .avatar {
     span {
       font-weight: bold;
     }
-  }
-
-  .ft-18 {
-    font-size: 18px;
-  }
-
-  .ft-13 {
-    font-size: 13px;
-  }
-
-  .ft-20 {
-    font-size: 20px;
-  }
-
-  .italic {
-    font-style: italic;
-  }
-
-  .black {
-    color: #000;
   }
 
   .height-10 {
@@ -130,45 +136,6 @@
 
     span {
       display: block;
-    }
-  }
-
-  .each-order {
-    text-align: center;
-    color: #444;
-    cursor: pointer;
-
-    i {
-      padding: 20px;
-      border: 3px solid #444;
-      border-radius: 50%;
-      width: 124px;
-      height: 124px;
-      position: relative;
-
-      &.active {
-        border-color: #f35d0a;
-        color: #f35d0a;
-
-        &:after {
-          display: inline-block;
-          font: normal normal normal 14px/1 FontAwesome;
-          font-size: 20px;
-          text-rendering: auto;
-          -webkit-font-smoothing: antialiased;
-
-          content: "\f00c";
-          position: absolute;
-          bottom: 5px;
-          right: 0;
-          color: #f35d0a;
-          background: #fff;
-          border-radius: 50%;
-
-          border: 1px solid #f35d0a;
-          padding: 4px;
-        }
-      }
     }
   }
 
