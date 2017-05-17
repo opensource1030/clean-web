@@ -22,11 +22,7 @@ const getters = {
 const actions = {
   getClientInfo ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-      let params = {
-        params: {
-          include: 'companies,companies.contents,companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]'
-        }
-      }
+      let params = 'include=companies.contents';
 
       authAPI.getUser(localStorage.userId, params, res => {
         let result = store.sync(res.data);
@@ -35,7 +31,20 @@ const actions = {
         reject(err)
       })
     })
-  }
+  },
+
+  getUserAllocations ({dispatch, commit, state}) {
+    return new Promise((resolve, reject) => {
+      let params = 'include=companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]';
+
+      authAPI.getUser(localStorage.userId, params, res => {
+        let result = store.sync(res.data);
+        resolve(result)
+      }, err => {
+        resolve(err)
+      })
+    })
+  },
 };
 
 // mutations

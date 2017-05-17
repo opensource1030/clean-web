@@ -32,16 +32,26 @@ export default {
   created() {
     this.$store.dispatch('dashboard/getClientInfo').then(
       res => {
-        for(let allocation of res.allocations)
-          allocation.issue = '';
-        this.userInfo.data = res;
-        this.userInfo.loading = false;
         let cosmicData = res.companies[0].contents[0].content;
 
         this.$http.get(cosmicData).then((response) => {
           this.clientInfo.data = response.data.object;
           this.clientInfo.loading = false;
         })
+      }
+    )
+    
+    this.$store.dispatch('dashboard/getUserAllocations').then(
+      res => {
+        if(res.status == 404) {
+          this.userInfo.data.allocations = [];
+        } else {
+          this.userInfo.data = res;
+          for(let allocation of this.userInfo.data.allocations)
+            allocation.issue = '';
+        }
+
+        this.userInfo.loading = false;
       }
     )
   },
@@ -59,7 +69,7 @@ export default {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
     placeOrder() {
-
+      this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
     }
   }
 }

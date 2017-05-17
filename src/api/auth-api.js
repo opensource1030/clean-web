@@ -64,7 +64,7 @@ export default {
     },
 
     getUser(uId, params, cb, errCb) {
-        http.get(API_BASE_URL + '/users/' + uId, params).then(res => cb(res), err => errCb(err))
+        http.get(API_BASE_URL + '/users/' + uId + '?' + params).then(res => cb(res), err => errCb(err))
     }
 
 }

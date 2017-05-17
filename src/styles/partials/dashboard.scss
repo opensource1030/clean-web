@@ -1000,6 +1000,10 @@ a.btn-provision:hover .support-form-holder{
     min-height: 200px;
   }
 
+  .no-data {
+    background: $silver;
+  }
+
   .client-info {
     i {
       width: 16px;
@@ -1068,12 +1072,7 @@ a.btn-provision:hover .support-form-holder{
         max-width: 220px;        
         height: 220px;
         margin-bottom: 20px;
-        background-color: #DDDDDD;
-        text-align: center;
-
-        i {
-          font-size: 220px;
-        }
+        background: url('~assets/phone-mifi-tablet.svg') center center no-repeat;      
       }
 
       a {
