@@ -21,6 +21,7 @@ const state = {
     carriers: [],
     capacities: [],
     styles: [],
+    companies: [],
   },
 
   pagination: {
@@ -67,7 +68,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'devicetypes,modifications,devicevariations,devicevariations.companies,devicevariations.carriers,images,devicevariations.modifications,devicevariations.images',
+          include: 'devicetypes,modifications,images,devicevariations,devicevariations.companies,devicevariations.carriers,devicevariations.modifications,devicevariations.images',
           page: state.pagination.current_page,
         }
       }
@@ -94,6 +95,10 @@ const actions = {
 
       if (state.filters.styles.length > 0) {
         _params.params['filter[modifications.value][like]'] = _.map(state.filters.styles, 'value').join(',')
+      }
+
+      if (state.filters.companies.length > 0) {
+        _params.params['filter[devicevariations.companyId][eq]'] = _.map(state.filters.companies, 'id').join(',')
       }
       // console.log(_params)
 
@@ -153,7 +158,7 @@ const actions = {
 
   addFilter ({ dispatch, commit }, { type, records }) {
     commit(types.DEVICE_ADD_FILTER, { type, records })
-    dispatch('search')
+    return dispatch('search')
   },
 }
 
@@ -203,6 +208,9 @@ const mutations = {
         break
       case 'style':
         state.filters.styles = records
+        break
+      case 'company':
+        state.filters.companies = records
         break
     }
   },

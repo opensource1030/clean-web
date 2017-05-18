@@ -174,7 +174,7 @@ export default {
       selected_carriers = _.uniq(selected_carriers)
 
       _.each(this.$store.getters['carrier/sorted'], (carrier) => {
-        let isChecked = _.find(selected_carriers, (c) => { return c.id == carrier.id }) ? true : false
+        let isChecked = _.find(selected_carriers, (c) => { return parseInt(c.id) == parseInt(carrier.id) }) ? true : false
         if (isChecked) {
           carrier['checked'] = true
           this.carriers.push(carrier)
@@ -192,7 +192,7 @@ export default {
       selected_companies = _.uniq(selected_companies)
 
       _.each(this.$store.getters['company/allCompanies'], (company) => {
-        let isChecked = _.find(selected_companies, (c) => (parseInt(c.id) == parseInt(company.id))) ? true : false
+        let isChecked = _.find(selected_companies, function(c) { return parseInt(c.id) == parseInt(company.id) }) ? true : false
         if (isChecked) {
           company['checked'] = true
           this.companies.push(company)
@@ -356,6 +356,9 @@ export default {
 
       let _jsonDeviceVariation = DeviceVariationsPresenter.toJSON(_devicevariations)
       _.each(_jsonDeviceVariation['data'], (dv) => {
+        if (dv['relationships']['images'] && (dv['relationships']['images'][0] == void(0) || parseInt(dv['relationships']['images'][0]['id'])== 0)) {
+          delete dv['relationships']['images']
+        }
         delete dv['relationships']['carriers']
         delete dv['relationships']['companies']
 
@@ -386,7 +389,7 @@ export default {
         _.each(_jsonData['data']['relationships']['modifications']['data'], (item) => { item.id = parseInt(item.id) })
       }
 
-      _jsonData['data']['relationships']['deviceVariations'] = _jsonDeviceVariation
+      _jsonData['data']['relationships']['devicevariations'] = _jsonDeviceVariation
       delete _jsonData['included']
       let _params = JSON.stringify(_jsonData)
       // console.log('json_data', _jsonData)

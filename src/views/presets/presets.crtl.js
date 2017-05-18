@@ -5,37 +5,81 @@ import {mapGetters} from "vuex";
 import swal from "sweetalert2";
 export default {
   name: 'Presets',
-  created(){
-    this.$store.dispatch('presets/getAll')
-  },
-  computed: {
-    ...mapGetters({
-      presets: 'presets/getPreset',
-      pagination: 'presets/getPagination',
-      variations: 'presets/getVariation'
-    })
-  },
+
   components: {
     paginate,
     Modal,
     searchCost
   },
+
+  data() {
+    return {
+      activePreset: null,
+      isReady: false,
+      filters: {
+        names: {
+          isLoading: false,
+          options: [],
+          values: [],
+        },
+        makers: {
+          isLoading: false,
+          options: [],
+          values: [],
+        },
+        types: {
+          isLoading: false,
+          options: [],
+        },
+        carriers: {
+          isLoading: false,
+          options: [],
+        },
+      }
+    }
+  },
+
+  created () {
+    this.$set(this, 'isReady', false)
+    Promise.all([
+      this.$store.dispatch('modification/search'),
+      this.$store.dispatch('carrier/search'),
+      this.$store.dispatch('device/search', { search: 0 }),
+    ]).then((data) => {
+      this.$store.dispatch('presets/search')
+      this.$set(this, 'isReady', true)
+    })
+  },
+
+  computed: {
+    ...mapGetters({
+      presets: 'presets/getPreset',
+      pagination: 'presets/getPagination',
+      variations: 'presets/getVariation',
+
+      devices: 'device/allDevices',
+      styles: 'modification/styleModifications',
+      capacities: 'modification/capacityModifications',
+    })
+  },
+
   methods: {
-    prevPage(){
+    prevPage () {
       this.$store.dispatch('presets/prevPage')
     },
-    nextPage(){
+
+    nextPage () {
       this.$store.dispatch('presets/nextPage')
     },
 
-
-    setActive: function (preset) {
+    setActive (preset) {
       if (this.activePreset && this.activePreset.id == preset.id) {
         this.$set(this, 'activePreset', null)
       } else {
         this.$set(this, 'activePreset', preset)
       }
     },
+
     removePreset(preset_id) {
       var app = this;
 
@@ -79,9 +123,4 @@ export default {
       });
     }
   },
-  data() {
-    return {
-      activePreset: null,
-    };
-  }
-};
+}
