@@ -37,6 +37,14 @@
   table.unstriped {
     tbody {
       td {
+        &.align-top {
+          vertical-align: top;
+        }
+
+        &.align-middle {
+          vertical-align: middle;
+        }
+
         span.badge {
           cursor: pointer;
         }
@@ -106,9 +114,11 @@
       padding: 8px 40px 8px 8px;
     }
 
-
     .multiselect__input,
     .multiselect__single {
+      height: 30px;
+      line-height: 30px;
+      padding: 0 0 0 3px;
       margin-bottom: 0;
       box-shadow: none;
 
@@ -119,7 +129,7 @@
 
     .multiselect__select {
       top: initial;
-      bottom: 8px;
+      bottom: 6px;
     }
   }
 }

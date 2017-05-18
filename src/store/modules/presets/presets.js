@@ -33,21 +33,20 @@ const getters = {
 const actions = {
 
   prevPage({dispatch, commit, state}) {
-
     if (state.pagination.current_page > 1) {
       commit(types.PRESET_PREV_PAGE)
-      dispatch('getAll')
+      dispatch('search')
     }
   },
 
   nextPage({dispatch, commit}) {
-
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.PRESET_NEXT_PAGE)
-      dispatch('getAll')
+      dispatch('search')
     }
   },
-  deletePreset ({dispatch, commit, state}, presetId) {
+
+  deletePreset ({ dispatch, commit, state }, presetId) {
     return new Promise((resolve, reject) => {
       preset.remove(presetId, res => {
         let results = res;
@@ -58,10 +57,7 @@ const actions = {
     })
   },
 
-  getAll({
-    dispatch,
-    commit
-  }) {
+  search({ dispatch, commit }) {
     let params = {
       params: {
         include: 'devicevariations,devicevariations.devices,devicevariations.modifications',
@@ -70,15 +66,13 @@ const actions = {
     };
 
     //  commit(types.LOADING, 1)
-    preset.getAll(params, records => {
-
-
-      commit(types.PRESET_GET_ALL, {records:records,dispatch:dispatch})
-
+    preset.search(params, res => {
+      let records = store.sync(res.data)
+      let pagination = res.data.meta.pagination
+      commit(types.PRESET_GET_ALL, { records: records, pagination: pagination })
     }, (err) => {
       console.log(err)
     })
-
   }
 }
 
@@ -93,22 +87,20 @@ const mutations = {
     // if (state.pagination.current_page < state.pagination.total_pages)
     state.pagination.current_page++
   },
-  [types.PRESET_GET_ALL](state, {records}) {
+  [types.PRESET_GET_ALL](state, {records, pagination}) {
     state.variations.loading=false;
     state.variations.loadtable=true;
-      state.pagination = records.meta.pagination;
-    let  event = store.sync(records);
-     let presets = [];
-     let total=0;
+    state.pagination = pagination;
+    let event = records;
+    let presets = [];
+    let total=0;
 
       for (let preset of event) {
         if(  preset.devicevariations==null || preset.devicevariations.length==0){
           dispatch('error/addNew', {
             message: 'Error, Empty Device Variations'
           }, {root: true})
-
-        }
-else{
+        } else{
 
           preset = Object.assign({}, preset, {
             show: false,

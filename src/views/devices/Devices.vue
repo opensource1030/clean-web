@@ -165,7 +165,7 @@
                   <td>{{ device.defaultPrice }} {{ device.currency }}</td>
                   <td>{{ getCarrierNames(device) }}</td>
                   <td>{{ filterModificationsByType(device.modifications, 'capacity').join(', ') }}</td>
-                  <td>{{ filterModificationsByType(device.modifications, 'style').join(', ') }}</span></td>
+                  <td>{{ filterModificationsByType(device.modifications, 'style').join(', ') }}</td>
                   <td>
                     <div class="action-buttons">
                       <a class="button alert" title="Delete"><i class="fa fa-trash"></i></a>
