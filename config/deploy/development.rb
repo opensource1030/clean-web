@@ -1,7 +1,8 @@
 role :app, %w{54.87.193.65}
 
 set :stage, :development
-set :branch, 'chore/migrate-forge-aws'
+set :branch, 'master'
+set :keep_releases, 3
 set :deploy_to, '/home/forge/staging.wirelessanalytics.com/'
 
 set :log_level, :debug
