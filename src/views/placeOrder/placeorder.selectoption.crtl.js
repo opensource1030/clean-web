@@ -1,36 +1,45 @@
 import Avatar from 'vue-avatar/dist/Avatar';
-import placeOrderWizard from './../../components/placeOrderWizard';
 import {mapGetters, mapActions} from 'vuex';
 
 export default {
   name : 'SelectOption',
   components : {
-    Avatar,
-    placeOrderWizard
+    Avatar
   },
   data() {
     return {
       user: {},
-      selectedOrder: 'service'
+      selectedOrder: ''
     }
   },
   beforeCreate() {
     this.user = JSON.parse(localStorage.getItem('userProfile'));
   },
-  methods : {
+  computed: {
+    ...mapGetters({
+      currentOrderType: 'placeOrder/getCurrentOrderType'
+    }),
+  },
+  created() {
+    this.selectedOrder = this.currentOrderType;
+  },
+  methods: {
     selectOrderType(type) {
       this.$set(this, 'selectedOrder', type);
     },
     placeOrder() {
       switch(this.selectedOrder) {
-        case 'service':
+        case 'newService':
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'newService');
           this.$store.dispatch('placeOrder/setCurrentView', 'selectpackage');
           break;
-        case 'device':
+        case 'upgradeDevice':
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'upgradeDevice');
+          this.$store.dispatch('placeOrder/setCurrentView', 'selectpackage');
           break;
-        case 'transfer':
+        case 'transferService':
           break;
-        case 'accessories':
+        case 'orderAccessory':
           break;
       }
     }

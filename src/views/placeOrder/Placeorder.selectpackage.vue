@@ -1,7 +1,29 @@
 <template>
   <div id="placeorder">
     <placeOrderWizard :activeStep="2"></placeOrderWizard>
-    <div class="row expanded">
+    <div class="row expanded m-b-20" v-if="currentOrderType == 'upgradeDevice'">
+      <div class="columns small-12 text-center m-b-20">
+        <h4 class="category-title m-b-10">Keep same Wireless Service Provider?</h4>
+        <input type="radio" name="keepService" value="Yes" v-model="keepService"><label class="ft-18">Yes</label>
+        <input type="radio" name="keepService" value="No" v-model="keepService"><label class="ft-18">No</label>
+      </div>
+    </div>
+    <div class="row expanded" v-if="currentOrderType == 'upgradeDevice' && keepService == 'Yes'">
+      <div class="small-1 columns height-10"></div>
+      <div class="small-10 columns">
+        <label>
+          <span class="bold">Previous IMEI</span> <input type="text" v-model="serviceInfo.IMEI" @change="setServiceInfo()">
+        </label>
+        <label>
+          <span class="bold">Phone No. </span><span class="asterisk bold">*</span> <input type="text" v-model="serviceInfo.PhoneNo" @change="setServiceInfo()">
+        </label>
+        <label>
+          <span class="bold">Sim Card </span><span class="asterisk bold">*</span> <input type="text" v-model="serviceInfo.Sim" @change="setServiceInfo()">
+        </label>
+      </div>
+      <div class="small-1 columns"></div>
+    </div>
+    <div class="row expanded" v-else>
       <div class="columns small-12">
         <h4 class="category-title">Select Package</h4>
       </div>
@@ -10,7 +32,7 @@
           <div class="is-loading"></div>
         </div>
         <div class="row expanded p-b-20 border-bottom" v-else>
-          <div class="columns small-12">
+          <div class="columns small-12" v-if="packages.availablePackages.length">
             <carousel :perPage="4">
               <slide v-for="(eachPackage, index) in packages.availablePackages">
                 <div class="box-type-1" :class="{'active': eachPackage.id == packages.activePackage.id}" @click="setActive('Package', eachPackage)">
@@ -28,9 +50,12 @@
               </slide>
             </carousel>
           </div>
+          <div class="columns small-12" v-else>
+            <p class="ft-20 bold black text-center">No Available Packages</p>
+          </div>
         </div>
       </div>
-      <div class="columns small-12 p-t-20">
+      <div class="columns small-12 p-t-20" v-if="packages.activePackage.id">
         <div class="is-relative" v-if="services.loading">
           <div class="is-loading"></div>
         </div>
@@ -53,11 +78,16 @@
               </slide>
             </carousel>
           </div>
+          <div class="columns small-12 p-b-20 border-bottom" v-else>
+            <p class="ft-20 bold black text-center">No Available Services</p>
+          </div>
         </div>
       </div>
+    </div>
+    <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderPages('option')">Back</a>
-        <a class="button large btn-orange pull-right" @click="goOrderPages('device')" v-if="services.activeService.id">Next</a>
+        <a class="button large btn-orange pull-right" @click="goOrderPages('device')" v-if="(keepService == 'Yes' && serviceInfo.PhoneNo && serviceInfo.Sim) || (keepService == 'No' && services.activeService.id)">Next</a>
       </div>
     </div>
   </div>

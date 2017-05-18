@@ -22,18 +22,14 @@ export default {
         http.post(API_BASE_URL + '/users', {
             data: params.data,
             url: process.env.URL
-        })
-            .then(res => cb(res),
-                err => errCb(err))
+        }).then(res => cb(res), err => errCb(err))
 
     },
     resetPasswordEmail(email, params, cb, errCb){
-        http.get(API_BASE_URL + '/resetPassword/' + email, params)
-            .then(res => cb(res), err => errCb(err))
+        http.get(API_BASE_URL + '/resetPassword/' + email, params).then(res => cb(res), err => errCb(err))
     },
     resetPasswords(identification, code, params, cb, errCb){
-        http.get(API_BASE_URL + '/resetPassword/' + identification + '/' + code, params)
-            .then(res => cb(res), err => errCb(err))
+        http.get(API_BASE_URL + '/resetPassword/' + identification + '/' + code, params).then(res => cb(res), err => errCb(err))
     },
 
     loginLocal (params, cb, errCb) {
@@ -64,6 +60,11 @@ export default {
     getAuthHeader (token) {
         return {
             Authorization: 'Bearer ' + token
+        }
+    },
+
+    getUser(uId, params, cb, errCb) {
+        http.get(API_BASE_URL + '/users/' + uId + '?' + params).then(res => cb(res), err => errCb(err))
     }
-    }
+
 }

@@ -10,6 +10,12 @@ const state = {
   records: [],
 
   filters: {
+    orderStatuses: [],
+    employeeNames: [],
+    packageNames: [],
+    carrierNames: [],
+    deviceNames: [],
+    addressPhones: [],
   },
 
   pagination: {
@@ -35,9 +41,33 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'users,services,packages,devicevariations,devicevariations.carriers,devicevariations.devices,devicevariations.devices.devicetypes,devicevariations.modifications',
+          include: 'addresses,users,services,packages,devicevariations,devicevariations.carriers,devicevariations.devices,devicevariations.devices.devicetypes,devicevariations.modifications',
           page: state.pagination.current_page,
         }
+      }
+
+      if (state.filters.orderStatuses.length > 0) {
+        _params.params['filter[status][eq]'] = state.filters.orderStatuses.join(',')
+      }
+
+      if (state.filters.employeeNames.length > 0) {
+        _params.params['filter[users.firstName][like]'] = state.filters.employeeNames.join(',')
+      }
+
+      if (state.filters.packageNames.length > 0) {
+        _params.params['filter[packages.name][like]'] = state.filters.packageNames.join(',')
+      }
+
+      if (state.filters.carrierNames.length > 0) {
+        _params.params['filter[services.carriers.presentation][like]'] = state.filters.carrierNames.join(',')
+      }
+
+      if (state.filters.deviceNames.length > 0) {
+        _params.params['filter[devicevariations.devices.name][like]'] = state.filters.deviceNames.join(',')
+      }
+
+      if (state.filters.addressPhones.length > 0) {
+        _params.params['filter[addresses.phone][like]'] = state.filters.addressPhones.join(',')
       }
 
       orderAPI.search(_params, res => {
@@ -108,6 +138,26 @@ const mutations = {
   },
 
   [types.ORDER_ADD_FILTER] (state, { type, records }) {
+    switch (type) {
+      case 'status':
+        state.filters.orderStatuses = records
+        break
+      case 'employee':
+        state.filters.employeeNames = records
+        break
+      case 'package':
+        state.filters.packageNames = records
+        break
+      case 'carrier':
+        state.filters.carrierNames = records
+        break
+      case 'device':
+        state.filters.deviceNames = records
+        break
+      case 'address':
+        state.filters.addressPhones = records
+        break
+    }
   },
 }
 

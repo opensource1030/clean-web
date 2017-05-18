@@ -1,51 +1,30 @@
 <template>
-  <div>
-    <div class="large-6 columns">
-      <div class="grid-box" data-mh="box2">
-        <header class="box-heading">
-          <h2>Spend By Category</h2>
-        </header>
-        <div class="box-content coming-soon">
-          <ul class="tabs" data-tabs id="spend-tabs">
-            <template v-for="(allocation, index) in data">
-              <li :class="'tabs-title ' + (index == 0 ? 'is-active' : '')">
-                <a :href="'#spend-' + index" role="tab" :aria-controls="'spend-' + index" :aria-selected="index == 0 ? 'true' : 'false'" :data-index="index">{{ allocation.mobile_number | phone }}</a>
-              </li>
-            </template>
-          </ul>
+  <div class="coming-soon">
+    <ul class="tabs" data-tabs id="spend-tabs">
+      <template v-for="(allocation, index) in data">
+        <li :class="'tabs-title ' + (index == activeIndex ? 'is-active' : '')">
+          <a role="tab" :aria-controls="'spend-' + index" :aria-selected="index == activeIndex ? 'true' : 'false'" :data-index="index">{{ allocation.mobile_number | phone }}</a>
+        </li>
+      </template>
+    </ul>
 
-          <div class="tabs-content" data-tabs-content="spend-tabs">
-            <template v-for="(allocation, index) in data">
-              <div :class="'tabs-panel ' + (index == 0 ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == 0 ? 'false' : 'true'">
-                <div class="pie-chart-title">
-                  {{ title(allocation) }}
-                </div>
-                <vue-chart
-                  :v-ref="'vuechart' + index"
-                  chart-type="PieChart"
-                  :columns="columns"
-                  :rows="pieData(index)"
-                  :options="options"
-                ></vue-chart>
-              </div>
-            </template>
+    <div class="tabs-content" data-tabs-content="spend-tabs">
+      <template v-for="(allocation, index) in data">
+        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+          <div class="pie-chart-title">
+            {{ title(allocation) }}
           </div>
+          <vue-chart :v-ref="'vuechart' + index" chart-type="PieChart" :columns="columns" :rows="pieData(index)" :options="options"></vue-chart>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
   const dateFormat = require('dateformat');
-  import phone from './../filters/phone-formatter.js';
-  // import PieChart from './PieChart';
 
   export default {
-    components: {
-      // PieChart
-    },
-
     props: ['data'],
 
     data() {
@@ -70,22 +49,13 @@
         ],
         options: {
           width: 'auto',
-          // width: 500,
           height: 300,
-          // chartArea: {left: 0,top: 0,width: '100%', height: '100%'},
           pieHole: 0.4,
           colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
           legend: {position: 'bottom', textStyle: {color: 'blue', fontSize: 16}, alignment: 'center'}
-
-          // focusTarget: 'category',
         }
       }
     },
-
-    mounted () {
-      // console.log('PieChart mount', $('#spend-tabs li a'))
-    },
-
     methods: {
       title (allocation) {
         return this.$options.filters.phone(allocation.mobile_number) + ' (' + dateFormat(allocation.bill_month, 'mmm yyyy') + ')';
@@ -97,7 +67,6 @@
         }
 
         let allocation = this.data[index]
-        // console.log('allocation', allocation);
         var piechart_data = [
           ['Service Plan Charges', allocation.service_plan_charge],
           ['Domestic Usage Charges', allocation.domestic_usage_charge],
@@ -111,7 +80,6 @@
           $('#spend-tabs li a').off('click').on('click', function(e) {
             setTimeout(() => {
               let index = $(this).data('index')
-              // console.log(index)
               vm.$set(vm, 'activeIndex', index)
             })
           })

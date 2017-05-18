@@ -12,8 +12,8 @@ import ResetPassword from "./../components/ResetPassword.vue";
 import ResetPasswordCode from "./../components/ResetPasswordCode.vue";
 import AcceptUser from "./../components/AcceptUser.vue";
 // routes main
-import Dashboard from "./../components/Dashboard.vue";
 import Sidemenu from "./../components/Sidemenu.vue";
+import Dashboard from "./../views/dashboard/Dashboard.vue";
 // routes devices
 import Devices from "./../views/devices/Devices.vue";
 import Device from "./../views/devices/Device.vue";
@@ -68,15 +68,14 @@ const router = new VueRouter({
     {path: '/acceptUser/:identification/:code', component: AcceptUser, name: 'Accept User'},
 
     // main
+    {path: '/sso/:id', component: Sso, name: 'sso'},
+    {path: '/sidemenu', component: Sidemenu},
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true},
       children: [
-        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'},
-        {path: 'procurement/', component: LegacyInfo, name: 'legacyInfo'}
+        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'}
       ]
     },
-    {path: '/sso/:id', component: Sso, name: 'sso'},
-    {path: '/sidemenu', component: Sidemenu},
 
     // { path: '/devices', component: Devices, name: 'List Devices', meta: { requiresAuth: true } },
     // { path: '/device/:id', component: Device, name: 'Update Device', meta: { requiresAuth: true } },
@@ -130,6 +129,19 @@ const router = new VueRouter({
       ]
     },
 
+    // order
+    {
+      path: '/order',
+      component: { template: '<router-view></router-view>' },
+      meta: { requiresAuth: true, label: 'Place-Order' },
+      children: [
+        { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' }},
+        { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' }},
+        { path: 'transfer', component: PlaceOrder, name: 'Transfer Service', meta: { label: 'Transfer' }},
+        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessories' }},
+      ]
+    },
+
     // presets
     {
       path: '/presets',
@@ -175,9 +187,6 @@ const router = new VueRouter({
         {path: ':id', component: Packageid, name: 'Update Package', meta: {label: 'Edit'}},
       ]
     },
-
-    // place order
-    { path: '/placeOrder', component: PlaceOrder, name: 'Place Order', meta: {requiresAuth: true, label: 'Place Order'} },
 
     //redirect
     {path: '*', redirect: '/dashboard'}

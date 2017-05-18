@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import Avatar from 'vue-avatar/dist/Avatar';
 import multiselect from 'vue-multiselect'
 import placeOrderWizard from './../../components/placeOrderWizard';
@@ -29,22 +31,37 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentOrderType: 'placeOrder/getCurrentOrderType',
+      selectedKeepService: 'placeOrder/getSelectedKeepService',
+      typedServiceInfo: 'placeOrder/getTypedServiceInfo',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
       selectedDevice: 'placeOrder/getSelectedDevice',
-      selectedService: 'placeOrder/getSelectedService'
+      selectedService: 'placeOrder/getSelectedService',
+      selectedStyle: 'placeOrder/getSelectedStyle'
     })
   },
   created() {
     this.shippingAddress = this.addresses[0];
 
-    this.$store.dispatch('placeOrder/getPackageAddresses').then(
-      res => {
-        for(let address of res.addresses)
-          this.addresses.push(address);
-      }
-    )
+    if(this.currentOrderType == 'newService') {
+      this.$store.dispatch('placeOrder/getPackageAddresses').then(
+        res => {
+          for(let address of res.addresses)
+            this.addresses.push(address);
+        }
+      )
+    } else if(this.currentOrderType == 'upgradeDevice') {
+      this.$store.dispatch('placeOrder/getPackagesAddresses').then(
+        res => {
+          let temp_addresses = _.uniqBy(res, 'id');
+          for(let address of temp_addresses)
+            this.addresses.push(address);
+        }
+      )
+    }
+    
   },
   methods : {
     goOrderDevicePage() {

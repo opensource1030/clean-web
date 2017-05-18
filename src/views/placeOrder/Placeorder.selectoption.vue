@@ -1,6 +1,5 @@
 <template>
   <div id="placeorder">
-    <placeOrderWizard :activeStep="1"></placeOrderWizard>
     <div class="row expanded">
       <div class="columns small-12">
         <h4 class="category-title border-bottom">Personal Information</h4>
@@ -37,30 +36,30 @@
       </div>
       <div class="columns small-12">
         <div class="row expanded">
-          <div class="columns small-6 large-3 each-order" @click="selectOrderType('service')">
-            <i class="fa fa-wrench fa-5x" :class="{ active: selectedOrder == 'service' }"></i>
+          <div class="columns small-6 large-3 each-order" @click="selectOrderType('newService')">
+            <i class="fa fa-wrench fa-5x" :class="{ active: selectedOrder == 'newService' }"></i>
             <p class="ft-18 m-t-15 m-b-0">Order a New Line of Service</p>
             <p class="ft-13 italic bold black">with new device</p>
           </div>
-          <div class="columns small-6 large-3 each-order" @click="selectOrderType('device')">
-            <i class="fa fa-mobile fa-5x" :class="{ active: selectedOrder == 'device' }"></i>
+          <div class="columns small-6 large-3 each-order" @click="selectOrderType('upgradeDevice')">
+            <i class="fa fa-mobile fa-5x" :class="{ active: selectedOrder == 'upgradeDevice' }"></i>
             <p class="ft-18 m-t-15 m-b-0">Upgrade Device</p>
             <p class="ft-13 italic bold black">with with existing wireless services</p>
           </div>
-          <div class="columns small-6 large-3 each-order" @click="selectOrderType('transfer')">
-            <i class="fa fa-random fa-5x" :class="{ active: selectedOrder == 'transfer' }"></i>
+          <div class="columns small-6 large-3 each-order" @click="selectOrderType('transferService')">
+            <i class="fa fa-random fa-5x" :class="{ active: selectedOrder == 'transferService' }"></i>
             <p class="ft-18 m-t-15 m-b-0">Transfer Wireless Service Liability</p>
             <p class="ft-13 italic bold black">also includes option to order a new device</p>
           </div>
-          <div class="columns small-6 large-3 each-order" @click="selectOrderType('accessories')">
-            <i class="fa fa-headphones fa-5x" :class="{ active: selectedOrder == 'accessories' }"></i>
+          <div class="columns small-6 large-3 each-order" @click="selectOrderType('orderAccessory')">
+            <i class="fa fa-headphones fa-5x" :class="{ active: selectedOrder == 'orderAccessory' }"></i>
             <p class="ft-18 m-t-15 m-b-0">Order Accessories</p>
             <p class="ft-13 italic bold black">headphones, chargers, bags</p>
           </div>
         </div>
       </div>
       <div class="columns small-12 text-center">
-        <a class="button large btn-orange m-t-25" :disabled="selectedOrder != 'service'" @click="placeOrder()">Place Order</a>
+        <a class="button large btn-orange m-t-25" :disabled="selectedOrder == 'transferService' || selectedOrder == 'orderAccessory'" @click="placeOrder()">Place Order</a>
       </div>
     </div>
   </div>

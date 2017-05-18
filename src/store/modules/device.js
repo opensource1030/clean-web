@@ -38,6 +38,10 @@ const getters = {
     return state.records
   },
 
+  sorted: (state) => {
+    return _.sortBy(state.records, [ 'name' ])
+  },
+
   // search: (state, getters) => {
   //   let devices = state.records
   //   if (state.filters.capacities.length > 0) {

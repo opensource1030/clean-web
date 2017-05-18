@@ -72,10 +72,10 @@
           </div>
           <div class="device-description">
             <p class="review-option">
-              <span class="bold">Device</span> : {{selectedDevice.devices[0].name}}
+              <span class="bold">Device</span> : {{selectedDevice.name}}
             </p>
             <p class="review-option">
-              <span class="bold">Estimated Charges</span> : {{selectedDevice.priceOwn}} {{selectedDevice.devices[0].currency}}
+              <span class="bold">Estimated Charges</span> : {{selectedStyle.price}} {{selectedDevice.currency}}
             </p>
             <p>4.7-inch(diagonal) LED-backlit widescreen Multi-Touch display with IPSP techonology</p>
             <p>New 8-megapixel iSight camera with 1.5u pixels</p>
@@ -87,24 +87,37 @@
       </div>
       <div class="columns small-12 large-6 black review-usage">
         <p class="section-title">Service Info</p>
-        <p>
-          <span class="bold">Voice Call</span> : {{selectedService.serviceitems[0].value}} {{selectedService.serviceitems[0].unit}}
-        </p>
-        <p>
-          <span class="bold">Data</span> : {{selectedService.serviceitems[1].value}} {{selectedService.serviceitems[1].unit}}
-        </p>
-        <p>
-          <span class="bold">Text Messaging</span> : {{selectedService.serviceitems[2].value}} {{selectedService.serviceitems[2].unit}}
-        </p>
-        <p>
-          <span class="bold">International Call</span> : {{selectedService.serviceitems[3].value}} {{selectedService.serviceitems[3].unit}}
-        </p>
-        <p>
-          <span class="bold">International Data</span> : {{selectedService.serviceitems[4].value}} {{selectedService.serviceitems[4].unit}}
-        </p>
-        <p>
-          <span class="bold">International Text Messaging</span> : {{selectedService.serviceitems[5].value}} {{selectedService.serviceitems[5].unit}}
-        </p>
+        <div v-if="currentOrderType == 'upgradeDevice' && selectedKeepService == 'Yes'">
+          <p>
+            <span class="bold">Previous IMEI</span> : {{typedServiceInfo.IMEI}}
+          </p>
+          <p>
+            <span class="bold">Phone No</span> : {{typedServiceInfo.PhoneNo}}
+          </p>
+          <p>
+            <span class="bold">Sim Card</span> : {{typedServiceInfo.Sim}}
+          </p>
+        </div>
+        <div v-else>
+          <p>
+            <span class="bold">Voice Call</span> : {{selectedService.serviceitems[0].value}} {{selectedService.serviceitems[0].unit}}
+          </p>
+          <p>
+            <span class="bold">Data</span> : {{selectedService.serviceitems[1].value}} {{selectedService.serviceitems[1].unit}}
+          </p>
+          <p>
+            <span class="bold">Text Messaging</span> : {{selectedService.serviceitems[2].value}} {{selectedService.serviceitems[2].unit}}
+          </p>
+          <p>
+            <span class="bold">International Call</span> : {{selectedService.serviceitems[3].value}} {{selectedService.serviceitems[3].unit}}
+          </p>
+          <p>
+            <span class="bold">International Data</span> : {{selectedService.serviceitems[4].value}} {{selectedService.serviceitems[4].unit}}
+          </p>
+          <p>
+            <span class="bold">International Text Messaging</span> : {{selectedService.serviceitems[5].value}} {{selectedService.serviceitems[5].unit}}
+          </p>
+        </div>
       </div>
     </div>
     <div class="row expanded black">

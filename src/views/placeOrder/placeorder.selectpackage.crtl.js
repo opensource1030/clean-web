@@ -20,6 +20,12 @@ export default {
         availableServices: [],
         activeService: {},
         loading: false
+      },
+      keepService: '',
+      serviceInfo: {
+        IMEI: '',
+        PhoneNo: '',
+        Sim: ''
       }
     }
   },
@@ -39,11 +45,17 @@ export default {
   },
   computed: {
     ...mapGetters({
+      currentOrderType: 'placeOrder/getCurrentOrderType',
       selectedPackage: 'placeOrder/getSelectedPackage',
-      selectedService: 'placeOrder/getSelectedService'
+      selectedService: 'placeOrder/getSelectedService',
+      typedServiceInfo: 'placeOrder/getTypedServiceInfo'
     }),
   },
-  methods : {
+  created() {
+    this.currentOrderType == 'upgradeDevice' ? this.keepService = 'Yes' : this.keepService = 'No';
+    this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
+  },
+  methods: {
     setActive(type, value) {
       switch(type) {
         case 'Package':
@@ -68,7 +80,6 @@ export default {
           break;
       }
     },
-
     getImageUrl(object) {
       // if (object.hasOwnProperty('images')) {
       //   if (object.images.length > 0) {
@@ -76,12 +87,14 @@ export default {
       //       if(i.id > 0)
       //         return process.env.URL_API + '/images/' + i.filename + '.' + i.extension;
       //     }
-      //   }
+      //   }      
       // } else {
         return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       // }
     },
-
+    setServiceInfo() {
+      this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo);
+    },
     goOrderPages(value) {
       switch(value) {
         case 'option':
@@ -91,6 +104,11 @@ export default {
           this.$store.dispatch('placeOrder/setCurrentView', 'selectdevice');
           break;
       }
+    }
+  },
+  watch: {
+    'keepService': function(newVal, oldVal) {
+      this.currentOrderType == 'upgradeDevice' ? this.$store.dispatch('placeOrder/setKeepService', this.keepService) : null;
     }
   }
 }

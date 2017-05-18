@@ -104,6 +104,13 @@
             <li><a name="procurement" href="/orders"><i class="fa fa-circle-o"></i>Procurement</a></li>
           </ul>
         </li>
+
+        <li>
+          <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
+            <i class="fa fa-phone"></i>
+            <span>Get Support</span>
+          </a>
+        </li>
       </template>
     </ul>
 
@@ -116,6 +123,7 @@
 </template>
 
 <script>
+  import supportRequest from './support-request'
   import Permision from './permisions'
   import Vue from 'vue';
 
@@ -158,6 +166,7 @@
           clearInterval(intervalId);
         }
       }, 2000);
+
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
         $(menu).on('click', 'li a', function (e) {
@@ -193,7 +202,9 @@
           }
         });
       }
+
       $(this.$el).foundation();
+
       $.sidebarMenu($('.sidebar-menu'));
        /* $.cookie("isMenuActive", "1");*/
       if ($.cookie("isMenuActive") == 1) {
@@ -214,10 +225,15 @@
           $.cookie("isMenuActive", "1");
         }
       });
+
       $('#menu').slicknav({prependTo: 'section.top-bar-section'});
-      $('.support-link').click(function () {
-        $('.btn-provision').click();
-      })
+
+      setTimeout(supportRequest, 100);
     },
+    methods: {
+      openSupportTicket: function() {
+        $('.support-form-holder').show();
+      }
+    }
   }
 </script>

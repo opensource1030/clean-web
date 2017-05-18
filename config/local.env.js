@@ -1,13 +1,14 @@
 module.exports = {
   NODE_ENV: '"local"',
   // stoplight.io Mock Server
-  URL_API: '"http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io"',
+  // URL_API: '"http://lfce85j83fdtoxhkw-mock.stoplight-proxy.io"',
   // URL_API: '"http://clean.api/"',
-  // URL_API: '"https://staging.api.wirelessanalytics.com"',
+  URL_API: '"https://staging.api.wirelessanalytics.com"',
   URL: '"http://localhost:8080"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
   LEGACY_URL: '"https://devlegacy.wirelessanalytics.com"',
+  EASYVISTA_CODE: 13,
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,

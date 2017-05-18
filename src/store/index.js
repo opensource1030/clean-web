@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import auth from './modules/auth'
 import error from './modules/error'
+import dashboard from './modules/dashboard'
 import device from './modules/device'
 import device_type from './modules/device_type'
 import modification from './modules/modification'
@@ -16,7 +17,8 @@ import services from './modules/services/services'
 import service from './modules/services/service'
 import presets from './modules/presets/presets'
 import preset from './modules/presets/preset'
-import packages from './modules/package'
+import pack from './modules/package'
+import packages from './modules/packages'
 import placeOrder from './modules/place_order'
 
 Vue.use(Vuex)
@@ -29,12 +31,14 @@ export default new Vuex.Store({
   modules: {
     auth,
     error,
+    dashboard,
     device,
     device_type,
     modification,
     carrier,
     company,
     employee,
+    pack,
     order,
     file,
     services,

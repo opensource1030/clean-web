@@ -4,7 +4,7 @@
       <div class="column large-8 medium-8 small-7">
         <div class="logo" v-if="company.object" @click="$router.push({name: 'dashboard'})">
           <div class="logo-holder">
-            <img v-bind:src='company.object.metafields[0].url' alt="logo" title="Client Logo">
+            <img v-bind:src='company.object.metadata.logo.url' alt="logo" title="Client Logo">
           </div>
         </div>
         <morphsearch></morphsearch>
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-    const {Store} = require('yayson')()
-    const store = new Store()
+  const {Store} = require('yayson')()
+  const store = new Store()
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
-  import supportRequest from './support-request'
+  
   export default {
     components: {
       Morphsearch,

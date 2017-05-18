@@ -113,7 +113,7 @@ export class DevicesPresenter extends Presenter {
       devicetypes: DeviceTypesPresenter,
       images: ImagesPresenter,
       modifications: ModificationsPresenter,
-      devicevariations: DeviceVariationsPresenter
+      // devicevariations: DeviceVariationsPresenter
     }
   }
 }
