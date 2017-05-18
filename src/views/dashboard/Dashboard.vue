@@ -118,7 +118,7 @@
                   </div>
                   <div class="row expanded">
                     <div class="overview-item full last">
-                      <p>
+                      <!-- <p>
                         <select id="choose-issues" class="user-actions" v-model="userInfo.data.allocations[activeAllocationIndex].issue">
                           <option selected disabled value="">-- Choose an issue --</option>
                           <optgroup label="Billing">
@@ -164,7 +164,7 @@
                             </option>
                           </optgroup>
                         </select>
-                      </p>
+                      </p> -->
                     </div>
                   </div>
                 </div>
