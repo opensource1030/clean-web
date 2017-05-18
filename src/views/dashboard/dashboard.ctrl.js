@@ -1,4 +1,5 @@
 import phone from './../../filters/phone-formatter.js';
+import supportRequest from './../../components/support-request'
 import { mapGetters, mapActions } from 'vuex'
 import PieChart from "./Piechart.vue"
 import TrendChart from "./Trendchart.vue"
@@ -52,6 +53,7 @@ export default {
         }
 
         this.userInfo.loading = false;
+        setTimeout(supportRequest, 2000);
       }
     )
   },

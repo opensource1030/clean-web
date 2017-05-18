@@ -497,9 +497,7 @@
     margin: 0 0 0.2rem;
   }
 }
-a.btn-provision:hover .support-form-holder{
-  display: block !important;
-}
+
 .support-form-holder{
   &.loading{
     &:after{
@@ -595,6 +593,10 @@ a.btn-provision:hover .support-form-holder{
       padding: 0 0.4rem;
       margin: 0;
       z-index: 9;
+
+      &#description-error {
+        margin-left: 9px;
+      }
     }
   }
   .form-header{

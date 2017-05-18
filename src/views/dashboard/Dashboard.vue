@@ -63,7 +63,7 @@
                       <p class="text-center">
                         <span class="bold color-tuatara">Mobile No</span>
                         </br>
-                        <span>{{userInfo.data.allocations[activeAllocationIndex].mobile_number | phone}}</span>
+                        <span class="alloc_mblnumber">{{userInfo.data.allocations[activeAllocationIndex].mobile_number | phone}}</span>
                       </p>
                     </div>
                   </div>
@@ -116,8 +116,8 @@
                   </div>
                   <div class="row expanded">
                     <div class="overview-item full last">
-                      <p class="user-actions">
-                        <select v-model="userInfo.data.allocations[activeAllocationIndex].issue">
+                      <p>
+                        <select id="choose-issues" class="user-actions" v-model="userInfo.data.allocations[activeAllocationIndex].issue">
                           <option selected disabled value="">-- Choose an issue --</option>
                           <optgroup label="Billing">
                             <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">

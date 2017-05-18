@@ -27,11 +27,11 @@
 </template>
 
 <script>
-    const {Store} = require('yayson')()
-    const store = new Store()
+  const {Store} = require('yayson')()
+  const store = new Store()
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
-  import supportRequest from './support-request'
+  
   export default {
     components: {
       Morphsearch,

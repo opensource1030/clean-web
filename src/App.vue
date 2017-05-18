@@ -8,11 +8,11 @@
         <headers v-if="$store.getters['auth/isAuthenticated']" :user="$store.state.auth.profile"></headers>
         <div class="clearfix"></div>
         <breadcrumb v-if="$store.getters['auth/isAuthenticated']"></breadcrumb>
-
         <router-view></router-view>
       </div>
     </div>
 
+    <SupportRequest></SupportRequest>
     <foo v-if="$store.getters['auth/isAuthenticated']"></foo>
   </div>
 </div>
@@ -23,14 +23,20 @@ import Sidemenu from './components/Sidemenu.vue'
 import foo from './components/Footer.vue'
 import headers from './components/header'
 import breadcrumb from './components/breadcrumb'
+import SupportRequest from './components/SupportRequest.vue'
+
+require('script!jquery');
+require('script!jquery-match-height');
+require('script!jquery-validation');
+
 export default {
   name: "App",
-  
   components: {
     Sidemenu,
     foo,
     headers,
-    breadcrumb
+    breadcrumb,
+    SupportRequest
   },
   data () {
     return {
@@ -52,8 +58,14 @@ export default {
         }
       });
     });
+
+    $(document).keyup(function (e) {
+      if($('.support-form-holder').is(":visible") && e.keyCode == 27) {
+        setTimeout(function() {
+          $('#btn-close').click();
+        }, 200);
+      }
+    })
   },
-  methods: {
-  }
 }
 </script>

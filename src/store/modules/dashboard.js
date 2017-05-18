@@ -6,8 +6,6 @@ import * as types from './../mutation-types'
 const {Store} = require('yayson')();
 const store = new Store();
 
-require('script!jquery');
-
 // initial state
 const state = {
 

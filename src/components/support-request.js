@@ -2,6 +2,15 @@ import  populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
 function supportRequest() {
+
+  // Pre filling
+  $('.open-support').on('click', function() {
+    $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
+    $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
+    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
+    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
+  })
+
   populateCountries.populateCountries("country2");
   $('.eq-Hght').matchHeight({
     byRow: true,
@@ -24,9 +33,8 @@ function supportRequest() {
     var value = '.' + $(this).val();
   });
 
-  var $selectOption = $('.user-actions'), $images = $('.mix');
-  var affectedNum;
-
+  var $selectOption = $('.user-actions');
+  var $images = $('.mix');
 
   $selectOption.on('change', function () {
     var value1 = $(this).val();
@@ -35,24 +43,15 @@ function supportRequest() {
     if ($(this).prop('id') == 'choose-issues') {
       $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
     }
-    $('.btn-provision').click();
+    $('.open-support').click();
+    $('.support-form-holder').show();
     $select.prop('value', value1);
-
-  });
-  $('.btn-provision').click(function () {
-
-    $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
-    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
-    $('.support-form-holder').show(200);
-
   });
 
   $('#btn-close').click(function () {
     $('#support-form')[0].reset();
     $images.hide();
-    $('.support-form-holder').hide(200);
+    $('.support-form-holder').hide();
     $selectOption.prop('selectedIndex', 0);
   });
 
@@ -93,57 +92,55 @@ function supportRequest() {
       }
 
       if (subject === "Add/Remove International Features") {
-
         var msg_international_activation = "<strong>Country Traveling To:<strong>" + $("#country2").val().join(', ').toString() + "<br/>" +
           "<strong>Dates of Travel:</strong>" + $('#flatpickr').val() + "<br/> " +
           "<strong>International Device Type:</strong>" + $('#int-device_type').val() + "<br/>";
 
         msg +=  msg_international_activation;
       }
-
       
-       msg += "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<hr/>";
+      msg += "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<hr/>";
 
-       msg +=
-        "<strong>Recipient Email (Who to Contact)</strong>: " + $('#recipient_email').val() + "<br/>" +
+      msg += "<strong>Recipient Email (Who to Contact)</strong>: " + $('#recipient_email').val() + "<br/>" +
         "<strong>Requestor Email</strong>: " + $('#requestor_email').val() + "<br/>" +
         "<strong>Affected Number</strong>: " + $('#recipient_mobile').val() + "<br/>" +
         "<strong>Who to contact</strong>: " + $('input[name=contact-person]:checked', '#support-form').val() + "<hr/>";
 
-        msg += "<strong>Description</strong>: " + $('#description').val();
+      msg += "<strong>Description</strong>: " + $('#description').val();
 
       var json = {
-                    "requests" :
-                        [{
-                            "Catalog_GUID" : "",
-                            "Catalog_Code" : helpdesk_code,
-                            "AssetID" : "",
-                            "AssetTag" : "",
-                            "ASSET_NAME" : "",
-                            "Urgency_ID" : "2",
-                            "Severity_ID" : "41",
-                            "External_reference" : "",
-                            "Phone" : "",
-                            "Requestor_Identification" : "",
-                            "Requestor_Mail" : $('#requestor_email').val(),
-                            "Requestor_Name" : "",
-                            "Location_ID" : "",
-                            "Location_Code" : "",
-                            "Department_ID" : "",
-                            "Department_Code" : "",
-                            "Recipient_ID" : "",
-                            "Recipient_Identification" : "",
-                            "Recipient_Mail" : $('#recipient_email').val(),
-                            "Recipient_Name" : "" ,
-                            "Origin" : process.env.EASYVISTA_CODE,
-                            "Description" : msg,
-                            "ParentRequest" : "",
-                            "CI_ID" : "",
-                            "CI_ASSET_TAG" : "",
-                            "CI_NAME" : "",
-                            "SUBMIT_DATE" : ""
-                        }]
-                };
+        "requests" : [
+          {
+            "Catalog_GUID" : "",
+            "Catalog_Code" : helpdesk_code,
+            "AssetID" : "",
+            "AssetTag" : "",
+            "ASSET_NAME" : "",
+            "Urgency_ID" : "2",
+            "Severity_ID" : "41",
+            "External_reference" : "",
+            "Phone" : "",
+            "Requestor_Identification" : "",
+            "Requestor_Mail" : $('#requestor_email').val(),
+            "Requestor_Name" : "",
+            "Location_ID" : "",
+            "Location_Code" : "",
+            "Department_ID" : "",
+            "Department_Code" : "",
+            "Recipient_ID" : "",
+            "Recipient_Identification" : "",
+            "Recipient_Mail" : $('#recipient_email').val(),
+            "Recipient_Name" : "" ,
+            "Origin" : process.env.EASYVISTA_CODE,
+            "Description" : msg,
+            "ParentRequest" : "",
+            "CI_ID" : "",
+            "CI_ASSET_TAG" : "",
+            "CI_NAME" : "",
+            "SUBMIT_DATE" : ""
+          }
+        ]
+      };
 
       $.ajax({
         type: "POST",
