@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="callout spent-info" v-bind:class="{ active: isActive, 'visible': popOver }">
+    <div class="callout spent-info active" v-bind:class="{ visible: popOver }">
       <div class="pop-content" v-if="userInfo">
         <div class="expanded row">
           <div class="columns large-12">
@@ -12,7 +12,7 @@
 
             <hr class="hr-cln">
             <div class="user-info">
-              <strong>{{ fullName }}</strong> {{ mobileNumber }}</span>
+              <strong>{{ this.userInfo.firstName + " " + this.userInfo.lastName }}</strong> {{ mobileNumber }}</span>
             </div>
           </div>
 

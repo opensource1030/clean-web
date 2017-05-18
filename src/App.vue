@@ -64,6 +64,10 @@ export default {
         setTimeout(function() {
           $('#btn-close').click();
         }, 200);
+      } else if($('.spent-info').hasClass('active') && e.keyCode == 27) {
+        setTimeout(function() {
+          history.back();
+        },200)
       }
     })
   },
