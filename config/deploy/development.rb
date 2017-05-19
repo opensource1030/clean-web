@@ -1,16 +1,18 @@
-role :app, %w{204.156.175.49}
+role :app, %w{54.87.193.65}
 
 set :stage, :development
 set :branch, 'master'
-set :deploy_to, '/home/deploy/webapps/clean/app'
+set :keep_releases, 3
+set :deploy_to, '/home/forge/staging.wirelessanalytics.com/'
 
 set :log_level, :debug
 
 set :ssh_options, {
-  user: 'deploy'
+  user: 'forge'
 }
 
-set :tmp_dir, '/home/deploy/tmp'
+set :tmp_dir, '/home/forge/staging.wirelessanalytics.com/tmp'
+
 namespace :ops do
 
   desc 'Assets Compile'
