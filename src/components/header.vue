@@ -55,7 +55,7 @@
       this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies.contents', {}).then((response) => {
           let event = store.sync(response.data)
         if (event.companies.length > 0) {
-            let cosmicdata = event.companies[0].contents[1].content
+            let cosmicdata = event.companies[0].contents[0].content
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
