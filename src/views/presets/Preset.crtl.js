@@ -111,15 +111,6 @@ export default {
       const vm = this
       vm.devices = []
 
-      // to check device_variations belongs the preset, but only having the preset compnay
-      _.each(this.preset.devicevariations, (dv) => {
-        if (parseInt(dv.companyId) == parseInt(vm.preset.companyId)) {
-          dv.checked = true
-        } else {
-          dv.checked = false
-        }
-      })
-
       // to filter device_variations by carrier, capacity, style for each device
       _.each(this.allDevices, (device) => { vm.devices.push(_.extend(
         {
@@ -131,6 +122,24 @@ export default {
         },
         device
       )) })
+
+      // to check device_variations belongs the preset, but only having the preset compnay
+      _.each(this.preset.devicevariations, (dv) => {
+        if (parseInt(dv.companyId) == parseInt(vm.preset.companyId)) {
+          dv.checked = true
+
+          // synchronize devicevariations in Find_Devices and Selected_Devices
+          let device = _.find(this.devices, (d) => (parseInt(d.id) == parseInt(dv.devices[0].id)))
+          let variation = _.find(device.devicevariations, (v) => (parseInt(v.id) == parseInt(dv.id)))
+          if (variation !== dv) {
+            console.log('diff', dv.id, device)
+            // _.remove(device.devicevariations, (v) => (parseInt(v.id) == parseInt(dv.id)))
+            // device.devicevariations.push(dv)
+          }
+        } else {
+          dv.checked = false
+        }
+      })
     },
 
     // filtering and lazy searching
@@ -244,8 +253,31 @@ export default {
     },
 
     // event
-    onChange_DeviceVariation (e, dv_id) {
+    onChange_DeviceVariation (e, device_id, variation_id) {
       let isChecked = $(e.srcElement).prop('checked')
+      console.log(device_id, variation_id, isChecked)
+
+      let device = _.find(this.devices, (d) => (parseInt(d.id) == parseInt(device_id)))
+      let variation = _.find(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation_id)))
+      let preset_variation = _.find(this.preset.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation_id)))
+      if (preset_variation) {
+        if (preset_variation !== variation) {
+          console.log('diff', variation_id, device)
+          // _.remove(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation_id)))
+          // device.devicevariations.push(preset_variation)
+        }
+        preset_variation.checked = isChecked
+
+        this.$forceUpdate()
+      } else {
+        variation.checked = isChecked
+
+        variation.devices = []
+        variation.devices.push(device)
+        // console.log(variation)
+
+        this.preset.devicevariations.push(variation)
+      }
     },
 
     // methods

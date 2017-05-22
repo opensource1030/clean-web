@@ -362,11 +362,12 @@ export default {
         delete dv['relationships']['carriers']
         delete dv['relationships']['companies']
 
-        if (dv['relationships']['images']['data'].length == 0 || parseInt(dv['relationships']['images']['data'][0]['id']) == 0) {
-          delete dv['relationships']['images']
+        if (dv['relationships']['modifications']['data'].length > 2) {
+          dv['relationships']['modifications']['data'] = _.slice(dv['relationships']['modifications']['data'], 0, 2)
         }
 
         if (parseInt(dv['id']) > 0) {
+          // console.log('dv', dv)
           dvAPI.update(dv['id'], {data: dv}, () => {}, () => {})
         }
       })

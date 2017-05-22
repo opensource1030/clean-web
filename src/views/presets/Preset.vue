@@ -160,7 +160,7 @@
                                 <ul>
                                     <li v-for="dv in values">
                                       <label>
-                                        <input type="checkbox" name="variations" :value="dv.id" @change="onChange_DeviceVariation($event, dv.id)">
+                                        <input type="checkbox" name="variations" :value="dv.id" v-model="dv.checked" @change="onChange_DeviceVariation($event, device.id, dv.id)">
                                         <span>{{ `${dv.modifications.length > 0 ? dv.modifications[1].value + ' ' + dv.modifications[0].value : ''} ${dv.companies.length > 0 ? ', ' + dv.companies[0].name : ''}` }}</span>
                                         <span style="float: right;">{{ dv.priceRetail | currency('', 2) }} {{ device.currency }}</span>
                                       </label>
@@ -241,7 +241,7 @@
           <div class="accordion-content variations" data-tab-content>
             <div class="row">
               <template v-for="dv in preset.devicevariations">
-                <div class="columns large-3 medium-4 small-6">
+                <div class="columns large-3 medium-4 small-6" v-if="dv.checked">
                   <label>
                     <input type="checkbox" name="preset_devicevariations" :id="'dv-' + dv.id" v-model="dv.checked">
                     <div class="card">
