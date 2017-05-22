@@ -58,7 +58,7 @@
             let cosmicdata = event.companies[0].contents[1].content
 
           this.$http.get(cosmicdata, {}).then((response) => {
-            this.company = response.data;
+            this.company = response.body;
           })
         }
       });
