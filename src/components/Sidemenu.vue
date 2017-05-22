@@ -104,14 +104,14 @@
             <li><a name="procurement" href="/orders"><i class="fa fa-circle-o"></i>Procurement</a></li>
           </ul>
         </li>
-
+      </template>
+      
         <li>
           <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
             <i class="fa fa-phone"></i>
             <span>Get Support</span>
           </a>
         </li>
-      </template>
     </ul>
 
     <div class="nav-poweredby">
