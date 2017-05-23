@@ -25,6 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      selectedKeepService: 'placeOrder/getSelectedKeepService',
       allPackages_loading: 'placeOrder/getPackagesLoadingState',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
@@ -46,7 +47,16 @@ export default {
         )
         break;
       case 'Upgrade':
-        this.allPackages_loading ? null : this.getAllDevices();
+      debugger;
+        if(this.selectedKeepService == "Yes") {
+          this.allPackages_loading ? null : this.getAllDevices();
+        } else {
+          this.$store.dispatch('placeOrder/getPackageDevices').then(
+            res => {
+              this.alignDevicesandModifications(res.devicevariations);
+            }
+          ) 
+        }
         break;
     }
 
