@@ -160,6 +160,14 @@ const actions = {
     commit(types.DEVICE_ADD_FILTER, { type, records })
     return dispatch('search')
   },
+
+  addVariation ({commit}, variation) {
+    commit(types.DEVICE_ADD_VARIATTION, variation)
+  },
+
+  removeVariation ({commit}, variation) {
+    commit(types.DEVICE_REMOVE_VARIATTION, variation)
+  }
 }
 
 // mutations
@@ -213,6 +221,16 @@ const mutations = {
         state.filters.companies = records
         break
     }
+  },
+
+  [types.DEVICE_ADD_VARIATTION] (state, variation) {
+    let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
+    device.devicevariations.push(variation)
+  },
+
+  [types.DEVICE_REMOVE_VARIATTION] (state, variation) {
+    let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
+    _.remove(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation.id)))
   },
 }
 

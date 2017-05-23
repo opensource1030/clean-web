@@ -158,8 +158,8 @@ export default {
       this.preset.companyId = value.id
       // this.preset.companies[0] = value
       this.$store.dispatch('device/addFilter', { type: 'company', records: [value] }).then((res) => {
-        // this.$forceUpdate()
         this.initVariables()
+        this.$forceUpdate()
       })
     },
 
@@ -255,7 +255,7 @@ export default {
     // event
     onChange_DeviceVariation (e, device_id, variation_id) {
       let isChecked = $(e.srcElement).prop('checked')
-      console.log(device_id, variation_id, isChecked)
+      // console.log(device_id, variation_id, isChecked)
 
       let device = _.find(this.devices, (d) => (parseInt(d.id) == parseInt(device_id)))
       let variation = _.find(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation_id)))

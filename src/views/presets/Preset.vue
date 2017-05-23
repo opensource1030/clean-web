@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="small-12 columns" v-show="isReady && preset.companies[0] && parseInt(preset.companies[0].id) > 0">
+    <div class="small-12 columns" v-show="isReady && parseInt(preset.companyId) > 0">
       <ul class="accordion" data-accordion data-allow-all-closed="true">
         <li class="accordion-item  is-active" data-accordion-item>
           <a href="#" class="accordion-title">Find Devices</a>
@@ -243,7 +243,7 @@
               <template v-for="dv in preset.devicevariations">
                 <div class="columns large-3 medium-4 small-6" v-if="dv.checked">
                   <label>
-                    <input type="checkbox" name="preset_devicevariations" :id="'dv-' + dv.id" v-model="dv.checked">
+                    <input type="checkbox" name="preset_devicevariations" :id="'dv-' + dv.id" v-model="dv.checked" @change="$forceUpdate()">
                     <div class="card">
                       <div class="card-section" :style="'background-image: url(' + getImageUrl(dv.images[0]) + ')'">
                       </div>

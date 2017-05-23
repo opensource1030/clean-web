@@ -354,24 +354,41 @@ export default {
       let _devicevariations = _device.devicevariations
       delete _device.devicevariations
 
-      let _jsonDeviceVariation = DeviceVariationsPresenter.toJSON(_devicevariations)
-      _.each(_jsonDeviceVariation['data'], (dv) => {
+      // let _jsonDeviceVariation = DeviceVariationsPresenter.toJSON(_devicevariations)
+      // _.each(_jsonDeviceVariation['data'], (dv) => {
+      //   if (dv['relationships']['images'] && (dv['relationships']['images'][0] == void(0) || parseInt(dv['relationships']['images'][0]['id'])== 0)) {
+      //     delete dv['relationships']['images']
+      //   }
+      //   delete dv['relationships']['carriers']
+      //   delete dv['relationships']['companies']
+      //   if (dv['relationships']['modifications']['data'].length > 2) {
+      //     dv['relationships']['modifications']['data'] = _.slice(dv['relationships']['modifications']['data'], 0, 2)
+      //   }
+      //   if (parseInt(dv['id']) > 0) {
+      //     dvAPI.update(dv['id'], {data: dv}, () => {}, () => {})
+      //   }
+      // })
+      // delete _jsonDeviceVariation['included']
+
+      let _jsonDeviceVariation = [], dv;
+      _.each(_devicevariations, (_dv) => {
+        dv = DeviceVariationsPresenter.toJSON(_dv)
+        dv = dv['data']
         if (dv['relationships']['images'] && (dv['relationships']['images'][0] == void(0) || parseInt(dv['relationships']['images'][0]['id'])== 0)) {
           delete dv['relationships']['images']
         }
         delete dv['relationships']['carriers']
         delete dv['relationships']['companies']
-
         if (dv['relationships']['modifications']['data'].length > 2) {
           dv['relationships']['modifications']['data'] = _.slice(dv['relationships']['modifications']['data'], 0, 2)
         }
-
         if (parseInt(dv['id']) > 0) {
-          // console.log('dv', dv)
           dvAPI.update(dv['id'], {data: dv}, () => {}, () => {})
         }
+        delete dv['included']
+        _jsonDeviceVariation.push(dv)
       })
-      delete _jsonDeviceVariation['included']
+
       // console.log(_jsonDeviceVariation)
 
       // #TODO it is an API issue which require 'deviceVariations' rather than 'devicevariations'
