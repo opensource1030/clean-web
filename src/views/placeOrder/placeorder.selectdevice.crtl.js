@@ -10,6 +10,7 @@ export default {
   },
   data() {
     return {
+      orderType: '',
       needDevice: '',
       deviceType: '',
       devices: [],
@@ -24,7 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentOrderType: 'placeOrder/getCurrentOrderType',
       allPackages_loading: 'placeOrder/getPackagesLoadingState',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
@@ -35,14 +35,19 @@ export default {
     }),
   },
   created() {
-    if(this.currentOrderType == 'newService') {
-      this.$store.dispatch('placeOrder/getPackageDevices').then(
-        res => {
-          this.alignDevicesandModifications(res.devicevariations);
-        }
-      )
-    } else if(this.currentOrderType == 'upgradeDevice') {
-      this.allPackages_loading ? null : this.getAllDevices();
+    this.orderType = this.$route.meta.label;
+
+    switch(this.orderType) {
+      case 'New':
+        this.$store.dispatch('placeOrder/getPackageDevices').then(
+          res => {
+            this.alignDevicesandModifications(res.devicevariations);
+          }
+        )
+        break;
+      case 'Upgrade':
+        this.allPackages_loading ? null : this.getAllDevices();
+        break;
     }
 
     this.needDevice = this.selectedNeedDevice;
@@ -60,17 +65,6 @@ export default {
 
       if(styleIndex)
         this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1];
-      
-      // Set Device, Capacity, Style
-      this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device);
-      for(let modificationKey in this.activeDevice.modifications) {
-        if(_.isEqual(this.activeDevice.capacity, this.activeDevice.modifications[modificationKey]))
-          this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey);    
-      }
-      this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style);
-    },
-    setDeviceInfo() {
-      this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo);
     },
     getAllDevices() {
       this.$store.dispatch('placeOrder/getPackagesDevices').then(
@@ -127,21 +121,32 @@ export default {
     goOrderPages(value) {
       switch(value) {
         case 'package':
-          this.$store.dispatch('placeOrder/setCurrentView', 'selectpackage');
+          this.$store.dispatch('placeOrder/setCurrentView', 'select_package');
           break;
         case 'review':
-          this.$store.dispatch('placeOrder/setCurrentView', 'review');
+          // Set Need device
+          this.$store.dispatch('placeOrder/setNeedDevice', this.needDevice)
+
+          // Set Device Type
+          this.$store.dispatch('placeOrder/setDeviceType', this.deviceType)
+
+          // Set Device, Capacity, Style
+          this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device);
+          for(let modificationKey in this.activeDevice.modifications) {
+            if(_.isEqual(this.activeDevice.capacity, this.activeDevice.modifications[modificationKey]))
+              this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey);    
+          }
+          this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style);
+
+          // Set Typed DeviceInfo
+          this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo);
+
+          this.$store.dispatch('placeOrder/setCurrentView', 'order_review');
           break;
       }
     }
   },
   watch: {
-    'needDevice': function(newVal, oldVal) {
-      this.$store.dispatch('placeOrder/setNeedDevice', newVal)
-    },
-    'deviceType': function(newVal, oldVal) {
-      this.$store.dispatch('placeOrder/setDeviceType', newVal)
-    },
     'allPackages_loading': function(newVal, oldVal) {
       newVal ? null : this.getAllDevices();
     }

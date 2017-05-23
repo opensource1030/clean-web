@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      orderType: '',
       packages: {
         availablePackages: [],
         activePackage: {},
@@ -30,7 +31,7 @@ export default {
     }
   },
   beforeCreate() {
-    let userInfo = JSON.parse(localStorage.getItem('userProfile'))
+    let userInfo = JSON.parse(localStorage.userProfile);
     this.$store.dispatch('placeOrder/getUserPackages', userInfo.id).then(
       res => {
         this.packages.availablePackages = res;
@@ -45,15 +46,36 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentOrderType: 'placeOrder/getCurrentOrderType',
+      selectedKeepService: 'placeOrder/getSelectedKeepService',
       selectedPackage: 'placeOrder/getSelectedPackage',
       selectedService: 'placeOrder/getSelectedService',
       typedServiceInfo: 'placeOrder/getTypedServiceInfo'
     }),
   },
   created() {
-    this.currentOrderType == 'upgradeDevice' ? this.keepService = 'Yes' : this.keepService = 'No';
-    this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
+    this.orderType = this.$route.meta.label;
+    switch(this.orderType) {
+      case 'New':
+        this.keepService = 'No';
+        break;
+      case 'Upgrade':
+        this.keepService = this.selectedKeepService;
+        this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
+
+        if(this.$route.params.deviceInfo) {
+          this.serviceInfo = {
+            IMEI: this.$route.params.deviceInfo.device_esn_imei,
+            PhoneNo: this.$route.params.deviceInfo.mobile_number,
+            Sim: this.$route.params.deviceInfo.device_sim
+          }
+
+          if(this.typedServiceInfo.IMEI || this.typedServiceInfo.PhoneNo || this.typedServiceInfo.Sim)
+            this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
+        } else if(this.$route.params.deviceInfo == undefined)
+          location.href = '/dashboard';
+        break;
+    }
+    
   },
   methods: {
     setActive(type, value) {
@@ -76,7 +98,6 @@ export default {
           break;
         case 'Service':
           this.services.activeService = value;
-          this.$store.dispatch('placeOrder/setServiceSelected', value);
           break;
       }
     },
@@ -92,18 +113,11 @@ export default {
         return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       // }
     },
-    setServiceInfo() {
+    goDevicePage() {
+      this.$store.dispatch('placeOrder/setKeepService', this.keepService);
+      this.$store.dispatch('placeOrder/setServiceSelected', this.services.activeService);
       this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo);
-    },
-    goOrderPages(value) {
-      switch(value) {
-        case 'option':
-          this.$store.dispatch('placeOrder/setCurrentView', 'selectoption');
-          break;
-        case 'device':
-          this.$store.dispatch('placeOrder/setCurrentView', 'selectdevice');
-          break;
-      }
+      this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
     }
   },
   watch: {

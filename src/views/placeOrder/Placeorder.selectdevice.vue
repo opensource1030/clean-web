@@ -1,8 +1,8 @@
 <template>
   <div id="placeorder">
-    <placeOrderWizard :activeStep="3"></placeOrderWizard>
+    <placeOrderWizard :activeStep="2"></placeOrderWizard>
     <div class="row expanded m-b-20">
-      <div class="columns small-12 text-center m-b-20" v-if="currentOrderType != 'upgradeDevice'">
+      <div class="columns small-12 text-center m-b-20" v-if="orderType != 'Upgrade'">
         <h4 class="category-title m-b-10">Need a new Device or Accessory?</h4>
         <input type="radio" name="newDevice" value="Yes" v-model="needDevice"><label class="ft-18">Yes</label>
         <input type="radio" name="newDevice" value="No" v-model="needDevice"><label class="ft-18">No</label>
@@ -47,13 +47,13 @@
               <div class="small-10 columns">
                 <h4 class="category-title">Device Info</h4>
                 <label>
-                  <span class="bold">IMEI </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.IMEI" @change="setDeviceInfo()">
+                  <span class="bold">IMEI </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.IMEI">
                 </label>
                 <label>
-                  <span class="bold">Carrier </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.Carrier" @change="setDeviceInfo()">
+                  <span class="bold">Carrier </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.Carrier">
                 </label>
                 <label>
-                  <span class="bold">Sim Card</span> <input type="text" v-model="deviceInfo.Sim" @change="setDeviceInfo()">
+                  <span class="bold">Sim Card</span> <input type="text" v-model="deviceInfo.Sim">
                 </label>
               </div>
               <div class="small-1 columns"></div>

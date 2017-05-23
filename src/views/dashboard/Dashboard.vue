@@ -81,7 +81,9 @@
                 </div>
                 <div class="device-image">
                   <div></div>
-                  <a class="button large"><i class="fa fa-mobile"></i>Upgrade Device</a>
+                  <router-link :to="{ name: 'Upgrade Device', params: {deviceInfo: userInfo.data.allocations[activeAllocationIndex]}}" class="button large">
+                    <i class="fa fa-mobile"></i>Upgrade Device
+                  </router-link>
                 </div>
                 <div class="device-detail second">
                   <div class="row expanded">
@@ -118,7 +120,7 @@
                   </div>
                   <div class="row expanded">
                     <div class="overview-item full last">
-                      <!-- <p>
+                      <p>
                         <select id="choose-issues" class="user-actions" v-model="userInfo.data.allocations[activeAllocationIndex].issue">
                           <option selected disabled value="">-- Choose an issue --</option>
                           <optgroup label="Billing">
@@ -164,7 +166,7 @@
                             </option>
                           </optgroup>
                         </select>
-                      </p> -->
+                      </p>
                     </div>
                   </div>
                 </div>

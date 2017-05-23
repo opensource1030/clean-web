@@ -11,8 +11,7 @@ const store = new Store();
 
 // initial state
 const state = {
-  currentView: 'selectoption',
-  currentOrderType: 'newService',
+  currentView: 'select_package',
   selectedKeepService: 'Yes',
   userPackages: [],
   selectedPackage: '',
@@ -81,19 +80,6 @@ const getters = {
 const actions = {
   setCurrentView({ commit }, view) {
     commit(types.PLACE_ORDER_SET_VIEW, view)
-  },
-
-  setCurrentOrderType({ commit, state }, type) {
-    if(type != state.currentOrderType) {
-      commit(types.PLACE_ORDER_SET_PACKAGE, '')
-      commit(types.PLACE_ORDER_SET_SERVICE, '')
-      commit(types.PLACE_ORDER_SET_DEVICE, {})
-      commit(types.PLACE_ORDER_SET_NEEDDEVICE, 'Yes')
-      commit(types.PLACE_ORDER_SET_DEVICETYPE, 'subsided')
-      commit(types.PLACE_ORDER_SET_DEVICEINFO, {IMEI: '', Carrier: '', Sim: ''})
-      commit(types.PLACE_ORDER_SET_SERVICEINFO, {IMEI: '', PhoneNo: '', Sim: ''})
-      commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
-    }
   },
 
   getUserPackages({ dispatch, commit, state }, userId) {

@@ -1,13 +1,13 @@
 <template>
   <div id="placeorder">
-    <modal class="submit-order" v-if="submitOrder" @close="submitOrder = false">
+    <modal class="submit-order" v-if="submitOrder">
       <div slot="header" class="complete-mark">
         <i class="fa fa-check-circle-o"></i>
       </div>
       <p slot="body">Thank you for your order</p>
     </modal>
 
-    <modal class="submit-order-pay" v-if="submitOrder_pay" @close="submitOrder_pay = false">
+    <modal class="submit-order-pay" v-if="submitOrder_pay">
       <div slot="header" class="credit-mark">
         <i class="fa fa-credit-card-alt"></i>
       </div>
@@ -51,7 +51,7 @@
       </div>
     </modal>
 
-    <placeOrderWizard :activeStep="4"></placeOrderWizard>
+    <placeOrderWizard :activeStep="3"></placeOrderWizard>
     <div class="row expanded m-b-20">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
@@ -87,7 +87,7 @@
       </div>
       <div class="columns small-12 large-6 black review-usage">
         <p class="section-title">Service Info</p>
-        <div v-if="currentOrderType == 'upgradeDevice' && selectedKeepService == 'Yes'">
+        <div v-if="orderType == 'Upgrade' && selectedKeepService == 'Yes'">
           <p>
             <span class="bold">Previous IMEI</span> : {{typedServiceInfo.IMEI}}
           </p>

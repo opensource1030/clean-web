@@ -133,7 +133,7 @@ const router = new VueRouter({
     {
       path: '/order',
       component: { template: '<router-view></router-view>' },
-      meta: { requiresAuth: true, label: 'Place-Order' },
+      meta: { requiresAuth: true, label: 'Order' },
       children: [
         { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' }},
         { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' }},
