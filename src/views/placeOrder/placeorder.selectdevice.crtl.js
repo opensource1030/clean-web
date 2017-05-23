@@ -47,7 +47,6 @@ export default {
         )
         break;
       case 'Upgrade':
-      debugger;
         if(this.selectedKeepService == "Yes") {
           this.allPackages_loading ? null : this.getAllDevices();
         } else {
