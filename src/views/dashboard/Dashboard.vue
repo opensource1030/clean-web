@@ -40,7 +40,7 @@
                       <p class="text-center">
                         <span class="bold color-tuatara">User</span>
                         </br>
-                        <span>{{userInfo.data.firstName}}</span>
+                        <span>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
@@ -74,7 +74,8 @@
                       <p class="text-center">
                         <span class="bold color-tuatara">Last Upgrade Date</span>
                         </br>
-                        <span class="color-orange bold">{{userInfo.data.allocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
+                        <span v-if="userInfo.data.allocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.data.allocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
+                        <span v-else>N/A</span>
                       </p>
                     </div>
                   </div>
