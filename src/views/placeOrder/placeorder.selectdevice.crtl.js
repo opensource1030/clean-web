@@ -101,7 +101,7 @@ export default {
         
         for(let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[0])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[1].value, price: variation.priceOwn})
+          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[1].value, price: variation.priceRetail})
         }
 
         // Set Pre-selected Device, Capacity, Style
