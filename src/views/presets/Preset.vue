@@ -161,7 +161,7 @@
                                     <li v-for="dv in values">
                                       <label>
                                         <input type="checkbox" name="variations" :value="dv.id" v-model="dv.checked" @change="onChange_DeviceVariation($event, device.id, dv.id)">
-                                        <span>{{ `${dv.modifications.length > 0 ? dv.modifications[1].value + ' ' + dv.modifications[0].value : ''} ${dv.companies.length > 0 ? ', ' + dv.companies[0].name : ''}` }}</span>
+                                        <span>{{ `${dv.modifications.length > 0 ? dv.modifications[DeviceVariationHelper.getStyleIndex(dv)].value + ' ' + dv.modifications[DeviceVariationHelper.getCapacityIndex(dv)].value : ''} ${dv.companies.length > 0 ? ', ' + dv.companies[0].name : ''}` }}</span>
                                         <span style="float: right;">{{ dv.priceRetail | currency('', 2) }} {{ device.currency }}</span>
                                       </label>
                                     </li>
@@ -248,7 +248,7 @@
                       <div class="card-section" :style="'background-image: url(' + getImageUrl(dv.images[0]) + ')'">
                       </div>
                       <div class="card-section">
-                        <span>{{ `${dv.devices[0].name}, ${dv.modifications.length > 0 ? dv.modifications[1].value : ''} ${dv.modifications.length > 0 ? dv.modifications[0].value : ''}` }}</span><br>
+                        <span>{{ `${dv.devices[0].name}, ${dv.modifications.length > 0 ? dv.modifications[DeviceVariationHelper.getStyleIndex(dv)].value : ''} ${dv.modifications.length > 0 ? dv.modifications[DeviceVariationHelper.getCapacityIndex(dv)].value : ''}` }}</span><br>
                         <span>{{ `${dv.companies.length > 0 ? ', ' + dv.companies[0].name : '&nbsp;'}` }}</span><br>
                         <span>{{ `${dv.priceRetail} ${dv.devices[0].currency}` }}</span>
                       </div>

@@ -8,6 +8,8 @@ import devicetypeAPI from './../../api/device_type-api.js'
 import carrierAPI from './../../api/carrier-api.js'
 import companyAPI from './../../api/company-api.js'
 import { mapGetters, mapActions } from 'vuex'
+import { DeviceVariationHelper } from './../../helpers'
+import { PresetsPresenter, DeviceVariationsPresenter } from './../../presenters'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -21,7 +23,7 @@ export default {
   data () {
     return {
       preset: {
-        id: null,
+        id: 0,
         companyId: 0,
         companies: [
           {
@@ -68,6 +70,10 @@ export default {
 
     _ () {
       return _
+    },
+
+    DeviceVariationHelper () {
+      return DeviceVariationHelper
     },
   },
 
@@ -236,8 +242,8 @@ export default {
       _devicevariations = _.filter(_devicevariations, (dv) => {
         return (parseInt(dv.companyId) == parseInt(vm.preset.companyId)) &&
           (device.filters.carriers.length == 0 || _.includes(device.filters.carriers, ('' + dv.carrierId))) &&
-          (device.filters.capacities.length == 0 || (dv.modifications.length > 0 && _.includes(device.filters.capacities, ('' + dv.modifications[0].id)))) &&
-          (device.filters.styles.length == 0 || (dv.modifications.length > 0 && _.includes(device.filters.styles, ('' + dv.modifications[1].id))))
+          (device.filters.capacities.length == 0 || (dv.modifications.length > 0 && _.includes(device.filters.capacities, ('' + dv.modifications[DeviceVariationHelper.getCapacityIndex(dv)].id)))) &&
+          (device.filters.styles.length == 0 || (dv.modifications.length > 0 && _.includes(device.filters.styles, ('' + dv.modifications[DeviceVariationHelper.getStyleIndex(dv)].id))))
       })
       // console.log(device.id, _devicevariations)
       let result = _.groupBy(_devicevariations, (dv) => { return (dv.carriers != void(0) && dv.carriers.length > 0) ? dv.carriers[0].presentation : 'Not Found' })
@@ -294,8 +300,50 @@ export default {
     },
 
     submit () {
-      if (this.preset.id == null) {
+      // validation
+      if (!this.preset.name) {
+        this.$store.dispatch('error/addNew', { message: 'Incorrect Device Name' })
+        return
+      }
+
+      if (parseInt(this.preset.companyId) == 0) {
+        this.$store.dispatch('error/addNew', { message: 'Please Select Company' })
+        return
+      }
+
+      if (this.preset.devicevariations.length == 0) {
+        this.$store.dispatch('error/addNew', { message: 'Please Select at least one Device Variation' })
+        return
+      }
+
+      // set values
+      let _preset = {}
+      _.extend(_preset, this.preset)
+
+      let _jsonDeviceVariation = [], dv;
+      _.chain(_preset.devicevariations).filter(
+        (v) => (v.checked)
+      ).each((v) => {
+        dv = DeviceVariationsPresenter.toJSON(v)
+        dv = dv['data']
+        delete dv['attributes']
+        delete dv['relationships']
+        delete dv['included']
+        _jsonDeviceVariation.push(dv)
+      }).value()
+
+      delete _preset.devicevariations
+      let _jsonData = PresetsPresenter.toJSON(_preset)
+      _jsonData['data']['relationships']['devicevariations'] = _jsonDeviceVariation
+      delete _jsonData['data']['relationships']['companies']
+      delete _jsonData['included']
+      let _params = JSON.stringify(_jsonData)
+      console.log('params', _params)
+
+      if (parseInt(this.preset.id) > 0) {
+        presetAPI.update(this.preset.id, _params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })
       } else {
+        presetAPI.create(_params, (res) => { this.$router.push({ path: '/presets' }) }, (err) => { console.log('err', err) })
       }
     }
   },

@@ -12,12 +12,13 @@ import carrier from './modules/carrier'
 import company from './modules/company'
 import employee from './modules/employee'
 import order from './modules/order'
+import pack from './modules/package'
+import preset from './modules/preset'
 import file from './modules/file'
 import services from './modules/services/services'
 import service from './modules/services/service'
-import presets from './modules/presets/presets'
-import preset from './modules/presets/preset'
-import pack from './modules/package'
+// import presets from './modules/presets/presets'
+// import preset from './modules/presets/preset'
 import packages from './modules/packages'
 import placeOrder from './modules/place_order'
 
@@ -39,12 +40,13 @@ export default new Vuex.Store({
     company,
     employee,
     pack,
+    preset,
     order,
     file,
     services,
     service,
-    presets,
-    preset,
+    // presets,
+    // preset,
     packages,
     placeOrder
   },

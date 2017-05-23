@@ -25,5 +25,4 @@ export default {
   remove (id, cb, errCb) {
     http.delete(API_BASE_URL + '/presets/' + id).then(res => cb(res), err => errCb(err))
   }
-
 }

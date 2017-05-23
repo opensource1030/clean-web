@@ -50,21 +50,21 @@ const actions = {
           default:
           value = state.filters.firstName.value
         }
-                // console.log('modification query', key, value)
-                _params.params[key] = value
-              }
+        // console.log('modification query', key, value)
+        _params.params[key] = value
+      }
 
-              employeeAPI.search(_params, res => {
-                const employees = store.sync(res.data)
-                // console.log('employee res', employees)
-                commit(types.EMPLOYEE_REFRESH, employees)
-                dispatch('setPagination', res.data.meta.pagination)
-                resolve(employees)
-              }, err => {
-                // console.log('employee err', err)
-                reject(err)
-              })
-            })
+      employeeAPI.search(_params, res => {
+        const employees = store.sync(res.data)
+        // console.log('employee res', employees)
+        commit(types.EMPLOYEE_REFRESH, employees)
+        dispatch('setPagination', res.data.meta.pagination)
+        resolve(employees)
+      }, err => {
+        // console.log('employee err', err)
+        reject(err)
+      })
+    })
   },
 
   searchByFirstName({dispatch, commit, state}, {query}) {
@@ -79,18 +79,18 @@ const actions = {
       })
       let tmp = _.extend({}, employee, record)
       let _params = JSON.stringify(EmployeesPresenter.toJSON(tmp))
-            // console.log(_params)
+      // console.log(_params)
 
-            employeeAPI.update(record.id, _params, res => {
-              tmp = store.sync(res.data)
-                // console.log(tmp)
-                commit(types.EMPLOYEE_UPDATE, tmp)
-                resolve(res)
-              }, err => {
-                // console.log('employee update err', err)
-                reject(err)
-              })
-          })
+      employeeAPI.update(record.id, _params, res => {
+        tmp = store.sync(res.data)
+          // console.log(tmp)
+          commit(types.EMPLOYEE_UPDATE, tmp)
+          resolve(res)
+        }, err => {
+          // console.log('employee update err', err)
+          reject(err)
+        })
+    })
   },
 
   destory ({dispatch, commit, state}, record) {

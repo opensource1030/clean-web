@@ -1,15 +1,16 @@
-import paginate from "./../../components/paginate";
-import Modal from "./../../components/modal";
-import searchCost from "./../../components/searchCost.vue";
-import {mapGetters} from "vuex";
-import swal from "sweetalert2";
+import swal from 'sweetalert2'
+import paginate from './../../components/paginate'
+import Modal from './../../components/modal'
+import { mapGetters } from 'vuex'
+import { PresetHelper } from './../../helpers'
+import presetAPI from './../../api/preset-api.js'
+
 export default {
   name: 'Presets',
 
   components: {
     paginate,
     Modal,
-    searchCost
   },
 
   data() {
@@ -39,6 +40,22 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters({
+      presets: 'preset/sorted',
+      // pagination: 'presets/getPagination',
+      // variations: 'presets/getVariation',
+
+      devices: 'device/allDevices',
+      styles: 'modification/styleModifications',
+      capacities: 'modification/capacityModifications',
+    }),
+
+    PresetHelper () {
+      return PresetHelper
+    },
+  },
+
   created () {
     this.$set(this, 'isReady', false)
     Promise.all([
@@ -46,30 +63,18 @@ export default {
       this.$store.dispatch('carrier/search'),
       this.$store.dispatch('device/search', { search: 0 }),
     ]).then((data) => {
-      this.$store.dispatch('presets/search')
+      this.$store.dispatch('preset/search')
       this.$set(this, 'isReady', true)
-    })
-  },
-
-  computed: {
-    ...mapGetters({
-      presets: 'presets/getPreset',
-      pagination: 'presets/getPagination',
-      variations: 'presets/getVariation',
-
-      devices: 'device/allDevices',
-      styles: 'modification/styleModifications',
-      capacities: 'modification/capacityModifications',
     })
   },
 
   methods: {
     prevPage () {
-      this.$store.dispatch('presets/prevPage')
+      this.$store.dispatch('preset/prevPage')
     },
 
     nextPage () {
-      this.$store.dispatch('presets/nextPage')
+      this.$store.dispatch('preset/nextPage')
     },
 
     setActive (preset) {
@@ -81,8 +86,7 @@ export default {
     },
 
     removePreset(preset_id) {
-      var app = this;
-
+      const vm = this
       swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -91,26 +95,19 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
-      }).then(function () {
-        app.$store.dispatch('presets/deletePreset', preset_id).then(
-          res => {
-            swal({
-              title: 'Deleted!',
-              text: 'Requested Preset has been removed',
-              type: 'success',
-              timer: 2000,
-              showConfirmButton: false
-            }).then(
-              function () {
-              },
-              // handling the promise rejection
-              function (dismiss) {
-                app.$store.dispatch('presets/getAll', app.searchQuery)
-              }
-            )
-          }
-        )
-      }, function (dismiss) {
+      }).then(() => {
+        presetAPI.remove(preset_id, res => {
+          vm.$store.dispatch('preset/search')
+          swal({
+            title: 'Deleted!',
+            text: 'Requested Preset has been removed',
+            type: 'success',
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {}, (dismiss) => { // vm.$store.dispatch('preset/search')
+          })
+        })
+      }, (dismiss) => {
         // dismiss can be 'cancel', 'overlay',
         // 'close', and 'timer'
         if (dismiss === 'cancel') {
@@ -120,7 +117,7 @@ export default {
             'error'
           )
         }
-      });
+      })
     }
   },
 }

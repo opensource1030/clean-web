@@ -29,7 +29,7 @@ export class AddressesPresenter extends Presenter {
     const attrs = super.attributes(instance)
     delete attrs['pid']
     return attrs
-  }  
+  }
 }
 AddressesPresenter.prototype.type = 'address'
 
@@ -118,3 +118,12 @@ export class DevicesPresenter extends Presenter {
   }
 }
 DevicesPresenter.prototype.type = 'devices'
+
+export class PresetsPresenter extends Presenter {
+  relationships () {
+    return {
+      companies: CompaniesPresenter
+    }
+  }
+}
+PresetsPresenter.prototype.type = 'presets'

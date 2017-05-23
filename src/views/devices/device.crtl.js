@@ -8,10 +8,12 @@ import imageAPI from './../../api/image-api.js'
 import {findByPrices, filterByModifications} from './../../components/filters.js'
 import modal from './../../components/modal.vue'
 import inputValidate from './../../components/inputValidate.vue'
-const { Store } = require('yayson')()
-const store = new Store()
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
 import { DevicesPresenter, ModificationsPresenter, DeviceVariationsPresenter } from './../../presenters'
+import { DeviceVariationHelper } from './../../helpers'
+
+const { Store } = require('yayson')()
+const store = new Store()
 
 export default {
   name: 'Device',
@@ -72,6 +74,10 @@ export default {
 
     _ () {
       return _
+    },
+
+    DeviceVariationHelper () {
+      return DeviceVariationHelper
     },
 
     currency () {

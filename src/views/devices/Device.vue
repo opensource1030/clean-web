@@ -264,7 +264,7 @@
 
                     <div class="large-3 small-12 columns">
                       <div class="features">
-                        <select class="dv-capacity" v-model="dv.modifications[0]">
+                        <select class="dv-capacity" v-model="dv.modifications[DeviceVariationHelper.getCapacityIndex(dv)]">
                           <option :value="0">Select Capacity</option>
                           <option v-for="c in availableOptions(capacities)" :value="c">{{ c.value }}</option>
                         </select>
@@ -272,7 +272,7 @@
                     </div>
                     <div class="large-3 small-12 columns">
                       <div class="features">
-                        <select class="dv-style" v-model="dv.modifications[1]">
+                        <select class="dv-style" v-model="dv.modifications[DeviceVariationHelper.getStyleIndex(dv)]">
                           <option :value="0">Select Color</option>
                           <option v-for="s in availableOptions(styles)" :value="s">{{ s.value }}</option>
                         </select>
