@@ -126,7 +126,7 @@ export default {
             styles: []
           }
         },
-        device
+        _.cloneDeep(device)
       )) })
 
       // to check device_variations belongs the preset, but only having the preset compnay
@@ -138,9 +138,9 @@ export default {
           let device = _.find(this.devices, (d) => (parseInt(d.id) == parseInt(dv.devices[0].id)))
           let variation = _.find(device.devicevariations, (v) => (parseInt(v.id) == parseInt(dv.id)))
           if (variation !== dv) {
-            console.log('diff', dv.id, device)
-            // _.remove(device.devicevariations, (v) => (parseInt(v.id) == parseInt(dv.id)))
-            // device.devicevariations.push(dv)
+            // console.log('diff', dv.id, device)
+            _.remove(device.devicevariations, (v) => (parseInt(v.id) == parseInt(dv.id)))
+            device.devicevariations.push(dv)
           }
         } else {
           dv.checked = false
@@ -334,14 +334,14 @@ export default {
 
       delete _preset.devicevariations
       let _jsonData = PresetsPresenter.toJSON(_preset)
-      _jsonData['data']['relationships']['devicevariations'] = _jsonDeviceVariation
+      _jsonData['data']['relationships']['devicevariations'] = { "data": _jsonDeviceVariation }
       delete _jsonData['data']['relationships']['companies']
       delete _jsonData['included']
       let _params = JSON.stringify(_jsonData)
-      console.log('params', _params)
+      // console.log('params', _params)
 
       if (parseInt(this.preset.id) > 0) {
-        presetAPI.update(this.preset.id, _params, (res) => { this.$router.push({ path: '/devices' }) }, (err) => { console.log('err', err) })
+        presetAPI.update(this.preset.id, _params, (res) => { this.$router.push({ path: '/presets' }) }, (err) => { console.log('err', err) })
       } else {
         presetAPI.create(_params, (res) => { this.$router.push({ path: '/presets' }) }, (err) => { console.log('err', err) })
       }

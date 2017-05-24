@@ -123,7 +123,7 @@
                     <div class="overview-item full last">
                       <p>
                         <select id="choose-issues" class="user-actions" v-model="userInfo.data.allocations[activeAllocationIndex].issue">
-                          <option selected disabled value="">-- Choose an issue --</option>
+                          <option disabled value="">-- Choose an issue --</option>
                           <optgroup label="Billing">
                             <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
                               Questions About My Monthly Statement
