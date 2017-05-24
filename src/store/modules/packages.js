@@ -165,7 +165,7 @@ const actions = {
         }
       };
 
-      presetAPI.getAll(params, res => {
+      presetAPI.search(params, res => {
         let results = store.sync(res);
         commit(types.PACKAGE_GET_PRESET_ALL, {records: results});
         resolve(results);
