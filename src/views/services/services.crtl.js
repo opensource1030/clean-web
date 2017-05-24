@@ -118,7 +118,7 @@ export default {
       names: {
         actions:'Actions',
         servicePlans: 'Service Plans',
-        addPlan: 'Add Plan',
+        addPlan: 'New Service',
         status: 'Status',
         plans: 'Plans',
         details: 'Details',

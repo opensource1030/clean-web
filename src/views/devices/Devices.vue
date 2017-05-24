@@ -7,7 +7,7 @@
     <!-- <div>{{ $data.filters.devices }}</div> -->
 
     <div class="small-12 columns">
-      <a class="button large btn-orange add-button" href="/devices/new">Add Device</a>
+      <a class="button large btn-orange add-button" href="/devices/new">New Device</a>
     </div>
 
     <div class="columns small-12" v-show='isReady'>

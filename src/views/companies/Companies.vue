@@ -5,7 +5,7 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large btn-orange add-button" href="/companies/new">Add Company</a>
+    <a class="button large btn-orange add-button" href="/companies/new">New Company</a>
   </div>
 
   <div class="columns small-12">

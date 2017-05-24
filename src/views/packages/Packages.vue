@@ -5,7 +5,7 @@
     </modal>
 
     <div class="small-12 columns">
-      <a class="button large btn-orange" href="/packages/new">Add Package</a>
+      <a class="button large btn-orange" href="/packages/new">New Package</a>
     </div>
 
     <div class="columns small-12">

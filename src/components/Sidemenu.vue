@@ -88,7 +88,6 @@
           <ul class="treeview-menu">
             <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
             <li><a name="createPackage" href="/packages/new"><i class="fa fa-circle-o"></i>Create a Package</a></li>
-            <li><a name="address" href="javascript:;"><i class="fa fa-circle-o"></i>Shipping Addresses</a></li>
           </ul>
         </li>
 

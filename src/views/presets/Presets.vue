@@ -5,17 +5,17 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/preset">Create Preset</a>
+    <a class="button large add-button" href="/preset">Create New Equipment Group</a>
   </div>
 
   <div class="small-12 columns">
     <div class="tag-header">
-      <h1>Presets</h1>
+      <h1>Equipment Groups</h1>
     </div>
 
     <div class="grid-box">
       <div class="box-heading">
-        <input type="text" placeholder="Search with preset name" v-model="query" @keyup.enter="searchPresets()">
+        <input type="text" placeholder="Search with group name" v-model="query" @keyup.enter="searchPresets()">
         <i class="fa fa-search"></i>
       </div>
 
