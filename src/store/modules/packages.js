@@ -166,7 +166,7 @@ const actions = {
       };
 
       presetAPI.search(params, res => {
-        let results = store.sync(res);
+        let results = store.sync(res.body);
         commit(types.PACKAGE_GET_PRESET_ALL, {records: results});
         resolve(results);
       }, err => {
@@ -184,9 +184,9 @@ const actions = {
         }
       };
 
-      presetAPI.getOne(params, presetId, res => {
-        let results = res.devicevariations;
-        resolve(results);
+      presetAPI.getOne(presetId, params, res => {
+        let results = store.sync(res.body);
+        resolve(results.devicevariations);
       }, err => {
         reject(err)
       });
