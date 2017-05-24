@@ -212,7 +212,7 @@
                 </div>
                 <div>
                   <div class="large-10 small-12 columns">
-                    <table v-if="activeService.serviceitems.length">
+                    <table>
                       <thead>
                       <tr>
                         <th>Domain</th>
@@ -220,42 +220,20 @@
                         <th>Value</th>
                       </tr>
                       </thead>
-                      <tbody>
-                      <tr>
-                        <td>Domestic</td>
-                        <td>Voice</td>
-                        <td>{{activeService.serviceitems[0].value}} {{activeService.serviceitems[0].unit}}</td>
-                      </tr>
-                      <tr>
-                        <td>Domestic</td>
-                        <td>Data</td>
-                        <td>{{activeService.serviceitems[1].value}} {{activeService.serviceitems[1].unit}}</td>
-                      </tr>
-                      <tr>
-                        <td>Domestic</td>
-                        <td>Message</td>
-                        <td>{{activeService.serviceitems[2].value}} {{activeService.serviceitems[2].unit}}</td>
-                      </tr>
-                      <tr>
-                        <td>International</td>
-                        <td>Voice</td>
-                        <td>{{activeService.serviceitems[3].value}} {{activeService.serviceitems[3].unit}}</td>
-                      </tr>
-                      <tr>
-                        <td>International</td>
-                        <td>Data</td>
-                        <td>{{activeService.serviceitems[4].value}} {{activeService.serviceitems[4].unit}}</td>
-                      </tr>
-                      <tr>
-                        <td>International</td>
-                        <td>Message</td>
-                        <td>{{activeService.serviceitems[5].value}} {{activeService.serviceitems[5].unit}}</td>
+                      <tbody v-if="activeService.serviceitems.length">
+                      <tr v-for="serviceItem in activeService.serviceitems">
+                        <td>
+                          <span v-if="serviceItem.domain == 'domestic'">Domestic</span>
+                          <span v-else>International</span>
+                        </td>
+                        <td class="capitalize">{{serviceItem.category}}</td>
+                        <td>{{serviceItem.value}} {{serviceItem.unit}}</td>
                       </tr>
                       </tbody>
                     </table>
                   </div>
                   <div class="large-2 small-12 columns">
-                    <a class="button delete m-r-10" @click="removeService()" v-if="activeService.status == 1">
+                    <a class="button delete m-r-10" @click="removeService()" v-if="activeService.added == 1">
                       <i class="fa fa-times" aria-hidden="true"></i>
                     </a>
                     <a class="button" @click="addService()" v-else>
@@ -334,7 +312,7 @@
                   </table>
                 </div>
                 <div class="large-2 small-12 columns">
-                  <a class="button delete m-r-10" @click="removeAddress()" v-if="activeAddress.status == 1">
+                  <a class="button delete m-r-10" @click="removeAddress()" v-if="activeAddress.added == 1">
                     <i class="fa fa-times" aria-hidden="true"></i>
                   </a>
                   <a class="button" @click="addAddress()" v-else>

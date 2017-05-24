@@ -137,13 +137,13 @@ export default {
 
                     // Set Presets
                     for(let service of this.packageData.services) {
-                      service.status = 1;
+                      service.added = 1;
                       this.services.selected.push(service);
                     }
                       
                     // Set Addresses
                     for(let address of this.packageData.addresses) {
-                      address.status = 1;
+                      address.added = 1;
                       this.addresses.selected.push(address);
 
                       for(let i = this.addresses.availableAddresses.length - 1; i >= 0; i--) {
@@ -245,7 +245,7 @@ export default {
 
     // CARRIERS METHODS
     addService() {
-      this.activeService.status = 1;
+      this.activeService.added = 1;
       this.services.selected.push(this.activeService);
       for(let i=this.services.availableServices.length - 1; i>=0; i--) {
         if(this.services.availableServices[i].id == this.activeService.id)
@@ -255,7 +255,7 @@ export default {
     },
 
     removeService() {
-      this.activeService.status = 0;
+      this.activeService.added = 0;
       this.services.availableServices.push(this.activeService);
       for(let i=this.services.selected.length - 1; i>=0; i--) {
         if(this.services.selected[i].id == this.activeService.id)
@@ -266,7 +266,7 @@ export default {
 
     // ADDRESS METHODS
     addAddress() {
-      this.activeAddress.status = 1;
+      this.activeAddress.added = 1;
       this.addresses.selected.push(this.activeAddress);
       for(let i=this.addresses.availableAddresses.length - 1; i>=0; i--) {
         if(this.addresses.availableAddresses[i].id == this.activeAddress.id)
@@ -276,7 +276,7 @@ export default {
     },
 
     removeAddress() {
-      this.activeAddress.status = 0;
+      this.activeAddress.added = 0;
       this.addresses.availableAddresses.push(this.activeAddress);
       for(let i=this.addresses.selected.length - 1; i>=0; i--) {
         if(this.addresses.selected[i].id == this.activeAddress.id)
