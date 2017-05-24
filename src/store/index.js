@@ -12,7 +12,6 @@ import carrier from './modules/carrier'
 import company from './modules/company'
 import employee from './modules/employee'
 import order from './modules/order'
-import pack from './modules/package'
 import preset from './modules/preset'
 import file from './modules/file'
 import services from './modules/services/services'
@@ -39,7 +38,6 @@ export default new Vuex.Store({
     carrier,
     company,
     employee,
-    pack,
     preset,
     order,
     file,
