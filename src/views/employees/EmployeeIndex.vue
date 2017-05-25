@@ -16,10 +16,10 @@
 
     <div class="grid-box">
       <div class="box-heading">
-        <input type="text" placeholder="Search with employee name" v-model="query" @keyup.enter="searchEmployees()">
+        <input type="text" placeholder="Search with employee email" v-model="query" @keyup.enter="searchEmployees()">
         <i class="fa fa-search"></i>
       </div>
-      <div class="box-content" v-if="employees.length > 0">
+      <div class="box-content" v-if="isReady">
         <table class="unstriped">
           <thead>
             <tr>
@@ -115,7 +115,7 @@
       v-show="$store.state.employee.records.length > 0">
     </paginate>
 
-    <div class="is-relative" v-show="employees.length == 0">
+    <div class="is-relative" v-show="!isReady">
       <div class="is-loading"></div>
     </div>
   </div>
