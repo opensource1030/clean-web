@@ -111,7 +111,8 @@
   .multiselect {
 
     .multiselect__tags {
-      padding: 8px 40px 8px 8px;
+      min-height: 38px;
+      padding: 3px 40px 3px 5px;
     }
 
     .multiselect__input,
@@ -129,7 +130,7 @@
 
     .multiselect__select {
       top: initial;
-      bottom: 6px;
+      bottom: 2px;
     }
   }
 }

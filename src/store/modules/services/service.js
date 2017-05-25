@@ -1,9 +1,11 @@
 import service from './../../../api/service-api'
 import Services from './../../../models/Service';
 import * as types from './../../mutation-types'
+import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
+
 const {Store} = require('yayson')()
 const store = new Store()
-import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
+
 const state = {
   serviceDetails: {
     id: 0,
@@ -73,33 +75,28 @@ const state = {
     }
   ],
   items: []
-
-
 }
 
 const getters = {
   getServiceDetails: (state) => {
     return state.serviceDetails
   },
+
   getDomesticPlan: (state) => {
     return state.domesticPlan
   },
+
   getInternationalPlan: (state) => {
     return state.internationalPlan
   },
+
   getAddons: (state) => {
     return state.addons
-  }
-
+  },
 }
 
 const actions = {
-
-  getOne({
-    dispatch,
-    commit,
-    state
-  }, id) {
+  getOne ({ dispatch, commit, state }, id) {
 
     return new Promise((resolve, reject) => {
       let params = {
@@ -107,8 +104,8 @@ const actions = {
           include: 'serviceitems,carriers'
         }
       }
-      service.getOne(params, id, res => {
 
+      service.getOne(params, id, res => {
         commit(types.SERVICES_GET_SERVICE, {records: res})
         resolve(service)
       }, err => {
@@ -116,13 +113,9 @@ const actions = {
         reject(err)
       })
     })
-
   },
-  update({
-    dispatch,
-    commit,
-    state
-  }, {serviceDetails, domesticPlan, internationalPlan, addons, router}) {
+
+  update ({ dispatch, commit, state }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
     let status = '';
     if (serviceDetails.status == true) {
       status = 'Enabled'
@@ -150,24 +143,18 @@ const actions = {
             reject(err)
           })
         })
-
       }
     })
-
   },
 
-  add({
-    dispatch,
-    commit,
-    state
-  }, {serviceDetails, domesticPlan, internationalPlan, addons, router}) {
-
+  add ({ dispatch, commit, state }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
     let status = '';
     if (serviceDetails.status == true) {
       status = 'Enabled'
     } else {
       status = "Disabled"
     }
+
     var serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
 
     dispatch('checkPlan', {
@@ -188,74 +175,53 @@ const actions = {
             reject(err)
           })
         })
-
       } else {
         dispatch('error/addNew', {
           message: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.'
         }, {root: true})
-
       }
     })
-
   },
-  checkPlan({
-    dispatch,
-    commit,
-    state
-  }, {serviceo, addons}) {
 
+  checkPlan ({ dispatch, commit, state }, { serviceo, addons }) {
     if (serviceo.title == "") {
-      dispatch('error/addNew', {
-        message: 'titleError'
-      }, {root: true})
-      return false;
-
+      dispatch('error/addNew', { message: 'titleError' })
+      return false
     }
+
     if (serviceo.planCode == "") {
-      dispatch('error/addNew', {
-        message: 'planCodeError'
-      }, {root: true})
-      return false;
+      dispatch('error/addNew', { message: 'planCodeError' })
+      return false
     }
-    if (serviceo.cost == "") {
-      dispatch('error/addNew', {
-        message: 'costError'
-      }, {root: true})
-      return false;
-    }
-    if (serviceo.description == "") {
-      dispatch('error/addNew', {
-        message: 'description'
-      }, {root: true})
-      return false;
 
+    if (serviceo.cost == "") {
+      dispatch('error/addNew', { message: 'costError' })
+      return false
+    }
+
+    if (serviceo.description == "") {
+      dispatch('error/addNew', { message: 'description' })
+      return false
     }
 
     for (let addon of addons) {
       if (addon.description == "") {
         if (addon.cost != "") {
-
-          return false;
+          return false
         }
       } else {
         if (addon.cost == "") {
-
-          return false;
+          return false
         }
       }
-
-      //
     }
 
     return true
-
   }
 }
 
 const mutations = {
-
-  [types.SERVICES_GET_SERVICE](state, {records}) {
-
+  [types.SERVICES_GET_SERVICE] (state, { records }) {
     if (records.status === "Enabled") {
       state.serviceDetails.status = true;
     } else {
@@ -285,26 +251,27 @@ const mutations = {
     addOns = findByAddons(records.serviceitems, "addon", "");
     state.addons.splice(0, 1);
     for (let addOn of addOns) {
-
       state.addons.push(addOn);
     }
 
     if (state.addons.length == 0) {
       state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
     }
+
     reorderButtons(state)
   },
 
-  hideAndPush(state, index) {
+  hideAndPush (state, index) {
     if (state.serviceDetails.id > 0) {
       state.addons.push({id: "0", description: '', cost: '', add: true, delete: false});
     } else {
       state.addons.push({description: '', cost: '', add: true, delete: false});
     }
-    reorderButtons(state)
 
+    reorderButtons(state)
   },
-  deleteAddOns(state, index) {
+
+  deleteAddOns (state, index) {
     state.addons.splice(index, 1);
     if (state.addons.length == 0) {
       state.addons.push({id: state.serviceDetails.id, description: '', cost: '', add: false, delete: false});
@@ -317,36 +284,35 @@ const mutations = {
 
     reorderButtons(state)
   },
-  updateServiceDetail(state, {e, type}) {
 
+  updateServiceDetail (state, { e, type }) {
     if (type != "currency" && type != "carrierId") {
       state.serviceDetails[type] = e.target.value
     } else {
       if(type=="carrierId"){
-      state.serviceDetails[type] = e
+        state.serviceDetails[type] = e
+      }
     }
-    }
-
   },
-  updateDomesticplan(state, {e, type}) {
+
+  updateDomesticplan (state, { e, type }) {
     if (type == "unit") {
       state.domesticPlan.data[type] = e;
     } else {
       state.domesticPlan[type].value = e.target.value;
     }
   },
-  updateInternationalplan(state, {e, type}) {
 
+  updateInternationalplan (state, { e, type }) {
     if (type == "unit") {
       state.internationalPlan.data[type] = e;
     } else {
       state.internationalPlan[type].value = e.target.value;
     }
   },
+
   updateAddon(state, {i, e, type}) {
-
     if (type == 'name') {
-
       state.addons[i].description = e.target.value;
       let value = e.target.value;
       if (value == null || value == '') {
@@ -363,6 +329,7 @@ const mutations = {
       }
       state.addons[i].addonPriceError = false;
     }
+
     for (let add of state.addons) {
       add.add = false;
       add.delete = true;
@@ -373,22 +340,17 @@ const mutations = {
     } else if (state.addons[state.addons.length - 1].description == '' && state.addons[state.addons.length - 1].cost == '') {
       state.addons[state.addons.length - 1].delete = false;
     }
-
   },
 
-  [types.SERVICE_PREPARE_JSON_ITEM](state, {serviceo}) {
-
-      serviceo.itemJson(state.items, serviceo);
-
+  [types.SERVICE_PREPARE_JSON_ITEM] (state, { serviceo }) {
+    serviceo.itemJson(state.items, serviceo);
   },
-  [types.SERVICE_UPDATE](state, {router}) {
 
+  [types.SERVICE_UPDATE] (state, { router }) {
     router.push({name: 'List Services'});
-
   },
 
-  [types.SERVICE_ADD_NEW](state, {router}) {
-
+  [types.SERVICE_ADD_NEW](state, { router }) {
     router.push({name: 'List Services'});
   },
 
@@ -410,11 +372,10 @@ const mutations = {
         state.items.push(addon);
       }
       addon.unit = state.serviceDetails.currency;
-
     }
-
   }
 }
+
 function reorderButtons(state) {
   for (let add of state.addons) {
     add.add = false;
@@ -426,7 +387,6 @@ function reorderButtons(state) {
   } else if (state.addons[state.addons.length - 1].description == '' && state.addons[state.addons.length - 1].cost == '') {
     state.addons[state.addons.length - 1].delete = false;
   }
-
 }
 
 export default {
