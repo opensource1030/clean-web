@@ -47,6 +47,7 @@ export default {
         )
         break;
       case 'Upgrade':
+      case 'Transfer':
         if(this.selectedKeepService == "Yes") {
           this.allPackages_loading ? null : this.getAllDevices();
         } else {

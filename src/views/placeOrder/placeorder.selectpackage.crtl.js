@@ -60,7 +60,6 @@ export default {
         break;
       case 'Upgrade':
         this.keepService = this.selectedKeepService;
-        this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
 
         if(this.$route.params.deviceInfo) {
           this.serviceInfo = {
@@ -74,8 +73,11 @@ export default {
         } else if(this.$route.params.deviceInfo == undefined)
           location.href = '/dashboard';
         break;
+      case 'Transfer':
+        this.keepService = this.selectedKeepService;
+        this.serviceInfo = $.extend(true, {}, this.typedServiceInfo);
+      break;
     }
-    
   },
   methods: {
     setActive(type, value) {
@@ -118,11 +120,6 @@ export default {
       this.$store.dispatch('placeOrder/setServiceSelected', this.services.activeService);
       this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo);
       this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
-    }
-  },
-  watch: {
-    'keepService': function(newVal, oldVal) {
-      this.currentOrderType == 'upgradeDevice' ? this.$store.dispatch('placeOrder/setKeepService', this.keepService) : null;
     }
   }
 }
