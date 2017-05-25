@@ -1,13 +1,13 @@
 <template>
   <div id="placeorder">
-    <modal class="submit-order" v-if="submitOrder">
+    <modal class="submit-order" v-if="orderFinished">
       <div slot="header" class="complete-mark">
         <i class="fa fa-check-circle-o"></i>
       </div>
       <p slot="body">Thank you for your order</p>
     </modal>
 
-    <modal class="submit-order-pay" v-if="submitOrder_pay">
+    <modal class="submit-order-pay" v-if="payOrder">
       <div slot="header" class="credit-mark">
         <i class="fa fa-credit-card-alt"></i>
       </div>
@@ -180,7 +180,7 @@
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderDevicePage()">Back</a>
-        <a class="button large btn-orange pull-right" @click="submitDevice()" v-if="!address.changeAddress">Submit</a>
+        <a class="button large btn-orange pull-right" @click="submitOrder()" v-if="!address.changeAddress">Submit</a>
       </div>
     </div>
   </div>

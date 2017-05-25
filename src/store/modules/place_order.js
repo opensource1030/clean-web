@@ -206,6 +206,17 @@ const actions = {
     })
   },
 
+  createOrder ({dispatch, commit, state}, orderData) {
+    return new Promise((resolve, reject) => {
+      orderAPI.create(orderData, res => {
+        console.log(res);
+        resolve(res)
+      }, err => {
+        reject(err)
+      })
+    })
+  },
+
   setServiceSelected({ commit }, service) {
     commit(types.PLACE_ORDER_SET_SERVICE, service)
   },
