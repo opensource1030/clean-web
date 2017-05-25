@@ -17,6 +17,7 @@ const getters = {
     else
       return ''
   },
+
   errorPrimary: (state, getters) => {
     if (getters.hasError)
       return state.errors[1]

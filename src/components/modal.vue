@@ -6,7 +6,7 @@
         <div class="modal-header">
           <slot name="header">
             <button class="modal-default-button" @click="$emit('close')">
-                <i class="fa fa-times fa-2x"></i>
+              <i class="fa fa-times fa-2x"></i>
             </button>
           </slot>
         </div>
