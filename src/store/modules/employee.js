@@ -19,6 +19,7 @@ const state = {
   },
   filters: {
     firstName: new FilterItem(),
+    email: new FilterItem(),
   },
 }
 
@@ -41,16 +42,21 @@ const actions = {
       }
 
       let key, value;
-      if (state.filters.firstName.operator && state.filters.firstName.value) {
-        key = 'filter[firstName][' + state.filters.firstName.operator + ']'
-        switch (state.filters.firstName.operator) {
-          case 'like':
-          value = state.filters.firstName.value
-          break
-          default:
-          value = state.filters.firstName.value
-        }
-        // console.log('modification query', key, value)
+      // if (state.filters.firstName.operator && state.filters.firstName.value) {
+      //   key = 'filter[firstName][' + state.filters.firstName.operator + ']'
+      //   switch (state.filters.firstName.operator) {
+      //     case 'like':
+      //     value = state.filters.firstName.value
+      //     break
+      //     default:
+      //     value = state.filters.firstName.value
+      //   }
+      //   _params.params[key] = value
+      // }
+
+      if (state.filters.email.value) {
+        key = 'filter[email][like]'
+        value = state.filters.email.value
         _params.params[key] = value
       }
 
@@ -67,8 +73,13 @@ const actions = {
     })
   },
 
-  searchByFirstName({dispatch, commit, state}, {query}) {
-    commit(types.EMPLOYEE_UPDATE_FILTERS, {firstName: {operator: 'like', value: query}})
+  searchByFirstName({ dispatch, commit, state }, { query }) {
+    commit(types.EMPLOYEE_UPDATE_FILTERS, { firstName: { operator: 'like', value: query } })
+    return dispatch('search')
+  },
+
+  searchByEmail({ dispatch, commit, state }, { query }) {
+    commit(types.EMPLOYEE_UPDATE_FILTERS, { email: { operator: 'like', value: query } })
     return dispatch('search')
   },
 

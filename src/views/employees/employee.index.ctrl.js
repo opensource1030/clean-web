@@ -15,6 +15,7 @@ export default {
     return {
       activeEmployee: null,
       query: '',
+      isReady: false,
     }
   },
 
@@ -24,8 +25,11 @@ export default {
     })
   },
 
-  beforeCreate () {
-    this.$store.dispatch('employee/search')
+  created () {
+    this.isReady = false
+    this.$store.dispatch('employee/search').then((res) => {
+      this.isReady = true
+    })
   },
 
   methods: {
@@ -50,8 +54,9 @@ export default {
       return _.map(udl.sections, (section) => (section.name)).join(', ')
     },
 
-    searchEmployees() {
-      this.$store.dispatch('employee/searchByFirstName', {query: this.query})
+    searchEmployees () {
+      // this.$store.dispatch('employee/searchByFirstName', { query: this.query })
+      this.$store.dispatch('employee/searchByEmail', { query: this.query })
     },
 
     removeEmployee (employee_id) {
