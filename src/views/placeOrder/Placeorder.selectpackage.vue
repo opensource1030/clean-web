@@ -1,14 +1,14 @@
 <template>
   <div id="placeorder">
     <placeOrderWizard :activeStep="1"></placeOrderWizard>
-    <div class="row expanded m-b-20" v-if="orderType == 'Upgrade'">
+    <div class="row expanded m-b-20" v-if="orderType != 'New'">
       <div class="columns small-12 text-center m-b-20">
         <h4 class="category-title m-b-10">Keep same Wireless Service Provider?</h4>
         <input type="radio" name="keepService" value="Yes" v-model="keepService"><label class="ft-18">Yes</label>
         <input type="radio" name="keepService" value="No" v-model="keepService"><label class="ft-18">No</label>
       </div>
     </div>
-    <div class="row expanded" v-if="orderType == 'Upgrade' && keepService == 'Yes'">
+    <div class="row expanded" v-if="keepService == 'Yes'">
       <div class="small-1 columns height-10"></div>
       <div class="small-10 columns">
         <label>

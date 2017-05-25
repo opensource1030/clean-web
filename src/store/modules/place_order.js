@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import packageAPI from './../../api/package-api'
-import deviceAPI from './../../api/device-api.js'
-import placeOrderAPI from './../../api/placeOrder-api'
+import deviceAPI from './../../api/device-api'
+import orderAPI from './../../api/order-api'
 
 import * as types from './../mutation-types';
 import {http} from 'vue';
@@ -84,7 +84,7 @@ const actions = {
 
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
-      placeOrderAPI.getPackages(userId, res => {
+      orderAPI.getMatchedPackages(userId, res => {
         let results = store.sync(res.data);
         commit(types.PLACE_ORDER_SET_PACKAGELIST, results);
         resolve(results);

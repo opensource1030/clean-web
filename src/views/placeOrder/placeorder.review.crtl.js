@@ -19,16 +19,18 @@ export default {
     return {
       orderType: '',
       user: {},
-      shippingAddress: {},
-      changeAddress: false,
+      address: {
+        availableAddresses: [],
+        shippingAddress: {},
+        changeAddress: false,
+        loading: true
+      },
       submitOrder: false,
       submitOrder_pay: false
     }
   },
   beforeCreate() {
     this.user = JSON.parse(localStorage.getItem('userProfile'));
-    this.addresses = [];
-    this.addresses.push(this.user.address[0]);
   },
   computed: {
     ...mapGetters({
@@ -45,26 +47,27 @@ export default {
   created() {
     this.orderType = this.$route.meta.label;
 
-    this.shippingAddress = this.addresses[0];
-
-    switch(this.orderType) {
-      case 'New':
-        this.$store.dispatch('placeOrder/getPackageAddresses').then(
-          res => {
-            for(let address of res.addresses)
-              this.addresses.push(address);
-          }
-        )
-        break;
-      case 'Upgrade':
-        this.$store.dispatch('placeOrder/getPackagesAddresses').then(
-          res => {
-            let temp_addresses = _.uniqBy(res, 'id');
-            for(let address of temp_addresses)
-              this.addresses.push(address);
-          }
-        )
-        break;
+    if(this.selectedKeepService == 'No') {
+      this.$store.dispatch('placeOrder/getPackageAddresses').then(
+        res => {
+          for(let address of res.addresses)
+            this.address.availableAddresses.push(address);
+          
+          this.address.shippingAddress = this.address.availableAddresses[0];
+          this.address.loading = false;
+        }
+      )
+    } else {
+      this.$store.dispatch('placeOrder/getPackagesAddresses').then(
+        res => {
+          let temp_addresses = _.uniqBy(res, 'id');
+          for(let address of temp_addresses)
+            this.address.availableAddresses.push(address);
+          
+          this.address.shippingAddress = this.address.availableAddresses[0];
+          this.address.loading = false;
+        }
+      )
     }
   },
   methods : {
@@ -72,7 +75,7 @@ export default {
       this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
     },
     changeShippingAddress() {
-      this.changeAddress = !this.changeAddress;
+      this.address.changeAddress = !this.address.changeAddress;
     },
     customLabel ({address, city, country}) {
       return `${address} - ${city} - ${country}`

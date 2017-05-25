@@ -87,7 +87,7 @@
       </div>
       <div class="columns small-12 large-6 black review-usage">
         <p class="section-title">Service Info</p>
-        <div v-if="orderType == 'Upgrade' && selectedKeepService == 'Yes'">
+        <div v-if="selectedKeepService == 'Yes'">
           <p>
             <span class="bold">Previous IMEI</span> : {{typedServiceInfo.IMEI}}
           </p>
@@ -99,23 +99,10 @@
           </p>
         </div>
         <div v-else>
-          <p>
-            <span class="bold">Voice Call</span> : {{selectedService.serviceitems[0].value}} {{selectedService.serviceitems[0].unit}}
-          </p>
-          <p>
-            <span class="bold">Data</span> : {{selectedService.serviceitems[1].value}} {{selectedService.serviceitems[1].unit}}
-          </p>
-          <p>
-            <span class="bold">Text Messaging</span> : {{selectedService.serviceitems[2].value}} {{selectedService.serviceitems[2].unit}}
-          </p>
-          <p>
-            <span class="bold">International Call</span> : {{selectedService.serviceitems[3].value}} {{selectedService.serviceitems[3].unit}}
-          </p>
-          <p>
-            <span class="bold">International Data</span> : {{selectedService.serviceitems[4].value}} {{selectedService.serviceitems[4].unit}}
-          </p>
-          <p>
-            <span class="bold">International Text Messaging</span> : {{selectedService.serviceitems[5].value}} {{selectedService.serviceitems[5].unit}}
+          <p v-for="serviceItem in selectedService.serviceitems">
+            <span class="bold capitalize" v-if="serviceItem.domain == 'domestic'">Domestic {{serviceItem.category}}</span>
+            <span class="bold capitalize" v-else>International {{serviceItem.category}}</span>
+            <span> : {{serviceItem.value}} {{serviceItem.unit}}</span>
           </p>
         </div>
       </div>
@@ -151,36 +138,41 @@
         </div>
       </div>
       <div class="columns small-12 large-6">
-        <p class="section-title">Shipping Info 
-          <a class="black pull-right" @click="changeShippingAddress">
-            <i class="fa fa-pencil-square-o" :class="{ 'fa-pencil-square-o': !changeAddress, 'fa-check-square-o': changeAddress }"></i>
-          </a>
-        </p>
-        <div class="row expanded" v-if="changeAddress">
-          <div class="columns small-12">
-            <multiselect v-model="shippingAddress" placeholder="Select a Address" :searchable="false" :custom-label="customLabel"
-                         :options="addresses" :show-labels="false"></multiselect>
-          </div>
+        <div class="is-relative" v-if="address.loading">
+          <div class="is-loading"></div>
         </div>
-        <div class="row expanded review-shipping" v-else>
-          <div class="columns small-12 medium-6 large-6">
-            <p>
-              <span class="bold">Address</span> : {{this.shippingAddress.address}}
-            </p>
-            <p>
-              <span class="bold">City</span> : {{this.shippingAddress.city}}
-            </p>
-            <p>
-              <span class="bold">Postal</span> : {{this.shippingAddress.postalCode}}
-            </p>
+        <div class="row expanded" v-else>
+          <p class="section-title">Shipping Info 
+            <a class="black pull-right" @click="changeShippingAddress">
+              <i class="fa fa-pencil-square-o" :class="{ 'fa-pencil-square-o': !address.changeAddress, 'fa-check-square-o': address.changeAddress }"></i>
+            </a>
+          </p>
+          <div class="row expanded" v-if="address.changeAddress">
+            <div class="columns small-12">
+              <multiselect v-model="address.shippingAddress" placeholder="Select a Address" :searchable="false" :custom-label="customLabel"
+                          :options="address.availableAddresses" :show-labels="false"></multiselect>
+            </div>
           </div>
-          <div class="columns small-12 medium-6 large-6">
-            <p>
-              <span class="bold">State</span> : {{this.shippingAddress.state}}
-            </p>
-            <p>
-              <span class="bold">Country</span> : {{this.shippingAddress.country}}
-            </p>
+          <div class="row expanded review-shipping" v-else>
+            <div class="columns small-12 medium-6 large-6">
+              <p>
+                <span class="bold">Address</span> : {{this.address.shippingAddress.address}}
+              </p>
+              <p>
+                <span class="bold">City</span> : {{this.address.shippingAddress.city}}
+              </p>
+              <p>
+                <span class="bold">Postal</span> : {{this.address.shippingAddress.postalCode}}
+              </p>
+            </div>
+            <div class="columns small-12 medium-6 large-6">
+              <p>
+                <span class="bold">State</span> : {{this.address.shippingAddress.state}}
+              </p>
+              <p>
+                <span class="bold">Country</span> : {{this.address.shippingAddress.country}}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -188,7 +180,7 @@
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderDevicePage()">Back</a>
-        <a class="button large btn-orange pull-right" @click="submitDevice()" v-if="!changeAddress">Submit</a>
+        <a class="button large btn-orange pull-right" @click="submitDevice()" v-if="!address.changeAddress">Submit</a>
       </div>
     </div>
   </div>
