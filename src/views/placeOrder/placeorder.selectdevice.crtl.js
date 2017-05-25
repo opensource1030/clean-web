@@ -91,8 +91,8 @@ export default {
           device: temp_devices[deviceId][0].devices[0],
           variations: _.uniqBy(temp_devices[deviceId], 'id'),
           modifications: {},
-          capacity: '',
-          style: ''
+          capacity: [],
+          style: {}
         }
         
         devices_array.push(newObj);
@@ -111,7 +111,7 @@ export default {
         
         for(let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[0])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[1].value, price: variation.priceRetail})
+          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[1].value, price: variation.priceRetail, id: variation.id})
         }
 
         // Set Pre-selected Device, Capacity, Style

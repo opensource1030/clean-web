@@ -25,17 +25,19 @@ export default {
         changeAddress: false,
         loading: true
       },
-      submitOrder: false,
-      submitOrder_pay: false
+      orderFinished: false,
+      payOrder: false,
+      orderData: {}
     }
   },
   beforeCreate() {
-    this.user = JSON.parse(localStorage.getItem('userProfile'));
+    
   },
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
       typedServiceInfo: 'placeOrder/getTypedServiceInfo',
+      selectedPackage: 'placeOrder/getSelectedPackage',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
@@ -46,6 +48,7 @@ export default {
   },
   created() {
     this.orderType = this.$route.meta.label;
+    this.user = JSON.parse(localStorage.getItem('userProfile'));
 
     if(this.selectedKeepService == 'No') {
       this.$store.dispatch('placeOrder/getPackageAddresses').then(
@@ -80,30 +83,85 @@ export default {
     customLabel ({address, city, country}) {
       return `${address} - ${city} - ${country}`
     },
-    submitDevice() {
-      var app = this;
+    submitOrder() {
+      let app = this;
+      let orderTypes = {
+        New: 'NewLineOfService',
+        Upgrade: 'UpgradeDevice',
+        Transfer: 'TransferServiceLiability',
+        Accessories: 'Accessories'
+      }
+
+      this.orderData = {
+        data : {
+          type: 'orders',
+          attributes: {
+            status: 'Denied',
+            orderType: orderTypes[this.orderType],
+            userId: this.user.id
+          },
+          relationships: {
+            apps: {
+              data: []
+            },
+            addresses: {
+              data: [
+                {
+                  type: 'addresses',
+                  id: this.address.shippingAddress.id
+                }
+              ]
+            },
+            devicevariations: {
+              data: []
+            }
+          }
+        }
+      }
+
+      if(this.selectedKeepService == 'Yes') {
+        this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
+        this.orderData.data.attributes.sericePhoneNo = this.typedServiceInfo.PhoneNo;
+        this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
+      } else {
+        this.orderData.data.attributes.packageId = this.selectedPackage;
+        this.orderData.data.attributes.serviceId = this.selectedService.id;
+      }
+
+      if(this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {
+        this.orderData.data.attributes.deviceImei = this.typedDeviceInfo.IMEI;
+        this.orderData.data.attributes.deviceCarrier = this.typedDeviceInfo.Carrier;
+        this.orderData.data.attributes.deviceSim = this.typedDeviceInfo.Sim;
+      } else {
+        this.orderData.data.relationships.devicevariations.data.push({
+          type: 'devicevariations',
+          id: this.selectedStyle.id
+        })
+      }
 
       if(this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'personal') {
-        this.submitOrder_pay = true;
-
-        setTimeout(function() {
-          app.submitOrder_pay = false;
-        },3000);
+        this.payOrder = true;
       } else {
-        this.submitOrder = true;
+        this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
+          res => {
+            console.log(res);
 
-        setTimeout(function() {
-          app.submitOrder = false;
-        },3000);
+            // this.orderFinished = true;
+
+            // setTimeout(function() {
+            //   app.orderFinished = false;
+            // },1000);
+          }
+        )
       }
     },
     payByCredit() {
-      var app = this;
-      this.submitOrder_pay = false;
-      this.submitOrder = true;
+      let app = this;
+      this.payOrder = false;
+      this.orderFinished = true;
 
       setTimeout(function() {
-        app.submitOrder = false;
+        app.orderFinished = false;
       },3000);
     }
   }

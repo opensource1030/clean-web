@@ -11,4 +11,9 @@ export default {
   search (params, cb, errCb) {
     http.get(API_BASE_URL + '/orders', params).then(res => cb(res), err => errCb(err))
   },
+
+  create (params, cb, errCb) {
+    // let data = { data: params }
+    http.post(API_BASE_URL + '/orders', params).then(res => cb(res), err => errCb(err))
+  },
 }
