@@ -27,6 +27,7 @@ export default {
         isValidator: 1,
         companyId: 0,
         companies: [{
+          id: 0,
           udls: [],
           address: []
         }]
@@ -72,7 +73,7 @@ export default {
 
   methods: {
     initComponent () {
-      if (!(this.employee.companies.length > 0 && !!this.employee.companies[0])) {
+      if (!(this.employee.companies.length > 0 && parseInt(this.employee.companies[0].id) > 0)) {
         this.changeCompany(this.companies[0])
       }
     },
