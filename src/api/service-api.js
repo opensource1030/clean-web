@@ -22,12 +22,12 @@ export default {
     http.post(API_BASE_URL + '/services', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  update (params, id,cb, errCb) {
+  update (params, id, cb, errCb) {
     let data = { data: params } // or data = params
     http.patch(API_BASE_URL + '/services/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-    remove (params, id, cb, errCb) {
-        http.delete(API_BASE_URL + '/services/' + id).then(res => cb(res), err => errCb(errCb))
+  remove (id, cb, errCb) {
+    http.delete(API_BASE_URL + '/services/' + id).then(res => cb(res), err => errCb(errCb))
   }
 }

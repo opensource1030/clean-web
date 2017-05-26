@@ -106,6 +106,7 @@ export default {
     },
 
     removeService (id) {
+      const vm = this
       swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -116,16 +117,20 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then(function () {
         serviceAPI.remove(id, res => {
-          this.$store.dispatch('services/getAll')
+          vm.$store.dispatch('services/getAll', {
+            costMax: vm.search.costMax,
+            costMin: vm.search.costMin,
+          })
         }, err => console.log('company remove', err))
-          swal('Deleted!', 'Requested service has been deleted.', 'success')
-        }, function (dismiss) {
-          // dismiss can be 'cancel', 'overlay',
-          // 'close', and 'timer'
-          if (dismiss === 'cancel') {
-            swal('Cancelled', 'Selected service is safe :)', 'error')
-          }
-        });
+
+        swal('Deleted!', 'Requested service has been deleted.', 'success')
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal('Cancelled', 'Selected service is safe :)', 'error')
+        }
+      });
     },
 
     onServiceActiveChange (e, id) {
