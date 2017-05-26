@@ -1,5 +1,6 @@
 import presetAPI from './../../api/preset-api'
 import * as types from './../mutation-types'
+import FilterItem from './../../models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -12,6 +13,9 @@ const state = {
     count: null,
     total: null,
     per_page: 25
+  },
+  filters: {
+    name: new FilterItem(),
   },
 }
 
@@ -31,6 +35,13 @@ const actions = {
         }
       }
 
+      let key, value;
+      if (state.filters.name.operator && state.filters.name.value) {
+        key = 'filter[name][like]'
+        value = state.filters.name.value
+        _params.params[key] = value
+      }
+
       presetAPI.search(_params, res => {
         const presets = store.sync(res.data)
         // console.log('preset res', presets)
@@ -42,6 +53,11 @@ const actions = {
         reject(err)
       })
     })
+  },
+
+  searchByName({ dispatch, commit, state }, { query }) {
+    commit(types.PRESET_UPDATE_FILTERS, { name: { operator: 'like', value: query }})
+    return dispatch('search')
   },
 
   setPagination ({ commit }, { pagination }) {
@@ -80,6 +96,10 @@ const mutations = {
   [types.PRESET_NEXT_PAGE] (state) {
     // if (state.pagination.current_page < state.pagination.total_pages)
     state.pagination.current_page++
+  },
+
+  [types.PRESET_UPDATE_FILTERS] (state, filters) {
+    _.extend(state.filters, filters)
   },
 }
 

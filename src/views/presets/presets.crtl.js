@@ -85,6 +85,10 @@ export default {
       }
     },
 
+    searchPresets() {
+      this.$store.dispatch('preset/searchByName', { query: this.query })
+    },
+
     removePreset(preset_id) {
       const vm = this
       swal({
