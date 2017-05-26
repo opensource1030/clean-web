@@ -48,7 +48,12 @@ export default {
   },
   created() {
     this.orderType = this.$route.meta.label;
-    this.user = JSON.parse(localStorage.getItem('userProfile'));
+    
+    this.$store.dispatch('placeOrder/getUserConditions').then(
+      res => {
+        this.user = res;
+      }
+    )
 
     if(this.selectedKeepService == 'No') {
       this.$store.dispatch('placeOrder/getPackageAddresses').then(

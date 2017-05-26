@@ -88,11 +88,7 @@
                           {{style.color}}
                         </span>
                       </p>
-                      <p>4.7-inch(diagonal) LED-backlit widescreen Multi-Touch display with IPSP techonology</p>
-                      <p>New 8-megapixel iSight camera with 1.5u pixels</p>
-                      <p>A8 chip with 64-bit architecture. M8 motion coprocessor</p>
-                      <p>1080p HD video recording (30 fps or 60 fps)</p>
-                      <p>Unlocked cell phones are compatible with GSM carriers like AT&T and T-Mobile as well as with GSM SIM cards(e.g. H20 and select prepaid carriers). Unlocked cell phones will not work with CDMA Carriers like sprint, Verizon, Boost or virgin.</p>
+                      <p class="black" v-html="device.device.properties"></p>
                       <p class="price">{{device.style.price}} {{device.device.currency}}</p>
                     </div>
                   </div>

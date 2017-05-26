@@ -2,6 +2,7 @@ import _ from 'lodash';
 import packageAPI from './../../api/package-api'
 import deviceAPI from './../../api/device-api'
 import orderAPI from './../../api/order-api'
+import authAPI from './../../api/auth-api'
 
 import * as types from './../mutation-types';
 import {http} from 'vue';
@@ -202,6 +203,19 @@ const actions = {
         resolve(addresses);
       }, err => {
         reject(err)
+      })
+    })
+  },
+
+  getUserConditions ({dispatch, commit, state}) {
+    return new Promise((resolve, reject) => {
+      let params = 'include=udls';
+
+      authAPI.getUser(localStorage.userId, params, res => {
+        let result = store.sync(res.data);
+        resolve(result)
+      }, err => {
+        resolve(err)
       })
     })
   },

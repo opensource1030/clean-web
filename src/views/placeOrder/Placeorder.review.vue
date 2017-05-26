@@ -77,11 +77,7 @@
             <p class="review-option">
               <span class="bold">Estimated Charges</span> : {{selectedStyle.price}} {{selectedDevice.currency}}
             </p>
-            <p>4.7-inch(diagonal) LED-backlit widescreen Multi-Touch display with IPSP techonology</p>
-            <p>New 8-megapixel iSight camera with 1.5u pixels</p>
-            <p>A8 chip with 64-bit architecture. M8 motion coprocessor</p>
-            <p>1080p HD video recording (30 fps or 60 fps)</p>
-            <p>Unlocked cell phones are compatible with GSM carriers like AT&T and T-Mobile as well as with GSM SIM cards(e.g. H20 and select prepaid carriers). Unlocked cell phones will not work with CDMA Carriers like sprint, Verizon, Boost or virgin.</p>
+            <p class="black" v-html="selectedDevice.properties"></p>
           </div>
         </div>
       </div>
@@ -115,25 +111,16 @@
         </div>
         <div class="review-profile profile-info pull-left">
           <p>
-            <span class="bold">Username</span> : Dele Omotsho
+            <span class="bold">Username</span> : {{user.firstName}} {{user.lastName}}
           </p>
           <p>
-            <span class="bold">Cost Centre</span> : 1110
+            <span class="bold">Email</span> : {{user.email}}
           </p>
           <p>
-            <span class="bold">Office Phone</span> : 0000000000
+            <span class="bold">Supervisor E-mail</span> : {{user.supervisorEmail}}
           </p>
-          <p>
-            <span class="bold">Email</span> : domosto@wirelessanalytics.com
-          </p>
-          <p>
-            <span class="bold">Supervisor E-mail</span> : domosto@wirelessanalytics.com
-          </p>
-          <p>
-            <span class="bold">Position</span> : Senior JAVA Developer
-          </p>
-          <p>
-            <span class="bold">Division</span> : RI&D
+          <p v-for="udl in user.udls">
+            <span class="bold">{{udl.udlName}}</span> : {{udl.udlValue}}
           </p>
         </div>
       </div>
