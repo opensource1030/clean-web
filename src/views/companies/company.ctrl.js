@@ -180,7 +180,8 @@ export default {
       }
       */
 
-      let pid = $(e.srcElement).closest('.columns').find('.udl-value-wrapper').attr('data-index');
+      // let pid = $(e.srcElement).closest('.columns').find('.udl-value-wrapper').attr('data-index');
+      let pid = $(e.srcElement).closest('.udl-wrapper').find('.udl-value-wrapper').attr('data-index');
       this.company.udls = _.reject(this.company.udls, (udl) => (udl.pid == pid))
 
       this.$forceUpdate()
@@ -246,9 +247,9 @@ export default {
 
       let _jsonData = CompaniesPresenter.toJSON(_company)
       delete _jsonData['data']['attributes']['udls']
-      delete _jsonData['data']['attributes']['address']
+      delete _jsonData['data']['attributes']['addresses']
 
-      _jsonData['data']['relationships'] = { udls: { data: _udls } , address: { data: _addresses } }
+      _jsonData['data']['relationships'] = { udls: { data: _udls } , addresses: { data: _addresses } }
       // console.log(_jsonData)
 
       // if (process.env.NODE_ENV === 'testing') {
@@ -257,7 +258,7 @@ export default {
       // }
 
       let _params = JSON.stringify(_jsonData)
-      console.log(_params)
+      // console.log(_params)
 
       if (this.company.id > 0) {
         companyAPI.update(this.company.id, _params, res => this.$router.push({ path: '/companies' }), err => console.log('update err', err))

@@ -69,7 +69,7 @@
           <h2>Address</h2>
         </div>
         <div class="box-content">
-          <div class="row addlist address-wrapper" v-for="address in company.address" :data-index="address.pid">
+          <div class="row addlist address-wrapper" v-for="address in company.addresses" :data-index="address.pid">
             <div class="columns medium-4">
               <label>
                 <span>Name</span>

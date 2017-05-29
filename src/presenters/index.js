@@ -31,7 +31,7 @@ export class AddressesPresenter extends Presenter {
     return attrs
   }
 }
-AddressesPresenter.prototype.type = 'address'
+AddressesPresenter.prototype.type = 'addresses'
 
 export class ImagesPresenter extends Presenter {
 }
