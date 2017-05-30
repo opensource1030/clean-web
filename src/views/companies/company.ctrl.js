@@ -24,7 +24,7 @@ export default {
         udls: [
           // { pid: 1, id: 101, key: 'a', value: 'a1,a2' },
         ],
-        address: [],
+        addresses: [],
       }
     }
   },
@@ -95,15 +95,15 @@ export default {
         })
       }
 
-      if (!this.company.address) {
-        this.company.address = []
+      if (!this.company.addresses) {
+        this.company.addresses = []
       }
 
-      if (this.company.address.length == 0) {
+      if (this.company.addresses.length == 0) {
         this.addAddressField()
       } else {
-        for (let i = 0; i < this.company.address.length; i++) {
-          this.company.address[i].pid = i + 1
+        for (let i = 0; i < this.company.addresses.length; i++) {
+          this.company.addresses[i].pid = i + 1
         }
       }
     },
@@ -195,18 +195,18 @@ export default {
     },
 
     addAddressField () {
-      let pid = this.company.address.length > 0 ? this.company.address[this.company.address.length - 1].pid + 1 : 1;
-      this.company.address.push({ pid: pid, id: 0, name: '', attn: '', phone: '', address: '', city: '', state: '', country: '', postalCode: '' })
+      let pid = this.company.addresses.length > 0 ? this.company.addresses[this.company.addresses.length - 1].pid + 1 : 1;
+      this.company.addresses.push({ pid: pid, id: 0, name: '', attn: '', phone: '', address: '', city: '', state: '', country: '', postalCode: '' })
       this.$forceUpdate()
     },
 
     removeAddressField (e) {
       let pid = $(e.srcElement).closest('.address-wrapper').attr('data-index')
-      this.company.address = _.reject(this.company.address, (address) => (address.pid == pid))
+      this.company.addresses = _.reject(this.company.addresses, (address) => (address.pid == pid))
 
       this.$forceUpdate()
       this.$nextTick(() => {
-        if (this.company.address.length == 0) {
+        if (this.company.addresses.length == 0) {
           this.addAddressField()
         }
       })
@@ -237,7 +237,7 @@ export default {
         _udls.push(_udl.data)
       })
 
-      _.each(_company.address, (address) => {
+      _.each(_company.addresses, (address) => {
         _address = AddressesPresenter.toJSON(address)
         _addresses.push(_address.data)
         if (parseInt(address.id) > 0) {
