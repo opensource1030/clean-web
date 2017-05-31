@@ -10,7 +10,7 @@ import modal from './../../components/modal.vue'
 import inputValidate from './../../components/inputValidate.vue'
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
 import { DevicesPresenter, ModificationsPresenter, DeviceVariationsPresenter } from './../../presenters'
-import { DeviceVariationHelper } from './../../helpers'
+import { DeviceVariationHelper, ModificationHelper } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -78,6 +78,10 @@ export default {
 
     DeviceVariationHelper () {
       return DeviceVariationHelper
+    },
+
+    ModificationHelper () {
+      return ModificationHelper
     },
 
     currency () {
@@ -315,12 +319,12 @@ export default {
         ],
         modifications: [
           {
-            type: 'modification',
+            type: 'modifications',
             id: 0,
             modType: 'capacity'
           },
           {
-            type: 'modification',
+            type: 'modifications',
             id: 0,
             modType: 'style'
           },
@@ -413,7 +417,7 @@ export default {
         _.each(_jsonData['data']['relationships']['modifications']['data'], (item) => { item.id = parseInt(item.id) })
       }
 
-      _jsonData['data']['relationships']['devicevariations'] = _jsonDeviceVariation
+      _jsonData['data']['relationships']['devicevariations'] = { data: _jsonDeviceVariation }
       delete _jsonData['included']
       let _params = JSON.stringify(_jsonData)
       // console.log('json_data', _jsonData)
