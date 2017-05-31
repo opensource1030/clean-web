@@ -13,7 +13,7 @@
             <div class="pull-left">
               <input class="custom-radio" type="radio" name="deviceType" value="subsided" v-model="deviceType">
               <div>
-                <label class="ft-18">Subsided Device</label>
+                <label class="ft-18">Subsidized Device</label>
                 <p>choose a device from a list</p>
               </div>
             </div>
