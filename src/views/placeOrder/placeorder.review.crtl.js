@@ -158,16 +158,7 @@ export default {
         this.payOrder = true;
         Stripe.setPublishableKey('pk_test_o9DwIZ6k1TBwqbJCSh2IQKsj');
       } else {
-        this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
-          res => {
-            this.orderFinished = true;
-
-            setTimeout(function() {
-              app.orderFinished = false;
-              location.href = '/dashboard';
-            },1000);
-          }
-        )
+        this.requestOrder();
       }
     },
     payByCredit() {
@@ -189,17 +180,24 @@ export default {
             app.card.status = false;
           } else {
             let token = response.id;
-
             app.payOrder = false;
-            app.orderFinished = true;
 
-            setTimeout(function() {
-              app.orderFinished = false;
-              location.href = '/dashboard';
-            },1000);
+            app.requestOrder();
           }
         });
       }
+    },
+    requestOrder() {
+      this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
+        res => {
+          this.orderFinished = true;
+
+          setTimeout(function() {
+            app.orderFinished = false;
+            location.href = '/dashboard';
+          },1000);
+        }
+      )
     }
   }
 }
