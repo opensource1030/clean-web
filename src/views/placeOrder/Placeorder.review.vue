@@ -16,36 +16,39 @@
         <div class="row expanded p-20">
           <div class="columns small-12">
             <label>
-              <span class="bold">Full Name</span> <input type="text" placeholder="Your name here">
+              <span class="bold">Full Name</span> <input type="text" placeholder="Your name here" v-model="card.name">
             </label>
           </div>
           <div class="columns small-12 medium-12 large-6">
             <label>
-              <span class="bold">Phone No</span> <input type="text" placeholder="0000000000">
+              <span class="bold">Phone No</span> <input type="text" placeholder="0000000000" v-model="card.phone">
             </label>
           </div>
           <div class="columns small-12 medium-12 large-6">
             <label>
-              <span class="bold">Credit Card Number</span> <input type="text" placeholder="4242 4242 4242 4242">
+              <span class="bold">Credit Card Number</span> <input type="text" placeholder="4242424242424242" v-model="card.number">
             </label>
           </div>
           <div class="columns small-12 medium-12 large-4">
             <label>
-              <span class="bold">CVV</span> <input type="text" placeholder="424">
+              <span class="bold">CVV</span> <input type="text" placeholder="424" v-model="card.cvc">
             </label>
           </div>
           <div class="columns small-12 medium-12 large-4">
             <label>
-              <span class="bold">Expiration Month</span> <input type="text" placeholder="Month">
+              <span class="bold">Expiration Month</span> <input type="text" placeholder="Month" v-model="card.month">
             </label>
           </div>
           <div class="columns small-12 medium-12 large-4">
             <label>
-              <span class="bold">Expiration Year</span> <input type="text" placeholder="Year">
+              <span class="bold">Expiration Year</span> <input type="text" placeholder="Year" v-model="card.year">
             </label>
+          </div>
+          <div class="columns small-12 medium-12 large-12" v-if="!card.status">
+            <p class="error">Card information is not correct</p>
           </div>
           <div class="columns small-12">
-            <a class="button large btn-orange" @click="payByCredit()">Pay</a>
+            <a class="button large btn-orange" @click="payByCredit()" :disabled="card.checking">Pay</a>
           </div>
         </div>
       </div>

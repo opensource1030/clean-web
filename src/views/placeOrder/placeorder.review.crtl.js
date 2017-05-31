@@ -27,7 +27,17 @@ export default {
       },
       orderFinished: false,
       payOrder: false,
-      orderData: {}
+      orderData: {},
+      card: {
+        name: '',
+        phone: '',
+        number: '',
+        cvc: '',
+        month: '',
+        year: '',
+        checking: false,
+        status: true
+      }
     }
   },
   beforeCreate() {
@@ -146,28 +156,50 @@ export default {
 
       if(this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'personal') {
         this.payOrder = true;
+        Stripe.setPublishableKey('pk_test_o9DwIZ6k1TBwqbJCSh2IQKsj');
       } else {
         this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
           res => {
-            console.log(res);
+            this.orderFinished = true;
 
-            // this.orderFinished = true;
-
-            // setTimeout(function() {
-            //   app.orderFinished = false;
-            // },1000);
+            setTimeout(function() {
+              app.orderFinished = false;
+              location.href = '/dashboard';
+            },1000);
           }
         )
       }
     },
     payByCredit() {
       let app = this;
-      this.payOrder = false;
-      this.orderFinished = true;
 
-      setTimeout(function() {
-        app.orderFinished = false;
-      },3000);
+      if(!app.card.checking) {
+        app.card.checking = true;
+        app.card.status = true;
+
+        Stripe.card.createToken({
+          number: app.card.number,
+          cvc: app.card.cvc,
+          exp_month: app.card.month,
+          exp_year:app.card.year
+        }, function(status, response) {
+          app.card.checking = false;
+
+          if(response.error) {
+            app.card.status = false;
+          } else {
+            let token = response.id;
+
+            app.payOrder = false;
+            app.orderFinished = true;
+
+            setTimeout(function() {
+              app.orderFinished = false;
+              location.href = '/dashboard';
+            },1000);
+          }
+        });
+      }
     }
   }
 }
