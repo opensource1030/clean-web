@@ -12,6 +12,12 @@
     tbody {
       td {
         vertical-align: top;
+
+        .button.state-button {
+          margin: 10px 0 0 0;
+          padding: 8px 12px;
+          color: #FFFFFF;
+        }
       }
     }
   }

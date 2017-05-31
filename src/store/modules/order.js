@@ -73,7 +73,7 @@ const actions = {
       orderAPI.search(_params, res => {
         // console.log('orders res', res)
         const orders = store.sync(res.data)
-        console.log('search', orders)
+        // console.log('search', orders)
         commit(types.ORDER_REFRESH, { records: orders })
         dispatch('setPagination', { pagination: res.data.meta.pagination })
         resolve(orders)

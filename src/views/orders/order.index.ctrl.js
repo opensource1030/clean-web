@@ -11,6 +11,7 @@ import deviceAPI from './../../api/device-api.js'
 import employeeAPI from './../../api/employee-api.js'
 import addressAPI from './../../api/address-api.js'
 import { mapGetters, mapActions } from 'vuex'
+import { OrderHelper } from './../../helpers'
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -157,7 +158,11 @@ export default {
   computed: {
     ...mapGetters({
       orders: 'order/sorted'
-    })
+    }),
+
+    OrderHelper () {
+      return OrderHelper
+    },
   },
 
   created () {
@@ -282,6 +287,22 @@ export default {
 
     getPriceOnce (order) {
       return _.sumBy(order.devicevariations, 'priceOwn')
+    },
+
+    updateOrderState (order) {
+      // console.log('updateOrderState', order)
+      let _jsonData = {
+        data: {
+          id: order.id,
+          type: 'orders',
+          attributes: {
+            status: OrderHelper.getNextState(order)
+          }
+        }
+      }
+      let _params = JSON.stringify(_jsonData)
+      // console.log('updateOrderState', _params)
+      orderAPI.update(order.id, _params, (res) => { this.$store.dispatch('order/search') }, (err) => { console.log('err', err) })
     },
 
     prevPage () {
