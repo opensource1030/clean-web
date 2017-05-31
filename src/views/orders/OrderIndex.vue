@@ -174,15 +174,18 @@
                 <td>{{ order.services[0] ? order.services[0].carriers[0].presentation : '' }}</td>
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
-                <td>{{ (order.services[0] ? order.services[0].cost : '') | currency }}</td>
-                <td>{{ (getPriceOnce(order) + order.services[0].cost) | currency }}</td>
+                <td>{{ (order.services.length > 0 && order.services[0] ? order.services[0].cost : '') | currency }}</td>
+                <td>{{ (getPriceOnce(order) + (order.services.length > 0 && order.services[0] ? order.services[0].cost : 0)) | currency }}</td>
               </tr>
               <tr class="detail-tr" :class="activeOrder && (activeOrder.id == order.id) ? 'active' : ''">
                 <td></td>
                 <td>
                   <avatar :username="order.users[0] ? `${order.users[0].firstName} ${order.users[0].lastName}` : 'Guest'" :size="avatarSize"></avatar>
                 </td>
-                <td>{{ order.users[0] ? order.users[0].email : '' }}</td>
+                <td>
+                  <div>{{ order.users[0] ? order.users[0].email : '' }}</div>
+                  <a @click="updateOrderState(order)" class="button state-button" :class="OrderHelper.getButtonClass(order)" v-if="OrderHelper.getNextState(order) != ''">{{ OrderHelper.getButtonText(order) }}</a>
+                </td>
                 <td>
                   <div>{{ order.addresses[0] ? order.addresses[0].address : '' }}</div>
                   <div>{{ order.addresses[0] ? order.addresses[0].city : '' }}</div>
