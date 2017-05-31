@@ -23,7 +23,7 @@
               <input class="custom-radio" type="radio" name="deviceType" value="personal" v-model="deviceType">
               <div>
                 <label class="ft-18">Pay by Personal Credit or Debit Card</label>
-                <p>choose any device and pay by yourself</p>
+                <p>choose any device and pay personally</p>
               </div>
             </div>
           </div>
