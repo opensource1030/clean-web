@@ -2,11 +2,6 @@
 @import "../mixins/other-mixin";
 
 .table-holder {
-  .multiselect {
-    .multiselect__input {
-      margin: -6px 0 0;
-    }
-  }
   position: relative;
   min-height: 200px;
   table {
