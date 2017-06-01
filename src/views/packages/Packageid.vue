@@ -116,7 +116,8 @@
                         <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
                             <img :src="getImageUrl(device.devices[0])" />
-                            {{device.devices[0].name}}
+                            <p class="m-b-0">{{device.devices[0].name}}</p>
+                            <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                             <br>
                             <div class="clearfix"></div>
                           </span>
@@ -137,7 +138,8 @@
                     <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
                         <img :src="getImageUrl(device.devices[0])" />
-                        {{device.devices[0].name}}
+                        <p class="m-b-0">{{device.devices[0].name}}</p>
+                        <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                         <br>
                         <div class="clearfix"></div>
                       </span>
