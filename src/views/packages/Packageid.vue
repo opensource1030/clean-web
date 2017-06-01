@@ -3,58 +3,64 @@
     <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
       <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
     </modal>
-    
-    <div class="columns small-12 m-b-15">
+    <div class="columns small-12">
       <header class="tag-header">
         <h1 v-if="packageId">Update Package</h1>
         <h1 v-else>New Package</h1>
       </header>
+      <div class="grid-box">
+        <div class="box-content">
+          <div class="row expanded">
+            <div class="columns large-6 small-12">
+              <label>
+                <strong>Title</strong>
+                <input type="text" v-model="packageName">
+              </label>
+            </div>
+            <div class="columns large-6 small-12">
+              <label>
+                <strong>Description</strong>
+                <textarea type="text" v-model="packageDescription" rows="3"></textarea>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="large-5 small-12 columns ">
-      <label>
-        <span>Title</span>
-        <input type="text" v-model="packageName">
-      </label>
-      <label>
-        <span>Description</span>
-        <textarea type="text" v-model="packageDescription" rows="5"></textarea>
-      </label>
-    </div>
-
     <div class="columns small-12">
       <div class="grid-box package-condition">
         <div class="box-heading">
           <h2>Conditions</h2>
         </div>
         <div class="box-content-holder is-relative" v-if="conditions.loading">
-          <div class="is-loading"> </div>
+          <div class="is-loading"></div>
         </div>
         <div class="box-content" v-else>
-          <div class="row extend">
+          <div class="row expanded">
             <div class="columns small-12">
-              <div class="row extend" v-if="conditions.labels.length">
-                <div class="row extend" v-for="(condition, index) in conditions.selected">
+              <div class="row expanded" v-if="conditions.labels.length">
+                <div class="row expanded" v-for="(condition, index) in conditions.selected">
                   <div class="large-3 small-12 columns">
                     <label>
-                      <span>Label</span>
+                      <strong>Label</strong>
                       <multiselect v-model="condition.nameCond" placeholder="Select a Label" :searchable="false"
-                                  :options="conditions.labels" @input="updateConditionFields(condition.nameCond, index)"
-                                  :show-labels="false"></multiselect>
+                                   :options="conditions.labels"
+                                   @input="updateConditionFields(condition.nameCond, index)"
+                                   :show-labels="false"></multiselect>
                     </label>
                   </div>
                   <div class="large-3 small-12 columns" v-if="condition.nameCond">
                     <label>
-                      <span>Condition</span>
+                      <strong>Condition</strong>
                       <multiselect v-model="condition.condition" placeholder="Select a Condition" :searchable="false"
-                                  :options="condition.conditionOptions" :show-labels="false"></multiselect>
+                                   :options="condition.conditionOptions" :show-labels="false"></multiselect>
                     </label>
                   </div>
                   <div class="large-4 small-12 columns" v-if="condition.nameCond">
                     <label>
-                      <span>Value</span>
+                      <strong>Value</strong>
                       <multiselect v-model="condition.value" placeholder="Select a Value" :searchable="false"
-                                  :options="condition.valueOptions" :show-labels="false"></multiselect>
+                                   :options="condition.valueOptions" :show-labels="false"></multiselect>
                     </label>
                   </div>
                   <div class="large-2 small-12 columns p-t-25">
@@ -63,13 +69,13 @@
                     </a>
 
                     <a class="button" @click="addCondition()"
-                      v-show="condition.nameCond && condition.condition && condition.value && (index == conditions.selected.length - 1)">
+                       v-show="condition.nameCond && condition.condition && condition.value && (index == conditions.selected.length - 1)">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                     </a>
                   </div>
                 </div>
               </div>
-              <div class="row extend" v-else>
+              <div class="row expanded" v-else>
                 <div class="sub-title">No Available Conditions</div>
               </div>
             </div>
@@ -84,67 +90,99 @@
           <h2>Devices</h2>
         </div>
         <div class="box-content-holder is-relative" v-if="presetLoading">
-          <div class="is-loading"> </div>
+          <div class="is-loading"></div>
         </div>
         <div class="box-content" v-else>
-          <div class="row extend">
+          <div class="row expanded">
             <div class="columns small-12">
-              <div class="row extend" v-if="presets.length">
+              <div class="row expanded" v-if="presets.length">
                 <div class="sub-title">Presets Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(preset, index) in presets">
-                    <div class="box-type-1" :class="{'active': preset.id == activePreset.id}" @click="setActive('activePreset', preset)">
+                    <div class="box-type-1" :class="{'active': preset.id == activePreset.id}"
+                         @click="setActive('activePreset', preset)">
                       <span class="box-icon"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
                       <div class="box-content">{{preset.name}}</div>
                     </div>
                   </slide>
                 </carousel>
               </div>
-              <div class="row extend" v-else>
+
+              <div class="row expanded" v-else>
                 <div class="sub-title">No Available Presets</div>
               </div>
 
-              <div class="row extend" v-if="activePreset.id">
+              <div class="row expanded" v-if="activePreset.id">
                 <div class="box-content-holder is-relative" v-if="devices.loading">
-                  <div class="is-loading"> </div>
+                  <div class="is-loading"></div>
                 </div>
-                <div class="columns small-12" v-else>
-                  <div class="row extend" v-if="devices.availableDevices.length">
-                    <div class="sub-title">Devices Available from {{activePreset.name}}</div>
-                    <carousel :perPage="6">
-                      <slide v-for="(device, index) in devices.availableDevices">
-                        <div class="eachDevice" @click="addDevice(index)">
+                <template v-else>
+                  <hr>
+
+                  <div class="columns small-12">
+                    <div class="row expanded" v-if="devices.availableDevices.length">
+                      <div class="sub-title">Devices Available from {{activePreset.name}}</div>
+
+                      <carousel :perPage="6">
+
+                        <slide v-for="(device, index) in devices.availableDevices">
+                          <transition appear
+                                      enter-class=""
+                                      enter-active-class="animated zoomIn"
+                                      leave-class=""
+                                      leave-active-class="animated zoomOut"
+
+                          >
+                            <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
-                            <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+                            <img src="//openclipart.org/download/213897/black-android-phone.svg"/>
                             {{device.devices[0].name}}
                             <br>
                             Price - {{device.priceOwn}}
                           </span>
-                        </div>
-                      </slide>
-                    </carousel>
+                            </div>
+                          </transition>
+                        </slide>
+
+                      </carousel>
+
+                    </div>
+                    <div class="row expanded" v-else>
+                      <div class="sub-title">No Available Devices</div>
+                    </div>
                   </div>
-                  <div class="row extend" v-else>
-                    <div class="sub-title">No Available Devices</div>
-                  </div>
-                </div>
+
+                </template>
               </div>
 
-              <div class="row extend" v-if="devices.selected.length">
+              <template v-if="devices.selected.length">
+
+                <hr>
+                <div class="row expanded">
                 <div class="sub-title">Selected Devices</div>
                 <carousel :perPage="6">
                   <slide v-for="(device, index) in devices.selected">
-                    <div class="eachDevice" @click="removeDevice(index)">
+                    <transition appear
+                                enter-class=""
+                                enter-active-class="animated zoomIn"
+                                leave-class=""
+                                leave-active-class="animated zoomOut"
+
+                    >
+                      <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
-                        <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+                        <img src="//openclipart.org/download/213897/black-android-phone.svg"/>
                         {{device.devices[0].name}}
                         <br>
                         Price - {{device.priceOwn}}
                       </span>
-                    </div>
+                      </div>
+                    </transition>
                   </slide>
                 </carousel>
               </div>
+
+              </template>
             </div>
           </div>
         </div>
@@ -157,103 +195,148 @@
           <h2>Services</h2>
         </div>
         <div class="box-content-holder is-relative" v-if="carrierLoading">
-          <div class="is-loading"> </div>
+          <div class="is-loading"></div>
         </div>
+
         <div class="box-content" v-else>
-          <div class="row extend">
+          <div class="row expanded">
             <div class="columns small-12">
-              <div class="row extend" v-if="carriers.length">
+              <div class="row expanded" v-if="carriers.length">
                 <div class="sub-title">Carriers Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(carrier, index) in carriers">
-                    <div class="box-type-1" :class="{'active': carrier.id == activeCarrier.id}" @click="setActive('activeCarrier', carrier)">
+                    <transition appear
+                                enter-class=""
+                                enter-active-class="animated zoomIn"
+                                leave-class=""
+                                leave-active-class="animated zoomOut"
+
+                    >
+                      <div class="box-type-1" :class="{'active': carrier.id == activeCarrier.id}"
+                           @click="setActive('activeCarrier', carrier)">
                       <span class="box-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
                       <div class="box-content">{{carrier.shortName}}</div>
                     </div>
+                    </transition>
                   </slide>
                 </carousel>
+
               </div>
-              <div class="row extend" v-else>
+              <template v-else>
+                <hr>
+                <div class="row expanded">
                 <div class="sub-title">No Carriers Available</div>
               </div>
-
-              <div class="row extend" v-if="activeCarrier.id">
+              </template>
+              <template v-if="activeCarrier.id">
+                <hr>
+                <div class="row expanded">
                 <div class="box-content-holder is-relative" v-if="services.loading">
-                  <div class="is-loading"> </div>
+                  <div class="is-loading"></div>
                 </div>
                 <div class="columns small-12" v-else>
-                  <div class="row extend" v-if="services.availableServices.length">
+                  <div class="row expanded" v-if="services.availableServices.length">
                     <div class="sub-title">Services Available From {{activeCarrier.shortName}}</div>
                     <carousel :perPage="5">
                       <slide v-for="(service, index) in services.availableServices">
-                        <div class="box-type-2" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
+                        <transition appear
+                                    enter-class=""
+                                    enter-active-class="animated zoomIn"
+                                    leave-class=""
+                                    leave-active-class="animated zoomOut"
+
+                        >
+                          <div class="box-type-2" :class="{'active': service.id == activeService.id}"
+                               @click="setActive('activeService', service)">
                           <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
                           <div class="box-content">{{service.title}}</div>
                         </div>
+                        </transition>
                       </slide>
                     </carousel>
                   </div>
-                  <div class="row extend" v-else>
+                  <div class="row expanded" v-else>
                     <div class="sub-title">No Available Services</div>
                   </div>
                 </div>
               </div>
+              </template>
+              <template v-if="activeService.id">
+                <hr>
+                <transition appear
+                            enter-class=""
+                            enter-active-class="animated fadeIn"
+                            leave-class=""
+                            leave-active-class="animated fadeOut"
 
-              <div class="row extend" v-if="activeService.id">
-                <div class="columns large-12">
-                  <label>
-                    <span>Description</span>
-                    <p>{{activeService.description}}</p>
-                  </label>
-                  <label>
-                    <span>Price</span>
-                    <p>{{activeService.cost}} {{activeService.currency}}</p>
-                  </label>
-                </div>
-                <div>
-                  <div class="large-10 small-12 columns">
-                    <table>
-                      <thead>
-                      <tr>
-                        <th>Domain</th>
-                        <th>Category</th>
-                        <th>Value</th>
-                      </tr>
-                      </thead>
-                      <tbody v-if="activeService.serviceitems.length">
-                      <tr v-for="serviceItem in activeService.serviceitems">
-                        <td>
-                          <span v-if="serviceItem.domain == 'domestic'">Domestic</span>
-                          <span v-else>International</span>
-                        </td>
-                        <td class="capitalize">{{serviceItem.category}}</td>
-                        <td>{{serviceItem.value}} {{serviceItem.unit}}</td>
-                      </tr>
-                      </tbody>
-                    </table>
+                >
+                  <div class="row expanded">
+                    <div class="columns large-12">
+                      <label>
+                        <strong>Description</strong>
+                        <p>{{activeService.description}}</p>
+                      </label>
+                      <label>
+                        <strong>Price</strong>
+                        <p>{{activeService.cost}} {{activeService.currency}}</p>
+                      </label>
+                    </div>
+                    <div>
+                      <div class="large-10 small-12 columns">
+                        <table>
+                          <thead>
+                          <tr>
+                            <th>Domain</th>
+                            <th>Category</th>
+                            <th>Value</th>
+                          </tr>
+                          </thead>
+                          <tbody v-if="activeService.serviceitems.length">
+                          <tr v-for="serviceItem in activeService.serviceitems">
+                            <td>
+                              <span v-if="serviceItem.domain == 'domestic'">Domestic</span>
+                              <span v-else>International</span>
+                            </td>
+                            <td class="capitalize">{{serviceItem.category}}</td>
+                            <td>{{serviceItem.value}} {{serviceItem.unit}}</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="large-2 small-12 columns">
+                        <a class="button delete m-r-10" @click="removeService()" v-if="activeService.added == 1">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                        <a class="button" @click="addService()" v-else>
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <div class="large-2 small-12 columns">
-                    <a class="button delete m-r-10" @click="removeService()" v-if="activeService.added == 1">
-                      <i class="fa fa-times" aria-hidden="true"></i>
-                    </a>
-                    <a class="button" @click="addService()" v-else>
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row extend" v-if="services.selected.length">
+                </transition>
+              </template>
+              <template v-if="services.selected.length">
+                <div class="row expanded">
                 <div class="sub-title">Selected Services</div>
                 <carousel :perPage="5">
                   <slide v-for="(service, index) in services.selected">
-                    <div class="box-type-2" :class="{'active': service.id == activeService.id}" @click="setActive('activeService', service)">
+                    <transition appear
+                                enter-class=""
+                                enter-active-class="animated fadeIn"
+                                leave-class=""
+                                leave-active-class="animated fadeOut"
+
+                    >
+                      <div class="box-type-2" :class="{'active': service.id == activeService.id}"
+                           @click="setActive('activeService', service)">
                       <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
                       <div class="box-content">{{service.title}}</div>
                     </div>
+                    </transition>
                   </slide>
                 </carousel>
               </div>
+              </template>
             </div>
           </div>
         </div>
@@ -266,27 +349,62 @@
           <h2>Addresses</h2>
         </div>
         <div class="box-content-holder is-relative" v-if="addresses.loading">
-          <div class="is-loading"> </div>
+          <div class="is-loading"></div>
         </div>
         <div class="box-content" v-else>
-          <div class="row extend">
+          <div class="row expanded">
             <div class="columns small-12">
-              <div class="row extend" v-if="addresses.availableAddresses.length">
+              <template v-if="addresses.availableAddresses.length">
+                <div class="row expanded">
                 <div class="sub-title">Addresses Available</div>
                 <carousel :perPage="6">
                   <slide v-for="(address, index) in addresses.availableAddresses">
-                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
+                    <transition appear
+                                enter-class=""
+                                enter-active-class="animated fadeIn"
+                                leave-class=""
+                                leave-active-class="animated fadeOut"
+
+                    >
+                      <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
+                           @click="setActive('activeAddress', address)">
+                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                      <div class="box-content">{{address.name}}</div>
+                    </div>
+                    </transition>
+                  </slide>
+                </carousel>
+              </div>
+                <hr>
+              </template>
+              <template v-else>
+                <div class="row expanded">
+                <div class="sub-title">No Available Addresses</div>
+              </div>
+                <hr>
+              </template>
+
+
+              <div class="row expanded" v-if="addresses.selected.length">
+                <div class="sub-title">Selected Addresses</div>
+                <carousel :perPage="6">
+                  <slide v-for="(address, index) in addresses.selected">
+                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
+                         @click="setActive('activeAddress', address)">
                       <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
                       <div class="box-content">{{address.name}}</div>
                     </div>
                   </slide>
                 </carousel>
               </div>
-              <div class="row extend" v-else>
-                <div class="sub-title">No Available Addresses</div>
-              </div>
+              <div class="row expanded" v-if="activeAddress.id">
+                <transition appear
+                            enter-class=""
+                            enter-active-class="animated fadeIn"
+                            leave-class=""
+                            leave-active-class="animated fadeOut"
 
-              <div class="row extend" v-if="activeAddress.id">
+                >
                 <div class="large-10 small-12 columns">
                   <table>
                     <thead>
@@ -319,18 +437,7 @@
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </a>
                 </div>
-              </div>
-
-              <div class="row extend" v-if="addresses.selected.length">
-                <div class="sub-title">Selected Addresses</div>
-                <carousel :perPage="6">
-                  <slide v-for="(address, index) in addresses.selected">
-                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}" @click="setActive('activeAddress', address)">
-                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                      <div class="box-content">{{address.name}}</div>
-                    </div>
-                  </slide>
-                </carousel>
+                </transition>
               </div>
             </div>
           </div>
