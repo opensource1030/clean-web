@@ -34,12 +34,17 @@ export default {
     let userInfo = JSON.parse(localStorage.userProfile);
     this.$store.dispatch('placeOrder/getUserPackages', userInfo.id).then(
       res => {
-        this.packages.availablePackages = res;
+        if(res) {
+          this.packages.availablePackages = res;
         
-        for(let eachPackage of res) {
-          if(eachPackage.id == this.selectedPackage)
-            this.setActive('Package', eachPackage);
+          for(let eachPackage of res) {
+            if(eachPackage.id == this.selectedPackage)
+              this.setActive('Package', eachPackage);
+          }
+        } else {
+          this.packages.availablePackages = [];
         }
+        
         this.packages.loading = false;
       }
     )

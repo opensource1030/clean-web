@@ -51,7 +51,7 @@
             </carousel>
           </div>
           <div class="columns small-12" v-else>
-            <p class="ft-20 bold black text-center">No Available Packages</p>
+            <p class="ft-20 bold black text-center">No Package Matches your Profile. Please contact Your Administrator</p>
           </div>
         </div>
       </div>
