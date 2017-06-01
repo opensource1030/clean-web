@@ -139,7 +139,7 @@ const actions = {
 
       let params = {
         params: {
-          include: 'conditions,devicevariations,devicevariations.devices,services,services.serviceitems,addresses'
+          include: 'conditions,devicevariations,devicevariations.devices,devicevariations.devices.images,services,services.serviceitems,addresses'
         }
       };
 
@@ -180,7 +180,7 @@ const actions = {
 
       let params = {
         params: {
-          include: 'devicevariations,devicevariations.images,devicevariations.devices'
+          include: 'devicevariations,devicevariations.devices,devicevariations.devices.images'
         }
       };
 

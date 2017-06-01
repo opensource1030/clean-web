@@ -115,10 +115,10 @@
                       <slide v-for="(device, index) in devices.availableDevices">
                         <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
-                            <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+                            <img :src="getImageUrl(device.devices[0])" />
                             {{device.devices[0].name}}
                             <br>
-                            Price - {{device.priceOwn}}
+                            <div class="clearfix"></div>
                           </span>
                         </div>
                       </slide>
@@ -136,10 +136,10 @@
                   <slide v-for="(device, index) in devices.selected">
                     <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
-                        <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+                        <img :src="getImageUrl(device.devices[0])" />
                         {{device.devices[0].name}}
                         <br>
-                        Price - {{device.priceOwn}}
+                        <div class="clearfix"></div>
                       </span>
                     </div>
                   </slide>
