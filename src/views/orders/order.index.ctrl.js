@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import avatar from 'vue-avatar/dist/Avatar';
+import swal from 'sweetalert2'
+import avatar from 'vue-avatar/dist/Avatar'
 import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
 import multiselect from 'vue-multiselect'
@@ -290,19 +291,35 @@ export default {
     },
 
     updateOrderState (order) {
-      // console.log('updateOrderState', order)
-      let _jsonData = {
-        data: {
-          id: order.id,
-          type: 'orders',
-          attributes: {
-            status: OrderHelper.getNextState(order)
+      const vm = this
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, confirm it!'
+      }).then(function () {
+        let _jsonData = {
+          data: {
+            id: order.id,
+            type: 'orders',
+            attributes: {
+              status: OrderHelper.getNextState(order)
+            }
           }
         }
-      }
-      let _params = JSON.stringify(_jsonData)
-      // console.log('updateOrderState', _params)
-      orderAPI.update(order.id, _params, (res) => { this.$store.dispatch('order/search') }, (err) => { console.log('err', err) })
+        let _params = JSON.stringify(_jsonData)
+        // console.log('updateOrderState', _params)
+        orderAPI.update(order.id, _params, (res) => { vm.$store.dispatch('order/search') }, (err) => { console.log('err', err) })
+
+        // swal('Deleted!', 'Requested device has been deleted.', 'success')
+      }, function (dismiss) {
+        // if (dismiss === 'cancel') {
+        //   swal('Cancelled', 'Selected device is safe :)', 'error')
+        // }
+      })
     },
 
     prevPage () {
