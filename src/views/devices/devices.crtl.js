@@ -1,7 +1,8 @@
 import _ from 'lodash'
+import multiselect from 'vue-multiselect'
+import swal from 'sweetalert2'
 import modal from './../../components/modal.vue'
 import paginate from './../../components/paginate.vue'
-import multiselect from 'vue-multiselect'
 // import { filterByModificationsd, filterByModifications, filterByCarrier, orderFilters } from './../../components/filters.js'
 import { mapGetters, mapActions } from 'vuex'
 import deviceAPI from './../../api/device-api.js'
@@ -77,7 +78,6 @@ export default {
   },
 
   methods: {
-
     asyncFind_DeviceNames (query) {
       // console.log('asyncFind_DeviceNames', query)
       this.filters.names.isLoading = true
@@ -159,15 +159,42 @@ export default {
       this.$store.dispatch('device/addFilter', { type: 'style', records: values })
     },
 
-    prevPage(){
+    removeDevice (device_id) {
+      const vm = this
+      swal({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function () {
+        deviceAPI.remove(device_id, res => {
+          vm.$store.dispatch('device/search').then((res) => {
+            vm.$forceUpdate()
+          })
+        }, err => console.log('device remove', err))
+
+        swal('Deleted!', 'Requested device has been deleted.', 'success')
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal('Cancelled', 'Selected device is safe :)', 'error')
+        }
+      });
+    },
+
+    prevPage () {
       this.$store.dispatch('device/prevPage')
     },
 
-    nextPage(){
+    nextPage () {
       this.$store.dispatch('device/nextPage')
     },
 
-    setActive(device) {
+    setActive (device) {
       if (this.activeDevice && this.activeDevice.id == device.id) {
         this.$set(this, 'activeDevice', null)
       } else {

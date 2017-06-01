@@ -29,7 +29,7 @@ export default {
       device: {
         id: 0,
         currency: 'USD',
-        identification: 0,
+        // identification: 0,
         images: [
           {
             type: 'images',

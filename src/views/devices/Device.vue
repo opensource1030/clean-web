@@ -214,7 +214,7 @@
               </div>
             </div>
           </div>
-          <a href="#" class="accordion-title">Prices</a>
+          <a href="#" class="accordion-title" @click="$forceUpdate()">Prices</a>
           <div class="accordion-content prices-content" data-tab-content>
             <div class="row expanded addlist" v-for="(dv, index) in device.devicevariations"
                  :style="{ backgroundColor: color }">

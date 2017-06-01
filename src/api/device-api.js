@@ -12,16 +12,14 @@ export default {
   },
 
   create (params, cb, errCb) {
-    // let data = { data: params }
     http.post(API_BASE_URL + '/devices', params).then(res => cb(res), err => errCb(err))
   },
 
   update (id, params, cb, errCb) {
-    // let data = { data: params }
     http.patch(API_BASE_URL + '/devices/' + id, params).then(res => cb(res), err => errCb(err))
   },
 
-  remove (params, cb, errCb) {
-
+  remove (id, cb, errCb) {
+    http.delete(API_BASE_URL + '/devices/' + id).then(res => cb(res), err => errCb(errCb))
   }
 }

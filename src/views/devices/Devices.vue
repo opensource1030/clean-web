@@ -168,7 +168,7 @@
                   <td>{{ filterModificationsByType(device.modifications, 'style').join(', ') }}</td>
                   <td>
                     <div class="action-buttons">
-                      <a class="button alert" title="Delete"><i class="fa fa-trash"></i></a>
+                      <a class="button alert" title="Delete" @click="removeDevice(device.id)"><i class="fa fa-trash"></i></a>
                       <a title="Edit" class="button warning edit-button" :href="'/devices/' + device.id"><i
                               class="fa fa-edit"></i></a>
                     </div>
