@@ -18,7 +18,10 @@
         <div class="HW-container"></div>
         <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
           <ul>
-            <li><a @click="logout()" id="logout" href="/login"><i class="fa fa-sign-out"></i> Logout</a></li>
+            <li>
+              <a @click="logout()" id="logout"><i class="fa fa-sign-out"></i> Logout</a>
+              <a @click="profile()" class="float-right"><i class="fa fa-user"></i> Profile</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -38,24 +41,41 @@
       Avatar
     },
 
-
     props: {
       user: {
         required: true
       }
     },
 
-
     data() {
       return {
         company: {}
       }
     },
+
+    computed: {
+      firstName: function () {
+        if (localStorage.userProfile) {
+          return JSON.parse(localStorage.getItem("userProfile")).firstName
+        } else {
+          return "User"
+        }
+      },
+
+      fullName: function () {
+        if (localStorage.userProfile) {
+          return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
+        } else {
+          return "User"
+        }
+      }
+    },
+
     created() {
       this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies.contents', {}).then((response) => {
-          let event = store.sync(response.data)
+        let event = store.sync(response.data)
         if (event.companies.length > 0) {
-            let cosmicdata = event.companies[0].contents[0].content
+          let cosmicdata = event.companies[0].contents[0].content
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
@@ -63,30 +83,28 @@
         }
       });
         (function () {
+          let t, timeout = 7.2e+6;
 
-            let t,
-                timeout = 7.2e+6;
-
-            function resetTimer() {
-                if (t) {
-                    window.clearTimeout(t);
-                }
-                t = window.setTimeout(logOut, timeout);
+          function resetTimer() {
+            if (t) {
+                window.clearTimeout(t);
             }
+            t = window.setTimeout(logOut, timeout);
+          }
 
-            function logOut() {
-                localStorage.clear('Token');
-                location.reload();
-            }
+          function logOut() {
+            localStorage.clear('Token');
+            location.reload();
+          }
 
-            resetTimer();
-            //And bind the events to call `resetTimer()`
-            ["click", "mousemove", "keypress"].forEach(function (name) {
-                document.addEventListener(name, resetTimer);
-            });
-
+          resetTimer();
+          //And bind the events to call `resetTimer()`
+          ["click", "mousemove", "keypress"].forEach(function (name) {
+            document.addEventListener(name, resetTimer);
+          });
         }());
     },
+
     mounted() {
         $(document).foundation();
         let config = {
@@ -97,28 +115,18 @@
       Headway.init(config);
 
     },
+
     methods: {
-      logout() {
-        this.$store.dispatch('auth/logout').then(res => console.log('header logout'))
-      }
-    },
-
-
-    computed: {
-      firstName: function () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName
-        } else {
-          return "User"
-        }
+      logout () {
+        this.$store.dispatch('auth/logout').then(res => {
+          console.log('header logout')
+          this.$router.push({ path: '/login' })
+        })
       },
-      fullName: function () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
-        } else {
-          return "User"
-        }
-      }
-    }
+
+      profile () {
+        this.$router.push({ path: `/employees/${this.$store.state.auth.userId}` })
+      },
+    },
   }
 </script>

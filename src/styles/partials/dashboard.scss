@@ -1,5 +1,6 @@
 @import "../base/clean-variables";
 @import "../mixins/other-mixin";
+
 .filter{
   padding: rem-calc(10) rem-calc(15) rem-calc(35) ;
   .username{
@@ -35,30 +36,6 @@
 
 }
 
-
-
-.icon-list{
-  @extend %listreset;
-  li{
-    line-height: rem-calc(32);
-    padding-left: 0;
-    .fa{
-      margin-right: rem-calc(10);
-      font-size: rem-calc(13);
-    }
-    a{
-      font-weight: 400;
-    }
-  }
-  ul{
-    margin: 0 0 0 2rem;
-    list-style-position: inside;
-    li{
-      border-bottom: none;
-    }
-  }
-}
-
 .wireless-overview{
   &.table-holder {
     min-height: inherit;
@@ -90,8 +67,6 @@
     background: lighten($brand-orange, 10%);
   }
 }
-
-
 
 .is-loading {
   position: absolute;
@@ -148,11 +123,10 @@
   @include css3(transition,all 0.2s ease-in-out);
 
   .search-form{
-    /*    margin-top: rem-calc(15);*/
     position:relative;
-    input[type='text']{
+
+    input[type='text'] {
       background: $ghost ;
-      /*@include css3(border-radius,20px);*/
       @include css3(border-radius,20px);
       height: 2.3rem !important;
     }
@@ -316,6 +290,7 @@
     padding-bottom: 7px;
     height: auto;
     background: transparent !important;
+
     &:before{
       content: none;
     }
@@ -328,6 +303,7 @@
       padding: 7px;
       border-bottom: 1px rgba(255,255,255,0.2) solid;
     }
+
     h3{
       letter-spacing: 4px;
       top: 2px;
@@ -339,21 +315,7 @@
       text-shadow: 0 0 17px rgba(255, 255, 255, 0.5);
       margin: 0;
     }
-
   }
-  .accordion{
-    .content{
-      padding: 0;
-    }
-    .new-account{
-      background: $brand-blue;
-      color: $white;
-      &:hover{
-        background: darken($brand-blue,5%);
-      }
-    }
-  }
-
 }
 .alert-box{
   &.alert{
@@ -461,10 +423,6 @@
   padding-top: 72px;
   &.test{
     padding-left:50px ;
-   /* .top-bar-section .logo{
-      padding-left: 0;
-      width: 40px;
-    }*/
   }
   @media screen and (max-width: 800px) {
     padding-left: 0;
@@ -480,10 +438,8 @@
       padding: 2px 11px;
       height: 54px;
     }
-
   }
 }
-
 
 .client-info{
   border-color:rgba(0, 0, 0, 0.10);
@@ -724,18 +680,7 @@
   .greeting{
     font-weight: 600;
   }
-  ul{
-    @extend %listreset;
-    li{
-      padding: 1rem 0;
-      &:first-child{
-        padding-top: 0;
-      }
-      &:last-child{
-        padding-bottom: 0;
-      }
-    }
-  }
+
   .dropdown-pane{
     max-width:200px ;
     top:72px !important;
@@ -760,6 +705,7 @@
     }
   }
 }
+
 .btn-round{
   @include css3(border-radius,3px);
 }
@@ -1212,6 +1158,22 @@
             padding: 4px;
           }
         }
+      }
+    }
+  }
+}
+
+.top-bar-section {
+  .profile ul {
+    margin: 0;
+    list-style: none;
+
+    li {
+      padding: 5px;
+
+      a {
+        display: inline-block;
+        padding: 5px;
       }
     }
   }
