@@ -135,7 +135,7 @@
                           >
                             <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
-                            <img :src="getImageUrl(device.devices[0])"/>
+                            <img :src="getImageUrl(device.devices[0])" />
                             <p class="m-b-0">{{device.devices[0].name}}</p>
                             <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                             <br>
@@ -172,7 +172,7 @@
                       >
                         <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
-                        <img :src="getImageUrl(device.devices[0])"/>
+                        <img :src="getImageUrl(device.devices[0])" />
                         <p class="m-b-0">{{device.devices[0].name}}</p>
                         <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                         <br>
@@ -199,7 +199,6 @@
         <div class="box-content-holder is-relative" v-if="carrierLoading">
           <div class="is-loading"></div>
         </div>
-
         <div class="box-content" v-else>
           <div class="row expanded">
             <div class="columns small-12">
@@ -222,7 +221,6 @@
                     </transition>
                   </slide>
                 </carousel>
-
               </div>
               <template v-else>
                 <hr>

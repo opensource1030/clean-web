@@ -1,11 +1,11 @@
-import modal from "./../../components/modal.vue";
-import {mapGetters} from "vuex";
-import multiselect from "vue-multiselect";
-import {Carousel, Slide} from "vue-carousel";
-import swal from "sweetalert2";
+import modal from './../../components/modal.vue'
+import { mapGetters, mapActions } from 'vuex'
+import multiselect from 'vue-multiselect'
+import { Carousel, Slide } from 'vue-carousel'
+import swal from 'sweetalert2'
 
 export default {
-  name: 'package',
+  name : 'package',
   components: {
     modal,
     multiselect,
@@ -78,18 +78,18 @@ export default {
       carriers: 'packages/allCarriers'
     }),
   },
-  methods: {
+  methods : {
     getNecessaryData() {
       this.$store.dispatch('packages/getCompanyInfo').then(
         res => {
           // Conditions Mapping
-          for (let condition of res.udls) {
+          for(let condition of res.udls) {
             var newCondition = {
               nameCond: condition.name,
               values: []
             };
 
-            switch (condition.inputType) {
+            switch(condition.inputType) {
               case 'string':
                 newCondition.options = ['contains', 'equal', 'not equal'];
                 break;
@@ -103,7 +103,7 @@ export default {
                 break;
             }
 
-            for (let section of condition.sections) {
+            for(let section of condition.sections) {
               newCondition.values.push(section.name);
             }
 
@@ -122,37 +122,32 @@ export default {
               this.$store.dispatch('packages/getCarriers').then(
                 res => {
                   this.carrierLoading = false;
-
+                  
                   // Prepare Data if packageId is existing
-                  if (this.packageId) {
+                  if(this.packageId) {
                     // Set Conditions
-                    for (let condition of this.packageData.conditions) {
-                      this.conditions.selected.splice(this.conditions.selected.length - 1, 0, {
-                        nameCond: condition.nameCond,
-                        condition: condition.condition,
-                        value: condition.value,
-                        id: condition.id
-                      });
+                    for(let condition of this.packageData.conditions) {
+                      this.conditions.selected.splice(this.conditions.selected.length - 1, 0, {nameCond: condition.nameCond, condition: condition.condition, value: condition.value, id: condition.id});
                       this.updateConditionFields(condition.nameCond, this.conditions.selected.length - 2);
                     }
 
                     // Set Devices
-                    for (let device of this.packageData.devicevariations)
+                    for(let device of this.packageData.devicevariations)
                       this.devices.selected.push(device);
 
                     // Set Presets
-                    for (let service of this.packageData.services) {
+                    for(let service of this.packageData.services) {
                       service.added = 1;
                       this.services.selected.push(service);
                     }
-
+                      
                     // Set Addresses
-                    for (let address of this.packageData.addresses) {
+                    for(let address of this.packageData.addresses) {
                       address.added = 1;
                       this.addresses.selected.push(address);
 
-                      for (let i = this.addresses.availableAddresses.length - 1; i >= 0; i--) {
-                        if (this.addresses.availableAddresses[i].id == address.id)
+                      for(let i = this.addresses.availableAddresses.length - 1; i >= 0; i--) {
+                        if(this.addresses.availableAddresses[i].id == address.id)
                           this.addresses.availableAddresses.splice(i, 1);
                       }
                     }
@@ -167,8 +162,8 @@ export default {
 
     // CONDITION METHODS
     updateConditionFields(label, index) {
-      for (let condition of this.conditions.availableConditions) {
-        if (condition.nameCond == label) {
+      for(let condition of this.conditions.availableConditions) {
+        if(condition.nameCond == label) {
           this.conditions.selected[index].conditionOptions = condition.options;
           this.conditions.selected[index].valueOptions = condition.values;
         }
@@ -177,29 +172,29 @@ export default {
     deleteCondition(index) {
       this.conditions.selected.splice(index, 1);
 
-      if (this.conditions.selected.length == 0)
-        this.conditions.selected.push({nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: []});
+      if(this.conditions.selected.length == 0)
+        this.conditions.selected.push({ nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: [] });
     },
     addCondition(index) {
-      this.conditions.selected.push({nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: []});
+      this.conditions.selected.push({ nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: [] });
     },
 
     setActive(label, data) {
-      if (this[label] && this[label].id == data.id)
+      if(this[label] && this[label].id == data.id)
         this.$set(this, label, {});
       else {
         this.$set(this, label, data);
-        switch (label) {
+        switch(label) {
           case 'activePreset':
             this.devices.loading = true;
             this.$store.dispatch('packages/getDevicesPerPreset', this.activePreset.id).then(
               res => {
                 this.devices.availableDevices = [];
 
-                for (let newDevice of res) {
+                for(let newDevice of res) {
                   let exist = 0;
-                  for (let device of this.devices.selected) {
-                    if (newDevice.id == device.id)
+                  for(let device of this.devices.selected) {
+                    if(newDevice.id == device.id)
                       exist = 1;
                   }
 
@@ -217,10 +212,10 @@ export default {
               res => {
                 this.services.availableServices = [];
 
-                for (let newService of res) {
+                for(let newService of res) {
                   let exist = 0;
-                  for (let service of this.services.selected) {
-                    if (newService.id == service.id)
+                  for(let service of this.services.selected) {
+                    if(newService.id == service.id)
                       exist = 1;
                   }
 
@@ -252,8 +247,8 @@ export default {
     addService() {
       this.activeService.added = 1;
       this.services.selected.push(this.activeService);
-      for (let i = this.services.availableServices.length - 1; i >= 0; i--) {
-        if (this.services.availableServices[i].id == this.activeService.id)
+      for(let i=this.services.availableServices.length - 1; i>=0; i--) {
+        if(this.services.availableServices[i].id == this.activeService.id)
           this.services.availableServices.splice(i, 1);
       }
       this.activeService = {};
@@ -262,8 +257,8 @@ export default {
     removeService() {
       this.activeService.added = 0;
       this.services.availableServices.push(this.activeService);
-      for (let i = this.services.selected.length - 1; i >= 0; i--) {
-        if (this.services.selected[i].id == this.activeService.id)
+      for(let i=this.services.selected.length - 1; i>=0; i--) {
+        if(this.services.selected[i].id == this.activeService.id)
           this.services.selected.splice(i, 1);
       }
       this.activeService = {};
@@ -273,8 +268,8 @@ export default {
     addAddress() {
       this.activeAddress.added = 1;
       this.addresses.selected.push(this.activeAddress);
-      for (let i = this.addresses.availableAddresses.length - 1; i >= 0; i--) {
-        if (this.addresses.availableAddresses[i].id == this.activeAddress.id)
+      for(let i=this.addresses.availableAddresses.length - 1; i>=0; i--) {
+        if(this.addresses.availableAddresses[i].id == this.activeAddress.id)
           this.addresses.availableAddresses.splice(i, 1);
       }
       this.activeAddress = {};
@@ -283,8 +278,8 @@ export default {
     removeAddress() {
       this.activeAddress.added = 0;
       this.addresses.availableAddresses.push(this.activeAddress);
-      for (let i = this.addresses.selected.length - 1; i >= 0; i--) {
-        if (this.addresses.selected[i].id == this.activeAddress.id)
+      for(let i=this.addresses.selected.length - 1; i>=0; i--) {
+        if(this.addresses.selected[i].id == this.activeAddress.id)
           this.addresses.selected.splice(i, 1);
       }
       this.activeAddress = {};
@@ -295,7 +290,7 @@ export default {
       if (object.hasOwnProperty('images')) {
         if (object.images.length > 0) {
           return process.env.URL_API + '/images/' + object.images[0].id;
-        }
+        }      
       } else {
         return 'http://openclipart.org/download/213897/black-android-phone.svg';
       }
@@ -311,41 +306,35 @@ export default {
           information: this.packageDescription
         },
         relationships: {
-          conditions: {data: []},
-          services: {data: []},
-          devicevariations: {data: []},
-          addresses: {data: []}
+          conditions: { data: [] },
+          services: { data: [] },
+          devicevariations: { data: [] },
+          addresses: { data: [] }
         }
       };
 
-      for (let condition of this.conditions.selected) {
-        if (condition.nameCond) {
+      for(let condition of this.conditions.selected) {
+        if(condition.nameCond) {
           var id = 0;
           condition.id ? id = condition.id : null;
-          this.packageData.relationships.conditions.data.push({
-            type: "conditions",
-            id: parseInt(id),
-            nameCond: condition.nameCond,
-            condition: condition.condition,
-            value: condition.value
-          });
+          this.packageData.relationships.conditions.data.push({type: "conditions", id: parseInt(id), nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
         }
       }
 
-      for (let device of this.devices.selected) {
+      for(let device of this.devices.selected) {
         this.packageData.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
       }
 
-      for (let service of this.services.selected) {
+      for(let service of this.services.selected) {
         this.packageData.relationships.services.data.push({type: "services", id: parseInt(service.id)});
       }
 
-      for (let address of this.addresses.selected) {
+      for(let address of this.addresses.selected) {
         this.packageData.relationships.addresses.data.push({type: 'addresses', id: parseInt(address.id)});
       }
 
-      if (this.packageName) {
-        if (this.packageId) {
+      if(this.packageName) {
+        if(this.packageId) {
           this.$store.dispatch('packages/updatePackage', this.packageData).then(
             res => {
               swal(
@@ -365,7 +354,7 @@ export default {
               )
             }
           )
-        }
+        }  
       }
     }
   }
