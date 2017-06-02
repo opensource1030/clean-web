@@ -48,7 +48,7 @@
       </li>
 
       <template v-if="features.FEATURE_IN_DEVELOPMENT">
-        <li v-permission="'Procurements'" class="treeview">
+        <li class="treeview">
           <a href="javascript:;" name="Inventory">
             <i class="fa fa-list-alt"></i>
             <span>Inventory</span>
@@ -56,29 +56,29 @@
             <i class="fa fa-minus pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li class="page-link" v-permission="'ManageDevices'">
+            <li class="page-link">
               <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
             </li>
 
-            <li class="page-link" v-permission="'ManageEquipmentGroups'">
+            <li class="page-link" >
                <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
             </li>
 
-            <li class="page-link" v-permission="'ManageServices'">
+            <li class="page-link">
               <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
             </li>
 
-            <li class="page-link" v-permission="'ManageEmployees'">
+            <li class="page-link" >
               <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a>
             </li>
 
-            <li class="page-link" v-permissions="'ManageCompanies'">
+            <li class="page-link">
               <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a>
             </li>
           </ul>
         </li>
 
-        <li v-permission="'Packages'" class="treeview">
+        <li class="treeview">
           <a href="javascript:;" name="Polices">
             <i class="fa fa-th-large"></i>
             <span>Packages</span>
@@ -91,7 +91,7 @@
           </ul>
         </li>
 
-        <li v-permission="'Presets'" class="treeview">
+        <li class="treeview">
           <a href="javascript:;" name="configuration">
             <i class="fa fa-tasks"></i>
             <span>Configuration</span>
@@ -123,19 +123,7 @@
 
 <script>
   import supportRequest from './support-request'
-  import Permision from './permisions'
   import Vue from 'vue';
-
-  Vue.directive('permission', {
-    update: function (el, value) {
-      if (Permision.hasPerm(value) == false) {
-        el.style.display = 'none'
-      }
-      else {
-        el.style.display = 'block';
-      }
-    }
-  })
 
   export default {
     name: "Sidemenu",
