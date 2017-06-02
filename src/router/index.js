@@ -138,7 +138,7 @@ const router = new VueRouter({
         { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' }},
         { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' }},
         { path: 'transfer', component: PlaceOrder, name: 'Transfer Service', meta: { label: 'Transfer' }},
-        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessories' }},
+        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessory' }},
       ]
     },
 

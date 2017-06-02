@@ -53,7 +53,8 @@ export default {
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
       selectedDevice: 'placeOrder/getSelectedDevice',
       selectedService: 'placeOrder/getSelectedService',
-      selectedStyle: 'placeOrder/getSelectedStyle'
+      selectedStyle: 'placeOrder/getSelectedStyle',
+      selectedAccessories: 'placeOrder/getSelectedAccessories'
     })
   },
   created() {
@@ -89,6 +90,15 @@ export default {
     }
   },
   methods : {
+    getImageUrl(object) {
+      if (object.hasOwnProperty('images')) {
+        if (object.images.length > 0) {
+          return process.env.URL_API + '/images/' + object.images[0].id;
+        }      
+      } else {
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+      }
+    },
     goOrderDevicePage() {
       this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
     },
@@ -148,10 +158,19 @@ export default {
         this.orderData.data.attributes.deviceCarrier = this.typedDeviceInfo.Carrier;
         this.orderData.data.attributes.deviceSim = this.typedDeviceInfo.Sim;
       } else {
-        this.orderData.data.relationships.devicevariations.data.push({
-          type: 'devicevariations',
-          id: this.selectedStyle.id
-        })
+        if(this.orderType != 'Accessory') {
+          this.orderData.data.relationships.devicevariations.data.push({
+            type: 'devicevariations',
+            id: this.selectedStyle.id
+          });
+        }
+
+        for(let accessory of this.selectedAccessories) {
+          this.orderData.data.relationships.devicevariations.data.push({
+            type: 'devicevariations',
+            id: accessory
+          });
+        }
       }
 
       if(this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'personal') {

@@ -55,7 +55,7 @@
     </modal>
 
     <placeOrderWizard :activeStep="3"></placeOrderWizard>
-    <div class="row expanded m-b-20">
+    <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
         <div v-if="((selectedNeedDevice == 'Yes' && selectedDeviceType == 'own') || selectedNeedDevice == 'No')">
@@ -71,7 +71,7 @@
         </div>
         <div v-else>
           <div class="device-image">
-            <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+            <img :src="getImageUrl(selectedDevice)" />
           </div>
           <div class="device-description">
             <p class="review-option">
@@ -99,8 +99,7 @@
         </div>
         <div v-else>
           <p v-for="serviceItem in selectedService.serviceitems">
-            <span class="bold capitalize" v-if="serviceItem.domain == 'domestic'">Domestic {{serviceItem.category}}</span>
-            <span class="bold capitalize" v-else>International {{serviceItem.category}}</span>
+            <span class="bold capitalize">{{serviceItem.domain}} {{serviceItem.category}}</span>
             <span> : {{serviceItem.value}} {{serviceItem.unit}}</span>
           </p>
         </div>
@@ -122,7 +121,7 @@
           <p>
             <span class="bold">Supervisor E-mail</span> : {{user.supervisorEmail}}
           </p>
-          <p v-for="udl in user.udls">
+          <p v-for="udl in user.udlvalues">
             <span class="bold">{{udl.udlName}}</span> : {{udl.udlValue}}
           </p>
         </div>

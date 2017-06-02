@@ -14,6 +14,8 @@ export default {
       needDevice: '',
       deviceType: '',
       devices: [],
+      accessories: [],
+      accessoryStatus: 0,
       device_loading: true,
       activeDevice: {},
       deviceInfo: {
@@ -32,11 +34,15 @@ export default {
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
       selectedDevice: 'placeOrder/getSelectedDevice',
       selectedCapacity: 'placeOrder/getSelectedCapacity',
-      selectedStyle: 'placeOrder/getSelectedStyle'
+      selectedStyle: 'placeOrder/getSelectedStyle',
+      selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
   },
   created() {
     this.orderType = this.$route.meta.label;
+    this.needDevice = this.selectedNeedDevice;
+    this.deviceType = this.selectedDeviceType;
+    this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo);
 
     switch(this.orderType) {
       case 'New':
@@ -58,11 +64,10 @@ export default {
           ) 
         }
         break;
+      case 'Accessory':
+        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices();
+        break;
     }
-
-    this.needDevice = this.selectedNeedDevice;
-    this.deviceType = this.selectedDeviceType;
-    this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo);
   },
   methods: {
     selectDevice(deviceIndex, capacity, styleIndex) {
@@ -76,6 +81,24 @@ export default {
       if(styleIndex)
         this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1];
     },
+    selectAccessory(accessoryIndex) {
+      let temp = $.extend(true, [], this.accessories);
+
+      if(temp[accessoryIndex].status) {
+        temp[accessoryIndex].status = 0;
+      } else {
+        temp[accessoryIndex].status = 1;
+      }
+
+      let activeAccessry = 0;
+      for(let accessory of temp) {
+        if(accessory.status)
+          activeAccessry = 1;
+      }
+      this.accessoryStatus = activeAccessry;
+
+      this.accessories = temp;
+    },
     getAllDevices() {
       this.$store.dispatch('placeOrder/getPackagesDevices').then(
         res => {
@@ -84,8 +107,12 @@ export default {
       )
     },
     alignDevicesandModifications(devicevariations) {
+      let app = this;
+
       let temp_devices = _.groupBy(devicevariations, 'deviceId');
       let devices_array = [];
+      let accessories_array = [];
+      let activeAccessry = 0;
       for(let deviceId in temp_devices) {
         let newObj = {
           device: temp_devices[deviceId][0].devices[0],
@@ -94,9 +121,17 @@ export default {
           capacity: [],
           style: {}
         }
-        
-        devices_array.push(newObj);
+
+        if(temp_devices[deviceId][0].devices[0].devicetypes[0].name == 'Accessory') {
+          if(app.selectedAccessories.indexOf(newObj.variations[0].id) >= 0) {
+            newObj.status = 1;
+            activeAccessry = 1;
+          }
+          accessories_array.push(newObj);
+        } else
+         devices_array.push(newObj);
       }
+      this.accessoryStatus = activeAccessry;
 
       for(let device of devices_array) {
         let capacities = [];
@@ -115,18 +150,30 @@ export default {
         }
 
         // Set Pre-selected Device, Capacity, Style
-        if(device.device.id == this.selectedDevice.id) {
-          this.activeDevice = device;
-          device.capacity = device.modifications[this.selectedCapacity];
-          device.style = this.selectedStyle;
-        } else {
-          device.capacity = device.modifications[Object.keys(device.modifications)[0]]
-          device.style = device.capacity[0];  
+        if(this.selectedDevice) {
+          if(device.device.id == this.selectedDevice.id) {
+            this.activeDevice = device;
+            device.capacity = device.modifications[this.selectedCapacity];
+            device.style = this.selectedStyle;
+          } else {
+            device.capacity = device.modifications[Object.keys(device.modifications)[0]]
+            device.style = device.capacity[0];  
+          }
         }
       }
 
       this.devices = devices_array;
+      this.accessories = accessories_array;
       this.device_loading = false;
+    },
+    getImageUrl(object) {
+      if (object.hasOwnProperty('images')) {
+        if (object.images.length > 0) {
+          return process.env.URL_API + '/images/' + object.images[0].id;
+        }      
+      } else {
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+      }
     },
     goOrderPages(value) {
       switch(value) {
@@ -150,6 +197,14 @@ export default {
 
           // Set Typed DeviceInfo
           this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo);
+
+          // Set Accessories
+          let activeAccessories = [];
+          for(let accessory of this.accessories) {
+            if(accessory.status)
+              activeAccessories.push(accessory.variations[0].id);
+          }
+          this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories);
 
           this.$store.dispatch('placeOrder/setCurrentView', 'order_review');
           break;
