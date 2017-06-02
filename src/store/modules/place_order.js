@@ -20,6 +20,7 @@ const state = {
   selectedDevice: {},
   selectedCapacity: '',
   selectedStyle: {},
+  selectedAccessories: [],
   selectedNeedDevice: 'Yes',
   selectedDeviceType: 'subsided',
   typedServiceInfo: {
@@ -59,6 +60,9 @@ const getters = {
   },
   getSelectedStyle: (state) => {
     return state.selectedStyle
+  },
+  getSelectedAccessories: (state) => {
+    return state.selectedAccessories;
   },
   getSelectedNeedDevice: (state) => {
     return state.selectedNeedDevice
@@ -120,7 +124,7 @@ const actions = {
 
       let params = {
         params: {
-          include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images'
+          include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
       };
 
@@ -138,7 +142,7 @@ const actions = {
       let promiseArray = [];
       let params = {
         params: {
-          include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images'
+          include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
       };
 
@@ -247,6 +251,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_STYLE, style)
   },
 
+  setAccessoriesSelected({ commit }, accessories) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY, accessories)
+  },
+
   setNeedDevice({ commit }, needDevice) {
     commit(types.PLACE_ORDER_SET_NEEDDEVICE, needDevice)
   },
@@ -297,6 +305,9 @@ const mutations = {
   },
   [types.PLACE_ORDER_SET_STYLE] (state, style) {
     state.selectedStyle = style;
+  },
+  [types.PLACE_ORDER_SET_ACCESSORY] (state, accessories) {
+    state.selectedAccessories = accessories;
   },
   [types.PLACE_ORDER_SET_NEEDDEVICE] (state, needDevice) {
     state.selectedNeedDevice = needDevice;

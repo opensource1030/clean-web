@@ -68,13 +68,13 @@
         </div>
         <div class="row expanded" v-else>
           <div class="row expanded" v-if="devices.length">
-            <div class="columns small-9 p-r-5s">
+            <div class="columns small-12 large-9 p-r-5s">
               <div class="m-b-20" v-for="(device, d_index) in devices" @click="selectDevice(d_index, 0, 0)" >
                 <p class="bold ft-20 p-b-5 m-b-20 border-bottom black">{{device.device.name}}</p>
                 <div class="row expanded" :class="{'device-active': device.device == activeDevice.device }">
                   <div class="columns small-12 p-10">
                     <div class="device-image">
-                      <img src="//openclipart.org/download/213897/black-android-phone.svg" />
+                      <img :src="getImageUrl(device.device)" />
                     </div>
                     <div class="device-description">
                       <p class="modifications">
@@ -95,8 +95,21 @@
                 </div>
               </div>
             </div>
-            <div class="columns small-3">
+            <div class="columns small-12 large-3">
               <p class="bold ft-20 p-b-5 m-b-10 border-bottom black">Add Accessories</p>
+              <div class="row expanded">
+                <div class="columns small-12 p-10 accessory-group">
+                  <div v-for="(accessory, a_index) in accessories">
+                    <div class="m-b-10 each-accessory" :class="{'accessory-active': accessory.status == 1}" @click="selectAccessory(a_index)">
+                      <div class="accessory-image">
+                        <img :src="getImageUrl(accessory.device)" />
+                      </div>
+                      <p class="text-center black m-b-0 ft-13 bold">{{accessory.device.name}}</p>
+                      <p class="price text-center black ft-13">{{accessory.variations[0].priceRetail}} {{accessory.device.currency}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row expanded" v-else>

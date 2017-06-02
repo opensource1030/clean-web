@@ -14,6 +14,7 @@ export default {
       needDevice: '',
       deviceType: '',
       devices: [],
+      accessories: [],
       device_loading: true,
       activeDevice: {},
       deviceInfo: {
@@ -32,7 +33,8 @@ export default {
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
       selectedDevice: 'placeOrder/getSelectedDevice',
       selectedCapacity: 'placeOrder/getSelectedCapacity',
-      selectedStyle: 'placeOrder/getSelectedStyle'
+      selectedStyle: 'placeOrder/getSelectedStyle',
+      selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
   },
   created() {
@@ -76,6 +78,17 @@ export default {
       if(styleIndex)
         this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1];
     },
+    selectAccessory(accessoryIndex) {
+      let temp = $.extend(true, [], this.accessories);
+
+      if(temp[accessoryIndex].status) {
+        temp[accessoryIndex].status = 0;
+      } else {
+        temp[accessoryIndex].status = 1;
+      }
+
+      this.accessories = temp;
+    },
     getAllDevices() {
       this.$store.dispatch('placeOrder/getPackagesDevices').then(
         res => {
@@ -84,8 +97,11 @@ export default {
       )
     },
     alignDevicesandModifications(devicevariations) {
+      let app = this;
+
       let temp_devices = _.groupBy(devicevariations, 'deviceId');
       let devices_array = [];
+      let accessories_array = [];
       for(let deviceId in temp_devices) {
         let newObj = {
           device: temp_devices[deviceId][0].devices[0],
@@ -94,8 +110,13 @@ export default {
           capacity: [],
           style: {}
         }
-        
-        devices_array.push(newObj);
+
+        if(temp_devices[deviceId][0].devices[0].devicetypes[0].name == 'Accessory') {
+          if(app.selectedAccessories.indexOf(newObj.variations[0].id) >= 0)
+            newObj.status = 1;
+          accessories_array.push(newObj);
+        } else
+         devices_array.push(newObj);
       }
 
       for(let device of devices_array) {
@@ -126,7 +147,17 @@ export default {
       }
 
       this.devices = devices_array;
+      this.accessories = accessories_array;
       this.device_loading = false;
+    },
+    getImageUrl(object) {
+      if (object.hasOwnProperty('images')) {
+        if (object.images.length > 0) {
+          return process.env.URL_API + '/images/' + object.images[0].id;
+        }      
+      } else {
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+      }
     },
     goOrderPages(value) {
       switch(value) {
@@ -150,6 +181,14 @@ export default {
 
           // Set Typed DeviceInfo
           this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo);
+
+          // Set Accessories
+          let activeAccessories = [];
+          for(let accessory of this.accessories) {
+            if(accessory.status)
+              activeAccessories.push(accessory.variations[0].id);
+          }
+          this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories);
 
           this.$store.dispatch('placeOrder/setCurrentView', 'order_review');
           break;

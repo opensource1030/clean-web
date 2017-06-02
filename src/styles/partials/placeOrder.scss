@@ -117,7 +117,7 @@
     border-bottom: 1px solid #eee;
   }
 
-  .device-active {
+  .device-active, .accessory-active {
     border: 1px solid #eee;
     background-color: rgba(0,0,0,0.025);
   }
@@ -128,9 +128,6 @@
     font-weight: bold;
     color: #FF690A;
   }
-
-  
-
 
   .avatar {
     span {
@@ -242,7 +239,75 @@
       }
     }
   }
-  
+
+  .accessory-group {
+    .each-accessory {
+      float: left;
+      display: block;
+      padding: 10px 10px;
+      margin: 1px;
+
+      .accessory-image {
+        max-width: 100%;
+        display: block;
+
+        img {
+          height: 110px;
+        }
+      }
+    }
+
+    @media only screen and (min-width: 1350px), (min-width: 370px) and (max-width: 509px) {
+      .each-accessory {
+        width: calc(33.3% - 2px);
+      }
+
+      &>div:nth-child(3n) {
+        &:before, &:after {
+          display: table;
+          content: '';
+        }
+
+        &:after {
+          clear: both;
+        }
+      }
+    }
+
+    @media only screen and (min-width: 1024px) and (max-width: 1349px), (max-width: 369px) {
+      .each-accessory {
+        width: calc(50% - 2px);
+      }
+
+      &>div:nth-child(2n) {
+        &:before, &:after {
+          display: table;
+          content: '';
+        }
+
+        &:after {
+          clear: both;
+        }
+      }
+    }
+    
+    @media only screen and (min-width: 510px) and (max-width: 1023px) {
+      .each-accessory {
+        width: calc(25% - 2px);
+      }
+
+      &>div:nth-child(4n) {
+        &:before, &:after {
+          display: table;
+          content: '';
+        }
+
+        &:after {
+          clear: both;
+        }
+      }
+    }
+  }
 
   .section-title {
     font-size: 18px;
