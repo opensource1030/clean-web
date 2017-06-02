@@ -213,7 +213,7 @@ const actions = {
 
   getUserConditions ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-      let params = 'include=udls';
+      let params = 'include=udlvalues';
 
       authAPI.getUser(localStorage.userId, params, res => {
         let result = store.sync(res.data);

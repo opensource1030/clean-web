@@ -121,7 +121,7 @@
           <p>
             <span class="bold">Supervisor E-mail</span> : {{user.supervisorEmail}}
           </p>
-          <p v-for="udl in user.udls">
+          <p v-for="udl in user.udlvalues">
             <span class="bold">{{udl.udlName}}</span> : {{udl.udlValue}}
           </p>
         </div>
