@@ -55,7 +55,7 @@
     </modal>
 
     <placeOrderWizard :activeStep="3"></placeOrderWizard>
-    <div class="row expanded m-b-20">
+    <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
         <div v-if="((selectedNeedDevice == 'Yes' && selectedDeviceType == 'own') || selectedNeedDevice == 'No')">
