@@ -47,6 +47,18 @@
     color: #444444;
     height: auto;
     text-align: center;
+    margin: 15px 0;
+
+    .device-image {
+      display: block;
+
+      img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: 150px
+      }
+    }
   }
 }
 

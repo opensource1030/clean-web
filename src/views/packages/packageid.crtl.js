@@ -1,8 +1,8 @@
-import modal from "./../../components/modal.vue";
-import {mapGetters} from "vuex";
-import multiselect from "vue-multiselect";
-import {Carousel, Slide} from "vue-carousel";
-import swal from "sweetalert2";
+import modal from './../../components/modal.vue'
+import {mapGetters, mapActions} from 'vuex'
+import multiselect from 'vue-multiselect'
+import {Carousel, Slide} from 'vue-carousel'
+import swal from 'sweetalert2'
 
 export default {
   name: 'package',
@@ -365,7 +365,7 @@ export default {
               )
             }
           )
-        }
+        }  
       }
     }
   }
