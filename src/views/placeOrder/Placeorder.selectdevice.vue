@@ -95,7 +95,7 @@
                 </div>
               </div>
             </div>
-            <div class="columns" :class="{ 'small-3 large-3': orderType != 'Accessory', 'small-12 large-12': orderType == 'Accessory' }">
+            <div class="columns small-12" :class="{ 'large-3': orderType != 'Accessory', 'large-12': orderType == 'Accessory' }">
               <p class="bold ft-20 p-b-5 m-b-10 border-bottom black">Add Accessories</p>
               <div class="row expanded">
                 <div class="columns small-12 p-10 accessory-group">

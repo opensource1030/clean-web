@@ -158,17 +158,17 @@ export default {
         this.orderData.data.attributes.deviceCarrier = this.typedDeviceInfo.Carrier;
         this.orderData.data.attributes.deviceSim = this.typedDeviceInfo.Sim;
       } else {
-        if(this.orderType == 'Accessory') {
-          for(let accessory of this.selectedAccessories) {
-            this.orderData.data.relationships.devicevariations.data.push({
-              type: 'devicevariations',
-              id: accessory
-            });
-          }
-        } else {
+        if(this.orderType != 'Accessory') {
           this.orderData.data.relationships.devicevariations.data.push({
             type: 'devicevariations',
             id: this.selectedStyle.id
+          });
+        }
+
+        for(let accessory of this.selectedAccessories) {
+          this.orderData.data.relationships.devicevariations.data.push({
+            type: 'devicevariations',
+            id: accessory
           });
         }
       }
