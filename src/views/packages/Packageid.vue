@@ -135,10 +135,11 @@
                           >
                             <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
-                            <img src="//openclipart.org/download/213897/black-android-phone.svg"/>
-                            {{device.devices[0].name}}
+                            <img :src="getImageUrl(device.devices[0])"/>
+                            <p class="m-b-0">{{device.devices[0].name}}</p>
+                            <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                             <br>
-                            Price - {{device.priceOwn}}
+                            <div class="clearfix"></div>
                           </span>
                             </div>
                           </transition>
@@ -171,10 +172,11 @@
                     >
                       <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
-                        <img src="//openclipart.org/download/213897/black-android-phone.svg"/>
-                        {{device.devices[0].name}}
+                        <img :src="getImageUrl(device.devices[0])"/>
+                        <p class="m-b-0">{{device.devices[0].name}}</p>
+                        <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                         <br>
-                        Price - {{device.priceOwn}}
+                        <div class="clearfix"></div>
                       </span>
                       </div>
                     </transition>
