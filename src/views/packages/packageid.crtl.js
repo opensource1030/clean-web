@@ -285,6 +285,17 @@ export default {
       this.activeAddress = {};
     },
 
+    // DEVICE IMAGE
+    getImageUrl(object) {
+      if (object.hasOwnProperty('images')) {
+        if (object.images.length > 0) {
+          return process.env.URL_API + '/images/' + object.images[0].id;
+        }
+      } else {
+        return 'http://openclipart.org/download/213897/black-android-phone.svg';
+      }
+    },
+
     // Update or Create Package
     savePackage() {
       this.packageData = {

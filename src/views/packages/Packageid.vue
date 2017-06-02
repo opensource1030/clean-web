@@ -384,50 +384,39 @@
                 <hr>
               </template>
 
+              <div class="row extend" v-if="activeAddress.id">
 
-              <div class="row expanded" v-if="addresses.selected.length">
-                <div class="sub-title">Selected Addresses</div>
-                <carousel :perPage="6">
-                  <slide v-for="(address, index) in addresses.selected">
-                    <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
-                         @click="setActive('activeAddress', address)">
-                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                      <div class="box-content">{{address.name}}</div>
-                    </div>
-                  </slide>
-                </carousel>
-              </div>
-              <div class="row expanded" v-if="activeAddress.id">
-                <transition appear
-                            enter-class=""
-                            enter-active-class="animated fadeIn"
-                            leave-class=""
-                            leave-active-class="animated fadeOut"
-
-                >
                 <div class="large-10 small-12 columns">
-                  <table>
-                    <thead>
-                    <tr>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th>PostalCode</th>
-                      <th>State</th>
-                      <th>Address</th>
-                      <th>Phone No</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>{{activeAddress.country}}</td>
-                      <td>{{activeAddress.city}}</td>
-                      <td>{{activeAddress.postalCode}}</td>
-                      <td>{{activeAddress.state}}</td>
-                      <td>{{activeAddress.address}}</td>
-                      <td>{{activeAddress.phone}}</td>
-                    </tr>
-                    </tbody>
-                  </table>
+                  <transition appear
+                              enter-class=""
+                              enter-active-class="animated fadeIn"
+                              leave-class=""
+                              leave-active-class="animated fadeOut"
+
+                  >
+                    <table>
+                      <thead>
+                      <tr>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>PostalCode</th>
+                        <th>State</th>
+                        <th>Address</th>
+                        <th>Phone No</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>{{activeAddress.country}}</td>
+                        <td>{{activeAddress.city}}</td>
+                        <td>{{activeAddress.postalCode}}</td>
+                        <td>{{activeAddress.state}}</td>
+                        <td>{{activeAddress.address}}</td>
+                        <td>{{activeAddress.phone}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </transition>
                 </div>
                 <div class="large-2 small-12 columns">
                   <a class="button delete m-r-10" @click="removeAddress()" v-if="activeAddress.added == 1">
@@ -437,7 +426,27 @@
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </a>
                 </div>
-                </transition>
+              </div>
+
+              <div class="row extend" v-if="addresses.selected.length">
+                <div class="sub-title">Selected Addresses</div>
+                <carousel :perPage="6">
+                  <slide v-for="(address, index) in addresses.selected">
+                    <transition appear
+                                enter-class=""
+                                enter-active-class="animated zoomIn"
+                                leave-class=""
+                                leave-active-class="animated zoomOut"
+
+                    >
+                      <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
+                           @click="setActive('activeAddress', address)">
+                        <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                        <div class="box-content">{{address.name}}</div>
+                      </div>
+                    </transition>
+                  </slide>
+                </carousel>
               </div>
             </div>
           </div>

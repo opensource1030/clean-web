@@ -45,7 +45,7 @@
 
   .eachDevice {
     color: #444444;
-    /*  height: 315px;*/
+    height: auto;
     text-align: center;
   }
 }
@@ -134,6 +134,7 @@ div.VueCarousel-slide {
       font-size: 25px;
       text-rendering: auto;
       -webkit-font-smoothing: antialiased;
+
       content: "\f05d";
       position: absolute;
       top: 20px;
