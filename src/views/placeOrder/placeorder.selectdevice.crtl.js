@@ -213,8 +213,6 @@ export default {
   },
   watch: {
     'allPackages_loading': function(newVal, oldVal) {
-      console.log(newVal);
-      console.log(oldVal);
       newVal ? null : this.getAllDevices();
     }
   }
