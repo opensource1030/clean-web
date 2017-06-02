@@ -160,17 +160,17 @@
 
                 <hr>
                 <div class="row expanded">
-                <div class="sub-title">Selected Devices</div>
-                <carousel :perPage="6">
-                  <slide v-for="(device, index) in devices.selected">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated zoomIn"
-                                leave-class=""
-                                leave-active-class="animated zoomOut"
+                  <div class="sub-title">Selected Devices</div>
+                  <carousel :perPage="6">
+                    <slide v-for="(device, index) in devices.selected">
+                      <transition appear
+                                  enter-class=""
+                                  enter-active-class="animated zoomIn"
+                                  leave-class=""
+                                  leave-active-class="animated zoomOut"
 
-                    >
-                      <div class="eachDevice" @click="removeDevice(index)">
+                      >
+                        <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
                         <img :src="getImageUrl(device.devices[0])"/>
                         <p class="m-b-0">{{device.devices[0].name}}</p>
@@ -178,11 +178,11 @@
                         <br>
                         <div class="clearfix"></div>
                       </span>
-                      </div>
-                    </transition>
-                  </slide>
-                </carousel>
-              </div>
+                        </div>
+                      </transition>
+                    </slide>
+                  </carousel>
+                </div>
 
               </template>
             </div>
@@ -216,9 +216,9 @@
                     >
                       <div class="box-type-1" :class="{'active': carrier.id == activeCarrier.id}"
                            @click="setActive('activeCarrier', carrier)">
-                      <span class="box-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
-                      <div class="box-content">{{carrier.shortName}}</div>
-                    </div>
+                        <span class="box-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
+                        <div class="box-content">{{carrier.shortName}}</div>
+                      </div>
                     </transition>
                   </slide>
                 </carousel>
@@ -227,41 +227,41 @@
               <template v-else>
                 <hr>
                 <div class="row expanded">
-                <div class="sub-title">No Carriers Available</div>
-              </div>
+                  <div class="sub-title">No Carriers Available</div>
+                </div>
               </template>
               <template v-if="activeCarrier.id">
                 <hr>
                 <div class="row expanded">
-                <div class="box-content-holder is-relative" v-if="services.loading">
-                  <div class="is-loading"></div>
-                </div>
-                <div class="columns small-12" v-else>
-                  <div class="row expanded" v-if="services.availableServices.length">
-                    <div class="sub-title">Services Available From {{activeCarrier.shortName}}</div>
-                    <carousel :perPage="5">
-                      <slide v-for="(service, index) in services.availableServices">
-                        <transition appear
-                                    enter-class=""
-                                    enter-active-class="animated zoomIn"
-                                    leave-class=""
-                                    leave-active-class="animated zoomOut"
+                  <div class="box-content-holder is-relative" v-if="services.loading">
+                    <div class="is-loading"></div>
+                  </div>
+                  <div class="columns small-12" v-else>
+                    <div class="row expanded" v-if="services.availableServices.length">
+                      <div class="sub-title">Services Available From {{activeCarrier.shortName}}</div>
+                      <carousel :perPage="5">
+                        <slide v-for="(service, index) in services.availableServices">
+                          <transition appear
+                                      enter-class=""
+                                      enter-active-class="animated zoomIn"
+                                      leave-class=""
+                                      leave-active-class="animated zoomOut"
 
-                        >
-                          <div class="box-type-2" :class="{'active': service.id == activeService.id}"
-                               @click="setActive('activeService', service)">
-                          <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
-                          <div class="box-content">{{service.title}}</div>
-                        </div>
-                        </transition>
-                      </slide>
-                    </carousel>
-                  </div>
-                  <div class="row expanded" v-else>
-                    <div class="sub-title">No Available Services</div>
+                          >
+                            <div class="box-type-2" :class="{'active': service.id == activeService.id}"
+                                 @click="setActive('activeService', service)">
+                              <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
+                              <div class="box-content">{{service.title}}</div>
+                            </div>
+                          </transition>
+                        </slide>
+                      </carousel>
+                    </div>
+                    <div class="row expanded" v-else>
+                      <div class="sub-title">No Available Services</div>
+                    </div>
                   </div>
                 </div>
-              </div>
               </template>
               <template v-if="activeService.id">
                 <hr>
@@ -319,25 +319,25 @@
               </template>
               <template v-if="services.selected.length">
                 <div class="row expanded">
-                <div class="sub-title">Selected Services</div>
-                <carousel :perPage="5">
-                  <slide v-for="(service, index) in services.selected">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated fadeIn"
-                                leave-class=""
-                                leave-active-class="animated fadeOut"
+                  <div class="sub-title">Selected Services</div>
+                  <carousel :perPage="5">
+                    <slide v-for="(service, index) in services.selected">
+                      <transition appear
+                                  enter-class=""
+                                  enter-active-class="animated fadeIn"
+                                  leave-class=""
+                                  leave-active-class="animated fadeOut"
 
-                    >
-                      <div class="box-type-2" :class="{'active': service.id == activeService.id}"
-                           @click="setActive('activeService', service)">
-                      <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
-                      <div class="box-content">{{service.title}}</div>
-                    </div>
-                    </transition>
-                  </slide>
-                </carousel>
-              </div>
+                      >
+                        <div class="box-type-2" :class="{'active': service.id == activeService.id}"
+                             @click="setActive('activeService', service)">
+                          <span class="box-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
+                          <div class="box-content">{{service.title}}</div>
+                        </div>
+                      </transition>
+                    </slide>
+                  </carousel>
+                </div>
               </template>
             </div>
           </div>
@@ -358,31 +358,31 @@
             <div class="columns small-12">
               <template v-if="addresses.availableAddresses.length">
                 <div class="row expanded">
-                <div class="sub-title">Addresses Available</div>
-                <carousel :perPage="6">
-                  <slide v-for="(address, index) in addresses.availableAddresses">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated fadeIn"
-                                leave-class=""
-                                leave-active-class="animated fadeOut"
+                  <div class="sub-title">Addresses Available</div>
+                  <carousel :perPage="6">
+                    <slide v-for="(address, index) in addresses.availableAddresses">
+                      <transition appear
+                                  enter-class=""
+                                  enter-active-class="animated fadeIn"
+                                  leave-class=""
+                                  leave-active-class="animated fadeOut"
 
-                    >
-                      <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
-                           @click="setActive('activeAddress', address)">
-                      <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
-                      <div class="box-content">{{address.name}}</div>
-                    </div>
-                    </transition>
-                  </slide>
-                </carousel>
-              </div>
+                      >
+                        <div class="box-type-1" :class="{'active': address.id == activeAddress.id}"
+                             @click="setActive('activeAddress', address)">
+                          <span class="box-icon"><i class="fa fa-globe" aria-hidden="true"></i></span>
+                          <div class="box-content">{{address.name}}</div>
+                        </div>
+                      </transition>
+                    </slide>
+                  </carousel>
+                </div>
                 <hr>
               </template>
               <template v-else>
                 <div class="row expanded">
-                <div class="sub-title">No Available Addresses</div>
-              </div>
+                  <div class="sub-title">No Available Addresses</div>
+                </div>
                 <hr>
               </template>
 
