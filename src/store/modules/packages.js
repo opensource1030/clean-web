@@ -237,7 +237,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
-          include: 'udls,addresses'
+          include: 'udls,udls.udlvalues,addresses'
         }
       };
 

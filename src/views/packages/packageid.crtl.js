@@ -82,6 +82,7 @@ export default {
     getNecessaryData() {
       this.$store.dispatch('packages/getCompanyInfo').then(
         res => {
+          // console.log('packages/getCompanyInfo', res)
           // Conditions Mapping
           for(let condition of res.udls) {
             var newCondition = {
@@ -98,13 +99,14 @@ export default {
                 break;
               case 'boolean':
                 newCondition.options = ['equal'];
+                break;
               default:
                 newCondition.options = ['contains', 'greater than', 'greater or equal', 'less than', 'less or equal', 'equal', 'not equal'];
                 break;
             }
 
-            for(let section of condition.sections) {
-              newCondition.values.push(section.name);
+            for(let uv of condition.udlvalues) {
+              newCondition.values.push(uv.udlValue);
             }
 
             this.conditions.availableConditions.push(newCondition);
