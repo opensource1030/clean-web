@@ -107,7 +107,7 @@ const actions = {
 
       service.getOne(params, id, res => {
         commit(types.SERVICES_GET_SERVICE, {records: res})
-        resolve(service)
+        resolve(res)
       }, err => {
         console.log('service err', err)
         reject(err)
@@ -120,7 +120,7 @@ const actions = {
     if (serviceDetails.status == true) {
       status = 'Enabled'
     } else {
-      status = "Disabled"
+      status = 'Disabled'
     }
 
     let serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
@@ -286,12 +286,18 @@ const mutations = {
   },
 
   updateServiceDetail (state, { e, type }) {
-    if (type != "currency" && type != "carrierId") {
-      state.serviceDetails[type] = e.target.value
-    } else {
-      if(type=="carrierId"){
+    // console.log('updateServiceDetail', e, state.serviceDetails)
+    switch (type) {
+      case 'status':
+        state.serviceDetails[type] = e.target.checked
+        break
+      case 'currency':
+      case 'carrierId':
         state.serviceDetails[type] = e
-      }
+        break
+      default:
+        state.serviceDetails[type] = e.target.value
+        break
     }
   },
 

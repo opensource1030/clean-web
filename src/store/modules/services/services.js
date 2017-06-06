@@ -58,27 +58,21 @@ const getters = {
 }
 
 const actions = {
-
   prevPage({dispatch, commit, state}) {
-
     if (state.pagination.current_page > 1) {
       commit(types.SERVICE_PREV_PAGE)
       dispatch('getAll')
     }
   },
 
-  nextPage({dispatch, commit}) {
-
+  nextPage({dispatch, commit, state}) {
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.SERVICE_NEXT_PAGE)
       dispatch('getAll')
     }
   },
 
-  getAll({
-    dispatch,
-    commit
-  }, {costMax, costMin}) {
+  getAll({ dispatch, commit, state }) {
     let params = {
       params: {
         include: 'serviceitems,carriers',
@@ -86,7 +80,9 @@ const actions = {
         //sort: 'title'
       }
     };
-  /*  if (state.filter.status != '') {
+
+    /*
+    if (state.filter.status != '') {
       let aux = state.filter.status;
       if (state.filter.status.length > 50) {
         aux = aux.substring(0, 50) + '%';
@@ -133,56 +129,57 @@ const actions = {
 
     if (costMin != 0) {
       params.params['filter[cost][ge]'] = costMin;
-    }*/
+    }
+    */
+
     //  commit(types.LOADING, 1)
     service.getAll(params, records => {
-
       commit(types.SERVICES_GET_ALL, {records})
-
     }, (err) => {
       console.log(err)
     })
-
   },
-  addFilter ({dispatch,commit}, {type, records}) {
-     commit(types.SERVICE_ADD_FILTER, {type, records})
-       dispatch('getAll')
 
+  addFilter ({dispatch,commit}, {type, records}) {
+    commit(types.SERVICE_ADD_FILTER, {type, records})
+    dispatch('getAll')
  },
 }
 
 const mutations = {
-
   [types.SERVICE_PREV_PAGE](state) {
     // if (state.pagination.current_page > 1)
     state.pagination.current_page--
   },
-  [types.SERVICE_ADD_FILTER] (state, {type, records}) {
-     switch (type) {
-         case 'status':
-             state.filter.status = records
-             break
-         case 'plan':
-             state.filter.plan = records
-             break
-         case 'carriers':
-             state.filter.carriers = records
-         case 'details':
-             state.filter.details= records
-             break
-         case 'codePlan':
-             state.filter.codePlan= records
-             break
-         case 'cost':
-             state.filter.cost = records
-             break
-     }
- },
 
   [types.SERVICE_NEXT_PAGE](state) {
     // if (state.pagination.current_page < state.pagination.total_pages)
     state.pagination.current_page++
   },
+
+  [types.SERVICE_ADD_FILTER] (state, {type, records}) {
+    switch (type) {
+      case 'status':
+        state.filter.status = records
+        break
+      case 'plan':
+        state.filter.plan = records
+        break
+      case 'carriers':
+        state.filter.carriers = records
+        break
+      case 'details':
+        state.filter.details= records
+        break
+      case 'codePlan':
+        state.filter.codePlan= records
+        break
+      case 'cost':
+        state.filter.cost = records
+        break
+    }
+  },
+
   [types.SERVICES_GET_ALL](state, {records}) {
     state.pagination = records.meta.pagination;
     records = store.sync(records);
@@ -226,11 +223,17 @@ const mutations = {
           hide: true
         });
 
+        if (service.status === "Enabled") {
+          service.status = true;
+        } else {
+          service.status = false;
+        }
+
         /*
-             *  Sometimes (error) we don't have a carrier assigned,
-             *  so we need to put some value to prevent an
-             *  issue loading information.
-             */
+         *  Sometimes (error) we don't have a carrier assigned,
+         *  so we need to put some value to prevent an
+         *  issue loading information.
+         */
         if (service.carriers.length == 0) {
           service.carriers[0] = {
             presentation: ''
@@ -244,15 +247,13 @@ const mutations = {
       if (!state.Services.firstTime) {
         state.Services.loading = false;
       }
-
     }
   }
-
 }
 
 export default {
   namespaced : true,
-    strict: process.env.NODE_ENV !== 'production',
+  strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,

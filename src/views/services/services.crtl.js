@@ -9,6 +9,7 @@ import {mapGetters, mapActions} from 'vuex'
 import serviceAPI from './../../api/service-api'
 import services from './../../api/service/services'
 import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js'
+import { ServicesPresenter } from './../../presenters'
 
 export default {
   components : {
@@ -48,6 +49,7 @@ export default {
         managePlanButton: 'Manage Plan',
         noServiceFound: 'No Services provided. Please, click on "Add Plan" button to create the first service plan or reset the Search.'
       },
+
       search: {
         firstTime: true,
         searchFilter: false,
@@ -117,10 +119,11 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then(function () {
         serviceAPI.remove(id, res => {
-          vm.$store.dispatch('services/getAll', {
-            costMax: vm.search.costMax,
-            costMin: vm.search.costMin,
-          })
+          vm.$store.dispatch('services/getAll')
+          // vm.$store.dispatch('services/getAll', {
+          //   costMax: vm.search.costMax,
+          //   costMin: vm.search.costMin,
+          // })
         }, err => console.log('company remove', err))
 
         swal('Deleted!', 'Requested service has been deleted.', 'success')
@@ -133,17 +136,22 @@ export default {
       });
     },
 
-    onServiceActiveChange (e, id) {
+    onServiceActiveChange (e, srv) {
+      // console.log(e)
+      let service = _.extend({}, srv)
       let isChecked = e.target.checked;
-      let params = {
-        id:id,
-        active: isChecked ? 1 : 0
-      }
+      service.status = isChecked ? 'Enabled' : 'Disabled'
+      let _jsonData = ServicesPresenter.toJSON(service)
+      delete _jsonData['data']['attributes']['carriers']
+      delete _jsonData['data']['attributes']['serviceitems']
+      delete _jsonData['data']['attributes']['created_at']
+      delete _jsonData['data']['attributes']['updated_at']
+      let _params = JSON.stringify(_jsonData)
+      console.log('onServiceActiveChange', _params)
 
-      serviceAPI.update(id, res => {
+      serviceAPI.update(service.id, _params, res => {
         this.$store.dispatch('services/getAll')
       }, err => console.log('service err', err))
-      //this.$store.dispatch('company/update', params)
     },
 
     asyncFindStatus(query){

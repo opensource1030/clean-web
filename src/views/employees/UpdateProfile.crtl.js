@@ -2,23 +2,22 @@ import Vue from 'vue';
 import employee from './../../api/employee/employee';
 
 export default {
-  name:'UpdateProfile',
-  beforeCreate(){
-        this.id = this.$route.params.id;
+  name: 'UpdateProfile',
 
-        employee.dataEmployee(this);
+  data () {
+    return {
+      uiemployee:null,
+    }
   },
 
-data(){
-    return {
-              uiemployee:null,
-    }
-},
-methods:{
-  save(){
+  created () {
+    this.id = this.$route.params.id;
+    employee.dataEmployee(this);
+  },
+
+  methods: {
+    save () {
       employee.updateProfile(this,this.uiemployee);
+    }
   }
-
-}
-
 }

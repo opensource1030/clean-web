@@ -6,26 +6,14 @@ import modal from './../../components/modal.vue';
 import inputValidate from './../../components/inputValidate.vue'
 import {findServiceItem, findByAddons, orderFilters} from './../../components/filters.js';
 import {mapGetters, mapActions} from 'vuex'
-export default {
 
+export default {
   components : {
     modal,
     inputValidate,
-    multiselect
+    multiselect,
   },
-  beforeCreate() {
-    this.$store.dispatch('carrier/search')
-    if (this.$route.params.id > 0) {
-      //  service.getService(this, this.$route.params.id);
 
-      this.$store.dispatch('service/getOne', this.$route.params.id)
-
-    }
-  },
-  mounted() {},
-  computed : {
-    ...mapGetters({serviceDetails: 'service/getServiceDetails', domesticPlan: 'service/getDomesticPlan', internationalPlan: 'service/getInternationalPlan', addons: 'service/getAddons', carriers: 'carrier/sorted'})
-  },
   data() {
     return {
       names: {
@@ -64,15 +52,48 @@ export default {
         deleteButton: 'Delete the selected Add-on.',
         addButton: 'Add another Add-on.',
         saveChanges: 'Save Changes'
-      }
-
+      },
+      isReady: false,
     }
   },
-  methods : {
+
+  computed : {
+    ...mapGetters ({
+      serviceDetails: 'service/getServiceDetails',
+      domesticPlan: 'service/getDomesticPlan',
+      internationalPlan: 'service/getInternationalPlan',
+      addons: 'service/getAddons',
+      carriers: 'carrier/sorted'
+    })
+  },
+
+  created () {
+    this.isReady = false
+    this.$store.dispatch('carrier/search').then((res) => {
+      if (this.$route.params.id > 0) {
+        this.$store.dispatch('service/getOne', this.$route.params.id).then((res) => {
+          this.isReady = true
+        }, (err) => { console.log('error in service/getOne', err) })
+      } else {
+        this.isReady = true
+      } 
+    }, (err) => { console.log('error in carrier/search', err) })
+  },
+
+  mounted () {},
+  
+  methods: {
     findServiceItem,
     orderFilters,
-    ...mapActions(['carrier/sorted', 'service/getOne', 'service/update', 'service/add']),
+    ...mapActions([
+      'carrier/sorted',
+      'service/getOne',
+      'service/update',
+      'service/add'
+    ]),
+
     save() {
+      // console.log('status', this.serviceDetails.status)
       if (this.serviceDetails.id > 0) {
         this.$store.dispatch('error/clearAll')
         this.$store.dispatch('service/update', {
@@ -101,8 +122,5 @@ export default {
         this.noCarrierSelected = true;
       }
     },
-    showFalse() {
-      this.show = false;
-    }
   }
 }

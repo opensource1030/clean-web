@@ -22,9 +22,8 @@ export default {
     http.post(API_BASE_URL + '/services', data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
-  update (params, id, cb, errCb) {
-    let data = { data: params } // or data = params
-    http.patch(API_BASE_URL + '/services/'+id, data).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
+  update (id, params, cb, errCb) {
+    http.patch(API_BASE_URL + '/services/' + id, params).then((res) => cb(store.sync(res.data)), (err) => errCb(err))
   },
 
   remove (id, cb, errCb) {

@@ -119,6 +119,12 @@ export class DevicesPresenter extends Presenter {
 }
 DevicesPresenter.prototype.type = 'devices'
 
+
+export class ServicesPresenter extends Presenter {
+}
+ServicesPresenter.prototype.type = 'services'
+
+
 export class PresetsPresenter extends Presenter {
   relationships () {
     return {

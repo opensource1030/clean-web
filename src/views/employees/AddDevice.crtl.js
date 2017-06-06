@@ -3,21 +3,9 @@ import employee from './../../api/employee/employee';
 
 export default {
   name:'addDevice',
-data(){
+  data () {
     return {
-          Device:{}
-
-
-
-        }
-
-
-
-    },
-
-methods(){
-
-}
-
-
+      Device: {}
+    }
+  },
 }

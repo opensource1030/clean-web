@@ -120,8 +120,11 @@
                 <td valign="top">
                   <div class="switch tiny">
                     <input class="switch-input" :id="'status-' + service.id" type="checkbox"
-                           :name="'status-' + service.id" :checked="service.status"
-                           @change="onServiceActiveChange($event, service.id)" :value="service.status">
+                           :name="'status-' + service.id" :value="service.id" 
+                           @change="onServiceActiveChange($event, service)" checked v-if="service.status">
+                    <input class="switch-input" :id="'status-' + service.id" type="checkbox"
+                           :name="'status-' + service.id" :value="service.id" 
+                           @change="onServiceActiveChange($event, service)" v-else>
                     <label class="switch-paddle" :for="'status-' + service.id">
                       <span class="show-for-sr"></span>
                     </label>
@@ -227,7 +230,8 @@
               </tr>
             </template>
           </table>
-            <div v-show="Service.loading" class="is-loading">
+
+          <div v-show="Service.loading" class="is-loading">
           </div>
         </div>
       </div>
