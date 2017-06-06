@@ -71,7 +71,8 @@
                     <span v-else>No Services Provided.</span>
                   </td>
                 </tr>
-                <tr class="detail-tr" :data-id="pack.id" :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''" 
+                <tr class="detail-tr" :data-id="pack.id"
+                    :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''"
                     v-show="pack.id == activePackage.id && pack.devicevariations.length">
                   <td colspan="2"></td>
                   <td>Devices</td>
@@ -81,6 +82,13 @@
                     <span v-if="packageDevices">{{packageDevices | truncate(100)}}</span>
                     <span v-else>No Devices Provided.</span>
                   </td>
+                </tr>
+                <tr class="detail-tr" :data-id="pack.id"
+                    :class="activePackage && (activePackage.id == pack.id) ? 'active' : ''">
+                  <td colspan="2"></td>
+                  <td>Approval Code</td>
+                  <td>{{pack.approvalCode}}</td>
+                  <td colspan="2"> &nbsp;</td>
                 </tr>
               </tbody>
             </table>
