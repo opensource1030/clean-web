@@ -135,7 +135,7 @@
                           >
                             <div class="eachDevice" @click="addDevice(index)">
                           <span class="device-image">
-                            <img :src="getImageUrl(device.devices[0])" />
+                            <img :src="getImageUrl(device.devices[0])"/>
                             <p class="m-b-0">{{device.devices[0].name}}</p>
                             <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                             <br>
@@ -172,7 +172,7 @@
                       >
                         <div class="eachDevice" @click="removeDevice(index)">
                       <span class="device-image">
-                        <img :src="getImageUrl(device.devices[0])" />
+                        <img :src="getImageUrl(device.devices[0])"/>
                         <p class="m-b-0">{{device.devices[0].name}}</p>
                         <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
                         <br>
@@ -316,6 +316,7 @@
                 </transition>
               </template>
               <template v-if="services.selected.length">
+                <hr>
                 <div class="row expanded">
                   <div class="sub-title">Selected Services</div>
                   <carousel :perPage="5">
@@ -375,7 +376,7 @@
                     </slide>
                   </carousel>
                 </div>
-                <hr>
+
               </template>
               <template v-else>
                 <div class="row expanded">
@@ -385,6 +386,7 @@
               </template>
 
               <div class="row extend" v-if="activeAddress.id">
+                <hr>
 
                 <div class="large-10 small-12 columns">
                   <transition appear
@@ -429,6 +431,7 @@
               </div>
 
               <div class="row extend" v-if="addresses.selected.length">
+                <hr>
                 <div class="sub-title">Selected Addresses</div>
                 <carousel :perPage="6">
                   <slide v-for="(address, index) in addresses.selected">
@@ -448,14 +451,27 @@
                   </slide>
                 </carousel>
               </div>
+
             </div>
           </div>
+
         </div>
       </div>
     </div>
+    <div class="clearfix"></div>
+
+    <div class="columns large-4 small-12">
+      <div class="input-group">
+        <span class="input-group-label">Approval</span>
+        <input class="input-group-field" type="text" v-model="packageCode">
+      </div>
+    </div>
+    <div class="columns large-8 small-12">
+    </div>
+
 
     <div class="columns small-12">
-      <a class="button large save-button" @click="savePackage()" :disabled="packageName == ''">
+      <a class="button large save-button" @click="savePackage()" :disabled="packageName && packageCode == ''">
         <span v-if="packageId">Update Package</span>
         <span v-else>Create Package</span>
       </a>

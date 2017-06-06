@@ -18,6 +18,7 @@ export default {
       packageData: {},
       packageName: '',
       packageDescription: '',
+      packageCode: '',
       presetLoading: true,
       carrierLoading: true,
       activePreset: {},
@@ -61,6 +62,7 @@ export default {
           this.packageData = res;
           this.packageName = res.name;
           this.packageDescription = res.information;
+          this.packageCode = res.approvalCode;
           this.getNecessaryData();
         }
       )
@@ -305,7 +307,8 @@ export default {
         id: this.packageId,
         attributes: {
           name: this.packageName,
-          information: this.packageDescription
+          information: this.packageDescription,
+          approvalCode: this.packageCode
         },
         relationships: {
           conditions: { data: [] },
@@ -343,7 +346,10 @@ export default {
                 'Updated!',
                 'Requested Package is updated.',
                 'success'
+              ).then(
+                this.$router.push({path: '/packages'})
               )
+
             }
           )
         } else {
@@ -353,7 +359,10 @@ export default {
                 'Created!',
                 'Requested Package is created.',
                 'success'
+              ).then(
+                this.$router.push({path: '/packages'})
               )
+
             }
           )
         }  
