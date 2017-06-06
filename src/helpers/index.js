@@ -1,5 +1,21 @@
 import _ from 'lodash'
 
+export const Utils = {
+  isEmptyArray (arr) {
+    if (arr == null || arr === void (0) || arr.length == 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+export const EmployeeHelper = {
+  getUdlValueIndex (employee, udl_id) {
+    return _.findIndex(employee.udlvalues, (uv) => (uv.udlId == udl_id))
+  }
+}
+
 export const DeviceVariationHelper = {
   getCapacityIndex (dv) {
     return _.findIndex(dv.modifications, (m) => (m.modType == 'capacity'))

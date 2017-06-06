@@ -5,6 +5,7 @@ export class UdlValuesPresenter extends Presenter {
 }
 UdlValuesPresenter.prototype.type = 'udlvalues'
 
+
 export class UdlsPresenter extends Presenter {
   attributes (instance) {
     const attrs = super.attributes(instance)
@@ -24,6 +25,7 @@ export class UdlsPresenter extends Presenter {
 }
 UdlsPresenter.prototype.type = 'udls'
 
+
 export class AddressesPresenter extends Presenter {
   attributes (instance) {
     const attrs = super.attributes(instance)
@@ -33,17 +35,21 @@ export class AddressesPresenter extends Presenter {
 }
 AddressesPresenter.prototype.type = 'addresses'
 
+
 export class ImagesPresenter extends Presenter {
 }
 ImagesPresenter.prototype.type = 'images'
+
 
 export class ModificationsPresenter extends Presenter {
 }
 ModificationsPresenter.prototype.type = 'modifications'
 
+
 export class CarriersPresenter extends Presenter {
 }
 CarriersPresenter.prototype.type = 'carriers'
+
 
 export class CompaniesPresenter extends Presenter {
   // relationships () {
@@ -54,13 +60,21 @@ export class CompaniesPresenter extends Presenter {
 }
 CompaniesPresenter.prototype.type = 'companies'
 
+
 export class EmployeesPresenter extends Presenter {
+  relationships () {
+    return {
+      udlvalues: UdlValuesPresenter,
+    }
+  }
 }
 EmployeesPresenter.prototype.type = 'users'
+
 
 export class DeviceTypesPresenter extends Presenter {
 }
 DeviceTypesPresenter.prototype.type = 'devicetypes'
+
 
 export class DeviceVariationsPresenter extends Presenter {
   attributes (instance) {
@@ -81,6 +95,7 @@ export class DeviceVariationsPresenter extends Presenter {
   }
 }
 DeviceVariationsPresenter.prototype.type = 'devicevariations'
+
 
 export class DevicesPresenter extends Presenter {
   // type = 'devices'

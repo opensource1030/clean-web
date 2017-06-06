@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import employeeAPI from './../../api/employee-api.js'
-import { EmployeesPresenter } from './../../presenters'
 import { mapGetters } from 'vuex'
+import { EmployeesPresenter } from './../../presenters'
+import { Utils, EmployeeHelper } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -39,7 +40,11 @@ export default {
   computed: {
     ...mapGetters({
       companies: 'company/allCompanies',
-    })
+    }),
+
+    EmployeeHelper () {
+      return EmployeeHelper
+    }
   },
 
   beforeCreate () {
@@ -51,15 +56,15 @@ export default {
 
     this.$store.dispatch('company/searchByActive', { query: 1 }).then(res => {
       if (employee_id > 0) {
-        employeeAPI.get(employee_id, { params: { include: 'companies,companies.udls,companies.addresses' } }, res => {
+        employeeAPI.get(employee_id, { params: { include: 'udlvalues,companies,companies.udls,companies.udls.udlvalues,companies.addresses' } }, res => {
           this.$set(this, 'employee', store.sync(res.data))
           // this.$set(this, 'activeCompany', (this.employee.companies.length > 0 && !!this.employee.companies[0] ? this.employee.companies[0] : null))
           // console.log('employee', this.employee)
-          this.initComponent()
+          this.init()
           this.$set(this, 'employee_id', employee_id)
         })
       } else {
-        this.initComponent()
+        this.init()
         this.$set(this, 'employee_id', employee_id)
       }
     }, err => {
@@ -72,10 +77,24 @@ export default {
   },
 
   methods: {
-    initComponent () {
+    init () {
       if (!(this.employee.companies.length > 0 && parseInt(this.employee.companies[0].id) > 0)) {
         this.changeCompany(this.companies[0])
+      } else {
+        if (Utils.isEmptyArray(this.employee.udlvalues)) {
+          this.initUdlValues()
+        }
       }
+    },
+
+    initUdlValues () {
+      this.employee.udlvalues = []
+      _.each(this.employee.companies[0].udls, (udl) => {
+         if (! Utils.isEmptyArray(udl.udlvalues)) {
+            this.employee.udlvalues.push(udl.udlvalues[0])
+         }
+      })
+      // console.log('udlvalues', this.employee.udlvalues)
     },
 
     onChange_Company(e) {
@@ -89,6 +108,7 @@ export default {
       this.employee.companyId = company.id
       this.employee.companies = []
       this.employee.companies.push(company)
+      this.initUdlValues()
       this.$forceUpdate()
     },
 
@@ -115,7 +135,8 @@ export default {
       }
 
       let _jsonData = EmployeesPresenter.toJSON(this.employee)
-
+      delete _jsonData['included']
+      delete _jsonData['data']['attributes']['companies']
       if (process.env.NODE_ENV === 'testing') {
         _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
       }

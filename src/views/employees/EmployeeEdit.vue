@@ -162,8 +162,8 @@
           <div class="columns medium-4" v-for="udl in employee.companies[0].udls">
             <label>
               {{ udl.name }}
-              <select>
-                <option v-for="section in udl.sections" :value="section.id">{{ section.name }}</option>
+              <select v-model="employee.udlvalues[EmployeeHelper.getUdlValueIndex(employee, udl.id)]">
+                <option v-for="uv in udl.udlvalues" :value="uv">{{ uv.udlValue }}</option>
               </select>
             </label>
           </div>
