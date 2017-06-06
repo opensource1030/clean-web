@@ -135,7 +135,7 @@ const actions = {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         return new Promise((resolve, reject) => {
-          service.update(serviceo.toJSON(), serviceDetails.id, res => {
+          service.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_UPDATE, {router})
             resolve(service)
           }, err => {

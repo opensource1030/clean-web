@@ -61,7 +61,7 @@ export default class Service {
         status: this.status,
         title: this.title,
         planCode: parseInt(this.planCode),
-        cost: parseInt(this.cost),
+        cost: parseFloat(this.cost),
         description: this.description,
         carrierId: parseInt(this.carrierId),
         currency: this.currency
