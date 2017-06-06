@@ -147,7 +147,7 @@ export default {
       delete _jsonData['data']['attributes']['created_at']
       delete _jsonData['data']['attributes']['updated_at']
       let _params = JSON.stringify(_jsonData)
-      console.log('onServiceActiveChange', _params)
+      // console.log('onServiceActiveChange', _params)
 
       serviceAPI.update(service.id, _params, res => {
         this.$store.dispatch('services/getAll')
