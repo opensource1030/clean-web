@@ -7,5 +7,5 @@ module.exports = {
     LEGACY_URL: '"https://app.wirelessanalytics.com"',
     SUPPORT_EMAIL: '"easyvista@wirelessanalytics.com"',
     EASYVISTA_CODE: 16
-
+    SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"'
 };
