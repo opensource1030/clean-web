@@ -6,6 +6,6 @@ module.exports = {
     CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
     LEGACY_URL: '"https://app.wirelessanalytics.com"',
     SUPPORT_EMAIL: '"easyvista@wirelessanalytics.com"',
-    EASYVISTA_CODE: 16
+  EASYVISTA_CODE: 16,
     SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"'
 };
