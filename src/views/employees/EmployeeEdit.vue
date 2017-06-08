@@ -55,7 +55,7 @@
             </div>
           </div>
 
-          <div class="row">
+          <div class="row extend">
             <div class="columns medium-8">
               <label>
                 <span>Extra Notes</span>
@@ -79,74 +79,6 @@
                   <label class="switch-paddle" :for="'active-' + employee.id"></label>
                 </div>
               </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns small-12">
-      <div class="grid-box shipping-address-info">
-        <div class="box-heading">
-          <h2>Shipping Address</h2>
-        </div>
-        <div class="box-content">
-          <div class="row">
-            <div class="columns large-6">
-              <div>
-                <label>
-                  <span>Name</span>
-                  <input type="text">
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>Attn</span>
-                  <input type="text">
-                </label>
-              </div>
-              <div>
-                <label>
-                  <span>Phone</span>
-                  <input type="text">
-                </label>
-              </div>
-            </div>
-            <div class="columns large-6">
-              <div>
-                <label>
-                  <span>Address</span>
-                  <input type="text">
-                </label>
-              </div>
-              <div class="row full-width">
-                <div class="columns medium-6">
-                  <label>
-                    <span>City</span>
-                    <input type="text">
-                  </label>
-                </div>
-                <div class="columns medium-6">
-                  <label>
-                    <span>State</span>
-                    <input type="text">
-                  </label>
-                </div>
-              </div>
-              <div class="row full-width">
-                <div class="columns medium-6">
-                  <label>
-                    <span>Country</span>
-                    <input type="text">
-                  </label>
-                </div>
-                <div class="columns medium-6">
-                  <label>
-                    <span>Postal Code</span>
-                    <input type="text">
-                  </label>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -179,7 +111,15 @@
   </div>
 
   <div class="is-relative" v-show="employee.id !== employee_id">
-    <div class="is-loading"></div>
+    <transition appear
+                enter-class=""
+                enter-active-class="animated zoomIn"
+                leave-class=""
+                leave-active-class="animated zoomOut"
+
+    >
+      <div class="is-loading"></div>
+    </transition>
   </div>
 </div>
 </template>

@@ -211,6 +211,25 @@
   text-align: center;
 }
 
+.lined-title {
+  border-width: 1px 0;
+  border-color: $smoke;
+  border-style: solid;
+  padding: 0.2rem 0;
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+  h2 {
+    font-size: $global-font-size + 0.19rem;
+    font-weight: 500;
+    margin-bottom: 0;
+    float: left;
+  }
+  .btn-edit {
+    float: right;
+    margin-top: 0.1rem;
+  }
+}
+
 dl {
   &.dl-h {
     @media screen and (min-width: $medium) {
@@ -222,9 +241,22 @@ dl {
         text-align: right;
         text-overflow: ellipsis;
         white-space: nowrap;
+
       }
       dd {
         margin-left: 170px;
+        margin-bottom: 0.3rem;
+      }
+    }
+    &.no-mg {
+      dt {
+        width: auto;
+        margin-right: 0.3rem;
+
+      }
+      dd {
+        margin-left: 0;
+        white-space: pre-wrap;
       }
     }
   }
@@ -305,4 +337,27 @@ dl {
       margin-left: 0;
     }
   }
+}
+
+.mgbtm-0 {
+  margin-bottom: 0;
+}
+
+.mgbtm-1 {
+  margin-bottom: 1rem;
+}
+
+.select-review {
+  display: inline-block;
+  font-weight: 300;
+  max-width: 400px;
+  width: auto;
+  padding: 0;
+  height: auto;
+  line-height: 1.7rem;
+  margin-bottom: 0;
+  border: none;
+  background: none;
+  @include css3(appearance, initial);
+  pointer-events: none;
 }
