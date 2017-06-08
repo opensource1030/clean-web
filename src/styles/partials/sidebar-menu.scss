@@ -34,7 +34,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
     }
 
     &.menu-title {
-      background:$sidebar-menu-hover-bg;
+
       color:$white;
        > span{
          text-transform: uppercase;
@@ -42,7 +42,10 @@ $sidebar-menu-hover-border-color: #3c8dbc;
        }
       .fa{
         width: 17px;
-        color:$white;
+        color: $brand-orange;
+      }
+      &.active {
+        background: rgba($brand-orange, 0.2);
       }
     }
 
@@ -80,6 +83,7 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       margin-top: 3px;
       margin-right: 5px;
     }
+
   }
 
   li {
@@ -126,6 +130,11 @@ $sidebar-menu-hover-border-color: #3c8dbc;
 
     > .treeview-menu {
       display: block;
+      a {
+        &.active {
+          color: $brand-orange;
+        }
+      }
     }
   }
 
@@ -174,6 +183,14 @@ $sidebar-menu-hover-border-color: #3c8dbc;
       }
       &.active > a {
         color: $sidebar-menu-submenu-hover-color;
+      }
+    }
+  }
+  .open-support {
+    &:active, &:focus {
+      background: $sidebar-menu-hover-bg !important;
+      .fa {
+        color: $white
       }
     }
   }

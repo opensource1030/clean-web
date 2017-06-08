@@ -4,7 +4,7 @@
       <li class="menu-toggle">
         <a class="icon-close"><i class="fa fa-bars"></i></a>
       </li>
-      <li class="menu-title">
+      <li class="menu-title active ">
         <a href="/dashboard">
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </a>
@@ -48,7 +48,7 @@
       </li>
 
       <template v-if="features.FEATURE_IN_DEVELOPMENT">
-        <li class="treeview">
+        <li v-permission="'Procurements'" class="treeview">
           <a href="javascript:;" name="Inventory">
             <i class="fa fa-list-alt"></i>
             <span>Inventory</span>
@@ -56,29 +56,29 @@
             <i class="fa fa-minus pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li class="page-link">
+            <li class="page-link" v-permission="'ManageDevices'">
               <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
             </li>
 
-            <li class="page-link" >
+            <li class="page-link" v-permission="'ManageEquipmentGroups'">
                <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
             </li>
 
-            <li class="page-link">
+            <li class="page-link" v-permission="'ManageServices'">
               <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
             </li>
 
-            <li class="page-link" >
+            <li class="page-link" v-permission="'ManageEmployees'">
               <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a>
             </li>
 
-            <li class="page-link">
+            <li class="page-link" v-permissions="'ManageCompanies'">
               <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a>
             </li>
           </ul>
         </li>
 
-        <li class="treeview">
+        <li v-permission="'Packages'" class="treeview">
           <a href="javascript:;" name="Polices">
             <i class="fa fa-th-large"></i>
             <span>Packages</span>
@@ -91,7 +91,7 @@
           </ul>
         </li>
 
-        <li class="treeview">
+        <li v-permission="'Presets'" class="treeview">
           <a href="javascript:;" name="configuration">
             <i class="fa fa-tasks"></i>
             <span>Configuration</span>
@@ -104,8 +104,8 @@
           </ul>
         </li>
       </template>
-      
-        <li>
+
+      <li class="treeview">
           <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
             <i class="fa fa-phone"></i>
             <span>Get Support</span>
@@ -123,7 +123,19 @@
 
 <script>
   import supportRequest from './support-request'
+  import Permision from './permisions'
   import Vue from 'vue';
+
+  Vue.directive('permission', {
+    update: function (el, value) {
+      if (Permision.hasPerm(value) == false) {
+        el.style.display = 'none'
+      }
+      else {
+        el.style.display = 'block';
+      }
+    }
+  })
 
   export default {
     name: "Sidemenu",
@@ -134,6 +146,7 @@
 
       }
     },
+
     mounted() {
       /*console.log('features', this.features);*/
       var intervalId = setInterval(function () {
@@ -216,6 +229,43 @@
       $('#menu').slicknav({prependTo: 'section.top-bar-section'});
 
       setTimeout(supportRequest, 100);
+
+      let checkCookie = $.cookie("nav-item");
+      if (checkCookie != "") {
+        let Element = $('.menu-title > a:eq(' + checkCookie + ')');
+        Element.parent().addClass('active');
+
+      }
+      let checkCookie1 = $.cookie("nav-inner");
+      if (checkCookie1 != "") {
+        let Element = $('.treeview-menu > li > a:eq(' + checkCookie1 + ')');
+        Element.addClass('active');
+        Element.parent().parent().addClass('menu-open');
+        Element.parent().parent().parent().addClass('active');
+        Element.parent().parent().parent().parent().find('.menu-title').removeClass('active');
+
+      }
+
+      $('.treeview-menu > li > a').each(function () {
+        $(this).click(function (e) {
+          e.stopPropagation();
+          $.removeCookie("nav-item");
+          $.removeCookie("nav-inner");
+          let navInnerIndex = $('.treeview-menu > li >  a').index(this);
+          $.cookie("nav-inner", navInnerIndex);
+          $(this).toggleClass('active');
+          $('.menu-title').removeClass('active');
+
+        });
+      });
+      $('.menu-title').click(function (e) {
+        e.stopPropagation();
+        $.removeCookie("nav-inner");
+        let navIndex = $(this).index(this);
+        $.cookie("nav-item", navIndex);
+        $(this).parent().toggleClass('active');
+
+      });
     },
     methods: {
       openSupportTicket: function() {
