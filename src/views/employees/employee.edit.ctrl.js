@@ -140,15 +140,23 @@ export default {
       if (process.env.NODE_ENV === 'testing') {
         _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
       }
-      // console.log(_jsonData)
+      console.log(_jsonData)
 
       let _params = JSON.stringify(_jsonData)
-      // console.log(_params)
+      console.log(_params)
 
       if (this.employee_id > 0) {
-        employeeAPI.update(this.employee.id, _params, res => this.$router.push({ path: '/employees' }), err => console.log('update err', err))
+        employeeAPI.update(this.employee.id, _params, res => {
+          this.$router.push({path: '/employees/review/' + this.employee.id}), err => console.log('update err', err)
+        })
       } else {
-        employeeAPI.create(_params, res => this.$router.push({ path: '/employees' }), err => console.log('update err', err))
+        employeeAPI.create(_params, res => {
+          this.$store.dispatch('employee/searchByEmail', {query: this.employee.email});
+
+          let employee_id = res.data.data.id;
+          console.log(employee_id);
+          this.$router.push({path: '/employees/review/' + employee_id})
+        }, err => console.log('update err', err))
       }
     },
   }

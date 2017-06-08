@@ -42,6 +42,7 @@ import Profile from "./../views/employees/Profile.vue";
 import AddDevice from "./../views/employees/AddDevice.vue";
 import AddService from "./../views/employees/AddService.vue";
 import UpdateProfile from "./../views/employees/UpdateProfile.vue";
+import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 // routes Settings
 import Settings from './../views/settings/Settings.vue'
 
@@ -116,6 +117,7 @@ const router = new VueRouter({
         {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
         {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
+        {path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: {label: 'Review'}},
       ]
     },
 

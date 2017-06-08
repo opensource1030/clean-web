@@ -39,7 +39,7 @@
                 <td>
                   <span class="badge" @click="setActive(employee)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
                 </td>
-                <td>{{ employee.id }}</td>
+                <td>{{ employee.identification }}</td>
                 <td>
                   <div class="switch tiny">
                     <input class="switch-input" :id="'status-' + employee.id" type="checkbox" :name="'status-' + employee.id" v-bind:checked="employee.isActive" @change="onEmployeeActiveChange($event, employee.id)">
