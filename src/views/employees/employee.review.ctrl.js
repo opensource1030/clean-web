@@ -13,18 +13,18 @@ export default {
       employee_id: null,
       employee: {
         id: this.$route.params.id,
-        email: '',
-        username: '',
-        firstName: '',
-        lastName: '',
-        confirmed: 0,
-        isValidator: 1,
-        companyId: 0,
+        email: " ",
+        username: " ",
+        firstName: " ",
+        lastName: " ",
         companies: [{
           id: 0,
           udls: [],
           address: []
-        }]
+        }],
+        confirmed: 0,
+        isValidator: 1,
+        companyId: 0,
       },
       activeCompany: null,
       UserRole: [
@@ -44,48 +44,42 @@ export default {
     }
   },
   created () {
-    const employee_id = this.$route.params.id || 0
+    const employee_id = this.$route.params.id;
 
-    this.$store.dispatch('company/searchByActive', {query: 1}).then(res => {
+    this.$store.dispatch('company/searchByActive', {query: 2}).then(res => {
       if (employee_id > 0) {
         employeeAPI.get(employee_id, {params: {include: 'udlvalues,companies,companies.udls,companies.udls.udlvalues,companies.addresses'}}, res => {
           this.$set(this, 'employee', store.sync(res.data))
-          // this.$set(this, 'activeCompany', (this.employee.companies.length > 0 && !!this.employee.companies[0] ? this.employee.companies[0] : null))
-          // console.log('employee', this.employee)
-          this.init()
+          this.load();
           this.$set(this, 'employee_id', employee_id)
         })
       } else {
-        this.init()
+        this.load()
         this.$set(this, 'employee_id', employee_id)
       }
     }, err => {
       console.log('can not get companies')
     })
   },
-  mounted () {
-    // console.log('employee mounted')
-  },
 
   methods: {
-    init () {
+    load () {
       if (!(this.employee.companies.length > 0 && parseInt(this.employee.companies[0].id) > 0)) {
         this.changeCompany(this.companies[0])
       } else {
         if (Utils.isEmptyArray(this.employee.udlvalues)) {
-          this.initUdlValues()
+          this.loadUdlValues()
         }
       }
     },
 
-    initUdlValues () {
-      this.employee.udlvalues = []
+    loadUdlValues () {
+      this.employee.udlvalues = [];
       _.each(this.employee.companies[0].udls, (udl) => {
         if (!Utils.isEmptyArray(udl.udlvalues)) {
           this.employee.udlvalues.push(udl.udlvalues[0])
         }
       })
-      // console.log('udlvalues', this.employee.udlvalues)
     },
 
     submit () {
