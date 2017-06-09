@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-relative" v-if="!employee.length < 1">
+    <div class="is-relative" v-if="!employee.firstName">
       <div class="is-loading"></div>
     </div>
     <div class="page page-review" v-else>
