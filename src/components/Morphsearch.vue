@@ -49,6 +49,7 @@ export default {
                   classie.remove( morphSearch, 'open' );
 
 
+
                   // trick to hide input text once the search overlay closes
                   // todo: hardcoded times, should be done after transition ends
                   if( input.value !== '' ) {
@@ -84,6 +85,8 @@ export default {
         var keyCode = ev.keyCode || ev.which;
         if( keyCode === 27 && isOpen ) {
           toggleSearch(ev);
+
+          /* heap.track('Knowledge Base explored');*/
         }
       } );
 
@@ -94,7 +97,7 @@ export default {
   },
     methods: {
         greet() {
-            this.$ga.trackEvent('Knowledge Based explored')
+          heap.track('Clicked FAQ', {'clicked': 'yes'});
         }
     }
 }
