@@ -270,6 +270,7 @@
     methods: {
       openSupportTicket: function() {
         $('.support-form-holder').show();
+        heap.track('Support Ticket Opened', {'clicked': 'yes'});
       }
     }
   }

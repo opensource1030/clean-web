@@ -113,6 +113,7 @@
         enabled: true
       };
       Headway.init(config);
+      heap.identify(JSON.parse(localStorage.getItem("userProfile")).identification);
 
     },
 
@@ -120,6 +121,7 @@
       logout () {
         document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        heap.track('User logged out', {'clicked': 'yes'});
 
         this.$store.dispatch('auth/logout').then(res => {
           console.log('header logout');
