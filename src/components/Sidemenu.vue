@@ -161,28 +161,34 @@
     },
 
     mounted () {
+      console.log('Sidemenu mounted')
+
       /*console.log('features', this.features);*/
       var intervalId = setInterval(function () {
         var token = localStorage.token;
         var id = localStorage.userId;
         var email = localStorage.email;
+
         $('.redirect-link a').attr('href', function (index, href) {
-          var param = token + '&version=v4';
+          var param = token + '&version=v4'
           if (href.charAt(href.length - 1) === '?') //Very unlikely
-            return href + param;
+            return href + param
           else if (href.indexOf('?') > 0)
-            return href + param;
+            return href + param
           else
-            return href + '?' + param;
-        });
+            return href + '?' + param
+        })
+
         if (token !== undefined) {
-          clearInterval(intervalId);
+          clearInterval(intervalId)
         }
-      }, 2000);
+      }, 2000)
 
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
         $(menu).on('click', 'li a', function (e) {
+          console.log('sidebarMenu click', e)
+
           var $this = $(this);
           var checkElement = $this.next();
           if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
@@ -217,69 +223,38 @@
         });
       }
 
-      $(this.$el).foundation();
-
-      $.sidebarMenu($('.sidebar-menu'));
-
-      // $.cookie("isMenuActive", "1");
-      if ($.cookie("isMenuActive") == 1) {
-        $('.menu-left').addClass("test");
-        $('.content-right').addClass("test");
-      }
-
       $(".icon-close").click(function () {
         if ($(".menu-left").hasClass("test") == true) {
-          // button was active, de-activate it and update cookie
           $(".menu-left").removeClass("test");
           $(".content-right").removeClass("test");
-          $.cookie("isMenuActive", "0");
         }
         else {
-          // button is not active. add active class and update cookie.
           $(".menu-left").addClass("test");
-           $(".content-right").addClass("test");
-          $.cookie("isMenuActive", "1");
+          $(".content-right").addClass("test");
         }
       });
 
-      $('#menu').slicknav({prependTo: 'section.top-bar-section'});
-
-      setTimeout(supportRequest, 100);
-
-      let checkCookie = $.cookie("nav-item");
-      if (checkCookie != "") {
-        let Element = $('.menu-title > a:eq(' + checkCookie + ')');
-        Element.parent().addClass('active');
-      }
-
-      let checkCookie1 = $.cookie("nav-inner");
-      if (checkCookie1 != "") {
-        let Element = $('.treeview-menu > li > a:eq(' + checkCookie1 + ')');
-        Element.addClass('active');
-        Element.parent().parent().addClass('menu-open');
-        Element.parent().parent().parent().addClass('active');
-        Element.parent().parent().parent().parent().find('.menu-title').removeClass('active');
-      }
-
       $('.treeview-menu > li > a').each(function () {
         $(this).click(function (e) {
+          console.log('.treeview-menu > li > a', e)
           e.stopPropagation();
-          $.removeCookie("nav-item");
-          $.removeCookie("nav-inner");
-          let navInnerIndex = $('.treeview-menu > li >  a').index(this);
-          $.cookie("nav-inner", navInnerIndex);
-          $(this).toggleClass('active');
-          $('.menu-title').removeClass('active');
+          $('#menu .page-link.active').removeClass('active')
+          $('#menu .page-link a.active').removeClass('active')
+          $(this).parent().addClass('active');
+          $(this).addClass('active');
         });
       });
 
       $('.menu-title').click(function (e) {
+        console.log('.menu-title', e)
         e.stopPropagation();
-        $.removeCookie("nav-inner");
-        let navIndex = $(this).index(this);
-        $.cookie("nav-item", navIndex);
         $(this).parent().toggleClass('active');
       });
+
+      $.sidebarMenu($('#menu'));
+      $('#menu').slicknav({prependTo: 'section.top-bar-section'});
+      setTimeout(supportRequest, 100);
+      $(this.$el).foundation();
     },
 
     methods: {

@@ -1,8 +1,8 @@
 import  populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
-function supportRequest() {
 
+function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
     $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
@@ -62,6 +62,7 @@ function supportRequest() {
         minlength: 8
       }
     },
+
     submitHandler: function (form) {
       var form = $('#support-form');
       var $modal = $('#modal');
@@ -178,7 +179,6 @@ function supportRequest() {
       });
     }
   });
-
 }
 
 export default supportRequest;

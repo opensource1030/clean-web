@@ -151,8 +151,8 @@ const router = new VueRouter({
       meta: {requiresAuth: true, label: 'Presets'},
       children: [
         {path: '', component: Presets, name: 'List Presets', meta: {label: 'All'}},
-        {path: '/preset', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
-        {path: '/preset/:id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
+        {path: 'new', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
+        {path: ':id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
       ]
     },
 
@@ -163,8 +163,8 @@ const router = new VueRouter({
       meta: {requiresAuth: true, label: 'Services'},
       children: [
         {path: '', component: Services, name: 'List Services', meta: {label: 'All'}},
-        {path: '/service', component: Service, name: 'Add Service', meta: {label: 'Create'}},
-        {path: '/service/:id', component: Service, name: 'Update Service', meta: {label: 'Edit'}},
+        {path: 'new', component: Service, name: 'Add Service', meta: {label: 'Create'}},
+        {path: ':id', component: Service, name: 'Update Service', meta: {label: 'Edit'}},
       ]
     },
 

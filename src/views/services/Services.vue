@@ -1,7 +1,7 @@
 <template>
 <div class="page service-page service-index-page" >
   <div class="small-12 columns">
-    <router-link to="/service" class="button large btn-orange">{{ names.addPlan }}</router-link>
+    <router-link to="/services/new" class="button large btn-orange">{{ names.addPlan }}</router-link>
   </div>
 
   <div class="columns small-12">
@@ -142,7 +142,7 @@
                 <td valign="top">
                   <div class="action-buttons">
                     <a class="button alert" @click="removeService(service.id)"><i class="fa fa-trash"></i></a>
-                    <router-link :to="'/service/' + service.id" class="button warning" :name="'edit-' + service.id">
+                    <router-link :to="'/services/' + service.id" class="button warning" :name="'edit-' + service.id">
                       <i class="fa fa-edit"></i>
                     </router-link>
                   </div>
