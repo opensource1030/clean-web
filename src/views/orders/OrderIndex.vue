@@ -171,7 +171,7 @@
                 <td>{{ order.users[0] ? `${order.users[0].firstName} ${order.users[0].lastName}` : '' }}</td>
                 <td>{{ order.addresses[0] ? $options.filters.phone(order.addresses[0].phone) : '' }}</td>
                 <td>{{ order.packages[0] ? order.packages[0].name : '' }}</td>
-                <td>{{ order.services[0] ? order.services[0].carriers[0].presentation : '' }}</td>
+                <td>{{ _.get(order, 'services[0].carriers[0].presentation', '') }}</td>
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
                 <td>{{ (order.services.length > 0 && order.services[0] ? order.services[0].cost : '') | currency }}</td>

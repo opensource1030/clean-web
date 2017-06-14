@@ -157,6 +157,10 @@ export default {
   },
 
   computed: {
+    _ () {
+      return _
+    },
+
     ...mapGetters({
       orders: 'order/sorted'
     }),

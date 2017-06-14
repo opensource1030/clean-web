@@ -5,7 +5,7 @@
   </modal>
 
   <div class="small-12 columns">
-    <router-link to="/preset" class="button large add-button">Create New Equipment Group</router-link>
+    <router-link to="/presets/new" class="button large add-button">Create New Equipment Group</router-link>
   </div>
 
   <div class="small-12 columns">
@@ -56,7 +56,7 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removePreset(preset.id)"><i class="fa fa-trash"></i></a>
-                    <router-link :to = "'/preset/' + preset.id" class="button warning"><i class="fa fa-edit"></i></router-link>
+                    <router-link :to = "'/presets/' + preset.id" class="button warning"><i class="fa fa-edit"></i></router-link>
                   </div>
                 </td>
               </tr>
