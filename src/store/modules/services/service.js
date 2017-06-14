@@ -1,4 +1,4 @@
-import service from './../../../api/service-api'
+import serviceAPI from './../../../api/service-api'
 import Services from './../../../models/Service';
 import * as types from './../../mutation-types'
 import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
@@ -105,7 +105,7 @@ const actions = {
         }
       }
 
-      service.getOne(params, id, res => {
+      serviceAPI.getOne(params, id, res => {
         commit(types.SERVICES_GET_SERVICE, {records: res})
         resolve(res)
       }, err => {
@@ -135,7 +135,7 @@ const actions = {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         return new Promise((resolve, reject) => {
-          service.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
+          serviceAPI.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_UPDATE, {router})
             resolve(service)
           }, err => {
@@ -167,7 +167,7 @@ const actions = {
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         console.log(serviceo)
         return new Promise((resolve, reject) => {
-          service.add(serviceo.toJSON(), res => {
+          serviceAPI.create({ data: serviceo.toJSON() }, res => {
             commit(types.SERVICE_ADD_NEW, {router})
             resolve(service)
           }, err => {

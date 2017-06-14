@@ -7,10 +7,11 @@
     <!-- <div>{{ $data.filters.devices }}</div> -->
 
     <div class="small-12 columns">
-      <a class="button large btn-orange add-button" href="/devices/new">New Device</a>
+      <!-- <a class="button large btn-orange add-button" href="/devices/new">New Device</a> -->
+      <router-link to="/devices/new" class="button large btn-orange add-button">New Device</router-link>
     </div>
 
-    <div class="columns small-12" v-show='isReady'>
+    <div class="columns small-12" v-if='isReady'>
       <div class="tag-header">
         <h1>Devices</h1>
       </div>
@@ -159,8 +160,8 @@
                     <span class="badge toggle-button" @click="setActive(device)"><i class="fa fa-plus"></i><i
                             class="fa fa-minus"></i></span>
                   </td>
-                  <td>{{ device.name }}</td>
-                  <td>{{ device.devicetypes[0].name }}</td>
+                  <td>{{ _.get(device, 'name', '') }}</td>
+                  <td>{{ _.get(device, 'devicetypes[0].name', '') }}</td>
                   <td>{{ device.make }}</td>
                   <td>{{ device.defaultPrice }} {{ device.currency }}</td>
                   <td>{{ getCarrierNames(device) }}</td>
@@ -169,8 +170,9 @@
                   <td>
                     <div class="action-buttons">
                       <a class="button alert" title="Delete" @click="removeDevice(device.id)"><i class="fa fa-trash"></i></a>
-                      <a title="Edit" class="button warning edit-button" :href="'/devices/' + device.id"><i
-                              class="fa fa-edit"></i></a>
+                      <router-link :to="'/devices/' + device.id" title="Edit" class="button warning edit-button">
+                        <i class="fa fa-edit"></i>
+                      </router-link>
                     </div>
                   </td>
                 </tr>

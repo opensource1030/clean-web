@@ -30,10 +30,12 @@
 </template>
 
 <script>
-  const {Store} = require('yayson')()
-  const store = new Store()
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
+  import employeeAPI from './../api/employee-api'
+
+  const { Store } = require('yayson')()
+  const store = new Store()
   
   export default {
     components: {
@@ -47,7 +49,7 @@
       }
     },
 
-    data() {
+    data () {
       return {
         company: {}
       }
@@ -71,49 +73,57 @@
       }
     },
 
-    created() {
-      this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies.contents', {}).then((response) => {
+    created () {
+      let _params = {
+        params: {
+          include: 'companies.contents',
+        }
+      }
+      employeeAPI.get(this.$store.state.auth.userId, _params, (response) => {
         let event = store.sync(response.data)
+        // console.log('header event', event)
+
         if (event.companies.length > 0) {
           let cosmicdata = event.companies[0].contents[0].content
+          console.log('header cosmicdata', cosmicdata)
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
           })
         }
-      });
-        (function () {
-          let t, timeout = 7.2e+6;
-
-          function resetTimer() {
-            if (t) {
-                window.clearTimeout(t);
-            }
-            t = window.setTimeout(logOut, timeout);
-          }
-
-          function logOut() {
-            localStorage.clear('Token');
-            location.reload();
-          }
-
-          resetTimer();
-          //And bind the events to call `resetTimer()`
-          ["click", "mousemove", "keypress"].forEach(function (name) {
-            document.addEventListener(name, resetTimer);
-          });
-        }());
+      }, (err) => console.log('header.vue err', err))
     },
 
-    mounted() {
-        $(document).foundation();
-        let config = {
+    mounted () {
+      $(document).foundation();
+      let config = {
         selector: ".HW-container",
         account: "JPYPKy",
         enabled: true
       };
       Headway.init(config);
 
+      (function () {
+        let t, timeout = 7.2e+6;
+
+        function resetTimer() {
+          if (t) {
+            window.clearTimeout(t);
+          }
+          t = window.setTimeout(logOut, timeout);
+        }
+
+        function logOut() {
+          localStorage.clear('Token');
+          location.reload();
+        }
+
+        resetTimer();
+        // And bind the events to call `resetTimer()`
+        ["click", "mousemove", "keypress"].forEach(function (name) {
+          document.addEventListener(name, resetTimer);
+        });
+      }());
     },
 
     methods: {
@@ -125,10 +135,7 @@
           console.log('header logout');
           history.go(0);
           this.$router.push({ path: '/login' })
-
-
         })
-
       },
 
       profile () {

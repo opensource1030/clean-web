@@ -1,9 +1,10 @@
 <template>
   <div id="dashboard">
+    <!-- <div>{{ $store.state.scope_token.records }}</div> -->
     <div class="row expanded">
       <div class="columns small-12">
         <div class="tag-header">
-          <h1>{{clientInfo.data.metadata.portal_header}}</h1>
+          <h1>{{ clientInfo.data.metadata ? clientInfo.data.metadata.portal_header : 'Dashboard' }}</h1>
         </div>
       </div>
       <div class="column small-12">

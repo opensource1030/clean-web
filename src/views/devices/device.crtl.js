@@ -111,6 +111,7 @@ export default {
         res => this.$store.dispatch('carrier/search').then(
           res => this.$store.dispatch('company/search').then(
             res => {
+              // console.log('devicetypes', this.deviceTypes)
               if (device_id > 0) {
                 let _params = {
                   params: {
@@ -119,7 +120,7 @@ export default {
                 }
                 deviceAPI.getOne(device_id, _params, res => {
                   this.$set(this, 'device', store.sync(res.data))
-                  console.log('device', this.device)
+                  // console.log('device', this.device)
 
                   this.$set(this, 'device_id', device_id)
                   this.initComponent()
@@ -148,6 +149,14 @@ export default {
     initComponent() {
       if (this.device.images.length == 0) {
         this.device.images.push({ id: 0, url: './../assets/logo.png' })
+      }
+
+      // init device types
+      if (this.device.devicetypes.length == 0) {
+        this.device.devicetypes.push({
+          type: 'devicetypes',
+          id: 0,
+        })
       }
 
       // init styles

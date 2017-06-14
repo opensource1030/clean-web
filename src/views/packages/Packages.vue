@@ -5,7 +5,7 @@
     </modal>
 
     <div class="small-12 columns">
-      <a class="button large btn-orange" href="/packages/new">New Package</a>
+      <router-link to="/packages/new" class="button large btn-orange">New Package</router-link>
     </div>
 
     <div class="columns small-12">
@@ -45,8 +45,9 @@
                   <td>
                     <div class="action-buttons">
                       <a class="button alert" @click="removePackage(pack.id)"><i class="fa fa-trash"></i></a>
-                      <a :href="'/packages/' + pack.id" :name="'edit-' + pack.id" class="button warning"><i
-                              class="fa fa-edit"></i></a>
+                      <router-link :to="'/packages/' + pack.id" :name="'edit-' + pack.id" class="button warning">
+                        <i class="fa fa-edit"></i>
+                      </router-link>
                     </div>
                   </td>
                 </tr>

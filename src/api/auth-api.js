@@ -1,7 +1,6 @@
-// import Vue,{http} from 'vue'
-// import VueResource from 'vue-resource';
-// Vue.use(VueResource);
-import {http} from 'vue'
+import { http } from 'vue'
+import $store from './../store'
+import { Utils, AuthHelper,  ScopeHelper } from './../helpers'
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -51,15 +50,25 @@ export default {
   },
 
   profile (params, cb, errCb) {
-    http.get(API_BASE_URL + '/users/me', {
-      headers: this.getAuthHeader(params.token),
-      include: 'udlvalues'
-    }).then(res => cb(store.sync(res.data)), err => errCb(err))
+    // http.get(API_BASE_URL + '/users/me', params).then(res => cb(store.sync(res.data)), err => errCb(err))
+    // console.log('login_token', $store.state.auth.token)
+
+    AuthHelper.setAuthHeader($store.state.auth.token)
+    $store.dispatch('scope_token/get', 'get_user_me').then(result => {
+      AuthHelper.setAuthHeader(result.accessToken)
+      http.get(API_BASE_URL + '/users/me', params).then(res => cb(store.sync(res.data)), err => errCb(err))
+    }, err => errCb(err))
+  },
+
+  scopeToken (params, cb, errCb) {
+    http.post(API_BASE_URL + '/oauth/personal-access-tokens', params).then(res => cb(res), err => errCb(err))
   },
 
   getAuthHeader (token) {
+    var login_token = token  || $store.getters['auth/getLoginToken']
+    // console.log('getAuthHeader', token)
     return {
-      Authorization: 'Bearer ' + token
+      Authorization: 'Bearer ' + login_token
     }
   },
 

@@ -1,11 +1,11 @@
 <template>
 <div class="page service-page service-index-page" >
   <div class="small-12 columns">
-    <a class="button large btn-orange" href="/service">{{names.addPlan}}</a>
+    <router-link to="/service" class="button large btn-orange">{{ names.addPlan }}</router-link>
   </div>
 
   <div class="columns small-12">
-    <header class="tag-header"><h1>{{names.servicePlans}}</h1></header>
+    <header class="tag-header"><h1>{{ names.servicePlans }}</h1></header>
     <div class="grid-box">
       <div class="box-content">
         <div class="table-holder">
@@ -142,9 +142,9 @@
                 <td valign="top">
                   <div class="action-buttons">
                     <a class="button alert" @click="removeService(service.id)"><i class="fa fa-trash"></i></a>
-                    <a class="button warning" :href="'/service/' + service.id" :name="'edit-' + service.id">
+                    <router-link :to="'/service/' + service.id" class="button warning" :name="'edit-' + service.id">
                       <i class="fa fa-edit"></i>
-                    </a>
+                    </router-link>
                   </div>
                 </td>
               </tr>

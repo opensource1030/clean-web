@@ -5,8 +5,8 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/employees/new">Add Employee</a>
-    <a class="button large add-bulk-button" href="/employees/bulk">Add Bulk Employees</a>
+    <router-link to="/employees/new" class="button large add-button">Add Employee</router-link>
+    <router-link to="/employees/bulk" class="button large add-bulk-button">Add Bulk Employees</router-link>
   </div>
 
   <div class="small-12 columns">
@@ -55,7 +55,9 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removeEmployee(employee.id)"><i class="fa fa-trash"></i></a>
-                    <a :href = "'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning"><i class="fa fa-edit"></i></a>
+                    <router-link :to = "'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning">
+                      <i class="fa fa-edit"></i>
+                    </router-link>
                   </div>
                 </td>
               </tr>

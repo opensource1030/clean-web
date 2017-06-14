@@ -4,7 +4,6 @@ import * as actions from './actions'
 import * as getters from './getters'
 import auth from './modules/auth'
 import error from './modules/error'
-import dashboard from './modules/dashboard'
 import device from './modules/device'
 import device_type from './modules/device_type'
 import modification from './modules/modification'
@@ -14,6 +13,8 @@ import employee from './modules/employee'
 import order from './modules/order'
 import preset from './modules/preset'
 import file from './modules/file'
+import scope_token from './modules/scope_token'
+
 import services from './modules/services/services'
 import service from './modules/services/service'
 // import presets from './modules/presets/presets'
@@ -31,7 +32,6 @@ export default new Vuex.Store({
   modules: {
     auth,
     error,
-    dashboard,
     device,
     device_type,
     modification,
@@ -41,6 +41,8 @@ export default new Vuex.Store({
     preset,
     order,
     file,
+    scope_token,
+
     services,
     service,
     // presets,

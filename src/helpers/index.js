@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import Vue from 'vue'
+import $store from './../store'
 
 export const Utils = {
   isEmptyArray (arr) {
@@ -7,6 +9,65 @@ export const Utils = {
     } else {
       return false
     }
+  },
+
+  isEmpty (val) {
+    if (val == null || val === void (0) || val === '') {
+      return true
+    } else {
+      return false
+    }
+  }
+}
+
+export const Storage = {
+  set (key, value) {
+    localStorage.setItem(key, value)
+  },
+
+  get (key) {
+    // console.log('get', key, localStorage.getItem(key))
+    return localStorage.getItem(key) || null
+  },
+
+  remove (key) {
+    // console.log('remove')
+    localStorage.removeItem(key)
+  },
+
+  removeAll () {
+    // console.log('remove all')
+    localStorage.clear()
+  }
+}
+
+export const AuthHelper = {
+  setAuthHeader (token) {
+    Vue.http.headers.common['Authorization'] = 'Bearer ' + token
+  }
+}
+
+export const ScopeHelper = {
+  getToken (name) {
+    let scope = Storage.get('scopes')
+    if (isEmpty(scopes[name])) {
+      return scopes[name]
+    } else {
+      return null
+    }
+  },
+
+  refershToken (name) {
+    return new Promise((resolve, reject) => {
+      scopeAPI.get('name', (res) => {
+        let scopes = Storage.get('scopes')
+        scopes[name] = res
+        Storage.set(scopes)
+        resolve(res)
+      }, (err) => {
+        reject(err)
+      })
+    })
   }
 }
 

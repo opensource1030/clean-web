@@ -1,16 +1,17 @@
-import auth from './../../api/auth-api'
+import authAPI from './../../api/auth-api'
 import * as types from './../mutation-types'
 import user from './../../models/User'
-// import Vue from 'vue'
-// import VueResource from 'vue-resource';
+import { Storage } from './../../helpers'
 
 // initial state
 const state = {
   // email: localStorage.getItem('email') || '',
-  token: localStorage.getItem('token') || null,
-  userId: localStorage.getItem('userId') || null,
-  profile: JSON.parse(localStorage.getItem('userProfile')) || {},
-  // authenticated: false,
+  // token: localStorage.getItem('token') || null,
+  // userId: localStorage.getItem('userId') || null,
+  // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
+  token: Storage.get('token') || null,
+  userId: Storage.get('userId') || null,
+  profile: JSON.parse(Storage.get('userProfile')) || {},
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -25,7 +26,11 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     // console.log('isAuthenticated ...', state.userId, state.token)
-    return (!!state.token) && (!!state.userId)
+    return (!!state.token) && (!!state.userId) && !state.isAuthenticating
+  },
+
+  getLoginToken: (state) => {
+    return state.token
   },
 
   getVariations: (state) => {
@@ -41,20 +46,22 @@ const actions = {
 
   profile ({ dispatch, commit, state }, { res, router }) {
     return new Promise((resolve, reject) => {
-      auth.profile({
+      authAPI.profile({
         token: res.data.access_token
       }, (response) => {
-        const result = {
+        let result = {
           user_id: res.body.user_id,
           token: res.body.access_token,
           profile: response
         }
-        commit('LOGIN_SUCCESS', result)
+        // console.log('vuex profile', result)
+        commit(types.AUTH_LOGIN_SUCCESS, result)
+        commit(types.AUTH_LOGIN_DONE)
         // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-        router.push({name: 'dashboard'});
+        router.push({ name: 'dashboard' })
         resolve(result)
       }, (error) => {
-        commit('LOGIN_FAILURE')
+        commit(types.AUTH_LOGIN_FAILURE)
         dispatch('error/addNew', {
           message: "Unexpected server error. Please contact the administrator."
         }, {root: true})
@@ -117,7 +124,7 @@ const actions = {
         };
 
         return new Promise((resolve, reject) => {
-          auth.resetPasswords(credentials.identification, credentials.code, params, (res) => {
+          authAPI.resetPasswords(credentials.identification, credentials.code, params, (res) => {
             router.push({name: 'login'});
             resolve(res)
           }, (err) => {
@@ -178,7 +185,7 @@ const actions = {
 
     if (credentials.email != '') {
       return new Promise((resolve, reject) => {
-        auth.resetPasswordEmail(credentials.email, params, (res) => {
+        authAPI.resetPasswordEmail(credentials.email, params, (res) => {
           commit('REGISTER_USER')
           resolve(res)
         }, (err) => {
@@ -258,7 +265,7 @@ const actions = {
       } else {
         dispatch('getTheModel', {credentials: credentials}).then(response => {
           return new Promise((resolve, reject) => {
-            auth.register({
+            authAPI.register({
               data: response.toJSON()
             }, (res) => {
               commit('REGISTER_USER')
@@ -291,7 +298,7 @@ const actions = {
       }, {root: true})
     } else {
       return new Promise((resolve, reject) => {
-        auth.login({
+        authAPI.login({
           email: email
         }, (res) => {
           window.location.href = res.data.data.redirectUrl;
@@ -340,13 +347,19 @@ const actions = {
 
     return new Promise((resolve, reject) => {
       commit('LOGIN_REQUEST')
-      auth.loginLocal({
+      authAPI.loginLocal({
         email: credentials.email,
         password: credentials.password
       }, (res) => {
-        dispatch('profile', { res: res, router: router });
+        const result = {
+          user_id: res.body.user_id,
+          token: res.body.access_token,
+          profile: {}
+        }
+        commit(types.AUTH_LOGIN_SUCCESS, result)
+        dispatch('profile', { res: res, router: router }).then(res => resolve(true), err => reject(err))
       }, (err) => {
-        commit('LOGIN_FAILURE')
+        commit(types.AUTH_LOGIN_FAILURE)
         if (err.status == 500) {
           dispatch('error/addNew', {
             message: "Unexpected server error. Please contact the administrator."
@@ -364,7 +377,7 @@ const actions = {
   singleSignOn ({ dispatch, commit, state }, { router, id }) {
     return new Promise((resolve, reject) => {
       commit('LOGIN_REQUEST')
-      auth.singleSignOn({
+      authAPI.singleSignOn({
         uuid: id
       }, (re) => {
         dispatch('profile', {res: re, router: router});
@@ -403,6 +416,12 @@ const mutations = {
   },
 
   [types.AUTH_LOGIN_FAILURE] (state) {
+    Storage.removeAll()
+
+    state.token = null
+    state.userId = null
+    state.profile = null
+
     state.isAuthenticating = false
   },
 
@@ -412,22 +431,23 @@ const mutations = {
   },
 
   [types.AUTH_LOGIN_SUCCESS] (state, result) {
-    localStorage.setItem('token', result.token)
-    localStorage.setItem('userId', result.user_id)
-    localStorage.setItem('userProfile', JSON.stringify(result.profile))
+    Storage.set('token', result.token)
+    Storage.set('userId', result.user_id)
+    Storage.set('userProfile', JSON.stringify(result.profile))
 
     state.token = result.token
     state.userId = result.user_id
     state.profile = result.profile
 
+    // state.isAuthenticating = false
+  },
+
+  [types.AUTH_LOGIN_DONE] (state) {
     state.isAuthenticating = false
-    // state.authenticated = true
   },
 
   [types.AUTH_LOGOUT] (state) {
-    localStorage.removeItem('userProfile');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
+    Storage.removeAll()
 
     state.token = null
     state.userId = null
@@ -442,7 +462,7 @@ const mutations = {
   },
 
   [types.AUTH_SET_PROFILE] (state, result) {
-    localStorage.setItem('userProfile', JSON.stringify(result.profile))
+    Storage.set('userProfile', JSON.stringify(result.profile))
     state.profile = result.profile
   },
 

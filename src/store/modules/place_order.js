@@ -89,7 +89,7 @@ const actions = {
 
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
-      orderAPI.getMatchedPackages(userId, res => {
+      packageAPI.getMatchedPackages(userId, res => {
         let results = store.sync(res.data);
         commit(types.PLACE_ORDER_SET_PACKAGELIST, results);
         resolve(results);

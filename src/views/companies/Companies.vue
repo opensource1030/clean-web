@@ -5,7 +5,7 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large btn-orange add-button" href="/companies/new">New Company</a>
+    <router-link to="/companies/new" class="button large btn-orange add-button">New Company</router-link>
   </div>
 
   <div class="columns small-12">
@@ -49,7 +49,9 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removeCompany(company.id)"><i class="fa fa-trash"></i></a>
-                    <a :href="'/companies/' + company.id" :name="'edit-' + company.id" class="button warning"><i class="fa fa-edit"></i></a>
+                    <router-link :to="'/companies/' + company.id" :name="'edit-' + company.id" class="button warning">
+                      <i class="fa fa-edit"></i>
+                    </router-link>
                   </div>
                 </td>
               </tr>
@@ -92,7 +94,7 @@
                           </div>
                         </template>
                       </div>
-                      <a href="#" class="button view-button">View User</a>
+                      <a href="javascript:;" class="button view-button">View User</a>
                     </div>
                   </div>
                 </td>

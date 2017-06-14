@@ -1,15 +1,21 @@
-import phone from './../../filters/phone-formatter.js';
+import phone from './../../filters/phone-formatter.js'
 import supportRequest from './../../components/support-request'
+import PieChart from './Piechart.vue'
+import TrendChart from './Trendchart.vue'
+import employeeAPI from './../../api/employee-api'
 import { mapGetters, mapActions } from 'vuex'
-import PieChart from "./Piechart.vue"
-import TrendChart from "./Trendchart.vue"
+
+const { Store } = require('yayson')()
+const store = new Store()
 
 export default {
   name : 'dashboard',
+
   components: {
     PieChart,
     TrendChart
   },
+
   data () {
     return {
       clientInfo: {
@@ -24,39 +30,52 @@ export default {
       activeAllocationIndex: 0
     }
   },
-  beforeCreate() {
-    
-  },
+
   computed: {
-
   },
-  created() {
-    this.$store.dispatch('dashboard/getClientInfo').then(
-      res => {
-        let cosmicData = res.companies[0].contents[0].content;
 
-        this.$http.get(cosmicData).then((response) => {
-          this.clientInfo.data = response.data.object;
-          this.clientInfo.loading = false;
+  beforeCreate () {
+  },
+
+  created () {
+    let _params = {
+      params: {
+        include: 'companies.contents'
+      }
+    }
+    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
+      let event = store.sync(res.data)
+      // console.log('dashboard event', event)
+
+      if (event.companies.length > 0) {
+        let cosmicdata = event.companies[0].contents[0].content
+        console.log('dashboard cosmicdata', cosmicdata)
+
+        this.$http.get(cosmicdata, {}).then((response) => {
+          this.clientInfo.data = response.data.object
+          this.clientInfo.loading = false
         })
       }
-    )
-    
-    this.$store.dispatch('dashboard/getUserAllocations').then(
-      res => {
-        if(res.status == 404) {
-          this.userInfo.data.allocations = [];
-        } else {
-          this.userInfo.data = res;
-          for(let allocation of this.userInfo.data.allocations)
-            allocation.issue = '';
-        }
+    }, err => console.log('dashboard client info err', err))
 
-        this.userInfo.loading = false;
-        setTimeout(supportRequest, 2000);
+    _params = {
+      params: {
+        include: 'companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]'
       }
-    )
+    }
+    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
+      if (res.status == 404) {
+        this.userInfo.data.allocations = []
+      } else {
+        this.userInfo.data = res;
+        for (let allocation of this.userInfo.data.allocations)
+          allocation.issue = ''
+      }
+      this.userInfo.loading = false;
+      setTimeout(supportRequest, 2000);
+    }, err => console.log('dashboard user allocation err', err))
   },
+
   methods: {
     setAllocation(index) {
       this.activeAllocationIndex = index;

@@ -2,12 +2,12 @@
   <section class="menu-left ">
     <ul id="menu" class="sidebar-menu">
       <li class="menu-toggle">
-        <a class="icon-close"><i class="fa fa-bars"></i></a>
+        <a href="javascript:;" class="icon-close"><i class="fa fa-bars"></i></a>
       </li>
       <li class="menu-title active ">
-        <a href="/dashboard">
+        <router-link to="/dashboard">
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-        </a>
+        </router-link>
       </li>
       <li class="treeview">
         <a href="#">
@@ -57,23 +57,28 @@
           </a>
           <ul class="treeview-menu">
             <li class="page-link" v-permission="'ManageDevices'">
-              <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
+              <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a> -->
+              <router-link to="/devices" name="devices"><i class="fa fa-circle-o"></i>Equipment</router-link>
             </li>
 
             <li class="page-link" v-permission="'ManageEquipmentGroups'">
-               <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
+               <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
+               <router-link to="/presets" name="presets"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
             </li>
 
             <li class="page-link" v-permission="'ManageServices'">
-              <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
+              <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a> -->
+              <router-link to="/services" name="services"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
             </li>
 
             <li class="page-link" v-permission="'ManageEmployees'">
-              <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a>
+              <!-- <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a> -->
+              <router-link to="/employees" name="employees"><i class="fa fa-circle-o"></i>Employees</router-link>
             </li>
 
             <li class="page-link" v-permissions="'ManageCompanies'">
-              <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a>
+              <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
+              <router-link to="/companies" name="companies"><i class="fa fa-circle-o"></i>Companies</router-link>
             </li>
           </ul>
         </li>
@@ -86,8 +91,12 @@
             <i class="fa fa-minus pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a name="AllPackages" href="/packages"><i class="fa fa-circle-o"></i>View All Packages</a></li>
-            <li><a name="createPackage" href="/packages/new"><i class="fa fa-circle-o"></i>Create a Package</a></li>
+            <li class="page-link">
+              <router-link to="/packages" name="packages"><i class="fa fa-circle-o"></i>View All Packages</router-link>
+            </li>
+            <li class="page-link">
+              <router-link to="/packages/new" name="package"><i class="fa fa-circle-o"></i>Create a Package</router-link>
+            </li>
           </ul>
         </li>
 
@@ -99,18 +108,22 @@
             <i class="fa fa-minus pull-right"></i>
           </a>
           <ul class="treeview-menu">
-            <li><a name="portal" href="#"><i class="fa fa-circle-o"></i>Portal</a></li>
-            <li><a name="procurement" href="/orders"><i class="fa fa-circle-o"></i>Procurement</a></li>
+            <li class="page-link">
+              <a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a>
+            </li>
+            <li class="page-link">
+              <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Procurement</router-link>
+            </li>
           </ul>
         </li>
       </template>
 
       <li class="treeview">
-          <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
-            <i class="fa fa-phone"></i>
-            <span>Get Support</span>
-          </a>
-        </li>
+        <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
+          <i class="fa fa-phone"></i>
+          <span>Get Support</span>
+        </a>
+      </li>
     </ul>
 
     <div class="nav-poweredby">
@@ -124,7 +137,7 @@
 <script>
   import supportRequest from './support-request'
   import Permision from './permisions'
-  import Vue from 'vue';
+  import Vue from 'vue'
 
   Vue.directive('permission', {
     update: function (el, value) {
@@ -132,22 +145,22 @@
         el.style.display = 'none'
       }
       else {
-        el.style.display = 'block';
+        el.style.display = 'block'
       }
     }
   })
 
   export default {
     name: "Sidemenu",
-    data() {
+
+    data () {
       return {
         features: features,
         legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
-
       }
     },
 
-    mounted() {
+    mounted () {
       /*console.log('features', this.features);*/
       var intervalId = setInterval(function () {
         var token = localStorage.token;
@@ -178,25 +191,26 @@
             });
             checkElement.parent("li").removeClass("active");
           }
-          //If the menu is not visible
+          // if the menu is not visible
           else if ((checkElement.is('.treeview-menu')) && (!checkElement.is(':visible'))) {
-            //Get the parent menu
+            // get the parent menu
             var parent = $this.parents('ul').first();
-            //Close all open menus within the parent
+            // close all open menus within the parent
             var ul = parent.find('ul:visible').slideUp(animationSpeed);
-            //Remove the menu-open class from the parent
+            // remove the menu-open class from the parent
             ul.removeClass('menu-open');
-            //Get the parent li
+            // get the parent li
             var parent_li = $this.parent("li");
-            //Open the target menu and add the menu-open class
+            // open the target menu and add the menu-open class
             checkElement.slideDown(animationSpeed, function () {
-              //Add the class active to the parent li
+              // add the class active to the parent li
               checkElement.addClass('menu-open');
               parent.find('li.active').removeClass('active');
               parent_li.addClass('active');
             });
           }
-          //if this isn't a link, prevent the page from being redirected
+
+          // if this isn't a link, prevent the page from being redirected
           if (checkElement.is('.treeview-menu')) {
             e.preventDefault();
           }
@@ -206,20 +220,22 @@
       $(this.$el).foundation();
 
       $.sidebarMenu($('.sidebar-menu'));
-       /* $.cookie("isMenuActive", "1");*/
+
+      // $.cookie("isMenuActive", "1");
       if ($.cookie("isMenuActive") == 1) {
         $('.menu-left').addClass("test");
         $('.content-right').addClass("test");
       }
+
       $(".icon-close").click(function () {
         if ($(".menu-left").hasClass("test") == true) {
-          //button was active, de-activate it and update cookie
+          // button was active, de-activate it and update cookie
           $(".menu-left").removeClass("test");
           $(".content-right").removeClass("test");
           $.cookie("isMenuActive", "0");
         }
         else {
-          //button is not active. add active class and update cookie.
+          // button is not active. add active class and update cookie.
           $(".menu-left").addClass("test");
            $(".content-right").addClass("test");
           $.cookie("isMenuActive", "1");
@@ -234,8 +250,8 @@
       if (checkCookie != "") {
         let Element = $('.menu-title > a:eq(' + checkCookie + ')');
         Element.parent().addClass('active');
-
       }
+
       let checkCookie1 = $.cookie("nav-inner");
       if (checkCookie1 != "") {
         let Element = $('.treeview-menu > li > a:eq(' + checkCookie1 + ')');
@@ -243,7 +259,6 @@
         Element.parent().parent().addClass('menu-open');
         Element.parent().parent().parent().addClass('active');
         Element.parent().parent().parent().parent().find('.menu-title').removeClass('active');
-
       }
 
       $('.treeview-menu > li > a').each(function () {
@@ -255,18 +270,18 @@
           $.cookie("nav-inner", navInnerIndex);
           $(this).toggleClass('active');
           $('.menu-title').removeClass('active');
-
         });
       });
+
       $('.menu-title').click(function (e) {
         e.stopPropagation();
         $.removeCookie("nav-inner");
         let navIndex = $(this).index(this);
         $.cookie("nav-item", navIndex);
         $(this).parent().toggleClass('active');
-
       });
     },
+
     methods: {
       openSupportTicket: function() {
         $('.support-form-holder').show();

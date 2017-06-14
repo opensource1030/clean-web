@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="off-canvas-wrapper">
-    <sidemenu v-if="$store.getters['auth/isAuthenticated']"> </sidemenu>
+    <sidemenu v-if="$store.getters['auth/isAuthenticated']"></sidemenu>
 
     <div :class="{ 'content-right ': $store.getters['auth/isAuthenticated'] }">
       <div class="expanded row">

@@ -112,8 +112,8 @@ export default {
     },
 
     initVariables () {
-      console.log(this.preset)
-      console.log(this.allDevices)
+      // console.log(this.preset)
+      // console.log(this.allDevices)
       const vm = this
       vm.devices = []
 
