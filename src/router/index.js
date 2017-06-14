@@ -27,6 +27,7 @@ import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
 
 // orders
 import OrderIndex from './../views/orders/OrderIndex.vue'
+import OrderDetails from './../views/orders/OrderDetail.vue'
 
 // routes presets
 import Presets from "./../views/presets/Presets.vue";
@@ -126,6 +127,7 @@ const router = new VueRouter({
       meta: { requiresAuth: true, label: 'Procurements' },
       children: [
         { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
+        {path: 'detail/:id', component: OrderDetails, name: 'Orders Detail', meta: {label: 'Detail'}},
       ]
     },
 

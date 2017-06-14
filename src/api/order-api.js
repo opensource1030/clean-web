@@ -7,7 +7,9 @@ export default {
     // let data = params
     http.get(API_BASE_URL + '/users/packages/' + userId).then(res => cb(res), err => errCb(err))
   },
-
+  get (id, params, cb, errCb) {
+    http.get(API_BASE_URL + '/orders/' + id, params).then(res => cb(res), err => errCb(err))
+  },
   search (params, cb, errCb) {
     http.get(API_BASE_URL + '/orders', params).then(res => cb(res), err => errCb(err))
   },

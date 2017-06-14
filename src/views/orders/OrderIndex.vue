@@ -175,7 +175,9 @@
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
                 <td>{{ (order.services.length > 0 && order.services[0] ? order.services[0].cost : '') | currency }}</td>
-                <td>{{ (getPriceOnce(order) + (order.services.length > 0 && order.services[0] ? order.services[0].cost : 0)) | currency }}</td>
+                <td>{{ parseInt((getPriceOnce(order)) + 0 + (order.services.length > 0 && order.services[0] ?
+                  parseInt(order.services[0].cost) : 0)) | currency }}
+                </td>
               </tr>
               <tr class="detail-tr" :class="activeOrder && (activeOrder.id == order.id) ? 'active' : ''">
                 <td></td>
@@ -185,6 +187,8 @@
                 <td>
                   <div>{{ order.users[0] ? order.users[0].email : '' }}</div>
                   <a @click="updateOrderState(order)" class="button state-button" :class="OrderHelper.getButtonClass(order)" v-if="OrderHelper.getNextState(order) != ''">{{ OrderHelper.getButtonText(order) }}</a>
+                  <a :href="'orders/detail/' + order.id" :name="'detail-' + order.id" class="button primary"> view
+                    details </a>
                 </td>
                 <td>
                   <div>{{ order.addresses[0] ? order.addresses[0].address : '' }}</div>
