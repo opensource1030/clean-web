@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import Vue from 'vue'
-import $store from './../store'
+export { default as ScopeHelper } from './modules/scope'
+export { default as OrderHelper } from './modules/order'
 
 export const Utils = {
   isEmptyArray (arr) {
@@ -47,30 +48,6 @@ export const AuthHelper = {
   }
 }
 
-export const ScopeHelper = {
-  getToken (name) {
-    let scope = Storage.get('scopes')
-    if (isEmpty(scopes[name])) {
-      return scopes[name]
-    } else {
-      return null
-    }
-  },
-
-  refershToken (name) {
-    return new Promise((resolve, reject) => {
-      scopeAPI.get('name', (res) => {
-        let scopes = Storage.get('scopes')
-        scopes[name] = res
-        Storage.set(scopes)
-        resolve(res)
-      }, (err) => {
-        reject(err)
-      })
-    })
-  }
-}
-
 export const EmployeeHelper = {
   getUdlValueIndex (employee, udl_id) {
     return _.findIndex(employee.udlvalues, (uv) => (uv.udlId == udl_id))
@@ -114,58 +91,5 @@ export const ModificationHelper = {
       id: 0,
       modType: 'style'
     }
-  },
-}
-
-export const OrderHelper = {
-  getState (order) {
-    switch (order.status) {
-      case 'New':
-        return 'new'
-      case 'Pending Delivery':
-        return 'pending'
-      case 'Delivered':
-        return 'delivered'
-      case 'Denied':
-        return 'denied'
-      default:
-        return 'draft'
-    }
-  },
-
-  getNextState (order) {
-    let state = this.getState(order)
-    let stateDic = {
-      'new': 'Pending Delivery',
-      'pending': 'Delivered',
-      'delivered': '',
-      'denied': 'New',
-      'draft': ''
-    }
-    return stateDic[state]
-  },
-
-  getButtonText (order) {
-    let state = this.getState(order)
-    let textDic = {
-      'new': 'Approve Request',
-      'pending': 'Mark Delivered',
-      'delivered': '',
-      'denied': 'Renew',
-      'draft': ''
-    }
-    return textDic[state]
-  },
-
-  getButtonClass (order) {
-    let state = this.getState(order)
-    let classDic = {
-      'new': 'warning',
-      'pending': 'success',
-      'delivered': '',
-      'denied': 'alert',
-      'draft': ''
-    }
-    return classDic[state]
   },
 }

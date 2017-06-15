@@ -46,18 +46,21 @@ const actions = {
 
   profile ({ dispatch, commit, state }, { res, router }) {
     return new Promise((resolve, reject) => {
-      authAPI.profile({
-        token: res.data.access_token
-      }, (response) => {
+      let _params = {
+        params: {
+          include: 'roles,roles.permissions'
+        }
+      }
+      authAPI.profile(_params, (response) => {
         let result = {
           user_id: res.body.user_id,
           token: res.body.access_token,
           profile: response
         }
-        // console.log('vuex profile', result)
+        console.log('vuex profile', result)
         commit(types.AUTH_LOGIN_SUCCESS, result)
         commit(types.AUTH_LOGIN_DONE)
-        // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+        // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
         router.push({ name: 'dashboard' })
         resolve(result)
       }, (error) => {
