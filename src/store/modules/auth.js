@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import authAPI from './../../api/auth-api'
 import * as types from './../mutation-types'
 import user from './../../models/User'
@@ -9,9 +10,10 @@ const state = {
   // token: localStorage.getItem('token') || null,
   // userId: localStorage.getItem('userId') || null,
   // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
-  token: Storage.get('token') || null,
   userId: Storage.get('userId') || null,
-  profile: JSON.parse(Storage.get('userProfile')) || {},
+  token: JSON.parse(Storage.get('token')) || {},
+  profile: JSON.parse(Storage.get('profile')) || {},
+
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -29,10 +31,6 @@ const getters = {
     return (!!state.token) && (!!state.userId) && !state.isAuthenticating
   },
 
-  getLoginToken: (state) => {
-    return state.token
-  },
-
   getVariations: (state) => {
     return state.variations
   },
@@ -44,6 +42,27 @@ const actions = {
     return new user('users', 0, '', '', credentials.email, '', credentials.password1, '', '', '', '', credentials.firstName, credentials.lastName, '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '');
   },
 
+  getLoginToken ({ dispatch, commit, state }) {
+    return new Promise((resolve, reject) => {
+      let updated_at = state.token.updated_at
+      let current_time = new Date().getTime()
+      let passed = Math.abs(updated_at - current_time) / 1000;
+
+      if (passed < state.token.expires_in) {
+        // console.log('saved token', state.token)
+        resolve(state.token)
+      } else {
+        authAPI.refershLoginToken(_params, (res) => {
+          commit(types.AUTH_REFRESH_TOKEN, res)
+          // console.log('refresh token', state.token)
+          resolve(state.token)
+        }, (err) => {
+          reject(err)
+        })
+      }
+    })
+  },
+
   profile ({ dispatch, commit, state }, { res, router }) {
     return new Promise((resolve, reject) => {
       let _params = {
@@ -52,12 +71,13 @@ const actions = {
         }
       }
       authAPI.profile(_params, (response) => {
+        let current_time = new Date().getTime()
         let result = {
-          user_id: res.body.user_id,
-          token: res.body.access_token,
+          user_id: res.data.user_id,
+          token: _.extend({ created_at: current_time, updated_at: current_time}, res.data),
           profile: response
         }
-        console.log('vuex profile', result)
+        console.log('vuex profile', response)
         commit(types.AUTH_LOGIN_SUCCESS, result)
         commit(types.AUTH_LOGIN_DONE)
         // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
@@ -354,9 +374,11 @@ const actions = {
         email: credentials.email,
         password: credentials.password
       }, (res) => {
+        console.log('loginLocal', res)
+        let current_time = new Date().getTime()
         const result = {
-          user_id: res.body.user_id,
-          token: res.body.access_token,
+          user_id: res.data.user_id,
+          token: _.extend({ created_at: current_time, updated_at: current_time }, res.data),
           profile: {}
         }
         commit(types.AUTH_LOGIN_SUCCESS, result)
@@ -421,28 +443,41 @@ const mutations = {
   [types.AUTH_LOGIN_FAILURE] (state) {
     Storage.removeAll()
 
-    state.token = null
     state.userId = null
+    state.token = null
+    state.refreshToken = null
     state.profile = null
 
     state.isAuthenticating = false
   },
 
   [types.AUTH_REGISTER_FAILURE] (state) {
-    state.variations.message = '';
-    state.variations.clickAgain = true;
+    state.variations.message = ''
+    state.variations.clickAgain = true
   },
 
   [types.AUTH_LOGIN_SUCCESS] (state, result) {
-    Storage.set('token', result.token)
+    // console.log('AUTH_LOGIN_SUCCESS', result)
     Storage.set('userId', result.user_id)
-    Storage.set('userProfile', JSON.stringify(result.profile))
+    Storage.set('token', JSON.stringify(result.token))
+    // Storage.set('token', result.token)
+    // Storage.set('refreshToken', result.refresh_token)
+    Storage.set('profile', JSON.stringify(result.profile))
 
-    state.token = result.token
     state.userId = result.user_id
+    state.token = result.token
+    // state.token = result.token
+    // state.refreshToken = result.refresh_token
     state.profile = result.profile
 
     // state.isAuthenticating = false
+  },
+
+  [types.AUTH_REFRESH_TOKEN] (state, result) {
+    result.updated_at = new Date().getTime()
+    // console.log('AUTH_REFRESH_TOKEN', result)
+    Storage.set('token', JSON.stringify(result))
+    state.token = result
   },
 
   [types.AUTH_LOGIN_DONE] (state) {
@@ -452,8 +487,9 @@ const mutations = {
   [types.AUTH_LOGOUT] (state) {
     Storage.removeAll()
 
-    state.token = null
     state.userId = null
+    state.token = null
+    state.refreshToken = null
     state.profile = null
     // state.authenticated = false
   },

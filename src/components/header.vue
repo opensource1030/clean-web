@@ -102,7 +102,7 @@
         enabled: true
       };
       Headway.init(config);
-      heap.identify(JSON.parse(localStorage.getItem("userProfile")).identification);
+      heap.identify(this.$store.state.auth.profile.identification);
 
       (function () {
         let t, timeout = 7.2e+6;
