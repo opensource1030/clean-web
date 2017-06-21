@@ -18,7 +18,7 @@ namespace :ops do
     task :asset_compile do
         on roles(:app), in: :sequence, wait: 1 do
             execute "cd #{release_path} && npm install"
-            execute "cd #{release_path} && npm run develop"
+            execute "cd #{release_path} && npm run trial"
         end
     end
 end
