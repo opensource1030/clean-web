@@ -16,7 +16,6 @@ deployment:
     commands:
       - bundle exec cap development deploy
 
-
 general:
   branches:
     ignore:
