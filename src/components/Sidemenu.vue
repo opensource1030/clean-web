@@ -10,8 +10,13 @@
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </router-link>
       </li>
+      <li class="menu-title redirect-link" v-if="mobUser === 1 ">
+        <a :href="mobilityLink">
+          <i class="fa fa-bar-chart"></i> <span>Reports</span>
+        </a>
+      </li>
 
-      <li class="treeview">
+      <li class="treeview" v-else>
         <a href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -45,6 +50,9 @@
 
           <li class="redirect-link">
             <a target="_blank" :href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i> Intercompany Charge</a>
+          </li>
+          <li class="redirect-link">
+            <a target="_blank"><i class="fa fa-circle-o"></i> MC's portal</a>
           </li>
         </ul>
       </li>
@@ -157,14 +165,17 @@
     data () {
       return {
         features: features,
-        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
+        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
+        mobilityLink: 'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=',
+        mobUser: JSON.parse(localStorage.getItem("userProfile")).companyId
       }
     },
 
     computed: {
       ScopeHelper () {
         return ScopeHelper
-      }
+      },
+
     },
 
     mounted () {
