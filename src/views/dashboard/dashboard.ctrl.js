@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import phone from './../../filters/phone-formatter.js'
 import supportRequest from './../../components/support-request'
 import PieChart from './Piechart.vue'
@@ -32,6 +33,9 @@ export default {
   },
 
   computed: {
+    _ () {
+      return _
+    }
   },
 
   beforeCreate () {
@@ -49,7 +53,7 @@ export default {
 
       if (event.companies.length > 0) {
         let cosmicdata = event.companies[0].contents[0].content
-        console.log('dashboard cosmicdata', cosmicdata)
+        // console.log('dashboard cosmicdata', cosmicdata)
 
         this.$http.get(cosmicdata, {}).then((response) => {
           this.clientInfo.data = response.data.object
@@ -73,7 +77,11 @@ export default {
       }
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
-    }, err => console.log('dashboard user allocation err', err))
+    }, err => {
+      console.log('dashboard user allocation err', err)
+      this.userInfo.data = { allocations: [] }
+      this.userInfo.loading = false
+    })
   },
 
   methods: {

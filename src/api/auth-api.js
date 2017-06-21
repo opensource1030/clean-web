@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { http } from 'vue'
 import $store from './../store'
 import { Utils, AuthHelper,  ScopeHelper } from './../helpers'
@@ -53,23 +54,13 @@ export default {
     // http.get(API_BASE_URL + '/users/me', params).then(res => cb(store.sync(res.data)), err => errCb(err))
     // console.log('login_token', $store.state.auth.token)
 
-    AuthHelper.setAuthHeader($store.state.auth.token)
     $store.dispatch('scope_token/get', 'get_user_me').then(result => {
-      AuthHelper.setAuthHeader(result.accessToken)
-      http.get(API_BASE_URL + '/users/me', params).then(res => cb(store.sync(res.data)), err => errCb(err))
+      http.get(API_BASE_URL + '/users/me', _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(store.sync(res.data)), err => errCb(err))
     }, err => errCb(err))
   },
 
   scopeToken (params, cb, errCb) {
-    http.post(API_BASE_URL + '/oauth/personal-access-tokens', params).then(res => cb(res), err => errCb(err))
-  },
-
-  getAuthHeader (token) {
-    var login_token = token  || $store.getters['auth/getLoginToken']
-    // console.log('getAuthHeader', token)
-    return {
-      Authorization: 'Bearer ' + login_token
-    }
+    http.post(API_BASE_URL + '/oauth/personal-access-tokens', params, AuthHelper.getAuthHeader($store.getters['auth/getLoginToken'])).then(res => cb(res), err => errCb(err))
   },
 
   getUser (uId, params, cb, errCb) {

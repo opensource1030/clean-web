@@ -45,6 +45,14 @@ export const Storage = {
 export const AuthHelper = {
   setAuthHeader (token) {
     Vue.http.headers.common['Authorization'] = 'Bearer ' + token
+  },
+
+  getAuthHeader (token) {
+    return {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    }
   }
 }
 

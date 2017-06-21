@@ -11,6 +11,9 @@ export default {
       case 'admin':
         allowed = true
         break
+      case 'wta':
+        allowed = true
+        break
       default:
         switch (group) {
           case 'inventory': 
@@ -97,10 +100,10 @@ export default {
           'create_address',
           'update_address',
           'delete_address',
-          'get_conditionsfields',
-          'create_conditionsfield',
-          'update_conditionsfield',
-          'delete_conditionsfield',
+          // 'get_conditionsfields',
+          // 'create_conditionsfield',
+          // 'update_conditionsfield',
+          // 'delete_conditionsfield',
         ]
         difference_permissions = _.difference(required_permissions, permissions)
         break
