@@ -78,13 +78,11 @@
                     </div>
                     <div class="device-description">
                       <p class="modifications">
-                        <span class="device-variation" v-for="(style, capacity) in device.modifications" :class="{'active': style == device.capacity}" 
-                              @click.stop="selectDevice(d_index, capacity, 0)">
+                        <span class="device-variation" v-for="(style, capacity) in device.modifications" :class="{'active': style == device.capacity}" @click.stop="selectDevice(d_index, capacity, 0)">
                           {{capacity + 'Gb'}}
                         </span>
                         <span class="device-variation seperator"></span>
-                        <span class="device-variation" v-for="(style, s_index) in device.capacity" :class="{'active': style.color == device.style.color}" 
-                              @click.stop="selectDevice(d_index, 0, s_index+1)">
+                        <span class="device-variation" v-for="(style, s_index) in device.capacity" :class="{'active': style.color == device.style.color}" @click.stop="selectDevice(d_index, 0, s_index+1)">
                           {{style.color}}
                         </span>
                       </p>

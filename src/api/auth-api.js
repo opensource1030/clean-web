@@ -68,8 +68,4 @@ export default {
       http.get(API_BASE_URL + '/users/me', _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(store.sync(res.data)), err => errCb(err))
     }, err => errCb(err))
   },
-
-  getUser (uId, params, cb, errCb) {
-    http.get(API_BASE_URL + '/users/' + uId + '?' + params).then(res => cb(res), err => errCb(err))
-  }
 }
