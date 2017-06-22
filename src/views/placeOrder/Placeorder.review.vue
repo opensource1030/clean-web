@@ -66,7 +66,7 @@
             <span class="bold">Carrier</span> : {{typedDeviceInfo.Carrier}}
           </p>
           <p>
-            <span class="bold">SIM *</span> : {{typedDeviceInfo.Sim}}
+            <span class="bold">ICCID / SIM Card Number</span> : {{typedDeviceInfo.Sim}}
           </p>
         </div>
         <div v-else>

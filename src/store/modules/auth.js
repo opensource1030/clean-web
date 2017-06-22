@@ -47,12 +47,21 @@ const actions = {
       let updated_at = state.token.updated_at
       let current_time = new Date().getTime()
       let passed = Math.abs(updated_at - current_time) / 1000;
+      // let expires_in = state.token.expires_in
+      let expires_in = 3600
 
-      if (passed < state.token.expires_in) {
+      if (passed < expires_in) {
         // console.log('saved token', state.token)
         resolve(state.token)
       } else {
-        authAPI.refershLoginToken(_params, (res) => {
+        let _params = {
+          grant_type: 'refresh_token',
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          refresh_token: state.token.refresh_token
+        }
+
+        authAPI.refreshLoginToken(_params, (res) => {
           commit(types.AUTH_REFRESH_TOKEN, res)
           // console.log('refresh token', state.token)
           resolve(state.token)

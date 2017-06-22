@@ -124,25 +124,26 @@ export default {
       }
 
       this.orderData = {
-        data : {
+        data: {
           type: 'orders',
           attributes: {
             status: 'New',
             orderType: orderTypes[this.orderType],
-            userId: this.user.id
+            userId: this.user.id,
+            addressId: this.address.shippingAddress.id
           },
           relationships: {
             apps: {
               data: []
             },
-            addresses: {
-              data: [
-                {
-                  type: 'addresses',
-                  id: this.address.shippingAddress.id
-                }
-              ]
-            },
+            // addresses: {
+            //   data: [
+            //     {
+            //       type: 'addresses',
+            //       id: this.address.shippingAddress.id
+            //     }
+            //   ]
+            // },
             devicevariations: {
               data: []
             }
@@ -186,6 +187,7 @@ export default {
         this.requestOrder();
       }
     },
+
     payByCredit() {
       let app = this;
 

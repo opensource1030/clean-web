@@ -13,8 +13,8 @@
             <div :class="{ 'pull-left': orderType != 'Accessory', 'custom-center': orderType == 'Accessory' }">
               <input class="custom-radio" type="radio" name="deviceType" value="subsided" v-model="deviceType">
               <div>
-                <label class="ft-18">Subsidized Device</label>
-                <p>choose a device from a list</p>
+                <label class="ft-18">Paid on Corporate Account</label>
+                <p>choose an accessory from below</p>
               </div>
             </div>
           </div>
@@ -47,13 +47,13 @@
               <div class="small-10 columns">
                 <h4 class="category-title">Device Info</h4>
                 <label>
-                  <span class="bold">IMEI </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.IMEI">
+                  <span class="bold">IMEI</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.IMEI">
                 </label>
                 <label>
-                  <span class="bold">Carrier </span><span class="asterisk bold">*</span> <input type="text" v-model="deviceInfo.Carrier">
+                  <span class="bold">Carrier</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Carrier">
                 </label>
                 <label>
-                  <span class="bold">Sim Card</span> <input type="text" v-model="deviceInfo.Sim">
+                  <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Sim">
                 </label>
               </div>
               <div class="small-1 columns"></div>
@@ -122,8 +122,8 @@
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
         <a class="button large btn-orange pull-right" @click="goOrderPages('review')" 
-           v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier) || (orderType == 'Accessory' && accessoryStatus)">
-          Request Device
+           v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)">
+          Next
         </a>
       </div>
     </div>
