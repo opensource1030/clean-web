@@ -153,7 +153,7 @@ export default {
 
       if (this.selectedKeepService == 'Yes') {
         this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
-        this.orderData.data.attributes.sericePhoneNo = this.typedServiceInfo.PhoneNo;
+        this.orderData.data.attributes.servicePhoneNo = this.typedServiceInfo.PhoneNo;
         this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
       } else {
         this.orderData.data.attributes.packageId = this.selectedPackage;
