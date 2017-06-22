@@ -88,7 +88,7 @@
         :pagination="$store.state.preset.pagination"
         :prev="prevPage"
         :next="nextPage"
-        v-show="$store.state.preset.records.length > 0">
+        v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">
