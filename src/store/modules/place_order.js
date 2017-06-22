@@ -2,7 +2,7 @@ import _ from 'lodash';
 import packageAPI from './../../api/package-api'
 import deviceAPI from './../../api/device-api'
 import orderAPI from './../../api/order-api'
-import authAPI from './../../api/auth-api'
+import employeeAPI from './../../api/employee-api'
 
 import * as types from './../mutation-types';
 import {http} from 'vue';
@@ -121,14 +121,13 @@ const actions = {
 
   getPackageDevices ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
-      };
+      }
 
-      packageAPI.getOne(state.selectedPackage, params, res => {
+      packageAPI.getOne(state.selectedPackage, _params, res => {
         let packageData = store.sync(res.data);
         resolve(packageData);
       }, err => {
@@ -211,11 +210,15 @@ const actions = {
     })
   },
 
-  getUserConditions ({dispatch, commit, state}) {
+  getUserConditions ({ dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
-      let params = 'include=udlvalues';
+      let _params = {
+        params: {
+          include: 'udlvalues'
+        }
+      }
 
-      authAPI.getUser(localStorage.userId, params, res => {
+      employeeAPI.get(rootState.auth.userId, _params, res => {
         let result = store.sync(res.data);
         resolve(result)
       }, err => {

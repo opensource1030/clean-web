@@ -8,14 +8,16 @@ import modal from './../../components/modal';
 import {mapGetters, mapActions} from 'vuex';
 
 export default {
-  name : 'Review',
-  components : {
+  name: 'Review',
+
+  components: {
     Avatar,
     multiselect,
     placeOrderWizard,
     modal
   },
-  data() {
+
+  data () {
     return {
       orderType: '',
       user: {},
@@ -40,9 +42,7 @@ export default {
       }
     }
   },
-  beforeCreate() {
-    
-  },
+
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
@@ -57,7 +57,8 @@ export default {
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     })
   },
-  created() {
+
+  created () {
     this.orderType = this.$route.meta.label;
     
     this.$store.dispatch('placeOrder/getUserConditions').then(
@@ -89,27 +90,32 @@ export default {
       )
     }
   },
-  methods : {
+
+  methods: {
     getImageUrl(object) {
       if (object.hasOwnProperty('images')) {
         if (object.images.length > 0) {
-          return process.env.URL_API + '/images/' + object.images[0].id;
+          return process.env.URL_API + '/images/' + object.images[0].id
         }      
       } else {
-        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif'
       }
     },
+
     goOrderDevicePage() {
-      this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
+      this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
     },
+
     changeShippingAddress() {
-      this.address.changeAddress = !this.address.changeAddress;
+      this.address.changeAddress = !this.address.changeAddress
     },
+
     customLabel ({address, city, country}) {
       return `${address} - ${city} - ${country}`
     },
+
     submitOrder() {
-      let app = this;
+      let app = this
       let orderTypes = {
         New: 'NewLineOfService',
         Upgrade: 'UpgradeDevice',
@@ -121,7 +127,7 @@ export default {
         data : {
           type: 'orders',
           attributes: {
-            status: 'Denied',
+            status: 'New',
             orderType: orderTypes[this.orderType],
             userId: this.user.id
           },
@@ -144,7 +150,7 @@ export default {
         }
       }
 
-      if(this.selectedKeepService == 'Yes') {
+      if (this.selectedKeepService == 'Yes') {
         this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
         this.orderData.data.attributes.sericePhoneNo = this.typedServiceInfo.PhoneNo;
         this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
@@ -153,19 +159,19 @@ export default {
         this.orderData.data.attributes.serviceId = this.selectedService.id;
       }
 
-      if(this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {
+      if (this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {
         this.orderData.data.attributes.deviceImei = this.typedDeviceInfo.IMEI;
         this.orderData.data.attributes.deviceCarrier = this.typedDeviceInfo.Carrier;
         this.orderData.data.attributes.deviceSim = this.typedDeviceInfo.Sim;
       } else {
-        if(this.orderType != 'Accessory') {
+        if (this.orderType != 'Accessory') {
           this.orderData.data.relationships.devicevariations.data.push({
             type: 'devicevariations',
             id: this.selectedStyle.id
           });
         }
 
-        for(let accessory of this.selectedAccessories) {
+        for (let accessory of this.selectedAccessories) {
           this.orderData.data.relationships.devicevariations.data.push({
             type: 'devicevariations',
             id: accessory
@@ -173,7 +179,7 @@ export default {
         }
       }
 
-      if(this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'personal') {
+      if (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'personal') {
         this.payOrder = true;
         Stripe.setPublishableKey('pk_test_o9DwIZ6k1TBwqbJCSh2IQKsj');
       } else {
@@ -206,15 +212,16 @@ export default {
         });
       }
     },
+
     requestOrder() {
       this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
         res => {
           this.orderFinished = true;
 
           setTimeout(function() {
-            app.orderFinished = false;
-            location.href = '/dashboard';
-          },1000);
+            app.orderFinished = false
+            location.href = '/dashboard'
+          }, 1000)
         }
       )
     }
