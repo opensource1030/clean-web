@@ -1,10 +1,10 @@
 module.exports = {
   NODE_ENV: '"productionDev"',
-    URL_API: '"https://trial.api.wirelessanalytics.com"',
-    URL: '"https://trial.wirelessanalytics.com"',
+    URL_API: '"https://staging.api.wirelessanalytics.com"',
+    URL: '"https://staging.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-  LEGACY_URL: '"https://devlegacy.wirelessanalytics.com"',
+  LEGACY_URL: '"https://staging.legacy.wirelessanalytics.com"',
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
 
   FEATURESV: {
