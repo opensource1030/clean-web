@@ -226,7 +226,7 @@
                 <p class="ft-13 italic bold black">headphones, chargers, bags</p>
               </div>
               <div class="columns small-12 text-center">
-                <a class="button large m-t-25" :disabled="selectedOrder == ''" @click="placeOrder()">Place Order</a>
+                <a class="button large m-t-25" :disabled="selectedOrder == ''" @click="placeOrder()">Begin Order</a>
               </div>
             </div>
           </div>

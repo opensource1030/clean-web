@@ -91,10 +91,10 @@
             <span class="bold">Previous IMEI</span> : {{typedServiceInfo.IMEI}}
           </p>
           <p>
-            <span class="bold">Phone No</span> : {{typedServiceInfo.PhoneNo}}
+            <span class="bold">Device Mobile Number</span> : {{typedServiceInfo.PhoneNo}}
           </p>
           <p>
-            <span class="bold">Sim Card</span> : {{typedServiceInfo.Sim}}
+            <span class="bold">ICCID / SIM Card Number</span> : {{typedServiceInfo.Sim}}
           </p>
         </div>
         <div v-else>

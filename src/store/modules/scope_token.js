@@ -25,7 +25,7 @@ const actions = {
       let token = _.get(state.records, name, null)
       // console.log(name, token)
       if (token) {
-        // console.log('stored', name, token)
+        console.log('stored', name, token)
         resolve(token)
       } else {
         dispatch('update', name).then(res => {

@@ -114,7 +114,7 @@
       :pagination="$store.state.employee.pagination"
       :prev="prevPage"
       :next="nextPage"
-      v-show="$store.state.employee.records.length > 0">
+      v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">
