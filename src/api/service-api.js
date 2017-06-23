@@ -1,6 +1,6 @@
-import { http } from 'vue'
-import $store from './../store'
-import { AuthHelper } from './../helpers'
+import {http} from "vue";
+import $store from "./../store";
+import {AuthHelper} from "./../helpers";
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -14,7 +14,7 @@ export default {
     }, err => errCb(err))
   },
 
-  getOne (params, id ,cb, errCb) {
+  getOne (params, id, cb, errCb) {
     $store.dispatch('scope_token/get', 'get_service').then(result => {
       http.get(API_BASE_URL + '/services/' + id, _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(store.sync(res.data)), (err) => errCb(err))
     }, err => errCb(err))

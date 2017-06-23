@@ -1,7 +1,6 @@
-import _ from 'lodash'
-import authAPI from './../../api/auth-api'
-import * as types from './../mutation-types'
-import { Utils } from './../../helpers'
+import _ from "lodash";
+import authAPI from "./../../api/auth-api";
+import * as types from "./../mutation-types";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -20,7 +19,7 @@ const getters = {
 
 // actions
 const actions = {
-  get ({ dispatch, commit, state}, name) {
+  get ({dispatch, commit, state}, name) {
     return new Promise((resolve, reject) => {
       let token = _.get(state.records, name, null)
       // console.log(name, token)
@@ -37,13 +36,13 @@ const actions = {
     })
   },
 
-  update ({ commit }, name) {
+  update ({commit}, name) {
     return new Promise((resolve, reject) => {
       authAPI.scopeToken({
         name: name,
-        scopes: [ name ]
+        scopes: [name]
       }, res => {
-        commit(types.SCOPE_TOKEN_UPDATE, { name: name, record: res.body })
+        commit(types.SCOPE_TOKEN_UPDATE, {name: name, record: res.body})
         resolve(res.body)
       }, err => {
         console.log('scope_token update err', err)
@@ -59,7 +58,7 @@ const mutations = {
     state.records = {}
   },
 
-  [types.SCOPE_TOKEN_UPDATE] (state, { name, record }) {
+  [types.SCOPE_TOKEN_UPDATE] (state, {name, record}) {
     _.set(state.records, name, record)
   },
 }

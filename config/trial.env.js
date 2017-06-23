@@ -1,7 +1,7 @@
 module.exports = {
   NODE_ENV: '"productionTrial"',
-    URL_API: '"https://trial.api.wirelessanalytics.com"',
-    URL: '"https://trial.wirelessanalytics.com"',
+  URL_API: '"https://trial.api.wirelessanalytics.com"',
+  URL: '"https://trial.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
   LEGACY_URL: '"https://app.wirelessanalytics.com"',
@@ -11,7 +11,7 @@ module.exports = {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
-  
+
   EASYVISTA_CODE: 13,
 
   FEATURES: {

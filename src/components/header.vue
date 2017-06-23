@@ -35,7 +35,7 @@
   import Avatar from 'vue-avatar/dist/Avatar'
   import employeeAPI from './../api/employee-api'
 
-  const { Store } = require('yayson')()
+  const {Store} = require('yayson')()
   const store = new Store()
   
   export default {

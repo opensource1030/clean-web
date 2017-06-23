@@ -1,7 +1,7 @@
-import serviceAPI from './../../../api/service-api'
-import Services from './../../../models/Service';
-import * as types from './../../mutation-types'
-import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
+import serviceAPI from "./../../../api/service-api";
+import Services from "./../../../models/Service";
+import * as types from "./../../mutation-types";
+import {findByAddons, findServiceItem} from "./../../../components/filters.js";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -167,7 +167,7 @@ const actions = {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         return new Promise((resolve, reject) => {
-          serviceAPI.create({ data: serviceo.toJSON() }, res => {
+          serviceAPI.create({data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_ADD_NEW, {router})
             resolve(service)
           }, err => {
@@ -178,7 +178,7 @@ const actions = {
       } else {
         dispatch('error/addNew', {
           message: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.'
-        }, { root: true })
+        }, {root: true})
       }
     }, err => {
       console.log('service add err')

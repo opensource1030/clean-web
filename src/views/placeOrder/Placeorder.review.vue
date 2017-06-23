@@ -139,12 +139,12 @@
           <div class="row expanded" v-if="address.changeAddress">
             <div class="columns small-12">
               <multiselect
-                  v-model="address.shippingAddress"
-                  placeholder="Select a Address"
-                  :searchable="false"
-                  :custom-label="customLabel"
-                  :options="address.availableAddresses"
-                  :show-labels="false">
+                      v-model="address.shippingAddress"
+                      placeholder="Select a Address"
+                      :searchable="false"
+                      :custom-label="customLabel"
+                      :options="address.availableAddresses"
+                      :show-labels="false">
               </multiselect>
             </div>
           </div>

@@ -47,13 +47,16 @@
               <div class="small-10 columns">
                 <h4 class="category-title">Device Info</h4>
                 <label>
-                  <span class="bold">IMEI</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.IMEI">
+                  <span class="bold">IMEI</span> <span class="asterisk bold">*</span><input type="text"
+                                                                                            v-model="deviceInfo.IMEI">
                 </label>
                 <label>
-                  <span class="bold">Carrier</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Carrier">
+                  <span class="bold">Carrier</span> <span class="asterisk bold">*</span><input type="text"
+                                                                                               v-model="deviceInfo.Carrier">
                 </label>
                 <label>
-                  <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Sim">
+                  <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span><input
+                        type="text" v-model="deviceInfo.Sim">
                 </label>
               </div>
               <div class="small-1 columns"></div>
@@ -78,11 +81,15 @@
                     </div>
                     <div class="device-description">
                       <p class="modifications">
-                        <span class="device-variation" v-for="(style, capacity) in device.modifications" :class="{'active': style == device.capacity}" @click.stop="selectDevice(d_index, capacity, 0)">
+                        <span class="device-variation" v-for="(style, capacity) in device.modifications"
+                              :class="{'active': style == device.capacity}"
+                              @click.stop="selectDevice(d_index, capacity, 0)">
                           {{capacity + 'Gb'}}
                         </span>
                         <span class="device-variation seperator"></span>
-                        <span class="device-variation" v-for="(style, s_index) in device.capacity" :class="{'active': style.color == device.style.color}" @click.stop="selectDevice(d_index, 0, s_index+1)">
+                        <span class="device-variation" v-for="(style, s_index) in device.capacity"
+                              :class="{'active': style.color == device.style.color}"
+                              @click.stop="selectDevice(d_index, 0, s_index+1)">
                           {{style.color}}
                         </span>
                       </p>
@@ -121,7 +128,7 @@
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
-        <a class="button large btn-orange pull-right" @click="goOrderPages('review')" 
+        <a class="button large btn-orange pull-right" @click="goOrderPages('review')"
            v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)">
           Next
         </a>

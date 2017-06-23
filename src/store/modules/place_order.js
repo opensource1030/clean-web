@@ -1,10 +1,8 @@
-import _ from 'lodash';
-import packageAPI from './../../api/package-api'
-import deviceAPI from './../../api/device-api'
-import orderAPI from './../../api/order-api'
-import employeeAPI from './../../api/employee-api'
+import packageAPI from "./../../api/package-api";
+import orderAPI from "./../../api/order-api";
+import employeeAPI from "./../../api/employee-api";
 
-import * as types from './../mutation-types'
+import * as types from "./../mutation-types";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -148,7 +146,7 @@ const actions = {
 
       for (let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
@@ -195,9 +193,9 @@ const actions = {
         }
       };
 
-      for(let packageId of state.userPackages) {
+      for (let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
@@ -217,7 +215,7 @@ const actions = {
     })
   },
 
-  getUserConditions ({ dispatch, commit, state, rootState}) {
+  getUserConditions ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {

@@ -1,7 +1,7 @@
 import employeeAPI from "./../../api/employee-api.js";
 
 import {mapGetters} from "vuex";
-import {Utils, EmployeeHelper} from './../../helpers'
+import {EmployeeHelper, Utils} from "./../../helpers";
 
 const {Store} = require('yayson')()
 const store = new Store()
