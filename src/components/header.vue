@@ -4,7 +4,7 @@
       <div class="column large-8 medium-8 small-7">
         <div class="logo" v-if="company.object" @click="$router.push({name: 'dashboard'})">
           <div class="logo-holder">
-            <img v-bind:src='company.object.metadata.logo.url' alt="logo" title="Client Logo">
+            <img v-bind:src="_.get(company.object, 'metadata.logo.url', '')" alt="Company Logo" title="Client Logo">
           </div>
         </div>
         <morphsearch></morphsearch>
@@ -30,10 +30,13 @@
 </template>
 
 <script>
-  const {Store} = require('yayson')()
-  const store = new Store()
+  import _ from 'lodash'
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
+  import employeeAPI from './../api/employee-api'
+
+  const {Store} = require('yayson')()
+  const store = new Store()
   
   export default {
     components: {
@@ -47,14 +50,18 @@
       }
     },
 
-    data() {
+    data () {
       return {
         company: {}
       }
     },
 
     computed: {
-      firstName: function () {
+      _ () {
+        return _
+      },
+
+      firstName () {
         if (localStorage.userProfile) {
           return JSON.parse(localStorage.getItem("userProfile")).firstName
         } else {
@@ -62,7 +69,7 @@
         }
       },
 
-      fullName: function () {
+      fullName () {
         if (localStorage.userProfile) {
           return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
         } else {
@@ -71,64 +78,72 @@
       }
     },
 
-    created() {
-      this.$http.get(process.env.URL_API + '/users/' + localStorage.userId + '?include=companies.contents', {}).then((response) => {
+    created () {
+      let _params = {
+        params: {
+          include: 'companies.contents',
+        }
+      }
+      employeeAPI.get(this.$store.state.auth.userId, _params, (response) => {
         let event = store.sync(response.data)
+        // console.log('header event', event)
+
         if (event.companies.length > 0) {
           let cosmicdata = event.companies[0].contents[0].content
+          // console.log('header cosmicdata', cosmicdata)
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
+            console.log('header cosmiddata', this.company)
           })
         }
-      });
-        (function () {
-          let t, timeout = 7.2e+6;
-
-          function resetTimer() {
-            if (t) {
-                window.clearTimeout(t);
-            }
-            t = window.setTimeout(logOut, timeout);
-          }
-
-          function logOut() {
-            localStorage.clear('Token');
-            location.reload();
-          }
-
-          resetTimer();
-          //And bind the events to call `resetTimer()`
-          ["click", "mousemove", "keypress"].forEach(function (name) {
-            document.addEventListener(name, resetTimer);
-          });
-        }());
+      }, (err) => console.log('header.vue err', err))
     },
 
-    mounted() {
-        $(document).foundation();
-        let config = {
+    mounted () {
+      $(document).foundation();
+      let config = {
         selector: ".HW-container",
         account: "JPYPKy",
         enabled: true
       };
       Headway.init(config);
+      heap.identify(this.$store.state.auth.profile.identification);
 
+      (function () {
+        let t, timeout = 7.2e+6;
+
+        function resetTimer() {
+          if (t) {
+            window.clearTimeout(t);
+          }
+          t = window.setTimeout(logOut, timeout);
+        }
+
+        function logOut() {
+          localStorage.clear('Token');
+          location.reload();
+        }
+
+        resetTimer();
+        // And bind the events to call `resetTimer()`
+        ["click", "mousemove", "keypress"].forEach(function (name) {
+          document.addEventListener(name, resetTimer);
+        });
+      }());
     },
 
     methods: {
       logout () {
         document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        heap.track('User logged out', {'clicked': 'yes'});
 
         this.$store.dispatch('auth/logout').then(res => {
           console.log('header logout');
           history.go(0);
           this.$router.push({ path: '/login' })
-
-
         })
-
       },
 
       profile () {

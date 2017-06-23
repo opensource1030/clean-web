@@ -1,6 +1,6 @@
-import { Carousel, Slide } from 'vue-carousel'
-import {mapGetters, mapActions} from 'vuex';
-import placeOrderWizard from './../../components/placeOrderWizard.vue';
+import {Carousel, Slide} from "vue-carousel";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
 
 export default {
   name : 'SelectPackage',
@@ -9,6 +9,7 @@ export default {
     Carousel,
     Slide
   },
+
   data() {
     return {
       orderType: '',
@@ -30,9 +31,21 @@ export default {
       }
     }
   },
+
+  computed: {
+    ...mapGetters({
+      selectedKeepService: 'placeOrder/getSelectedKeepService',
+      selectedPackage: 'placeOrder/getSelectedPackage',
+      selectedService: 'placeOrder/getSelectedService',
+      typedServiceInfo: 'placeOrder/getTypedServiceInfo'
+    }),
+  },
+
   beforeCreate() {
-    let userInfo = JSON.parse(localStorage.userProfile);
-    this.$store.dispatch('placeOrder/getUserPackages', userInfo.id).then(
+  },
+
+  created() {
+    this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(
       res => {
         if(res) {
           this.packages.availablePackages = res;
@@ -48,16 +61,7 @@ export default {
         this.packages.loading = false;
       }
     )
-  },
-  computed: {
-    ...mapGetters({
-      selectedKeepService: 'placeOrder/getSelectedKeepService',
-      selectedPackage: 'placeOrder/getSelectedPackage',
-      selectedService: 'placeOrder/getSelectedService',
-      typedServiceInfo: 'placeOrder/getTypedServiceInfo'
-    }),
-  },
-  created() {
+
     this.orderType = this.$route.meta.label;
     switch(this.orderType) {
       case 'New':
@@ -84,6 +88,7 @@ export default {
       break;
     }
   },
+
   methods: {
     setActive(type, value) {
       switch(type) {
@@ -108,6 +113,7 @@ export default {
           break;
       }
     },
+
     getImageUrl(object) {
       // if (object.hasOwnProperty('images')) {
       //   if (object.images.length > 0) {
@@ -120,6 +126,7 @@ export default {
         return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       // }
     },
+
     goDevicePage() {
       this.$store.dispatch('placeOrder/setKeepService', this.keepService);
       this.$store.dispatch('placeOrder/setServiceSelected', this.services.activeService);

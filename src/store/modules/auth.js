@@ -1,16 +1,19 @@
-import auth from './../../api/auth-api'
-import * as types from './../mutation-types'
-import user from './../../models/User'
-// import Vue from 'vue'
-// import VueResource from 'vue-resource';
+import _ from "lodash";
+import authAPI from "./../../api/auth-api";
+import * as types from "./../mutation-types";
+import user from "./../../models/User";
+import {Storage} from "./../../helpers";
 
 // initial state
 const state = {
   // email: localStorage.getItem('email') || '',
-  token: localStorage.getItem('token') || null,
-  userId: localStorage.getItem('userId') || null,
-  profile: JSON.parse(localStorage.getItem('userProfile')) || {},
-  // authenticated: false,
+  // token: localStorage.getItem('token') || null,
+  // userId: localStorage.getItem('userId') || null,
+  // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
+  userId: Storage.get('userId') || null,
+  token: JSON.parse(Storage.get('token')) || {},
+  profile: JSON.parse(Storage.get('profile')) || {},
+
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -25,7 +28,7 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     // console.log('isAuthenticated ...', state.userId, state.token)
-    return (!!state.token) && (!!state.userId)
+    return (!!state.token) && (!!state.userId) && !state.isAuthenticating
   },
 
   getVariations: (state) => {
@@ -39,22 +42,58 @@ const actions = {
     return new user('users', 0, '', '', credentials.email, '', credentials.password1, '', '', '', '', credentials.firstName, credentials.lastName, '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '');
   },
 
+  getLoginToken ({dispatch, commit, state}) {
+    return new Promise((resolve, reject) => {
+      let updated_at = state.token.updated_at
+      let current_time = new Date().getTime()
+      let passed = Math.abs(updated_at - current_time) / 1000;
+      // let expires_in = state.token.expires_in
+      let expires_in = 3600
+
+      if (passed < expires_in) {
+        // console.log('saved token', state.token)
+        resolve(state.token)
+      } else {
+        let _params = {
+          grant_type: 'refresh_token',
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+          refresh_token: state.token.refresh_token
+        }
+
+        authAPI.refreshLoginToken(_params, (res) => {
+          commit(types.AUTH_REFRESH_TOKEN, res)
+          // console.log('refresh token', state.token)
+          resolve(state.token)
+        }, (err) => {
+          reject(err)
+        })
+      }
+    })
+  },
+
   profile ({ dispatch, commit, state }, { res, router }) {
     return new Promise((resolve, reject) => {
-      auth.profile({
-        token: res.data.access_token
-      }, (response) => {
-        const result = {
-          user_id: res.body.user_id,
-          token: res.body.access_token,
+      let _params = {
+        params: {
+          include: 'roles,roles.permissions'
+        }
+      }
+      authAPI.profile(_params, (response) => {
+        let current_time = new Date().getTime()
+        let result = {
+          user_id: res.data.user_id,
+          token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
           profile: response
         }
-        commit('LOGIN_SUCCESS', result)
-        // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
-        router.push({name: 'dashboard'});
+        console.log('vuex profile', response)
+        commit(types.AUTH_LOGIN_SUCCESS, result)
+        commit(types.AUTH_LOGIN_DONE)
+        // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+        router.push({name: 'dashboard'})
         resolve(result)
       }, (error) => {
-        commit('LOGIN_FAILURE')
+        commit(types.AUTH_LOGIN_FAILURE)
         dispatch('error/addNew', {
           message: "Unexpected server error. Please contact the administrator."
         }, {root: true})
@@ -117,7 +156,7 @@ const actions = {
         };
 
         return new Promise((resolve, reject) => {
-          auth.resetPasswords(credentials.identification, credentials.code, params, (res) => {
+          authAPI.resetPasswords(credentials.identification, credentials.code, params, (res) => {
             router.push({name: 'login'});
             resolve(res)
           }, (err) => {
@@ -178,7 +217,7 @@ const actions = {
 
     if (credentials.email != '') {
       return new Promise((resolve, reject) => {
-        auth.resetPasswordEmail(credentials.email, params, (res) => {
+        authAPI.resetPasswordEmail(credentials.email, params, (res) => {
           commit('REGISTER_USER')
           resolve(res)
         }, (err) => {
@@ -258,7 +297,7 @@ const actions = {
       } else {
         dispatch('getTheModel', {credentials: credentials}).then(response => {
           return new Promise((resolve, reject) => {
-            auth.register({
+            authAPI.register({
               data: response.toJSON()
             }, (res) => {
               commit('REGISTER_USER')
@@ -291,7 +330,7 @@ const actions = {
       }, {root: true})
     } else {
       return new Promise((resolve, reject) => {
-        auth.login({
+        authAPI.login({
           email: email
         }, (res) => {
           window.location.href = res.data.data.redirectUrl;
@@ -340,13 +379,21 @@ const actions = {
 
     return new Promise((resolve, reject) => {
       commit('LOGIN_REQUEST')
-      auth.loginLocal({
+      authAPI.loginLocal({
         email: credentials.email,
         password: credentials.password
       }, (res) => {
-        dispatch('profile', { res: res, router: router });
+        console.log('loginLocal', res)
+        let current_time = new Date().getTime()
+        const result = {
+          user_id: res.data.user_id,
+          token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
+          profile: {}
+        }
+        commit(types.AUTH_LOGIN_SUCCESS, result)
+        dispatch('profile', {res: res, router: router}).then(res => resolve(true), err => reject(err))
       }, (err) => {
-        commit('LOGIN_FAILURE')
+        commit(types.AUTH_LOGIN_FAILURE)
         if (err.status == 500) {
           dispatch('error/addNew', {
             message: "Unexpected server error. Please contact the administrator."
@@ -364,7 +411,7 @@ const actions = {
   singleSignOn ({ dispatch, commit, state }, { router, id }) {
     return new Promise((resolve, reject) => {
       commit('LOGIN_REQUEST')
-      auth.singleSignOn({
+      authAPI.singleSignOn({
         uuid: id
       }, (re) => {
         dispatch('profile', {res: re, router: router});
@@ -403,34 +450,55 @@ const mutations = {
   },
 
   [types.AUTH_LOGIN_FAILURE] (state) {
+    Storage.removeAll()
+
+    state.userId = null
+    state.token = null
+    state.refreshToken = null
+    state.profile = null
+
     state.isAuthenticating = false
   },
 
   [types.AUTH_REGISTER_FAILURE] (state) {
-    state.variations.message = '';
-    state.variations.clickAgain = true;
+    state.variations.message = ''
+    state.variations.clickAgain = true
   },
 
   [types.AUTH_LOGIN_SUCCESS] (state, result) {
-    localStorage.setItem('token', result.token)
-    localStorage.setItem('userId', result.user_id)
-    localStorage.setItem('userProfile', JSON.stringify(result.profile))
+    // console.log('AUTH_LOGIN_SUCCESS', result)
+    Storage.set('userId', result.user_id)
+    Storage.set('token', JSON.stringify(result.token))
+    // Storage.set('token', result.token)
+    // Storage.set('refreshToken', result.refresh_token)
+    Storage.set('profile', JSON.stringify(result.profile))
 
-    state.token = result.token
     state.userId = result.user_id
+    state.token = result.token
+    // state.token = result.token
+    // state.refreshToken = result.refresh_token
     state.profile = result.profile
 
+    // state.isAuthenticating = false
+  },
+
+  [types.AUTH_REFRESH_TOKEN] (state, result) {
+    result.updated_at = new Date().getTime()
+    // console.log('AUTH_REFRESH_TOKEN', result)
+    Storage.set('token', JSON.stringify(result))
+    state.token = result
+  },
+
+  [types.AUTH_LOGIN_DONE] (state) {
     state.isAuthenticating = false
-    // state.authenticated = true
   },
 
   [types.AUTH_LOGOUT] (state) {
-    localStorage.removeItem('userProfile');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('token');
+    Storage.removeAll()
 
-    state.token = null
     state.userId = null
+    state.token = null
+    state.refreshToken = null
     state.profile = null
     // state.authenticated = false
   },
@@ -442,7 +510,7 @@ const mutations = {
   },
 
   [types.AUTH_SET_PROFILE] (state, result) {
-    localStorage.setItem('userProfile', JSON.stringify(result.profile))
+    Storage.set('userProfile', JSON.stringify(result.profile))
     state.profile = result.profile
   },
 

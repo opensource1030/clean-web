@@ -5,8 +5,8 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/employees/new">Add Employee</a>
-    <a class="button large add-bulk-button" href="/employees/bulk">Add Bulk Employees</a>
+    <router-link to="/employees/new" class="button large add-button">Add Employee</router-link>
+    <router-link to="/employees/bulk" class="button large add-bulk-button">Add Bulk Employees</router-link>
   </div>
 
   <div class="small-12 columns">
@@ -39,7 +39,7 @@
                 <td>
                   <span class="badge" @click="setActive(employee)"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
                 </td>
-                <td>{{ employee.id }}</td>
+                <td>{{ employee.identification }}</td>
                 <td>
                   <div class="switch tiny">
                     <input class="switch-input" :id="'status-' + employee.id" type="checkbox" :name="'status-' + employee.id" v-bind:checked="employee.isActive" @change="onEmployeeActiveChange($event, employee.id)">
@@ -55,7 +55,9 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removeEmployee(employee.id)"><i class="fa fa-trash"></i></a>
-                    <a :href = "'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning"><i class="fa fa-edit"></i></a>
+                    <router-link :to="'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning">
+                      <i class="fa fa-edit"></i>
+                    </router-link>
                   </div>
                 </td>
               </tr>
@@ -109,10 +111,10 @@
     </div>
 
     <paginate
-      :pagination="$store.state.employee.pagination"
-      :prev="prevPage"
-      :next="nextPage"
-      v-show="$store.state.employee.records.length > 0">
+            :pagination="$store.state.employee.pagination"
+            :prev="prevPage"
+            :next="nextPage"
+            v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">

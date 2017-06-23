@@ -1,11 +1,11 @@
-import _ from 'lodash'
-import packageAPI from './../../api/package-api'
-import companyAPI from './../../api/company-api'
-import presetAPI from './../../api/preset-api'
-import carrierAPI from './../../api/carrier-api'
-import serviceAPI from './../../api/service-api'
+import _ from "lodash";
+import packageAPI from "./../../api/package-api";
+import companyAPI from "./../../api/company-api";
+import presetAPI from "./../../api/preset-api";
+import carrierAPI from "./../../api/carrier-api";
+import serviceAPI from "./../../api/service-api";
 
-import * as types from './../mutation-types'
+import * as types from "./../mutation-types";
 
 const {Store} = require('yayson')();
 const store = new Store();
@@ -42,24 +42,20 @@ const getters = {
 
 // actions
 const actions = {
-  getAll ({dispatch, commit, state}) {
+  getAll ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
-      // this params has been updated by any component, guess vuex-router-sync
-
-      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
-
       let params = {
         params: {
           page: state.pagination.current_page,
           include: 'conditions,devicevariations,devicevariations.modifications,devicevariations.devices,services,addresses',
           filter: {
-            companyId: userProfile.companyId,
+            companyId: rootState.auth.profile.companyId,
             name: {
               like: state.searchFilter
             }
           }
         }
-      };
+      }
 
       function getTheValuesFromInclude(packIncludeList, type) {
         let min = -1;
@@ -152,18 +148,15 @@ const actions = {
     })
   },
 
-  getPresets ({dispatch, commit, state}) {
+  getPresets ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
-
-      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
-
       let params = {
         params: {
           filter: {
-            companyId: userProfile.companyId
+            companyId: rootState.auth.profile.companyId
           }
         }
-      };
+      }
 
       presetAPI.search(params, res => {
         let results = store.sync(res.body);
@@ -177,30 +170,28 @@ const actions = {
 
   getDevicesPerPreset ({dispatch, commit, state}, presetId) {
     return new Promise((resolve, reject) => {
-
       let params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images'
         }
-      };
+      }
 
       presetAPI.getOne(presetId, params, res => {
         let results = store.sync(res.body);
         resolve(results.devicevariations);
       }, err => {
         reject(err)
-      });
+      })
     })
   },
 
   getCarriers ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
       let params = {
         params: {
           include: 'images'
         }
-      };
+      }
 
       carrierAPI.search(params, res => {
         let results = store.sync(res.data);
@@ -233,18 +224,15 @@ const actions = {
     })
   },
 
-  getCompanyInfo ({dispatch, commit, state}) {
+  getCompanyInfo ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
           include: 'udls,udls.udlvalues,addresses'
         }
-      };
+      }
 
-      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
-      let companyId = userProfile.companyId;
-
-      companyAPI.get(companyId, params, res => {
+      companyAPI.get(rootState.auth.profile.companyId, params, res => {
         let results = store.sync(res.data);
         resolve(results);
       }, err => {

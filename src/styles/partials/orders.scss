@@ -3,7 +3,7 @@
 @import "../mixins/other-mixin";
 
 .page.order-page.order-index-page {
-  
+
   .row.charts {
     margin-bottom: 15px;
   }
@@ -20,5 +20,11 @@
         }
       }
     }
+  }
+}
+
+.status {
+  .label {
+    color: $white !important;
   }
 }

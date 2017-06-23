@@ -145,7 +145,7 @@
                         </td>
                         <td>{{ device.name }}</td>
                         <td>{{ device.defaultPrice }} {{ device.currency }}</td>
-                        <td>{{ device.devicetypes[0].name }}</td>
+                        <td>{{ _.get(device, 'devicetypes[0].name', '') }}</td>
                         <td>{{ device.make }}</td>
                         <td>{{ _.map(filterModificationsByType(device.modifications, 'capacity'), 'value').join(', ') }}</td>
                         <td>{{ _.map(filterModificationsByType(device.modifications, 'style'), 'value').join(', ') }}</td>

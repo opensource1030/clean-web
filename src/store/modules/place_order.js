@@ -1,14 +1,11 @@
-import _ from 'lodash';
-import packageAPI from './../../api/package-api'
-import deviceAPI from './../../api/device-api'
-import orderAPI from './../../api/order-api'
-import authAPI from './../../api/auth-api'
+import packageAPI from "./../../api/package-api";
+import orderAPI from "./../../api/order-api";
+import employeeAPI from "./../../api/employee-api";
 
-import * as types from './../mutation-types';
-import {http} from 'vue';
+import * as types from "./../mutation-types";
 
-const {Store} = require('yayson')();
-const store = new Store();
+const {Store} = require('yayson')()
+const store = new Store()
 
 // initial state
 const state = {
@@ -23,13 +20,14 @@ const state = {
   selectedAccessories: [],
   selectedNeedDevice: 'Yes',
   selectedDeviceType: 'subsided',
-  typedServiceInfo: {
-    IMEI: '',
-    PhoneNo: '',
-    Sim: ''
-  },
+  // typedServiceInfo: {
+  //   IMEI: '',
+  //   PhoneNo: '',
+  //   Sim: ''
+  // },
   typedDeviceInfo: {
     IMEI: '',
+    PhoneNo: '',
     Carrier: '',
     Sim: ''
   },
@@ -74,7 +72,8 @@ const getters = {
     return state.typedDeviceInfo
   },
   getTypedServiceInfo: (state) => {
-    return state.typedServiceInfo
+    // return state.typedServiceInfo
+    return state.typedDeviceInfo
   },
   getPackagesLoadingState: (state) => {
     return state.allPackages_loading
@@ -89,7 +88,7 @@ const actions = {
 
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
-      orderAPI.getMatchedPackages(userId, res => {
+      packageAPI.getMatchedPackages(userId, res => {
         let results = store.sync(res.data);
         commit(types.PLACE_ORDER_SET_PACKAGELIST, results);
         resolve(results);
@@ -121,14 +120,13 @@ const actions = {
 
   getPackageDevices ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
-      };
+      }
 
-      packageAPI.getOne(state.selectedPackage, params, res => {
+      packageAPI.getOne(state.selectedPackage, _params, res => {
         let packageData = store.sync(res.data);
         resolve(packageData);
       }, err => {
@@ -140,14 +138,17 @@ const actions = {
   getPackagesDevices({disptach, commit, state}) {
     return new Promise((resolve, reject) => {
       let promiseArray = [];
-      let params = {
+      let _params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
       };
 
-      for(let eachPackage of state.userPackages)
-        promiseArray.push(http.get(process.env.URL_API + '/packages/' + eachPackage, params));
+      for (let packageId of state.userPackages) {
+        promiseArray.push(new Promise((resolve, reject) => {
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
+        }))
+      }
 
       Promise.all(promiseArray).then(result_array => {
         let devicevariations = [];
@@ -186,14 +187,17 @@ const actions = {
   getPackagesAddresses ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
       let promiseArray = [];
-      let params = {
+      let _params = {
         params: {
           include: 'addresses'
         }
       };
 
-      for(let eachPackage of state.userPackages)
-        promiseArray.push(http.get(process.env.URL_API + '/packages/' + eachPackage, params));
+      for (let packageId of state.userPackages) {
+        promiseArray.push(new Promise((resolve, reject) => {
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
+        }))
+      }
 
       Promise.all(promiseArray).then(result_array => {
         let addresses = [];
@@ -211,11 +215,15 @@ const actions = {
     })
   },
 
-  getUserConditions ({dispatch, commit, state}) {
+  getUserConditions ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
-      let params = 'include=udlvalues';
+      let _params = {
+        params: {
+          include: 'udlvalues'
+        }
+      }
 
-      authAPI.getUser(localStorage.userId, params, res => {
+      employeeAPI.get(rootState.auth.userId, _params, res => {
         let result = store.sync(res.data);
         resolve(result)
       }, err => {
@@ -322,7 +330,8 @@ const mutations = {
     state.selectedKeepService = keepService;
   },
   [types.PLACE_ORDER_SET_SERVICEINFO] (state, serviceInfo) {
-    state.typedServiceInfo = serviceInfo;
+    // state.typedServiceInfo = serviceInfo;
+    state.typedDeviceInfo = serviceInfo;
   }
 }
 

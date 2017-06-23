@@ -5,7 +5,7 @@
   </modal>
 
   <div class="small-12 columns">
-    <a class="button large add-button" href="/preset">Create New Equipment Group</a>
+    <router-link to="/presets/new" class="button large add-button">Create New Equipment Group</router-link>
   </div>
 
   <div class="small-12 columns">
@@ -56,7 +56,8 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removePreset(preset.id)"><i class="fa fa-trash"></i></a>
-                    <a class="button warning" :href = "'/preset/' + preset.id"><i class="fa fa-edit"></i></a>
+                    <router-link :to="'/presets/' + preset.id" class="button warning"><i class="fa fa-edit"></i>
+                    </router-link>
                   </div>
                 </td>
               </tr>
@@ -85,10 +86,10 @@
     </div>
 
     <paginate
-        :pagination="$store.state.preset.pagination"
-        :prev="prevPage"
-        :next="nextPage"
-        v-show="$store.state.preset.records.length > 0">
+            :pagination="$store.state.preset.pagination"
+            :prev="prevPage"
+            :next="nextPage"
+            v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">

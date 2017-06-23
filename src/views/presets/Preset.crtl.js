@@ -1,15 +1,14 @@
-import _ from 'lodash'
-import multiselect from 'vue-multiselect'
-import modal from './../../components/modal.vue'
+import _ from "lodash";
+import multiselect from "vue-multiselect";
+import modal from "./../../components/modal.vue";
 
-import presetAPI from './../../api/preset-api.js'
-import deviceAPI from './../../api/device-api.js'
-import devicetypeAPI from './../../api/device_type-api.js'
-import carrierAPI from './../../api/carrier-api.js'
-import companyAPI from './../../api/company-api.js'
-import { mapGetters, mapActions } from 'vuex'
-import { DeviceVariationHelper } from './../../helpers'
-import { PresetsPresenter, DeviceVariationsPresenter } from './../../presenters'
+import presetAPI from "./../../api/preset-api.js";
+import deviceAPI from "./../../api/device-api.js";
+import devicetypeAPI from "./../../api/device_type-api.js";
+import companyAPI from "./../../api/company-api.js";
+import {mapGetters} from "vuex";
+import {DeviceVariationHelper} from "./../../helpers";
+import {DeviceVariationsPresenter, PresetsPresenter} from "./../../presenters";
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -112,8 +111,8 @@ export default {
     },
 
     initVariables () {
-      console.log(this.preset)
-      console.log(this.allDevices)
+      // console.log(this.preset)
+      // console.log(this.allDevices)
       const vm = this
       vm.devices = []
 
@@ -165,6 +164,9 @@ export default {
       // this.preset.companies[0] = value
       this.$store.dispatch('device/addFilter', { type: 'company', records: [value] }).then((res) => {
         this.initVariables()
+        this.$nextTick(() => {
+          $(document).foundation()
+        })
         this.$forceUpdate()
       })
     },

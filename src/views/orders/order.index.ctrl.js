@@ -1,18 +1,18 @@
-import _ from 'lodash'
-import swal from 'sweetalert2'
-import avatar from 'vue-avatar/dist/Avatar'
-import modal from './../../components/modal.vue'
-import paginate from './../../components/paginate.vue'
-import multiselect from 'vue-multiselect'
-import phone from './../../filters/phone-formatter.js'
-import orderAPI from './../../api/order-api.js'
-import packageAPI from './../../api/package-api.js'
-import carrierAPI from './../../api/carrier-api.js'
-import deviceAPI from './../../api/device-api.js'
-import employeeAPI from './../../api/employee-api.js'
-import addressAPI from './../../api/address-api.js'
-import { mapGetters, mapActions } from 'vuex'
-import { OrderHelper } from './../../helpers'
+import _ from "lodash";
+import swal from "sweetalert2";
+import avatar from "vue-avatar/dist/Avatar";
+import modal from "./../../components/modal.vue";
+import paginate from "./../../components/paginate.vue";
+import multiselect from "vue-multiselect";
+import phone from "./../../filters/phone-formatter.js";
+import orderAPI from "./../../api/order-api.js";
+import packageAPI from "./../../api/package-api.js";
+import carrierAPI from "./../../api/carrier-api.js";
+import deviceAPI from "./../../api/device-api.js";
+import employeeAPI from "./../../api/employee-api.js";
+import addressAPI from "./../../api/address-api.js";
+import {mapGetters} from "vuex";
+import {OrderHelper} from "./../../helpers";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -157,6 +157,10 @@ export default {
   },
 
   computed: {
+    _ () {
+      return _
+    },
+
     ...mapGetters({
       orders: 'order/sorted'
     }),

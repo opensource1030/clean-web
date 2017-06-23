@@ -1,7 +1,7 @@
-import service from './../../../api/service-api'
-import Services from './../../../models/Service';
-import * as types from './../../mutation-types'
-import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
+import serviceAPI from "./../../../api/service-api";
+import Services from "./../../../models/Service";
+import * as types from "./../../mutation-types";
+import {findByAddons, findServiceItem} from "./../../../components/filters.js";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -105,7 +105,7 @@ const actions = {
         }
       }
 
-      service.getOne(params, id, res => {
+      serviceAPI.getOne(params, id, res => {
         commit(types.SERVICES_GET_SERVICE, {records: res})
         resolve(res)
       }, err => {
@@ -135,7 +135,7 @@ const actions = {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
         return new Promise((resolve, reject) => {
-          service.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
+          serviceAPI.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_UPDATE, {router})
             resolve(service)
           }, err => {
@@ -155,23 +155,23 @@ const actions = {
       status = "Disabled"
     }
 
-    var serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
-
+    let serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
+    // console.log('serviceo', serviceo)
     dispatch('checkPlan', {
       serviceo: serviceo,
       addons: addons
     }).then(response => {
+      // console.log('service/add', response)
       if (response) {
         //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-        console.log(serviceo)
         return new Promise((resolve, reject) => {
-          service.add(serviceo.toJSON(), res => {
+          serviceAPI.create({data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_ADD_NEW, {router})
             resolve(service)
           }, err => {
-            console.log('service err', err)
+            console.log('service create err', err)
             reject(err)
           })
         })
@@ -180,27 +180,29 @@ const actions = {
           message: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.'
         }, {root: true})
       }
+    }, err => {
+      console.log('service add err')
     })
   },
 
   checkPlan ({ dispatch, commit, state }, { serviceo, addons }) {
     if (serviceo.title == "") {
-      dispatch('error/addNew', { message: 'titleError' })
+      // dispatch('error/addNew', { message: 'titleError' })
       return false
     }
 
     if (serviceo.planCode == "") {
-      dispatch('error/addNew', { message: 'planCodeError' })
+      // dispatch('error/addNew', { message: 'planCodeError' })
       return false
     }
 
     if (serviceo.cost == "") {
-      dispatch('error/addNew', { message: 'costError' })
+      // dispatch('error/addNew', { message: 'costError' })
       return false
     }
 
     if (serviceo.description == "") {
-      dispatch('error/addNew', { message: 'description' })
+      // dispatch('error/addNew', { message: 'description' })
       return false
     }
 

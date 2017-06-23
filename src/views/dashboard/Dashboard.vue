@@ -1,9 +1,10 @@
 <template>
   <div id="dashboard">
+    <!-- <div>{{ $store.state.scope_token.records }}</div> -->
     <div class="row expanded">
       <div class="columns small-12">
         <div class="tag-header">
-          <h1>{{clientInfo.data.metadata.portal_header}}</h1>
+          <h1>{{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}</h1>
         </div>
       </div>
       <div class="column small-12">
@@ -225,7 +226,7 @@
                 <p class="ft-13 italic bold black">headphones, chargers, bags</p>
               </div>
               <div class="columns small-12 text-center">
-                <a class="button large m-t-25" :disabled="selectedOrder == ''" @click="placeOrder()">Place Order</a>
+                <a class="button large m-t-25" :disabled="selectedOrder == ''" @click="placeOrder()">Begin Order</a>
               </div>
             </div>
           </div>

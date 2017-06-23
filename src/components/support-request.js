@@ -1,8 +1,8 @@
-import  populateCountries from "./../api/countries";
+import populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
-function supportRequest() {
 
+function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
     $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
@@ -62,6 +62,7 @@ function supportRequest() {
         minlength: 8
       }
     },
+
     submitHandler: function (form) {
       var form = $('#support-form');
       var $modal = $('#modal');
@@ -168,6 +169,7 @@ function supportRequest() {
           $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
+          heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           $('.support-form-holder').removeClass('loading');
@@ -177,7 +179,6 @@ function supportRequest() {
       });
     }
   });
-
 }
 
 export default supportRequest;

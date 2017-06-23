@@ -1,16 +1,13 @@
-import _ from 'lodash'
-import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
-import deviceAPIv0 from './../../api/device/device'
-import deviceAPI from './../../api/device-api.js'
-import dvAPI from './../../api/device_variation-api.js'
-import imageAPI from './../../api/image-api.js'
-import {findByPrices, filterByModifications} from './../../components/filters.js'
-import modal from './../../components/modal.vue'
-import inputValidate from './../../components/inputValidate.vue'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import deviceAPI from "./../../api/device-api.js";
+import dvAPI from "./../../api/device_variation-api.js";
+import imageAPI from "./../../api/image-api.js";
+import modal from "./../../components/modal.vue";
+import inputValidate from "./../../components/inputValidate.vue";
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import { DevicesPresenter, ModificationsPresenter, DeviceVariationsPresenter } from './../../presenters'
-import { DeviceVariationHelper, ModificationHelper } from './../../helpers'
+import {DevicesPresenter, DeviceVariationsPresenter, ModificationsPresenter} from "./../../presenters";
+import {DeviceVariationHelper, ModificationHelper} from "./../../helpers";
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -111,6 +108,7 @@ export default {
         res => this.$store.dispatch('carrier/search').then(
           res => this.$store.dispatch('company/search').then(
             res => {
+              // console.log('devicetypes', this.deviceTypes)
               if (device_id > 0) {
                 let _params = {
                   params: {
@@ -119,7 +117,7 @@ export default {
                 }
                 deviceAPI.getOne(device_id, _params, res => {
                   this.$set(this, 'device', store.sync(res.data))
-                  console.log('device', this.device)
+                  // console.log('device', this.device)
 
                   this.$set(this, 'device_id', device_id)
                   this.initComponent()
@@ -148,6 +146,14 @@ export default {
     initComponent() {
       if (this.device.images.length == 0) {
         this.device.images.push({ id: 0, url: './../assets/logo.png' })
+      }
+
+      // init device types
+      if (this.device.devicetypes.length == 0) {
+        this.device.devicetypes.push({
+          type: 'devicetypes',
+          id: 0,
+        })
       }
 
       // init styles

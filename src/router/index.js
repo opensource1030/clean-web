@@ -21,14 +21,12 @@ import Device from "./../views/devices/Device.vue";
 import Companies from "./../views/companies/Companies.vue";
 import Company from "./../views/companies/Company.vue";
 // employees
-import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
-import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
-import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
-
+import EmployeeIndex from "./../views/employees/EmployeeIndex.vue";
+import EmployeeEdit from "./../views/employees/EmployeeEdit.vue";
+import EmployeeBulkAdd from "./../views/employees/EmployeeBulkAdd.vue";
 // orders
-import OrderIndex from './../views/orders/OrderIndex.vue'
-import OrderDetails from './../views/orders/OrderDetail.vue'
-
+import OrderIndex from "./../views/orders/OrderIndex.vue";
+import OrderDetails from "./../views/orders/OrderDetail.vue";
 // routes presets
 import Presets from "./../views/presets/Presets.vue";
 import Preset from "./../views/presets/Preset.vue";
@@ -43,15 +41,13 @@ import Profile from "./../views/employees/Profile.vue";
 import AddDevice from "./../views/employees/AddDevice.vue";
 import AddService from "./../views/employees/AddService.vue";
 import UpdateProfile from "./../views/employees/UpdateProfile.vue";
+import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 // routes Settings
-import Settings from './../views/settings/Settings.vue'
-
+import Settings from "./../views/settings/Settings.vue";
 // routes placeOrder
-import PlaceOrder from './../views/placeOrder/Placeorder.vue'
-
+import PlaceOrder from "./../views/placeOrder/Placeorder.vue";
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
-import LegacyInfo from "./../components/LegacyInfo.vue";
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -117,6 +113,7 @@ const router = new VueRouter({
         {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
         {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
+        {path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: {label: 'Review'}},
       ]
     },
 
@@ -151,8 +148,8 @@ const router = new VueRouter({
       meta: {requiresAuth: true, label: 'Presets'},
       children: [
         {path: '', component: Presets, name: 'List Presets', meta: {label: 'All'}},
-        {path: '/preset', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
-        {path: '/preset/:id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
+        {path: 'new', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
+        {path: ':id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
       ]
     },
 
@@ -163,8 +160,8 @@ const router = new VueRouter({
       meta: {requiresAuth: true, label: 'Services'},
       children: [
         {path: '', component: Services, name: 'List Services', meta: {label: 'All'}},
-        {path: '/service', component: Service, name: 'Add Service', meta: {label: 'Create'}},
-        {path: '/service/:id', component: Service, name: 'Update Service', meta: {label: 'Edit'}},
+        {path: 'new', component: Service, name: 'Add Service', meta: {label: 'Create'}},
+        {path: ':id', component: Service, name: 'Update Service', meta: {label: 'Edit'}},
       ]
     },
 
@@ -218,10 +215,10 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  // console.log('routing: ' + to + ' -> ' + from)
-  const authenticated = store.getters['auth/isAuthenticated']
+  let authenticated = store.getters['auth/isAuthenticated']
+  // console.log('routing: ' + from.name + ' -> ' + to.name, store.state.auth.token, store.state.auth.userId, store.state.auth.isAuthenticating )
 
-  if (to.name === 'login') {
+  if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'dashboard'})
     }
