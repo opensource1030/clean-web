@@ -2,7 +2,7 @@ import _ from 'lodash'
 import authAPI from './../../api/auth-api'
 import * as types from './../mutation-types'
 import user from './../../models/User'
-import { Storage } from './../../helpers'
+import { Storage, Utils } from './../../helpers'
 
 // initial state
 const state = {
@@ -11,8 +11,8 @@ const state = {
   // userId: localStorage.getItem('userId') || null,
   // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
   userId: Storage.get('userId') || null,
-  token: JSON.parse(Storage.get('token')) || {},
-  profile: JSON.parse(Storage.get('profile')) || {},
+  token: Utils.parseJsonString(Storage.get('token')),
+  profile: Utils.parseJsonString(Storage.get('profile')),
 
   isAuthenticating: false,
   variations: {
@@ -28,7 +28,7 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     // console.log('isAuthenticated ...', state.userId, state.token)
-    return (!!state.token) && (!!state.userId) && !state.isAuthenticating
+    return (!Utils.isEmpty(state.token.access_token)) && (!!state.userId) && !state.isAuthenticating
   },
 
   getVariations: (state) => {

@@ -36,7 +36,7 @@ export default {
   hasPermissionOnFeature (role, feature) {
     let scopes = _.map(role.permissions, 'name')
     // _.pull(scopes, 'manage_companies')
-    console.log('hasPermissionOnFeature', scopes)
+    // console.log('hasPermissionOnFeature', scopes)
 
     return _.indexOf(scopes, feature) > -1
   }
