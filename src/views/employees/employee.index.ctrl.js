@@ -1,7 +1,8 @@
-import modal from "./../../components/modal.vue";
-import paginate from "./../../components/paginate.vue";
-import employeeAPI from "./../../api/employee-api.js";
-import {mapGetters} from "vuex";
+import modal from './../../components/modal.vue'
+import paginate from './../../components/paginate.vue'
+import employeeAPI from './../../api/employee-api.js'
+import {mapGetters, mapActions} from 'vuex'
+import swal from 'sweetalert2'
 
 export default {
   name: 'EmployeeIndex',

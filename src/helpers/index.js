@@ -1,7 +1,7 @@
-import _ from "lodash";
-import Vue from "vue";
-export {default as ScopeHelper} from './modules/scope'
-export {default as OrderHelper} from './modules/order'
+import _ from 'lodash'
+import Vue from 'vue'
+export { default as ScopeHelper } from './modules/scope'
+export { default as OrderHelper } from './modules/order'
 
 export const Utils = {
   isEmptyArray (arr) {

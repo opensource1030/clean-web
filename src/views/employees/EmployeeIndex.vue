@@ -55,7 +55,7 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removeEmployee(employee.id)"><i class="fa fa-trash"></i></a>
-                    <router-link :to="'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning">
+                    <router-link :to = "'/employees/' + employee.id" :name="'edit-' + employee.id" class="button warning">
                       <i class="fa fa-edit"></i>
                     </router-link>
                   </div>
@@ -111,10 +111,10 @@
     </div>
 
     <paginate
-            :pagination="$store.state.employee.pagination"
-            :prev="prevPage"
-            :next="nextPage"
-            v-show="isReady">
+      :pagination="$store.state.employee.pagination"
+      :prev="prevPage"
+      :next="nextPage"
+      v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">

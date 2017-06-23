@@ -1,6 +1,6 @@
-import {http} from "vue";
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
+import { http } from 'vue'
+import $store from './../store'
+import { AuthHelper } from './../helpers'
 
 const API_BASE_URL = process.env.URL_API
 

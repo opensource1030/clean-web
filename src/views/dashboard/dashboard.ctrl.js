@@ -1,10 +1,12 @@
-import _ from "lodash";
-import supportRequest from "./../../components/support-request";
-import PieChart from "./Piechart.vue";
-import TrendChart from "./Trendchart.vue";
-import employeeAPI from "./../../api/employee-api";
+import _ from 'lodash'
+import phone from './../../filters/phone-formatter.js'
+import supportRequest from './../../components/support-request'
+import PieChart from './Piechart.vue'
+import TrendChart from './Trendchart.vue'
+import employeeAPI from './../../api/employee-api'
+import { mapGetters, mapActions } from 'vuex'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 export default {
@@ -77,7 +79,7 @@ export default {
       setTimeout(supportRequest, 2000);
     }, err => {
       console.log('dashboard user allocation err', err)
-      this.userInfo.data = {allocations: []}
+      this.userInfo.data = { allocations: [] }
       this.userInfo.loading = false
     })
   },

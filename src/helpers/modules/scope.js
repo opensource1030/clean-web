@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash'
 
 export default {
   // group menas menu item on main menu which is a bundle of features
@@ -16,7 +16,7 @@ export default {
         break
       default:
         switch (group) {
-          case 'inventory':
+          case 'inventory': 
             allowed = false
             break
           case 'product':

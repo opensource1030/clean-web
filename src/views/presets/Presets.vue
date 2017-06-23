@@ -56,8 +56,7 @@
                 <td>
                   <div class="action-buttons">
                     <a class="button alert" @click="removePreset(preset.id)"><i class="fa fa-trash"></i></a>
-                    <router-link :to="'/presets/' + preset.id" class="button warning"><i class="fa fa-edit"></i>
-                    </router-link>
+                    <router-link :to = "'/presets/' + preset.id" class="button warning"><i class="fa fa-edit"></i></router-link>
                   </div>
                 </td>
               </tr>
@@ -86,10 +85,10 @@
     </div>
 
     <paginate
-            :pagination="$store.state.preset.pagination"
-            :prev="prevPage"
-            :next="nextPage"
-            v-show="isReady">
+        :pagination="$store.state.preset.pagination"
+        :prev="prevPage"
+        :next="nextPage"
+        v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">

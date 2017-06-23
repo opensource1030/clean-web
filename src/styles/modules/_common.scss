@@ -365,25 +365,3 @@ dl {
   pointer-events: none;
 }
 
-.mgbtm-0 {
-  margin-bottom: 0;
-}
-
-.mgbtm-1 {
-  margin-bottom: 1rem;
-}
-
-.select-review {
-  display: inline-block;
-  font-weight: 300;
-  max-width: 400px;
-  width: auto;
-  padding: 0;
-  height: auto;
-  line-height: 1.7rem;
-  margin-bottom: 0;
-  border: none;
-  background: none;
-  @include css3(appearance, initial);
-  pointer-events: none;
-}

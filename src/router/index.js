@@ -220,11 +220,11 @@ router.beforeEach((to, from, next) => {
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
-      next({name: 'dashboard'})
+      next({ name: 'dashboard' })
     }
   } else {
     if (to.meta.requiresAuth && !authenticated) {
-      next({name: 'login'})
+      next({ name: 'login' })
     }
   }
   next()

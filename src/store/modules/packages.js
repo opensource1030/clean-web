@@ -1,11 +1,11 @@
-import _ from "lodash";
-import packageAPI from "./../../api/package-api";
-import companyAPI from "./../../api/company-api";
-import presetAPI from "./../../api/preset-api";
-import carrierAPI from "./../../api/carrier-api";
-import serviceAPI from "./../../api/service-api";
+import _ from 'lodash'
+import packageAPI from './../../api/package-api'
+import companyAPI from './../../api/company-api'
+import presetAPI from './../../api/preset-api'
+import carrierAPI from './../../api/carrier-api'
+import serviceAPI from './../../api/service-api'
 
-import * as types from "./../mutation-types";
+import * as types from './../mutation-types'
 
 const {Store} = require('yayson')();
 const store = new Store();
@@ -42,7 +42,7 @@ const getters = {
 
 // actions
 const actions = {
-  getAll ({dispatch, commit, state, rootState}) {
+  getAll ({dispatch, commit, state, rootState }) {
     return new Promise((resolve, reject) => {
       let params = {
         params: {

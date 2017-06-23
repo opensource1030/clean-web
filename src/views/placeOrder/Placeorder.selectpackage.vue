@@ -89,7 +89,7 @@
     </div>
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-right" @click="goDevicePage()"
+        <a class="button large btn-orange pull-right" @click="goDevicePage()" 
            v-if="(keepService == 'Yes' && serviceInfo.IMEI && serviceInfo.PhoneNo && serviceInfo.Sim) || (keepService == 'No' && services.activeService.id)">Next</a>
       </div>
     </div>
