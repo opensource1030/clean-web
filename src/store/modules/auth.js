@@ -76,7 +76,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'roles,roles.permissions'
+          include: 'roles.permissions.scopes'
         }
       }
       authAPI.profile(_params, (response) => {
