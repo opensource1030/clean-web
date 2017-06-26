@@ -28,7 +28,7 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     // console.log('isAuthenticated ...', state.userId, state.token)
-    return (!Utils.isEmpty(state.token.access_token)) && (!!state.userId) && !state.isAuthenticating
+    return !(Utils.isEmptyObject(state.token) || Utils.isEmpty(state.token.access_token) || Utils.isEmpty(state.userId) || state.isAuthenticating)
   },
 
   getVariations: (state) => {
