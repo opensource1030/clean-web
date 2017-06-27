@@ -40,6 +40,15 @@ export const Utils = {
   }
 }
 
+export const Log = {
+  put () {
+    // console.log(arguments)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log.apply(console, arguments)
+    }
+  }
+}
+
 export const Storage = {
   set (key, value) {
     localStorage.setItem(key, value)

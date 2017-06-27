@@ -5,6 +5,7 @@ import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
 import employeeAPI from './../../api/employee-api'
 import { mapGetters, mapActions } from 'vuex'
+import { Log } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -60,25 +61,29 @@ export default {
           this.clientInfo.loading = false
         })
       }
-    }, err => console.log('dashboard client info err', err))
+    }, err => Log.put('dashboard/created client info err', err))
 
     _params = {
       params: {
-        include: 'companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]'
+        include: 'companies.currentBillMonths,allocations',
+        'filter[allocations.billMonth]': '[currentBillMonths.last:1]'
       }
     }
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       if (res.status == 404) {
         this.userInfo.data.allocations = []
       } else {
-        this.userInfo.data = res;
-        for (let allocation of this.userInfo.data.allocations)
+        // console.log('dashboard/created userInfo', res)
+        let event = store.sync(res.data)
+        this.userInfo.data = event
+        for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
+        }
       }
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
     }, err => {
-      console.log('dashboard user allocation err', err)
+      Log.put('dashboard/created user allocation err', err)
       this.userInfo.data = { allocations: [] }
       this.userInfo.loading = false
     })

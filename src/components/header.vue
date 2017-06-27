@@ -34,6 +34,7 @@
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import employeeAPI from './../api/employee-api'
+  import { Log } from './../helpers'
 
   const { Store } = require('yayson')()
   const store = new Store()
@@ -94,7 +95,7 @@
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
-            console.log('header cosmiddata', this.company)
+            Log.put('header/created company', this.company)
           })
         }
       }, (err) => console.log('header.vue err', err))

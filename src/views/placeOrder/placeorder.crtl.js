@@ -5,17 +5,20 @@ import {mapGetters, mapActions} from 'vuex';
 
 export default {
   name : 'PlaceOrder',
+
   components : {
     select_package: SelectPackage,
     select_device: SelectDevice,
     order_review: Review,
     orderType: '',
   },
+
   computed: {
     ...mapGetters({
       currentView: 'placeOrder/getCurrentView',
     })
   },
+
   created() {
     this.orderType = this.$route.meta.label;
 
