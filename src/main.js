@@ -18,7 +18,7 @@ import "./../node_modules/font-awesome/scss/font-awesome.scss";
 import "./../node_modules/sweetalert2/src/sweetalert2.scss";
 
 import "script!what-input";
-import "script!foundation-sites";
+import "script!foundation-sites/dist/js/foundation.min";
 
 import App from "./App.vue";
 import VeeValidate from "vee-validate";
