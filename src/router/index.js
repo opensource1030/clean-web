@@ -27,6 +27,10 @@ import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
 
 // orders
 import OrderIndex from './../views/orders/OrderIndex.vue'
+import OrderNew from './../views/orders/OrderNew.vue'
+import OrderNewPackage from './../views/orders/OrderNewPackage.vue'
+import OrderNewDevice from './../views/orders/OrderNewDevice.vue'
+import OrderNewReview from './../views/orders/OrderNewReview.vue'
 
 // routes presets
 import Presets from "./../views/presets/Presets.vue";
@@ -128,6 +132,14 @@ const router = new VueRouter({
       meta: { requiresAuth: true, label: 'Procurements' },
       children: [
         { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
+        {
+          path: 'new', component: OrderNew, name: 'New Order', meta: { label: 'New' }, redirect: '/orders/new/package',
+          children: [
+            { path: 'package', component: OrderNewPackage, name: 'Select Package', meta: { label: 'Package' } },
+            { path: 'device', component: OrderNewDevice, name: 'Select Device', meta: { label: 'Device' } },
+            { path: 'review', component: OrderNewReview, name: 'Review', meta: { label: 'Review' } },
+          ]
+        }
       ]
     },
 
@@ -137,22 +149,22 @@ const router = new VueRouter({
       component: { template: '<router-view></router-view>' },
       meta: { requiresAuth: true, label: 'Order' },
       children: [
-        { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' }},
-        { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' }},
-        { path: 'transfer', component: PlaceOrder, name: 'Transfer Service', meta: { label: 'Transfer' }},
-        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessory' }},
+        { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' } },
+        { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' } },
+        { path: 'transfer', component: PlaceOrder, name: 'Transfer Service', meta: { label: 'Transfer' } },
+        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessory' } },
       ]
     },
 
     // presets
     {
       path: '/presets',
-      component: {template: '<router-view></router-view>'},
-      meta: {requiresAuth: true, label: 'Presets'},
+      component: { template: '<router-view></router-view>' },
+      meta: { requiresAuth: true, label: 'Presets' },
       children: [
-        {path: '', component: Presets, name: 'List Presets', meta: {label: 'All'}},
-        {path: 'new', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
-        {path: ':id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
+        { path: '', component: Presets, name: 'List Presets', meta: { label: 'All' } },
+        { path: 'new', component: Preset, name: 'Add Preset', meta: { label: 'Create' } },
+        { path: ':id', component: Preset, name: 'Update Preset', meta: { label: 'Edit' } },
       ]
     },
 
@@ -220,6 +232,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   let authenticated = store.getters['auth/isAuthenticated']
   // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
+  // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {

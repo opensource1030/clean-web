@@ -10,6 +10,7 @@ const store = new Store()
 
 // initial state
 const state = {
+  currentOrderType: 'New',
   currentView: 'select_package',
   selectedKeepService: 'Yes',
   userPackages: [],
@@ -83,10 +84,6 @@ const getters = {
 
 // actions
 const actions = {
-  setCurrentView({ commit }, view) {
-    commit(types.PLACE_ORDER_SET_VIEW, view)
-  },
-
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
       packageAPI.getMatchedPackages(userId, res => {
@@ -101,7 +98,6 @@ const actions = {
 
   getPackageServices ({dispatch, commit, state}, packageId) {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
-
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -240,6 +236,14 @@ const actions = {
         reject(err)
       })
     })
+  },
+
+  setCurrentOrderType({ commit }, type) {
+    commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
+  },
+
+  setCurrentView({ commit }, view) {
+    commit(types.PLACE_ORDER_SET_VIEW, view)
   },
 
   setServiceSelected({ commit }, service) {

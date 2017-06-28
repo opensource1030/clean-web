@@ -103,7 +103,25 @@ export default {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
     placeOrder() {
-      this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
+      // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
+      let path = ''
+      switch (this.selectedOrder) {
+        case 'new':
+          path = '/orders/new/package'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'New')
+          break
+        case 'transfer':
+          path = '/orders/new/package'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
+          break
+        case 'accessories':
+          path = '/orders/new/device'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
+          break
+        default:
+          return
+      }
+      this.$router.push({ path: path })
     }
   }
 }

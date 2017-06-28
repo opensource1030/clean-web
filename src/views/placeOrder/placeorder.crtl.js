@@ -4,7 +4,7 @@ import Review from './Placeorder.review.vue';
 import {mapGetters, mapActions} from 'vuex';
 
 export default {
-  name : 'PlaceOrder',
+  name: 'PlaceOrder',
 
   components : {
     select_package: SelectPackage,
@@ -19,10 +19,11 @@ export default {
     })
   },
 
-  created() {
-    this.orderType = this.$route.meta.label;
+  created () {
+    this.orderType = this.$route.meta.label
+    // this.orderType = this.$store.state.placeOrder.currentOrderType
 
-    if(this.orderType == 'Accessory')
-      this.$store.dispatch('placeOrder/setCurrentView', 'select_device');
+    if (this.orderType == 'Accessory')
+      this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
   }
 }
