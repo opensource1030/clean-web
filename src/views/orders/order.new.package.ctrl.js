@@ -1,6 +1,7 @@
 import { Carousel, Slide } from 'vue-carousel'
-import {mapGetters, mapActions} from 'vuex';
-import placeOrderWizard from './../../components/placeOrderWizard.vue';
+import {mapGetters, mapActions} from 'vuex'
+import placeOrderWizard from './../../components/placeOrderWizard.vue'
+import { Utils } from './../../helpers'
 
 export default {
   name: 'SelectPackage',
@@ -69,18 +70,19 @@ export default {
       case 'Upgrade':
         this.keepService = this.selectedKeepService
 
-        if (this.$route.params.deviceInfo) {
+        let allocation = this.$store.state.placeOrder.allocation
+        if (Utils.isEmptyObject(allocation)) {
+          this.$router.push({ path: '/dashboard' })
+        } else {
           this.serviceInfo = {
-            IMEI: this.$route.params.deviceInfo.device_esn_imei,
-            PhoneNo: this.$route.params.deviceInfo.mobile_number,
-            Sim: this.$route.params.deviceInfo.device_sim
+            IMEI: allocation.device_esn_imei,
+            PhoneNo: allocation.mobile_number,
+            Sim: allocation.device_sim
           }
 
           if (this.typedServiceInfo.IMEI || this.typedServiceInfo.PhoneNo || this.typedServiceInfo.Sim) {
             this.serviceInfo = $.extend(true, {}, this.typedServiceInfo)
           }
-        } else if (this.$route.params.deviceInfo == undefined) {
-          this.$route.push({ path: '/dashboard' })
         }
         break
       case 'Transfer':

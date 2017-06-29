@@ -90,19 +90,31 @@ export default {
   },
 
   methods: {
-    setAllocation(index) {
+    setAllocation (index) {
       this.activeAllocationIndex = index;
     },
-    prevAllocation() {
+
+    prevAllocation () {
       this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null;
     },
-    nextAllocation() {
+
+    nextAllocation () {
       this.activeAllocationIndex < this.userInfo.data.allocations.length - 1 ? this.activeAllocationIndex++ : null;
     },
-    selectOrderType(type) {
+
+    selectOrderType (type) {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
-    placeOrder() {
+
+    upgradeDevice () {
+      let allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
+      console.log('dashboard deviceInfo', allocation)
+      this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
+      this.$store.dispatch('placeOrder/setAllocation', allocation)
+      this.$router.push({ path: '/orders/new/package' })
+    },
+
+    placeOrder () {
       // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
       let path = ''
       switch (this.selectedOrder) {
@@ -113,6 +125,7 @@ export default {
         case 'transfer':
           path = '/orders/new/package'
           this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
+          this.$store.dispatch('placeOrder/setKeepService', 'Yes')
           break
         case 'accessories':
           path = '/orders/new/device'

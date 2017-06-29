@@ -50,9 +50,6 @@ import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 // routes Settings
 import Settings from './../views/settings/Settings.vue'
 
-// routes placeOrder
-import PlaceOrder from './../views/placeOrder/Placeorder.vue'
-
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
 import LegacyInfo from "./../components/LegacyInfo.vue";
@@ -140,19 +137,6 @@ const router = new VueRouter({
             { path: 'review', component: OrderNewReview, name: 'Review', meta: { label: 'Review' } },
           ]
         }
-      ]
-    },
-
-    // order
-    {
-      path: '/order',
-      component: { template: '<router-view></router-view>' },
-      meta: { requiresAuth: true, label: 'Order' },
-      children: [
-        { path: 'new', component: PlaceOrder, name: 'New Order', meta: { label: 'New' } },
-        { path: 'upgrade', component: PlaceOrder, name: 'Upgrade Device', meta: { label: 'Upgrade' } },
-        { path: 'transfer', component: PlaceOrder, name: 'Transfer Service', meta: { label: 'Transfer' } },
-        { path: 'accessories', component: PlaceOrder, name: 'Accessories', meta: { label: 'Accessory' } },
       ]
     },
 

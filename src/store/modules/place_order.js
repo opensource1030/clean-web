@@ -33,46 +33,59 @@ const state = {
     Carrier: '',
     Sim: ''
   },
-  allPackages_loading: true
+  allPackages_loading: true,
+  allocation: {}
 }
 
 const getters = {
   getCurrentView: (state) => {
     return state.currentView
   },
+
   getCurrentOrderType: (state) => {
     return state.currentOrderType
   },
+
   getSelectedKeepService: (state) => {
     return state.selectedKeepService
   },
+
   getSelectedPackage: (state) => {
     return state.selectedPackage
   },
+
   getSelectedService: (state) => {
     return state.selectedService
   },
+
   getSelectedDevice: (state) => {
     return state.selectedDevice
   },
+
   getSelectedCapacity: (state) => {
     return state.selectedCapacity
   },
+
   getSelectedStyle: (state) => {
     return state.selectedStyle
   },
+
   getSelectedAccessories: (state) => {
     return state.selectedAccessories;
   },
+
   getSelectedNeedDevice: (state) => {
     return state.selectedNeedDevice
   },
+
   getSelectedDeviceType: (state) => {
     return state.selectedDeviceType
   },
+
   getTypedDeviceInfo: (state) => {
     return state.typedDeviceInfo
   },
+
   getTypedServiceInfo: (state) => {
     // return state.typedServiceInfo
     return state.typedDeviceInfo
@@ -284,7 +297,11 @@ const actions = {
 
   setServiceInfo({ commit }, serviceInfo) {
     commit(types.PLACE_ORDER_SET_SERVICEINFO, serviceInfo)
-  }
+  },
+
+  setAllocation({ commit }, allocation) {
+    commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
+  },
 }
 
 // mutations
@@ -349,6 +366,10 @@ const mutations = {
   [types.PLACE_ORDER_SET_SERVICEINFO] (state, serviceInfo) {
     // state.typedServiceInfo = serviceInfo;
     state.typedDeviceInfo = serviceInfo
+  },
+
+  [types.PLACE_ORDER_SET_ALLOCATION] (state, allocation) {
+    state.allocation = allocation
   }
 }
 
