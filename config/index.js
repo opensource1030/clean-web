@@ -15,9 +15,8 @@ module.exports = {
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css']
-  }
-  ,
-    dev: {
+  },
+  dev: {
     env: require('./dev.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
@@ -31,9 +30,7 @@ module.exports = {
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css']
-  }
-
-  ,
+  },
   local: {
     env: require('./local.env'),
     port: 8080,
