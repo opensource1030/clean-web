@@ -1,0 +1,72 @@
+import _ from 'lodash'
+import employeeAPI from './../../api/employee-api'
+import * as types from './../mutation-types'
+import {EmployeesPresenter} from './../../presenters'
+
+
+const {Store} = require('yayson')()
+const store = new Store()
+
+// initial state
+const state = {
+  companyuserimportjobs: {},
+}
+
+const getters = {
+  mappings: (state) => {
+    return state.companyuserimportjobs.mappings
+  },
+
+  dbFields: (state) => {
+    return state.companyuserimportjobs.DBfields
+  },
+
+  csvFields: (state) => {
+    return state.companyuserimportjobs.CSVfields
+  },
+
+  getTotalUserCount: (state) => {
+    return state.companyuserimportjobs.totalUsers
+  },
+
+  getCreatedUserCount: (state) => {
+    return state.companyuserimportjobs.createdUsers
+  },
+
+  getUpdatedUserCount: (state) => {
+    return state.companyuserimportjobs.updatedUsers
+  },
+
+  getFailedUserCount: (state) => {
+    return state.companyuserimportjobs.failedUsers
+  },
+}
+
+const actions = {
+  updateJob ({dispatch, commit, state}, record) {
+    commit(types.EMPLOYEE_BULK_JOB_UPDATE, record)
+  },
+
+  updateMappings({dispatch, commit, state}, mappings) {
+    commit(types.EMPLOYEE_BULK_MAPPING_UPDATE, mappings)
+  }
+}
+
+const mutations = {
+  [types.EMPLOYEE_BULK_JOB_UPDATE] (state, record) {
+    state.companyuserimportjobs = record
+  },
+
+  [types.EMPLOYEE_BULK_MAPPING_UPDATE] (state, mappings) {
+    state.companyuserimportjobs.mappings = mappings
+  }
+}
+
+export default {
+  namespaced: true,
+  strict: process.env.NODE_ENV !== 'production',
+  state,
+  getters,
+  actions,
+  mutations
+}

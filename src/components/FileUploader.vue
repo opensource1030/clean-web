@@ -3,7 +3,7 @@
   <div class="uploaderBox__input">
     <i class="fa fa-cloud-upload uploaderBox__icon"></i>
 
-    <input type="file" id="file" class="uploaderBox__file" multiple
+    <input type="file" id="file" class="uploaderBox__file"
       :name="uploadFieldName"
       :disabled="isSaving"
       :accept="accept"

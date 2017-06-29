@@ -48,9 +48,25 @@ export default {
 
   jobs (id, form, cb, errCb) {
     AuthHelper.setAuthHeader($store.state.auth.token)
-    $store.dispatch('scope_token/get', 'create_company').then(result => {
+    $store.dispatch('scope_token/get', 'create_company_job').then(result => {
       AuthHelper.setAuthHeader(result.accessToken)
       http.post(API_BASE_URL + '/companies/' + id + '/jobs', form).then(res => cb(res), err => errCb(err))
+    }, err => errCb(err))
+  },
+
+  updateJobs (compnay_id, job_id, params, cb, errCb) {
+    AuthHelper.setAuthHeader($store.state.auth.token)
+    $store.dispatch('scope_token/get', 'update_company_job').then(result => {
+      AuthHelper.setAuthHeader(result.accessToken)
+      http.patch(API_BASE_URL + '/companies/' + compnay_id + '/jobs/' + job_id, params).then(res => cb(res), err => errCb(err))
+    }, err => errCb(err))
+  },
+
+  getJobs (compnay_id, job_id, cb, errCb) {
+    AuthHelper.setAuthHeader($store.state.auth.token)
+    $store.dispatch('scope_token/get', 'get_company_job').then(result => {
+      AuthHelper.setAuthHeader(result.accessToken)
+      http.get(API_BASE_URL + '/companies/' + compnay_id + '/jobs/' + job_id).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },
 }
