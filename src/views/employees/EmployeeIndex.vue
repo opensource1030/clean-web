@@ -6,7 +6,7 @@
 
   <div class="small-12 columns">
     <router-link to="/employees/new" class="button large add-button">Add Employee</router-link>
-    <router-link to="/employees/bulk" class="button large add-bulk-button">Add Bulk Employees</router-link>
+    <router-link to="/employees/bulk/add" class="button large add-bulk-button">Add Bulk Employees</router-link>
   </div>
 
   <div class="small-12 columns">

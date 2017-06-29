@@ -24,6 +24,8 @@ import Company from "./../views/companies/Company.vue";
 import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
 import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
 import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
+import EmployeeBulkMapping from './../views/employees/EmployeeBulkMapping.vue'
+import EmployeeBulkReview from './../views/employees/EmployeeBulkReview.vue'
 
 // orders
 import OrderIndex from './../views/orders/OrderIndex.vue'
@@ -115,7 +117,9 @@ const router = new VueRouter({
       meta: {requiresAuth: true, label: 'Employees'},
       children: [
         {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
-        {path: 'bulk', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
+        {path: 'bulk/add', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
+        {path: 'bulk/mapping', component: EmployeeBulkMapping, name: 'Mapping Fields', meta: {label: 'Mapping Fields'}},
+        {path: 'bulk/review', component: EmployeeBulkReview, name: 'Review', meta: {label: 'Review'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
         {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
         {path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: {label: 'Review'}},

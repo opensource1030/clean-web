@@ -2,9 +2,9 @@ import _ from 'lodash'
 import multiselect from 'vue-multiselect'
 import modal from './../../components/modal.vue'
 import uploader from './../../components/FileUploader.vue'
+import bulkUserStepWizard from './../../components/bulkUserStepWizard';
 import employeeAPI from './../../api/employee-api.js'
 import companyAPI from './../../api/company-api.js'
-import { EmployeesPresenter } from './../../presenters'
 import { mapGetters } from 'vuex'
 
 const { Store } = require('yayson')()
@@ -17,6 +17,7 @@ export default {
     multiselect,
     modal,
     uploader,
+    bulkUserStepWizard,
   },
 
   data () {
@@ -24,7 +25,8 @@ export default {
       company: {
         value: {},
         options: []
-      }
+      },
+      isReady: false,
     }
   },
 
@@ -35,6 +37,7 @@ export default {
   },
 
   created () {
+    this.isReady = false
     this.asyncFind_CompanyNames('')
   },
 
@@ -64,7 +67,18 @@ export default {
           //   .map(x => {
           //     formData.append('file', this.uploadedFiles[x], this.uploadedFiles[x].name);
           //   })
-          companyAPI.jobs(this.company.value.id, formData, (res) => { console.log(res) }, (err) => { console.log(err) })
+          this.isReady = true
+          companyAPI.jobs(this.company.value.id, formData, 
+            (res) => {
+              this.isReady = false
+              console.log(res)
+              let companyuserimportjobs = store.sync(res.data)
+              this.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => this.$router.push({ path: '/employees/bulk/mapping' }, err => console.log(err)))
+            }, (err) => {
+              this.isReady = false
+              console.log(err)
+            }
+          )
         } else {
           this.$store.dispatch('error/addNew', { message: 'You should upload only 1 csv file' })
         }

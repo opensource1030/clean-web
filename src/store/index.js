@@ -10,6 +10,7 @@ import modification from './modules/modification'
 import carrier from './modules/carrier'
 import company from './modules/company'
 import employee from './modules/employee'
+import employee_bulk from './modules/employee_bulk_users'
 import order from './modules/order'
 import preset from './modules/preset'
 import file from './modules/file'
@@ -38,6 +39,7 @@ export default new Vuex.Store({
     carrier,
     company,
     employee,
+    employee_bulk,
     preset,
     order,
     file,
