@@ -59,8 +59,9 @@ export default {
   },
 
   created () {
-    this.orderType = this.$route.meta.label;
-    
+    // this.orderType = this.$route.meta.label;
+    this.orderType = this.$store.state.placeOrder.currentOrderType
+
     this.$store.dispatch('placeOrder/getUserConditions').then(
       res => {
         this.user = res;
@@ -70,9 +71,10 @@ export default {
     if(this.selectedKeepService == 'No') {
       this.$store.dispatch('placeOrder/getPackageAddresses').then(
         res => {
-          for(let address of res.addresses)
+          for (let address of res.addresses) {
             this.address.availableAddresses.push(address);
-          
+          }
+
           this.address.shippingAddress = this.address.availableAddresses[0];
           this.address.loading = false;
         }
@@ -81,9 +83,10 @@ export default {
       this.$store.dispatch('placeOrder/getPackagesAddresses').then(
         res => {
           let temp_addresses = _.uniqBy(res, 'id');
-          for(let address of temp_addresses)
+          for (let address of temp_addresses) {
             this.address.availableAddresses.push(address);
-          
+          }
+
           this.address.shippingAddress = this.address.availableAddresses[0];
           this.address.loading = false;
         }
@@ -96,14 +99,15 @@ export default {
       if (object.hasOwnProperty('images')) {
         if (object.images.length > 0) {
           return process.env.URL_API + '/images/' + object.images[0].id
-        }      
+        }
       } else {
         return 'http://sandysearch.com/contentimages/noPhotoProvided.gif'
       }
     },
 
     goOrderDevicePage() {
-      this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
+      // this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
+      this.$router.push({ path: '/orders/new/device' })
     },
 
     changeShippingAddress() {

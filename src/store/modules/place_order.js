@@ -10,6 +10,7 @@ const store = new Store()
 
 // initial state
 const state = {
+  currentOrderType: 'New',
   currentView: 'select_package',
   selectedKeepService: 'Yes',
   userPackages: [],
@@ -32,46 +33,59 @@ const state = {
     Carrier: '',
     Sim: ''
   },
-  allPackages_loading: true
+  allPackages_loading: true,
+  allocation: {}
 }
 
 const getters = {
   getCurrentView: (state) => {
     return state.currentView
   },
+
   getCurrentOrderType: (state) => {
     return state.currentOrderType
   },
+
   getSelectedKeepService: (state) => {
     return state.selectedKeepService
   },
+
   getSelectedPackage: (state) => {
     return state.selectedPackage
   },
+
   getSelectedService: (state) => {
     return state.selectedService
   },
+
   getSelectedDevice: (state) => {
     return state.selectedDevice
   },
+
   getSelectedCapacity: (state) => {
     return state.selectedCapacity
   },
+
   getSelectedStyle: (state) => {
     return state.selectedStyle
   },
+
   getSelectedAccessories: (state) => {
     return state.selectedAccessories;
   },
+
   getSelectedNeedDevice: (state) => {
     return state.selectedNeedDevice
   },
+
   getSelectedDeviceType: (state) => {
     return state.selectedDeviceType
   },
+
   getTypedDeviceInfo: (state) => {
     return state.typedDeviceInfo
   },
+
   getTypedServiceInfo: (state) => {
     // return state.typedServiceInfo
     return state.typedDeviceInfo
@@ -83,10 +97,6 @@ const getters = {
 
 // actions
 const actions = {
-  setCurrentView({ commit }, view) {
-    commit(types.PLACE_ORDER_SET_VIEW, view)
-  },
-
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
       packageAPI.getMatchedPackages(userId, res => {
@@ -101,7 +111,6 @@ const actions = {
 
   getPackageServices ({dispatch, commit, state}, packageId) {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
-
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -242,6 +251,14 @@ const actions = {
     })
   },
 
+  setCurrentOrderType({ commit }, type) {
+    commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
+  },
+
+  setCurrentView({ commit }, view) {
+    commit(types.PLACE_ORDER_SET_VIEW, view)
+  },
+
   setServiceSelected({ commit }, service) {
     commit(types.PLACE_ORDER_SET_SERVICE, service)
   },
@@ -280,7 +297,11 @@ const actions = {
 
   setServiceInfo({ commit }, serviceInfo) {
     commit(types.PLACE_ORDER_SET_SERVICEINFO, serviceInfo)
-  }
+  },
+
+  setAllocation({ commit }, allocation) {
+    commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
+  },
 }
 
 // mutations
@@ -345,6 +366,10 @@ const mutations = {
   [types.PLACE_ORDER_SET_SERVICEINFO] (state, serviceInfo) {
     // state.typedServiceInfo = serviceInfo;
     state.typedDeviceInfo = serviceInfo
+  },
+
+  [types.PLACE_ORDER_SET_ALLOCATION] (state, allocation) {
+    state.allocation = allocation
   }
 }
 

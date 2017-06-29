@@ -1,12 +1,14 @@
 <template>
   <div id="placeorder">
     <placeOrderWizard :activeStep="2"></placeOrderWizard>
+
     <div class="row expanded m-b-20">
       <div class="columns small-12 text-center m-b-20" v-if="orderType == 'New' || orderType == 'Transfer'">
         <h4 class="category-title m-b-10">Need a new Device or Accessory?</h4>
         <input type="radio" name="newDevice" value="Yes" v-model="needDevice"><label class="ft-18">Yes</label>
         <input type="radio" name="newDevice" value="No" v-model="needDevice"><label class="ft-18">No</label>
       </div>
+
       <div class="columns small-12" v-if="needDevice == 'Yes'">
         <div class="row expanded m-b-20 border-bottom">
           <div class="columns" :class="{ 'small-4': orderType != 'Accessory', 'small-6': orderType == 'Accessory' }">
@@ -47,13 +49,16 @@
               <div class="small-10 columns">
                 <h4 class="category-title">Device Info</h4>
                 <label>
-                  <span class="bold">IMEI</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.IMEI">
+                  <span class="bold">IMEI</span> <span class="asterisk bold">*</span>
+                  <input type="text" v-model="deviceInfo.IMEI">
                 </label>
                 <label>
-                  <span class="bold">Carrier</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Carrier">
+                  <span class="bold">Carrier</span> <span class="asterisk bold">*</span>
+                  <input type="text" v-model="deviceInfo.Carrier">
                 </label>
                 <label>
-                  <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span><input type="text" v-model="deviceInfo.Sim">
+                  <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span>
+                  <input type="text" v-model="deviceInfo.Sim">
                 </label>
               </div>
               <div class="small-1 columns"></div>
@@ -118,15 +123,19 @@
         </div>
       </div>
     </div>
+
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
         <a class="button large btn-orange pull-right" @click="goOrderPages('review')" 
-           v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)">
+          v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own')
+              || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No')
+              && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)">
           Next
         </a>
       </div>
     </div>
   </div>
 </template>
-<script  src="./placeorder.selectdevice.crtl.js" lang="babel"></script>
+
+<script src="./order.new.device.ctrl.js"></script>

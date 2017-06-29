@@ -131,7 +131,7 @@
           <div class="is-loading"></div>
         </div>
         <div class="row expanded" v-else>
-          <p class="section-title">Shipping Info 
+          <p class="section-title">Shipping Info
             <a class="black pull-right" @click="changeShippingAddress">
               <i class="fa fa-pencil-square-o" :class="{ 'fa-pencil-square-o': !address.changeAddress, 'fa-check-square-o': address.changeAddress }"></i>
             </a>
@@ -180,4 +180,5 @@
     </div>
   </div>
 </template>
-<script  src="./placeorder.review.crtl.js" lang="babel"></script>
+
+<script  src="./order.new.review.ctrl.js" lang="babel"></script>

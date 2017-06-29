@@ -43,7 +43,8 @@ export default {
   },
 
   created () {
-    this.orderType = this.$route.meta.label
+    // this.orderType = this.$route.meta.label
+    this.orderType = this.$store.state.placeOrder.currentOrderType
     this.needDevice = this.selectedNeedDevice
     this.deviceType = this.selectedDeviceType
     this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo)
@@ -185,10 +186,11 @@ export default {
     },
 
     goOrderPages (value) {
-      switch(value) {
+      switch (value) {
         case 'package':
-          this.$store.dispatch('placeOrder/setCurrentView', 'select_package');
-          break;
+          // this.$store.dispatch('placeOrder/setCurrentView', 'select_package')
+          this.$router.push({ path: '/orders/new/package' })
+          break
         case 'review':
           // Set Need device
           this.$store.dispatch('placeOrder/setNeedDevice', this.needDevice)
@@ -197,26 +199,28 @@ export default {
           this.$store.dispatch('placeOrder/setDeviceType', this.deviceType)
 
           // Set Device, Capacity, Style
-          this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device);
-          for(let modificationKey in this.activeDevice.modifications) {
-            if(_.isEqual(this.activeDevice.capacity, this.activeDevice.modifications[modificationKey]))
-              this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey);    
+          this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device)
+
+          for (let modificationKey in this.activeDevice.modifications) {
+            if (_.isEqual(this.activeDevice.capacity, this.activeDevice.modifications[modificationKey]))
+              this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
           }
-          this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style);
+          this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style)
 
           // Set Typed DeviceInfo
-          this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo);
+          this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo)
 
           // Set Accessories
-          let activeAccessories = [];
-          for(let accessory of this.accessories) {
-            if(accessory.status)
-              activeAccessories.push(accessory.variations[0].id);
+          let activeAccessories = []
+          for (let accessory of this.accessories) {
+            if (accessory.status)
+              activeAccessories.push(accessory.variations[0].id)
           }
-          this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories);
+          this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories)
 
-          this.$store.dispatch('placeOrder/setCurrentView', 'order_review');
-          break;
+          // this.$store.dispatch('placeOrder/setCurrentView', 'order_review')
+          this.$router.push({ path: '/orders/new/review' })
+          break
       }
     }
   },
