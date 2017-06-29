@@ -10,6 +10,7 @@
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "develop": "node build/dev-build.js",
+    "trial": "node build/trial-build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",

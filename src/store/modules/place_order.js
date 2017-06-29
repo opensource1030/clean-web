@@ -2,13 +2,11 @@ import _ from 'lodash';
 import packageAPI from './../../api/package-api'
 import deviceAPI from './../../api/device-api'
 import orderAPI from './../../api/order-api'
-import authAPI from './../../api/auth-api'
+import employeeAPI from './../../api/employee-api'
+import * as types from './../mutation-types'
 
-import * as types from './../mutation-types';
-import {http} from 'vue';
-
-const {Store} = require('yayson')();
-const store = new Store();
+const { Store } = require('yayson')()
+const store = new Store()
 
 // initial state
 const state = {
@@ -23,13 +21,14 @@ const state = {
   selectedAccessories: [],
   selectedNeedDevice: 'Yes',
   selectedDeviceType: 'subsided',
-  typedServiceInfo: {
-    IMEI: '',
-    PhoneNo: '',
-    Sim: ''
-  },
+  // typedServiceInfo: {
+  //   IMEI: '',
+  //   PhoneNo: '',
+  //   Sim: ''
+  // },
   typedDeviceInfo: {
     IMEI: '',
+    PhoneNo: '',
     Carrier: '',
     Sim: ''
   },
@@ -74,7 +73,8 @@ const getters = {
     return state.typedDeviceInfo
   },
   getTypedServiceInfo: (state) => {
-    return state.typedServiceInfo
+    // return state.typedServiceInfo
+    return state.typedDeviceInfo
   },
   getPackagesLoadingState: (state) => {
     return state.allPackages_loading
@@ -103,16 +103,15 @@ const actions = {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
 
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'services,services.serviceitems,services.carriers,services.carriers.images'
         }
-      };
+      }
 
-      packageAPI.getOne(packageId, params, res => {
-        let packageData = store.sync(res.data);
-        resolve(packageData);
+      packageAPI.getOne(packageId, _params, res => {
+        let packageData = store.sync(res.data)
+        resolve(packageData)
       }, err => {
         reject(err)
       })
@@ -121,14 +120,13 @@ const actions = {
 
   getPackageDevices ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
-      };
+      }
 
-      packageAPI.getOne(state.selectedPackage, params, res => {
+      packageAPI.getOne(state.selectedPackage, _params, res => {
         let packageData = store.sync(res.data);
         resolve(packageData);
       }, err => {
@@ -140,25 +138,28 @@ const actions = {
   getPackagesDevices({disptach, commit, state}) {
     return new Promise((resolve, reject) => {
       let promiseArray = [];
-      let params = {
+      let _params = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
-      };
+      }
 
-      for(let eachPackage of state.userPackages)
-        promiseArray.push(http.get(process.env.URL_API + '/packages/' + eachPackage, params));
+      for (let packageId of state.userPackages) {
+        promiseArray.push(new Promise((resolve, reject) => {
+          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+        }))
+      }
 
       Promise.all(promiseArray).then(result_array => {
-        let devicevariations = [];
-        for(let response of result_array) {
-          let result = store.sync(response.data);
-          
-          for(let devicevariation of result.devicevariations) {
-            devicevariations.push(devicevariation);
+        let devicevariations = []
+        for (let response of result_array) {
+          let result = store.sync(response.data)
+
+          for (let devicevariation of result.devicevariations) {
+            devicevariations.push(devicevariation)
           }
         }
-        resolve(devicevariations);
+        resolve(devicevariations)
       }, err => {
         reject(err)
       })
@@ -167,16 +168,15 @@ const actions = {
 
   getPackageAddresses ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'addresses'
         }
-      };
+      }
 
-      packageAPI.getOne(state.selectedPackage, params, res => {
-        let packageData = store.sync(res.data);
-        resolve(packageData);
+      packageAPI.getOne(state.selectedPackage, _params, res => {
+        let packageData = store.sync(res.data)
+        resolve(packageData)
       }, err => {
         reject(err)
       })
@@ -185,38 +185,45 @@ const actions = {
 
   getPackagesAddresses ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-      let promiseArray = [];
-      let params = {
+      let promiseArray = []
+      let _params = {
         params: {
           include: 'addresses'
         }
-      };
+      }
 
-      for(let eachPackage of state.userPackages)
-        promiseArray.push(http.get(process.env.URL_API + '/packages/' + eachPackage, params));
+      for(let packageId of state.userPackages) {
+        promiseArray.push(new Promise((resolve, reject) => {
+          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+        }))
+      }
 
       Promise.all(promiseArray).then(result_array => {
-        let addresses = [];
-        for(let response of result_array) {
-          let result = store.sync(response.data);
-          
+        let addresses = []
+        for (let response of result_array) {
+          let result = store.sync(response.data)
+
           for(let address of result.addresses) {
-            addresses.push(address);
+            addresses.push(address)
           }
         }
-        resolve(addresses);
+        resolve(addresses)
       }, err => {
         reject(err)
       })
     })
   },
 
-  getUserConditions ({dispatch, commit, state}) {
+  getUserConditions ({ dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
-      let params = 'include=udlvalues';
+      let _params = {
+        params: {
+          include: 'udlvalues'
+        }
+      }
 
-      authAPI.getUser(localStorage.userId, params, res => {
-        let result = store.sync(res.data);
+      employeeAPI.get(rootState.auth.userId, _params, res => {
+        let result = store.sync(res.data)
         resolve(result)
       }, err => {
         resolve(err)
@@ -227,7 +234,7 @@ const actions = {
   createOrder ({dispatch, commit, state}, orderData) {
     return new Promise((resolve, reject) => {
       orderAPI.create(orderData, res => {
-        console.log(res);
+        console.log('place_order/createdOrder', res)
         resolve(res)
       }, err => {
         reject(err)
@@ -279,57 +286,72 @@ const actions = {
 // mutations
 const mutations = {
   [types.PLACE_ORDER_SET_VIEW] (state, view) {
-    state.currentView = view;
+    state.currentView = view
   },
+
   [types.PLACE_ORDER_SET_ORDER_TYPE] (state, type) {
-    state.currentOrderType = type;
+    state.currentOrderType = type
   },
+
   [types.PLACE_ORDER_SET_PACKAGELIST] (state, packages) {
-    let packageIds = [];
-    for(let eachPackage of packages)
-      packageIds.push(eachPackage.id);
-    state.userPackages = packageIds;
-    state.allPackages_loading = false;
+    let packageIds = []
+    for (let eachPackage of packages) {
+      packageIds.push(eachPackage.id)
+    }
+    state.userPackages = packageIds
+    state.allPackages_loading = false
   },
+
   [types.PLACE_ORDER_SET_PACKAGE] (state, packageId) {
-    state.selectedPackage = packageId;
+    state.selectedPackage = packageId
   },
+
   [types.PLACE_ORDER_SET_SERVICE] (state, service) {
-    state.selectedService = service;
+    state.selectedService = service
   },
+
   [types.PLACE_ORDER_SET_DEVICE] (state, devicevariation) {
-    state.selectedDevice = devicevariation;
+    state.selectedDevice = devicevariation
   },
+
   [types.PLACE_ORDER_SET_CAPACITY] (state, capacity) {
-    state.selectedCapacity = capacity;
+    state.selectedCapacity = capacity
   },
+
   [types.PLACE_ORDER_SET_STYLE] (state, style) {
-    state.selectedStyle = style;
+    state.selectedStyle = style
   },
+
   [types.PLACE_ORDER_SET_ACCESSORY] (state, accessories) {
-    state.selectedAccessories = accessories;
+    state.selectedAccessories = accessories
   },
+
   [types.PLACE_ORDER_SET_NEEDDEVICE] (state, needDevice) {
-    state.selectedNeedDevice = needDevice;
+    state.selectedNeedDevice = needDevice
   },
+
   [types.PLACE_ORDER_SET_DEVICETYPE] (state, deviceType) {
-    state.selectedDeviceType = deviceType;
+    state.selectedDeviceType = deviceType
   },
+
   [types.PLACE_ORDER_SET_DEVICEINFO] (state, deviceInfo) {
-    state.typedDeviceInfo = deviceInfo;
+    state.typedDeviceInfo = deviceInfo
   },
+
   [types.PLACE_ORDER_SET_KEEPSERVICE] (state, keepService) {
-    state.selectedKeepService = keepService;
+    state.selectedKeepService = keepService
   },
+
   [types.PLACE_ORDER_SET_SERVICEINFO] (state, serviceInfo) {
-    state.typedServiceInfo = serviceInfo;
+    // state.typedServiceInfo = serviceInfo;
+    state.typedDeviceInfo = serviceInfo
   }
 }
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 }

@@ -1,42 +1,43 @@
 module.exports = {
-  NODE_ENV: '"local"',
-  // URL_API: '"http://clean.api"',
-  URL_API: '"https://staging.api.wirelessanalytics.com"',
-  // URL_API: '"https://trial.api.wirelessanalytics.com"',
-  URL: '"http://localhost:8080"',
+  NODE_ENV: '"productionTrial"',
+    URL_API: '"https://trial.api.wirelessanalytics.com"',
+    URL: '"https://trial.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-  LEGACY_URL: '"https://staging.legacy.wirelessanalytics.com"',
-  EASYVISTA_CODE: 13,
+  LEGACY_URL: '"https://app.wirelessanalytics.com"',
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
+
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
+  
+  EASYVISTA_CODE: 13,
+
   FEATURES: {
     "Procurements": {
-      enabled: false,
+      enabled: true,
       users: {
         "user@mail.com": true,
         "*@email.com": true
       }
     },
     "Packages": {
-      enabled: false,
+      enabled: true,
       users: {
         "user@mail.com": true,
         "*@email.com": true
       }
     },
     "Presets": {
-      enabled: false,
+      enabled: true,
       users: {
         "user@mail.com": true,
         "*@email.com": true
       }
     },
     "ManageDevices": {
-      enabled: false,
+      enabled: true,
       users: {
         "user@mail.com": true,
         "*@email.com": true
@@ -49,5 +50,7 @@ module.exports = {
         "*@wa.com": true
       }
     }
-  }
-}
+  },
+  SUPPORT_EMAIL: '"product.support@wirelessanalytics.com"'
+
+};

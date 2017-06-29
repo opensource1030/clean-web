@@ -223,14 +223,15 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   let authenticated = store.getters['auth/isAuthenticated']
-  // console.log('routing: ' + from.name + ' -> ' + to.name, store.state.auth.token, store.state.auth.userId, store.state.auth.isAuthenticating )
+  // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({ name: 'dashboard' })
     }
   } else {
-    if (to.meta.requiresAuth && !authenticated) {
+    // if (to.meta.requiresAuth && !authenticated) {
+    if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
       next({ name: 'login' })
     }
   }

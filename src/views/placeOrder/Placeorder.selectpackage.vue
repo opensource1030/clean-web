@@ -3,7 +3,7 @@
     <placeOrderWizard :activeStep="1"></placeOrderWizard>
     <div class="row expanded m-b-20" v-if="orderType != 'New'">
       <div class="columns small-12 text-center m-b-20">
-        <h4 class="category-title m-b-10">Keep same Wireless Service Provider?</h4>
+        <h4 class="category-title m-b-10">Keep existing wireless service provider?</h4>
         <input type="radio" name="keepService" value="Yes" v-model="keepService"><label class="ft-18">Yes</label>
         <input type="radio" name="keepService" value="No" v-model="keepService"><label class="ft-18">No</label>
       </div>
@@ -12,13 +12,16 @@
       <div class="small-1 columns height-10"></div>
       <div class="small-10 columns">
         <label>
-          <span class="bold">Previous IMEI</span> <input type="text" v-model="serviceInfo.IMEI">
+          <span class="bold">Previous IMEI</span> <span class="asterisk bold">*</span>
+          <input type="text" v-model="serviceInfo.IMEI">
         </label>
         <label>
-          <span class="bold">Phone No. </span><span class="asterisk bold">*</span> <input type="text" v-model="serviceInfo.PhoneNo">
+          <span class="bold">Device Mobile Number</span> <span class="asterisk bold">*</span>
+          <input type="text" v-model="serviceInfo.PhoneNo">
         </label>
         <label>
-          <span class="bold">Sim Card </span><span class="asterisk bold">*</span> <input type="text" v-model="serviceInfo.Sim">
+          <span class="bold">ICCID / SIM Card Number</span> <span class="asterisk bold">*</span>
+          <input type="text" v-model="serviceInfo.Sim">
         </label>
       </div>
       <div class="small-1 columns"></div>
@@ -87,7 +90,7 @@
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-right" @click="goDevicePage()" 
-           v-if="(keepService == 'Yes' && serviceInfo.PhoneNo && serviceInfo.Sim) || (keepService == 'No' && services.activeService.id)">Next</a>
+           v-if="(keepService == 'Yes' && serviceInfo.IMEI && serviceInfo.PhoneNo && serviceInfo.Sim) || (keepService == 'No' && services.activeService.id)">Next</a>
       </div>
     </div>
   </div>

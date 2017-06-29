@@ -1,14 +1,16 @@
-import _ from 'lodash';
-
-import {mapGetters, mapActions} from 'vuex';
-import placeOrderWizard from './../../components/placeOrderWizard.vue';
+import _ from 'lodash'
+import { mapGetters, mapActions } from 'vuex'
+import placeOrderWizard from './../../components/placeOrderWizard.vue'
+import { DeviceVariationHelper } from './../../helpers'
 
 export default {
   name : 'SelectDevice',
+
   components : {
     placeOrderWizard
   },
-  data() {
+
+  data () {
     return {
       orderType: '',
       needDevice: '',
@@ -25,6 +27,7 @@ export default {
       }
     }
   },
+
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
@@ -38,39 +41,42 @@ export default {
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
   },
-  created() {
-    this.orderType = this.$route.meta.label;
-    this.needDevice = this.selectedNeedDevice;
-    this.deviceType = this.selectedDeviceType;
-    this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo);
+
+  created () {
+    this.orderType = this.$route.meta.label
+    this.needDevice = this.selectedNeedDevice
+    this.deviceType = this.selectedDeviceType
+    this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo)
 
     switch(this.orderType) {
       case 'New':
         this.$store.dispatch('placeOrder/getPackageDevices').then(
           res => {
-            this.alignDevicesandModifications(res.devicevariations);
+            // console.log('new', res)
+            this.alignDevicesandModifications(res.devicevariations)
           }
         )
-        break;
+        break
       case 'Upgrade':
       case 'Transfer':
         if(this.selectedKeepService == "Yes") {
-          this.allPackages_loading ? null : this.getAllDevices();
+          this.allPackages_loading ? null : this.getAllDevices()
         } else {
           this.$store.dispatch('placeOrder/getPackageDevices').then(
             res => {
-              this.alignDevicesandModifications(res.devicevariations);
+              this.alignDevicesandModifications(res.devicevariations)
             }
           ) 
         }
-        break;
+        break
       case 'Accessory':
-        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices();
-        break;
+        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices()
+        break
     }
   },
+
   methods: {
-    selectDevice(deviceIndex, capacity, styleIndex) {
+    selectDevice (deviceIndex, capacity, styleIndex) {
       this.activeDevice = this.devices[deviceIndex];
 
       if(capacity) {
@@ -81,7 +87,8 @@ export default {
       if(styleIndex)
         this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1];
     },
-    selectAccessory(accessoryIndex) {
+
+    selectAccessory (accessoryIndex) {
       let temp = $.extend(true, [], this.accessories);
 
       if(temp[accessoryIndex].status) {
@@ -99,14 +106,16 @@ export default {
 
       this.accessories = temp;
     },
-    getAllDevices() {
+
+    getAllDevices () {
       this.$store.dispatch('placeOrder/getPackagesDevices').then(
         res => {
           this.alignDevicesandModifications(res);
         }
       )
     },
-    alignDevicesandModifications(devicevariations) {
+
+    alignDevicesandModifications (devicevariations) {
       let app = this;
 
       let temp_devices = _.groupBy(devicevariations, 'deviceId');
@@ -135,18 +144,18 @@ export default {
 
       for(let device of devices_array) {
         let capacities = [];
-        for(let variation of device.variations) {
-          let newModification = $.extend(true, {}, variation.modifications[0])
+        for (let variation of device.variations) {
+          let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
           capacities.push(parseInt(newModification.value));
         }
         capacities = _.uniq(capacities);
 
-        for(let capacity of capacities)
+        for (let capacity of capacities)
           device.modifications[capacity] = [];
         
-        for(let variation of device.variations) {
-          let newModification = $.extend(true, {}, variation.modifications[0])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[1].value, price: variation.priceRetail, id: variation.id})
+        for (let variation of device.variations) {
+          let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
+          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value, price: variation.priceRetail, id: variation.id})
         }
 
         // Set Pre-selected Device, Capacity, Style
@@ -166,16 +175,16 @@ export default {
       this.accessories = accessories_array;
       this.device_loading = false;
     },
-    getImageUrl(object) {
-      if (object.hasOwnProperty('images')) {
-        if (object.images.length > 0) {
-          return process.env.URL_API + '/images/' + object.images[0].id;
-        }      
+
+    getImageUrl (object) {
+      if (object.hasOwnProperty('images') && object.images.length > 0) {
+        return process.env.URL_API + '/images/' + object.images[0].id;
       } else {
         return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       }
     },
-    goOrderPages(value) {
+
+    goOrderPages (value) {
       switch(value) {
         case 'package':
           this.$store.dispatch('placeOrder/setCurrentView', 'select_package');
@@ -211,6 +220,7 @@ export default {
       }
     }
   },
+
   watch: {
     'allPackages_loading': function(newVal, oldVal) {
       newVal ? null : this.getAllDevices();
