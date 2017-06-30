@@ -12,12 +12,13 @@ import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
 import "./../node_modules/slicknav/dist/jquery.slicknav.js";
 import "./../node_modules/stacktable.js/stacktable.js";
 
+// stylesheets
 import "./styles/app.scss";
 import "./../node_modules/font-awesome/scss/font-awesome.scss";
 import "./../node_modules/sweetalert2/src/sweetalert2.scss";
 
 import "script!what-input";
-import "script!foundation-sites";
+import "script!foundation-sites/dist/js/foundation.min";
 
 import App from "./App.vue";
 import VeeValidate from "vee-validate";
@@ -26,8 +27,6 @@ import store from "./store";
 import router from "./router";
 import {sync} from "vuex-router-sync";
 sync(store, router)
-
-// $(document).foundation();
 
 // filter
 var moment = require('moment');
@@ -60,10 +59,6 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
     return numeral(value).format('$0,0.00')
   }
 })
-
-// event
-const eventHub = new Vue()
-exports.eventHub = eventHub
 
 // install plugins
 Vue.use(VeeValidate)

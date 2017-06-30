@@ -1,6 +1,7 @@
 <template>
   <div id="placeorder">
     <placeOrderWizard :activeStep="1"></placeOrderWizard>
+
     <div class="row expanded m-b-20" v-if="orderType != 'New'">
       <div class="columns small-12 text-center m-b-20">
         <h4 class="category-title m-b-10">Keep existing wireless service provider?</h4>
@@ -8,6 +9,7 @@
         <input type="radio" name="keepService" value="No" v-model="keepService"><label class="ft-18">No</label>
       </div>
     </div>
+
     <div class="row expanded" v-if="keepService == 'Yes'">
       <div class="small-1 columns height-10"></div>
       <div class="small-10 columns">
@@ -26,6 +28,7 @@
       </div>
       <div class="small-1 columns"></div>
     </div>
+
     <div class="row expanded" v-else>
       <div class="columns small-12">
         <h4 class="category-title">Select Package</h4>
@@ -87,6 +90,7 @@
         </div>
       </div>
     </div>
+
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
         <a class="button large btn-orange pull-right" @click="goDevicePage()" 
@@ -95,4 +99,5 @@
     </div>
   </div>
 </template>
-<script  src="./placeorder.selectpackage.crtl.js" lang="babel"></script>
+
+<script  src="./order.new.package.ctrl.js"></script>
