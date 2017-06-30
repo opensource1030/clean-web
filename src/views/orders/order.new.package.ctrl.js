@@ -1,7 +1,7 @@
-import { Carousel, Slide } from 'vue-carousel'
-import {mapGetters, mapActions} from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard.vue'
-import { Utils } from './../../helpers'
+import {Carousel, Slide} from "vue-carousel";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
+import {Utils} from "./../../helpers";
 
 export default {
   name: 'SelectPackage',
@@ -41,8 +41,17 @@ export default {
       selectedService: 'placeOrder/getSelectedService',
       typedServiceInfo: 'placeOrder/getTypedServiceInfo'
     }),
-  },
+    isDisabled(){
+      if (this.services.activeService.id !== undefined && this.packages.activePackage !== null) {
 
+        return false
+      }
+      else if ((this.serviceInfo.IMEI && this.serviceInfo.PhoneNo && this.serviceInfo.Sim) !== '') {
+        return false
+      }
+      return true
+    }
+  },
   created () {
     this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(
       res => {
@@ -101,6 +110,14 @@ export default {
           this.services.activeService = {}
           this.$store.dispatch('placeOrder/getPackageServices', value.id).then(
             res => {
+              if (res.services.length == 1) {
+                console.log(res.services[0])
+                this.keepService = 'No'
+                this.$store.dispatch('placeOrder/setKeepService', this.keepService);
+                this.$store.dispatch('placeOrder/setServiceSelected', res.services[0]);
+                this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo);
+                this.$router.push({path: '/orders/new/device'})
+              }
               this.services.availableServices = res.services;
               for (let service of res.services) {
                 if (service.id == this.selectedService.id) {
@@ -115,10 +132,24 @@ export default {
           this.services.activeService = value
           break
       }
-    },
+      setTimeout(function () {
+        document.querySelector('.select-service').scrollIntoView({
+          behavior: 'smooth'
+        });
 
-    getImageUrl (object) {
-      return 'http://sandysearch.com/contentimages/noPhotoProvided.gif'
+      }, 2000)
+    },
+    getImageUrl(object) {
+      // if (object.hasOwnProperty('images')) {
+      //   if (object.images.length > 0) {
+      //     for(let i of object.images) {
+      //       if(i.id > 0)
+      //         return process.env.URL_API + '/images/' + i.filename + '.' + i.extension;
+      //     }
+      //   }
+      // } else {
+      return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+      // }
     },
 
     goDevicePage () {

@@ -13,27 +13,32 @@
         <div class="row expanded m-b-20 border-bottom">
           <div class="columns" :class="{ 'small-4': orderType != 'Accessory', 'small-6': orderType == 'Accessory' }">
             <div :class="{ 'pull-left': orderType != 'Accessory', 'custom-center': orderType == 'Accessory' }">
-              <input class="custom-radio" type="radio" name="deviceType" value="subsided" v-model="deviceType">
-              <div>
-                <label class="ft-18">Paid on Corporate Account</label>
+              <div class="each-device-type" @click="selectDeviceType('subsided')"
+                   :class="{ active: deviceType == 'subsided' }">
+                <div class="icon-holder">
+                  <i class="fa fa-credit-card"> </i>
+                </div>
+                <strong>Paid on Corporate Account</strong>
                 <p>choose an device from below</p>
               </div>
             </div>
           </div>
           <div class="columns" :class="{ 'small-4': orderType != 'Accessory', 'small-6': orderType == 'Accessory' }">
-            <div class="custom-center">
-              <input class="custom-radio" type="radio" name="deviceType" value="personal" v-model="deviceType">
-              <div>
-                <label class="ft-18">Pay by Personal Credit or Debit Card</label>
-                <p>choose any device and pay personally</p>
+            <div class="each-device-type" @click="selectDeviceType('personal')"
+                 :class="{ active: deviceType == 'personal' }">
+              <div class="icon-holder">
+                <i class="fa fa-cc-mastercard"> </i>
               </div>
+              <strong>Pay by Personal Credit or Debit Card</strong>
+              <p>choose any device and pay personally</p>
             </div>
           </div>
           <div class="columns small-4" v-if="orderType != 'Accessory'">
-            <div class="pull-right">
-              <input class="custom-radio" type="radio" name="deviceType" value="own" v-model="deviceType">
-              <div>
-                <label class="ft-18">Bring Your Own Device</label>
+            <div class="each-device-type" @click="selectDeviceType('own')" :class="{ active: deviceType == 'own' }">
+              <div class="icon-holder">
+                <i class="fa fa-wrench fa-mobile"></i>
+              </div>
+              <strong>Bring Your Own Device</strong>
                 <p>something special</p>
               </div>
             </div>
@@ -71,7 +76,7 @@
         <div class="is-relative" v-if="device_loading">
           <div class="is-loading"></div>
         </div>
-        <div class="row expanded" v-else>
+        <div class="row expanded border-bottom" v-else>
           <div class="row expanded" v-if="devices.length">
             <div class="columns small-12 large-9 p-r-5s" v-if="orderType != 'Accessory'">
               <div class="m-b-20" v-for="(device, d_index) in devices" @click="selectDevice(d_index, 0, 0)" >
@@ -122,17 +127,18 @@
           </div>
         </div>
       </div>
-    </div>
+
 
     <div class="row expanded">
-      <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
-        <a class="button large btn-orange pull-right" @click="goOrderPages('review')" 
-          v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own')
-              || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No')
-              && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)">
-          Next
-        </a>
+      <div class="columns small-12">
+        <button class="button large btn-primary pull-left" @click="goOrderPages('package')"
+                v-if="orderType != 'Accessory'"><i class="fa fa-arrow-left"> </i> Back
+        </button>
+        <button class="button large btn-primary pull-right" @click="goOrderPages('review')"
+                :disabled="isDisabled">
+          <!--v-if="(activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)"-->
+          Next <i class="fa fa-arrow-right"> </i>
+        </button>
       </div>
     </div>
   </div>

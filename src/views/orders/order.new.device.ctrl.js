@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import { mapGetters, mapActions } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard.vue'
-import { DeviceVariationHelper } from './../../helpers'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
+import {DeviceVariationHelper} from "./../../helpers";
 
 export default {
   name : 'SelectDevice',
@@ -40,6 +40,19 @@ export default {
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
+    isDisabled(){
+      /*      (activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)*/
+      if (this.activeDevice.device !== undefined && this.needDevice == 'Yes' && this.deviceType != 'own') {
+        return false
+      }
+      else if (this.needDevice == 'No' && this.deviceInfo.IMEI !== '' && this.deviceInfo.Carrier !== '' && this.deviceInfo.Sim !== '') {
+        return false
+      }
+      else if (this.deviceType == 'own' && this.deviceInfo.IMEI !== '' && this.deviceInfo.Carrier !== '' && this.deviceInfo.Sim !== '') {
+        return false
+      }
+      return true
+    }
   },
 
   created () {
@@ -55,6 +68,22 @@ export default {
           res => {
             // console.log('new', res)
             this.alignDevicesandModifications(res.devicevariations)
+            if (this.devices.length == 1) {
+              console.log(this.devices[0].device);
+              this.$store.dispatch('placeOrder/setNeedDevice', 'Yes')
+              this.$store.dispatch('placeOrder/setDeviceType', 'subsided');
+              // Set Device, Capacity, Style
+              this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device);
+              /* for(let modificationKey in this.devices.modifications) {
+               if(_.isEqual(this.devices.capacity, this.devices.modifications[modificationKey]))
+
+               this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey);
+               }*/
+              this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0]);
+              this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style);
+              this.$router.push({path: '/orders/new/review'})
+            }
+            ;
           }
         )
         break
@@ -222,7 +251,10 @@ export default {
           this.$router.push({ path: '/orders/new/review' })
           break
       }
-    }
+    },
+    selectDeviceType (type) {
+      this.deviceType == type ? this.$set(this, 'deviceType', '') : this.$set(this, 'deviceType', type);
+    },
   },
 
   watch: {

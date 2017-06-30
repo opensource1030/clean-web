@@ -1,11 +1,11 @@
-import _ from 'lodash';
+import _ from "lodash";
 
-import Avatar from 'vue-avatar/dist/Avatar';
-import multiselect from 'vue-multiselect'
-import placeOrderWizard from './../../components/placeOrderWizard';
-import modal from './../../components/modal';
+import Avatar from "vue-avatar/dist/Avatar";
+import multiselect from "vue-multiselect";
+import placeOrderWizard from "./../../components/placeOrderWizard";
+import modal from "./../../components/modal";
 
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Review',
@@ -21,6 +21,16 @@ export default {
     return {
       orderType: '',
       user: {},
+      customAddress: {
+        name: '',
+        address: '',
+        attn: '',
+        city: '',
+        state: '',
+        phone: '',
+        country: '',
+        postalCode: '',
+      },
       address: {
         availableAddresses: [],
         shippingAddress: {},
@@ -28,6 +38,9 @@ export default {
         loading: true
       },
       orderFinished: false,
+      addDefaultAddress: false,
+      addCustomAddress: false,
+      chooseAddress: false,
       payOrder: false,
       orderData: {},
       card: {
@@ -55,7 +68,16 @@ export default {
       selectedService: 'placeOrder/getSelectedService',
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
-    })
+    }),
+    isDisabled(){
+      if (this.addDefaultAddress || this.addCustomAddress) {
+        return false
+      }
+      else if (this.customAddress.name !== '') {
+        return false
+      }
+      return true
+    }
   },
 
   created () {
@@ -95,6 +117,19 @@ export default {
   },
 
   methods: {
+    confirmCustomAddress() {
+      this.addDefaultAddress = false;
+      this.addCustomAddress = true;
+      this.chooseAddress = false
+    },
+    toggleAddressModal(){
+      this.chooseAddress = true
+    },
+    confirmDefaultAddress () {
+      this.addDefaultAddress = true;
+      this.addCustomAddress = false;
+      this.chooseAddress = false
+    },
     getImageUrl(object) {
       if (object.hasOwnProperty('images')) {
         if (object.images.length > 0) {
