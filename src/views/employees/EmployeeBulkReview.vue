@@ -7,7 +7,7 @@
       </modal>
 
       <div class="columns small-12">
-        <div class="grid-box preview">
+        <div class="grid-box content-container">
           <div class="box-heading">
             <h2>Review</h2>
           </div>
@@ -47,11 +47,16 @@
                 <a class="button large save-button" href="/employees">Done</a>
             </div>
           </div>
-          <div class="row extend text-center">
-            <h2>Working...</h2>
-            <div class="is-relative" v-show="!isReady">
-              <div class="is-loading"></div>
+          <div class="row extend text-center" v-show="!isReady">
+            <div class="columns medium-6 small-6">
+              <h2>Working...</h2>
             </div>
+            <div class="columns medium-6 small-6">
+              <a class="button large upload-button" @click="cancelListening()">Cancel</a>
+            </div>
+          </div>
+          <div class="is-relative" v-show="!isReady">
+            <div class="is-loading"></div>
           </div>
         </div>
       </div>
