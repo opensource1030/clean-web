@@ -110,6 +110,10 @@ export default {
       this.$router.push({ path: '/orders/new/device' })
     },
 
+    goBackPage () {
+      this.$router.go(-1)
+    },
+
     changeShippingAddress() {
       this.address.changeAddress = !this.address.changeAddress
     },

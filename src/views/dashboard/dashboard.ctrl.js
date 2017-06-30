@@ -128,7 +128,7 @@ export default {
           this.$store.dispatch('placeOrder/setKeepService', 'Yes')
           break
         case 'accessories':
-          path = '/orders/new/device'
+          path = '/orders/new/accessories'
           this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
           break
         default:

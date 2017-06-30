@@ -16,7 +16,7 @@
               <input class="custom-radio" type="radio" name="deviceType" value="subsided" v-model="deviceType">
               <div>
                 <label class="ft-18">Paid on Corporate Account</label>
-                <p>choose an accessory from below</p>
+                <p>choose an device from below</p>
               </div>
             </div>
           </div>

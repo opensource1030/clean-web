@@ -54,7 +54,7 @@
       </div>
     </modal>
 
-    <placeOrderWizard :activeStep="3"></placeOrderWizard>
+    <placeOrderWizard :activeStep="3" :step2Name="orderType == 'Accessory' ? 'Select Accessories' : 'Select Device'"></placeOrderWizard>
     <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
@@ -174,7 +174,7 @@
     </div>
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderDevicePage()">Back</a>
+        <a class="button large btn-orange pull-left" @click="goBackPage()">Back</a>
         <a class="button large btn-orange pull-right" @click="submitOrder()" v-if="!address.changeAddress">Submit</a>
       </div>
     </div>

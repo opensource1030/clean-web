@@ -32,6 +32,7 @@ import OrderIndex from './../views/orders/OrderIndex.vue'
 import OrderNew from './../views/orders/OrderNew.vue'
 import OrderNewPackage from './../views/orders/OrderNewPackage.vue'
 import OrderNewDevice from './../views/orders/OrderNewDevice.vue'
+import OrderNewAccessories from './../views/orders/OrderNewAccessories.vue'
 import OrderNewReview from './../views/orders/OrderNewReview.vue'
 
 // routes presets
@@ -134,10 +135,14 @@ const router = new VueRouter({
       children: [
         { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
         {
-          path: 'new', component: OrderNew, name: 'New Order', meta: { label: 'New' }, redirect: '/orders/new/package',
+          path: 'new',
+          component: { template: '<router-view></router-view>' },
+          meta: { label: 'New' },
           children: [
+            { path: '', component: OrderNew, name: 'New Order', meta: { label: '...' } },
             { path: 'package', component: OrderNewPackage, name: 'Select Package', meta: { label: 'Package' } },
             { path: 'device', component: OrderNewDevice, name: 'Select Device', meta: { label: 'Device' } },
+            { path: 'accessories', component: OrderNewAccessories, name: 'Select Accessories', meta: { label: 'Accessories' } },
             { path: 'review', component: OrderNewReview, name: 'Review', meta: { label: 'Review' } },
           ]
         }
