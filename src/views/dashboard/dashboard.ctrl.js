@@ -50,7 +50,7 @@ export default {
     }
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       let event = store.sync(res.data)
-      // console.log('dashboard event', event)
+      Log.put('dashboard/created event', event)
 
       if (event.companies.length > 0) {
         let cosmicdata = event.companies[0].contents[0].content
