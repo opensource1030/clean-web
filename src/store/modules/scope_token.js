@@ -25,12 +25,12 @@ const actions = {
       let token = _.get(state.records, name, null)
       // console.log(name, token)
       if (token) {
-        Log.put('scope_token/get stored', name, token)
+        // Log.put('scope_token/get stored', name, token)
         resolve(token)
       } else {
         dispatch('update', name).then(res => {
           token = _.get(state.records, name, null)
-          Log.put('scope_token/get new', name, token)
+          // Log.put('scope_token/get new', name, token)
           resolve(token)
         }, err => reject(err))
       }

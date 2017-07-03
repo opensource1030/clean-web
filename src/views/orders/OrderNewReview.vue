@@ -53,6 +53,7 @@
         </div>
       </div>
     </modal>
+
     <modal class="submit-order-pay address-modal" v-if="chooseAddress">
       <div slot="header" class="credit-mark">
         <i class="fa fa-map-marker"></i>
@@ -110,7 +111,6 @@
           </div>
           <div class="columns small-12 large-6">
             <div>
-
               <div class="row">
                 <div class="columns small-12">
                   <strong> Complete the form below </strong>
@@ -157,20 +157,19 @@
                   <input type="text" placeholder="" v-model="customAddress.postalCode">
                 </label>
               </div>
-              <div class="columns small-12 ">
-                <button class="button button-primary expanded" :disabled="isDisabled" @click="confirmCustomAddress"> Use
-                  custom address
+              <div class="columns small-12">
+                <button class="button button-primary expanded" :disabled="isDisabled" @click="confirmCustomAddress">
+                  Use custom address
                 </button>
               </div>
             </div>
           </div>
         </div>
-
-
       </div>
     </modal>
 
     <placeOrderWizard :activeStep="3" :step2Name="orderType == 'Accessory' ? 'Select Accessories' : 'Select Device'"></placeOrderWizard>
+
     <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
@@ -251,7 +250,7 @@
             <!--<a class="black pull-right" @click="changeShippingAddress">
               <i class="fa fa-pencil-square-o" :class="{ 'fa-pencil-square-o': !address.changeAddress, 'fa-check-square-o': address.changeAddress }"></i>
             </a>-->
-            <button class="button button-primary pull-right small" @click="toggleAddressModal"> Add</button>
+            <button class="button button-primary pull-right small" @click="toggleAddressModal">Add</button>
           </p>
           <div class="row expanded review-shipping" v-if="addDefaultAddress">
             <div class="columns small-12 medium-6 large-6">
@@ -294,13 +293,13 @@
                 <span class="bold">City</span> : {{this.customAddress.city}}
               </p>
               <p>
-                <span class="bold">Address</span> : {{this.customAddress.state}}
+                <span class="bold">State</span> : {{this.customAddress.state}}
               </p>
               <p>
-                <span class="bold">Attn.</span> : {{this.customAddress.country}}
+                <span class="bold">Country</span> : {{this.customAddress.country}}
               </p>
               <p>
-                <span class="bold">Phone no.</span> : {{this.customAddress.postalCode}}
+                <span class="bold">Postal Code</span> : {{this.customAddress.postalCode}}
               </p>
             </div>
           </div>

@@ -5,7 +5,7 @@ import bulkUserStepWizard from './../../components/bulkUserStepWizard';
 import employeeAPI from './../../api/employee-api.js'
 import companyAPI from './../../api/company-api.js'
 import { JobPresenter } from './../../presenters'
-import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 const { Store } = require('yayson')()
 const store = new Store()

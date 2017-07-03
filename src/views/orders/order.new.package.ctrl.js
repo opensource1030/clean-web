@@ -111,12 +111,9 @@ export default {
           this.$store.dispatch('placeOrder/getPackageServices', value.id).then(
             res => {
               if (res.services.length == 1) {
-                console.log(res.services[0])
+                // console.log('order.new.package res', res.services[0])
                 this.keepService = 'No'
-                this.$store.dispatch('placeOrder/setKeepService', this.keepService);
-                this.$store.dispatch('placeOrder/setServiceSelected', res.services[0]);
-                this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo);
-                this.$router.push({path: '/orders/new/device'})
+                this.goDevicePage()
               }
               this.services.availableServices = res.services;
               for (let service of res.services) {
@@ -132,14 +129,15 @@ export default {
           this.services.activeService = value
           break
       }
-      setTimeout(function () {
-        document.querySelector('.select-service').scrollIntoView({
-          behavior: 'smooth'
-        });
 
-      }, 2000)
+      // setTimeout(function () {
+      //   $('.select-service').scrollIntoView({
+      //     behavior: 'smooth'
+      //   });
+      // }, 2000)
     },
-    getImageUrl(object) {
+
+    getImageUrl (object) {
       // if (object.hasOwnProperty('images')) {
       //   if (object.images.length > 0) {
       //     for(let i of object.images) {
@@ -148,7 +146,7 @@ export default {
       //     }
       //   }
       // } else {
-      return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       // }
     },
 

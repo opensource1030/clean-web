@@ -1,11 +1,9 @@
-import _ from "lodash";
-import {mapGetters} from "vuex";
-import placeOrderWizard from "./../../components/placeOrderWizard.vue";
-import {DeviceVariationHelper} from "./../../helpers";
+import _ from 'lodash'
+import { mapGetters } from 'vuex'
+import placeOrderWizard from './../../components/placeOrderWizard.vue'
+import { DeviceVariationHelper } from './../../helpers'
 
 export default {
-  name : 'SelectDevice',
-
   components : {
     placeOrderWizard
   },
@@ -40,8 +38,9 @@ export default {
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
-    isDisabled(){
-      /*      (activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)*/
+
+    isDisabled () {
+      // (activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)
       if (this.activeDevice.device !== undefined && this.needDevice == 'Yes' && this.deviceType != 'own') {
         return false
       }
@@ -62,25 +61,23 @@ export default {
     this.deviceType = this.selectedDeviceType
     this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo)
 
-    switch(this.orderType) {
+    switch (this.orderType) {
       case 'New':
         this.$store.dispatch('placeOrder/getPackageDevices').then(
           res => {
             // console.log('new', res)
             this.alignDevicesandModifications(res.devicevariations)
             if (this.devices.length == 1) {
-              console.log(this.devices[0].device);
+              // console.log('order.new.device res', this.devices[0].device)
               this.$store.dispatch('placeOrder/setNeedDevice', 'Yes')
-              this.$store.dispatch('placeOrder/setDeviceType', 'subsided');
-              // Set Device, Capacity, Style
-              this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device);
-              /* for(let modificationKey in this.devices.modifications) {
-               if(_.isEqual(this.devices.capacity, this.devices.modifications[modificationKey]))
-
-               this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey);
-               }*/
-              this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0]);
-              this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style);
+              this.$store.dispatch('placeOrder/setDeviceType', 'subsided')
+              this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device)
+              // for(let modificationKey in this.devices.modifications) {
+              //   if(_.isEqual(this.devices.capacity, this.devices.modifications[modificationKey]))
+              //     this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
+              // }
+              this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0])
+              this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style)
               this.$router.push({path: '/orders/new/review'})
             }
             ;
@@ -89,7 +86,7 @@ export default {
         break
       case 'Upgrade':
       case 'Transfer':
-        if(this.selectedKeepService == "Yes") {
+        if (this.selectedKeepService == "Yes") {
           this.allPackages_loading ? null : this.getAllDevices()
         } else {
           this.$store.dispatch('placeOrder/getPackageDevices').then(
@@ -109,50 +106,48 @@ export default {
     selectDevice (deviceIndex, capacity, styleIndex) {
       this.activeDevice = this.devices[deviceIndex];
 
-      if(capacity) {
-        this.activeDevice.capacity = this.activeDevice.modifications[capacity];
-        this.activeDevice.style = this.activeDevice.capacity[0];
+      if (capacity) {
+        this.activeDevice.capacity = this.activeDevice.modifications[capacity]
+        this.activeDevice.style = this.activeDevice.capacity[0]
       }
 
-      if(styleIndex)
-        this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1];
+      if (styleIndex) {
+        this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1]
+      }
     },
 
     selectAccessory (accessoryIndex) {
-      let temp = $.extend(true, [], this.accessories);
+      let temp = $.extend(true, [], this.accessories)
 
       if(temp[accessoryIndex].status) {
-        temp[accessoryIndex].status = 0;
+        temp[accessoryIndex].status = 0
       } else {
-        temp[accessoryIndex].status = 1;
+        temp[accessoryIndex].status = 1
       }
 
-      let activeAccessry = 0;
-      for(let accessory of temp) {
-        if(accessory.status)
-          activeAccessry = 1;
+      let activeAccessry = 0
+      for (let accessory of temp) {
+        if (accessory.status)
+          activeAccessry = 1
       }
-      this.accessoryStatus = activeAccessry;
-
-      this.accessories = temp;
+      this.accessoryStatus = activeAccessry
+      this.accessories = temp
     },
 
     getAllDevices () {
       this.$store.dispatch('placeOrder/getPackagesDevices').then(
         res => {
-          this.alignDevicesandModifications(res);
+          this.alignDevicesandModifications(res)
         }
       )
     },
 
     alignDevicesandModifications (devicevariations) {
-      let app = this;
-
-      let temp_devices = _.groupBy(devicevariations, 'deviceId');
-      let devices_array = [];
-      let accessories_array = [];
-      let activeAccessry = 0;
-      for(let deviceId in temp_devices) {
+      let temp_devices = _.groupBy(devicevariations, 'deviceId')
+      let devices_array = []
+      let accessories_array = []
+      let activeAccessry = 0
+      for (let deviceId in temp_devices) {
         let newObj = {
           device: temp_devices[deviceId][0].devices[0],
           variations: _.uniqBy(temp_devices[deviceId], 'id'),
@@ -161,27 +156,29 @@ export default {
           style: {}
         }
 
-        if(temp_devices[deviceId][0].devices[0].devicetypes[0].name == 'Accessory') {
-          if(app.selectedAccessories.indexOf(newObj.variations[0].id) >= 0) {
-            newObj.status = 1;
-            activeAccessry = 1;
+        if (temp_devices[deviceId][0].devices[0].devicetypes[0].name == 'Accessory') {
+          if (this.selectedAccessories.indexOf(newObj.variations[0].id) >= 0) {
+            newObj.status = 1
+            activeAccessry = 1
           }
-          accessories_array.push(newObj);
-        } else
-         devices_array.push(newObj);
+          accessories_array.push(newObj)
+        } else {
+          devices_array.push(newObj)
+        }
       }
-      this.accessoryStatus = activeAccessry;
+      this.accessoryStatus = activeAccessry
 
-      for(let device of devices_array) {
-        let capacities = [];
+      for (let device of devices_array) {
+        let capacities = []
         for (let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
-          capacities.push(parseInt(newModification.value));
+          capacities.push(parseInt(newModification.value))
         }
-        capacities = _.uniq(capacities);
+        capacities = _.uniq(capacities)
 
-        for (let capacity of capacities)
-          device.modifications[capacity] = [];
+        for (let capacity of capacities) {
+          device.modifications[capacity] = []
+        }
         
         for (let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
@@ -189,28 +186,28 @@ export default {
         }
 
         // Set Pre-selected Device, Capacity, Style
-        if(this.selectedDevice) {
-          if(device.device.id == this.selectedDevice.id) {
-            this.activeDevice = device;
-            device.capacity = device.modifications[this.selectedCapacity];
-            device.style = this.selectedStyle;
+        if (this.selectedDevice) {
+          if (device.device.id == this.selectedDevice.id) {
+            this.activeDevice = device
+            device.capacity = device.modifications[this.selectedCapacity]
+            device.style = this.selectedStyle
           } else {
             device.capacity = device.modifications[Object.keys(device.modifications)[0]]
-            device.style = device.capacity[0];  
+            device.style = device.capacity[0]
           }
         }
       }
 
-      this.devices = devices_array;
-      this.accessories = accessories_array;
-      this.device_loading = false;
+      this.devices = devices_array
+      this.accessories = accessories_array
+      this.device_loading = false
     },
 
     getImageUrl (object) {
       if (object.hasOwnProperty('images') && object.images.length > 0) {
-        return process.env.URL_API + '/images/' + object.images[0].id;
+        return process.env.URL_API + '/images/' + object.images[0].id
       } else {
-        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif'
       }
     },
 
@@ -223,10 +220,8 @@ export default {
         case 'review':
           // Set Need device
           this.$store.dispatch('placeOrder/setNeedDevice', this.needDevice)
-
           // Set Device Type
           this.$store.dispatch('placeOrder/setDeviceType', this.deviceType)
-
           // Set Device, Capacity, Style
           this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device)
 
@@ -252,8 +247,9 @@ export default {
           break
       }
     },
+
     selectDeviceType (type) {
-      this.deviceType == type ? this.$set(this, 'deviceType', '') : this.$set(this, 'deviceType', type);
+      this.deviceType == type ? this.$set(this, 'deviceType', '') : this.$set(this, 'deviceType', type)
     },
   },
 
