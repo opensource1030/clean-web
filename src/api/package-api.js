@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.URL_API
 
 export default {
   getMatchedPackages (userId, cb, errCb) {
-    $store.dispatch('scope_token/get', 'get_packages_foruser').then(result => {
+    $store.dispatch('scope_token/get', 'get_users_packages').then(result => {
       http.get(API_BASE_URL + '/users/packages/' + userId, _.extend({}, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },

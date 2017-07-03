@@ -148,3 +148,8 @@ export class PresetsPresenter extends Presenter {
   }
 }
 PresetsPresenter.prototype.type = 'presets'
+
+
+export class JobPresenter extends Presenter {
+}
+JobPresenter.prototype.type = 'companyuserimportjobs'

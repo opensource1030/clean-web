@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import authAPI from './../../api/auth-api'
 import * as types from './../mutation-types'
-import { Utils } from './../../helpers'
+import { Utils, Log } from './../../helpers'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state
@@ -25,12 +25,12 @@ const actions = {
       let token = _.get(state.records, name, null)
       // console.log(name, token)
       if (token) {
-        // console.log('stored', name, token)
+        // Log.put('scope_token/get stored', name, token)
         resolve(token)
       } else {
         dispatch('update', name).then(res => {
           token = _.get(state.records, name, null)
-          console.log('new', name, token)
+          // Log.put('scope_token/get new', name, token)
           resolve(token)
         }, err => reject(err))
       }
@@ -46,7 +46,7 @@ const actions = {
         commit(types.SCOPE_TOKEN_UPDATE, { name: name, record: res.body })
         resolve(res.body)
       }, err => {
-        console.log('scope_token update err', err)
+        Log.put('scope_token/update err', err)
         reject(err)
       })
     })

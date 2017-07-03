@@ -11,7 +11,7 @@
   -->
 
   <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
-    <h3 slot="body">{{ $store.getters['error/errorPrimary'] }}</h3>
+    <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
   </modal>
 
   <div v-if="isReady">
