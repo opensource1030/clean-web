@@ -63,7 +63,7 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
 // install plugins
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
-Vue.use(VueCharts);
+Vue.use(VueCharts)
 
 const gaId = 'UA-42900219-2'
 Vue.use(VueAnalytics, {gaId, router});
