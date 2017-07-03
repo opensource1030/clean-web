@@ -165,6 +165,9 @@ export default {
       // this.preset.companies[0] = value
       this.$store.dispatch('device/addFilter', { type: 'company', records: [value] }).then((res) => {
         this.initVariables()
+        this.$nextTick(() => {
+          $(document).foundation()
+        })
         this.$forceUpdate()
       })
     },

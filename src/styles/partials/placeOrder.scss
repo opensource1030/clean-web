@@ -124,9 +124,10 @@
   
   h4.category-title {
     padding-bottom: 6px;
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
     font-weight: bold;
     color: #FF690A;
+    border-bottom: 1px $light-gray solid;
   }
 
   .avatar {
@@ -518,5 +519,48 @@
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.each-device-type {
+  cursor: pointer;
+  overflow: hidden;
+  @include css3(transition, 0.3s all ease-in-out);
+  .icon-holder {
+    @include css3(transition, 0.3s all ease-in-out);
+    float: left;
+    padding: 0.3rem;
+    border: 1px $dark-gray solid;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    margin-right: 0.5rem;
+    .fa {
+      font-size: 2rem;
+      line-height: 3.1rem;
+    }
+  }
+  &.active {
+    .icon-holder {
+      border-color: $brand-orange;
+      background: $brand-orange;
+      color: $white;
+    }
+    > strong {
+      color: $brand-orange;
+    }
+  }
+}
+
+.modal-mask.address-modal {
+  .modal-container {
+    width: 80%;
+  }
+}
+
+.address-modal {
+  .or {
+    margin-top: 5rem;
   }
 }

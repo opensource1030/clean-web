@@ -27,9 +27,9 @@
               <th>Preset Name</th>
               <th width="100">Devices</th>
               <th width="100">Delivered</th>
-              <th width="150">Cost</th>
+              <th width="50">Cost</th>
               <th>Details</th>
-              <th>Actions</th>
+              <th width="84">Actions</th>
             </tr>
           </thead>
 
@@ -88,7 +88,7 @@
         :pagination="$store.state.preset.pagination"
         :prev="prevPage"
         :next="nextPage"
-        v-show="$store.state.preset.records.length > 0">
+        v-show="isReady">
     </paginate>
 
     <div class="is-relative" v-show="!isReady">

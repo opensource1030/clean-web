@@ -1,7 +1,7 @@
 role :app, %w{54.87.193.65}
 
 set :stage, :trial
-set :branch, 'master'
+set :branch, 'env/trial'
 set :deploy_to, '/home/forge/trial.wirelessanalytics.com/'
 
 set :log_level, :debug
@@ -18,7 +18,7 @@ namespace :ops do
     task :asset_compile do
         on roles(:app), in: :sequence, wait: 1 do
             execute "cd #{release_path} && npm install"
-            execute "cd #{release_path} && npm run develop"
+            execute "cd #{release_path} && npm run trial"
         end
     end
 end
