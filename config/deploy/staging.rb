@@ -1,7 +1,7 @@
 role :app, %w{54.87.193.65}
 
 set :stage, :staging
-set :branch, 'chore/migrate-forge-aws'
+set :branch, 'master'
 set :deploy_to, '/home/forge/staging.wirelessanalytics.com/'
 
 set :log_level, :debug
@@ -18,7 +18,7 @@ namespace :ops do
     task :asset_compile do
         on roles(:app), in: :sequence, wait: 1 do
             execute "cd #{release_path} && npm install"
-            execute "cd #{release_path} && npm run develop"
+            execute "cd #{release_path} && npm run staging"
         end
     end
 end

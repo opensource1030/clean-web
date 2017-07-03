@@ -4,7 +4,7 @@
       <div class="column large-8 medium-8 small-7">
         <div class="logo" v-if="company.object" @click="$router.push({name: 'dashboard'})">
           <div class="logo-holder">
-            <img v-bind:src='company.object.metadata.logo.url' alt="logo" title="Client Logo">
+            <img v-bind:src="_.get(company.object, 'metadata.logo.url', '')" alt="Company Logo" title="Client Logo">
           </div>
         </div>
         <morphsearch></morphsearch>
@@ -30,9 +30,11 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import employeeAPI from './../api/employee-api'
+  import { Log } from './../helpers'
 
   const { Store } = require('yayson')()
   const store = new Store()
@@ -56,7 +58,11 @@
     },
 
     computed: {
-      firstName: function () {
+      _ () {
+        return _
+      },
+
+      firstName () {
         if (localStorage.userProfile) {
           return JSON.parse(localStorage.getItem("userProfile")).firstName
         } else {
@@ -64,7 +70,7 @@
         }
       },
 
-      fullName: function () {
+      fullName () {
         if (localStorage.userProfile) {
           return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
         } else {
@@ -85,10 +91,11 @@
 
         if (event.companies.length > 0) {
           let cosmicdata = event.companies[0].contents[0].content
-          console.log('header cosmicdata', cosmicdata)
+          // console.log('header cosmicdata', cosmicdata)
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
+            Log.put('header/created company', this.company)
           })
         }
       }, (err) => console.log('header.vue err', err))
@@ -102,7 +109,7 @@
         enabled: true
       };
       Headway.init(config);
-      heap.identify(JSON.parse(localStorage.getItem("userProfile")).identification);
+      heap.identify(this.$store.state.auth.profile.identification);
 
       (function () {
         let t, timeout = 7.2e+6;

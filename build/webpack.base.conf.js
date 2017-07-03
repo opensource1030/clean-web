@@ -2,6 +2,9 @@ var path = require('path');
 var config = require('../config');
 var utils = require('./utils');
 var projectRoot = path.resolve(__dirname, '../');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+let extractCSS = new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css'))
 
 module.exports = {
   entry: {
@@ -27,54 +30,6 @@ module.exports = {
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
-  module: {
-    preLoaders: [{
-      test: /\.vue$/,
-      loader: 'eslint',
-      include: projectRoot,
-      exclude: /node_modules/
-    }, {
-      test: /\.js$/,
-      loader: 'eslint',
-      include: projectRoot,
-      exclude: /node_modules/
-    }],
-    loaders: [
-      {
-        test: /\.vue$/,
-        loader: 'vue'
-      }, {
-        test: /\.js$/,
-        loader: 'babel',
-        // include: [/whatwg-.*/, projectRoot],
-        include: projectRoot,
-        exclude: /node_modules/
-      }, {
-        test: /\.json$/,
-        loader: 'json'
-      }, {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        }
-      }, {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-        }
-      }, {
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass']
-      }, {
-        test: /\.css$/,
-        loaders: ['style', 'css', 'sass']
-      }
-    ]
-  },
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
@@ -85,5 +40,61 @@ module.exports = {
         browsers: ['last 2 versions']
       })
     ]
-  }
+  },
+  module: {
+    preLoaders: [
+      {
+        test: /\.(vue|js)$/,
+        loader: 'eslint',
+        include: projectRoot,
+        exclude: /node_modules/
+      }
+    ],
+    loaders: [
+      {
+        test: /\.vue$/,
+        loader: 'vue'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel',
+        // include: [/whatwg-.*/, projectRoot],
+        include: projectRoot,
+        exclude: /node_modules/
+      },
+      {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.scss$/,
+        loader: extractCSS.extract(['css', 'sass'])
+        // loaders: ['style', 'css', 'sass']
+      },
+      {
+        test: /\.css$/,
+        loader: extractCSS.extract(['css', 'sass'])
+        // loaders: ['style', 'css', 'sass']
+      }
+    ]
+  },
+  plugins: [
+    extractCSS
+  ]
 }
