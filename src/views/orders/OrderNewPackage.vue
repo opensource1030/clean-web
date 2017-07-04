@@ -74,20 +74,20 @@
         </div>
         <div class="row expanded " v-else>
           <transition appear
-              enter-class=""
-              enter-active-class="animated flash"
-              leave-class=""
-              leave-active-class="animated fadeOut">
+                      enter-class=""
+                      enter-active-class="animated flash"
+                      leave-class=""
+                      leave-active-class="animated fadeOut">
             <h4 class="category-title select-service">Select Services</h4>
           </transition>
           <div class="columns small-12 p-b-20 border-bottom" v-if="services.availableServices.length">
             <carousel :perPage="4">
               <slide v-for="(eachService, index) in services.availableServices">
                 <transition appear
-                    enter-class=""
-                    enter-active-class="animated zoomIn"
-                    leave-class=""
-                    leave-active-class="animated zoomOut">
+                            enter-class=""
+                            enter-active-class="animated zoomIn"
+                            leave-class=""
+                            leave-active-class="animated zoomOut">
                   <div class="box-type-2" :class="{'active': eachService.id == services.activeService.id}"
                        @click="setActiveService(eachService)">
                     <div class="box-content">
