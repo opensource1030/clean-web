@@ -1,8 +1,8 @@
-import _ from "lodash";
-import authAPI from "./../../api/auth-api";
-import * as types from "./../mutation-types";
-import user from "./../../models/User";
-import {Storage} from "./../../helpers";
+import _ from 'lodash'
+import authAPI from './../../api/auth-api'
+import * as types from './../mutation-types'
+import user from './../../models/User'
+import { Storage, Utils } from './../../helpers'
 
 // initial state
 const state = {
@@ -11,8 +11,8 @@ const state = {
   // userId: localStorage.getItem('userId') || null,
   // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
   userId: Storage.get('userId') || null,
-  token: JSON.parse(Storage.get('token')) || {},
-  profile: JSON.parse(Storage.get('profile')) || {},
+  token: Utils.parseJsonString(Storage.get('token')),
+  profile: Utils.parseJsonString(Storage.get('profile')),
 
   isAuthenticating: false,
   variations: {
@@ -28,7 +28,7 @@ const state = {
 const getters = {
   isAuthenticated: (state) => {
     // console.log('isAuthenticated ...', state.userId, state.token)
-    return (!!state.token) && (!!state.userId) && !state.isAuthenticating
+    return !(Utils.isEmptyObject(state.token) || Utils.isEmpty(state.token.access_token) || Utils.isEmpty(state.userId) || state.isAuthenticating)
   },
 
   getVariations: (state) => {
@@ -42,7 +42,7 @@ const actions = {
     return new user('users', 0, '', '', credentials.email, '', credentials.password1, '', '', '', '', credentials.firstName, credentials.lastName, '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '');
   },
 
-  getLoginToken ({dispatch, commit, state}) {
+  getLoginToken ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       let updated_at = state.token.updated_at
       let current_time = new Date().getTime()
@@ -76,21 +76,21 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'roles,roles.permissions'
+          include: 'roles.permissions.scopes'
         }
       }
       authAPI.profile(_params, (response) => {
         let current_time = new Date().getTime()
         let result = {
           user_id: res.data.user_id,
-          token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
+          token: _.extend({ created_at: current_time, updated_at: current_time}, res.data),
           profile: response
         }
         console.log('vuex profile', response)
         commit(types.AUTH_LOGIN_SUCCESS, result)
         commit(types.AUTH_LOGIN_DONE)
         // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-        router.push({name: 'dashboard'})
+        router.push({ name: 'dashboard' })
         resolve(result)
       }, (error) => {
         commit(types.AUTH_LOGIN_FAILURE)
@@ -387,11 +387,11 @@ const actions = {
         let current_time = new Date().getTime()
         const result = {
           user_id: res.data.user_id,
-          token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
+          token: _.extend({ created_at: current_time, updated_at: current_time }, res.data),
           profile: {}
         }
         commit(types.AUTH_LOGIN_SUCCESS, result)
-        dispatch('profile', {res: res, router: router}).then(res => resolve(true), err => reject(err))
+        dispatch('profile', { res: res, router: router }).then(res => resolve(true), err => reject(err))
       }, (err) => {
         commit(types.AUTH_LOGIN_FAILURE)
         if (err.status == 500) {

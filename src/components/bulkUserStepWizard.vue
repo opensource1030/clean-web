@@ -1,21 +1,21 @@
 <template>
   <div class="row expanded step-wizard">
     <div class="columns small-4 text-center each-step">
-      <p>{{ step1Name }}</p>
+      <p>Upload</p>
       <span class="status" :class="{ active: activeStep >= 1 }">
-        <i class="fa" :class="{ 'fa-check': activeStep > 1 }"></i>
+        <i class="fa" :class="{ 'fa-check': activeStep > 1}"></i>
       </span>
     </div>
     <div class="columns small-4 text-center each-step">
-      <p>{{ step2Name }}</p>
+      <p>Map Fields</p>
       <span class="status" :class="{ active: activeStep >= 2 }">
-        <i class="fa" :class="{ 'fa-check': activeStep > 2 }"></i>
+        <i class="fa" :class="{ 'fa-check': activeStep > 2}"></i>
       </span>
     </div>
     <div class="columns small-4 text-center each-step">
-      <p>{{ step3Name }}</p>
+      <p>Review</p>
       <span class="status" :class="{ active: activeStep >= 3 }">
-        <i class="fa" :class="{ 'fa-check': activeStep > 3 }"></i>
+        <i class="fa" :class="{ 'fa-check': activeStep > 3}"></i>
       </span>
     </div>
   </div>
@@ -23,26 +23,12 @@
 
 <script>
 export default {
+  name:'bulkUserStepWizard',
   props: {
     activeStep: {
-      type: Number,
-      required: true
-    },
-
-    step1Name: {
-      type: String,
-      default: 'Select Package'
-    },
-
-    step2Name: {
-      type: String,
-      default: 'Select Device'
-    },
-
-    step3Name: {
-      type: String,
-      default: 'Review'
-    },
+        type: Number,
+        required: true
+    }
   }
 }
 </script>

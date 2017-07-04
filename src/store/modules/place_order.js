@@ -1,14 +1,16 @@
-import packageAPI from "./../../api/package-api";
-import orderAPI from "./../../api/order-api";
-import employeeAPI from "./../../api/employee-api";
+import _ from 'lodash';
+import packageAPI from './../../api/package-api'
+import deviceAPI from './../../api/device-api'
+import orderAPI from './../../api/order-api'
+import employeeAPI from './../../api/employee-api'
+import * as types from './../mutation-types'
 
-import * as types from "./../mutation-types";
-
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state
 const state = {
+  currentOrderType: 'New',
   currentView: 'select_package',
   selectedKeepService: 'Yes',
   userPackages: [],
@@ -31,46 +33,59 @@ const state = {
     Carrier: '',
     Sim: ''
   },
-  allPackages_loading: true
+  allPackages_loading: true,
+  allocation: {}
 }
 
 const getters = {
   getCurrentView: (state) => {
     return state.currentView
   },
+
   getCurrentOrderType: (state) => {
     return state.currentOrderType
   },
+
   getSelectedKeepService: (state) => {
     return state.selectedKeepService
   },
+
   getSelectedPackage: (state) => {
     return state.selectedPackage
   },
+
   getSelectedService: (state) => {
     return state.selectedService
   },
+
   getSelectedDevice: (state) => {
     return state.selectedDevice
   },
+
   getSelectedCapacity: (state) => {
     return state.selectedCapacity
   },
+
   getSelectedStyle: (state) => {
     return state.selectedStyle
   },
+
   getSelectedAccessories: (state) => {
     return state.selectedAccessories;
   },
+
   getSelectedNeedDevice: (state) => {
     return state.selectedNeedDevice
   },
+
   getSelectedDeviceType: (state) => {
     return state.selectedDeviceType
   },
+
   getTypedDeviceInfo: (state) => {
     return state.typedDeviceInfo
   },
+
   getTypedServiceInfo: (state) => {
     // return state.typedServiceInfo
     return state.typedDeviceInfo
@@ -82,10 +97,6 @@ const getters = {
 
 // actions
 const actions = {
-  setCurrentView({ commit }, view) {
-    commit(types.PLACE_ORDER_SET_VIEW, view)
-  },
-
   getUserPackages({ dispatch, commit, state }, userId) {
     return new Promise((resolve, reject) => {
       packageAPI.getMatchedPackages(userId, res => {
@@ -100,18 +111,16 @@ const actions = {
 
   getPackageServices ({dispatch, commit, state}, packageId) {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
-
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'services,services.serviceitems,services.carriers,services.carriers.images'
         }
-      };
+      }
 
-      packageAPI.getOne(packageId, params, res => {
-        let packageData = store.sync(res.data);
-        resolve(packageData);
+      packageAPI.getOne(packageId, _params, res => {
+        let packageData = store.sync(res.data)
+        resolve(packageData)
       }, err => {
         reject(err)
       })
@@ -142,24 +151,24 @@ const actions = {
         params: {
           include: 'devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes'
         }
-      };
+      }
 
       for (let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
       Promise.all(promiseArray).then(result_array => {
-        let devicevariations = [];
-        for(let response of result_array) {
-          let result = store.sync(response.data);
-          
-          for(let devicevariation of result.devicevariations) {
-            devicevariations.push(devicevariation);
+        let devicevariations = []
+        for (let response of result_array) {
+          let result = store.sync(response.data)
+
+          for (let devicevariation of result.devicevariations) {
+            devicevariations.push(devicevariation)
           }
         }
-        resolve(devicevariations);
+        resolve(devicevariations)
       }, err => {
         reject(err)
       })
@@ -168,16 +177,15 @@ const actions = {
 
   getPackageAddresses ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-
-      let params = {
+      let _params = {
         params: {
           include: 'addresses'
         }
-      };
+      }
 
-      packageAPI.getOne(state.selectedPackage, params, res => {
-        let packageData = store.sync(res.data);
-        resolve(packageData);
+      packageAPI.getOne(state.selectedPackage, _params, res => {
+        let packageData = store.sync(res.data)
+        resolve(packageData)
       }, err => {
         reject(err)
       })
@@ -186,36 +194,36 @@ const actions = {
 
   getPackagesAddresses ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-      let promiseArray = [];
+      let promiseArray = []
       let _params = {
         params: {
           include: 'addresses'
         }
-      };
+      }
 
-      for (let packageId of state.userPackages) {
+      for(let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
       Promise.all(promiseArray).then(result_array => {
-        let addresses = [];
-        for(let response of result_array) {
-          let result = store.sync(response.data);
-          
+        let addresses = []
+        for (let response of result_array) {
+          let result = store.sync(response.data)
+
           for(let address of result.addresses) {
-            addresses.push(address);
+            addresses.push(address)
           }
         }
-        resolve(addresses);
+        resolve(addresses)
       }, err => {
         reject(err)
       })
     })
   },
 
-  getUserConditions ({dispatch, commit, state, rootState}) {
+  getUserConditions ({ dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -224,7 +232,7 @@ const actions = {
       }
 
       employeeAPI.get(rootState.auth.userId, _params, res => {
-        let result = store.sync(res.data);
+        let result = store.sync(res.data)
         resolve(result)
       }, err => {
         resolve(err)
@@ -235,12 +243,20 @@ const actions = {
   createOrder ({dispatch, commit, state}, orderData) {
     return new Promise((resolve, reject) => {
       orderAPI.create(orderData, res => {
-        console.log(res);
+        console.log('place_order/createdOrder', res)
         resolve(res)
       }, err => {
         reject(err)
       })
     })
+  },
+
+  setCurrentOrderType({ commit }, type) {
+    commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
+  },
+
+  setCurrentView({ commit }, view) {
+    commit(types.PLACE_ORDER_SET_VIEW, view)
   },
 
   setServiceSelected({ commit }, service) {
@@ -281,64 +297,86 @@ const actions = {
 
   setServiceInfo({ commit }, serviceInfo) {
     commit(types.PLACE_ORDER_SET_SERVICEINFO, serviceInfo)
-  }
+  },
+
+  setAllocation({ commit }, allocation) {
+    commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
+  },
 }
 
 // mutations
 const mutations = {
   [types.PLACE_ORDER_SET_VIEW] (state, view) {
-    state.currentView = view;
+    state.currentView = view
   },
+
   [types.PLACE_ORDER_SET_ORDER_TYPE] (state, type) {
-    state.currentOrderType = type;
+    state.currentOrderType = type
   },
+
   [types.PLACE_ORDER_SET_PACKAGELIST] (state, packages) {
-    let packageIds = [];
-    for(let eachPackage of packages)
-      packageIds.push(eachPackage.id);
-    state.userPackages = packageIds;
-    state.allPackages_loading = false;
+    let packageIds = []
+    for (let eachPackage of packages) {
+      packageIds.push(eachPackage.id)
+    }
+    state.userPackages = packageIds
+    state.allPackages_loading = false
   },
+
   [types.PLACE_ORDER_SET_PACKAGE] (state, packageId) {
-    state.selectedPackage = packageId;
+    state.selectedPackage = packageId
   },
+
   [types.PLACE_ORDER_SET_SERVICE] (state, service) {
-    state.selectedService = service;
+    state.selectedService = service
   },
+
   [types.PLACE_ORDER_SET_DEVICE] (state, devicevariation) {
-    state.selectedDevice = devicevariation;
+    state.selectedDevice = devicevariation
   },
+
   [types.PLACE_ORDER_SET_CAPACITY] (state, capacity) {
-    state.selectedCapacity = capacity;
+    state.selectedCapacity = capacity
   },
+
   [types.PLACE_ORDER_SET_STYLE] (state, style) {
-    state.selectedStyle = style;
+    state.selectedStyle = style
   },
+
   [types.PLACE_ORDER_SET_ACCESSORY] (state, accessories) {
-    state.selectedAccessories = accessories;
+    state.selectedAccessories = accessories
   },
+
   [types.PLACE_ORDER_SET_NEEDDEVICE] (state, needDevice) {
-    state.selectedNeedDevice = needDevice;
+    state.selectedNeedDevice = needDevice
   },
+
   [types.PLACE_ORDER_SET_DEVICETYPE] (state, deviceType) {
-    state.selectedDeviceType = deviceType;
+    state.selectedDeviceType = deviceType
   },
+
   [types.PLACE_ORDER_SET_DEVICEINFO] (state, deviceInfo) {
-    state.typedDeviceInfo = deviceInfo;
+    state.typedDeviceInfo = deviceInfo
   },
+
   [types.PLACE_ORDER_SET_KEEPSERVICE] (state, keepService) {
-    state.selectedKeepService = keepService;
+    state.selectedKeepService = keepService
   },
+
   [types.PLACE_ORDER_SET_SERVICEINFO] (state, serviceInfo) {
     // state.typedServiceInfo = serviceInfo;
-    state.typedDeviceInfo = serviceInfo;
+    state.typedDeviceInfo = serviceInfo
+  },
+
+  [types.PLACE_ORDER_SET_ALLOCATION] (state, allocation) {
+    state.allocation = allocation
   }
 }
 
 export default {
-    namespaced: true,
-    state,
-    getters,
-    actions,
-    mutations
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations
 }

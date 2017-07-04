@@ -235,4 +235,4 @@
 </div>
 </template>
 
-<script src="./order.index.ctrl.js" lang="babel"></script>
+<script src="./order.index.ctrl.js"></script>

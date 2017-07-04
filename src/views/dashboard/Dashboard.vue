@@ -83,9 +83,9 @@
                 </div>
                 <div class="device-image">
                   <div></div>
-                  <router-link :to="{ name: 'Upgrade Device', params: {deviceInfo: userInfo.data.allocations[activeAllocationIndex]}}" class="button large">
+                  <a class="button large" @click.stop="upgradeDevice()">
                     <i class="fa fa-mobile"></i>Upgrade Device
-                  </router-link>
+                  </a>
                 </div>
                 <div class="device-detail second">
                   <div class="row expanded">

@@ -9,7 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var features=config.local.env.FEATURESV;
 var env = process.env.NODE_ENV === 'testing' 
         ? require('../config/test.env') 
-        : config.trial.env
+        : config.staging.env
 
 
 var webpackConfig = merge(baseWebpackConfig, {

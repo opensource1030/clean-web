@@ -57,32 +57,27 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
+          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
             <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a> -->
             <router-link to="/devices" name="device"><i class="fa fa-circle-o"></i>Equipment</router-link>
           </li>
 
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
-            <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
-            <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
+          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
+             <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
+             <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
           </li>
 
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
+          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
             <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a> -->
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
 
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
+          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <!-- <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a> -->
             <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
           </li>
 
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
+          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
@@ -101,8 +96,7 @@
             <router-link to="/packages" name="package"><i class="fa fa-circle-o"></i>View All Packages</router-link>
           </li>
           <li class="page-link">
-            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package
-            </router-link>
+            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package</router-link>
           </li>
         </ul>
       </li>
@@ -143,7 +137,7 @@
 <script>
   import Vue from 'vue'
   import supportRequest from './support-request'
-  import {ScopeHelper} from './../helpers'
+  import { Log, ScopeHelper } from './../helpers'
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -174,8 +168,6 @@
     },
 
     mounted () {
-      // console.log('Sidemenu mounted')
-      // console.log('features', this.features);
       var intervalId = setInterval(function () {
         var token = localStorage.token;
         var id = localStorage.userId;
@@ -199,8 +191,6 @@
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
         $(menu).on('click', 'li a', function (e) {
-          // console.log('sidebarMenu click', e)
-
           var $this = $(this);
           var checkElement = $this.next();
           if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
@@ -248,7 +238,7 @@
 
       $('.treeview-menu > li > a').each(function () {
         $(this).click(function (e) {
-          // console.log('.treeview-menu > li > a', e)
+          // Log.put('.treeview-menu > li > a', e)
           e.stopPropagation();
           $('#menu .page-link.active').removeClass('active')
           $('#menu .page-link a.active').removeClass('active')
@@ -258,7 +248,7 @@
       });
 
       $('.menu-title').click(function (e) {
-        console.log('.menu-title', e)
+        Log.put('sidemneu/menu-title click', e)
         e.stopPropagation();
         $(this).parent().toggleClass('active');
       });
