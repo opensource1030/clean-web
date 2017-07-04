@@ -1,13 +1,11 @@
-import _ from 'lodash'
-import phone from './../../filters/phone-formatter.js'
-import supportRequest from './../../components/support-request'
-import PieChart from './Piechart.vue'
-import TrendChart from './Trendchart.vue'
-import employeeAPI from './../../api/employee-api'
-import { mapGetters, mapActions } from 'vuex'
-import { Log } from './../../helpers'
+import _ from "lodash";
+import supportRequest from "./../../components/support-request";
+import PieChart from "./Piechart.vue";
+import TrendChart from "./Trendchart.vue";
+import employeeAPI from "./../../api/employee-api";
+import {Log} from "./../../helpers";
 
-const { Store } = require('yayson')()
+const {Store} = require('yayson')()
 const store = new Store()
 
 export default {
@@ -84,7 +82,7 @@ export default {
       setTimeout(supportRequest, 2000);
     }, err => {
       Log.put('dashboard/created user allocation err', err)
-      this.userInfo.data = { allocations: [] }
+      this.userInfo.data = {allocations: []}
       this.userInfo.loading = false
     })
   },
@@ -111,7 +109,7 @@ export default {
       console.log('dashboard deviceInfo', allocation)
       this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
       this.$store.dispatch('placeOrder/setAllocation', allocation)
-      this.$router.push({ path: '/orders/new/package' })
+      this.$router.push({path: '/orders/new/package'})
     },
 
     placeOrder () {
@@ -134,7 +132,7 @@ export default {
         default:
           return
       }
-      this.$router.push({ path: path })
+      this.$router.push({path: path})
     }
   }
 }

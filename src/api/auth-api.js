@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import { http } from 'vue'
-import $store from './../store'
-import { Utils, AuthHelper,  ScopeHelper } from './../helpers'
+import _ from "lodash";
+import {http} from "vue";
+import $store from "./../store";
+import {AuthHelper} from "./../helpers";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -51,13 +51,15 @@ export default {
   },
 
   refreshLoginToken (params, cb, errCb) {
-    http.post(API_BASE_URL + '/oauth/token', params).then(res => cb(res), err=>errCb(err))
+    http.post(API_BASE_URL + '/oauth/token', params).then(res => cb(res), err => errCb(err))
   },
 
   scopeToken (params, cb, errCb) {
     $store.dispatch('auth/getLoginToken').then((result) => {
       http.post(API_BASE_URL + '/oauth/personal-access-tokens', params, AuthHelper.getAuthHeader(result.access_token)).then(res => cb(res), err => errCb(err))
-    }, (err) => { errCb(err) })
+    }, (err) => {
+      errCb(err)
+    })
   },
 
   profile (params, cb, errCb) {

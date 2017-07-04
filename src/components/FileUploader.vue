@@ -4,10 +4,10 @@
     <i class="fa fa-cloud-upload uploaderBox__icon"></i>
 
     <input type="file" id="file" class="uploaderBox__file"
-      :name="uploadFieldName"
-      :disabled="isSaving"
-      :accept="accept"
-      @change="filesChange($event.target.files)">
+           :name="uploadFieldName"
+           :disabled="isSaving"
+           :accept="accept"
+           @change="filesChange($event.target.files)">
     <label for="file"><strong>Choose a file</strong><span class="uploaderBox__dragndrop"> or Drop files here to upload</span></label>
     <!-- <button class="uploaderBox__button">Upload</button> -->
   </div>

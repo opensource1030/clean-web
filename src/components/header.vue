@@ -34,9 +34,9 @@
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import employeeAPI from './../api/employee-api'
-  import { Log } from './../helpers'
+  import {Log} from './../helpers'
 
-  const { Store } = require('yayson')()
+  const {Store} = require('yayson')()
   const store = new Store()
   
   export default {

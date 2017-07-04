@@ -11,7 +11,7 @@ module.exports = {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
-  
+
   EASYVISTA_CODE: 13,
 
   FEATURES: {

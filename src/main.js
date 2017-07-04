@@ -11,7 +11,6 @@ import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
 
 import "./../node_modules/slicknav/dist/jquery.slicknav.js";
 import "./../node_modules/stacktable.js/stacktable.js";
-
 // stylesheets
 import "./styles/app.scss";
 import "./../node_modules/font-awesome/scss/font-awesome.scss";

@@ -1,16 +1,13 @@
-import _ from 'lodash'
-import Vue from 'vue'
-import { mapGetters, mapActions } from 'vuex'
-import deviceAPIv0 from './../../api/device/device'
-import deviceAPI from './../../api/device-api.js'
-import dvAPI from './../../api/device_variation-api.js'
-import imageAPI from './../../api/image-api.js'
-import {findByPrices, filterByModifications} from './../../components/filters.js'
-import modal from './../../components/modal.vue'
-import inputValidate from './../../components/inputValidate.vue'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import deviceAPI from "./../../api/device-api.js";
+import dvAPI from "./../../api/device_variation-api.js";
+import imageAPI from "./../../api/image-api.js";
+import modal from "./../../components/modal.vue";
+import inputValidate from "./../../components/inputValidate.vue";
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
-import { DevicesPresenter, ModificationsPresenter, DeviceVariationsPresenter } from './../../presenters'
-import { DeviceVariationHelper, ModificationHelper } from './../../helpers'
+import {DevicesPresenter, DeviceVariationsPresenter, ModificationsPresenter} from "./../../presenters";
+import {DeviceVariationHelper, ModificationHelper} from "./../../helpers";
 
 const { Store } = require('yayson')()
 const store = new Store()

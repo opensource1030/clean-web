@@ -1,13 +1,13 @@
-import _ from 'lodash'
-import Avatar from 'vue-avatar/dist/Avatar'
-import multiselect from 'vue-multiselect'
-import { mapGetters } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard'
-import modal from './../../components/modal'
-import addressAPI from './../../api/address-api.js'
-import { AddressesPresenter } from './../../presenters'
+import _ from "lodash";
+import Avatar from "vue-avatar/dist/Avatar";
+import multiselect from "vue-multiselect";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard";
+import modal from "./../../components/modal";
+import addressAPI from "./../../api/address-api.js";
+import {AddressesPresenter} from "./../../presenters";
 
-const { Store } = require('yayson')()
+const {Store} = require('yayson')()
 const store = new Store()
 
 export default {
@@ -135,7 +135,7 @@ export default {
 
     goOrderDevicePage () {
       // this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
-      this.$router.push({ path: '/orders/new/device' })
+      this.$router.push({path: '/orders/new/device'})
     },
 
     goBackPage () {
@@ -157,7 +157,8 @@ export default {
           // console.log('order.new.review submitOrder', res)
           this.address.shippingAddress = store.sync(res.data)
           this.placeOrder()
-        }, () => {})
+        }, () => {
+        })
       } else {
         this.placeOrder()
       }

@@ -1,4 +1,4 @@
-import  populateCountries from "./../api/countries";
+import populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
 

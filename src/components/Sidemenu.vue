@@ -51,9 +51,6 @@
           <li class="redirect-link">
             <a target="_blank" :href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i> Intercompany Charge</a>
           </li>
-          <li class="redirect-link">
-            <a target="_blank"><i class="fa fa-circle-o"></i> MC's portal</a>
-          </li>
         </ul>
       </li>
 
@@ -65,27 +62,32 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
             <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a> -->
             <router-link to="/devices" name="device"><i class="fa fa-circle-o"></i>Equipment</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
-             <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
-             <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
+            <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
+            <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
             <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a> -->
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <!-- <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a> -->
             <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
@@ -104,7 +106,8 @@
             <router-link to="/packages" name="package"><i class="fa fa-circle-o"></i>View All Packages</router-link>
           </li>
           <li class="page-link">
-            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package</router-link>
+            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package
+            </router-link>
           </li>
         </ul>
       </li>
@@ -145,8 +148,7 @@
 <script>
   import Vue from 'vue'
   import supportRequest from './support-request'
-  import { Log, ScopeHelper } from './../helpers'
-  import swal from 'sweetalert2'
+  import {Log, ScopeHelper} from './../helpers'
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -174,8 +176,7 @@
     computed: {
       ScopeHelper () {
         return ScopeHelper
-      },
-
+      }
     },
 
     mounted () {
@@ -185,7 +186,7 @@
         var email = localStorage.email;
 
         $('.redirect-link a').attr('href', function (index, href) {
-          var param = token + '&version=v4';
+          var param = token + '&version=v4'
           if (href.charAt(href.length - 1) === '?') //Very unlikely
             return href + param
           else if (href.indexOf('?') > 0)

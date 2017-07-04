@@ -90,6 +90,9 @@
   }
 }
 
+.text-orange {
+  color: $brand-orange;
+}
 .tag-header {
   > h1 {
     position: relative;
@@ -363,3 +366,4 @@ dl {
   @include css3(appearance, initial);
   pointer-events: none;
 }
+

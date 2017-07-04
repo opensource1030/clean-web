@@ -11,7 +11,7 @@
           <div class="box-heading">
             <h2>Upload Employee CSV</h2>
           </div>
-          
+
           <div class="box-content" v-show="!isReady">
             <div class="row extend">
               <div class="columns medium-6 small-12">

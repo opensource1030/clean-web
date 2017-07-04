@@ -1,10 +1,10 @@
-import _ from 'lodash'
-import { mapGetters } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard.vue'
-import { DeviceVariationHelper } from './../../helpers'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
+import {DeviceVariationHelper} from "./../../helpers";
 
 export default {
-  components : {
+  components: {
     placeOrderWizard
   },
 
@@ -93,7 +93,7 @@ export default {
             res => {
               this.alignDevicesandModifications(res.devicevariations)
             }
-          ) 
+          )
         }
         break
       case 'Accessory':
@@ -119,7 +119,7 @@ export default {
     selectAccessory (accessoryIndex) {
       let temp = $.extend(true, [], this.accessories)
 
-      if(temp[accessoryIndex].status) {
+      if (temp[accessoryIndex].status) {
         temp[accessoryIndex].status = 0
       } else {
         temp[accessoryIndex].status = 1
@@ -179,10 +179,14 @@ export default {
         for (let capacity of capacities) {
           device.modifications[capacity] = []
         }
-        
+
         for (let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value, price: variation.priceRetail, id: variation.id})
+          device.modifications[parseInt(newModification.value)].push({
+            color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value,
+            price: variation.priceRetail,
+            id: variation.id
+          })
         }
 
         // Set Pre-selected Device, Capacity, Style
@@ -215,7 +219,7 @@ export default {
       switch (value) {
         case 'package':
           // this.$store.dispatch('placeOrder/setCurrentView', 'select_package')
-          this.$router.push({ path: '/orders/new/package' })
+          this.$router.push({path: '/orders/new/package'})
           break
         case 'review':
           // Set Need device
@@ -243,7 +247,7 @@ export default {
           this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories)
 
           // this.$store.dispatch('placeOrder/setCurrentView', 'order_review')
-          this.$router.push({ path: '/orders/new/review' })
+          this.$router.push({path: '/orders/new/review'})
           break
       }
     },
@@ -254,7 +258,7 @@ export default {
   },
 
   watch: {
-    'allPackages_loading': function(newVal, oldVal) {
+    'allPackages_loading': function (newVal, oldVal) {
       newVal ? null : this.getAllDevices();
     }
   }
