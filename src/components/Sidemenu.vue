@@ -145,7 +145,7 @@
 <script>
   import Vue from 'vue'
   import supportRequest from './support-request'
-  import { ScopeHelper } from './../helpers'
+  import { Log, ScopeHelper } from './../helpers'
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -179,8 +179,6 @@
     },
 
     mounted () {
-      // console.log('Sidemenu mounted')
-      // console.log('features', this.features);
       var intervalId = setInterval(function () {
         var token = localStorage.token;
         var id = localStorage.userId;
@@ -204,8 +202,6 @@
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
         $(menu).on('click', 'li a', function (e) {
-          // console.log('sidebarMenu click', e)
-
           var $this = $(this);
           var checkElement = $this.next();
           if (checkElement.is('.treeview-menu') && checkElement.is(':visible')) {
@@ -253,7 +249,7 @@
 
       $('.treeview-menu > li > a').each(function () {
         $(this).click(function (e) {
-          // console.log('.treeview-menu > li > a', e)
+          // Log.put('.treeview-menu > li > a', e)
           e.stopPropagation();
           $('#menu .page-link.active').removeClass('active')
           $('#menu .page-link a.active').removeClass('active')
@@ -263,7 +259,7 @@
       });
 
       $('.menu-title').click(function (e) {
-        console.log('.menu-title', e)
+        Log.put('sidemneu/menu-title click', e)
         e.stopPropagation();
         $(this).parent().toggleClass('active');
       });

@@ -4,7 +4,7 @@
       <div class="column large-8 medium-8 small-7">
         <div class="logo" v-if="company.object" @click="$router.push({name: 'dashboard'})">
           <div class="logo-holder">
-            <!-- <img v-bind:src='company.object.metadata.logo.url' alt="logo" title="Client Logo"> -->
+            <img v-bind:src="_.get(company.object, 'metadata.logo.url', '')" alt="Company Logo" title="Client Logo">
           </div>
         </div>
         <morphsearch></morphsearch>
@@ -12,8 +12,8 @@
       <div class="column push-1 large-4 medium-4 small-5 profile">
         <div class="profile-holder">
           <a class="float-right" data-toggle="example-dropdown-1">
-            <avatar :username="fullName"></avatar>
-            Hi, <span class="greeting">{{ firstName }}</span></a>
+            <avatar :username="fullName()"></avatar>
+            Hi, <span class="greeting">{{ firstName() }}</span></a>
         </div>
         <div class="HW-container"></div>
         <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
@@ -30,9 +30,11 @@
 </template>
 
 <script>
+  import _ from 'lodash'
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar/dist/Avatar'
   import employeeAPI from './../api/employee-api'
+  import { Log } from './../helpers'
 
   const { Store } = require('yayson')()
   const store = new Store()
@@ -56,21 +58,9 @@
     },
 
     computed: {
-      firstName: function () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName
-        } else {
-          return "User"
-        }
+      _ () {
+        return _
       },
-
-      fullName: function () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
-        } else {
-          return "User"
-        }
-      }
     },
 
     created () {
@@ -85,10 +75,11 @@
 
         if (event.companies.length > 0) {
           let cosmicdata = event.companies[0].contents[0].content
-          console.log('header cosmicdata', cosmicdata)
+          // console.log('header cosmicdata', cosmicdata)
 
           this.$http.get(cosmicdata, {}).then((response) => {
             this.company = response.body;
+            Log.put('header/created company', this.company)
           })
         }
       }, (err) => console.log('header.vue err', err))
@@ -102,7 +93,7 @@
         enabled: true
       };
       Headway.init(config);
-      heap.identify(JSON.parse(localStorage.getItem("userProfile")).identification);
+      heap.identify(this.$store.state.auth.profile.identification);
 
       (function () {
         let t, timeout = 7.2e+6;
@@ -128,6 +119,14 @@
     },
 
     methods: {
+      firstName () {
+        return this.$store.state.auth.profile.firstName
+      },
+
+      fullName () {
+        return this.$store.state.auth.profile.firstName + ' ' + this.$store.state.auth.profile.lastName
+      },
+
       logout () {
         document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

@@ -5,6 +5,7 @@ import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
 import employeeAPI from './../../api/employee-api'
 import { mapGetters, mapActions } from 'vuex'
+import { Log } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -49,7 +50,7 @@ export default {
     }
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       let event = store.sync(res.data)
-      // console.log('dashboard event', event)
+      Log.put('dashboard/created event', event)
 
       if (event.companies.length > 0) {
         let cosmicdata = event.companies[0].contents[0].content
@@ -60,45 +61,80 @@ export default {
           this.clientInfo.loading = false
         })
       }
-    }, err => console.log('dashboard client info err', err))
+    }, err => Log.put('dashboard/created client info err', err))
 
     _params = {
       params: {
-        include: 'companies.currentBillMonths,allocations&filter[allocations.billMonth]=[currentBillMonths.last:1]'
+        include: 'companies.currentBillMonths,allocations',
+        'filter[allocations.billMonth]': '[currentBillMonths.last:1]'
       }
     }
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       if (res.status == 404) {
         this.userInfo.data.allocations = []
       } else {
-        this.userInfo.data = res;
-        for (let allocation of this.userInfo.data.allocations)
+        // console.log('dashboard/created userInfo', res)
+        let event = store.sync(res.data)
+        this.userInfo.data = event
+        for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
+        }
       }
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
     }, err => {
-      console.log('dashboard user allocation err', err)
+      Log.put('dashboard/created user allocation err', err)
       this.userInfo.data = { allocations: [] }
       this.userInfo.loading = false
     })
   },
 
   methods: {
-    setAllocation(index) {
+    setAllocation (index) {
       this.activeAllocationIndex = index;
     },
-    prevAllocation() {
+
+    prevAllocation () {
       this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null;
     },
-    nextAllocation() {
+
+    nextAllocation () {
       this.activeAllocationIndex < this.userInfo.data.allocations.length - 1 ? this.activeAllocationIndex++ : null;
     },
-    selectOrderType(type) {
+
+    selectOrderType (type) {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
-    placeOrder() {
-      this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
+
+    upgradeDevice () {
+      let allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
+      console.log('dashboard deviceInfo', allocation)
+      this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
+      this.$store.dispatch('placeOrder/setAllocation', allocation)
+      this.$router.push({ path: '/orders/new/package' })
+    },
+
+    placeOrder () {
+      // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
+      let path = ''
+      switch (this.selectedOrder) {
+        case 'new':
+          path = '/orders/new/package'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'New')
+          break
+        case 'transfer':
+          path = '/orders/new/package'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
+          this.$store.dispatch('placeOrder/setKeepService', 'Yes')
+          break
+        case 'accessories':
+          path = '/orders/new/accessories'
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
+          break
+        default:
+          return
+      }
+      this.$router.push({ path: path })
     }
   }
 }

@@ -15,9 +15,6 @@ deployment:
     branch: master
     commands:
       - bundle exec cap development deploy
-      - bundle exec cap demo deploy
-      - bundle exec cap trial deploy
-
 
 general:
   branches:

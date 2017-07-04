@@ -18,7 +18,7 @@ export default {
   },
 
   create (params, cb, errCb) {
-    $store.dispatch('scope_token/get', 'update_address').then(result => {
+    $store.dispatch('scope_token/get', 'create_address').then(result => {
       http.post(API_BASE_URL + '/addresses', params, AuthHelper.getAuthHeader(result.accessToken)).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },

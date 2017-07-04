@@ -44,7 +44,7 @@ const actions = {
 
       presetAPI.search(_params, res => {
         const presets = store.sync(res.data)
-        // console.log('preset res', presets)
+        // console.log('preset res', res)
         commit(types.PRESET_REFRESH, presets)
         dispatch('setPagination', res.data.meta.pagination)
         resolve(presets)
@@ -60,8 +60,8 @@ const actions = {
     return dispatch('search')
   },
 
-  setPagination ({ commit }, { pagination }) {
-    commit(types.PRESET_SET_PAGINATION, { pagination })
+  setPagination ({ commit }, pagination) {
+    commit(types.PRESET_SET_PAGINATION, pagination)
   },
 
   prevPage ({ dispatch, commit, state }) {
@@ -84,7 +84,7 @@ const mutations = {
     state.records = records
   },
 
-  [types.PRESET_SET_PAGINATION] (state, { pagination }) {
+  [types.PRESET_SET_PAGINATION] (state, pagination) {
     _.extend(state.pagination, pagination)
   },
 

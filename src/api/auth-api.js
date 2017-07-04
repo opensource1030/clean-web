@@ -50,6 +50,16 @@ export default {
     }).then(res => cb(res), err => errCb(err))
   },
 
+  refreshLoginToken (params, cb, errCb) {
+    http.post(API_BASE_URL + '/oauth/token', params).then(res => cb(res), err=>errCb(err))
+  },
+
+  scopeToken (params, cb, errCb) {
+    $store.dispatch('auth/getLoginToken').then((result) => {
+      http.post(API_BASE_URL + '/oauth/personal-access-tokens', params, AuthHelper.getAuthHeader(result.access_token)).then(res => cb(res), err => errCb(err))
+    }, (err) => { errCb(err) })
+  },
+
   profile (params, cb, errCb) {
     // http.get(API_BASE_URL + '/users/me', params).then(res => cb(store.sync(res.data)), err => errCb(err))
     // console.log('login_token', $store.state.auth.token)
@@ -58,12 +68,4 @@ export default {
       http.get(API_BASE_URL + '/users/me', _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(store.sync(res.data)), err => errCb(err))
     }, err => errCb(err))
   },
-
-  scopeToken (params, cb, errCb) {
-    http.post(API_BASE_URL + '/oauth/personal-access-tokens', params, AuthHelper.getAuthHeader($store.getters['auth/getLoginToken'])).then(res => cb(res), err => errCb(err))
-  },
-
-  getUser (uId, params, cb, errCb) {
-    http.get(API_BASE_URL + '/users/' + uId + '?' + params).then(res => cb(res), err => errCb(err))
-  }
 }
