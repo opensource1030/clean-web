@@ -72,9 +72,7 @@
                         :searchable="false"
                         :custom-label="customLabel"
                         :options="address.availableAddresses"
-                        :show-labels="true"
-
-                >
+                        :show-labels="true">
                 </multiselect>
                 <hr/>
               </div>

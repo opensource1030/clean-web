@@ -1,8 +1,8 @@
 module.exports = {
   NODE_ENV: '"local"',
   // URL_API: '"http://clean.api"',
-  URL_API: '"https://staging.api.wirelessanalytics.com"',
-  // URL_API: '"https://dev.api.wirelessanalytics.com"',
+  // URL_API: '"https://staging.api.wirelessanalytics.com"',
+  URL_API: '"https://dev.api.wirelessanalytics.com"',
   URL: '"http://localhost:8080"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
