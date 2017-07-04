@@ -16,7 +16,7 @@ export default {
     }, err => errCb(err))
   },
   /* get (id, params, cb, errCb) {
-    http.get(API_BASE_URL + '/orders/' + id, params).then(res => cb(res), err => errCb(err))
+   http.get(API_BASE_URL + '/orders/' + id, params).then(res => cb(res), err => errCb(err))
    },*/
   create (params, cb, errCb) {
     $store.dispatch('scope_token/get', 'create_order').then(result => {

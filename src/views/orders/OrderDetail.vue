@@ -7,7 +7,7 @@
                   leave-class=""
                   leave-active-class="animated zoomOut"
       >
-      <div class="is-loading"></div>
+        <div class="is-loading"></div>
       </transition>
     </div>
     <div v-else class="page page-review">
@@ -84,14 +84,14 @@
                     </header>
                     <template v-if="orders.devicevariations.length > 0">
                       <ul class="no-bullet row default">
-                      <template v-for="dv in orders.devicevariations">
-                        <li class="columns large-6"><strong> {{ `${dv.devices[0] ? dv.devices[0].name :
-                          ''}${dv.modifications && dv.modifications[0] ?
-                          ', ' + dv.modifications[0].value : ''}${dv.modifications && dv.modifications[1] ? ', ' +
-                          dv.modifications[1].value : ''}` }} </strong>
-                          <strong class="text-orange"> {{ dv.priceOwn | currency }} </strong>
-                        </li>
-                      </template>
+                        <template v-for="dv in orders.devicevariations">
+                          <li class="columns large-6"><strong> {{ `${dv.devices[0] ? dv.devices[0].name :
+                            ''}${dv.modifications && dv.modifications[0] ?
+                            ', ' + dv.modifications[0].value : ''}${dv.modifications && dv.modifications[1] ? ', ' +
+                            dv.modifications[1].value : ''}` }} </strong>
+                            <strong class="text-orange"> {{ dv.priceOwn | currency }} </strong>
+                          </li>
+                        </template>
                       </ul>
                     </template>
                     <div v-else class="is-relative na"></div>
