@@ -12,8 +12,8 @@
       <div class="column push-1 large-4 medium-4 small-5 profile">
         <div class="profile-holder">
           <a class="float-right" data-toggle="example-dropdown-1">
-            <avatar :username="fullName"></avatar>
-            Hi, <span class="greeting">{{ firstName }}</span></a>
+            <avatar :username="fullName()"></avatar>
+            Hi, <span class="greeting">{{ firstName() }}</span></a>
         </div>
         <div class="HW-container"></div>
         <div class="dropdown-pane bottom" id="example-dropdown-1" data-dropdown>
@@ -61,22 +61,6 @@
       _ () {
         return _
       },
-
-      firstName () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName
-        } else {
-          return "User"
-        }
-      },
-
-      fullName () {
-        if (localStorage.userProfile) {
-          return JSON.parse(localStorage.getItem("userProfile")).firstName + " " + JSON.parse(localStorage.getItem("userProfile")).lastName
-        } else {
-          return "User"
-        }
-      }
     },
 
     created () {
@@ -135,6 +119,14 @@
     },
 
     methods: {
+      firstName () {
+        return this.$store.state.auth.profile.firstName
+      },
+
+      fullName () {
+        return this.$store.state.auth.profile.firstName + ' ' + this.$store.state.auth.profile.lastName
+      },
+
       logout () {
         document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

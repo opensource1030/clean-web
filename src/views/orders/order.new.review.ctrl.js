@@ -72,7 +72,8 @@ export default {
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
-    isDisabled(){
+
+    isDisabled () {
       if (this.addDefaultAddress || this.addCustomAddress) {
         return false
       }
@@ -84,7 +85,6 @@ export default {
   },
 
   created () {
-    // this.orderType = this.$route.meta.label;
     this.orderType = this.$store.state.placeOrder.currentOrderType
 
     this.$store.dispatch('placeOrder/getUserConditions').then(
@@ -93,30 +93,17 @@ export default {
       }
     )
 
-    if (this.selectedKeepService == 'No') {
-      this.$store.dispatch('placeOrder/getPackageAddresses').then(
-        res => {
-          for (let address of res.addresses) {
-            this.address.availableAddresses.push(address);
-          }
-
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
+    this.$store.dispatch('placeOrder/getPackagesAddresses').then(
+      res => {
+        let temp_addresses = _.uniqBy(res, 'id');
+        for (let address of temp_addresses) {
+          this.address.availableAddresses.push(address);
         }
-      )
-    } else {
-      this.$store.dispatch('placeOrder/getPackagesAddresses').then(
-        res => {
-          let temp_addresses = _.uniqBy(res, 'id');
-          for (let address of temp_addresses) {
-            this.address.availableAddresses.push(address);
-          }
 
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
-        }
-      )
-    }
+        this.address.shippingAddress = this.address.availableAddresses[0];
+        this.address.loading = false;
+      }
+    )
   },
 
   methods: {
