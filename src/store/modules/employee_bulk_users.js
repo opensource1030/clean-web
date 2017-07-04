@@ -1,7 +1,4 @@
-import _ from 'lodash'
-import employeeAPI from './../../api/employee-api'
-import * as types from './../mutation-types'
-import {EmployeesPresenter} from './../../presenters'
+import * as types from "./../mutation-types";
 
 
 const {Store} = require('yayson')()

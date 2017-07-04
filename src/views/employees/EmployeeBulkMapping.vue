@@ -50,7 +50,8 @@
                 </multiselect>
               </div>
               <div class="columns medium-4 small-12">
-                <input type="text" :placeholder="csv_matched_fields[index]" v-model="sample_user[csv_matched_fields[index]]">
+                <input type="text" :placeholder="csv_matched_fields[index]"
+                       v-model="sample_user[csv_matched_fields[index]]">
               </div>
             </div>
           </div>

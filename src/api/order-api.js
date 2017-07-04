@@ -11,7 +11,7 @@ export default {
     }, err => errCb(err))
   },
   get (id, params, cb, errCb) {
-    $store.dispatch('scope_token/get', 'get_orders').then(result => {
+    $store.dispatch('scope_token/get', 'get_order').then(result => {
       http.get(API_BASE_URL + '/orders/' + id, _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },

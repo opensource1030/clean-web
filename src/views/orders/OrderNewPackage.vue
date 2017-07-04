@@ -130,4 +130,4 @@
   </div>
 </template>
 
-<script  src="./order.new.package.ctrl.js"></script>
+<script src="./order.new.package.ctrl.js"></script>

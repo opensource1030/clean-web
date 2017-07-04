@@ -1,6 +1,6 @@
-import presetAPI from './../../api/preset-api'
-import * as types from './../mutation-types'
-import FilterItem from './../../models/FilterItem'
+import presetAPI from "./../../api/preset-api";
+import * as types from "./../mutation-types";
+import FilterItem from "./../../models/FilterItem";
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -60,7 +60,7 @@ const actions = {
     return dispatch('search')
   },
 
-  setPagination ({ commit }, pagination) {
+  setPagination ({commit}, pagination) {
     commit(types.PRESET_SET_PAGINATION, pagination)
   },
 

@@ -81,7 +81,7 @@ export default {
 
         let allocation = this.$store.state.placeOrder.allocation
         if (Utils.isEmptyObject(allocation)) {
-          this.$router.push({ path: '/dashboard' })
+          this.$router.push({path: '/dashboard'})
         } else {
           this.serviceInfo = {
             IMEI: allocation.device_esn_imei,
@@ -146,7 +146,7 @@ export default {
       //     }
       //   }
       // } else {
-        return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
+      return 'http://sandysearch.com/contentimages/noPhotoProvided.gif';
       // }
     },
 
@@ -155,7 +155,7 @@ export default {
       this.$store.dispatch('placeOrder/setServiceSelected', this.services.activeService)
       this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo)
       // this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
-      this.$router.push({ path: '/orders/new/device' })
+      this.$router.push({path: '/orders/new/device'})
     }
   }
 }

@@ -3,9 +3,6 @@ import avatar from "vue-avatar/dist/Avatar";
 import modal from "./../../components/modal.vue";
 import orderAPI from "./../../api/order-api.js";
 
-
-import {mapGetters} from "vuex";
-
 const {Store} = require('yayson')()
 const store = new Store()
 
@@ -34,11 +31,7 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters({
-      orders: 'order/sorted'
-    })
-  },
+  computed: {},
 
   created () {
 

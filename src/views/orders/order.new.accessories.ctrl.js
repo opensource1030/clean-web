@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import { mapGetters, mapActions } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard.vue'
-import { DeviceVariationHelper } from './../../helpers'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
+import {DeviceVariationHelper} from "./../../helpers";
 
 export default {
   components: {
@@ -133,7 +133,11 @@ export default {
 
         for (let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value, price: variation.priceRetail, id: variation.id})
+          device.modifications[parseInt(newModification.value)].push({
+            color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value,
+            price: variation.priceRetail,
+            id: variation.id
+          })
         }
 
         // Set Pre-selected Device, Capacity, Style
@@ -187,7 +191,7 @@ export default {
           this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories)
 
           // this.$store.dispatch('placeOrder/setCurrentView', 'order_review')
-          this.$router.push({ path: '/orders/new/review' })
+          this.$router.push({path: '/orders/new/review'})
           break
       }
     }

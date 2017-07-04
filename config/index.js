@@ -30,7 +30,7 @@ module.exports = {
     // npm install --save-dev compression-webpack-plugin
     productionGzip: false,
     productionGzipExtensions: ['js', 'css']
-  }, 
+  },
   staging: {
     env: require('./staging.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
