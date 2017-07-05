@@ -10,13 +10,10 @@
           <i class="fa fa-dashboard"></i> <span>Dashboard</span>
         </router-link>
       </li>
-      <li class="menu-title redirect-link" v-if="$store.state.auth.profile.companyId === 1 ">
-        <a :href="mobilityLink">
-          <i class="fa fa-bar-chart"></i> <span>Reports</span>
-        </a>
-      </li>
 
-      <li class="treeview" v-else>
+
+      <li class="treeview">
+
         <a href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -24,33 +21,49 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_allocation.asp?token='"><i class="fa fa-circle-o"></i> Charge</a>
-          </li>
+          <template v-if="showMobility === 'mobility_central_login'">
+            <li class="redirect-link">
+              <a href="javascript:;"
+                 :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
+                      class="fa fa-circle-o"></i> Mobility Central </a>
+            </li>
+          </template>
+          <template v-else>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='"><i
+                      class="fa fa-circle-o"></i> Charge</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/dashboard_top_ten.asp?token='"><i class="fa fa-circle-o"></i> Top 10 Reports</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='"><i
+                      class="fa fa-circle-o"></i> Top 10 Reports</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_zero_usage.asp?token='"><i class="fa fa-circle-o"></i> Zero Usage</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='"><i
+                      class="fa fa-circle-o"></i> Zero Usage</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink + '/dashboard_trend.asp?token='"><i class="fa fa-circle-o"></i> Trends</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink + '/dashboard_trend.asp?token='"><i
+                      class="fa fa-circle-o"></i> Trends</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_usage.asp?token='"><i class="fa fa-circle-o"></i> Usage</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='"><i class="fa fa-circle-o"></i>
+                Usage</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_international.asp?token='"><i class="fa fa-circle-o"></i> International</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='"><i
+                      class="fa fa-circle-o"></i> International</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i> Intercompany Charge</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i>
+                Intercompany Charge</a>
+            </li>
+          </template>
         </ul>
       </li>
 
@@ -149,6 +162,11 @@
   import Vue from 'vue'
   import supportRequest from './support-request'
   import {Log, ScopeHelper} from './../helpers'
+  import swal from 'sweetalert2'
+  import globalSettingAPI from './../api/globalsetting-api'
+  const {Store} = require('yayson')()
+  const store = new Store()
+
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -169,8 +187,19 @@
       return {
         features: features,
         legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
-        mobilityLink: 'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='
+        showMobility: ''
       }
+    },
+    created(){
+      globalSettingAPI.search({params: {include: 'globalsettingvalues'}}, res => {
+        if (res.data.data[5].attributes.name !== undefined) {
+          this.$set(this, 'showMobility', res.data.data[5].attributes.name)
+        }
+        else {
+          this.$set(this, 'showMobility', '')
+        }
+      })
+
     },
 
     computed: {
@@ -185,7 +214,7 @@
         var id = localStorage.userId;
         var email = localStorage.email;
 
-        $('.redirect-link a').attr('href', function (index, href) {
+        $('.redirect-link a').attr('data-href', function (index, href) {
           var param = token + '&version=v4'
           if (href.charAt(href.length - 1) === '?') //Very unlikely
             return href + param
@@ -199,12 +228,14 @@
           clearInterval(intervalId)
         }
       }, 2000)
+
       $('.redirect-link a').each(function () {
-        $(this).click(function () {
+        $(this).click(function (e) {
+          var newWindow = $(this).data('href');
           swal({
-            title: 'Sweet!',
-            text: 'You will be redirected into respective site',
-            timer: 2000,
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
             type: 'success',
             showCancelButton: false,
             showConfirmButton: false,
@@ -214,10 +245,17 @@
             // handling the promise rejection
             function (dismiss) {
               if (dismiss === 'timer') {
-                console.log('I was closed by the timer')
+                /*window.open(newWindow,'_blank')*/
+                var newLink = document.createElement('a');
+                newLink.href = newWindow;
+                newLink.setAttribute('target', '_blank');
+                newLink.click();
               }
+
             }
           )
+
+
         })
 
       })
@@ -283,7 +321,7 @@
 
       $('.menu-title').click(function (e) {
         Log.put('sidemneu/menu-title click', e)
-        e.stopPropagation();
+        /*   e.stopPropagation();*/
         $(this).parent().toggleClass('active');
       });
 
