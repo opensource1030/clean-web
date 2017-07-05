@@ -204,9 +204,15 @@ export default {
         this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
         this.orderData.data.attributes.servicePhoneNo = this.typedServiceInfo.PhoneNo;
         this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
+
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       } else {
         this.orderData.data.attributes.packageId = this.selectedPackage;
         this.orderData.data.attributes.serviceId = this.selectedService.id;
+      }
+
+      if (this.orderType == 'Accessory') {
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       }
 
       if (this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {

@@ -294,6 +294,10 @@ export default {
       return _.sumBy(order.devicevariations, 'priceOwn')
     },
 
+    getTotalPrice (order) {
+      return this.getPriceOnce(order) + _.get(order, 'services[0].cost', 0)
+    },
+
     updateOrderState (order) {
       const vm = this
       swal({

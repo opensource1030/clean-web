@@ -162,6 +162,22 @@ export default {
     },
 
     goDevicePage () {
+      if (this.orderType == 'Transfer' && this.keepService == 'Yes') {
+        if (this.packages.availablePackages.length > 0) {
+          this.setActivePackage(this.packages.availablePackages[0]).then(
+            res => {
+              this.nextPage()
+            }
+          )
+        } else {
+          this.$store.dispatch('error/new', { message: 'You don\'t have any pacakges'})
+        }
+      } else {
+        this.nextPage()
+      }
+    },
+
+    nextPage () {
       this.$store.dispatch('placeOrder/setKeepService', this.keepService)
       this.$store.dispatch('placeOrder/setServiceSelected', this.services.activeService)
       this.$store.dispatch('placeOrder/setServiceInfo', this.serviceInfo)

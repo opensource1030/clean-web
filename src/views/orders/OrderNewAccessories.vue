@@ -39,7 +39,6 @@
 
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
         <a class="button large btn-orange pull-right" @click="goOrderPages('review')"
            v-if="(orderType == 'Accessory' && accessoryStatus)">
           Next

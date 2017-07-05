@@ -29,7 +29,6 @@ export default {
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
-      allPackages_loading: 'placeOrder/getPackagesLoadingState',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
@@ -48,25 +47,20 @@ export default {
 
     switch (this.orderType) {
       case 'Accessory':
-        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices()
+        this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(res => {
+          if (res.length > 0) {
+            this.$store.dispatch('placeOrder/getPackageServices', res[0].id).then(res => {
+              this.getAllDevices()
+            })
+          } else {
+            this.$store.dispatch('error/new', { message: 'You don\'t have any pacakges'})
+          }
+        })
         break
     }
   },
 
   methods: {
-    selectDevice (deviceIndex, capacity, styleIndex) {
-      this.activeDevice = this.devices[deviceIndex]
-
-      if (capacity) {
-        this.activeDevice.capacity = this.activeDevice.modifications[capacity]
-        this.activeDevice.style = this.activeDevice.capacity[0]
-      }
-
-      if (styleIndex) {
-        this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1]
-      }
-    },
-
     selectAccessory (accessoryIndex) {
       let temp = $.extend(true, [], this.accessories)
 
@@ -178,8 +172,6 @@ export default {
               this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
           }
           this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style)
-
-          // Set Typed DeviceInfo
           this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo)
 
           // Set Accessories
@@ -196,10 +188,4 @@ export default {
       }
     }
   },
-
-  watch: {
-    'allPackages_loading': function (newVal, oldVal) {
-      newVal ? null : this.getAllDevices();
-    }
-  }
 }

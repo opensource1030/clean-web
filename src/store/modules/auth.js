@@ -454,7 +454,7 @@ const mutations = {
 
     state.userId = null
     state.token = null
-    state.refreshToken = null
+    // state.refreshToken = null
     state.profile = null
 
     state.isAuthenticating = false
@@ -498,9 +498,8 @@ const mutations = {
 
     state.userId = null
     state.token = null
-    state.refreshToken = null
+    // state.refreshToken = null
     state.profile = null
-    // state.authenticated = false
   },
 
   [types.AUTH_PASSWORD_RECOVERY] (state) {
