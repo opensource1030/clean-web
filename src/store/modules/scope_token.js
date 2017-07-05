@@ -1,9 +1,9 @@
-import _ from 'lodash'
-import authAPI from './../../api/auth-api'
-import * as types from './../mutation-types'
-import { Utils, Log } from './../../helpers'
+import _ from "lodash";
+import authAPI from "./../../api/auth-api";
+import * as types from "./../mutation-types";
+import { Log, Utils } from "./../../helpers";
 
-const { Store } = require('yayson')()
+const {Store} = require('yayson')()
 const store = new Store()
 
 // initial state
@@ -20,7 +20,7 @@ const getters = {
 
 // actions
 const actions = {
-  get ({ dispatch, commit, state}, name) {
+  get ({dispatch, commit, state}, name) {
     return new Promise((resolve, reject) => {
       let token = _.get(state.records, name, null)
       // console.log(name, token)
@@ -28,23 +28,37 @@ const actions = {
         // Log.put('scope_token/get stored', name, token)
         resolve(token)
       } else {
-        dispatch('update', name).then(res => {
-          token = _.get(state.records, name, null)
-          // Log.put('scope_token/get new', name, token)
-          resolve(token)
-        }, err => reject(err))
+        dispatch('update', name).then(
+          res => {
+            token = _.get(state.records, name, null)
+            // Log.put('scope_token/get new', name, token)
+            resolve(token)
+          },
+          err => {
+            dispatch('auth/logout', {}, { root: true }).then(res => {
+              console.log('scope_token force logout ...', this.$router)
+              reject(err)
+            })
+            // reject(err)
+          }
+        )
       }
     })
   },
 
-  update ({ commit }, name) {
+  update ({commit}, name) {
     return new Promise((resolve, reject) => {
       authAPI.scopeToken({
         name: name,
-        scopes: [ name ]
+        scopes: [name]
       }, res => {
-        commit(types.SCOPE_TOKEN_UPDATE, { name: name, record: res.body })
-        resolve(res.body)
+        if (res.status == 200) {
+          commit(types.SCOPE_TOKEN_UPDATE, { name: name, record: res.body })
+          resolve(res.body)
+        } else {
+          Log.put('scope_token/update res', res)
+          reject(res)
+        }
       }, err => {
         Log.put('scope_token/update err', err)
         reject(err)
@@ -59,7 +73,7 @@ const mutations = {
     state.records = {}
   },
 
-  [types.SCOPE_TOKEN_UPDATE] (state, { name, record }) {
+  [types.SCOPE_TOKEN_UPDATE] (state, {name, record}) {
     _.set(state.records, name, record)
   },
 }

@@ -1,13 +1,13 @@
-import _ from 'lodash'
-import Avatar from 'vue-avatar/dist/Avatar'
-import multiselect from 'vue-multiselect'
-import { mapGetters } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard'
-import modal from './../../components/modal'
-import addressAPI from './../../api/address-api.js'
-import { AddressesPresenter } from './../../presenters'
+import _ from "lodash";
+import Avatar from "vue-avatar/dist/Avatar";
+import multiselect from "vue-multiselect";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard";
+import modal from "./../../components/modal";
+import addressAPI from "./../../api/address-api.js";
+import {AddressesPresenter} from "./../../presenters";
 
-const { Store } = require('yayson')()
+const {Store} = require('yayson')()
 const store = new Store()
 
 export default {
@@ -72,7 +72,8 @@ export default {
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
-    isDisabled(){
+
+    isDisabled () {
       if (this.addDefaultAddress || this.addCustomAddress) {
         return false
       }
@@ -84,7 +85,6 @@ export default {
   },
 
   created () {
-    // this.orderType = this.$route.meta.label;
     this.orderType = this.$store.state.placeOrder.currentOrderType
 
     this.$store.dispatch('placeOrder/getUserConditions').then(
@@ -93,30 +93,17 @@ export default {
       }
     )
 
-    if (this.selectedKeepService == 'No') {
-      this.$store.dispatch('placeOrder/getPackageAddresses').then(
-        res => {
-          for (let address of res.addresses) {
-            this.address.availableAddresses.push(address);
-          }
-
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
+    this.$store.dispatch('placeOrder/getPackagesAddresses').then(
+      res => {
+        let temp_addresses = _.uniqBy(res, 'id');
+        for (let address of temp_addresses) {
+          this.address.availableAddresses.push(address);
         }
-      )
-    } else {
-      this.$store.dispatch('placeOrder/getPackagesAddresses').then(
-        res => {
-          let temp_addresses = _.uniqBy(res, 'id');
-          for (let address of temp_addresses) {
-            this.address.availableAddresses.push(address);
-          }
 
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
-        }
-      )
-    }
+        this.address.shippingAddress = this.address.availableAddresses[0];
+        this.address.loading = false;
+      }
+    )
   },
 
   methods: {
@@ -148,7 +135,7 @@ export default {
 
     goOrderDevicePage () {
       // this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
-      this.$router.push({ path: '/orders/new/device' })
+      this.$router.push({path: '/orders/new/device'})
     },
 
     goBackPage () {
@@ -170,7 +157,8 @@ export default {
           // console.log('order.new.review submitOrder', res)
           this.address.shippingAddress = store.sync(res.data)
           this.placeOrder()
-        }, () => {})
+        }, () => {
+        })
       } else {
         this.placeOrder()
       }
@@ -216,9 +204,15 @@ export default {
         this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
         this.orderData.data.attributes.servicePhoneNo = this.typedServiceInfo.PhoneNo;
         this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
+
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       } else {
         this.orderData.data.attributes.packageId = this.selectedPackage;
         this.orderData.data.attributes.serviceId = this.selectedService.id;
+      }
+
+      if (this.orderType == 'Accessory') {
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       }
 
       if (this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {

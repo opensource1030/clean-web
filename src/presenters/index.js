@@ -1,5 +1,6 @@
-const Presenter = require('yayson')({ adapter: 'default' }).Presenter
+// const Presenter = require('yayson')({ adapter: 'default' }).Presenter
 // const Presenter = require('yayson')({ adapter: 'sequelize' }).Presenter
+const Presenter = require('yayson')({adapter: null}).Presenter
 
 export class UdlValuesPresenter extends Presenter {
 }

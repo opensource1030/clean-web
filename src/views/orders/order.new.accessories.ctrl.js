@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import { mapGetters, mapActions } from 'vuex'
-import placeOrderWizard from './../../components/placeOrderWizard.vue'
-import { DeviceVariationHelper } from './../../helpers'
+import _ from "lodash";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard.vue";
+import {DeviceVariationHelper} from "./../../helpers";
 
 export default {
   components: {
@@ -29,7 +29,6 @@ export default {
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
-      allPackages_loading: 'placeOrder/getPackagesLoadingState',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
@@ -48,25 +47,20 @@ export default {
 
     switch (this.orderType) {
       case 'Accessory':
-        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices()
+        this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(res => {
+          if (res.length > 0) {
+            this.$store.dispatch('placeOrder/getPackageServices', res[0].id).then(res => {
+              this.getAllDevices()
+            })
+          } else {
+            this.$store.dispatch('error/new', { message: 'You don\'t have any pacakges'})
+          }
+        })
         break
     }
   },
 
   methods: {
-    selectDevice (deviceIndex, capacity, styleIndex) {
-      this.activeDevice = this.devices[deviceIndex]
-
-      if (capacity) {
-        this.activeDevice.capacity = this.activeDevice.modifications[capacity]
-        this.activeDevice.style = this.activeDevice.capacity[0]
-      }
-
-      if (styleIndex) {
-        this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1]
-      }
-    },
-
     selectAccessory (accessoryIndex) {
       let temp = $.extend(true, [], this.accessories)
 
@@ -133,7 +127,11 @@ export default {
 
         for (let variation of device.variations) {
           let newModification = $.extend(true, {}, variation.modifications[DeviceVariationHelper.getCapacityIndex(variation)])
-          device.modifications[parseInt(newModification.value)].push({color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value, price: variation.priceRetail, id: variation.id})
+          device.modifications[parseInt(newModification.value)].push({
+            color: variation.modifications[DeviceVariationHelper.getStyleIndex(variation)].value,
+            price: variation.priceRetail,
+            id: variation.id
+          })
         }
 
         // Set Pre-selected Device, Capacity, Style
@@ -174,8 +172,6 @@ export default {
               this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
           }
           this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style)
-
-          // Set Typed DeviceInfo
           this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo)
 
           // Set Accessories
@@ -187,15 +183,9 @@ export default {
           this.$store.dispatch('placeOrder/setAccessoriesSelected', activeAccessories)
 
           // this.$store.dispatch('placeOrder/setCurrentView', 'order_review')
-          this.$router.push({ path: '/orders/new/review' })
+          this.$router.push({path: '/orders/new/review'})
           break
       }
     }
   },
-
-  watch: {
-    'allPackages_loading': function (newVal, oldVal) {
-      newVal ? null : this.getAllDevices();
-    }
-  }
 }

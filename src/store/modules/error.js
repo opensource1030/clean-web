@@ -1,4 +1,4 @@
-import * as types from './../mutation-types'
+import * as types from "./../mutation-types";
 
 // initial state
 const state = {
@@ -29,7 +29,7 @@ const getters = {
 // actions
 const actions = {
   addNew ({ commit }, { message }) {
-    commit(types.ERROR_ADD_NEW, { message })
+    commit(types.ERROR_ADD_NEW, {message})
   },
 
   clearAll ({commit}) {

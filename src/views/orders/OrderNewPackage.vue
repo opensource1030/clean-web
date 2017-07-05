@@ -45,11 +45,9 @@
                             enter-class=""
                             enter-active-class="animated zoomIn"
                             leave-class=""
-                            leave-active-class="animated zoomOut"
-
-                >
+                            leave-active-class="animated zoomOut">
                   <div class="box-type-1" :class="{'active': eachPackage.id == packages.activePackage.id}"
-                       @click="setActive('Package', eachPackage)">
+                       @click="selectPackage(eachPackage)">
                     <div class="box-icon">
                     <span class="icon-circle">
                       <i class="fa fa-archive" aria-hidden="true"></i>
@@ -79,9 +77,7 @@
                       enter-class=""
                       enter-active-class="animated flash"
                       leave-class=""
-                      leave-active-class="animated fadeOut"
-
-          >
+                      leave-active-class="animated fadeOut">
             <h4 class="category-title select-service">Select Services</h4>
           </transition>
           <div class="columns small-12 p-b-20 border-bottom" v-if="services.availableServices.length">
@@ -91,11 +87,9 @@
                             enter-class=""
                             enter-active-class="animated zoomIn"
                             leave-class=""
-                            leave-active-class="animated zoomOut"
-
-                >
+                            leave-active-class="animated zoomOut">
                   <div class="box-type-2" :class="{'active': eachService.id == services.activeService.id}"
-                       @click="setActive('Service', eachService)">
+                       @click="setActiveService(eachService)">
                     <div class="box-content">
                       <div class="serviceImage">
                         <img :src="getImageUrl(eachService.carriers[0])"/>
@@ -120,9 +114,8 @@
 
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-primary pull-left" href="/dashboard"> <i class="fa fa-arrow-left"> </i> Back</a>
-        <button class="button large btn-primary pull-right"
-                :disabled="isDisabled" @click="goDevicePage()">
+        <router-link to="/dashboard" class="button large btn-primary pull-left"><i class="fa fa-arrow-left"></i> Back</router-link>
+        <button class="button large btn-primary pull-right" :disabled="isDisabled" @click="goDevicePage()">
           <!-- v-if="(keepService == 'Yes' && serviceInfo.IMEI && serviceInfo.PhoneNo && serviceInfo.Sim) || (keepService == 'No' && services.activeService.id)"-->
           Next <i class="fa fa-arrow-right"> </i></button>
       </div>
@@ -130,4 +123,4 @@
   </div>
 </template>
 
-<script  src="./order.new.package.ctrl.js"></script>
+<script src="./order.new.package.ctrl.js"></script>

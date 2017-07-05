@@ -14,12 +14,14 @@
               <div class="row expanded">
                 <div class="columns small-12 p-10 accessory-group">
                   <div v-for="(accessory, a_index) in accessories">
-                    <div class="m-b-10 each-accessory" :class="{'accessory-active': accessory.status == 1}" @click="selectAccessory(a_index)">
+                    <div class="m-b-10 each-accessory" :class="{'accessory-active': accessory.status == 1}"
+                         @click="selectAccessory(a_index)">
                       <div class="accessory-image">
-                        <img :src="getImageUrl(accessory.device)" />
+                        <img :src="getImageUrl(accessory.device)"/>
                       </div>
                       <p class="text-center black m-b-0 ft-13 bold">{{accessory.device.name}}</p>
-                      <p class="price text-center black ft-13">{{accessory.variations[0].priceRetail}} {{accessory.device.currency}}</p>
+                      <p class="price text-center black ft-13">{{accessory.variations[0].priceRetail}}
+                        {{accessory.device.currency}}</p>
                     </div>
                   </div>
                 </div>
@@ -37,9 +39,8 @@
 
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
         <a class="button large btn-orange pull-right" @click="goOrderPages('review')"
-            v-if="(orderType == 'Accessory' && accessoryStatus)">
+           v-if="(orderType == 'Accessory' && accessoryStatus)">
           Next
         </a>
       </div>

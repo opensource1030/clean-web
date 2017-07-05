@@ -21,20 +21,19 @@ import Device from "./../views/devices/Device.vue";
 import Companies from "./../views/companies/Companies.vue";
 import Company from "./../views/companies/Company.vue";
 // employees
-import EmployeeIndex from './../views/employees/EmployeeIndex.vue'
-import EmployeeEdit from './../views/employees/EmployeeEdit.vue'
-import EmployeeBulkAdd from './../views/employees/EmployeeBulkAdd.vue'
-import EmployeeBulkMapping from './../views/employees/EmployeeBulkMapping.vue'
-import EmployeeBulkReview from './../views/employees/EmployeeBulkReview.vue'
-
+import EmployeeIndex from "./../views/employees/EmployeeIndex.vue";
+import EmployeeEdit from "./../views/employees/EmployeeEdit.vue";
+import EmployeeBulkAdd from "./../views/employees/EmployeeBulkAdd.vue";
+import EmployeeBulkMapping from "./../views/employees/EmployeeBulkMapping.vue";
+import EmployeeBulkReview from "./../views/employees/EmployeeBulkReview.vue";
 // orders
-import OrderIndex from './../views/orders/OrderIndex.vue'
-import OrderNew from './../views/orders/OrderNew.vue'
-import OrderNewPackage from './../views/orders/OrderNewPackage.vue'
-import OrderNewDevice from './../views/orders/OrderNewDevice.vue'
-import OrderNewAccessories from './../views/orders/OrderNewAccessories.vue'
-import OrderNewReview from './../views/orders/OrderNewReview.vue'
-
+import OrderIndex from "./../views/orders/OrderIndex.vue";
+import OrderNew from "./../views/orders/OrderNew.vue";
+import OrderNewPackage from "./../views/orders/OrderNewPackage.vue";
+import OrderNewDevice from "./../views/orders/OrderNewDevice.vue";
+import OrderNewAccessories from "./../views/orders/OrderNewAccessories.vue";
+import OrderNewReview from "./../views/orders/OrderNewReview.vue";
+import OrderDetail from "./../views/orders/OrderDetail.vue";
 // routes presets
 import Presets from "./../views/presets/Presets.vue";
 import Preset from "./../views/presets/Preset.vue";
@@ -51,11 +50,9 @@ import AddService from "./../views/employees/AddService.vue";
 import UpdateProfile from "./../views/employees/UpdateProfile.vue";
 import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 // routes Settings
-import Settings from './../views/settings/Settings.vue'
-
+import Settings from "./../views/settings/Settings.vue";
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
-import LegacyInfo from "./../components/LegacyInfo.vue";
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -120,7 +117,7 @@ const router = new VueRouter({
         {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
         {path: 'bulk/add', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
         {path: 'bulk/mapping', component: EmployeeBulkMapping, name: 'Mapping Fields', meta: {label: 'Mapping Fields'}},
-        {path: 'bulk/review', component: EmployeeBulkReview, name: 'Review', meta: {label: 'Review'}},
+        {path: 'bulk/review', component: EmployeeBulkReview, name: 'Review Employees', meta: {label: 'Review'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},
         {path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: {label: 'Edit'}},
         {path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: {label: 'Review'}},
@@ -136,28 +133,34 @@ const router = new VueRouter({
         { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
         {
           path: 'new',
-          component: { template: '<router-view></router-view>' },
-          meta: { label: 'New' },
+          component: {template: '<router-view></router-view>'},
+          meta: {label: 'New'},
           children: [
-            { path: '', component: OrderNew, name: 'New Order', meta: { label: '...' } },
-            { path: 'package', component: OrderNewPackage, name: 'Select Package', meta: { label: 'Package' } },
-            { path: 'device', component: OrderNewDevice, name: 'Select Device', meta: { label: 'Device' } },
-            { path: 'accessories', component: OrderNewAccessories, name: 'Select Accessories', meta: { label: 'Accessories' } },
-            { path: 'review', component: OrderNewReview, name: 'Review', meta: { label: 'Review' } },
+            {path: '', component: OrderNew, name: 'New Order', meta: {label: '...'}},
+            {path: 'package', component: OrderNewPackage, name: 'Select Package', meta: {label: 'Package'}},
+            {path: 'device', component: OrderNewDevice, name: 'Select Device', meta: {label: 'Device'}},
+            {
+              path: 'accessories',
+              component: OrderNewAccessories,
+              name: 'Select Accessories',
+              meta: {label: 'Accessories'}
+            },
+            {path: 'review', component: OrderNewReview, name: 'Review Order', meta: {label: 'Review'}},
           ]
-        }
+        },
+        {path: 'detail/:id', component: OrderDetail, name: 'Orders Detail', meta: {label: 'Detail'}}
       ]
     },
 
     // presets
     {
       path: '/presets',
-      component: { template: '<router-view></router-view>' },
-      meta: { requiresAuth: true, label: 'Presets' },
+      component: {template: '<router-view></router-view>'},
+      meta: {requiresAuth: true, label: 'Presets'},
       children: [
-        { path: '', component: Presets, name: 'List Presets', meta: { label: 'All' } },
-        { path: 'new', component: Preset, name: 'Add Preset', meta: { label: 'Create' } },
-        { path: ':id', component: Preset, name: 'Update Preset', meta: { label: 'Edit' } },
+        {path: '', component: Presets, name: 'List Presets', meta: {label: 'All'}},
+        {path: 'new', component: Preset, name: 'Add Preset', meta: {label: 'Create'}},
+        {path: ':id', component: Preset, name: 'Update Preset', meta: {label: 'Edit'}},
       ]
     },
 
@@ -229,12 +232,12 @@ router.beforeEach((to, from, next) => {
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
-      next({ name: 'dashboard' })
+      next({name: 'dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-      next({ name: 'login' })
+      next({name: 'login'})
     }
   }
   next()

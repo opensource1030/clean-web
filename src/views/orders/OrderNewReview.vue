@@ -72,9 +72,7 @@
                         :searchable="false"
                         :custom-label="customLabel"
                         :options="address.availableAddresses"
-                        :show-labels="true"
-
-                >
+                        :show-labels="true">
                 </multiselect>
                 <hr/>
               </div>
@@ -168,7 +166,8 @@
       </div>
     </modal>
 
-    <placeOrderWizard :activeStep="3" :step2Name="orderType == 'Accessory' ? 'Select Accessories' : 'Select Device'"></placeOrderWizard>
+    <placeOrderWizard :activeStep="3"
+                      :step2Name="orderType == 'Accessory' ? 'Select Accessories' : 'Select Device'"></placeOrderWizard>
 
     <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
@@ -317,4 +316,4 @@
   </div>
 </template>
 
-<script  src="./order.new.review.ctrl.js" lang="babel"></script>
+<script src="./order.new.review.ctrl.js" lang="babel"></script>
