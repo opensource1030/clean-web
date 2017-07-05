@@ -355,6 +355,13 @@ export default {
       this.device.devicevariations = _.reject(this.device.devicevariations, dv)
     },
 
+    // wta can view only device variations belong to the company
+    hasAvailableCompany (dv) {
+      let availableCompanyIds = _.chain(this.companies).filter({ 'checked': true }).map((item) => { return parseInt(item.id) }).value()
+      // console.log('device/hasAvailableCompany', availableCompanyIds)
+      return parseInt(dv.companies[0].id) == 0 || _.indexOf(availableCompanyIds, parseInt(dv.companies[0].id)) > -1
+    },
+
     submit () {
       // validation
       if (!this.device.name) {
@@ -390,6 +397,8 @@ export default {
       _.each(_devicevariations, (_dv) => {
         dv = DeviceVariationsPresenter.toJSON(_dv)
         dv = dv['data']
+        // dv.carrierId = parseInt(_.get(dv, 'relationships.carriers.data[0].id', 0))
+        // dv.companyId = parseInt(_.get(dv, 'relationships.companies.data[0].id', 0))
         if (dv['relationships']['images'] && (dv['relationships']['images'][0] == void(0) || parseInt(dv['relationships']['images'][0]['id'])== 0)) {
           delete dv['relationships']['images']
         }
@@ -404,10 +413,8 @@ export default {
         delete dv['included']
         _jsonDeviceVariation.push(dv)
       })
-
       // console.log(_jsonDeviceVariation)
 
-      // #TODO it is an API issue which require 'deviceVariations' rather than 'devicevariations'
       let _jsonData = DevicesPresenter.toJSON(_device)
       // _jsonData['data']['relationships']['deviceVariations'] = _jsonData['data']['relationships']['devicevariations']
       // delete _jsonData['data']['relationships']['devicevariations']

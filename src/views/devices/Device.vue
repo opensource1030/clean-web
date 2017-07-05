@@ -217,7 +217,7 @@
           <a href="#" class="accordion-title" @click="$forceUpdate()">Prices</a>
           <div class="accordion-content prices-content" data-tab-content>
             <div class="row expanded addlist" v-for="(dv, index) in device.devicevariations"
-                 :style="{ backgroundColor: color }">
+                 :style="{ backgroundColor: color }" v-if="hasAvailableCompany(dv)">
               <div class="row expanded">
                 <div class="small-12 large-2 columns">
                   <img class="phoneImg" :src="getImageUrl(dv.images[0])" alt="Photo Devices" />

@@ -175,9 +175,7 @@
                 <td>{{ getDeviceVariations(order) }}</td>
                 <td>{{ getPriceOnce(order) | currency }}</td>
                 <td>{{ (order.services.length > 0 && order.services[0] ? order.services[0].cost : '') | currency }}</td>
-                <td>{{ parseInt((getPriceOnce(order)) + 0 + (order.services.length > 0 && order.services[0] ?
-                  parseInt(order.services[0].cost) : 0)) | currency }}
-                </td>
+                <td>{{ getTotalPrice(order) | currency }}</td>
               </tr>
               <tr class="detail-tr" :class="activeOrder && (activeOrder.id == order.id) ? 'active' : ''">
                 <td></td>
