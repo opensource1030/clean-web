@@ -77,7 +77,11 @@ export default {
       if (this.addDefaultAddress || this.addCustomAddress) {
         return false
       }
-      else if (this.customAddress.name !== '') {
+
+      return true
+    },
+    isDisabledCustom(){
+      if (this.customAddress.name !== '' && this.customAddress.address != '' && this.customAddress.city != '' && this.customAddress.state != '' && this.customAddress.country != '' && this.customAddress.postalCode != '') {
         return false
       }
       return true

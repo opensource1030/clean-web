@@ -155,6 +155,7 @@ export default {
         res => {
           if (this.services.availableServices.length == 1) {
             this.keepService = 'No'
+            this.services.activeService = this.services.availableServices[0];
             this.goDevicePage()
           }
         }
