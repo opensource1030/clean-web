@@ -104,6 +104,13 @@
             <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
+
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
+            <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
+          </li>
+
+         
         </ul>
       </li>
 
@@ -136,9 +143,7 @@
           <li class="page-link">
             <a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a>
           </li>
-          <li class="page-link">
-            <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Procurement</router-link>
-          </li>
+         
         </ul>
       </li>
 
