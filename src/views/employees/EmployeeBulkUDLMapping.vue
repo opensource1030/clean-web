@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bulkUserStepWizard :activeStep="3"></bulkUserStepWizard>
+    <bulkUserStepWizard :activeStep="2"></bulkUserStepWizard>
     <div class="page employee-page employee-bulk-add-page">
       <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
         <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
@@ -9,9 +9,9 @@
       <div class="columns small-12">
         <div class="grid-box content-container">
           <div class="box-heading">
-            <h2>Mapping Fields</h2>
+            <h2>Map UDLs</h2>
           </div>
-
+          
           <div class="box-content" v-show="!isReady">
             <div class="row extend">
               <div class="columns medium-12 small-12">
@@ -60,8 +60,9 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
-<script src="./employee.bulk.mapping.ctrl.js" lang="babel"></script>
+<script src="./employee.bulk.add.ctrl.js" lang="babel"></script>
