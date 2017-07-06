@@ -12,10 +12,10 @@
             <select id="support-issues" class="user-actions" required>
               <option selected disabled value=" ">-- Choose an issue ---</option>
               <optgroup label="Billing">
-                <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
+                <option data-id="issue-4" data-support-tag="BIL1" data-value="Questions About My Monthly Statement" value="qamms">
                   Questions About My Monthly Statement
                 </option>
-                <option data-id="issue-15" data-support-tag="ALR4" data-value="Other Billing Issues" value="obi">
+                <option data-id="issue-15" data-support-tag="BIL1" data-value="Other Billing Issues" value="obi">
                   Other Billing Issues
                 </option>
               </optgroup>

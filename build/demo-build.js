@@ -1,12 +1,12 @@
 // https://github.com/shelljs/shelljs
 require('shelljs/global')
-env.NODE_ENV = 'trial'
+env.NODE_ENV = 'demo'
 
 var path = require('path')
 var config = require('../config')
 var ora = require('ora')
 var webpack = require('webpack')
-var webpackConfig = require('./webpack.trial.conf')
+var webpackConfig = require('./webpack.demo.conf')
 
 console.log(
   '  Tip:\n' +
@@ -14,7 +14,7 @@ console.log(
   '  Opening index.html over file:// won\'t work.\n'
 )
 
-var spinner = ora('building for trial...')
+var spinner = ora('building for demo...')
 spinner.start()
 
 var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)

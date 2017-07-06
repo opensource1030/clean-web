@@ -11,7 +11,9 @@
         </router-link>
       </li>
 
+
       <li class="treeview">
+
         <a href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -19,33 +21,49 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_allocation.asp?token='"><i class="fa fa-circle-o"></i> Charge</a>
-          </li>
+          <template v-if="showMobility === 'mobility_central_login'">
+            <li class="redirect-link">
+              <a href="javascript:;"
+                 :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
+                      class="fa fa-circle-o"></i> Mobility Central </a>
+            </li>
+          </template>
+          <template v-else>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='"><i
+                      class="fa fa-circle-o"></i> Charge</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/dashboard_top_ten.asp?token='"><i class="fa fa-circle-o"></i> Top 10 Reports</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='"><i
+                      class="fa fa-circle-o"></i> Top 10 Reports</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_zero_usage.asp?token='"><i class="fa fa-circle-o"></i> Zero Usage</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='"><i
+                      class="fa fa-circle-o"></i> Zero Usage</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink + '/dashboard_trend.asp?token='"><i class="fa fa-circle-o"></i> Trends</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink + '/dashboard_trend.asp?token='"><i
+                      class="fa fa-circle-o"></i> Trends</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_usage.asp?token='"><i class="fa fa-circle-o"></i> Usage</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='"><i class="fa fa-circle-o"></i>
+                Usage</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink +'/report_international.asp?token='"><i class="fa fa-circle-o"></i> International</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='"><i
+                      class="fa fa-circle-o"></i> International</a>
+            </li>
 
-          <li class="redirect-link">
-            <a target="_blank" :href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i> Intercompany Charge</a>
-          </li>
+            <li class="redirect-link">
+              <a href="javascript:;" :data-href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i>
+                Intercompany Charge</a>
+            </li>
+          </template>
         </ul>
       </li>
 
@@ -57,30 +75,42 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
             <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a> -->
             <router-link to="/devices" name="device"><i class="fa fa-circle-o"></i>Equipment</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
-             <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
-             <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
+            <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
+            <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
             <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a> -->
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <!-- <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a> -->
             <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
           </li>
 
-          <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
+
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
+            <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
+          </li>
+
+         
         </ul>
       </li>
 
@@ -96,7 +126,8 @@
             <router-link to="/packages" name="package"><i class="fa fa-circle-o"></i>View All Packages</router-link>
           </li>
           <li class="page-link">
-            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package</router-link>
+            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package
+            </router-link>
           </li>
         </ul>
       </li>
@@ -112,9 +143,7 @@
           <li class="page-link">
             <a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a>
           </li>
-          <li class="page-link">
-            <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Procurement</router-link>
-          </li>
+         
         </ul>
       </li>
 
@@ -137,7 +166,12 @@
 <script>
   import Vue from 'vue'
   import supportRequest from './support-request'
-  import { Log, ScopeHelper } from './../helpers'
+  import {Log, ScopeHelper} from './../helpers'
+  import swal from 'sweetalert2'
+  import globalSettingAPI from './../api/globalsetting-api'
+  const {Store} = require('yayson')()
+  const store = new Store()
+
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -157,8 +191,20 @@
     data () {
       return {
         features: features,
-        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl'
+        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
+        showMobility: ''
       }
+    },
+    created(){
+      globalSettingAPI.search({params: {include: 'globalsettingvalues'}}, res => {
+        if (res.data.data[5].attributes.name !== undefined) {
+          this.$set(this, 'showMobility', res.data.data[5].attributes.name)
+        }
+        else {
+          this.$set(this, 'showMobility', '')
+        }
+      })
+
     },
 
     computed: {
@@ -169,11 +215,11 @@
 
     mounted () {
       var intervalId = setInterval(function () {
-        var token = localStorage.token;
+        var token = JSON.parse(localStorage.getItem("token")).access_token;
         var id = localStorage.userId;
         var email = localStorage.email;
 
-        $('.redirect-link a').attr('href', function (index, href) {
+        $('.redirect-link a').attr('data-href', function (index, href) {
           var param = token + '&version=v4'
           if (href.charAt(href.length - 1) === '?') //Very unlikely
             return href + param
@@ -187,6 +233,37 @@
           clearInterval(intervalId)
         }
       }, 2000)
+
+      $('.redirect-link a').each(function () {
+        $(this).click(function (e) {
+          var newWindow = $(this).data('href');
+          swal({
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+          }).then(
+            function () {
+            },
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                /*window.open(newWindow,'_blank')*/
+                var newLink = document.createElement('a');
+                newLink.href = newWindow;
+                newLink.setAttribute('target', '_blank');
+                newLink.click();
+              }
+
+            }
+          )
+
+
+        })
+
+      })
 
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
@@ -249,7 +326,7 @@
 
       $('.menu-title').click(function (e) {
         Log.put('sidemneu/menu-title click', e)
-        e.stopPropagation();
+        /*   e.stopPropagation();*/
         $(this).parent().toggleClass('active');
       });
 

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from "lodash";
 
 export default {
   // group menas menu item on main menu which is a bundle of features

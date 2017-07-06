@@ -1,9 +1,9 @@
-import _ from 'lodash'
-import modal from './../../components/modal.vue'
-import employeeAPI from './../../api/employee-api.js'
-import { mapGetters } from 'vuex'
-import { EmployeesPresenter } from './../../presenters'
-import { Utils, EmployeeHelper } from './../../helpers'
+import _ from "lodash";
+import modal from "./../../components/modal.vue";
+import employeeAPI from "./../../api/employee-api.js";
+import {mapGetters} from "vuex";
+import {EmployeesPresenter} from "./../../presenters";
+import {EmployeeHelper, Utils} from "./../../helpers";
 
 const { Store } = require('yayson')()
 const store = new Store()

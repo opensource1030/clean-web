@@ -23,8 +23,6 @@
 
 <script>
 export default {
-  name:'placeOrderWizard',
-
   props: {
     activeStep: {
       type: Number,

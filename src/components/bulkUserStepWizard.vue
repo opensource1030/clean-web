@@ -28,13 +28,13 @@
 </template>
 
 <script>
-export default {
-  name:'bulkUserStepWizard',
-  props: {
-    activeStep: {
+  export default {
+    name: 'bulkUserStepWizard',
+    props: {
+      activeStep: {
         type: Number,
         required: true
+      }
     }
   }
-}
 </script>

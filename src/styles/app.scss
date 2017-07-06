@@ -1,15 +1,13 @@
-@import "base/clean-variables";
+// @import "base/clean-variables";
 @import "base/base";
 @import "mixins/other-mixin";
 @import "modules/all-modules";
 @import './../../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
 @import './../../node_modules/animate.css/animate.min.css';
-
-@import "./../modules/jquery.tag-editor/jquery.tag-editor.css";
+@import './../modules/jquery.tag-editor/jquery.tag-editor.css';
 @import "plugins/slick-nav";
 @import "plugins/morphpsearch";
 @import "plugins/flatpickr";
-@import "plugins/select2";
 @import "partials/common";
 @import "partials/dashboard";
 @import "partials/sidebar-menu";
@@ -141,6 +139,20 @@ div.multiselect__tags {
 .is-relative {
   position: relative;
   min-height: 300px;
+  &.na {
+    min-height: 200px;
+    background: $light-gray;
+    &:after {
+      content: 'N/A';
+      font-weight: 600;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      font-size: 32px;
+      margin-top: -32px;
+    }
+  }
 }
 
 .swal2-modal {

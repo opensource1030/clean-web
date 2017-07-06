@@ -1,11 +1,14 @@
-import _ from 'lodash';
+import _ from "lodash";
+import Avatar from "vue-avatar/dist/Avatar";
+import multiselect from "vue-multiselect";
+import {mapGetters} from "vuex";
+import placeOrderWizard from "./../../components/placeOrderWizard";
+import modal from "./../../components/modal";
+import addressAPI from "./../../api/address-api.js";
+import {AddressesPresenter} from "./../../presenters";
 
-import Avatar from 'vue-avatar/dist/Avatar';
-import multiselect from 'vue-multiselect'
-import placeOrderWizard from './../../components/placeOrderWizard';
-import modal from './../../components/modal';
-
-import {mapGetters, mapActions} from 'vuex';
+const {Store} = require('yayson')()
+const store = new Store()
 
 export default {
   name: 'Review',
@@ -21,6 +24,16 @@ export default {
     return {
       orderType: '',
       user: {},
+      customAddress: {
+        name: '',
+        address: '',
+        attn: '',
+        city: '',
+        state: '',
+        phone: '',
+        country: '',
+        postalCode: '',
+      },
       address: {
         availableAddresses: [],
         shippingAddress: {},
@@ -28,6 +41,9 @@ export default {
         loading: true
       },
       orderFinished: false,
+      addDefaultAddress: false,
+      addCustomAddress: false,
+      chooseAddress: false,
       payOrder: false,
       orderData: {},
       card: {
@@ -55,11 +71,20 @@ export default {
       selectedService: 'placeOrder/getSelectedService',
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
-    })
+    }),
+
+    isDisabled () {
+      if (this.addDefaultAddress || this.addCustomAddress) {
+        return false
+      }
+      else if (this.customAddress.name !== '') {
+        return false
+      }
+      return true
+    }
   },
 
   created () {
-    // this.orderType = this.$route.meta.label;
     this.orderType = this.$store.state.placeOrder.currentOrderType
 
     this.$store.dispatch('placeOrder/getUserConditions').then(
@@ -68,34 +93,37 @@ export default {
       }
     )
 
-    if(this.selectedKeepService == 'No') {
-      this.$store.dispatch('placeOrder/getPackageAddresses').then(
-        res => {
-          for (let address of res.addresses) {
-            this.address.availableAddresses.push(address);
-          }
-
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
+    this.$store.dispatch('placeOrder/getPackagesAddresses').then(
+      res => {
+        let temp_addresses = _.uniqBy(res, 'id');
+        for (let address of temp_addresses) {
+          this.address.availableAddresses.push(address);
         }
-      )
-    } else {
-      this.$store.dispatch('placeOrder/getPackagesAddresses').then(
-        res => {
-          let temp_addresses = _.uniqBy(res, 'id');
-          for (let address of temp_addresses) {
-            this.address.availableAddresses.push(address);
-          }
 
-          this.address.shippingAddress = this.address.availableAddresses[0];
-          this.address.loading = false;
-        }
-      )
-    }
+        this.address.shippingAddress = this.address.availableAddresses[0];
+        this.address.loading = false;
+      }
+    )
   },
 
   methods: {
-    getImageUrl(object) {
+    toggleAddressModal () {
+      this.chooseAddress = true
+    },
+
+    confirmCustomAddress () {
+      this.addDefaultAddress = false
+      this.addCustomAddress = true
+      this.chooseAddress = false
+    },
+
+    confirmDefaultAddress () {
+      this.addDefaultAddress = true
+      this.addCustomAddress = false
+      this.chooseAddress = false
+    },
+
+    getImageUrl (object) {
       if (object.hasOwnProperty('images')) {
         if (object.images.length > 0) {
           return process.env.URL_API + '/images/' + object.images[0].id
@@ -105,12 +133,16 @@ export default {
       }
     },
 
-    goOrderDevicePage() {
+    goOrderDevicePage () {
       // this.$store.dispatch('placeOrder/setCurrentView', 'select_device')
-      this.$router.push({ path: '/orders/new/device' })
+      this.$router.push({path: '/orders/new/device'})
     },
 
-    changeShippingAddress() {
+    goBackPage () {
+      this.$router.go(-1)
+    },
+
+    changeShippingAddress () {
       this.address.changeAddress = !this.address.changeAddress
     },
 
@@ -118,8 +150,21 @@ export default {
       return `${address} - ${city} - ${country}`
     },
 
-    submitOrder() {
-      let app = this
+    submitOrder () {
+      if (this.addCustomAddress) {
+        let _address = AddressesPresenter.toJSON(this.customAddress)
+        addressAPI.create(_address, (res) => {
+          // console.log('order.new.review submitOrder', res)
+          this.address.shippingAddress = store.sync(res.data)
+          this.placeOrder()
+        }, () => {
+        })
+      } else {
+        this.placeOrder()
+      }
+    },
+
+    placeOrder () {
       let orderTypes = {
         New: 'NewLineOfService',
         Upgrade: 'UpgradeDevice',
@@ -159,9 +204,15 @@ export default {
         this.orderData.data.attributes.serviceImei = this.typedServiceInfo.IMEI;
         this.orderData.data.attributes.servicePhoneNo = this.typedServiceInfo.PhoneNo;
         this.orderData.data.attributes.serviceSim = this.typedServiceInfo.Sim;
+
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       } else {
         this.orderData.data.attributes.packageId = this.selectedPackage;
         this.orderData.data.attributes.serviceId = this.selectedService.id;
+      }
+
+      if (this.orderType == 'Accessory') {
+        this.orderData.data.attributes.packageId = this.selectedPackage;
       }
 
       if (this.selectedNeedDevice == 'No' || (this.selectedNeedDevice == 'Yes' && this.selectedDeviceType == 'own')) {
@@ -195,7 +246,7 @@ export default {
     payByCredit() {
       let app = this;
 
-      if(!app.card.checking) {
+      if (!app.card.checking) {
         app.card.checking = true;
         app.card.status = true;
 
@@ -207,7 +258,7 @@ export default {
         }, function(status, response) {
           app.card.checking = false;
 
-          if(response.error) {
+          if (response.error) {
             app.card.status = false;
           } else {
             let token = response.id;
@@ -220,6 +271,7 @@ export default {
     },
 
     requestOrder() {
+      let app = this
       this.$store.dispatch('placeOrder/createOrder', this.orderData).then(
         res => {
           this.orderFinished = true;

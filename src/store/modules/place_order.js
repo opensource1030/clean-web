@@ -1,11 +1,9 @@
-import _ from 'lodash';
-import packageAPI from './../../api/package-api'
-import deviceAPI from './../../api/device-api'
-import orderAPI from './../../api/order-api'
-import employeeAPI from './../../api/employee-api'
-import * as types from './../mutation-types'
+import packageAPI from "./../../api/package-api";
+import orderAPI from "./../../api/order-api";
+import employeeAPI from "./../../api/employee-api";
+import * as types from "./../mutation-types";
 
-const { Store } = require('yayson')()
+const {Store} = require('yayson')()
 const store = new Store()
 
 // initial state
@@ -155,7 +153,7 @@ const actions = {
 
       for (let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
@@ -201,9 +199,9 @@ const actions = {
         }
       }
 
-      for(let packageId of state.userPackages) {
+      for (let packageId of state.userPackages) {
         promiseArray.push(new Promise((resolve, reject) => {
-          packageAPI.getOne (packageId, _params, res => resolve(res), err => reject(err))
+          packageAPI.getOne(packageId, _params, res => resolve(res), err => reject(err))
         }))
       }
 
@@ -223,7 +221,7 @@ const actions = {
     })
   },
 
-  getUserConditions ({ dispatch, commit, state, rootState}) {
+  getUserConditions ({dispatch, commit, state, rootState}) {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -251,11 +249,11 @@ const actions = {
     })
   },
 
-  setCurrentOrderType({ commit }, type) {
+  setCurrentOrderType({commit}, type) {
     commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
   },
 
-  setCurrentView({ commit }, view) {
+  setCurrentView({commit}, view) {
     commit(types.PLACE_ORDER_SET_VIEW, view)
   },
 
@@ -299,7 +297,7 @@ const actions = {
     commit(types.PLACE_ORDER_SET_SERVICEINFO, serviceInfo)
   },
 
-  setAllocation({ commit }, allocation) {
+  setAllocation({commit}, allocation) {
     commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
   },
 }

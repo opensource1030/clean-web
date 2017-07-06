@@ -54,7 +54,121 @@
       </div>
     </modal>
 
-    <placeOrderWizard :activeStep="3"></placeOrderWizard>
+    <modal class="submit-order-pay address-modal" v-if="chooseAddress">
+      <div slot="header" class="credit-mark">
+        <i class="fa fa-map-marker"></i>
+      </div>
+      <div slot="body" class="text-left">
+        <h4 class="category-title text-center">Shipping Details</h4>
+        <div class="mgbtm-1 clearfix"></div>
+        <div class="row">
+          <div class="columns small-12 large-5">
+            <div class="row expanded">
+              <div class="columns small-12">
+                <strong>Select an Address </strong>
+                <multiselect
+                        v-model="address.shippingAddress"
+                        placeholder="Select a Address"
+                        :searchable="false"
+                        :custom-label="customLabel"
+                        :options="address.availableAddresses"
+                        :show-labels="true">
+                </multiselect>
+                <hr/>
+              </div>
+            </div>
+            <div class="row expanded review-shipping">
+              <div class="columns small-12 medium-6 large-6">
+                <p>
+                  <span class="bold">Address</span> : {{this.address.shippingAddress.address}}
+                </p>
+                <p>
+                  <span class="bold">City</span> : {{this.address.shippingAddress.city}}
+                </p>
+                <p>
+                  <span class="bold">Postal</span> : {{this.address.shippingAddress.postalCode}}
+                </p>
+              </div>
+              <div class="columns small-12 medium-6 large-6">
+                <p>
+                  <span class="bold">State</span> : {{this.address.shippingAddress.state}}
+                </p>
+                <p>
+                  <span class="bold">Country</span> : {{this.address.shippingAddress.country}}
+                </p>
+
+              </div>
+              <div class="mgbtm-1 clearfix"></div>
+              <div class="columns small-12 ">
+                <button class="button button-primary expanded" @click="confirmDefaultAddress"> Use this address</button>
+              </div>
+            </div>
+          </div>
+          <div class="columns small-12 large-1">
+            <div class="text-center or"><strong>-OR-</strong></div>
+          </div>
+          <div class="columns small-12 large-6">
+            <div>
+              <div class="row">
+                <div class="columns small-12">
+                  <strong> Complete the form below </strong>
+                </div>
+                <div class="clearfix"></div>
+                <div class="small-6 columns">
+                  <label>Name
+                    <input type="text" placeholder="" v-model="customAddress.name">
+                  </label>
+                </div>
+                <div class="small-6 columns">
+                  <label>Address
+                    <input type="text" placeholder="" v-model="customAddress.address">
+                  </label>
+                </div>
+              </div>
+              <div class="small-6 columns">
+                <label>Attn.
+                  <input type="text" placeholder="" v-model="customAddress.attn">
+                </label>
+              </div>
+              <div class="small-3 columns">
+                <label>City
+                  <input type="text" placeholder="" v-model="customAddress.city">
+                </label>
+              </div>
+              <div class="small-3 columns">
+                <label>State
+                  <input type="text" placeholder="" v-model="customAddress.state">
+                </label>
+              </div>
+              <div class="small-6 columns">
+                <label>Phone
+                  <input type="text" placeholder="" v-model="customAddress.phone">
+                </label>
+              </div>
+              <div class="small-3 columns">
+                <label>Country
+                  <input type="text" placeholder="" v-model="customAddress.country">
+                </label>
+              </div>
+              <div class="small-3 columns">
+                <label>Postal Code
+                  <input type="text" placeholder="" v-model="customAddress.postalCode">
+                </label>
+              </div>
+              <div class="columns small-12">
+                <button class="button button-primary expanded" :disabled="isDisabled" @click="confirmCustomAddress">
+                  Use custom address
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
+
+    <placeOrderWizard :activeStep="3"
+                      :step2Name="orderType == 'Accessory' ? 'Select Accessories' : 'Select Device'"></placeOrderWizard>
+
     <div class="row expanded m-b-20" v-if="orderType != 'Accessory'">
       <div class="columns small-12 large-6 black review-device">
         <p class="section-title">Device Info</p>
@@ -132,23 +246,12 @@
         </div>
         <div class="row expanded" v-else>
           <p class="section-title">Shipping Info
-            <a class="black pull-right" @click="changeShippingAddress">
+            <!--<a class="black pull-right" @click="changeShippingAddress">
               <i class="fa fa-pencil-square-o" :class="{ 'fa-pencil-square-o': !address.changeAddress, 'fa-check-square-o': address.changeAddress }"></i>
-            </a>
+            </a>-->
+            <button class="button button-primary pull-right small" @click="toggleAddressModal">Add</button>
           </p>
-          <div class="row expanded" v-if="address.changeAddress">
-            <div class="columns small-12">
-              <multiselect
-                  v-model="address.shippingAddress"
-                  placeholder="Select a Address"
-                  :searchable="false"
-                  :custom-label="customLabel"
-                  :options="address.availableAddresses"
-                  :show-labels="false">
-              </multiselect>
-            </div>
-          </div>
-          <div class="row expanded review-shipping" v-else>
+          <div class="row expanded review-shipping" v-if="addDefaultAddress">
             <div class="columns small-12 medium-6 large-6">
               <p>
                 <span class="bold">Address</span> : {{this.address.shippingAddress.address}}
@@ -169,16 +272,48 @@
               </p>
             </div>
           </div>
+          <div class="row expanded review-shipping" v-if="addCustomAddress">
+            <div class="columns small-12 medium-6 large-6">
+              <p>
+                <span class="bold">Name</span> : {{this.customAddress.name}}
+              </p>
+              <p>
+                <span class="bold">Address</span> : {{this.customAddress.address}}
+              </p>
+              <p>
+                <span class="bold">Attn.</span> : {{this.customAddress.attn}}
+              </p>
+              <p>
+                <span class="bold">Phone no.</span> : {{this.customAddress.phone}}
+              </p>
+            </div>
+            <div class="columns small-12 medium-6 large-6">
+              <p>
+                <span class="bold">City</span> : {{this.customAddress.city}}
+              </p>
+              <p>
+                <span class="bold">State</span> : {{this.customAddress.state}}
+              </p>
+              <p>
+                <span class="bold">Country</span> : {{this.customAddress.country}}
+              </p>
+              <p>
+                <span class="bold">Postal Code</span> : {{this.customAddress.postalCode}}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="row expanded">
       <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderDevicePage()">Back</a>
-        <a class="button large btn-orange pull-right" @click="submitOrder()" v-if="!address.changeAddress">Submit</a>
+        <a class="button large btn-primary pull-left" @click="goOrderDevicePage()"> <i class="fa fa-arrow-left"> </i>
+          Back</a>
+        <button class="button large btn-primary pull-right" :disabled="isDisabled" @click="submitOrder()">Submit <i
+                class="fa fa-send"> </i></button>
       </div>
     </div>
   </div>
 </template>
 
-<script  src="./order.new.review.ctrl.js" lang="babel"></script>
+<script src="./order.new.review.ctrl.js" lang="babel"></script>

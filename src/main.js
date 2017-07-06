@@ -11,7 +11,6 @@ import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
 
 import "./../node_modules/slicknav/dist/jquery.slicknav.js";
 import "./../node_modules/stacktable.js/stacktable.js";
-
 // stylesheets
 import "./styles/app.scss";
 import "./../node_modules/font-awesome/scss/font-awesome.scss";
@@ -63,7 +62,7 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
 // install plugins
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
-Vue.use(VueCharts);
+Vue.use(VueCharts)
 
 const gaId = 'UA-42900219-2'
 Vue.use(VueAnalytics, {gaId, router});

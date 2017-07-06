@@ -29,7 +29,6 @@ export default {
   computed: {
     ...mapGetters({
       selectedKeepService: 'placeOrder/getSelectedKeepService',
-      allPackages_loading: 'placeOrder/getPackagesLoadingState',
       selectedNeedDevice: 'placeOrder/getSelectedNeedDevice',
       selectedDeviceType: 'placeOrder/getSelectedDeviceType',
       typedDeviceInfo: 'placeOrder/getTypedDeviceInfo',
@@ -38,84 +37,30 @@ export default {
       selectedStyle: 'placeOrder/getSelectedStyle',
       selectedAccessories: 'placeOrder/getSelectedAccessories'
     }),
-
-    isDisabled () {
-      // (activeDevice.device && needDevice == 'Yes' && deviceType != 'own') || (((needDevice == 'Yes' && deviceType == 'own') || needDevice == 'No') && deviceInfo.IMEI && deviceInfo.Carrier && deviceInfo.Sim) || (orderType == 'Accessory' && accessoryStatus)
-      if (this.activeDevice.device !== undefined && this.needDevice == 'Yes' && this.deviceType != 'own') {
-        return false
-      }
-      else if (this.needDevice == 'No' && this.deviceInfo.IMEI !== '' && this.deviceInfo.Carrier !== '' && this.deviceInfo.Sim !== '') {
-        return false
-      }
-      else if (this.deviceType == 'own' && this.deviceInfo.IMEI !== '' && this.deviceInfo.Carrier !== '' && this.deviceInfo.Sim !== '') {
-        return false
-      }
-      return true
-    }
   },
 
   created () {
-    // this.orderType = this.$route.meta.label
     this.orderType = this.$store.state.placeOrder.currentOrderType
     this.needDevice = this.selectedNeedDevice
     this.deviceType = this.selectedDeviceType
     this.deviceInfo = $.extend(true, {}, this.typedDeviceInfo)
 
     switch (this.orderType) {
-      case 'New':
-        this.$store.dispatch('placeOrder/getPackageDevices').then(
-          res => {
-            // console.log('new', res)
-            this.alignDevicesandModifications(res.devicevariations)
-            if (this.devices.length == 1) {
-              // console.log('order.new.device res', this.devices[0].device)
-              this.$store.dispatch('placeOrder/setNeedDevice', 'Yes')
-              this.$store.dispatch('placeOrder/setDeviceType', 'subsided')
-              this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device)
-              // for(let modificationKey in this.devices.modifications) {
-              //   if(_.isEqual(this.devices.capacity, this.devices.modifications[modificationKey]))
-              //     this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
-              // }
-              this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0])
-              this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style)
-              this.$router.push({path: '/orders/new/review'})
-            }
-            ;
-          }
-        )
-        break
-      case 'Upgrade':
-      case 'Transfer':
-        if (this.selectedKeepService == "Yes") {
-          this.allPackages_loading ? null : this.getAllDevices()
-        } else {
-          this.$store.dispatch('placeOrder/getPackageDevices').then(
-            res => {
-              this.alignDevicesandModifications(res.devicevariations)
-            }
-          )
-        }
-        break
       case 'Accessory':
-        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices()
+        this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(res => {
+          if (res.length > 0) {
+            this.$store.dispatch('placeOrder/getPackageServices', res[0].id).then(res => {
+              this.getAllDevices()
+            })
+          } else {
+            this.$store.dispatch('error/new', { message: 'You don\'t have any pacakges'})
+          }
+        })
         break
     }
   },
 
   methods: {
-    selectDevice (deviceIndex, capacity, styleIndex) {
-      this.activeDevice = this.devices[deviceIndex];
-
-      if (capacity) {
-        this.activeDevice.capacity = this.activeDevice.modifications[capacity]
-        this.activeDevice.style = this.activeDevice.capacity[0]
-      }
-
-      if (styleIndex) {
-        this.activeDevice.style = this.activeDevice.capacity[styleIndex - 1]
-      }
-    },
-
     selectAccessory (accessoryIndex) {
       let temp = $.extend(true, [], this.accessories)
 
@@ -147,7 +92,7 @@ export default {
       let devices_array = []
       let accessories_array = []
       let activeAccessry = 0
-      for (let deviceId in temp_devices) {
+      for(let deviceId in temp_devices) {
         let newObj = {
           device: temp_devices[deviceId][0].devices[0],
           variations: _.uniqBy(temp_devices[deviceId], 'id'),
@@ -217,16 +162,9 @@ export default {
 
     goOrderPages (value) {
       switch (value) {
-        case 'package':
-          // this.$store.dispatch('placeOrder/setCurrentView', 'select_package')
-          this.$router.push({path: '/orders/new/package'})
-          break
         case 'review':
-          // Set Need device
           this.$store.dispatch('placeOrder/setNeedDevice', this.needDevice)
-          // Set Device Type
           this.$store.dispatch('placeOrder/setDeviceType', this.deviceType)
-          // Set Device, Capacity, Style
           this.$store.dispatch('placeOrder/setDeviceSelected', this.activeDevice.device)
 
           for (let modificationKey in this.activeDevice.modifications) {
@@ -234,8 +172,6 @@ export default {
               this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
           }
           this.$store.dispatch('placeOrder/setStyleSelected', this.activeDevice.style)
-
-          // Set Typed DeviceInfo
           this.$store.dispatch('placeOrder/setDeviceInfo', this.deviceInfo)
 
           // Set Accessories
@@ -250,16 +186,6 @@ export default {
           this.$router.push({path: '/orders/new/review'})
           break
       }
-    },
-
-    selectDeviceType (type) {
-      this.deviceType == type ? this.$set(this, 'deviceType', '') : this.$set(this, 'deviceType', type)
-    },
-  },
-
-  watch: {
-    'allPackages_loading': function (newVal, oldVal) {
-      newVal ? null : this.getAllDevices();
     }
-  }
+  },
 }
