@@ -37,7 +37,12 @@ export default {
     let company_id = this.$route.params.id || 0
 
     if (company_id > 0) {
-      companyAPI.get(company_id, { params: { include: 'udls,addresses' } }, res => {
+      let _params = {
+        params: {
+          include: 'udls.udlvalues,addresses'
+        }
+      }
+      companyAPI.get(company_id, _params, res => {
         // console.log('company res', res)
         this.$set(this, 'company', store.sync(res.data))
         // console.log('company', this.company)
@@ -58,7 +63,8 @@ export default {
   methods: {
 
     getUDLValue (udl) {
-      return _.map(udl.sections, (section) => (section.name)).join(spliter)
+      // return _.map(udl.sections, (section) => (section.name)).join(spliter)
+      return _.map(udl.udlvalues, (uv) => (uv.udlValue)).join(spliter)
     },
 
     getCompanyImage () {
