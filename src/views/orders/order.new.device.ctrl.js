@@ -96,9 +96,9 @@ export default {
           )
         }
         break
-      case 'Accessory':
-        this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', localStorage.userId) : this.getAllDevices()
-        break
+      // case 'Accessory':
+      //   this.allPackages_loading ? this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.placeOrder.userId) : this.getAllDevices()
+      //   break
     }
   },
 

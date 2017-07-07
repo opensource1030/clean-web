@@ -1,7 +1,7 @@
-import _ from "lodash";
-import {mapGetters} from "vuex";
-import placeOrderWizard from "./../../components/placeOrderWizard.vue";
-import {DeviceVariationHelper} from "./../../helpers";
+import _ from 'lodash'
+import { mapGetters } from 'vuex'
+import placeOrderWizard from './../../components/placeOrderWizard.vue'
+import { DeviceVariationHelper } from './../../helpers'
 
 export default {
   components: {
@@ -47,7 +47,7 @@ export default {
 
     switch (this.orderType) {
       case 'Accessory':
-        this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(res => {
+        this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.placeOrder.userId).then(res => {
           if (res.length > 0) {
             this.$store.dispatch('placeOrder/getPackageServices', res[0].id).then(res => {
               this.getAllDevices()

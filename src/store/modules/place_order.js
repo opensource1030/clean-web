@@ -11,6 +11,7 @@ const state = {
   currentOrderType: 'New',
   currentView: 'select_package',
   selectedKeepService: 'Yes',
+  userId: 0,
   userPackages: [],
   selectedPackage: '',
   selectedService: '',
@@ -229,7 +230,8 @@ const actions = {
         }
       }
 
-      employeeAPI.get(rootState.auth.userId, _params, res => {
+      // employeeAPI.get(rootState.auth.userId, _params, res => {
+      employeeAPI.get(state.userId, _params, res => {
         let result = store.sync(res.data)
         resolve(result)
       }, err => {
@@ -255,6 +257,10 @@ const actions = {
 
   setCurrentView({commit}, view) {
     commit(types.PLACE_ORDER_SET_VIEW, view)
+  },
+
+  setUserId({ commit }, userId) {
+    commit(types.PLACE_ORDER_SET_USER_ID, userId)
   },
 
   setServiceSelected({ commit }, service) {
@@ -310,6 +316,10 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_ORDER_TYPE] (state, type) {
     state.currentOrderType = type
+  },
+
+  [types.PLACE_ORDER_SET_USER_ID] (state, userId) {
+    state.userId = userId
   },
 
   [types.PLACE_ORDER_SET_PACKAGELIST] (state, packages) {
