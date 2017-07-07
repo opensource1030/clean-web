@@ -37,6 +37,7 @@
         <div class="columns small-8">
           <multiselect
               id="ajax"
+
               v-model="selectedEmployee"
               placeholder="Employee Name - Email"
               track-by="id"
@@ -50,6 +51,10 @@
               :close-on-select="true"
               :clear-on-select="false"
               :hide-selected="false">
+            <span slot="noResult" style="dispay: block;">
+              No users found.
+              <router-link to='/employees/new' style="width: auto; float: right;">Create User</router-link>
+            </span>
           </multiselect>
         </div>
       </div>
