@@ -38,7 +38,7 @@ const actions = {
       let _params = {
         params: {
           page: state.pagination.current_page,
-          include: 'udls,udls.udlvalues,addresses',
+          include: 'udls.udlvalues,addresses',
         }
       }
 
