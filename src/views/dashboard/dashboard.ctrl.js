@@ -121,6 +121,7 @@ export default {
       if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
         this.startedOrder = true
       } else {
+        this.$store.dispatch('placeOrder/setUserId', this.$store.state.auth.userId)
         this.beginOrder()
       }
     },
