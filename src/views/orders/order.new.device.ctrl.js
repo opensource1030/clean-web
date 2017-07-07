@@ -68,19 +68,9 @@ export default {
             // console.log('new', res)
             this.alignDevicesandModifications(res.devicevariations)
             if (this.devices.length == 1) {
-              // console.log('order.new.device res', this.devices[0].device)
-              this.$store.dispatch('placeOrder/setNeedDevice', 'Yes')
-              this.$store.dispatch('placeOrder/setDeviceType', 'subsided')
-              this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device)
-              // for(let modificationKey in this.devices.modifications) {
-              //   if(_.isEqual(this.devices.capacity, this.devices.modifications[modificationKey]))
-              //     this.$store.dispatch('placeOrder/setCapacitySelected', modificationKey)
-              // }
-              this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0])
-              this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style)
-              this.$router.push({path: '/orders/new/review'})
+              this.singleDevice();
             }
-            ;
+
           }
         )
         break
@@ -92,6 +82,9 @@ export default {
           this.$store.dispatch('placeOrder/getPackageDevices').then(
             res => {
               this.alignDevicesandModifications(res.devicevariations)
+              if (this.devices.length == 1) {
+                this.singleDevice();
+              }
             }
           )
         }
@@ -103,6 +96,14 @@ export default {
   },
 
   methods: {
+    singleDevice (){
+      this.$store.dispatch('placeOrder/setNeedDevice', 'Yes')
+      this.$store.dispatch('placeOrder/setDeviceType', 'subsided')
+      this.$store.dispatch('placeOrder/setDeviceSelected', this.devices[0].device)
+      this.$store.dispatch('placeOrder/setCapacitySelected', this.devices[0].capacity[0])
+      this.$store.dispatch('placeOrder/setStyleSelected', this.devices[0].style)
+      this.$router.push({path: '/orders/new/review'})
+    },
     selectDevice (deviceIndex, capacity, styleIndex) {
       this.activeDevice = this.devices[deviceIndex];
 
