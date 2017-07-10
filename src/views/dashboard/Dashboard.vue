@@ -1,5 +1,7 @@
 <template>
   <div id="dashboard">
+    <order-new-select-user v-if="startedOrder" :next="beginOrder" :cancel="cancelOrder"></order-new-select-user>
+
     <!-- <div>{{ $store.state.scope_token.records }}</div> -->
     <div class="row expanded">
       <div class="columns small-12">
@@ -226,7 +228,7 @@
                 <p class="ft-13 italic bold black">headphones, chargers, bags</p>
               </div>
               <div class="columns small-12 text-center">
-                <a class="button large m-t-25" :disabled="selectedOrder == ''" @click="placeOrder()">Begin Order</a>
+                <button class="button large m-t-25" :disabled="disabledBeginOrder" @click="placeOrder()">Begin Order</button>
               </div>
             </div>
           </div>

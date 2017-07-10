@@ -52,7 +52,8 @@ export default {
   },
 
   created () {
-    this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(
+    // this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.auth.userId).then(
+    this.$store.dispatch('placeOrder/getUserPackages', this.$store.state.placeOrder.userId).then(
       res => {
         if (res) {
           this.packages.availablePackages = res
@@ -155,6 +156,7 @@ export default {
         res => {
           if (this.services.availableServices.length == 1) {
             this.keepService = 'No'
+            this.services.activeService = this.services.availableServices[0];
             this.goDevicePage()
           }
         }
