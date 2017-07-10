@@ -1,9 +1,10 @@
-import _ from "lodash";
-import modal from "./../../components/modal.vue";
-import employeeAPI from "./../../api/employee-api.js";
-import {mapGetters} from "vuex";
-import {EmployeesPresenter} from "./../../presenters";
-import {EmployeeHelper, Utils} from "./../../helpers";
+import _ from 'lodash'
+import modal from './../../components/modal.vue'
+import employeeAPI from './../../api/employee-api.js'
+import addressAPI from './../../api/address-api.js'
+import { mapGetters } from 'vuex'
+import { EmployeesPresenter, AddressesPresenter } from './../../presenters'
+import { EmployeeHelper, Utils } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -47,16 +48,17 @@ export default {
     }
   },
 
-  beforeCreate () {
-    // this.$store.dispatch('company/searchByActive', { query: 1 })
-  },
-
   created () {
     const employee_id = this.$route.params.id || 0
 
     this.$store.dispatch('company/searchByActive', { query: 1 }).then(res => {
       if (employee_id > 0) {
-        employeeAPI.get(employee_id, { params: { include: 'udlvalues,companies,companies.udls,companies.udls.udlvalues,companies.addresses' } }, res => {
+        let _params = {
+          params: {
+            include: 'udlvalues,addresses,companies.udls.udlvalues'
+          }
+        }
+        employeeAPI.get(employee_id, _params, res => {
           this.$set(this, 'employee', store.sync(res.data))
           // this.$set(this, 'activeCompany', (this.employee.companies.length > 0 && !!this.employee.companies[0] ? this.employee.companies[0] : null))
           // console.log('employee', this.employee)
@@ -85,6 +87,10 @@ export default {
           this.initUdlValues()
         }
       }
+
+      if (Utils.isEmptyArray(this.employee.addresses)) {
+        this.employee.addresses = [{}]
+      }
     },
 
     initUdlValues () {
@@ -112,6 +118,34 @@ export default {
       this.$forceUpdate()
     },
 
+    submitEmployee () {
+      let _jsonData = EmployeesPresenter.toJSON(this.employee)
+      delete _jsonData['included']
+      delete _jsonData['data']['attributes']['companies']
+      delete _jsonData['data']['attributes']['addresses']
+      if (process.env.NODE_ENV === 'testing') {
+        _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
+      }
+      // console.log(_jsonData)
+
+      let _params = JSON.stringify(_jsonData)
+      console.log(_params)
+
+      if (this.employee_id > 0) {
+        employeeAPI.update(this.employee.id, _params, res => {
+          this.$router.push({path: '/employees/review/' + this.employee.id}), err => console.log('update err', err)
+        })
+      } else {
+        employeeAPI.create(_params, res => {
+          this.$store.dispatch('employee/searchByEmail', {query: this.employee.email});
+
+          let employee_id = res.data.data.id;
+          console.log(employee_id);
+          this.$router.push({path: '/employees/review/' + employee_id})
+        }, err => console.log('update err', err))
+      }
+    },
+
     submit () {
       // validation
       if (!this.employee.email) {
@@ -134,29 +168,22 @@ export default {
         return
       }
 
-      let _jsonData = EmployeesPresenter.toJSON(this.employee)
-      delete _jsonData['included']
-      delete _jsonData['data']['attributes']['companies']
-      if (process.env.NODE_ENV === 'testing') {
-        _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
-      }
-      console.log(_jsonData)
-
-      let _params = JSON.stringify(_jsonData)
-      console.log(_params)
-
-      if (this.employee_id > 0) {
-        employeeAPI.update(this.employee.id, _params, res => {
-          this.$router.push({path: '/employees/review/' + this.employee.id}), err => console.log('update err', err)
-        })
+      let _address = AddressesPresenter.toJSON(_.extend({}, this.employee.addresses[0]))
+      let addressId = parseInt(_.get(this.employee, 'addresses[0].id', 0))
+      if (addressId > 0) {
+        addressAPI.update(addressId, _address, (res) => {
+          let address = store.sync(res)
+          this.employee.addresses[0] = address
+          console.log(address)
+          this.submitEmployee()
+        }, () => {})
       } else {
-        employeeAPI.create(_params, res => {
-          this.$store.dispatch('employee/searchByEmail', {query: this.employee.email});
-
-          let employee_id = res.data.data.id;
-          console.log(employee_id);
-          this.$router.push({path: '/employees/review/' + employee_id})
-        }, err => console.log('update err', err))
+        addressAPI.create(_address, (res) => {
+          let address = store.sync(res)
+          this.employee.addresses[0] = address
+          console.log(address)
+          this.submitEmployee()
+        }, () => {})
       }
     },
   }
