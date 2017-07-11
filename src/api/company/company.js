@@ -9,6 +9,7 @@ var store = new Store();
 
 export default {
   updateCompany(id, context, customFields, company) {
+    debugger;
     let companyObj = new Company('companies', company.id, company.name, company.label, company.active, company.isCensus, company.logo);
     companyObj.customFieldsJson(customFields, companyObj);
 

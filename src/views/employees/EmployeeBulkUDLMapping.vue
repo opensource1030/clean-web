@@ -1,7 +1,7 @@
 <template>
   <div>
     <bulkUserStepWizard :activeStep="2"></bulkUserStepWizard>
-    <div class="page employee-page employee-bulk-add-page">
+    <div class="page employee-page employee-bulk-udlmapping-page">
       <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
         <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
       </modal>
@@ -20,37 +20,26 @@
             </div>
 
             <div class="row extend">
-              <div class="columns medium-4 small-12">
-                <h4>DB Fields</h4>
-              </div>
-              <div class="columns medium-4 small-12">
-                <h4>CSV Fields</h4>
-              </div>
-              <div class="columns medium-4 small-12">
-                <h4>Sample User</h4>
-              </div>
-            </div>
-            <div class="row extend" v-for="(item, index) in db_fields">
-              <div class="columns medium-4 small-12">
-                <multiselect
-                        v-model="db_matched_fields[index]"
-                        placeholder="Choose a Field"
-                        :options="db_options"
-                        :multiple="false"
-                        :searchable="false">
-                </multiselect>
-              </div>
-              <div class="columns medium-4 small-12">
-                <multiselect
-                        v-model="csv_matched_fields[index]"
-                        placeholder="Choose a Field"
-                        :options="csv_options"
-                        :multiple="false"
-                        :searchable="false">
-                </multiselect>
-              </div>
-              <div class="columns medium-4 small-12">
-                <input type="text" :placeholder="csv_matched_fields[index]" v-model="sample_user[csv_matched_fields[index]]">
+              <div class="row addlist  udl-wrapper" v-for="(udl, index) in udl_list">
+                <input type="hidden" name="udl-id" :value="index">
+                <div class="columns medium-4">
+                  <label>
+                    <span>Label</span>
+                    <input type="text" name="udl-key" placeholder="A Department or Group" v-model="udl.name">
+                  </label>
+                </div>
+                <div class="columns medium-8">
+                  <div class="udl-value-wrapper" :data-index="index">
+                    <label>
+                      <span>Value</span>
+                      <input type="text" disabled name="udl-value" class="tag-input" :id="'udl-value-' + index" :value="udl.values" :data-index="index">
+                    </label>
+                  </div>
+                </div>
+
+                <div class="btn-control">
+                  <a class="button delete" v-on:click="removeUDL(index)"><i class="fa fa-close"></i></a>
+                </div>
               </div>
             </div>
           </div>
@@ -65,4 +54,4 @@
   </div>
 </template>
 
-<script src="./employee.bulk.add.ctrl.js" lang="babel"></script>
+<script src="./employee.bulk.udlmapping.ctrl.js" lang="babel"></script>
