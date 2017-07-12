@@ -49,7 +49,7 @@
       <div class="columns small-12" v-if="needDevice == 'No' || deviceType == 'own'">
         <div class="row expanded m-t-10">
           <div class="columns small-12">
-            <div class="row expanded">
+            <div class="row expanded border-bottom">
               <div class="small-1 columns height-10"></div>
               <div class="small-10 columns">
                 <h4 class="category-title">Device Info</h4>
@@ -76,7 +76,7 @@
         <div class="is-relative" v-if="device_loading">
           <div class="is-loading"></div>
         </div>
-        <div class="row expanded border-bottom" v-else>
+        <div class="row expanded border-bottom " v-else>
           <div class="row expanded" v-if="devices.length">
             <div class="columns small-12 large-9 p-r-5s" v-if="orderType != 'Accessory'">
               <div class="m-b-20" v-for="(device, d_index) in devices" @click="selectDevice(d_index, 0, 0)" >
@@ -134,7 +134,7 @@
 
 
     <div class="row expanded">
-      <div class="columns small-12">
+      <div class="columns small-12 p-t-20">
         <button class="button large btn-primary pull-left" @click="goOrderPages('package')"
                 v-if="orderType != 'Accessory'"><i class="fa fa-arrow-left"> </i> Back
         </button>

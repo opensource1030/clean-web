@@ -1,7 +1,7 @@
 import _ from "lodash";
 import authAPI from "./../../api/auth-api";
 import * as types from "./../mutation-types";
-import {Log} from "./../../helpers";
+import { Log, Utils } from "./../../helpers";
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -28,11 +28,20 @@ const actions = {
         // Log.put('scope_token/get stored', name, token)
         resolve(token)
       } else {
-        dispatch('update', name).then(res => {
-          token = _.get(state.records, name, null)
-          // Log.put('scope_token/get new', name, token)
-          resolve(token)
-        }, err => reject(err))
+        dispatch('update', name).then(
+          res => {
+            token = _.get(state.records, name, null)
+            // Log.put('scope_token/get new', name, token)
+            resolve(token)
+          },
+          err => {
+            dispatch('auth/logout', {}, { root: true }).then(res => {
+              console.log('scope_token force logout ...', this.$router)
+              reject(err)
+            })
+            // reject(err)
+          }
+        )
       }
     })
   },
@@ -43,8 +52,13 @@ const actions = {
         name: name,
         scopes: [name]
       }, res => {
-        commit(types.SCOPE_TOKEN_UPDATE, {name: name, record: res.body})
-        resolve(res.body)
+        if (res.status == 200) {
+          commit(types.SCOPE_TOKEN_UPDATE, { name: name, record: res.body })
+          resolve(res.body)
+        } else {
+          Log.put('scope_token/update res', res)
+          reject(res)
+        }
       }, err => {
         Log.put('scope_token/update err', err)
         reject(err)

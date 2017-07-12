@@ -3,7 +3,7 @@
     <placeOrderWizard :activeStep="2" :step2Name="'Select Accessories'"></placeOrderWizard>
 
     <div class="row expanded m-b-20">
-      <div class="columns small-12">
+      <div class="columns small-12 border-bottom">
         <div class="is-relative" v-if="device_loading">
           <div class="is-loading"></div>
         </div>
@@ -38,11 +38,10 @@
     </div>
 
     <div class="row expanded">
-      <div class="columns small-12 p-t-20">
-        <a class="button large btn-orange pull-left" @click="goOrderPages('package')" v-if="orderType != 'Accessory'">Back</a>
-        <a class="button large btn-orange pull-right" @click="goOrderPages('review')"
+      <div class="columns small-12 ">
+        <a class="button large btn-primary pull-right" @click="goOrderPages('review')"
            v-if="(orderType == 'Accessory' && accessoryStatus)">
-          Next
+          Next <i class="fa fa-arrow-right"> </i>
         </a>
       </div>
     </div>

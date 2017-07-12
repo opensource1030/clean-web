@@ -1,11 +1,12 @@
-import _ from "lodash";
-import supportRequest from "./../../components/support-request";
-import PieChart from "./Piechart.vue";
-import TrendChart from "./Trendchart.vue";
-import employeeAPI from "./../../api/employee-api";
-import {Log} from "./../../helpers";
+import _ from 'lodash'
+import supportRequest from './../../components/support-request'
+import PieChart from './Piechart.vue'
+import TrendChart from './Trendchart.vue'
+import OrderNewSelectUser from './../../views/orders/OrderNewUser.vue'
+import employeeAPI from './../../api/employee-api'
+import { Log } from './../../helpers'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 export default {
@@ -13,7 +14,8 @@ export default {
 
   components: {
     PieChart,
-    TrendChart
+    TrendChart,
+    OrderNewSelectUser,
   },
 
   data () {
@@ -26,14 +28,19 @@ export default {
         data: {},
         loading: true
       },
+      startedOrder: false,
       selectedOrder: '',
-      activeAllocationIndex: 0
+      activeAllocationIndex: 0,
     }
   },
 
   computed: {
     _ () {
       return _
+    },
+
+    disabledBeginOrder () {
+      return this.selectedOrder == '' ? 'disabled' : false
     }
   },
 
@@ -105,14 +112,21 @@ export default {
     },
 
     upgradeDevice () {
-      let allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
-      console.log('dashboard deviceInfo', allocation)
-      this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
-      this.$store.dispatch('placeOrder/setAllocation', allocation)
-      this.$router.push({path: '/orders/new/package'})
+      this.selectedOrder = 'upgrade'
+      this.placeOrder()
     },
 
     placeOrder () {
+      // console.log('dashboard/placeOrder role', _.get(this.$store.state.auth.profile, 'roles[0].name', ''))
+      if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
+        this.startedOrder = true
+      } else {
+        this.$store.dispatch('placeOrder/setUserId', this.$store.state.auth.userId)
+        this.beginOrder()
+      }
+    },
+
+    beginOrder () {
       // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
       let path = ''
       switch (this.selectedOrder) {
@@ -129,10 +143,21 @@ export default {
           path = '/orders/new/accessories'
           this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
           break
+        case 'upgrade':
+          let allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
+          // console.log('dashboard deviceInfo', allocation)
+          this.$store.dispatch('placeOrder/setAllocation', allocation)
+          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
+          path = '/orders/new/package'
+          break
         default:
           return
       }
       this.$router.push({path: path})
+    },
+
+    cancelOrder () {
+      this.startedOrder = false
     }
   }
 }

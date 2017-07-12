@@ -107,7 +107,7 @@
 
 #placeorder {
   background-color: #FFF;
-  padding: 20px 15px;
+  padding: 20px 15px 10px;
 
   .asterisk {
     color: red;
@@ -562,5 +562,11 @@
 .address-modal {
   .or {
     margin-top: 5rem;
+  }
+}
+
+.modal-mask.behalf-modal {
+  .modal-body {
+    text-align: left;
   }
 }

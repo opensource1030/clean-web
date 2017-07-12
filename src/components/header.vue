@@ -106,7 +106,7 @@
         }
 
         function logOut() {
-          localStorage.clear('Token');
+          localStorage.clear('token');
           location.reload();
         }
 

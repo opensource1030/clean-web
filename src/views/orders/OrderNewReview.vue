@@ -115,48 +115,49 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="small-6 columns">
-                  <label>Name
+                  <label><strong>Name<span class="asterisk bold">*</span> </strong>
                     <input type="text" placeholder="" v-model="customAddress.name">
                   </label>
                 </div>
                 <div class="small-6 columns">
-                  <label>Address
+                  <label><strong>Address<span class="asterisk bold">*</span> </strong>
                     <input type="text" placeholder="" v-model="customAddress.address">
                   </label>
                 </div>
               </div>
               <div class="small-6 columns">
-                <label>Attn.
+                <label><strong>Attn.</strong>
                   <input type="text" placeholder="" v-model="customAddress.attn">
                 </label>
               </div>
               <div class="small-3 columns">
-                <label>City
+                <label><strong>City<span class="asterisk bold">*</span></strong>
                   <input type="text" placeholder="" v-model="customAddress.city">
                 </label>
               </div>
               <div class="small-3 columns">
-                <label>State
+                <label><strong>State<span class="asterisk bold">*</span></strong>
                   <input type="text" placeholder="" v-model="customAddress.state">
                 </label>
               </div>
               <div class="small-6 columns">
-                <label>Phone
+                <label><strong>Phone</strong>
                   <input type="text" placeholder="" v-model="customAddress.phone">
                 </label>
               </div>
               <div class="small-3 columns">
-                <label>Country
+                <label><strong>Country<span class="asterisk bold">*</span></strong>
                   <input type="text" placeholder="" v-model="customAddress.country">
                 </label>
               </div>
               <div class="small-3 columns">
-                <label>Postal Code
+                <label><strong>Postal Code<span class="asterisk bold">*</span> </strong>
                   <input type="text" placeholder="" v-model="customAddress.postalCode">
                 </label>
               </div>
               <div class="columns small-12">
-                <button class="button button-primary expanded" :disabled="isDisabled" @click="confirmCustomAddress">
+                <button class="button button-primary expanded" :disabled="isDisabledCustom"
+                        @click="confirmCustomAddress">
                   Use custom address
                 </button>
               </div>
@@ -219,7 +220,7 @@
         </div>
       </div>
     </div>
-    <div class="row expanded black">
+    <div class="row expanded black border-bottom p-b-20 ">
       <div class="columns small-12 large-6">
         <p class="section-title">User Info</p>
         <div class="inline-block pull-left p-r-20 p-l-20">

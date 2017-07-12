@@ -24,7 +24,7 @@ export default {
     })
   },
 
-  beforeCreate () {
+  created () {
     this.$store.dispatch('company/search')
   },
 
@@ -84,7 +84,8 @@ export default {
     },
 
     getUDLValue (udl) {
-      return _.map(udl.sections, (section) => (section.name)).join(spliter)
+      // return _.map(udl.sections, (section) => (section.name)).join(spliter)
+      return _.map(udl.udlvalues, (uv) => (uv.udlValue)).join(spliter)
     },
 
     searchCompanies() {
