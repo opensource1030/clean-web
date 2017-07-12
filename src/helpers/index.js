@@ -1,44 +1,8 @@
-import _ from "lodash";
-import Vue from "vue";
-export {default as ScopeHelper} from './modules/scope'
-export {default as OrderHelper} from './modules/order'
-
-export const Utils = {
-  isEmptyArray (val) {
-    if (val == null || val === void (0) || val.length == 0) {
-      return true
-    } else {
-      return false
-    }
-  },
-
-  isEmptyObject (val) {
-    if (val == null || val === void (0) || val === '' || val === {}) {
-      return true
-    } else {
-      return false
-    }
-  },
-
-  isEmpty (val) {
-    if (val == null || val === void (0) || val === '') {
-      return true
-    } else {
-      return false
-    }
-  },
-
-  parseJsonString (str) {
-    let val
-    try {
-      val = JSON.parse(str);
-    } catch (e) {
-      // console.log('json parse error', e)
-      val = {}
-    }
-    return val
-  }
-}
+import _ from 'lodash'
+import Vue from 'vue'
+export { default as Utils } from './modules/utils'
+export { default as ScopeHelper } from './modules/scope'
+export { default as OrderHelper } from './modules/order'
 
 export const Log = {
   put () {
@@ -128,4 +92,60 @@ export const ModificationHelper = {
       modType: 'style'
     }
   },
+}
+
+export const CompanyHelper = {
+  getMobilitySetting (company) {
+    return _.find(company.globalsettingvalues, (value) => {
+      return value.globalSettingId == 6
+      // return value.globalsettings[0].name == 'mobility_central_login'
+    })
+  },
+
+  newMobilitySetting () {
+    return {
+      type: 'globalsettingvalues',
+      id: 0,
+      name: 'enable',
+      label: 'Enable',
+      value: true,
+      globalSettingId: 6
+    }
+  }
+}
+
+export const PackageHelper = {
+  getPayBySetting (pack) {
+    return _.find(pack.globalsettingvalues, (value) => {
+      return value.globalSettingId == 4
+      // return value.name == 'pay_by_personal_credit_or_debit_card'
+    })
+  },
+
+  newPayBySetting () {
+    return {
+      type: 'globalsettingvalues',
+      id: 0,
+      name: 'enable',
+      label: 'Enable',
+      globalSettingId: 4
+    }
+  },
+
+  getBringOwnSetting (pack) {
+    return _.find(pack.globalsettingvalues, (value) => {
+      return value.globalSettingId == 5
+      // return value.name == 'bring_your_own_device'
+    })
+  },
+
+  newBringOwnSetting () {
+    return {
+      type: 'globalsettingvalues',
+      id: 0,
+      name: 'enable',
+      label: 'Enable',
+      globalSettingId: 5
+    }
+  }
 }

@@ -3,6 +3,7 @@
     <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
       <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
     </modal>
+
     <div class="columns small-12">
       <header class="tag-header">
         <h1 v-if="packageId">Update Package</h1>
@@ -27,6 +28,7 @@
         </div>
       </div>
     </div>
+
     <div class="columns small-12">
       <div class="grid-box package-condition">
         <div class="box-heading">
@@ -49,20 +51,23 @@
                                    :show-labels="false"></multiselect>
                     </label>
                   </div>
+
                   <div class="large-3 small-12 columns" v-if="condition.nameCond">
                     <label>
                       <strong>Condition</strong>
                       <multiselect v-model="condition.condition" placeholder="Select a Condition" :searchable="false"
-                                   :options="condition.conditionOptions" :show-labels="false"></multiselect>
+                                   :options="condition.conditionOptions || []" :show-labels="false"></multiselect>
                     </label>
                   </div>
+
                   <div class="large-4 small-12 columns" v-if="condition.nameCond">
                     <label>
                       <strong>Value</strong>
                       <multiselect v-model="condition.value" placeholder="Select a Value" :searchable="false"
-                                   :options="condition.valueOptions" :show-labels="false"></multiselect>
+                                   :options="condition.valueOptions || []" :show-labels="false"></multiselect>
                     </label>
                   </div>
+
                   <div class="large-2 small-12 columns p-t-25">
                     <a class="button delete m-r-10" @click="deleteCondition(index)" v-show="condition.nameCond">
                       <i class="fa fa-times" aria-hidden="true"></i>
@@ -78,6 +83,39 @@
               <div class="row expanded" v-else>
                 <div class="sub-title">No Available Conditions</div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns small-12">
+      <div class="grid-box package-condition">
+        <div class="box-heading">
+          <h2>Settings</h2>
+        </div>
+        <div class="box-content">
+          <div class="row">
+            <div class="columns small-4">
+              <label>
+                <span>Pay by Personal Credit or Debit Card</span>
+                <div class="switch tiny">
+                  <input class="switch-input" :id="'setting-payby-' + packageId" type="checkbox" :name="'setting-payby-' + packageId">
+                  <label class="switch-paddle" :for="'setting-payby-' + packageId"></label>
+                </div>
+              </label>
+            </div>
+            <div class="columns small-4">
+              <label>
+                <span>Bring Your Own Device</span>
+                <div class="switch tiny">
+                  <input class="switch-input" :id="'setting-bringown-' + packageId" type="checkbox" :name="'setting-bringown-' + packageId">
+                  <label class="switch-paddle" :for="'setting-bringown-' + packageId"></label>
+                </div>
+              </label>
+            </div>
+            <div class="columns small-4">
+              &nbsp;
             </div>
           </div>
         </div>

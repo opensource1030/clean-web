@@ -3,15 +3,18 @@ import { mapGetters, mapActions } from 'vuex'
 import multiselect from 'vue-multiselect'
 import { Carousel, Slide } from 'vue-carousel'
 import swal from 'sweetalert2'
+import { Utils, PackageHelper } from './../../helpers'
 
 export default {
-  name : 'package',
+  name: 'package',
+
   components: {
     modal,
     multiselect,
     Carousel,
     Slide
   },
+
   data () {
     return {
       packageId: 0,
@@ -54,6 +57,7 @@ export default {
       }
     }
   },
+
   created() {
     if (this.$route.params.id) {
       this.packageId = this.$route.params.id;
@@ -70,6 +74,7 @@ export default {
       this.getNecessaryData();
     }
   },
+
   computed: {
     _ () {
       return _
@@ -80,8 +85,9 @@ export default {
       carriers: 'packages/allCarriers'
     }),
   },
-  methods : {
-    getNecessaryData() {
+
+  methods: {
+    getNecessaryData () {
       this.$store.dispatch('packages/getCompanyInfo').then(
         res => {
           // console.log('packages/getCompanyInfo', res)
@@ -162,6 +168,11 @@ export default {
           )
         }
       )
+
+      // package settings
+      // let paybySetting = PackageHelper.getPayBySetting(this.packageData)
+      // let bringownSetting = PackageHelper.getBringOwnSetting(this.packageData)
+      // console.log('Package Setting', paybySetting, bringownSetting, this.packageData.globalsettingvalues)
     },
 
     // CONDITION METHODS
@@ -173,12 +184,14 @@ export default {
         }
       }
     },
+
     deleteCondition(index) {
       this.conditions.selected.splice(index, 1);
 
       if(this.conditions.selected.length == 0)
         this.conditions.selected.push({ nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: [] });
     },
+
     addCondition(index) {
       this.conditions.selected.push({ nameCond: '', condition: '', value: '', conditionOptions: [], valueOptions: [] });
     },

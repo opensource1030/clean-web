@@ -27,6 +27,16 @@ export class UdlsPresenter extends Presenter {
 UdlsPresenter.prototype.type = 'udls'
 
 
+export class GlobalSettingValuesPresenter extends Presenter {
+  attributes (instance) {
+    const attrs = super.attributes(instance)
+    delete attrs['globalsettings']
+    return attrs
+  }
+}
+GlobalSettingValuesPresenter.prototype.type = 'globalsettingvalues'
+
+
 export class AddressesPresenter extends Presenter {
   attributes (instance) {
     const attrs = super.attributes(instance)

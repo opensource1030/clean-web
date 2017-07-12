@@ -64,6 +64,27 @@
     </div>
 
     <div class="columns small-12">
+      <div class="grid-box setting">
+        <div class="box-heading">
+          <h2>Settings</h2>
+        </div>
+        <div class="box-content">
+          <div class="row">
+            <div class="columns small-12">
+              <label>
+                <span>Mobility Central SSO</span>
+                <div class="switch tiny">
+                  <input class="switch-input" :id="'setting-mobility-' + company.id" type="checkbox" :name="'setting-mobility-' + company.id" v-model="CompanyHelper.getMobilitySetting(company).value">
+                  <label class="switch-paddle" :for="'setting-mobility-' + company.id"></label>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns small-12">
       <div class="grid-box address">
         <div class="box-heading">
           <h2>Address</h2>

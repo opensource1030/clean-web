@@ -2,7 +2,8 @@ import _ from 'lodash'
 import modal from './../../components/modal.vue'
 import companyAPI from './../../api/company-api.js'
 import addressAPI from './../../api/address-api.js'
-import { CompaniesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
+import { CompaniesPresenter, GlobalSettingValuesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
+import { Utils, CompanyHelper } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -29,7 +30,10 @@ export default {
     }
   },
 
-  beforeCreate () {
+  computed: {
+    CompanyHelper () {
+      return CompanyHelper
+    }
   },
 
   created () {
@@ -39,7 +43,7 @@ export default {
     if (company_id > 0) {
       let _params = {
         params: {
-          include: 'udls.udlvalues,addresses'
+          include: 'udls.udlvalues,addresses,globalsettingvalues,globalsettingvalues.globalsettings'
         }
       }
       companyAPI.get(company_id, _params, res => {
@@ -112,6 +116,14 @@ export default {
           this.company.addresses[i].pid = i + 1
         }
       }
+
+      let mobility = CompanyHelper.getMobilitySetting(this.company)
+      if (Utils.isEmpty(mobility)) {
+        this.company.globalsettingvalues.push(CompanyHelper.newMobilitySetting())
+      } else {
+        mobility.value = mobility.name == 'enable'
+      }
+      console.log('getMobilitySetting', this.company.globalsettingvalues)
     },
 
     refreshTagEditors () {
@@ -229,7 +241,17 @@ export default {
       _.extend(_company, this.company)
       _company.active = _company.active ? 1 : 0
 
-      let values, _udls = [], _udl, _addresses = [], _address;
+      let values, _udls = [], _udl, _addresses = [], _address, _globalsettingvalues = [], _globalsettingvalue;
+
+      let mobility = CompanyHelper.getMobilitySetting(this.company)
+      mobility.name = mobility.value ? 'enable' : 'disable'
+      mobility.label = mobility.value ? 'Enable' : 'Disable'
+      delete mobility.value
+      _.each(_company.globalsettingvalues, (gsv) => {
+        _globalsettingvalue = GlobalSettingValuesPresenter.toJSON(gsv)
+        _globalsettingvalues.push(_globalsettingvalue.data)
+      })
+
       _.each(_company.udls, (udl) => {
         values = udl.value.split(spliter)
         // delete udl.pid
@@ -252,10 +274,11 @@ export default {
       })
 
       let _jsonData = CompaniesPresenter.toJSON(_company)
+      delete _jsonData['data']['attributes']['globalsettingvalues']
       delete _jsonData['data']['attributes']['udls']
       delete _jsonData['data']['attributes']['addresses']
 
-      _jsonData['data']['relationships'] = { udls: { data: _udls } , addresses: { data: _addresses } }
+      _jsonData['data']['relationships'] = { globalsettingvalues: { data: _globalsettingvalues }, udls: { data: _udls }, addresses: { data: _addresses } }
       // console.log(_jsonData)
 
       // if (process.env.NODE_ENV === 'testing') {
