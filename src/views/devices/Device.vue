@@ -53,7 +53,7 @@
                     <div class="clearfix"></div>
 
                     <div class="small-12 large-6 columns">
-                      <label><strong>Manufactured</strong>
+                      <label><strong>Manufacturer</strong>
                         <input id="testManu" type="text" placeholder="" v-model="device.make">
                       </label>
                     </div>

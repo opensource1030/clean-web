@@ -21,7 +21,7 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <template v-if="showMobility === true">
+          <template v-if="showMobility === false">
             <li class="redirect-link">
               <a href="javascript:;"
                  :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
