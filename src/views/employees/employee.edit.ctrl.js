@@ -122,14 +122,14 @@ export default {
       let _jsonData = EmployeesPresenter.toJSON(this.employee)
       delete _jsonData['included']
       delete _jsonData['data']['attributes']['companies']
-      delete _jsonData['data']['attributes']['addresses']
+      // delete _jsonData['data']['attributes']['addresses']
       if (process.env.NODE_ENV === 'testing') {
         _jsonData['data']['id'] = parseInt(_jsonData['data']['id'])
       }
       // console.log(_jsonData)
 
       let _params = JSON.stringify(_jsonData)
-      console.log(_params)
+      // console.log(_params)
 
       if (this.employee_id > 0) {
         employeeAPI.update(this.employee.id, _params, res => {
@@ -137,10 +137,10 @@ export default {
         })
       } else {
         employeeAPI.create(_params, res => {
-          this.$store.dispatch('employee/searchByEmail', {query: this.employee.email});
+          this.$store.dispatch('employee/searchByEmail', {query: this.employee.email})
 
-          let employee_id = res.data.data.id;
-          console.log(employee_id);
+          let employee_id = res.data.data.id
+          // console.log(employee_id)
           this.$router.push({path: '/employees/review/' + employee_id})
         }, err => console.log('update err', err))
       }
@@ -172,16 +172,14 @@ export default {
       let addressId = parseInt(_.get(this.employee, 'addresses[0].id', 0))
       if (addressId > 0) {
         addressAPI.update(addressId, _address, (res) => {
-          let address = store.sync(res)
+          let address = store.sync(res.data)
           this.employee.addresses[0] = address
-          console.log(address)
           this.submitEmployee()
         }, () => {})
       } else {
         addressAPI.create(_address, (res) => {
-          let address = store.sync(res)
+          let address = store.sync(res.data)
           this.employee.addresses[0] = address
-          console.log(address)
           this.submitEmployee()
         }, () => {})
       }

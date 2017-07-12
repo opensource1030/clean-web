@@ -65,7 +65,7 @@ CompaniesPresenter.prototype.type = 'companies'
 export class EmployeesPresenter extends Presenter {
   relationships () {
     return {
-      // addresses: AddressesPresenter,
+      addresses: AddressesPresenter,
       udlvalues: UdlValuesPresenter,
     }
   }
