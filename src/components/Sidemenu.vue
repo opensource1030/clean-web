@@ -21,7 +21,7 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <template v-if="showMobility === false">
+          <template v-if="showMobility === true">
             <li class="redirect-link">
               <a href="javascript:;"
                  :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
@@ -110,7 +110,7 @@
             <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
           </li>
 
-         
+
         </ul>
       </li>
 
@@ -143,7 +143,7 @@
           <li class="page-link">
             <a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a>
           </li>
-         
+
         </ul>
       </li>
 
@@ -165,6 +165,7 @@
 
 <script>
   import Vue from 'vue'
+  import _ from 'lodash'
   import supportRequest from './support-request'
   import {Log, ScopeHelper} from './../helpers'
   import swal from 'sweetalert2'
@@ -197,15 +198,19 @@
     },
     created(){
 
-      companyAPI.get(this.$store.state.auth.profile.companyId, {params: {include: 'globalsettingvalues,globalsettingvalues.globalsettings'}}, res => {
-        let event = res.data.included;
+      companyAPI.get(this.$store.state.auth.profile.companyId, {params: {include: 'globalsettingvalues.globalsettings'}}, res => {
+        let event = store.sync(res.data)
+        let test = event.globalsettingvalues
 
-        for (let i = 0; i < event.length; i++) {
-          if (event[i].attributes.name === "mobility_central_login") {
-            return this.showMobility = true;
+        let globalSettingId = _.filter(test, {'globalSettingId': 6, 'name': 'enable'})
+        if (_.isEmpty(globalSettingId)) {
+          return false
+        } else {
+          if (globalSettingId[0].globalsettings[0].name === "mobility_central_login") {
+            this.$set(this, 'showMobility', true)
           }
-          return this.showMobility = false;
         }
+
 
       }, err => Log.put('dashboard/created client info err', err))
 
@@ -341,7 +346,7 @@
     },
 
     methods: {
-      openSupportTicket: function() {
+      openSupportTicket: function () {
         $('.support-form-holder').show();
         heap.track('Support Ticket Opened', {'clicked': 'yes'});
       }
