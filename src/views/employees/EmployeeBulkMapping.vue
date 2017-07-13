@@ -21,10 +21,10 @@
 
             <div class="row extend">
               <div class="columns medium-4 small-12">
-                <h4>DB Fields</h4>
+                <h4>CSV Fields</h4>
               </div>
               <div class="columns medium-4 small-12">
-                <h4>CSV Fields</h4>
+                <h4>DB Fields</h4>
               </div>
               <div class="columns medium-4 small-12">
                 <h4>Sample User</h4>
@@ -33,18 +33,18 @@
             <div class="row extend" v-for="(item, index) in db_fields">
               <div class="columns medium-4 small-12">
                 <multiselect
-                        v-model="db_matched_fields[index]"
+                        v-model="csv_matched_fields[index]"
                         placeholder="Choose a Field"
-                        :options="db_options"
+                        :options="csv_options"
                         :multiple="false"
                         :searchable="false">
                 </multiselect>
               </div>
               <div class="columns medium-4 small-12">
                 <multiselect
-                        v-model="csv_matched_fields[index]"
+                        v-model="db_matched_fields[index]"
                         placeholder="Choose a Field"
-                        :options="csv_options"
+                        :options="db_options"
                         :multiple="false"
                         :searchable="false">
                 </multiselect>

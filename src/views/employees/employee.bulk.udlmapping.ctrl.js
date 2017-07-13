@@ -99,7 +99,6 @@ export default {
       })
       
       _.each(_company)
-      debugger;
       let _jsonData = CompaniesPresenter.toJSON(_company)
       delete _jsonData['data']['attributes']['udls']
       delete _jsonData['data']['attributes']['addresses']

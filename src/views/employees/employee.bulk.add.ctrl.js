@@ -64,7 +64,7 @@ export default {
         const line = parts[i].split(',')
         for(let j=0; j<header.length; j++){
           if(header[j]!=-1 && line[j]!='' && line[j]!='\\N' && line[j]!=' ' && line[j])
-            values[j].add(line[j])
+            values[j].add(line[j].replace(/['"]+/g, ''))
         }
       }
       let processedValue=new Array();

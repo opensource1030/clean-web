@@ -8,7 +8,8 @@
            :disabled="isSaving"
            :accept="accept"
            @change="filesChange($event.target.files)">
-    <label for="file"><strong>Choose a file</strong><span class="uploaderBox__dragndrop"> or Drop files here to upload</span></label>
+    <label for="file" v-if="!isDropped"><strong>Choose a file</strong><span class="uploaderBox__dragndrop"> or Drop files here to upload</span></label>
+    <label for="file" v-if="isDropped"><strong>File Selected!</strong><span class="uploaderBox__dragndrop"></span></label>
     <!-- <button class="uploaderBox__button">Upload</button> -->
   </div>
   <div class="uploaderBox__uploading" v-if="isSaving">Uploading {{ fileCount }} files &hellip;</div>
@@ -20,7 +21,7 @@
 <script>
 import fileAPI from './../api/file-api.js'
 
-const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3, STATUS_DRAGOVER = 4;
+const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3, STATUS_DRAGOVER = 4, STATUS_DROPPED = 5;
 
 export default {
   props: {
@@ -59,6 +60,9 @@ export default {
     },
     isFailed() {
       return this.currentStatus === STATUS_FAILED;
+    },
+    isDropped() {
+      return this.currentStatus === STATUS_DROPPED;
     }
   },
 
@@ -112,6 +116,8 @@ export default {
              files.push(fileList[x])
           });
         this.$store.dispatch('file/update', files)
+        this.currentStatus = STATUS_DROPPED
+        this.$emit('selected:file');
       }
       // console.log(this.uploadedFiles)
     }

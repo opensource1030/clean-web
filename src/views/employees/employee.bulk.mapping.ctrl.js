@@ -80,6 +80,7 @@ export default {
         this.$store.dispatch('employee_bulk/updateMappings', this.mappings).then(
           res => {
             console.log("Updated Mappings");
+            debugger;
             this.isReady = true;
             let job_id = this.$store.state.employee_bulk.companyuserimportjobs.id;
             let company_id = this.$store.state.employee_bulk.companyuserimportjobs.companyId;
@@ -90,7 +91,6 @@ export default {
             companyAPI.updateJobs(company_id, job_id, params,
               (res) => {
                 this.isReady = false;
-                console.log(res);
                 let companyuserimportjobs = store.sync(res.data);
                 this.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => this.$router.push({path: '/employees/bulk/review'}, err => console.log(err)));
               }, (err) => {

@@ -36,7 +36,6 @@
                     </label>
                   </div>
                 </div>
-
                 <div class="btn-control">
                   <a class="button delete" v-on:click="removeUDL(index)"><i class="fa fa-close"></i></a>
                 </div>
