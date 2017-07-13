@@ -1,11 +1,12 @@
-import _ from "lodash";
-import Avatar from "vue-avatar/dist/Avatar";
-import multiselect from "vue-multiselect";
-import {mapGetters} from "vuex";
-import placeOrderWizard from "./../../components/placeOrderWizard";
-import modal from "./../../components/modal";
-import addressAPI from "./../../api/address-api.js";
-import {AddressesPresenter} from "./../../presenters";
+import _ from 'lodash'
+import Avatar from 'vue-avatar/dist/Avatar'
+import multiselect from 'vue-multiselect'
+import { mapGetters } from 'vuex'
+import placeOrderWizard from './../../components/placeOrderWizard'
+import modal from './../../components/modal'
+import addressAPI from './../../api/address-api.js'
+import employeeAPI from './../../api/employee-api.js'
+import { AddressesPresenter, EmployeesPresenter } from './../../presenters'
 
 const {Store} = require('yayson')()
 const store = new Store()
@@ -25,6 +26,7 @@ export default {
       orderType: '',
       user: {},
       customAddress: {
+        id: 0,
         name: '',
         address: '',
         attn: '',
@@ -91,11 +93,17 @@ export default {
   created () {
     this.orderType = this.$store.state.placeOrder.currentOrderType
 
-    this.$store.dispatch('placeOrder/getUserConditions').then(
-      res => {
-        this.user = res;
+    let _params = {
+      params: {
+        include: 'udlvalues,addresses'
       }
-    )
+    }
+    employeeAPI.get(this.$store.state.placeOrder.userId, _params, res => {
+      this.user = store.sync(res.data)
+      this.customAddress = _.extend(this.customAddress, _.get(this.user, 'addresses[0]', {}))
+    }, err => {
+      console.log('order.new.review/created user err', err)
+    })
 
     this.$store.dispatch('placeOrder/getPackagesAddresses').then(
       res => {
@@ -157,12 +165,26 @@ export default {
     submitOrder () {
       if (this.addCustomAddress) {
         let _address = AddressesPresenter.toJSON(this.customAddress)
-        addressAPI.create(_address, (res) => {
-          // console.log('order.new.review submitOrder', res)
-          this.address.shippingAddress = store.sync(res.data)
-          this.placeOrder()
-        }, () => {
-        })
+        if (this.customAddress.id > 0) {
+          addressAPI.update(this.customAddress.id, _address, (res) => {
+            this.customAddress = store.sync(res.data)
+            this.address.shippingAddress = this.customAddress
+            this.placeOrder()
+          }, () => {})
+        } else {
+          addressAPI.create(_address, (res) => {
+            this.customAddress = store.sync(res.data)
+            this.user.addresses[0] = this.customAddress
+            let _jsonData = EmployeesPresenter.toJSON(this.user)
+            delete _jsonData['included']
+            delete _jsonData['data']['attributes']['companies']
+            let _params = JSON.stringify(_jsonData)
+            employeeAPI.update(this.user.id, _params, res => {
+              this.address.shippingAddress = this.customAddress
+              this.placeOrder()
+            })
+          }, () => {})
+        }
       } else {
         this.placeOrder()
       }

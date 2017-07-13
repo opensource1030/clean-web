@@ -222,24 +222,6 @@ const actions = {
     })
   },
 
-  getUserConditions ({dispatch, commit, state, rootState}) {
-    return new Promise((resolve, reject) => {
-      let _params = {
-        params: {
-          include: 'udlvalues'
-        }
-      }
-
-      // employeeAPI.get(rootState.auth.userId, _params, res => {
-      employeeAPI.get(state.userId, _params, res => {
-        let result = store.sync(res.data)
-        resolve(result)
-      }, err => {
-        resolve(err)
-      })
-    })
-  },
-
   createOrder ({dispatch, commit, state}, orderData) {
     return new Promise((resolve, reject) => {
       orderAPI.create(orderData, res => {

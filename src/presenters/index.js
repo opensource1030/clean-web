@@ -63,6 +63,14 @@ CompaniesPresenter.prototype.type = 'companies'
 
 
 export class EmployeesPresenter extends Presenter {
+  attributes (instance) {
+    const attrs = super.attributes(instance)
+    delete attrs['password']
+    delete attrs['confirmation_code']
+    delete attrs['remember_token']
+    return attrs
+  }
+
   relationships () {
     return {
       addresses: AddressesPresenter,

@@ -35,11 +35,11 @@ const actions = {
             resolve(token)
           },
           err => {
-            dispatch('auth/logout', {}, { root: true }).then(res => {
-              console.log('scope_token force logout ...', this.$router)
-              reject(err)
-            })
-            // reject(err)
+            // dispatch('auth/logout', {}, { root: true }).then(res => {
+            //   console.log('scope_token force logout ...', this.$router)
+            //   reject(err)
+            // })
+            reject(err)
           }
         )
       }
