@@ -21,7 +21,7 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <template v-if="showMobility === 'mobility_central_login'">
+          <template v-if="showMobility === false">
             <li class="redirect-link">
               <a href="javascript:;"
                  :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
@@ -168,7 +168,7 @@
   import supportRequest from './support-request'
   import {Log, ScopeHelper} from './../helpers'
   import swal from 'sweetalert2'
-  import globalSettingAPI from './../api/globalsetting-api'
+  import companyAPI from './../api/company-api'
   const {Store} = require('yayson')()
   const store = new Store()
 
@@ -192,18 +192,22 @@
       return {
         features: features,
         legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
-        showMobility: ''
+        showMobility: false
       }
     },
     created(){
-      globalSettingAPI.search({params: {include: 'globalsettingvalues'}}, res => {
-        if (res.data.data[5].attributes.name !== undefined) {
-          this.$set(this, 'showMobility', res.data.data[5].attributes.name)
+
+      companyAPI.get(this.$store.state.auth.profile.companyId, {params: {include: 'globalsettingvalues,globalsettingvalues.globalsettings'}}, res => {
+        let event = res.data.included;
+
+        for (let i = 0; i < event.length; i++) {
+          if (event[i].attributes.name === "mobility_central_login") {
+            return this.showMobility = true;
+          }
+          return this.showMobility = false;
         }
-        else {
-          this.$set(this, 'showMobility', '')
-        }
-      })
+
+      }, err => Log.put('dashboard/created client info err', err))
 
     },
 

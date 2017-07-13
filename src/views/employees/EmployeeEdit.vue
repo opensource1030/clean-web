@@ -85,6 +85,72 @@
       </div>
     </div>
 
+    <div class="columns small-12">
+      <div class="grid-box shipping-address-info">
+        <div class="box-heading">
+          <h2>Shipping Address</h2>
+        </div>
+        <div class="box-content">
+          <div class="row">
+            <div class="columns large-6">
+              <label>
+                <span>Name</span>
+                <input type="text" v-model="employee.addresses[0].name">
+              </label>
+            </div>
+            <div class="columns large-6">
+              <label>
+                <span>Address</span>
+                <input type="text" v-model="employee.addresses[0].address">
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="columns large-6">
+              <label>
+                <span>Attn</span>
+                <input type="text" v-model="employee.addresses[0].attn">
+              </label>
+            </div>
+            <div class="columns large-3">
+              <label>
+                <span>City</span>
+                <input type="text" v-model="employee.addresses[0].city">
+              </label>
+            </div>
+            <div class="columns large-3">
+              <label>
+                <span>State</span>
+                <input type="text" v-model="employee.addresses[0].state">
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="columns large-6">
+              <label>
+                <span>Phone</span>
+                <input type="text" v-model="employee.addresses[0].phone">
+              </label>
+            </div>
+            <div class="columns large-3">
+              <label>
+                <span>Country</span>
+                <input type="text" v-model="employee.addresses[0].country">
+              </label>
+            </div>
+            <div class="columns large-3">
+              <label>
+                <span>Postal Code</span>
+                <input type="text" v-model="employee.addresses[0].postalCode">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="columns small-12" v-if="employee.companies.length > 0 && !!employee.companies[0]">
       <div class="grid-box company-info">
         <div class="box-heading">
