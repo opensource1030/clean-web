@@ -50,28 +50,52 @@ export default {
       })
     },
 
-    submit () {
-      // console.log(this.company.value)
+    parseCSV(csv_content, companyuserimportjobs) {
+      const parts = csv_content.split('\n')
+      const header = parts[0].split(',')
+      for(let i=0; i<header.length; i++){
+        if(companyuserimportjobs.DBfields.indexOf(header[i])>=0)
+          header[i] = -1;
+      }
+      let values = new Array(header.length)
+      for(let i=0; i<header.length; i++)
+        values[i] = new Set()
+      for(let i=1; i<parts.length; i++){
+        const line = parts[i].split(',')
+        for(let j=0; j<header.length; j++){
+          if(header[j]!=-1 && line[j]!='' && line[j]!='\\N' && line[j]!=' ' && line[j])
+            values[j].add(line[j].replace(/['"]+/g, ''))
+        }
+      }
+      let processedValue=new Array();
+      for(let i=0; i<header.length; i++){
+        if(header[i] != -1 && values[i].size > 0)
+          processedValue.push({name: header[i], values: values[i]});
+      }
+      return processedValue;
+    },
 
+    submit () {
       if (this.company.value.id > 0) {
-        // if (process.env.NODE_ENV === 'testing') {}
-        // console.log('submit',  this.uploadedFiles)
         if (this.uploadedFiles.length == 1) {
           var formData = new FormData();
           formData.append('csv', this.uploadedFiles[0], this.uploadedFiles[0].name);
-          // append the files to FormData
-          // Array
-          //   .from(Array(this.uploadedFiles.length).keys())
-          //   .map(x => {
-          //     formData.append('file', this.uploadedFiles[x], this.uploadedFiles[x].name);
-          //   })
+          
           this.isReady = true
+
           companyAPI.jobs(this.company.value.id, formData,
             (res) => {
               this.isReady = false
-              console.log(res)
               let companyuserimportjobs = store.sync(res.data)
-              this.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => this.$router.push({path: '/employees/bulk/mapping'}, err => console.log(err)))
+              var reader = new FileReader();
+              var vm = this;
+              reader.onload = (e) => {
+                vm.fileinput = reader.result;
+                const fieldVals = vm.parseCSV(vm.fileinput, companyuserimportjobs);
+                companyuserimportjobs.UDLfields = fieldVals;
+                vm.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => vm.$router.push({path: '/employees/bulk/udlmapping'}, err => console.log(err)))
+              }
+              reader.readAsText(this.uploadedFiles[0]);
             }, (err) => {
               this.isReady = false
               console.log(err)

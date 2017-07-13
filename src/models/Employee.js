@@ -13,11 +13,6 @@ export default class Employee {
     this.shippingAddress={};
     this.udlValues=[];
   }
-
-
-
-
-
     setUdl(udlvalues,udlss,employee){
 
         for(let udl of  udlss){
@@ -37,7 +32,6 @@ export default class Employee {
 
         }
     }
-
   setAddresUpdate(address,employee){
 console.log(address)
     employee.relationships = Object.assign({}, employee.relationships, {
@@ -91,10 +85,5 @@ console.log(address)
 
          };
        }
-
-
-
-
-
 
 }

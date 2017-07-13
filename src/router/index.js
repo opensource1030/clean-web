@@ -24,6 +24,7 @@ import Company from "./../views/companies/Company.vue";
 import EmployeeIndex from "./../views/employees/EmployeeIndex.vue";
 import EmployeeEdit from "./../views/employees/EmployeeEdit.vue";
 import EmployeeBulkAdd from "./../views/employees/EmployeeBulkAdd.vue";
+import EmployeeBulkUDLMapping from "./../views/employees/EmployeeBulkUDLMapping.vue";
 import EmployeeBulkMapping from "./../views/employees/EmployeeBulkMapping.vue";
 import EmployeeBulkReview from "./../views/employees/EmployeeBulkReview.vue";
 // orders
@@ -116,6 +117,7 @@ const router = new VueRouter({
       children: [
         {path: '', component: EmployeeIndex, name: 'List Employees', meta: {label: 'All'}},
         {path: 'bulk/add', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: {label: 'Bulk Add'}},
+        {path: 'bulk/udlmapping', component: EmployeeBulkUDLMapping, name: 'Mapping UDL', meta: {label: 'Mapping UDL'}},
         {path: 'bulk/mapping', component: EmployeeBulkMapping, name: 'Mapping Fields', meta: {label: 'Mapping Fields'}},
         {path: 'bulk/review', component: EmployeeBulkReview, name: 'Review Employees', meta: {label: 'Review'}},
         {path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: {label: 'Create'}},

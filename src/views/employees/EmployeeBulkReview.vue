@@ -1,6 +1,6 @@
 <template>
   <div>
-    <bulkUserStepWizard :activeStep="3"></bulkUserStepWizard>
+    <bulkUserStepWizard :activeStep="4"></bulkUserStepWizard>
     <div class="page employee-page employee-bulk-add-page">
       <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
         <h3 slot="body">{{ $store.getters['error/error'] }}</h3>

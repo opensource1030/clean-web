@@ -37,7 +37,7 @@
                 <a class="button large upload-button float-right" @click="submit()">Upload CSV</a>
               </div>
             </div>
-            <uploader accept=".csv" :autoUpload="false"></uploader>
+            <uploader accept=".csv" :autoUpload="false" @update:file="submit()"></uploader>
           </div>
 
           <div class="is-relative" v-show="isReady">
