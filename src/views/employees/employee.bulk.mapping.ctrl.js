@@ -80,7 +80,6 @@ export default {
         this.$store.dispatch('employee_bulk/updateMappings', this.mappings).then(
           res => {
             console.log("Updated Mappings");
-            debugger;
             this.isReady = true;
             let job_id = this.$store.state.employee_bulk.companyuserimportjobs.id;
             let company_id = this.$store.state.employee_bulk.companyuserimportjobs.companyId;

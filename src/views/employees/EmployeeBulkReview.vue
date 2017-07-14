@@ -14,30 +14,6 @@
           <div class="box-content" v-show="isReady">
             <div class="row extend text-center">
               <h2>Successfully Added!</h2>
-              <!--               <div class="columns medium-6 small-6">
-                              <h4 class="text-right">Total Users:</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-left"> {{ $store.getters['employee_bulk/getTotalUserCount'] }}</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-right">Created Users:</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-left"> {{ $store.getters['employee_bulk/getCreatedUserCount'] }}</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-right">Updated Users:</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-left"> {{ $store.getters['employee_bulk/getUpdatedUserCount'] }}</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-right">Failed Users:</h4>
-                            </div>
-                            <div class="columns medium-6 small-6">
-                              <h4 class="text-left"> {{ $store.getters['employee_bulk/getFailedUserCount'] }}</h4>
-                            </div> -->
               <h4>Total Users: {{ $store.getters['employee_bulk/getTotalUserCount'] }}</h4>
               <h4>Created Users: {{ $store.getters['employee_bulk/getCreatedUserCount'] }}</h4>
               <h4>Updated Users: {{ $store.getters['employee_bulk/getUpdatedUserCount'] }}</h4>

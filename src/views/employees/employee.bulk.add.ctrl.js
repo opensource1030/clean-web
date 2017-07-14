@@ -87,15 +87,15 @@ export default {
             (res) => {
               this.isReady = false
               let companyuserimportjobs = store.sync(res.data)
-              var reader = new FileReader();
+              //var reader = new FileReader();
               var vm = this;
-              reader.onload = (e) => {
-                vm.fileinput = reader.result;
-                const fieldVals = vm.parseCSV(vm.fileinput, companyuserimportjobs);
-                companyuserimportjobs.UDLfields = fieldVals;
-                vm.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => vm.$router.push({path: '/employees/bulk/udlmapping'}, err => console.log(err)))
-              }
-              reader.readAsText(this.uploadedFiles[0]);
+              //reader.onload = (e) => {
+                //vm.fileinput = reader.result;
+              //  const fieldVals = vm.parseCSV(vm.fileinput, companyuserimportjobs);
+              //  companyuserimportjobs.UDLfields = fieldVals;
+                vm.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => vm.$router.push({path: '/employees/bulk/mapping'}, err => console.log(err)))
+              //}
+              //reader.readAsText(this.uploadedFiles[0]);
             }, (err) => {
               this.isReady = false
               console.log(err)
