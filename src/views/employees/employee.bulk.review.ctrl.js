@@ -27,8 +27,6 @@ export default {
     this.isReady = false;
     let job_id = this.$store.state.employee_bulk.companyuserimportjobs.id;
     let company_id = this.$store.state.employee_bulk.companyuserimportjobs.companyId;
-    console.log(company_id);
-    console.log(job_id);
     this.intervalId = setInterval(function () {
       companyAPI.getJobs(company_id, job_id,
         (res) => {
@@ -43,7 +41,6 @@ export default {
           }
         }, (err) => {
           this.isReady = true;
-          console.log(err);
         }
       )
     }, 5000)
