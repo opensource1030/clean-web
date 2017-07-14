@@ -3,7 +3,7 @@ import modal from './../../components/modal.vue'
 import companyAPI from './../../api/company-api.js'
 import addressAPI from './../../api/address-api.js'
 import { CompaniesPresenter, GlobalSettingValuesPresenter, UdlsPresenter, AddressesPresenter } from './../../presenters'
-import { Utils, CompanyHelper } from './../../helpers'
+import { Utils, CompanyHelper, GlobalSettingValueHelper } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -244,8 +244,9 @@ export default {
       let values, _udls = [], _udl, _addresses = [], _address, _globalsettingvalues = [], _globalsettingvalue;
 
       let mobility = CompanyHelper.getMobilitySetting(this.company)
-      mobility.name = mobility.value ? 'enable' : 'disable'
-      mobility.label = mobility.value ? 'Enable' : 'Disable'
+      mobility = _.extend(mobility, GlobalSettingValueHelper.getMobilitySetting(mobility.value))
+      // mobility.name = mobility.value ? 'enable' : 'disable'
+      // mobility.label = mobility.value ? 'Enable' : 'Disable'
       delete mobility.value
       _.each(_company.globalsettingvalues, (gsv) => {
         _globalsettingvalue = GlobalSettingValuesPresenter.toJSON(gsv)

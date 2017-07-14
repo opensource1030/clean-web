@@ -44,10 +44,8 @@ const actions = {
     })
   },
 
-  update({ dispatch, commit, state }, { preset, router }) {
-    let result = JSON.parse(localStorage.getItem("userProfile"));
-    // preset.companyId=result.companyId;
-    commit('PRESET_COMPANY',{ id: result.companyId })
+  update({ dispatch, commit, state, rootState }, { preset, router }) {
+    commit('PRESET_COMPANY',{ id: rootState.auth.profile.companyId })
     dispatch('checkPreset', { preset: preset }).then(response => {
 
       if (response) {
@@ -67,10 +65,8 @@ const actions = {
     })
   },
 
-  add({ dispatch, commit, state }, { preset }) {
-    let result = JSON.parse(localStorage.getItem("userProfile"));
-    //preset.companyId=result.companyId;
-    commit('PRESET_COMPANY',{id:result.companyId})
+  add({ dispatch, commit, state, rootState }, { preset }) {
+    commit('PRESET_COMPANY',{ id: rootState.auth.profile.companyId })
     dispatch('checkPreset', { preset:preset }).then(response => {
       if (response) {
         let presetObj = new Preset('presets', null, preset.name, preset.companyId,);

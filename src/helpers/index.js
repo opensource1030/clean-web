@@ -3,6 +3,7 @@ import Vue from 'vue'
 export { default as Utils } from './modules/utils'
 export { default as ScopeHelper } from './modules/scope'
 export { default as OrderHelper } from './modules/order'
+export { default as GlobalSettingValueHelper } from './modules/globalsettingvalue'
 
 export const Log = {
   put () {
@@ -103,14 +104,7 @@ export const CompanyHelper = {
   },
 
   newMobilitySetting () {
-    return {
-      type: 'globalsettingvalues',
-      id: 0,
-      name: 'enable',
-      label: 'Enable',
-      value: true,
-      globalSettingId: 6
-    }
+    return GlobalSettingValueHelper.getMobilitySetting(true)
   }
 }
 
@@ -123,13 +117,7 @@ export const PackageHelper = {
   },
 
   newPayBySetting () {
-    return {
-      type: 'globalsettingvalues',
-      id: 0,
-      name: 'enable',
-      label: 'Enable',
-      globalSettingId: 4
-    }
+    return GlobalSettingValueHelper.getPayBySetting(true)
   },
 
   getBringOwnSetting (pack) {
@@ -140,12 +128,6 @@ export const PackageHelper = {
   },
 
   newBringOwnSetting () {
-    return {
-      type: 'globalsettingvalues',
-      id: 0,
-      name: 'enable',
-      label: 'Enable',
-      globalSettingId: 5
-    }
+    return GlobalSettingValueHelper.getBringOwnSetting(true)
   }
 }

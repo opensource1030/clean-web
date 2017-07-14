@@ -95,12 +95,14 @@
           <h2>Settings</h2>
         </div>
         <div class="box-content">
-          <div class="row">
+          <div class="row" v-if="isReady">
             <div class="columns small-4">
               <label>
                 <span>Pay by Personal Credit or Debit Card</span>
                 <div class="switch tiny">
-                  <input class="switch-input" :id="'setting-payby-' + packageId" type="checkbox" :name="'setting-payby-' + packageId">
+                  <input class="switch-input" :id="'setting-payby-' + packageId" type="checkbox"
+                      :name="'setting-payby-' + packageId"
+                      v-model="PackageHelper.getPayBySetting(packageData).value">
                   <label class="switch-paddle" :for="'setting-payby-' + packageId"></label>
                 </div>
               </label>
@@ -109,7 +111,9 @@
               <label>
                 <span>Bring Your Own Device</span>
                 <div class="switch tiny">
-                  <input class="switch-input" :id="'setting-bringown-' + packageId" type="checkbox" :name="'setting-bringown-' + packageId">
+                  <input class="switch-input" :id="'setting-bringown-' + packageId" type="checkbox"
+                      :name="'setting-bringown-' + packageId"
+                      v-model="PackageHelper.getBringOwnSetting(packageData).value">
                   <label class="switch-paddle" :for="'setting-bringown-' + packageId"></label>
                 </div>
               </label>

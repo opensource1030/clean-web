@@ -3,7 +3,8 @@ import { mapGetters, mapActions } from 'vuex'
 import multiselect from 'vue-multiselect'
 import { Carousel, Slide } from 'vue-carousel'
 import swal from 'sweetalert2'
-import { Utils, PackageHelper } from './../../helpers'
+import { GlobalSettingValuesPresenter } from './../../presenters'
+import { Utils, PackageHelper, GlobalSettingValueHelper } from './../../helpers'
 
 export default {
   name: 'package',
@@ -54,11 +55,27 @@ export default {
         selected: [],
         availableAddresses: [],
         loading: true
-      }
+      },
+      isReady: false,
     }
   },
 
-  created() {
+  computed: {
+    _ () {
+      return _
+    },
+
+    PackageHelper () {
+      return PackageHelper
+    },
+
+    ...mapGetters({
+      presets: 'packages/allPresets',
+      carriers: 'packages/allCarriers'
+    }),
+  },
+
+  created () {
     if (this.$route.params.id) {
       this.packageId = this.$route.params.id;
       this.$store.dispatch('packages/getOne', this.packageId).then(
@@ -73,17 +90,6 @@ export default {
     } else {
       this.getNecessaryData();
     }
-  },
-
-  computed: {
-    _ () {
-      return _
-    },
-
-    ...mapGetters({
-      presets: 'packages/allPresets',
-      carriers: 'packages/allCarriers'
-    }),
   },
 
   methods: {
@@ -170,9 +176,22 @@ export default {
       )
 
       // package settings
-      // let paybySetting = PackageHelper.getPayBySetting(this.packageData)
-      // let bringownSetting = PackageHelper.getBringOwnSetting(this.packageData)
-      // console.log('Package Setting', paybySetting, bringownSetting, this.packageData.globalsettingvalues)
+      let paybySetting = PackageHelper.getPayBySetting(this.packageData)
+      if (Utils.isEmpty(paybySetting)) {
+        this.packageData.globalsettingvalues.push(PackageHelper.newPayBySetting())
+      } else {
+        paybySetting.value = paybySetting.name == 'enable'
+      }
+
+      let bringownSetting = PackageHelper.getBringOwnSetting(this.packageData)
+      if (Utils.isEmpty(bringownSetting)) {
+        this.packageData.globalsettingvalues.push(PackageHelper.getBringOwnSetting())
+      } else {
+        bringownSetting.value = bringownSetting.name == 'enable'
+      }
+
+      this.isReady = true;
+      console.log('Package Setting', paybySetting, bringownSetting, this.packageData.globalsettingvalues)
     },
 
     // CONDITION METHODS
@@ -315,6 +334,19 @@ export default {
 
     // Update or Create Package
     savePackage() {
+      let paybySetting = PackageHelper.getPayBySetting(this.packageData)
+      paybySetting = _.extend(paybySetting, GlobalSettingValueHelper.getPayBySetting(paybySetting.value))
+      delete paybySetting.value
+      let bringownSetting = PackageHelper.getBringOwnSetting(this.packageData)
+      bringownSetting = _.extend(bringownSetting, GlobalSettingValueHelper.getBringOwnSetting(bringownSetting.value))
+      delete bringownSetting.value
+
+      let _globalsettingvalue, _globalsettingvalues = []
+      _.each(this.packageData.globalsettingvalues, (gsv) => {
+        _globalsettingvalue = GlobalSettingValuesPresenter.toJSON(gsv)
+        _globalsettingvalues.push(_globalsettingvalue.data)
+      })
+
       this.packageData = {
         type: 'packages',
         id: this.packageId,
@@ -327,7 +359,8 @@ export default {
           conditions: { data: [] },
           services: { data: [] },
           devicevariations: { data: [] },
-          addresses: { data: [] }
+          addresses: { data: [] },
+          globalsettingvalues: { data: _globalsettingvalues }
         }
       };
 
@@ -355,27 +388,17 @@ export default {
         if(this.packageId) {
           this.$store.dispatch('packages/updatePackage', this.packageData).then(
             res => {
-              swal(
-                'Updated!',
-                'Requested Package is updated.',
-                'success'
-              ).then(
+              swal('Updated!', 'Requested Package is updated.', 'success').then(
                 this.$router.push({path: '/packages'})
               )
-
             }
           )
         } else {
           this.$store.dispatch('packages/createPackage', this.packageData).then(
             res => {
-              swal(
-                'Created!',
-                'Requested Package is created.',
-                'success'
-              ).then(
+              swal('Created!', 'Requested Package is created.', 'success').then(
                 this.$router.push({path: '/packages'})
               )
-
             }
           )
         }  

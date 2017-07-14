@@ -135,7 +135,7 @@ const actions = {
 
       let params = {
         params: {
-          include: 'conditions,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,services,services.serviceitems,addresses'
+          include: 'conditions,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,services,services.serviceitems,addresses,globalsettingvalues.globalsettings'
         }
       };
 
@@ -241,41 +241,33 @@ const actions = {
     })
   },
 
-  createPackage ({dispatch, commit, state}, data) {
+  createPackage ({dispatch, commit, state, rootState}, data) {
     return new Promise((resolve, reject) => {
-      delete data.id;
-
-      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
-      data.attributes.companyId = userProfile.companyId;
-
+      delete data.id
+      data.attributes.companyId = rootState.auth.profile.companyId;
       let params = {
         data: data
       };
-      
       packageAPI.create(params, res => {
-        let results = res;
-        resolve(results);
+        let results = res
+        resolve(results)
       }, err => {
         reject(err)
       })
     })
   },
 
-  updatePackage ({dispatch, commit, state}, data) {
+  updatePackage ({dispatch, commit, state, rootState}, data) {
     return new Promise((resolve, reject) => {
-      let id = data.id;
-      delete data.id;
-
-      let userProfile = JSON.parse(localStorage.getItem('userProfile'));
-      data.attributes.companyId = userProfile.companyId;
-
+      let id = data.id
+      delete data.id
+      data.attributes.companyId = rootState.auth.profile.companyId
       let params = {
         data: data
-      };
-
+      }
       packageAPI.update(id, params, res => {
         let results = res;
-        resolve(results);
+        resolve(results)
       }, err => {
         reject(err)
       })
