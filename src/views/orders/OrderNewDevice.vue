@@ -125,8 +125,19 @@
             </div>
           </div>
           <div class="row expanded" v-else>
-            <div class="columns small-12">
-              <p class="ft-20 bold black text-center">No Available Devices</p>
+            <div class="columns small-12 mgbtm-1">
+              <div class="is-relative no-data">
+                <transition appear
+                            enter-class=""
+                            enter-active-class="animated pulse"
+                            leave-class=""
+                            leave-active-class="animated zoomOut">
+                  <div class="msg">
+                    <img src="./../../assets/animat-noplugin.gif" alt="no-data" height="120" width="120"/>
+                    <p>No Available Devices</p>
+                  </div>
+                </transition>
+              </div>
             </div>
           </div>
         </div>
