@@ -139,6 +139,7 @@ div.multiselect__tags {
 .is-relative {
   position: relative;
   min-height: 300px;
+
   &.na {
     min-height: 200px;
     background: $light-gray;
@@ -151,6 +152,18 @@ div.multiselect__tags {
       width: 100%;
       font-size: 32px;
       margin-top: -32px;
+    }
+  }
+  &.no-data {
+    background: lighten($light-gray, 0.4);
+    display: table;
+    width: 100%;
+    .msg {
+      display: table-cell;
+      vertical-align: middle;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
     }
   }
 }

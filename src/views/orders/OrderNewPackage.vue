@@ -38,7 +38,20 @@
           <div class="is-loading"></div>
         </div>
         <div class="row expanded p-b-20" v-else>
-          <div class="columns small-12" v-if="packages.availablePackages.length">
+          <div class="columns small-12 is-relative no-data" v-if="packages.availablePackages.length == 0 ">
+            <transition appear
+                        enter-class=""
+                        enter-active-class="animated pulse"
+                        leave-class=""
+                        leave-active-class="animated zoomOut">
+
+              <div class="msg">
+                <img src="./../../assets/animat-noplugin.gif" alt="no-data" height="120" width="120"/>
+                <p>No Package Matches your Profile. Please contact Your Administrator</p>
+              </div>
+            </transition>
+          </div>
+          <div class="columns small-12" v-else>
             <carousel :perPage="4">
               <slide v-for="(eachPackage, index) in packages.availablePackages">
                 <transition appear
@@ -63,9 +76,7 @@
               </slide>
             </carousel>
           </div>
-          <div class="columns small-12" v-else>
-            <p class="ft-20 bold black text-center">No Package Matches your Profile. Please contact Your Administrator</p>
-          </div>
+
         </div>
       </div>
       <div class="columns small-12 p-t-20" v-if="packages.activePackage.id">

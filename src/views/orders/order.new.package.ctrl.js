@@ -57,17 +57,19 @@ export default {
       res => {
         if (res) {
           this.packages.availablePackages = res
-
+          this.packages.loading = false
           for (let eachPackage of res) {
             if (eachPackage.id == this.selectedPackage) {
               this.setActivePackage(eachPackage)
+
               break
             }
           }
+
         } else {
           this.packages.availablePackages = []
         }
-        this.packages.loading = false
+
       }
     )
 
