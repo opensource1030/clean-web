@@ -57,15 +57,17 @@ export const EmployeeHelper = {
 
 export const DeviceVariationHelper = {
   getCapacityIndex (dv) {
-    return _.findIndex(dv.modifications, (m) => (m.modType == 'capacity'))
-    // let index = _.findIndex(dv.modifications, (m) => (m.modType == 'capacity'))
+    return _.findIndex(dv.modifications, (m) => (_.isEmpty(m) == false && m.modType == 'capacity'))
+    // console.log('getCapacityIndex ...')
+    // let index = _.findIndex(dv.modifications, (m) => (_.isEmpty(m) == false && m.modType == 'capacity'))
     // console.log('getCapacityIndex', index)
     // return index
   },
 
   getStyleIndex (dv) {
-    return _.findIndex(dv.modifications, (m) => (m.modType == 'style'))
-    // let index = _.findIndex(dv.modifications, (m) => (m.modType == 'style'))
+    return _.findIndex(dv.modifications, (m) => (_.isEmpty(m) == false && m.modType == 'style'))
+    // console.log('getStyleIndex ...')
+    // let index = _.findIndex(dv.modifications, (m) => (_.isEmpty(m) == false && m.modType == 'style'))
     // console.log('getStyleIndex', index)
     // return index
   },
