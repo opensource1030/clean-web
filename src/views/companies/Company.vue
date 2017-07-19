@@ -26,14 +26,14 @@
               <div class="row">
                 <div class="columns medium-6">
                   <label>
-                    <span>Company Name</span>
+                    <strong>Company Name</strong>
                     <input type="text" name="company-name" placeholder="" v-model="company.name">
                   </label>
                 </div>
 
                 <div class="columns medium-6">
                   <label>
-                    <span>Company Short Name</span>
+                    <strong>Company Short Name</strong>
                     <input type="text" name="company-shortname" placeholder="A Unique Short ID" v-model="company.shortName">
                   </label>
                 </div>
@@ -41,14 +41,14 @@
               <div class="row">
                 <div class="columns medium-6">
                   <label>
-                    <span>Company URL</span>
+                    <strong>Company URL</strong>
                     <input type="text" name="company-url" placeholder="">
                   </label>
                 </div>
 
                 <div class="columns medium-6">
                   <label>
-                    <span>Active</span>
+                    <strong>Active</strong>
                     <div class="switch tiny">
                       <input class="switch-input" :id="'status-' + company.id" type="checkbox" :name="'status-' + company.id" v-model="company.active">
                       <label class="switch-paddle" :for="'status-' + company.id">
@@ -72,7 +72,7 @@
           <div class="row">
             <div class="columns small-12">
               <label>
-                <span>Mobility Central SSO</span>
+                <strong>Mobility Central SSO</strong>
                 <div class="switch tiny">
                   <input class="switch-input" :id="'setting-mobility-' + company.id" type="checkbox" :name="'setting-mobility-' + company.id" v-model="CompanyHelper.getMobilitySetting(company).value">
                   <label class="switch-paddle" :for="'setting-mobility-' + company.id"></label>
@@ -89,23 +89,24 @@
         <div class="box-heading">
           <h2>Address</h2>
         </div>
-        <div class="box-content">
-          <div class="row addlist address-wrapper" v-for="address in company.addresses" :data-index="address.pid">
+        <div class="box-content-holder">
+          <div class="row addlist  row-wrapper address-wrapper" v-for="address in company.addresses"
+               :data-index="address.pid">
             <div class="columns medium-4">
               <label>
-                <span>Name</span>
+                <strong>Name</strong>
                 <input type="text" placeholder="Address Nickname" v-model="address.name">
               </label>
             </div>
             <div class="columns medium-4">
               <label>
-                <span>Country</span>
+                <strong>Country</strong>
                 <input type="text" placeholder="" v-model="address.country">
               </label>
             </div>
             <div class="columns medium-4">
               <label>
-                <span>State</span>
+                <strong>State</strong>
                 <input type="text" placeholder="" v-model="address.state">
               </label>
             </div>
@@ -113,19 +114,19 @@
 
             <div class="columns medium-4">
               <label>
-                <span>City</span>
+                <strong>City</strong>
                 <input type="text" placeholder="" v-model="address.city">
               </label>
             </div>
             <div class="columns medium-4">
               <label>
-                <span>Postal Code</span>
+                <strong>Postal Code</strong>
                 <input type="text" placeholder="" v-model="address.postalCode">
               </label>
             </div>
             <div class="columns medium-4">
               <label>
-                <span>Address</span>
+                <strong>Address</strong>
                 <input type="text" placeholder="" v-model="address.address">
               </label>
             </div>
@@ -157,19 +158,19 @@
           <h2>Custom Fields</h2>
         </div>
 
-        <div class="box-content">
+        <div class="box-content-holder">
           <div class="row addlist  udl-wrapper" v-for="udl in company.udls">
             <input type="hidden" name="udl-id" :value="udl.id">
             <div class="columns medium-4">
               <label>
-                <span>Label</span>
+                <strong>Label</strong>
                 <input type="text" name="udl-key" placeholder="A Department or Group" v-model="udl.name">
               </label>
             </div>
             <div class="columns medium-8">
               <div class="udl-value-wrapper" :data-index="udl.pid">
                 <label>
-                  <span>Value</span>
+                  <strong>Value</strong>
                   <input type="text" name="udl-value" class="tag-input" :id="'udl-value-' + udl.pid" :value="udl.value" :data-index="udl.pid">
                 </label>
               </div>
