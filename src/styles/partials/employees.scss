@@ -3,7 +3,8 @@
 @import "../mixins/other-mixin";
 
 .page.employee-page.employee-index-page {
-  .button.add-bulk-button {
+  .button.add-bulk-button,
+  .button.review-bulk-button {
     float: right;
   }
 
@@ -75,8 +76,46 @@
     .box-content {
       .multiselect {
         margin-top: 15px;
+        margin-bottom: 5px;
       }
     }
   }
 }
 
+.page.employee-page.employee-bulk-mapping-page {
+  .grid-box {
+    .box-content {
+      .multiselect {
+        margin-top: 0px !important;
+        margin-bottom: 0px;
+
+        .multiselect__tags {
+          height: 30px;
+        }
+      }
+    }
+  }
+} 
+
+.page.employee-page.employee-bulk-review-page {
+  .grid-box {
+    .box-content {
+      position: relative;
+      padding: 10px 10px;
+
+      .cancel-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      .review-status {
+        margin: 0 0 0 20px;
+      }
+
+      .review-detail {
+        margin: 0 0 0 50px;
+      }
+    }
+  }
+}

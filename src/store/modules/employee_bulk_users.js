@@ -21,22 +21,6 @@ const getters = {
   csvFields: (state) => {
     return state.companyuserimportjobs.CSVfields
   },
-
-  getTotalUserCount: (state) => {
-    return state.companyuserimportjobs.totalUsers
-  },
-
-  getCreatedUserCount: (state) => {
-    return state.companyuserimportjobs.createdUsers
-  },
-
-  getUpdatedUserCount: (state) => {
-    return state.companyuserimportjobs.updatedUsers
-  },
-
-  getFailedUserCount: (state) => {
-    return state.companyuserimportjobs.failedUsers
-  },
 }
 
 const actions = {

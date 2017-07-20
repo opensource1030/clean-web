@@ -1,9 +1,10 @@
-import multiselect from "vue-multiselect";
-import modal from "./../../components/modal.vue";
-import uploader from "./../../components/FileUploader.vue";
-import bulkUserStepWizard from "./../../components/bulkUserStepWizard";
-import companyAPI from "./../../api/company-api.js";
-import {mapGetters} from "vuex";
+import _ from 'lodash'
+import { mapGetters } from 'vuex'
+import multiselect from 'vue-multiselect'
+import modal from './../../components/modal.vue'
+import uploader from './../../components/FileUploader.vue'
+import bulkUserStepWizard from './../../components/bulkUserStepWizard'
+import companyAPI from './../../api/company-api.js'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -29,6 +30,10 @@ export default {
   },
 
   computed: {
+    _ () {
+      return _
+    },
+
     ...mapGetters({
       uploadedFiles: 'file/files',
     })
@@ -75,30 +80,35 @@ export default {
       return processedValue;
     },
 
+    /**
+     * #TODO
+     * 1. the uploader box should be shown after select a company
+     * 2. remove upload_csv button. it should go to the next step as soon as uploading a csv
+     */
     submit () {
+      console.log('company.company.id', this.company.value.id)
       if (this.company.value.id > 0) {
         if (this.uploadedFiles.length == 1) {
           var formData = new FormData();
           formData.append('csv', this.uploadedFiles[0], this.uploadedFiles[0].name);
-          
           this.isReady = true
-
-          companyAPI.jobs(this.company.value.id, formData,
+          companyAPI.createJob(this.company.value.id, formData,
             (res) => {
               this.isReady = false
               let companyuserimportjobs = store.sync(res.data)
+              console.log('employee.bulk.add/submit res', companyuserimportjobs)
+              var vm = this
               //var reader = new FileReader();
-              var vm = this;
               //reader.onload = (e) => {
-                //vm.fileinput = reader.result;
-              //  const fieldVals = vm.parseCSV(vm.fileinput, companyuserimportjobs);
-              //  companyuserimportjobs.UDLfields = fieldVals;
-                vm.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => vm.$router.push({path: '/employees/bulk/mapping'}, err => console.log(err)))
+                // vm.fileinput = reader.result;
+                // const fieldVals = vm.parseCSV(vm.fileinput, companyuserimportjobs);
+                // companyuserimportjobs.UDLfields = fieldVals;
+                vm.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => vm.$router.push({path: '/employees/bulk/mapping'}), err => console.log(err))
               //}
               //reader.readAsText(this.uploadedFiles[0]);
             }, (err) => {
               this.isReady = false
-              console.log(err)
+              console.log('employee.bluk.add/submit err', err)
             }
           )
         } else {

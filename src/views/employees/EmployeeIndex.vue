@@ -6,7 +6,8 @@
 
   <div class="small-12 columns">
     <router-link to="/employees/new" class="button large add-button">Add Employee</router-link>
-    <router-link to="/employees/bulk/add" class="button large add-bulk-button">Add Bulk Employees</router-link>
+    <router-link to="/employees/bulk/add" class="button large add-bulk-button" v-if="isReadyBulk && !hasRunningJob">Add Bulk Employees</router-link>
+    <router-link to="/employees/bulk/review" class="button large review-bulk-button" v-if="isReadyBulk && hasRunningJob"><i class="fa fa-spinner"></i> Importing</router-link>
   </div>
 
   <div class="small-12 columns">

@@ -14,7 +14,7 @@
 
           <div class="box-content" v-show="!isReady">
             <div class="row extend">
-              <div class="columns medium-6 small-12">
+              <div class="columns small-4">
                 <multiselect
                         id="ajax"
                         v-model="company.value"
@@ -33,11 +33,11 @@
                         @search-change="asyncFind_CompanyNames">
                 </multiselect>
               </div>
-              <div class="columns medium-6 small-12">
+              <!-- <div class="columns medium-6 small-12">
                 <a class="button large upload-button float-right" @click="submit()">Upload CSV</a>
-              </div>
+              </div> -->
             </div>
-            <uploader accept=".csv" :autoUpload="false" @update:file="submit()"></uploader>
+            <uploader accept=".csv" :autoUpload="false" @selected:file="submit()" v-show="_.get(company, 'value.id', 0) > 0"></uploader>
           </div>
 
           <div class="is-relative" v-show="isReady">

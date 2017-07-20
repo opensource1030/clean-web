@@ -28,7 +28,7 @@ export default {
     let job_id = this.$store.state.employee_bulk.companyuserimportjobs.id;
     let company_id = this.$store.state.employee_bulk.companyuserimportjobs.companyId;
     this.intervalId = setInterval(function () {
-      companyAPI.getJobs(company_id, job_id,
+      companyAPI.getJob(company_id, job_id,
         (res) => {
           let companyuserimportjobs = store.sync(res.data);
           let status = companyuserimportjobs.status;
@@ -37,7 +37,6 @@ export default {
             this.isReady = true;
             this.$store.dispatch('employee_bulk/updateJob', companyuserimportjobs).then(res => console.log("Got the Jobs!"));
           } else {
-
           }
         }, (err) => {
           this.isReady = true;
