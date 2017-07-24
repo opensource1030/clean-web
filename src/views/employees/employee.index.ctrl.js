@@ -18,6 +18,7 @@ export default {
 
   data () {
     return {
+      jobs: [],
       activeEmployee: null,
       query: '',
       isReady: false,
@@ -50,14 +51,14 @@ export default {
       jobs = store.sync(res.data)
       if (jobs instanceof Array) {
         // console.log('jobs', jobs)
-        jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
-        if (jobs.length > 0) {
+        vm.jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
+        if (vm.jobs.length > 0) {
           vm.hasRunningJob = true
         }
-        this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
+        vm.isReadyBulk = true
+        // this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
         // console.log('employee.index/created job', jobs[0])
       }
-      // let hasRunningJob = res
     }, err => {})
   },
 
@@ -104,5 +105,13 @@ export default {
       }
       this.$store.dispatch('employee/update', params)//.then(res => console.log('employee update', res), err => console.log('employee update error', err))
     },
+
+    reviewJob (job_id) {
+      let job = _.find(this.jobs, (job) => ( job.id == job_id ))
+      if (job) {
+        this.$store.dispatch('employee_bulk/updateJob', job)
+        this.$router.push({ path: '/employees/bulk/review' })
+      }
+    }
   }
 }

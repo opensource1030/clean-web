@@ -6,8 +6,8 @@
 
   <div class="small-12 columns">
     <router-link to="/employees/new" class="button large add-button">Add Employee</router-link>
-    <router-link to="/employees/bulk/add" class="button large add-bulk-button" v-if="isReadyBulk && !hasRunningJob">Add Bulk Employees</router-link>
-    <router-link to="/employees/bulk/review" class="button large review-bulk-button" v-if="isReadyBulk && hasRunningJob"><i class="fa fa-spinner"></i> Importing</router-link>
+    <router-link to="/employees/bulk/add" class="button large add-bulk-button" v-if="isReadyBulk">Add Bulk Employees</router-link>
+    <!-- <router-link to="/employees/bulk/review" class="button large review-bulk-button" v-if="isReadyBulk && hasRunningJob"><i class="fa fa-spinner"></i> Importing</router-link> -->
   </div>
 
   <div class="small-12 columns">
@@ -119,6 +119,57 @@
     </paginate>
 
     <div class="is-relative" v-show="!isReady">
+      <div class="is-loading"></div>
+    </div>
+  </div>
+
+  <div class="small-12 columns">
+    <div class="tag-header">
+      <h1>Jobs</h1>
+    </div>
+
+    <div class="grid-box">
+      <div class="box-content" v-if="isReady">
+        <table class="unstriped">
+          <thead>
+            <tr>
+              <th width="50">&nbsp;</th>
+              <th>ID</th>
+              <th>Status</th>
+              <th>Creatable</th>
+              <th>Created</th>
+              <th>Updatable</th>
+              <th>Updated</th>
+              <th>Total</th>
+              <th>Failed</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="job in jobs">
+              <tr>
+                <td></td>
+                <td>{{ job.id }}</td>
+                <td>{{ job.status }}</td>
+                <td>{{ job.creatableUsers }}</td>
+                <td>{{ job.createdUsers }}</td>
+                <td>{{ job.updatableUsers }}</td>
+                <td>{{ job.updatedUsers }}</td>
+                <td>{{ job.totalUsers }}</td>
+                <td>{{ job.failedUsers }}</td>
+                <td>
+                  <div class="action-buttons">
+                    <a class="button warning" @click="reviewJob(job.id)"><i class="fa fa-eye"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="is-relative" v-show="!isReadyBulk">
       <div class="is-loading"></div>
     </div>
   </div>

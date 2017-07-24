@@ -149,14 +149,14 @@ export default {
       if (validation_flag) {
         this.$store.dispatch('employee_bulk/updateMappings', this.mappings).then(
           res => {
-            console.log("Updated Mappings")
+            // console.log("Updated Mappings")
             this.isReady = true
             let job_id = this.$store.state.employee_bulk.companyuserimportjobs.id
             let company_id = this.$store.state.employee_bulk.companyuserimportjobs.companyId
             let _jsonData = JobPresenter.toJSON(this.$store.state.employee_bulk.companyuserimportjobs)
             _jsonData['data']['type'] = "jobs"
             let params = JSON.stringify(_jsonData)
-            console.log(params)
+            // console.log(params)
             companyAPI.updateJob(company_id, job_id, params,
               (res) => {
                 this.isReady = false

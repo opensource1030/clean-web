@@ -48,7 +48,7 @@ export default {
   methods: {
     cancelListening () {
       clearInterval(this.intervalId)
-      this.$router.push({path: '/employees'}, err => console.log(err))
+      this.$router.push({ path: '/employees' })
     }
   }
 }

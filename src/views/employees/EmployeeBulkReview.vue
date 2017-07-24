@@ -12,7 +12,7 @@
             <h2>Review</h2>
           </div>
           <div class="box-content">
-            <a class="button large cancel-button" @click="cancelListening()" v-show="!isReady">Cancel</a>
+            <a class="button large cancel-button" @click="cancelListening()" v-show="!isReady">Back</a>
 
             <div class="review-status">
               <h3>{{ $store.state.employee_bulk.companyuserimportjobs.status }} ...</h3>
