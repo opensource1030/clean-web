@@ -20,6 +20,8 @@ const getters = {
 
 // actions
 const actions = {
+  // #TODO - replace name with { name, scopes }, so that get scope_token for several scopes at once
+  // #TODO - for now, it calls scope token API directly , not through vuex store.
   get ({dispatch, commit, state}, name) {
     return new Promise((resolve, reject) => {
       let token = _.get(state.records, name, null)

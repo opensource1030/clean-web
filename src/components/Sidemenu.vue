@@ -11,9 +11,7 @@
         </router-link>
       </li>
 
-
       <li class="treeview">
-
         <a href="#">
           <i class="fa fa-bar-chart"></i>
           <span>Reports</span>
@@ -21,47 +19,46 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <template v-if="showMobility === true">
-            <li class="redirect-link">
-              <a href="javascript:;"
-                 :data-href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token='"><i
-                      class="fa fa-circle-o"></i> Mobility Central </a>
+          <template v-if="showMobility">
+            <li class="">
+              <a :href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken">
+                <i class="fa fa-circle-o"></i> Mobility Central</a>
             </li>
           </template>
           <template v-else>
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='"><i
-                      class="fa fa-circle-o"></i> Charge</a>
+              <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='">
+                <i class="fa fa-circle-o"></i> Charge</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='"><i
-                      class="fa fa-circle-o"></i> Top 10 Reports</a>
+              <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='">
+                <i class="fa fa-circle-o"></i> Top 10 Reports</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='"><i
-                      class="fa fa-circle-o"></i> Zero Usage</a>
+              <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='">
+                <i class="fa fa-circle-o"></i> Zero Usage</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink + '/dashboard_trend.asp?token='"><i
-                      class="fa fa-circle-o"></i> Trends</a>
+              <a href="javascript:;" :data-href="legacyLink + '/dashboard_trend.asp?token='">
+                <i class="fa fa-circle-o"></i> Trends</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='"><i class="fa fa-circle-o"></i>
-                Usage</a>
+              <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='">
+                <i class="fa fa-circle-o"></i> Usage</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='"><i
-                      class="fa fa-circle-o"></i> International</a>
+              <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='">
+                <i class="fa fa-circle-o"></i> International</a>
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink + '/report_ap.asp?token='"><i class="fa fa-circle-o"></i>
-                Intercompany Charge</a>
+              <a href="javascript:;" :data-href="legacyLink + '/report_ap.asp?token='">
+                <i class="fa fa-circle-o"></i> Intercompany Charge</a>
             </li>
           </template>
         </ul>
@@ -109,8 +106,6 @@
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
           </li>
-
-
         </ul>
       </li>
 
@@ -123,10 +118,12 @@
         </a>
         <ul class="treeview-menu">
           <li class="page-link">
-            <router-link to="/packages" name="package"><i class="fa fa-circle-o"></i>View All Packages</router-link>
+            <router-link to="/packages" name="package">
+              <i class="fa fa-circle-o"></i>View All Packages</router-link>
           </li>
           <li class="page-link">
-            <router-link to="/packages/new" name="package-new"><i class="fa fa-circle-o"></i>Create a Package
+            <router-link to="/packages/new" name="package-new">
+              <i class="fa fa-circle-o"></i>Create a Package
             </router-link>
           </li>
         </ul>
@@ -143,7 +140,6 @@
           <li class="page-link">
             <a name="portal" href="javascript:;"><i class="fa fa-circle-o"></i>Portal</a>
           </li>
-
         </ul>
       </li>
 
@@ -166,13 +162,14 @@
 <script>
   import Vue from 'vue'
   import _ from 'lodash'
-  import supportRequest from './support-request'
-  import {Log, ScopeHelper} from './../helpers'
   import swal from 'sweetalert2'
+  import { Log, ScopeHelper } from './../helpers'
+  import supportRequest from './support-request'
   import companyAPI from './../api/company-api'
+  import authAPI from './../api/auth-api'
+
   const {Store} = require('yayson')()
   const store = new Store()
-
 
   // import Permision from './permisions'
   // Vue.directive('permission', {
@@ -193,12 +190,38 @@
       return {
         features: features,
         legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
+        redirectScopeToken: '',
         showMobility: false
       }
     },
-    created(){
 
-      companyAPI.get(this.$store.state.auth.profile.companyId, {params: {include: 'globalsettingvalues.globalsettings'}}, res => {
+    computed: {
+      ScopeHelper () {
+        return ScopeHelper
+      }
+    },
+
+    created () {
+      let _params =  {
+        name: 'redirct_scope',
+        scopes: [ 'get_user_me', 'get_companies', 'get_globalsettings']
+      }
+      authAPI.scopeToken(_params, res => {
+        if (res.status == 200) {
+          this.redirectScopeToken = res.data.accessToken
+        } else {
+          console.log('scope_token res', res)
+        }
+      }, err => {
+        console.log('scope_token err', err)
+      })
+
+      _params = {
+        params: {
+          include: 'globalsettingvalues.globalsettings'
+        }
+      }
+      companyAPI.get(this.$store.state.auth.profile.companyId, _params, res => {
         let event = store.sync(res.data)
         let test = event.globalsettingvalues
 
@@ -210,23 +233,13 @@
             this.$set(this, 'showMobility', true)
           }
         }
-
-
       }, err => Log.put('dashboard/created client info err', err))
-
-    },
-
-    computed: {
-      ScopeHelper () {
-        return ScopeHelper
-      }
     },
 
     mounted () {
       var intervalId = setInterval(function () {
         var token = JSON.parse(localStorage.getItem("token")).access_token;
         var id = localStorage.userId;
-        var email = localStorage.email;
 
         $('.redirect-link a').attr('data-href', function (index, href) {
           var param = token + '&version=v4'
@@ -265,13 +278,9 @@
                 newLink.setAttribute('target', '_blank');
                 newLink.click();
               }
-
             }
           )
-
-
         })
-
       })
 
       $.sidebarMenu = function (menu) {
@@ -315,8 +324,7 @@
         if ($(".menu-left").hasClass("test") == true) {
           $(".menu-left").removeClass("test");
           $(".content-right").removeClass("test");
-        }
-        else {
+        } else {
           $(".menu-left").addClass("test");
           $(".content-right").addClass("test");
         }
