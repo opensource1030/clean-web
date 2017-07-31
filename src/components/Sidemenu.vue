@@ -21,7 +21,7 @@
         <ul class="treeview-menu">
           <template v-if="showMobility">
             <li class="">
-              <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank">
+              <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <i class="fa fa-circle-o"></i> Mobility Central</a>
             </li>
           </template>
@@ -216,6 +216,8 @@
         console.log('scope_token err', err)
       })
 
+      this.showMobility = true
+      /*
       _params = {
         params: {
           include: 'globalsettingvalues.globalsettings'
@@ -234,6 +236,7 @@
           }
         }
       }, err => Log.put('dashboard/created client info err', err))
+      */
     },
 
     mounted () {
@@ -357,7 +360,30 @@
       openSupportTicket: function () {
         $('.support-form-holder').show();
         heap.track('Support Ticket Opened', {'clicked': 'yes'});
-      }
+      },
+
+      goMobilityCentral (e) {
+        if (e.isTrusted) {
+          e.preventDefault()
+          swal({
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+          }).then(
+            function () {
+            },
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                e.target.click()
+              }
+            }
+          )
+        }
+      },
     }
   }
 </script>
