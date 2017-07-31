@@ -21,7 +21,7 @@
         <ul class="treeview-menu">
           <template v-if="showMobility">
             <li class="">
-              <a :href="'https://preprodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank">
+              <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank">
                 <i class="fa fa-circle-o"></i> Mobility Central</a>
             </li>
           </template>
