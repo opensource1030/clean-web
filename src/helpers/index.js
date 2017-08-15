@@ -3,7 +3,8 @@ import Vue from 'vue'
 export { default as Utils } from './modules/utils'
 export { default as ScopeHelper } from './modules/scope'
 export { default as OrderHelper } from './modules/order'
-export { default as GlobalSettingValueHelper } from './modules/globalsettingvalue'
+import GlobalSettingValueHelper from './modules/globalsettingvalue'
+export { GlobalSettingValueHelper }
 
 export const Log = {
   put () {

@@ -176,6 +176,10 @@ export default {
       )
 
       // package settings
+      if (Utils.isEmpty(this.packageData.globalsettingvalues)) {
+        this.packageData.globalsettingvalues = []
+      }
+
       let paybySetting = PackageHelper.getPayBySetting(this.packageData)
       if (Utils.isEmpty(paybySetting)) {
         this.packageData.globalsettingvalues.push(PackageHelper.newPayBySetting())
@@ -185,13 +189,13 @@ export default {
 
       let bringownSetting = PackageHelper.getBringOwnSetting(this.packageData)
       if (Utils.isEmpty(bringownSetting)) {
-        this.packageData.globalsettingvalues.push(PackageHelper.getBringOwnSetting())
+        this.packageData.globalsettingvalues.push(PackageHelper.newBringOwnSetting())
       } else {
         bringownSetting.value = bringownSetting.name == 'enable'
       }
 
       this.isReady = true;
-      console.log('Package Setting', paybySetting, bringownSetting, this.packageData.globalsettingvalues)
+      // console.log('Package Setting', paybySetting, bringownSetting, this.packageData.globalsettingvalues)
     },
 
     // CONDITION METHODS
@@ -347,7 +351,7 @@ export default {
         _globalsettingvalues.push(_globalsettingvalue.data)
       })
 
-      this.packageData = {
+      let _packageData = {
         type: 'packages',
         id: this.packageId,
         attributes: {
@@ -362,31 +366,31 @@ export default {
           addresses: { data: [] },
           globalsettingvalues: { data: _globalsettingvalues }
         }
-      };
+      }
 
-      for(let condition of this.conditions.selected) {
-        if(condition.nameCond) {
+      for (let condition of this.conditions.selected) {
+        if (condition.nameCond) {
           var id = 0;
           condition.id ? id = condition.id : null;
-          this.packageData.relationships.conditions.data.push({type: "conditions", id: parseInt(id), nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
+          _packageData.relationships.conditions.data.push({type: "conditions", id: parseInt(id), nameCond: condition.nameCond, condition: condition.condition, value: condition.value});
         }
       }
 
-      for(let device of this.devices.selected) {
-        this.packageData.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
+      for (let device of this.devices.selected) {
+        _packageData.relationships.devicevariations.data.push({type: "devicevariations", id: parseInt(device.id)});
       }
 
-      for(let service of this.services.selected) {
-        this.packageData.relationships.services.data.push({type: "services", id: parseInt(service.id)});
+      for (let service of this.services.selected) {
+        _packageData.relationships.services.data.push({type: "services", id: parseInt(service.id)});
       }
 
       for(let address of this.addresses.selected) {
-        this.packageData.relationships.addresses.data.push({type: 'addresses', id: parseInt(address.id)});
+        _packageData.relationships.addresses.data.push({type: 'addresses', id: parseInt(address.id)});
       }
 
       if(this.packageName) {
         if(this.packageId) {
-          this.$store.dispatch('packages/updatePackage', this.packageData).then(
+          this.$store.dispatch('packages/updatePackage', _packageData).then(
             res => {
               swal('Updated!', 'Requested Package is updated.', 'success').then(
                 this.$router.push({path: '/packages'})
@@ -394,7 +398,7 @@ export default {
             }
           )
         } else {
-          this.$store.dispatch('packages/createPackage', this.packageData).then(
+          this.$store.dispatch('packages/createPackage', _packageData).then(
             res => {
               swal('Created!', 'Requested Package is created.', 'success').then(
                 this.$router.push({path: '/packages'})
@@ -403,6 +407,7 @@ export default {
           )
         }  
       }
+
     }
   }
 }

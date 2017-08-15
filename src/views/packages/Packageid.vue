@@ -160,13 +160,11 @@
                 </div>
                 <template v-else>
                   <hr>
-
                   <div class="columns small-12">
                     <div class="row expanded" v-if="devices.availableDevices.length">
                       <div class="sub-title">Devices Available from {{activePreset.name}}</div>
 
                       <carousel :perPage="6">
-
                         <slide v-for="(device, index) in devices.availableDevices">
                           <transition appear
                                       enter-class=""
@@ -186,7 +184,6 @@
                             </div>
                           </transition>
                         </slide>
-
                       </carousel>
 
                     </div>
@@ -194,12 +191,10 @@
                       <div class="sub-title">No Available Devices</div>
                     </div>
                   </div>
-
                 </template>
               </div>
 
               <template v-if="devices.selected.length">
-
                 <hr>
                 <div class="row expanded">
                   <div class="sub-title">Selected Devices</div>
@@ -209,24 +204,22 @@
                                   enter-class=""
                                   enter-active-class="animated zoomIn"
                                   leave-class=""
-                                  leave-active-class="animated zoomOut"
-
-                      >
+                                  leave-active-class="animated zoomOut">
                         <div class="eachDevice" @click="removeDevice(index)">
-                      <span class="device-image">
-                        <img :src="getImageUrl(device.devices[0])"/>
-                        <p class="m-b-0">{{device.devices[0].name}}</p>
-                        <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
-                        <br>
-                        <div class="clearfix"></div>
-                      </span>
+                          <span class="device-image">
+                            <img :src="getImageUrl(device.devices[0])"/>
+                            <p class="m-b-0">{{device.devices[0].name}}</p>
+                            <p class="m-b-0">{{device.modifications[0].value}} - {{device.modifications[1].value}}</p>
+                            <br>
+                            <div class="clearfix"></div>
+                          </span>
                         </div>
                       </transition>
                     </slide>
                   </carousel>
                 </div>
-
               </template>
+
             </div>
           </div>
         </div>
