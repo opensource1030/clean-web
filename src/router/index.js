@@ -54,6 +54,7 @@ import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 import Settings from "./../views/settings/Settings.vue";
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
+import LegacyInfo from "./../components/LegacyInfo.vue";
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -76,7 +77,8 @@ const router = new VueRouter({
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true},
       children: [
-        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'}
+        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'},
+        {path: 'procurement/', component: LegacyInfo, name: 'legacyInfo'}
       ]
     },
 
