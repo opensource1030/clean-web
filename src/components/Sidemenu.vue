@@ -109,6 +109,7 @@
         </ul>
       </li>
 
+      <!--
       <li class="treeview" v-if="ScopeHelper.hasPermissionOnGroup($store.state.auth.profile.roles[0], 'product')">
         <a href="javascript:;" name="product">
           <i class="fa fa-th-large"></i>
@@ -142,6 +143,7 @@
           </li>
         </ul>
       </li>
+      -->
 
       <li class="treeview">
         <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
