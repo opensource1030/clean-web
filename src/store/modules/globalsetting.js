@@ -9,7 +9,7 @@ const store = new Store()
 // initial state
 const state = {
   records: [],
-},
+}
 
 
 // getters
