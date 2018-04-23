@@ -26,7 +26,7 @@ export default {
                 // The box that we clicked has a class of bad so let's remove it and add the good class
                 document.getElementsByTagName('body')[0].classList.remove('full-height');
             }
-            document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
+            document.getElementById('legacy-info').src = process.env.LEGACY_URL+ "/platform/logout.asp";
             setTimeout(function(){
                 history.back();
             },200)
