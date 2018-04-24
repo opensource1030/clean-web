@@ -72,23 +72,26 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
+
+          <!--
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
-            <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a> -->
+            <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
             <router-link to="/devices" name="device"><i class="fa fa-circle-o"></i>Equipment</router-link>
           </li>
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
-            <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a> -->
+            <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
             <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
           </li>
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
-            <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a> -->
+            <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
+          -->
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
@@ -102,10 +105,12 @@
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
 
+          <!--
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
           </li>
+          -->
         </ul>
       </li>
 
