@@ -1,5 +1,5 @@
 import _ from "lodash";
-import avatar from "vue-avatar/dist/Avatar";
+import avatar from "vue-avatar";
 import modal from "./../../components/modal.vue";
 import orderAPI from "./../../api/order-api.js";
 
