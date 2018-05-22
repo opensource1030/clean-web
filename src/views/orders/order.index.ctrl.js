@@ -1,6 +1,6 @@
 import _ from "lodash";
 import swal from "sweetalert2";
-import avatar from "vue-avatar/dist/Avatar";
+import avatar from "vue-avatar";
 import modal from "./../../components/modal.vue";
 import paginate from "./../../components/paginate.vue";
 import multiselect from "vue-multiselect";
