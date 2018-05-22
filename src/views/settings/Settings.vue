@@ -32,13 +32,13 @@
                 <div class="small-6 columns">
                   <h5>Overview</h5>
                   <label>Name
-                    <input type="text" placeholder="" :value="d.name" v-model="d.name">
+                    <input type="text" placeholder="" v-model="d.name">
                   </label>
                   <label>Label
-                    <input type="text" placeholder="" :value="d.label" v-model="d.label">
+                    <input type="text" placeholder="" v-model="d.label">
                   </label>
                   <label>Logo
-                    <input type="text" placeholder="" :value="d.logo" v-model="d.logo">
+                    <input type="text" placeholder="" v-model="d.logo">
                   </label>
                   <label>
                     <input type="checkbox" v-model="d.active"> Active
@@ -50,12 +50,12 @@
                   <div class="expanded row">
                     <div class="small-5 columns">
                       <label>Label
-                        <input type="text" :value="label" v-model="label" placeholder="Custom">
+                        <input type="text" v-model="label" placeholder="Custom">
                       </label>
                     </div>
                     <div class="small-5 columns">
                       <label>Value
-                        <input type="text" :value="value" v-model="value" placeholder="Custom">
+                        <input type="text" v-model="value" placeholder="Custom">
                       </label>
                     </div>
                     <div class="small-2 columns">
@@ -67,7 +67,7 @@
                     <div class="expanded row">
                       <div class="small-10 columns">
                         <label>{{ customField.label }}
-                          <input type="text" :value="customField.value" v-model="customField.value" >
+                          <input type="text" v-model="customField.value" >
                         </label>
                       </div>
                       <div class="small-2 columns">
