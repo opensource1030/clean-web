@@ -2,12 +2,12 @@
 <div v-if="search!=null" class="large-4 large-offset-4 columns end search-cost" v-show="show">
   <div class="large-4 columns">
     <label>{{searchs.costMinName}}
-        <input v-bind:class="{ 'search-input' : true, 'error-input': searchs.errorCost }" :value="search.costMin" v-model="search.costMin" title="The minimum cost of the Services listed below." type="number" min="0" placeholder="">
+        <input v-bind:class="{ 'search-input' : true, 'error-input': searchs.errorCost }" v-model="search.costMin" title="The minimum cost of the Services listed below." type="number" min="0" placeholder="">
       </label>
   </div>
   <div class="large-4 columns">
     <label>{{searchs.costMaxName}}
-        <input v-bind:class="{ 'search-input' : true, 'error-input': searchs.errorCost }"  :value="search.costMax" v-model="search.costMax" title="The maximum cost of the Services listed below." type="number" min="0" placeholder="">
+        <input v-bind:class="{ 'search-input' : true, 'error-input': searchs.errorCost }" v-model="search.costMax" title="The maximum cost of the Services listed below." type="number" min="0" placeholder="">
       </label>
   </div>
   <div class="large-3 columns">

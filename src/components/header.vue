@@ -32,13 +32,13 @@
 <script>
   import _ from 'lodash'
   import Morphsearch from './Morphsearch.vue'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar'
   import employeeAPI from './../api/employee-api'
   import {Log} from './../helpers'
 
   const {Store} = require('yayson')()
   const store = new Store()
-  
+
   export default {
     components: {
       Morphsearch,

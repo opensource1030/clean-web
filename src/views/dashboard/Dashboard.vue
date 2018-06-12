@@ -42,14 +42,14 @@
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">User</span>
-                        </br>
+                        <br/>
                         <span>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Device</span>
-                        </br>
+                        <br/>
                         <span>{{userInfo.data.allocations[activeAllocationIndex].device}}</span>
                       </p>
                     </div>
@@ -58,14 +58,14 @@
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Bill Month</span>
-                        </br>
+                        <br/>
                         <span>{{userInfo.data.allocations[activeAllocationIndex].bill_month | cleanDate}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Mobile No</span>
-                        </br>
+                        <br/>
                         <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.data.allocations[activeAllocationIndex].id}}" class="alloc_mblnumber"
                           v-html="$options.filters.phone(userInfo.data.allocations[activeAllocationIndex].mobile_number)">
                         </router-link>
@@ -76,7 +76,7 @@
                     <div class="overview-item full last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Last Upgrade Date</span>
-                        </br>
+                        <br/>
                         <span v-if="userInfo.data.allocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.data.allocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
                         <span v-else>N/A</span>
                       </p>
@@ -85,23 +85,27 @@
                 </div>
                 <div class="device-image">
                   <div></div>
-                  <a class="button large" @click.stop="upgradeDevice()">
-                    <i class="fa fa-mobile"></i>Upgrade Device
-                  </a>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click
+                    to
+                    Get Started
+                  </router-link>
+                  <!--<a class="button large" @click.stop="upgradeDevice()">-->
+                    <!--<i class="fa fa-mobile"></i>Upgrade Device-->
+                  <!--</a>-->
                 </div>
                 <div class="device-detail second">
                   <div class="row expanded">
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Service Plan Charges</span>
-                        </br>
+                        <br/>
                         <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].service_plan_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Other Charges</span>
-                        </br>
+                        <br/>
                         <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].other_charge.toFixed(2)}}</span>
                       </p>
                     </div>
@@ -110,14 +114,14 @@
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Usage Charges</span>
-                        </br>
+                        <br/>
                         <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].usage_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Total Allocation Charges</span>
-                        </br>
+                        <br/>
                         <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].allocated_charge.toFixed(2)}}</span>
                       </p>
                     </div>
@@ -182,12 +186,12 @@
                   </a>
                   <div class="pagination-pages">
                     <div class="group">
-                      <a class="page-item" v-for="(allocation, index) in userInfo.data.allocations" 
+                      <a class="page-item" v-for="(allocation, index) in userInfo.data.allocations"
                         :class="{ 'active': activeAllocationIndex == index}" @click="setAllocation(index)"></a>
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <a class="item-next" :class="{ 'inactive': activeAllocationIndex == userInfo.data.allocations.length - 1 }" 
+                  <a class="item-next" :class="{ 'inactive': activeAllocationIndex == userInfo.data.allocations.length - 1 }"
                     @click="nextAllocation()">
                     <i class="fa fa-arrow-right fa-2x"></i>
                   </a>
@@ -202,6 +206,7 @@
       </div>
     </div>
 
+    <!--
     <div class="row expanded m-t-25">
       <div class="columns small-12">
         <div class="tag-header">
@@ -235,6 +240,7 @@
         </div>
       </div>
     </div>
+    -->
 
     <div class="row expanded m-t-25">
       <div class="columns small-12 large-6 no-padding">
