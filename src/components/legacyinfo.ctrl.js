@@ -4,7 +4,7 @@ export default {
   name: "LegacyInfo",
   computed:{
     iframeUrl : function (){
-      return process.env.LEGACY_URL+"/app/helpdesk/default.asp?token="+this.token+"&version=v4.1"
+      return process.env.LEGACY_URL+"/app/helpdesk/default.asp?token="+this.token+"&version=v4.0"
     }
   },
   mounted(){
