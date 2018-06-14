@@ -1,5 +1,5 @@
 var {Store} = require('yayson')()
-var    store = new Store()
+var store = new Store()
 export default {
   name: "LegacyInfo",
   computed:{
@@ -10,6 +10,7 @@ export default {
   mounted(){
     var height = $(window).height() - 72;
     $('.spent-info').css({height: height + 'px', position: 'fixed'});
+    $('.spent-info .pop-overlay').css({width: $(window).width() + 'px'});
 
     var width = $('.spent-info').width();
     $('#legacy-info').css({height: height - 93 + 'px', width: width - 40 + 'px'});
@@ -23,6 +24,9 @@ export default {
     }
   },
   methods: {
+    goDashboard(){
+      this.$router.push('/dashboard');
+    },
     closePop(){
       document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
       setTimeout(function(){

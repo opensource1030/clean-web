@@ -738,10 +738,20 @@
   &.visible {
     display: block;
   }
+  .pop-overlay {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    background: rgba(#000,0.3);
+  }
   .pop-content{
     background: $white;
     padding: 15px 10px;
+    position: absolute;
+    z-index: 101;
     height: 100%;
+    width: 100%;
     overflow: auto;
     .pop-heading{
       float: left;
