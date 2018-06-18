@@ -28,7 +28,7 @@ export default {
       this.$router.push('/dashboard');
     },
     closePop(){
-      document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/app/logout.asp";
+      document.getElementById('legacy-info').src = "https://dev.legacy.wirelessanalytics.com/app/logout.asp";
       setTimeout(function(){
         history.back();
       },200)
