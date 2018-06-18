@@ -4,7 +4,7 @@ module.exports = {
   URL: '"https://demo.wirelessanalytics.com"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-  LEGACY_URL: '"https://staging.legacy.wirelessanalytics.com"',
+  LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
 
   FEATURESV: {

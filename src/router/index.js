@@ -244,6 +244,12 @@ router.beforeEach((to, from, next) => {
       next({name: 'login'})
     }
   }
+
+  if (to.name === 'legacyInfo') {
+    $('html').addClass('w1');
+  } else {
+    $('html').removeClass('w1');
+  }
   next()
 })
 

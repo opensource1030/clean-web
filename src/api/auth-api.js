@@ -38,6 +38,7 @@ export default {
       client_secret: process.env.CLIENT_SECRET,
       username: params.email,
       password: params.password,
+      scope: '*'
     }).then(res => cb(res), err => errCb(err))
   },
 

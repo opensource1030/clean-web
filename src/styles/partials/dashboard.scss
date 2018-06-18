@@ -738,10 +738,20 @@
   &.visible {
     display: block;
   }
+  .pop-overlay {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    background: rgba(#000,0.3);
+  }
   .pop-content{
     background: $white;
-    padding: 0.7rem 0.7rem 9rem;
+    padding: 15px 10px;
+    position: absolute;
+    z-index: 101;
     height: 100%;
+    width: 100%;
     overflow: auto;
     .pop-heading{
       float: left;
@@ -1028,10 +1038,10 @@
 
       div {
         width: calc(100% - 20px);
-        max-width: 220px;        
+        max-width: 220px;
         height: 220px;
         margin-bottom: 20px;
-        background: url('~assets/phone-mifi-tablet.svg') center center no-repeat;      
+        background: url('~assets/phone-mifi-tablet.svg') center center no-repeat;
       }
 
       a {
@@ -1129,7 +1139,7 @@
       }
     }
   }
-  
+
   .place-order {
     .each-order {
       text-align: center;
