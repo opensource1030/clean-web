@@ -4,7 +4,7 @@ export default {
   name: "LegacyInfo",
   computed:{
     iframeUrl : function (){
-      return process.env.LEGACY_URL+"/app/helpdesk/default.asp?token="+this.token+"&version=v4.0"
+      return process.env.LEGACY_URL+"/app/wrf/default.asp?token="+JSON.parse(this.token)['access_token']+"&version=v4"
     }
   },
   mounted(){
@@ -28,7 +28,7 @@ export default {
       this.$router.push('/dashboard');
     },
     closePop(){
-      document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/platform/logout.asp";
+      document.getElementById('legacy-info').src = "http://dev.legacy.wirelessanalytics.com/app/logout.asp";
       setTimeout(function(){
         history.back();
       },200)
