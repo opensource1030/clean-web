@@ -231,8 +231,20 @@ router.beforeEach((to, from, next) => {
 
 router.beforeEach((to, from, next) => {
   let authenticated = store.getters['auth/isAuthenticated']
+  let expired = store.getters['auth/isExpired']
   // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
   // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
+
+  if (expired) {
+    document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    store.dispatch('auth/logout').then(res => {
+      console.log('expire logout');
+      history.go(0);
+      next({name: 'login'})
+    })
+  }
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
