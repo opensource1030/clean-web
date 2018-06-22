@@ -31,6 +31,14 @@ const getters = {
     return !(Utils.isEmptyObject(state.token) || Utils.isEmpty(state.token.access_token) || Utils.isEmpty(state.userId) || state.isAuthenticating)
   },
 
+  isExpired: (state) => {
+    let status = false;
+    if(state.token)
+      status = Date.now() > (state.token.updated_at + state.token.expires_in);
+
+    return status;
+  },
+
   getVariations: (state) => {
     return state.variations
   },
