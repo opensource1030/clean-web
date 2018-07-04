@@ -22,7 +22,7 @@
           <template v-if="showMobility">
             <li class="">
               <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
-                <i class="fa fa-circle-o"></i> Mobility Central</a>
+                <i class="fa fa-circle-o"></i> Report Details</a>
             </li>
           </template>
           <template v-else>
