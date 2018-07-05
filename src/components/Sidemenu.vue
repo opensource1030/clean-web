@@ -21,6 +21,11 @@
         <ul class="treeview-menu">
           <template v-if="showMobility">
             <li class="">
+              <!-- to mobility central -->
+           <!--    <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+                <i class="fa fa-circle-o"></i> Report Details</a> -->
+
+                <!-- to EasyWIM-->
               <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <i class="fa fa-circle-o"></i> Report Details</a>
             </li>
@@ -64,6 +69,8 @@
         </ul>
       </li>
 
+<!--       
+
       <li class="treeview" v-if="ScopeHelper.hasPermissionOnGroup($store.state.auth.profile.roles[0], 'inventory')">
         <a href="javascript:;" name="inventory">
           <i class="fa fa-list-alt"></i>
@@ -73,7 +80,6 @@
         </a>
         <ul class="treeview-menu">
 
-          <!--
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
             <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
@@ -91,30 +97,26 @@
             <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
-          -->
+          
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
-            <!-- <a name="employees" href="/employees"><i class="fa fa-circle-o"></i>Employees</a> -->
             <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
           </li>
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
-            <!-- <a name="companies" href="/companies"><i class="fa fa-circle-o"></i>Companies</a> -->
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
           </li>
-
-          <!--
+       
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
-          </li>
-          -->
-        </ul>
-      </li>
+          </li> 
 
-      <!--
+          </ul>
+      </li> 
+
       <li class="treeview" v-if="ScopeHelper.hasPermissionOnGroup($store.state.auth.profile.roles[0], 'product')">
         <a href="javascript:;" name="product">
           <i class="fa fa-th-large"></i>
