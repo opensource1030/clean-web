@@ -56,6 +56,22 @@
         }
       }
     },
+    created() {
+      const self = this;
+      this.$on('redrawChart', function() {
+        for(var idx in self.$children) {
+          self.$children[idx].drawChart();
+        }
+      })
+    },
+    mounted () {
+      const self = this;
+      $(function() {
+        $(window).resize(function() {
+          self.$emit('redrawChart');
+        })
+      })
+    },
     methods: {
       title (allocation) {
         return this.$options.filters.phone(allocation.mobile_number) + ' (' + dateFormat(allocation.bill_month, 'mmm yyyy') + ')';

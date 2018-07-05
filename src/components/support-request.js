@@ -5,10 +5,10 @@ const gaId = 'UA-42900219-2';
 function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
-    $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
-    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
+    $('#recipient_email').val(JSON.parse(localStorage.getItem("profile")).email);
+    $('#requestor_email').val(JSON.parse(localStorage.getItem("profile")).email);
+    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("profile")).firstName);
+    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("profile")).lastName);
   })
 
   populateCountries.populateCountries("country2");
@@ -75,7 +75,7 @@ function supportRequest() {
       var subject = $('#support-form').find(':selected').attr('data-value');
 
       var msg = "<strong>" + subject  + "</strong><br/>"
-      
+
       if (subject === "Activate My Device") {
         var msg_activation = "<strong>IMEI-MEID:</strong>" + $('#imei_meid').val() + "<br/> " +
           "<strong>ICCID:</strong>" + $('#iccid').val() + "<br/>" +
@@ -99,7 +99,7 @@ function supportRequest() {
 
         msg +=  msg_international_activation;
       }
-      
+
       msg += "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<hr/>";
 
       msg += "<strong>Recipient Email (Who to Contact)</strong>: " + $('#recipient_email').val() + "<br/>" +

@@ -80,7 +80,22 @@
         }
       }
     },
-
+    created() {
+      const self = this;
+      this.$on('redrawChart', function() {
+        for(var idx in self.$children) {
+          self.$children[idx].drawChart();
+        }
+      })
+    },
+    mounted () {
+      const self = this;
+      $(function() {
+        $(window).resize(function() {
+          self.$emit('redrawChart');
+        })
+      })
+    },
     computed: {
       groupData() {
         let group_data = _.groupBy(this.data, 'mobile_number');

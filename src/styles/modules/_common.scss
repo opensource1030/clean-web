@@ -104,16 +104,6 @@
     color: $white;
     line-height: 40px;
     font-weight: 500;
-
-    &:after {
-      position: absolute;
-      right: -40px;
-      top: 0;
-      content: ' ';
-      border-style: solid;
-      border-width: 40px 0 0 40px;
-      border-color: transparent transparent transparent $brand-orange;
-    }
   }
 }
 

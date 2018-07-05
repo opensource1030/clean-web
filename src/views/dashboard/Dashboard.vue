@@ -84,11 +84,9 @@
                   </div>
                 </div>
                 <div class="device-image">
+                  <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Click
-                    to
-                    Get Started
-                  </router-link>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Place an Order</router-link>
                   <!--<a class="button large" @click.stop="upgradeDevice()">-->
                     <!--<i class="fa fa-mobile"></i>Upgrade Device-->
                   <!--</a>-->
