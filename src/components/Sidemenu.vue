@@ -26,7 +26,7 @@
                 <i class="fa fa-circle-o"></i> Report Details</a> -->
 
                 <!-- to EasyWIM-->
-              <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+              <a :href="'https://pp-prod.ezwim.com/ords/f?p=101:75:15218129877099::NO:::&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <i class="fa fa-circle-o"></i> Report Details</a>
             </li>
           </template>
