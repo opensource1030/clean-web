@@ -1,5 +1,6 @@
 var {Store} = require('yayson')()
 var store = new Store()
+
 export default {
   name: "LegacyInfo",
   computed:{
@@ -28,10 +29,7 @@ export default {
       this.$router.push('/dashboard');
     },
     closePop(){
-      document.getElementById('legacy-info').src = process.env.LEGACY_URL + "/app/logout.asp";
-      setTimeout(function(){
-        history.back();
-      },200)
+      history.back();
     },
     greet () {
       this.$ga.trackEvent('Click to Get Started');
