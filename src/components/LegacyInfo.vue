@@ -6,7 +6,7 @@
         <div class="pop-overlay" @click="goDashboard()"></div>
         <div class="pop-content" v-if="token">
           <div class="expanded row">
-            <div class="columns large-12">
+            <div class="columns large-12 legacy-heading">
               <h1 class="pop-heading">  Request a Device or Accessory </h1>
               <a v-show="iframeUrl" @click="closePop()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
 

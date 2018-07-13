@@ -9,12 +9,17 @@ export default {
     }
   },
   mounted(){
-    var height = $(window).height() - 72;
-    $('.spent-info').css({height: height + 'px', position: 'fixed'});
+    var topBarHeight = $('section.top-bar-section').height();
+    var legacyHeaderHeight = $('.legacy-heading').height();
+    var slicknavHeight = 0;
+    if($('section.top-bar-section .slicknav_menu').css('display') != 'none')
+      slicknavHeight = $('section.top-bar-section .slicknav_menu').height();
+
+    $('.spent-info').css({height: $(window).height() - topBarHeight - slicknavHeight + 'px', position: 'fixed'});
     $('.spent-info .pop-overlay').css({width: $(window).width() + 'px'});
 
     var width = $('.spent-info').width();
-    $('#legacy-info').css({height: height - 93 + 'px', width: width - 40 + 'px'});
+    $('#legacy-info').css({height: $(window).height() - topBarHeight - slicknavHeight - legacyHeaderHeight - 15 + 'px', width: width - 40 + 'px'});
     this.greet();
   },
   data(){

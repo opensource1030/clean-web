@@ -1202,3 +1202,26 @@
     }
   }
 }
+
+@media print, screen and (max-width: 1244px) {
+  .spent-info {
+    top: 120px;
+  }
+}
+
+@media print, screen and (max-width: 800px) {
+  .spent-info {
+    top: 126px;
+  }
+}
+@media print, screen and (max-width: 377px) {
+  .spent-info {
+    max-width: 90% !important;
+  }
+}
+
+@media print, screen and (max-width: 377px) {
+  .spent-info {
+    top: 158px;
+  }
+}

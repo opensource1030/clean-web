@@ -237,7 +237,6 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns">Other Carrier Charges</strong>
-                    <span class="large-6 small-6 columns text-right"
                     <span class="large-6 columns text-right" >  {{ allocation.other_carrier_charge | formatCurrency }} </span>
 
                   </li>
