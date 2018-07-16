@@ -34,11 +34,11 @@ $color_lightred: rgba(236,90,98,1);
 .morphsearch.open {
   width: 100%;
   min-height: 100%;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   position: fixed;
   z-index: 9999;
-  margin-top: 0px;
+  margin-top: 0;
 
   .morphsearch-form {
     width: 100%;
@@ -222,7 +222,7 @@ $color_lightred: rgba(236,90,98,1);
       border: 1px solid #e6e6e6;
       border-radius: 2px;
       background: #f2f2f2;
-      padding: 10px 10px 0 10px;
+      padding: 10px 10px 0;
       margin: 5px;
       text-decoration: none;
       color: #333;
