@@ -26,6 +26,7 @@ export default {
       },
       userInfo: {
         data: {},
+        lastAllocations: [],
         loading: true
       },
       startedOrder: false,
@@ -71,12 +72,13 @@ export default {
     _params = {
       params: {
         include: 'companies.currentBillMonths,allocations',
-        'filter[allocations.billMonth]': '[currentBillMonths.last:1]'
+        'filter[allocations.billMonth]': '[currentBillMonths.last:3]'
       }
     }
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       if (res.status == 404) {
         this.userInfo.data.allocations = []
+        this.userInfo.lastAllocations = []
       } else {
         // console.log('dashboard/created userInfo', res)
         let event = store.sync(res.data)
@@ -84,6 +86,13 @@ export default {
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
+
+        let lastAllocations = []
+        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
+        _.forEach(allocationsByPhone, function(allocations) {
+          lastAllocations.push(allocations[0]);
+        });
+        this.userInfo.lastAllocations = lastAllocations;
       }
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
@@ -104,7 +113,7 @@ export default {
     },
 
     nextAllocation () {
-      this.activeAllocationIndex < this.userInfo.data.allocations.length - 1 ? this.activeAllocationIndex++ : null;
+      this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null;
     },
 
     selectOrderType (type) {

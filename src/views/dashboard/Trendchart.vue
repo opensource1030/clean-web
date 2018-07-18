@@ -11,8 +11,10 @@
     <div class="tabs-content" data-tabs-content="trend-tabs">
       <template v-for="(key, index) in groupDataKeys">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
-          <div class="pie-chart-title">&nbsp;</div>
-          <vue-chart chart-type="LineChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
+          <div class="pie-chart-title">
+            {{ key | phone }}
+          </div>
+          <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
         </div>
       </template>
     </div>
@@ -76,7 +78,8 @@
             left: '15%',
             top: '10%',
             width: '75%'
-          }
+          },
+          isStacked: true
         }
       }
     },
