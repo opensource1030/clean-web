@@ -72,8 +72,7 @@
     },
     methods: {
       title (allocation) {
-        // return this.$options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
-        return this.$options.filters.phone(allocation.mobile_number);
+        return this.$options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
       },
 
       pieData (index) {
