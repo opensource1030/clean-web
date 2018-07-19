@@ -22,8 +22,8 @@
 </template>
 
 <script>
-  const dateFormat = require('dateformat');
   import _ from 'lodash';
+  import moment from 'moment';
 
   export default {
     props: ['data'],
@@ -112,18 +112,6 @@
     },
 
     methods: {
-      getMonths(bill_month) {
-        let menuMonths = new Array();
-        let date = new Date(bill_month);
-        date.setMonth(date.getMonth() - 3);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        date.setMonth(date.getMonth() + 1);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        date.setMonth(date.getMonth() + 1);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        return menuMonths;
-      },
-
       seriesData (key, index) {
         let bill_month = null
         let trendchart_data = []
@@ -136,11 +124,11 @@
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
             if (bill_month == null && !!allocation.bill_month) {
-              bill_month = new Date(allocation.bill_month)
+              bill_month = moment(allocation.bill_month)
             }
 
             return [
-              dateFormat(allocation.bill_month, 'mmm / yyyy'),
+              moment(allocation.bill_month).format('MMM YYYY'),
               allocation.service_plan_charge,
               allocation.domestic_usage_charge,
               allocation.intl_roam_usage_charge,
@@ -151,13 +139,13 @@
         }
 
         if (bill_month == null) {
-          bill_month = new Date()
+          bill_month = moment()
         }
         let len = trendchart_data.length;
         if (len < 3) {
           for (let i = 0; i < (3 - len); i ++) {
-            bill_month.setMonth(bill_month.getMonth() - 1);
-            trendchart_data.unshift([dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]);
+            bill_month.set('month', bill_month.get('month') - 1);
+            trendchart_data.unshift([bill_month.format('MMM YYYY'), 0, 0, 0, 0, 0]);
           }
         }
 
