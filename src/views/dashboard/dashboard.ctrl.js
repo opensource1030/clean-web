@@ -90,7 +90,7 @@ export default {
         let lastAllocations = []
         let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
         _.forEach(allocationsByPhone, function(allocations) {
-          lastAllocations.push(allocations[0]);
+          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
         });
         this.userInfo.lastAllocations = lastAllocations;
       }
