@@ -128,7 +128,7 @@
             }
 
             return [
-              moment(allocation.bill_month).format('MMM / YYYY'),
+              moment(allocation.bill_month).format('MMM YYYY'),
               allocation.service_plan_charge,
               allocation.domestic_usage_charge,
               allocation.intl_roam_usage_charge,
@@ -145,7 +145,7 @@
         if (len < 3) {
           for (let i = 0; i < (3 - len); i ++) {
             bill_month.set('month', bill_month.get('month') - 1);
-            trendchart_data.unshift([bill_month.format('MMM / YYYY'), 0, 0, 0, 0, 0]);
+            trendchart_data.unshift([bill_month.format('MMM YYYY'), 0, 0, 0, 0, 0]);
           }
         }
 
