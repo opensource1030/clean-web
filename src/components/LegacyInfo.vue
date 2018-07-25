@@ -1,25 +1,24 @@
-
 <template>
-  <div>
-    <transition name="fade">
-      <div class="callout spent-info" v-bind:class="{ active: isActive, 'visible': popOver }">
-        <div class="pop-overlay" @click="goDashboard()"></div>
-        <div class="pop-content" v-if="token">
-          <div class="expanded row">
-            <div class="columns large-12 legacy-heading">
-              <h1 class="pop-heading">  Request a Device or Accessory </h1>
-              <a v-show="iframeUrl" @click="closePop()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
+  <div class="legacy-form-holder">
+    <div class="pop-overlay"></div>
+    <div class="pop-content">
+      <div class="form-header">
+        <a class="btn-close" @click="closeLegacy()" title="close"><i class="fa fa-times-circle"> </i> </a>
+      </div>
 
-              <hr class="hr-cln">
+      <div class="expanded row">
+        <div class="columns large-12 legacy-heading">
+          <h1 class="pop-heading">  Request a Device or Accessory </h1>
+          <a @click="backLegacy()" class="button  pop-close" > <i class="fa fa-arrow-left"> </i> Back </a>
 
-            </div>
-            <div class="small-12 columns">
-              <iframe id="legacy-info" :src="iframeUrl" > </iframe>
-            </div>
-          </div>
+          <hr class="hr-cln">
+
+        </div>
+        <div class="columns large-12 iframe-wrapper">
+          <iframe id="legacy-info" :src="iframeUrl"> </iframe>
         </div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 <script src="./legacyinfo.ctrl.js" lang="babel"></script>

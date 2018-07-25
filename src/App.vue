@@ -115,7 +115,7 @@ export default {
     $(document).keyup(function (e) {
       if($('.support-form-holder').is(":visible") && e.keyCode == 27) {
         setTimeout(function() {
-          $('#btn-close').click();
+          $('.support-form-holder .btn-close').click();
         }, 200);
       } else if($('.spent-info').hasClass('active') && e.keyCode == 27) {
         setTimeout(function() {

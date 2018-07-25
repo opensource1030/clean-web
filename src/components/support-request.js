@@ -48,7 +48,7 @@ function supportRequest() {
     $select.prop('value', value1);
   });
 
-  $('#btn-close').click(function () {
+  $('.support-form-holder .btn-close').click(function () {
     $('#support-form')[0].reset();
     $images.hide();
     $('.support-form-holder').hide();
