@@ -1,7 +1,7 @@
 <template>
   <div class="support-form-holder">
     <div class="form-header">
-      <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
+      <a class="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
     </div>
     <form id="support-form">
       <div class="row support-form-container">

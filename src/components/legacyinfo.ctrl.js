@@ -9,32 +9,22 @@ export default {
     }
   },
   mounted(){
-    var topBarHeight = $('section.top-bar-section').height();
-    var legacyHeaderHeight = $('.legacy-heading').height();
-    var slicknavHeight = 0;
-    if($('section.top-bar-section .slicknav_menu').css('display') != 'none')
-      slicknavHeight = $('section.top-bar-section .slicknav_menu').height();
+    var legacySpaceHeight = $('.legacy-form-holder .pop-content').height() - $('.legacy-form-holder .form-header').outerHeight() - $('.legacy-heading').outerHeight() - 30;
+    $('.legacy-form-holder .iframe-wrapper').css('height', legacySpaceHeight + 'px'); // Set content height;
 
-    $('.spent-info').css({height: $(window).height() - topBarHeight - slicknavHeight + 'px', position: 'fixed'});
-    $('.spent-info .pop-overlay').css({width: $(window).width() + 'px'});
-
-    var width = $('.spent-info').width();
-    $('#legacy-info').css({height: $(window).height() - topBarHeight - slicknavHeight - legacyHeaderHeight - 15 + 'px', width: width - 40 + 'px'});
     this.greet();
   },
   data(){
     return {
-      isActive: true,
-      popOver : true,
       token: localStorage.token
     }
   },
   methods: {
-    goDashboard(){
-      this.$router.push('/dashboard');
-    },
-    closePop(){
+    backLegacy(){
       history.back();
+    },
+    closeLegacy(){
+      this.$router.push('/dashboard');
     },
     greet () {
       this.$ga.trackEvent('Click to Get Started');
