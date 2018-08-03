@@ -70,20 +70,27 @@ export default {
         email: this.$route.params.email,
         password: ''
       },
+      deskpro: '',
       error: '',
       version: '4.0.0-rc.1'
     }
   },
 
   mounted() {
-    $('input[name="password"]').focus()
+    let currentLocation = decodeURIComponent(window.location.href);
+    if(currentLocation.split('return=').length > 1) {
+      this.deskpro = currentLocation.split('return=')[1];
+      $('input[name="email"]').focus()
+    } else
+      $('input[name="password"]').focus()
   },
 
   methods: {
     submit() {
       this.$store.dispatch('auth/loginLocal', {
         router: this.$router,
-        credentials: this.credentials
+        credentials: this.credentials,
+        returnUrl: this.deskpro
       })
     },
 

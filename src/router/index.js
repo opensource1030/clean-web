@@ -230,8 +230,15 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  let authenticated = store.getters['auth/isAuthenticated']
-  let expired = store.getters['auth/isExpired']
+  let authenticated = store.getters['auth/isAuthenticated'];
+  let currentLocation = decodeURIComponent(window.location.href);
+
+  if(currentLocation.split('return=').length > 1 && authenticated) {
+    let profile = store.getters['auth/getProfile'];
+    location.href = currentLocation.split('return=')[1] + '?jwt=' + profile.deskproJwt;
+  }
+
+  let expired = store.getters['auth/isExpired'];
   // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
   // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
@@ -248,7 +255,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
-      next({name: 'dashboard'})
+        next({name: 'dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {

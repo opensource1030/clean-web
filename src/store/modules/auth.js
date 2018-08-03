@@ -39,6 +39,10 @@ const getters = {
     return status;
   },
 
+  getProfile: (state) => {
+    return state.profile;
+  },
+
   getVariations: (state) => {
     return state.variations
   },
@@ -80,7 +84,7 @@ const actions = {
     })
   },
 
-  profile ({ dispatch, commit, state }, { res, router }) {
+  profile ({ dispatch, commit, state }, { res, router, returnUrl }) {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -96,10 +100,16 @@ const actions = {
         }
         console.log('vuex profile', response)
         commit(types.AUTH_LOGIN_SUCCESS, result)
-        commit(types.AUTH_LOGIN_DONE)
-        // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-        router.push({name: 'dashboard'})
-        resolve(result)
+
+        if(returnUrl)
+          location.href = returnUrl + '?jwt=' + response.deskproJwt;
+        else {
+          commit(types.AUTH_LOGIN_DONE)
+
+          // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+          router.push({name: 'dashboard'})
+          resolve(result)
+        }
       }, (error) => {
         commit(types.AUTH_LOGIN_FAILURE)
         dispatch('error/addNew', {
@@ -378,7 +388,7 @@ const actions = {
     }
   },
 
-  loginLocal ({ dispatch, commit, state }, { router, credentials }) {
+  loginLocal ({ dispatch, commit, state }, { router, credentials, returnUrl }) {
     if (credentials.password == '' || credentials.password == null) {
       dispatch('error/addNew', {
         message: "The Password must not be empty, please, fill it properly."
@@ -399,7 +409,7 @@ const actions = {
           profile: {}
         }
         commit(types.AUTH_LOGIN_SUCCESS, result)
-        dispatch('profile', {res: res, router: router}).then(res => resolve(true), err => reject(err))
+        dispatch('profile', {res: res, router: router, returnUrl: returnUrl}).then(res => resolve(true), err => reject(err))
       }, (err) => {
         commit(types.AUTH_LOGIN_FAILURE)
         if (err.status == 500) {
@@ -422,7 +432,7 @@ const actions = {
       authAPI.singleSignOn({
         uuid: id
       }, (re) => {
-        dispatch('profile', {res: re, router: router});
+        dispatch('profile', {res: re, router: router, returnUrl: ''});
       }, (er) => {
         commit('LOGIN_FAILURE')
         if (er.status == 500) {
