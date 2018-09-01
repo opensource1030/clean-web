@@ -189,7 +189,7 @@
     data () {
       return {
         features: features,
-        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
+        legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
         redirectScopeToken: '',
         showMobility: false
       }

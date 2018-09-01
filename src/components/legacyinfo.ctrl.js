@@ -4,7 +4,7 @@ export default {
     name: "LegacyInfo",
     computed:{
         iframeUrl : function (){
-          return process.env.LEGACY_URL+"/helpdesk/r_1.asp?token="+this.token+"&version=v4"
+          return process.env.LEGACY_URL+"/app/wrf/default.asp?token="+this.token+"&version=v4"
         }
     },
     mounted(){
@@ -26,7 +26,7 @@ export default {
                 // The box that we clicked has a class of bad so let's remove it and add the good class
                 document.getElementsByTagName('body')[0].classList.remove('full-height');
             }
-            document.getElementById('legacy-info').src = process.env.LEGACY_URL+ "/platform/logout.asp";
+            document.getElementById('legacy-info').src = process.env.LEGACY_URL+ "/app/logout.asp";
             setTimeout(function(){
                 history.back();
             },200)
