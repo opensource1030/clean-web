@@ -69,7 +69,6 @@
         </ul>
       </li>
 
-<!--       
 
       <li class="treeview" v-if="ScopeHelper.hasPermissionOnGroup($store.state.auth.profile.roles[0], 'inventory')">
         <a href="javascript:;" name="inventory">
@@ -80,6 +79,7 @@
         </a>
         <ul class="treeview-menu">
 
+<!--
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
             <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
@@ -98,11 +98,14 @@
             <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
           </li>
           
+-->
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
           </li>
+
+<!--
 
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
@@ -113,10 +116,11 @@
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/orders" name="orders"><i class="fa fa-circle-o"></i>Orders</router-link>
           </li> 
-
+-->
           </ul>
-      </li> 
+      </li>
 
+<!--
       <li class="treeview" v-if="ScopeHelper.hasPermissionOnGroup($store.state.auth.profile.roles[0], 'product')">
         <a href="javascript:;" name="product">
           <i class="fa fa-th-large"></i>

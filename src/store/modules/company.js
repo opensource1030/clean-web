@@ -36,10 +36,7 @@ const actions = {
   search ({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       let _params = {
-        params: {
-          page: state.pagination.current_page,
-          include: 'udls.udlvalues,addresses',
-        }
+        params: { }
       }
 
       let key, value;
@@ -63,6 +60,16 @@ const actions = {
         _params.params[key] = value
       }
 
+      if(state.filters.indexAll) {
+        _params.params['indexAll'] = 1
+        _params.params['include'] = 'domains'
+      } else {
+        _params.params['indexAll'] = 0
+        _params.params['page'] = state.pagination.current_page
+        _params.params['include'] = 'udls.udlvalues,addresses'
+      }
+
+
       companyAPI.search(_params, res => {
         const companies = store.sync(res.data)
         // console.log('company res', companies)
@@ -78,6 +85,11 @@ const actions = {
 
   searchByActive({ dispatch, commit, state }, { query }) {
     commit(types.COMPANY_UPDATE_FILTERS, { active: { operator: 'eq', value: query } })
+    return dispatch('search')
+  },
+
+  searchAllByActive({ dispatch, commit, state }, { query, all }) {
+    commit(types.COMPANY_UPDATE_FILTERS, { active: { operator: 'eq', value: query}, indexAll: all })
     return dispatch('search')
   },
 
