@@ -1,6 +1,6 @@
 <template>
 <div class="page employee-page employee-edit-page">
-  <div class="row" v-if="employee.id == employee_id">
+  <div class="row" v-if="employee.id === employee_id">
     <modal v-if="$store.getters['error/hasError']" @close="$store.dispatch('error/clearAll')">
       <h3 slot="body">{{ $store.getters['error/error'] }}</h3>
     </modal>
@@ -8,165 +8,110 @@
     <div class="columns small-12">
       <div class="grid-box overview">
         <div class="box-heading">
-          <h2>Employee Information</h2>
+          <h2>Employee / Company Information</h2>
         </div>
         <div class="box-content">
           <div class="row extend">
-            <div class="columns medium-4">
+            <div class="columns medium-6">
               <label>
-                <span>Email</span>
-                <input type="text" name="employee-email" placeholder="" v-model="employee.email">
+                <span>First Name</span>
+                <input type="text" name="employee-first-name" placeholder="" v-model="employee.firstName">
               </label>
             </div>
-            <div class="columns medium-4">
+            <div class="columns medium-6">
               <label>
-                <span>Username</span>
-                <input type="text" name="employee-username" placeholder="" v-model="employee.username">
+                <span>Last Name</span>
+                <input type="text" name="employee-last-name" placeholder="" v-model="employee.lastName">
               </label>
             </div>
+          </div>
+
+          <div class="row extend">
+            <div class="columns medium-8 employee-email">
+
+              <fieldset>
+                <legend>Employee Email</legend>
+
+                <div class="row extend">
+                  <div class="columns medium-6">
+                    <label>
+                      <span>Username</span>
+                      <input type="text" name="employee-user-name" placeholder="" v-model="employee.username">
+                    </label>
+                  </div>
+                  <div class="columns medium-1">
+                    <label class="at-mark">@</label>
+                  </div>
+                  <div class="columns medium-5">
+                    <label>
+                      <span>Domain</span>
+                      <select name="employee-user-domain" v-model="employee.domainId">
+                        <option v-for="domain in domains" :value="domain.id">{{ domain.domain }}</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
             <div class="columns medium-4">
-              <label>
+              <label class="company-list">
                 <span>Company</span>
-                <select name="employee-company" @change="onChange_Company($event)">
-                  <option v-for="c in companies" :value="c.id" :selected="c.id == employee.companyId">{{ c.name }}</option>
+                <select name="employee-company" v-model="employee.companyId" @change="onCompanyChange(employee.companyId)">
+                  <option v-for="company in companies" :value="company.id">{{ company.name }}</option>
                 </select>
               </label>
             </div>
           </div>
 
           <div class="row extend">
-            <div class="columns medium-4">
-              <label>
-                <span>First Name</span>
-                <input type="text" name="employee-first-name" placeholder="" v-model="employee.firstName">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>Last Name</span>
-                <input type="text" name="employee-last-name" placeholder="" v-model="employee.lastName">
-              </label>
-            </div>
-            <div class="columns medium-4">
-              <label>
-                <span>Location</span>
-                <input type="text" name="employee-location" placeholder="" v-model="employee.defaultLocationId">
-              </label>
-            </div>
-          </div>
-
-          <div class="row extend">
-            <div class="columns medium-8">
+            <div class="columns medium-5">
               <label>
                 <span>Extra Notes</span>
-                <textarea name="employee-notes" placeholder="" v-model="employee.notes"></textarea>
+                <textarea name="employee-notes" placeholder="" v-model="employee.notes" rows="5"></textarea>
               </label>
             </div>
-            <div class="columns medium-2">
-              <label>
-                <span>Supervisor</span>
-                <div class="switch tiny">
-                  <input class="switch-input" :id="'supervisor-' + employee.id" type="checkbox" v-model="employee.isSupervisor">
-                  <label class="switch-paddle" :for="'supervisor-' + employee.id"></label>
+            <div class="columns medium-7 no-padding">
+              <div class="row extend">
+                <div class="columns medium-7">
+                  <label class="country-list">
+                    <span>Country</span>
+                    <select name="employee-location" v-model="employee.locationId">
+                      <option v-for="location in locations" :value="location.id">{{ location.fullname }}</option>
+                    </select>
+                  </label>
                 </div>
-              </label>
-            </div>
-            <div class="columns medium-2">
-              <label>
-                <span>Active</span>
-                <div class="switch tiny">
-                  <input class="switch-input" :id="'active-' + employee.id" type="checkbox" v-model="employee.isActive">
-                  <label class="switch-paddle" :for="'active-' + employee.id"></label>
+                <div class="columns medium-5">
+                  <label class="country-list">
+                    <span>Language</span>
+                    <select name="employee-language" v-model="employee.defaultLang">
+                      <option v-for="lang in languages" :value="lang.value">{{ lang.label }}</option>
+                    </select>
+                  </label>
                 </div>
-              </label>
+              </div>
+              <div class="row extend">
+                <div class="columns medium-3">
+                  <label>
+                    <span>Supervisor</span>
+                    <div class="switch tiny">
+                      <input class="switch-input" :id="'supervisor-' + employee.id" type="checkbox" v-model="employee.isSupervisor">
+                      <label class="switch-paddle" :for="'supervisor-' + employee.id"></label>
+                    </div>
+                  </label>
+                </div>
+                <div class="columns medium-2 active-switch">
+                  <label>
+                    <span>Active</span>
+                    <div class="switch tiny">
+                      <input class="switch-input" :id="'active-' + employee.id" type="checkbox" v-model="employee.isActive">
+                      <label class="switch-paddle" :for="'active-' + employee.id"></label>
+                    </div>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns small-12">
-      <div class="grid-box shipping-address-info">
-        <div class="box-heading">
-          <h2>Shipping Address</h2>
-        </div>
-        <div class="box-content">
-          <div class="row">
-            <div class="columns large-6">
-              <label>
-                <span>Name</span>
-                <input type="text" v-model="employee.addresses[0].name">
-              </label>
-            </div>
-            <div class="columns large-6">
-              <label>
-                <span>Address</span>
-                <input type="text" v-model="employee.addresses[0].address">
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="columns large-6">
-              <label>
-                <span>Attn</span>
-                <input type="text" v-model="employee.addresses[0].attn">
-              </label>
-            </div>
-            <div class="columns large-3">
-              <label>
-                <span>City</span>
-                <input type="text" v-model="employee.addresses[0].city">
-              </label>
-            </div>
-            <div class="columns large-3">
-              <label>
-                <span>State</span>
-                <input type="text" v-model="employee.addresses[0].state">
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="columns large-6">
-              <label>
-                <span>Phone</span>
-                <input type="text" v-model="employee.addresses[0].phone">
-              </label>
-            </div>
-            <div class="columns large-3">
-              <label>
-                <span>Country</span>
-                <input type="text" v-model="employee.addresses[0].country">
-              </label>
-            </div>
-            <div class="columns large-3">
-              <label>
-                <span>Postal Code</span>
-                <input type="text" v-model="employee.addresses[0].postalCode">
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns small-12" v-if="employee.companies.length > 0 && !!employee.companies[0]">
-      <div class="grid-box company-info">
-        <div class="box-heading">
-          <h2>Company Information</h2>
-        </div>
-        <div class="box-content">
-          <div class="columns medium-4" v-for="udl in employee.companies[0].udls">
-            <label>
-              {{ udl.name }}
-              <select v-model="employee.udlvalues[EmployeeHelper.getUdlValueIndex(employee, udl.id)]">
-                <option v-for="uv in udl.udlvalues" :value="uv">{{ uv.udlValue }}</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="clearfix"></div>
         </div>
       </div>
     </div>
@@ -176,7 +121,7 @@
     </div>
   </div>
 
-  <div class="is-relative" v-show="employee.id !== employee_id">
+  <div class="is-relative" v-if="employee.id !== employee_id">
     <transition appear
                 enter-class=""
                 enter-active-class="animated zoomIn"

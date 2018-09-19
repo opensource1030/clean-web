@@ -63,6 +63,33 @@
     .box-content {
       padding: 15px 15px 15px 15px;
     }
+
+    &.overview {
+      .employee-email {
+        fieldset {
+          border: 1px solid #c0c0c0 !important;
+          margin: 0 0 16px;
+          padding: 0.35em 0.625em 0.75em !important;
+
+        }
+        .at-mark {
+          line-height: 78.78px;
+          text-align: center;
+        }
+      }
+
+      .company-list {
+        margin-top: 35px;
+      }
+
+      .active-switch {
+        float: left !important;
+      }
+
+      select {
+        background-image: none;
+      }
+    }
   }
 
   .row.full-width {
