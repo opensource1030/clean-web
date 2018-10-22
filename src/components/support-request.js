@@ -9,7 +9,7 @@ function supportRequest() {
     $('#requestor_email').val(JSON.parse(localStorage.getItem("profile")).email);
     $('#recipient_firstname').val(JSON.parse(localStorage.getItem("profile")).firstName);
     $('#recipient_lastName').val(JSON.parse(localStorage.getItem("profile")).lastName);
-  })
+  });
 
   populateCountries.populateCountries("country2");
   $('.eq-Hght').matchHeight({
@@ -28,29 +28,25 @@ function supportRequest() {
     allowClear: true
   });
 
-  var $select = $('#support-form .user-actions');
-  $select.on('change', function () {
-    var value = '.' + $(this).val();
-  });
-
   var $selectOption = $('.user-actions');
-  var $images = $('.mix');
 
   $selectOption.on('change', function () {
-    var value1 = $(this).val();
-    var value = '.' + value1;
-    $images.show(200).not(value).hide();
+    var value = $(this).val();
+    $('.mix').show(200);
+    setTimeout(function() {
+      $('.mix').not('.' + value).hide();
+    }, 210);
     if ($(this).prop('id') == 'choose-issues') {
       $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
     }
     $('.open-support').click();
     $('.support-form-holder').show();
-    $select.prop('value', value1);
+    $('#support-form .user-actions').prop('value', value);
   });
 
   $('.support-form-holder .btn-close').click(function () {
     $('#support-form')[0].reset();
-    $images.hide();
+    $('.mix').hide();
     $('.support-form-holder').hide();
     $selectOption.prop('selectedIndex', 0);
   });

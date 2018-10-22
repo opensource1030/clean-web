@@ -127,13 +127,19 @@
               bill_month = moment(allocation.bill_month)
             }
 
+            var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+            ildvc = ildvc ? ildvc : 0;
+
+            var oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
+            oc = oc ? oc : 0;
+
             return [
               moment(allocation.bill_month).format('MMM YYYY'),
-              allocation.service_plan_charge,
-              allocation.domestic_usage_charge,
-              allocation.intl_roam_usage_charge,
-              (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0,
-              (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0
+              {v: allocation.service_plan_charge, f: '$' + allocation.service_plan_charge},
+              {v: allocation.domestic_usage_charge, f: '$' + allocation.domestic_usage_charge},
+              {v: allocation.intl_roam_usage_charge, f: '$' + allocation.intl_roam_usage_charge},
+              {v: ildvc, f: '$' + ildvc},
+              {v: oc, f: '$' + oc}
             ]
           }).value();
         }
