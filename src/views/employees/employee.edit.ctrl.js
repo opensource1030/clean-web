@@ -162,8 +162,12 @@ export default {
           //
           // let employee_id = res.data.data.id
           // console.log(employee_id)
-          this.$router.push({path: '/employees/review/' + employee_id})
-        }, err => console.log('update err', err))
+          let newEmployer = store.sync(res.data);
+          this.$router.push({path: '/employees/review/' + newEmployer.id})
+        }, err =>  {
+          this.$store.dispatch('error/addNew', { message: err.statusText + '. Please contact administrator.'});
+          console.log('update err', err)
+        })
       // }
     },
 

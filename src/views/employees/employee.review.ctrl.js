@@ -46,9 +46,9 @@ export default {
   created () {
     const employee_id = this.$route.params.id;
 
-    this.$store.dispatch('company/searchByActive', {query: 2}).then(res => {
+    this.$store.dispatch('company/searchAllByActive', { query: 1, all: true }).then(res => {
       if (employee_id > 0) {
-        employeeAPI.get(employee_id, {params: {include: 'udlvalues,companies,companies.udls,companies.udls.udlvalues,companies.addresses'}}, res => {
+        employeeAPI.get(employee_id, {params: {include: 'udlvalues,companies,companies.udls,companies.udls.udlvalues,companies.addresses', indexAll: 1}}, res => {
           this.$set(this, 'employee', store.sync(res.data))
           this.load();
           this.$set(this, 'employee_id', employee_id)
