@@ -22,9 +22,9 @@
                   <div class="columns small-6 medium-6">
                     <header class="lined-title">
                       <h2> Basic Info </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
                     </header>
                     <dl class="dl-h no-mg">
                       <dt>ID:</dt>
@@ -48,9 +48,9 @@
                   <div class="columns small-6 medium-6">
                     <header class="lined-title">
                       <h2> Company Info </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
                     </header>
 
                     <dl class="dl-h no-mg">
@@ -78,23 +78,23 @@
                     </dl>
                   </div>
                   <div class="clearfix mgbtm-1"></div>
-                  <div class="columns small-12">
-                    <header class="lined-title">
-                      <h2> User Role </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
-                    </header>
-                    <ul>
-                      <li v-for="role in UserRole">{{ role }}</li>
-                    </ul>
-                  </div>
+                  <!--<div class="columns small-12">-->
+                    <!--<header class="lined-title">-->
+                      <!--<h2> User Role </h2>-->
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
+                    <!--</header>-->
+                    <!--<ul>-->
+                      <!--<li v-for="role in UserRole">{{ role }}</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
                 </div>
               </div>
             </div>
           </div>
           <div class="small-12 columns">
-            <a class="button large save-button" :href="/employees/">Save Changes</a>
+            <a class="button large save-button" :href="/employees/">Go Back</a>
           </div>
         </div>
       </transition>
