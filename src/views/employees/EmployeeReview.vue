@@ -94,7 +94,7 @@
             </div>
           </div>
           <div class="small-12 columns">
-            <a class="button large save-button" :href="/employees/">Go Back</a>
+            <a class="button large save-button" :href="/dashboard/">Go Back</a>
           </div>
         </div>
       </transition>

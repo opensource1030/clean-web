@@ -7,7 +7,7 @@
             <img v-bind:src="_.get(company.object, 'metadata.logo.url', '')" alt="Company Logo" title="Client Logo">
           </div>
         </div>
-        <morphsearch></morphsearch>
+        <!--<morphsearch></morphsearch>-->
       </div>
       <div class="column push-1 large-4 medium-4 small-5 profile">
         <div class="profile-holder">

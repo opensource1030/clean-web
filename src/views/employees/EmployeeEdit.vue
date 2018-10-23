@@ -12,6 +12,16 @@
         </div>
         <div class="box-content">
           <div class="row extend">
+            <div class="columns medium-4">
+              <label>
+                <span>Company</span>
+                <select name="employee-company" v-model="employee.companyId" @change="onCompanyChange(employee.companyId)">
+                  <option v-for="company in companies" :value="company.id">{{ company.name }}</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="row extend">
             <div class="columns medium-6">
               <label>
                 <span>First Name</span>
@@ -52,15 +62,6 @@
                   </div>
                 </div>
               </fieldset>
-            </div>
-
-            <div class="columns medium-4">
-              <label class="company-list">
-                <span>Company</span>
-                <select name="employee-company" v-model="employee.companyId" @change="onCompanyChange(employee.companyId)">
-                  <option v-for="company in companies" :value="company.id">{{ company.name }}</option>
-                </select>
-              </label>
             </div>
           </div>
 
