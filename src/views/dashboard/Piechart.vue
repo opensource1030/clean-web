@@ -83,12 +83,16 @@
         }
 
         let allocation = this.data[index]
+        var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+        ildvc = ildvc ? ildvc : 0;
+        var oc = (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100);
+        oc = oc ? oc : 0;
         var piechart_data = [
-          ['Service Plan Charges', allocation.service_plan_charge],
-          ['Domestic Usage Charges', allocation.domestic_usage_charge],
-          ['International Roam Usage Charges', allocation.intl_roam_usage_charge],
-          ['International Long Distance Voice Charges', (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0],
-          ['Other Charges', (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0]
+          ['Service Plan Charges', {v: allocation.service_plan_charge, f: '$'+allocation.service_plan_charge}],
+          ['Domestic Usage Charges', {v: allocation.domestic_usage_charge, f: '$'+allocation.domestic_usage_charge}],
+          ['International Roam Usage Charges', {v: allocation.intl_roam_usage_charge, f: '$'+allocation.intl_roam_usage_charge}],
+          ['International Long Distance Voice Charges', {v: ildvc, f: '$' + ildvc}],
+          ['Other Charges', {v: oc, f: '$' + oc}]
         ];
 
         let vm = this
