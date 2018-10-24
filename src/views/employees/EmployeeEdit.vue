@@ -12,6 +12,16 @@
         </div>
         <div class="box-content">
           <div class="row extend">
+            <div class="columns medium-4">
+              <label>
+                <span>Company</span>
+                <select name="employee-company" v-model="employee.companyId" @change="onCompanyChange(employee.companyId)">
+                  <option v-for="company in companies" :value="company.id">{{ company.name }}</option>
+                </select>
+              </label>
+            </div>
+          </div>
+          <div class="row extend">
             <div class="columns medium-6">
               <label>
                 <span>First Name</span>
@@ -53,15 +63,6 @@
                 </div>
               </fieldset>
             </div>
-
-            <div class="columns medium-4">
-              <label class="company-list">
-                <span>Company</span>
-                <select name="employee-company" v-model="employee.companyId" @change="onCompanyChange(employee.companyId)">
-                  <option v-for="company in companies" :value="company.id">{{ company.name }}</option>
-                </select>
-              </label>
-            </div>
           </div>
 
           <div class="row extend">
@@ -91,7 +92,7 @@
                 </div>
               </div>
               <div class="row extend">
-                <div class="columns medium-3">
+                <div class="columns medium-2">
                   <label>
                     <span>Supervisor</span>
                     <div class="switch tiny">
@@ -100,6 +101,7 @@
                     </div>
                   </label>
                 </div>
+
                 <div class="columns medium-2 active-switch">
                   <label>
                     <span>Active</span>
@@ -109,6 +111,18 @@
                     </div>
                   </label>
                 </div>
+
+                <div class="columns medium-2 active-switch">
+                  <label>
+                    <span>Notify</span>
+                    <div class="switch tiny">
+                      <input class="switch-input" :id="'notify-' + employee.id" type="checkbox" v-model="employee.notify">
+                      <label class="switch-paddle" :for="'notify-' + employee.id"></label>
+                    </div>
+                  </label>
+                </div>
+
+
               </div>
             </div>
           </div>
