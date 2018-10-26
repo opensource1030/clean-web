@@ -14,7 +14,7 @@
         <div class="row expanded">
           <div class="columns small-12">
             <header class="tag-header">
-              <h1> {{employee.firstName }} {{employee.lastName}} | {{ employee.identification }} </h1>
+              <h1> {{employee.lastName}}, {{employee.firstName }}  :: <strong style="background-color: #f8ff00; color: #000">{{ employee.identification }}</strong> </h1>
             </header>
             <div class="grid-box">
               <div class="box-content-holder">
@@ -28,7 +28,9 @@
                     </header>
                     <dl class="dl-h no-mg">
                       <dt>ID:</dt>
-                      <dd>{{ employee.id }}</dd>
+                      <dd>{{ employee.identification }}</dd>
+                      <dt>Notify:</dt>
+                      <dd>{{ employee.notify ? "Yes" : "No" }}</dd>
                       <dt>Username:</dt>
                       <dd>{{ employee.username }}</dd>
                       <dt>Active:</dt>
@@ -94,7 +96,7 @@
             </div>
           </div>
           <div class="small-12 columns">
-            <a class="button large save-button" :href="/dashboard/">Go Back</a>
+            <a class="button large save-button" :href="/employees/">Go Back</a>
           </div>
         </div>
       </transition>
