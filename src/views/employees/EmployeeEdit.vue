@@ -116,7 +116,7 @@
                   <label>
                     <span>Notify</span>
                     <div class="switch tiny">
-                      <input class="switch-input" :id="'notify-' + employee.id" type="checkbox" v-model="employee.notify">
+                      <input class="switch-input" :id="'notify-' + employee.id" type="checkbox" v-model="employee.notify" :checked="checked">
                       <label class="switch-paddle" :for="'notify-' + employee.id"></label>
                     </div>
                   </label>
