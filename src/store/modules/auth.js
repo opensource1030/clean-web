@@ -378,6 +378,10 @@ const actions = {
             dispatch('error/addNew', {
               message: err.body.error
             }, {root: true})
+          } else if (err.body.error == "User not Active") {
+            dispatch('error/addNew', {
+              message: err.body.error + ', ' + err.body.message
+            }, {root: true})
           } else {
             dispatch('error/addNew', {
               message: "Unexpected server error. Please contact the administrator."
