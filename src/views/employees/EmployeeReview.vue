@@ -14,7 +14,7 @@
         <div class="row expanded">
           <div class="columns small-12">
             <header class="tag-header">
-              <h1> {{employee.firstName }} {{employee.lastName}} | {{ employee.identification }} </h1>
+              <h1> {{employee.lastName}}, {{employee.firstName }}  :: <strong style="background-color: #f8ff00; color: #000">{{ employee.identification }}</strong> </h1>
             </header>
             <div class="grid-box">
               <div class="box-content-holder">
@@ -22,13 +22,15 @@
                   <div class="columns small-6 medium-6">
                     <header class="lined-title">
                       <h2> Basic Info </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
                     </header>
                     <dl class="dl-h no-mg">
                       <dt>ID:</dt>
-                      <dd>{{ employee.id }}</dd>
+                      <dd>{{ employee.identification }}</dd>
+                      <dt>Notify:</dt>
+                      <dd>{{ employee.notify ? "Yes" : "No" }}</dd>
                       <dt>Username:</dt>
                       <dd>{{ employee.username }}</dd>
                       <dt>Active:</dt>
@@ -48,9 +50,9 @@
                   <div class="columns small-6 medium-6">
                     <header class="lined-title">
                       <h2> Company Info </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
                     </header>
 
                     <dl class="dl-h no-mg">
@@ -78,23 +80,23 @@
                     </dl>
                   </div>
                   <div class="clearfix mgbtm-1"></div>
-                  <div class="columns small-12">
-                    <header class="lined-title">
-                      <h2> User Role </h2>
-                      <a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"
-                         title="Edit"><i
-                              class="fa fa-edit"> </i> </a>
-                    </header>
-                    <ul>
-                      <li v-for="role in UserRole">{{ role }}</li>
-                    </ul>
-                  </div>
+                  <!--<div class="columns small-12">-->
+                    <!--<header class="lined-title">-->
+                      <!--<h2> User Role </h2>-->
+                      <!--<a :href="'/employees/' + employee.id" :name="'edit-' + employee.id" class="btn-edit"-->
+                         <!--title="Edit"><i-->
+                              <!--class="fa fa-edit"> </i> </a>-->
+                    <!--</header>-->
+                    <!--<ul>-->
+                      <!--<li v-for="role in UserRole">{{ role }}</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
                 </div>
               </div>
             </div>
           </div>
           <div class="small-12 columns">
-            <a class="button large save-button" :href="/employees/">Save Changes</a>
+            <a class="button large save-button" :href="/employees/">Go Back</a>
           </div>
         </div>
       </transition>

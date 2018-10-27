@@ -35,22 +35,22 @@
             <div class="is-loading"></div>
           </div>
           <div class="box-content-holder overview" v-else>
-            <div class="row expanded" v-if="userInfo.data.allocations.length">
+            <div class="row expanded" v-if="userInfo.lastAllocations.length">
               <div class="row expanded">
                 <div class="device-detail first">
                   <div class="row expanded">
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">User</span>
-                        </br>
+                        <br/>
                         <span>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Device</span>
-                        </br>
-                        <span>{{userInfo.data.allocations[activeAllocationIndex].device}}</span>
+                        <br/>
+                        <span>{{userInfo.lastAllocations[activeAllocationIndex].device}}</span>
                       </p>
                     </div>
                   </div>
@@ -58,16 +58,16 @@
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Bill Month</span>
-                        </br>
-                        <span>{{userInfo.data.allocations[activeAllocationIndex].bill_month | cleanDate}}</span>
+                        <br/>
+                        <span>{{userInfo.lastAllocations[activeAllocationIndex].bill_month | cleanDate}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Mobile No</span>
-                        </br>
-                        <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.data.allocations[activeAllocationIndex].id}}" class="alloc_mblnumber"
-                          v-html="$options.filters.phone(userInfo.data.allocations[activeAllocationIndex].mobile_number)">
+                        <br/>
+                        <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.lastAllocations[activeAllocationIndex].id}}" class="alloc_mblnumber"
+                          v-html="$options.filters.phone(userInfo.lastAllocations[activeAllocationIndex].mobile_number)">
                         </router-link>
                       </p>
                     </div>
@@ -76,33 +76,35 @@
                     <div class="overview-item full last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Last Upgrade Date</span>
-                        </br>
-                        <span v-if="userInfo.data.allocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.data.allocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
+                        <br/>
+                        <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
                         <span v-else>N/A</span>
                       </p>
                     </div>
                   </div>
                 </div>
                 <div class="device-image">
+                  <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <a class="button large" @click.stop="upgradeDevice()">
-                    <i class="fa fa-mobile"></i>Upgrade Device
-                  </a>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Place an Order</router-link>
+                  <!--<a class="button large" @click.stop="upgradeDevice()">-->
+                    <!--<i class="fa fa-mobile"></i>Upgrade Device-->
+                  <!--</a>-->
                 </div>
                 <div class="device-detail second">
                   <div class="row expanded">
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Service Plan Charges</span>
-                        </br>
-                        <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].service_plan_charge.toFixed(2)}}</span>
+                        <br/>
+                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].service_plan_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Other Charges</span>
-                        </br>
-                        <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].other_charge.toFixed(2)}}</span>
+                        <br/>
+                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].other_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                   </div>
@@ -110,22 +112,22 @@
                     <div class="overview-item">
                       <p class="text-center">
                         <span class="bold color-tuatara">Usage Charges</span>
-                        </br>
-                        <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].usage_charge.toFixed(2)}}</span>
+                        <br/>
+                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].usage_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                     <div class="overview-item last">
                       <p class="text-center">
                         <span class="bold color-tuatara">Total Allocation Charges</span>
-                        </br>
-                        <span class="bold color-orange">{{'$' + userInfo.data.allocations[activeAllocationIndex].allocated_charge.toFixed(2)}}</span>
+                        <br/>
+                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].allocated_charge.toFixed(2)}}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row expanded">
                     <div class="overview-item full last">
                       <p>
-                        <select id="choose-issues" class="user-actions" v-model="userInfo.data.allocations[activeAllocationIndex].issue">
+                        <select id="choose-issues" class="user-actions" v-model="userInfo.lastAllocations[activeAllocationIndex].issue">
                           <option disabled value="">-- Choose an issue --</option>
                           <optgroup label="Billing">
                             <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
@@ -182,12 +184,12 @@
                   </a>
                   <div class="pagination-pages">
                     <div class="group">
-                      <a class="page-item" v-for="(allocation, index) in userInfo.data.allocations" 
+                      <a class="page-item" v-for="(allocation, index) in userInfo.lastAllocations"
                         :class="{ 'active': activeAllocationIndex == index}" @click="setAllocation(index)"></a>
                     </div>
                     <div class="clearfix"></div>
                   </div>
-                  <a class="item-next" :class="{ 'inactive': activeAllocationIndex == userInfo.data.allocations.length - 1 }" 
+                  <a class="item-next" :class="{ 'inactive': activeAllocationIndex == userInfo.lastAllocations.length - 1 }"
                     @click="nextAllocation()">
                     <i class="fa fa-arrow-right fa-2x"></i>
                   </a>
@@ -202,6 +204,7 @@
       </div>
     </div>
 
+    <!--
     <div class="row expanded m-t-25">
       <div class="columns small-12">
         <div class="tag-header">
@@ -235,6 +238,7 @@
         </div>
       </div>
     </div>
+    -->
 
     <div class="row expanded m-t-25">
       <div class="columns small-12 large-6 no-padding">
@@ -250,7 +254,7 @@
                 <div class="is-loading"></div>
               </div>
               <div class="box-content-holder no-padding" v-else>
-                <PieChart :data="userInfo.data.allocations" v-if="userInfo.data.allocations.length"></PieChart>
+                <PieChart :data="userInfo.lastAllocations" v-if="userInfo.lastAllocations.length"></PieChart>
                 <div class="row expanded no-data" v-else>
                   <p class="text-center bold black ft-18 m-b-15 m-t-15">N/A</p>
                 </div>

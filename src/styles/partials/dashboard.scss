@@ -466,7 +466,42 @@
   }
 }
 
+.support-form-holder, .legacy-form-holder {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  right:0;
+  width: 100%;
+  height: 100%;
+
+  .form-header{
+    padding:1rem;
+    position: relative;
+    border-bottom:1px $smoke solid;
+    background: $white;
+    top:-1px;
+    z-index: 99;
+    h2{
+      font-size: 1.4rem;
+      margin: 0;
+      font-weight: 700;
+    }
+    .btn-close {
+      font-size: 18px;
+      position: absolute;
+      right: 16px;
+      top: 1px;
+      color:$brand-dark;
+      &:hover{
+        color:$brand-dark;
+      }
+    }
+  }
+}
+
 .support-form-holder{
+  display: none;
+
   &.loading{
     &:after{
       content: '';
@@ -475,7 +510,7 @@
       color:#fff;
       position: absolute;
       z-index: 9999;
-     text-align: center;
+      text-align: center;
       width: 100%;
       vertical-align: middle;
       left: 0;
@@ -515,13 +550,7 @@
       }
     }
   }
-  z-index: 999;
-  display: none;
-  position: fixed;
-  top: 0;
-  right:0;
-  width: 100%;
-  height: 100%;
+
   max-width: 430px;
   background: $white;
   border: 1px solid $gainsboro;
@@ -564,29 +593,6 @@
 
       &#description-error {
         margin-left: 9px;
-      }
-    }
-  }
-  .form-header{
-    padding:1rem;
-    position: relative;
-    border-bottom:1px $smoke solid;
-    background: $white;
-    top:-1px;
-    z-index: 99;
-    h2{
-      font-size: 1.4rem;
-      margin: 0;
-      font-weight: 700;
-    }
-    #btn-close {
-      font-size: 18px;
-      position: absolute;
-      right: 16px;
-      top: 1px;
-      color:$brand-dark;
-      &:hover{
-        color:$brand-dark;
       }
     }
   }
@@ -738,10 +744,20 @@
   &.visible {
     display: block;
   }
+  .pop-overlay {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    z-index: 100;
+    background: rgba(#000,0.3);
+  }
   .pop-content{
     background: $white;
-    padding: 0.7rem 0.7rem 9rem;
+    padding: 15px 10px;
+    position: absolute;
+    z-index: 101;
     height: 100%;
+    width: 100%;
     overflow: auto;
     .pop-heading{
       float: left;
@@ -893,16 +909,56 @@
   }
 
 }
-#legacy-info{
-  #header{
-    display: none;
+
+.legacy-form-holder {
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+
+  .pop-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0,0,0,0.3);
   }
-  border:none;
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  overflow:auto;
+
+  .pop-content {
+    width: 80%;
+    height: 100%;
+    position: relative;
+    background: #fff;
+    float: right;
+
+    .form-header + div.expanded {
+      padding: 15px 10px;
+    }
+
+    .pop-heading {
+      float: left;
+      font-size: 1.8rem;
+      font-weight: 500;
+    }
+  }
+
+  .iframe-wrapper {
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+
+    #legacy-info{
+      #header{
+        display: none;
+      }
+
+      border:none;
+      position: absolute;
+      width: calc(100% - 20px);
+      height: 100%;
+    }
+  }
 }
+
+
 .powered-by{
   max-width: 200px;
   margin: 3rem auto 0;
@@ -1026,12 +1082,16 @@
       justify-content: center;
       flex-direction: column;
 
+      span {
+        font-size: 20px;
+      }
+
       div {
         width: calc(100% - 20px);
-        max-width: 220px;        
+        max-width: 220px;
         height: 220px;
-        margin-bottom: 20px;
-        background: url('~assets/phone-mifi-tablet.svg') center center no-repeat;      
+        margin: 10px 0;
+        background: url('~assets/phone-mifi-tablet.svg') center center no-repeat;
       }
 
       a {
@@ -1129,7 +1189,7 @@
       }
     }
   }
-  
+
   .place-order {
     .each-order {
       text-align: center;
@@ -1185,6 +1245,37 @@
         display: inline-block;
         padding: 5px;
       }
+    }
+  }
+}
+
+@media print, screen and (max-width: 1244px) {
+  .spent-info {
+    top: 120px;
+  }
+}
+
+@media print, screen and (max-width: 800px) {
+  .spent-info {
+    top: 126px;
+  }
+}
+@media print, screen and (max-width: 377px) {
+  .spent-info {
+    max-width: 90% !important;
+  }
+}
+
+@media print, screen and (max-width: 377px) {
+  .spent-info {
+    top: 158px;
+  }
+}
+
+@media print, screen and (max-width: 425px) {
+  .legacy-form-holder {
+    .pop-content {
+      width: 100%;
     }
   }
 }

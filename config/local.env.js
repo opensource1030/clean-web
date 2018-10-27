@@ -1,13 +1,13 @@
 module.exports = {
   NODE_ENV: '"local"',
-  // URL_API: '"http://clean.api"',
+  URL_API: '"http://clean.api"',
 
-  URL_API: '"https://staging.api.wirelessanalytics.com"',
+  // URL_API: '"https://staging.api.wirelessanalytics.com"',
   // URL_API: '"https://dev.api.wirelessanalytics.com"',
   URL: '"http://localhost:8080"',
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-  LEGACY_URL: '"https://staging.legacy.wirelessanalytics.com"',
+  LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
   EASYVISTA_CODE: 13,
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
   FEATURESV: {

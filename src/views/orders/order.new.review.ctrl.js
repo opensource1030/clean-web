@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Avatar from 'vue-avatar/dist/Avatar'
+import Avatar from 'vue-avatar'
 import multiselect from 'vue-multiselect'
 import { mapGetters } from 'vuex'
 import placeOrderWizard from './../../components/placeOrderWizard'

@@ -28,7 +28,7 @@
                         <ul class="no-bullet">
                           <li><strong>Current Device:</strong> <span v-html="allocation.device ? allocation.device : '-' "> </span></li>
                           <li><strong>Device Type:</strong> <span v-html="allocation.device_type ? allocation.device_type : '-' "> Smartphone</span></li>
-                          <li><strong>Last Upgraded:</strong> <span v-if="allocation.last_upgrade "> {{ allocation.last_upgrade | cleanDate  }} </span></li>
+                          <li><strong>Last Upgraded:</strong> <span v-if="allocation.last_upgrade "> {{ allocation.last_upgrade | cleanDate  }} </span><span v-else="allocation.last_upgrade ">N/A</span></li>
                           <li><strong>IMEI/ESN:</strong> <span v-html="allocation.device_esn_imei ? allocation.device_esn_imei : '-' "> 56163123617986534551</span></li>
                           <li><strong>SIM:</strong> <span v-html="allocation.device_sim ? allocation.device_sim : '-' "> 12234523123412524</span></li>
                         </ul>
@@ -237,7 +237,6 @@
                   </li>
                   <li class="row">
                     <strong class="large-6 small-6 columns">Other Carrier Charges</strong>
-                    <span class="large-6 small-6 columns text-right"
                     <span class="large-6 columns text-right" >  {{ allocation.other_carrier_charge | formatCurrency }} </span>
 
                   </li>

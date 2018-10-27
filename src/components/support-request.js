@@ -5,11 +5,11 @@ const gaId = 'UA-42900219-2';
 function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
-    $('#recipient_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#requestor_email').val(JSON.parse(localStorage.getItem("userProfile")).email);
-    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("userProfile")).firstName);
-    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("userProfile")).lastName);
-  })
+    $('#recipient_email').val(JSON.parse(localStorage.getItem("profile")).email);
+    $('#requestor_email').val(JSON.parse(localStorage.getItem("profile")).email);
+    $('#recipient_firstname').val(JSON.parse(localStorage.getItem("profile")).firstName);
+    $('#recipient_lastName').val(JSON.parse(localStorage.getItem("profile")).lastName);
+  });
 
   populateCountries.populateCountries("country2");
   $('.eq-Hght').matchHeight({
@@ -28,29 +28,25 @@ function supportRequest() {
     allowClear: true
   });
 
-  var $select = $('#support-form .user-actions');
-  $select.on('change', function () {
-    var value = '.' + $(this).val();
-  });
-
   var $selectOption = $('.user-actions');
-  var $images = $('.mix');
 
   $selectOption.on('change', function () {
-    var value1 = $(this).val();
-    var value = '.' + value1;
-    $images.show(200).not(value).hide();
+    var value = $(this).val();
+    $('.mix').show(200);
+    setTimeout(function() {
+      $('.mix').not('.' + value).hide();
+    }, 210);
     if ($(this).prop('id') == 'choose-issues') {
       $('#recipient_mobile').val(($('.alloc_mblnumber').html()));
     }
     $('.open-support').click();
     $('.support-form-holder').show();
-    $select.prop('value', value1);
+    $('#support-form .user-actions').prop('value', value);
   });
 
-  $('#btn-close').click(function () {
+  $('.support-form-holder .btn-close').click(function () {
     $('#support-form')[0].reset();
-    $images.hide();
+    $('.mix').hide();
     $('.support-form-holder').hide();
     $selectOption.prop('selectedIndex', 0);
   });
@@ -75,7 +71,7 @@ function supportRequest() {
       var subject = $('#support-form').find(':selected').attr('data-value');
 
       var msg = "<strong>" + subject  + "</strong><br/>"
-      
+
       if (subject === "Activate My Device") {
         var msg_activation = "<strong>IMEI-MEID:</strong>" + $('#imei_meid').val() + "<br/> " +
           "<strong>ICCID:</strong>" + $('#iccid').val() + "<br/>" +
@@ -99,7 +95,7 @@ function supportRequest() {
 
         msg +=  msg_international_activation;
       }
-      
+
       msg += "<strong>Priority</strong>: " + $('input[name=priority]:checked', '#support-form').val() + "<hr/>";
 
       msg += "<strong>Recipient Email (Who to Contact)</strong>: " + $('#recipient_email').val() + "<br/>" +

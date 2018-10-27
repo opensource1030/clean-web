@@ -1,104 +1,129 @@
-
 <template>
- <div>
-     <div id="morphsearch" class="morphsearch" v-on:click="greet">
-         <form class="morphsearch-form">
-      <input class="morphsearch-input" type="search" placeholder="What can we help you with?" title="What can we help you with?"/>
-      <button class="morphsearch-submit" type="submit">Search</button>
-    </form>
-         <div class="morphsearch-content">
-      <!-- Helpjuice Knowledge base code -->
-      <div id="knowledge-base-content">
-        <iframe id="helpdocs" src="https://clean.helpdocs.com/"> </iframe>
+  <div>
+    <div id="morphsearch" class="morphsearch">
+      <div class="morphsearch-form">
+        <input class="morphsearch-input" type="search" placeholder="What can we help you with?" title="What can we help you with?" @input="searchDeskpro"/>
       </div>
-      <!-- End of  knowledge base code -->
-    </div><!-- /morphsearch-content -->
-    <span class="morphsearch-close"></span>
-  </div>
-</div><!-- /morphsearch -->
+      <div class="morphsearch-result" v-show="show">
+        <div class="row expanded">
+          <div class="columns small-12 collection-result" v-if="articles.length">
+            <h1><i class="fa fa-file-text-o"></i> Knowledgebase</h1>
+            <ul>
+              <li v-for="article in articles">
+                <a :href="'https://wanalytics.deskpro.com/kb/articles/' + article.slug" target="_blank">
+                  <span class="item-name">{{article.title}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="columns small-12 collection-result" v-if="news.length">
+            <h1><i class="fa fa-calendar-o"></i> News</h1>
+            <ul>
+              <li v-for="news_item in news">
+                <a :href="'https://wanalytics.deskpro.com/news/' + news_item.slug" target="_blank">
+                  <span class="item-name">{{news_item.title}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="columns small-12 collection-result" v-if="topics.length">
+            <h1><i class="fa fa-book"></i> Guides</h1>
+            <ul>
+              <li v-for="topic in topics">
+                <a :href="'https://wanalytics.deskpro.com/guides/allocations/allocations-process/' + topic.slug" target="_blank">
+                  <span class="item-name">{{topic.title}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="columns small-12 collection-empty" v-if="articles.length == 0 && news.length == 0 && topics.length == 0">
+            <div>We couldn't find any results</div>
+          </div>
+        </div>
+        <div class="row expanded">
+          <div class="columns small-12 result-footer">
+            <a href="https://wanalytics.deskpro.com/new-ticket" target="_blank">
+              <i class="fa fa-comment"></i>
+              <span>Contact Us</span>
+            </a>
+            <a href="https://wanalytics.deskpro.com/chat-logs" target="_blank">
+              <i class="fa fa-comments"></i>
+              <span>Start a chat session</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /morphsearch -->
 </template>
 <script>
-/*import auth from './../api/auth'*/
-var classie = require('../modules/classie');
-var Analytics = require('analytics-node');
-const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
-const gaId = 'UA-42900219-2';
-export default {
+  import _ from 'lodash'
+  import deskproAPI from './../api/deskpro-api'
+  import { Log } from './../helpers'
+
+  var classie = require('../modules/classie');
+  var Analytics = require('analytics-node');
+
+  const analytics = new Analytics('Dy0QNnCp8KikotmDFBXziH1LqHtSVpVt');
+  const gaId = 'UA-42900219-2';
+
+  export default {
     name: "Morphsearch",
-  mounted(){
-    (function() {
-        $("#helpdocs", window.parent.document).height($("body").height() + 0);
-        if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
-        $(window).resize(function(){
-            $("#helpdocs", window.parent.document).height($("body").height() + 0);
-            if ($('body').width() < 768) $('input.morphsearch-input').attr('placeholder', 'Need help?');
-        });
-      var isAnimating;
-      var morphSearch = document.getElementById( 'morphsearch' ),
-              input = morphSearch.querySelector( 'input.morphsearch-input' ),
-              ctrlClose = morphSearch.querySelector( 'span.morphsearch-close' ),
-              isOpen = isAnimating = false,
-              // show/hide search area
-              toggleSearch = function(evt) {
-                // return if open and the input gets focused
-                if( evt.type.toLowerCase() === 'focus' && isOpen ) return false;
+    data() {
+      return {
+        articles: [],
+        chat_conversations: [],
+        news: [],
+        tickets: [],
+        topics: [],
+        show: false
+      }
+    },
+    computed: {
+      _ () {
+        return _
+      },
+    },
+    mounted() {
+      let component = this;
+      let morphClicked = false;
 
-                var offsets = morphsearch.getBoundingClientRect();
-                if( isOpen ) {
-
-                  classie.remove( morphSearch, 'open' );
-
-
-
-                  // trick to hide input text once the search overlay closes
-                  // todo: hardcoded times, should be done after transition ends
-                  if( input.value !== '' ) {
-                    setTimeout(function() {
-                      classie.add( morphSearch, 'hideInput' );
-                      setTimeout(function() {
-                        classie.remove( morphSearch, 'hideInput' );
-                        input.value = '';
-                      }, 300 );
-                    }, 500);
-                  }
-
-                  input.blur();
-                }
-                else {
-
-                  classie.add( morphSearch, 'open' );
-
-
-                }
-                isOpen = !isOpen;
-                  document.getElementById('helpdocs').src = document.getElementById('helpdocs').src;
-
-
-              };
-
-      // events
-      input.addEventListener( 'focus', toggleSearch );
-      ctrlClose.addEventListener( 'click', toggleSearch );
-      // esc key closes search overlay
-      // keyboard navigation events
-      document.addEventListener( 'keydown', function( ev ) {
-        var keyCode = ev.keyCode || ev.which;
-        if( keyCode === 27 && isOpen ) {
-          toggleSearch(ev);
-
-          /* heap.track('Knowledge Base explored');*/
+      $('body').click(function(e) {
+        if(component.show) {
+          morphClicked = $(e.target.offsetParent.offsetParent).hasClass('morphsearch') || $(e.target.offsetParent.offsetParent).hasClass('morphsearch-result')
+          component.show = morphClicked;
         }
-      } );
+      });
 
-
-      /***** for demo purposes only: don't allow to submit the form *****/
-      morphSearch.querySelector( 'button[type="submit"]' ).addEventListener( 'click', function(ev) { ev.preventDefault(); } );
-    })();
-  },
+      // $('.morphsearch-input').focusout(function() {
+      //   setTimeout(function() {
+      //     component.show = morphClicked;
+      //   }, 100);
+      // });
+    },
     methods: {
-        greet() {
-          heap.track('Clicked FAQ', {'clicked': 'yes'});
+      greet() {
+        heap.track('Clicked FAQ', {'clicked': 'yes'});
+      },
+      searchDeskpro: _.debounce(function(e) {
+        if(e.target.value.length >= 3) {
+          let _params = {
+            params: {
+              query: e.target.value
+            }
+          };
+
+          deskproAPI.search(_params, res => {
+            this.articles = _.filter(res.grouped_results[0].results, { status: "published" });
+            this.chat_conversations = _.filter(res.grouped_results[8].results, { status: "published" });
+            this.news = _.filter(res.grouped_results[3].results, { status: "published" });
+            this.tickets = _.filter(res.grouped_results[4].results, { status: "published" });
+            this.topics = _.filter(res.grouped_results[9].results, { status: "published" });
+
+            this.show = true;
+          }, err => Log.put('Deskpro/search info err', err))
         }
+      }, 500)
     }
-}
+  }
 </script>

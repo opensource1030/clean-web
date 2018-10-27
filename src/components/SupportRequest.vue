@@ -1,7 +1,7 @@
 <template>
   <div class="support-form-holder">
     <div class="form-header">
-      <a id="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
+      <a class="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
     </div>
     <form id="support-form">
       <div class="row support-form-container">
@@ -108,7 +108,7 @@
           </div>
           <div class="medium-12 columns mix aif">
             <label>
-              <span class="form-title">Device type, phone, tablet, mifi </span>
+              <span class="form-title">Device Type (Phone/Tablet/MiFi)</span>
               <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
               <input type="text" id="int-device_type" placeholder="">
             </label>

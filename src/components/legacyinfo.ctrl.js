@@ -1,39 +1,33 @@
 var {Store} = require('yayson')()
-var    store = new Store()
+var store = new Store()
+
 export default {
-    name: "LegacyInfo",
-    computed:{
-        iframeUrl : function (){
-          return process.env.LEGACY_URL+"/app/wrf/default.asp?token="+this.token+"&version=v4"
-        }
-    },
-    mounted(){
-        $('body').addClass('full-height');
-        this.greet();
-    },
-    data(){
-        return {
-            isActive: true,
-            popOver : true,
-            token: localStorage.token
-
-        }
-    },
-    methods: {
-        closePop(){
-
-            if (document.getElementsByTagName('body')[0].classList.contains('full-height')) {
-                // The box that we clicked has a class of bad so let's remove it and add the good class
-                document.getElementsByTagName('body')[0].classList.remove('full-height');
-            }
-            document.getElementById('legacy-info').src = process.env.LEGACY_URL+ "/app/logout.asp";
-            setTimeout(function(){
-                history.back();
-            },200)
-
-        },
-        greet () {
-            this.$ga.trackEvent('Click to Get Started');
-        }
+  name: "LegacyInfo",
+  computed:{
+    iframeUrl : function (){
+      return process.env.LEGACY_URL+"/app/wrf/default.asp?token="+JSON.parse(this.token)['access_token']+"&version=v4"
     }
+  },
+  mounted(){
+    var legacySpaceHeight = $('.legacy-form-holder .pop-content').height() - $('.legacy-form-holder .form-header').outerHeight() - $('.legacy-heading').outerHeight() - 30;
+    $('.legacy-form-holder .iframe-wrapper').css('height', legacySpaceHeight + 'px'); // Set content height;
+
+    this.greet();
+  },
+  data(){
+    return {
+      token: localStorage.token
+    }
+  },
+  methods: {
+    backLegacy(){
+      history.back();
+    },
+    closeLegacy(){
+      this.$router.push('/dashboard');
+    },
+    greet () {
+      this.$ga.trackEvent('Click to Get Started');
+    }
+  }
 }

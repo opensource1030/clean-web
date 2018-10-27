@@ -33,6 +33,22 @@ export default {
     return allowed
   },
 
+  hasAdminRole (role) {
+    let allowed = false
+    switch (role.name.toLowerCase()) {
+      case 'superadmin':
+        allowed = true;
+        break;
+      case 'admin':
+        allowed = true;
+        break;
+      default:
+        allowed = false;
+        break;
+    }
+    return allowed;
+  },
+
   hasPermissionOnFeature (role, feature) {
     let scopes = _.map(role.permissions, 'name')
     // _.pull(scopes, 'manage_companies')

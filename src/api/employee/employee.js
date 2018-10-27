@@ -38,10 +38,10 @@ export default {
   },
   updateProfile(context, employee) {
 
-    if (employee.udls.lenght = !0){
+    if (employee.udls.length = !0){
       employee.setUdlValues(employee.udls, employee)
     }
- if (employee.active == true) {
+    if (employee.active == true) {
       employee.setAddresUpdate(employee.shippingAddress, employee);
     }
 

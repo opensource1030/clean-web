@@ -54,6 +54,7 @@ import EmployeeReview from "./../views/employees/EmployeeReview.vue";
 import Settings from "./../views/settings/Settings.vue";
 // popover
 import SpentInfo from "./../components/SpentInfo.vue";
+import LegacyInfo from "./../components/LegacyInfo.vue";
 
 Vue.use(VueResource)
 Vue.use(VueRouter)
@@ -76,7 +77,8 @@ const router = new VueRouter({
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true},
       children: [
-        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'}
+        {path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges'},
+        {path: 'procurement/', component: LegacyInfo, name: 'legacyInfo'}
       ]
     },
 
@@ -228,19 +230,44 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  let authenticated = store.getters['auth/isAuthenticated']
+  let authenticated = store.getters['auth/isAuthenticated'];
+  let currentLocation = decodeURIComponent(window.location.href);
+
+  if(currentLocation.split('return=').length > 1 && authenticated) {
+    let profile = store.getters['auth/getProfile'];
+    location.href = currentLocation.split('return=')[1] + '?jwt=' + profile.deskproJwt;
+  }
+
+  let expired = store.getters['auth/isExpired'];
   // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
   // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
+  if (expired) {
+    document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    store.dispatch('auth/logout').then(res => {
+      console.log('expire logout');
+      history.go(0);
+      next({name: 'login'})
+    })
+  }
+
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
-      next({name: 'dashboard'})
+        next({name: 'dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
       next({name: 'login'})
     }
+  }
+
+  if (to.name === 'legacyInfo') {
+    $('html').addClass('w1');
+  } else {
+    $('html').removeClass('w1');
   }
   next()
 })

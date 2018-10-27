@@ -7,7 +7,7 @@
             <img v-bind:src="_.get(company.object, 'metadata.logo.url', '')" alt="Company Logo" title="Client Logo">
           </div>
         </div>
-        <morphsearch></morphsearch>
+        <!--<morphsearch></morphsearch>-->
       </div>
       <div class="column push-1 large-4 medium-4 small-5 profile">
         <div class="profile-holder">
@@ -32,13 +32,13 @@
 <script>
   import _ from 'lodash'
   import Morphsearch from './Morphsearch.vue'
-  import Avatar from 'vue-avatar/dist/Avatar'
+  import Avatar from 'vue-avatar'
   import employeeAPI from './../api/employee-api'
   import {Log} from './../helpers'
 
   const {Store} = require('yayson')()
   const store = new Store()
-  
+
   export default {
     components: {
       Morphsearch,

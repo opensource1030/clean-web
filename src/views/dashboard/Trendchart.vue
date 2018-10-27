@@ -11,8 +11,10 @@
     <div class="tabs-content" data-tabs-content="trend-tabs">
       <template v-for="(key, index) in groupDataKeys">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
-          <div class="pie-chart-title">&nbsp;</div>
-          <vue-chart chart-type="LineChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
+          <div class="pie-chart-title">
+            {{ key | phone }}
+          </div>
+          <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
         </div>
       </template>
     </div>
@@ -20,8 +22,8 @@
 </template>
 
 <script>
-  const dateFormat = require('dateformat');
   import _ from 'lodash';
+  import moment from 'moment';
 
   export default {
     props: ['data'],
@@ -76,11 +78,27 @@
             left: '15%',
             top: '10%',
             width: '75%'
-          }
+          },
+          isStacked: true
         }
       }
     },
-
+    created() {
+      const self = this;
+      this.$on('redrawChart', function() {
+        for(var idx in self.$children) {
+          self.$children[idx].drawChart();
+        }
+      })
+    },
+    mounted () {
+      const self = this;
+      $(function() {
+        $(window).resize(function() {
+          self.$emit('redrawChart');
+        })
+      })
+    },
     computed: {
       groupData() {
         let group_data = _.groupBy(this.data, 'mobile_number');
@@ -94,18 +112,6 @@
     },
 
     methods: {
-      getMonths(bill_month) {
-        let menuMonths = new Array();
-        let date = new Date(bill_month);
-        date.setMonth(date.getMonth() - 3);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        date.setMonth(date.getMonth() + 1);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        date.setMonth(date.getMonth() + 1);
-        menuMonths.push(dateFormat(date, 'mmm / yyyy'));
-        return menuMonths;
-      },
-
       seriesData (key, index) {
         let bill_month = null
         let trendchart_data = []
@@ -118,28 +124,34 @@
         if (allocations) {
           trendchart_data = _.chain(allocations).orderBy('bill_month').map(function(allocation) {
             if (bill_month == null && !!allocation.bill_month) {
-              bill_month = new Date(allocation.bill_month)
+              bill_month = moment(allocation.bill_month)
             }
 
+            var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+            ildvc = ildvc ? ildvc : 0;
+
+            var oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
+            oc = oc ? oc : 0;
+
             return [
-              dateFormat(allocation.bill_month, 'mmm / yyyy'),
-              allocation.service_plan_charge,
-              allocation.domestic_usage_charge,
-              allocation.intl_roam_usage_charge,
-              (allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge) || 0,
-              (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100) || 0
+              moment(allocation.bill_month).format('MMM YYYY'),
+              {v: allocation.service_plan_charge, f: '$' + allocation.service_plan_charge},
+              {v: allocation.domestic_usage_charge, f: '$' + allocation.domestic_usage_charge},
+              {v: allocation.intl_roam_usage_charge, f: '$' + allocation.intl_roam_usage_charge},
+              {v: ildvc, f: '$' + ildvc},
+              {v: oc, f: '$' + oc}
             ]
           }).value();
         }
 
         if (bill_month == null) {
-          bill_month = new Date()
+          bill_month = moment()
         }
         let len = trendchart_data.length;
         if (len < 3) {
           for (let i = 0; i < (3 - len); i ++) {
-            bill_month.setMonth(bill_month.getMonth() - 1);
-            trendchart_data.unshift([dateFormat(bill_month, 'mmm / yyyy'), 0, 0, 0, 0, 0]);
+            bill_month.set('month', bill_month.get('month') - 1);
+            trendchart_data.unshift([bill_month.format('MMM YYYY'), 0, 0, 0, 0, 0]);
           }
         }
 
