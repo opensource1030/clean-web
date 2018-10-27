@@ -4,8 +4,8 @@ module.exports = {
     URL: '"https://beta.wirelessanalytics.com"',
     CLIENT_ID: '"2"',
     CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
-    LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
+    LEGACY_URL: '"https://app.wirelessanalytics.com"',
     SUPPORT_EMAIL: '"easyvista@wirelessanalytics.com"',
-  EASYVISTA_CODE: 16,
+    EASYVISTA_CODE: 16,
     SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"'
 };
