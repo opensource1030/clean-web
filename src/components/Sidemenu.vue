@@ -12,12 +12,12 @@
       </li>
 
       <li class="treeview">
-        <a href="#">
-          <i class="fa fa-bar-chart"></i>
-          <span>Reports</span>
-          <i class="fa fa-plus pull-right"></i>
-          <i class="fa fa-minus pull-right"></i>
-        </a>
+        <!--<a href="#">-->
+          <!--<i class="fa fa-bar-chart"></i>-->
+          <!--<span>Reports</span>-->
+          <!--<i class="fa fa-plus pull-right"></i>-->
+          <!--<i class="fa fa-minus pull-right"></i>-->
+        <!--</a>-->
         <ul class="treeview-menu">
           <template v-if="showMobility">
             <li class="">
