@@ -9,6 +9,7 @@ module.exports = {
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
   LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
   EASYVISTA_CODE: 13,
+  EV_ACCOUNT: 50005,
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
   FEATURESV: {
     AWESOME_FEATURE: true,

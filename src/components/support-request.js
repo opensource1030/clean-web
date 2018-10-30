@@ -144,7 +144,7 @@ function supportRequest() {
         //url: "https://api.elasticemail.com/v2/email/send",
         // headers: {"Authorization": "Bearer " + key},
         data: JSON.stringify(json),
-        url: "https://wa.easyvista.com/api/v1/50005/requests",
+        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
         headers: {"Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw=="},
         // contentType: "application/x-www-form-urlencoded",
         contentType: "application/json; charset=UTF-8",

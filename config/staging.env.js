@@ -6,8 +6,10 @@ module.exports = {
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
   LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
+    EV_ACCOUNT: 50005,
 
-  FEATURESV: {
+
+    FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
