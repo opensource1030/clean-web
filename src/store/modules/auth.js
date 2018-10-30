@@ -56,7 +56,10 @@ const actions = {
 
   getLoginToken ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
-      let updated_at = state.token.updated_at
+      let updated_at = new Date().getTime() - 4000 // Set token as expired by default
+      if (state.token && state.token.updated_at) { // Get updated_at if set
+        updated_at = state.token.updated_at
+      }
       let current_time = new Date().getTime()
       let passed = Math.abs(updated_at - current_time) / 1000;
       // let expires_in = state.token.expires_in
