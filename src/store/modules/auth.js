@@ -439,6 +439,13 @@ const actions = {
       authAPI.singleSignOn({
         uuid: id
       }, (re) => {
+        let current_time = new Date().getTime()
+        const result = {
+          user_id: re.data.user_id,
+          token: _.extend({created_at: current_time, updated_at: current_time}, re.data),
+          profile: {}
+        }
+        commit(types.AUTH_LOGIN_SUCCESS, result)
         dispatch('profile', {res: re, router: router, returnUrl: ''});
       }, (er) => {
         commit('LOGIN_FAILURE')
