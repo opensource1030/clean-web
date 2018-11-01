@@ -196,8 +196,19 @@
                 </div>
               </div>
             </div>
-            <div class="row expanded no-data" v-else>
-              <p class="text-center bold black ft-18 m-b-15 m-t-15">N/A</p>
+            <div class="row expanded" v-else>
+              <div class="row expanded">
+                <div class="device-detail first"></div>
+                <div class="device-image">
+                  <span class="bold color-tuatara">Order Catalog</span>
+                  <div></div>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Place an Order</router-link>
+                  <!--<a class="button large" @click.stop="upgradeDevice()">-->
+                  <!--<i class="fa fa-mobile"></i>Upgrade Device-->
+                  <!--</a>-->
+                </div>
+                <div class="device-detail second"></div>
+              </div>
             </div>
           </div>
         </div>
