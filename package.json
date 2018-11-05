@@ -58,6 +58,7 @@
     "vuex": "^2.2.1",
     "vuex-persistedstate": "^1.2.0",
     "vuex-router-sync": "^4.1.2",
+    "what-input": "^5.1.2",
     "yayson": "^2.0.1"
   },
   "devDependencies": {
