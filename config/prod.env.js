@@ -8,5 +8,6 @@ module.exports = {
     SUPPORT_EMAIL: '"easyvista@wirelessanalytics.com"',
     EASYVISTA_CODE: 16,
     EV_ACCOUNT: 50004,
-    SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"'
+    EZW_SSO_URL: '"https://oauth2.ezwim.com/sso?partner=WIRELESS"',
+
 };

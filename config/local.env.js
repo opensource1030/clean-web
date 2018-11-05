@@ -1,8 +1,7 @@
 module.exports = {
   NODE_ENV: '"local"',
-  URL_API: '"http://clean.api"',
-
-  // URL_API: '"https://staging.api.wirelessanalytics.com"',
+  // URL_API: '"http://clean.api"',
+  URL_API: '"https://staging.api.wirelessanalytics.com"',
   // URL_API: '"https://dev.api.wirelessanalytics.com"',
   URL: '"http://localhost:8080"',
   CLIENT_ID: '"2"',
@@ -11,9 +10,11 @@ module.exports = {
   EASYVISTA_CODE: 13,
   EV_ACCOUNT: 50005,
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
+  EZW_SSO_URL: '"https://oauth2.eztest.nu/sso?partner=WIRELESS"',
+
   FEATURESV: {
     AWESOME_FEATURE: true,
-    FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
+    FEATURE_IN_DEVELOPMENT: true // isProduction() ? false : true,
   },
   FEATURES: {
     "Procurements": {

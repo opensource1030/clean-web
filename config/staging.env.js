@@ -5,7 +5,7 @@ module.exports = {
   CLIENT_ID: '"2"',
   CLIENT_SECRET: '"ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7"',
   LEGACY_URL: '"https://dev.legacy.wirelessanalytics.com"',
-  SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
+    SUPPORT_EMAIL: '"product.support@wirelessanalytics.com"',
     EV_ACCOUNT: 50005,
 
 
@@ -14,8 +14,10 @@ module.exports = {
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
   EASYVISTA_CODE: 13,
+    EZW_SSO_URL: '"https://oauth2.eztest.nu/sso?partner=WIRELESS"',
 
-  FEATURES: {
+
+    FEATURES: {
     "Procurements": {
       enabled: true,
       users: {
@@ -52,6 +54,5 @@ module.exports = {
       }
     }
   },
-  SUPPORT_EMAIL: '"product.support@wirelessanalytics.com"'
 
 };
