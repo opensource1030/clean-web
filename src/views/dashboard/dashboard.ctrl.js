@@ -49,58 +49,49 @@ export default {
   },
 
   created () {
+    this.$root.$on('company_content_loaded', (response) => {
+      if(response.data)
+        this.clientInfo.data = response.data.object;
+
+      this.clientInfo.loading = false
+    });
+
     let _params = {
-      params: {
-        include: 'companies.contents'
-      }
-    }
-    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
-      let event = store.sync(res.data)
-      Log.put('dashboard/created event', event)
-
-      if (event.companies.length > 0) {
-        let cosmicdata = event.companies[0].contents[0].content
-        // console.log('dashboard cosmicdata', cosmicdata)
-
-        this.$http.get(cosmicdata, {}).then((response) => {
-          this.clientInfo.data = response.data.object
-          this.clientInfo.loading = false
-        })
-      }
-    }, err => Log.put('dashboard/created client info err', err))
-
-    _params = {
       params: {
         include: 'companies.currentBillMonths,allocations',
         'filter[allocations.billMonth]': '[currentBillMonths.last:3]'
       }
-    }
+    };
+
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       if (res.status == 404) {
-        this.userInfo.data.allocations = []
-        this.userInfo.lastAllocations = []
+        this.userInfo.data.allocations = [];
+        this.userInfo.lastAllocations = [];
       } else {
-        // console.log('dashboard/created userInfo', res)
-        let event = store.sync(res.data)
-        this.userInfo.data = event
+        let event = store.sync(res.data);
+        this.userInfo.data = event;
+
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
 
-        let lastAllocations = []
+        let lastAllocations = [];
         let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
         _.forEach(allocationsByPhone, function(allocations) {
           lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
         });
         this.userInfo.lastAllocations = lastAllocations;
       }
+
+      Log.put('dashboard/created user info', this.userInfo);
+
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
     }, err => {
-      Log.put('dashboard/created user allocation err', err)
-      this.userInfo.data = {allocations: []}
+      Log.put('dashboard/created user allocation err', err);
+      this.userInfo.data = {allocations: []};
       this.userInfo.loading = false
-    })
+    });
   },
 
   methods: {
