@@ -21,7 +21,7 @@ const state = {
     messageShow: true,
     message: ''
   }
-}
+};
 
 // Prepare the Model
 // getters
@@ -91,18 +91,19 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'roles.permissions.scopes'
+          include: 'roles.permissions.scopes,companies.contents'
         }
-      }
+      };
+
       authAPI.profile(_params, (response) => {
-        let current_time = new Date().getTime()
+        let current_time = new Date().getTime();
         let result = {
           user_id: res.data.user_id,
           token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
           profile: response
-        }
-        console.log('vuex profile', response)
-        commit(types.AUTH_LOGIN_SUCCESS, result)
+        };
+
+        commit(types.AUTH_LOGIN_SUCCESS, result);
 
         if(returnUrl)
           location.href = returnUrl + '?jwt=' + response.deskproJwt;

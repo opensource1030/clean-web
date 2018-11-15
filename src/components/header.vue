@@ -1,5 +1,5 @@
 <template>
-  <section class="top-bar-section clearfix ">
+  <section class="top-bar-section clearfix">
     <div class="top-bar-holder">
       <div class="column large-8 medium-8 small-7">
         <div class="logo" v-if="company.object" @click="$router.push({name: 'dashboard'})">
@@ -34,7 +34,7 @@
   import Morphsearch from './Morphsearch.vue'
   import Avatar from 'vue-avatar'
   import employeeAPI from './../api/employee-api'
-  import {Log} from './../helpers'
+  import {Storage, Utils, Log} from './../helpers'
 
   const {Store} = require('yayson')()
   const store = new Store()
@@ -64,25 +64,20 @@
     },
 
     created () {
-      let _params = {
-        params: {
-          include: 'companies.contents',
-        }
+      let profile = Utils.parseJsonString(Storage.get('profile'));
+      if(profile.companies.length) {
+        let cosmicdata = profile.companies[0].contents[0].content;
+        // console.log('header cosmicdata', cosmicdata)
+
+        this.$http.get(cosmicdata, {}).then((response) => {
+          this.company = response.body;
+          Log.put('header/created company', this.company);
+
+          this.$root.$emit('company_content_loaded', response);
+        });
+      } else {
+        this.$root.$emit('company_content_loaded', {});
       }
-      employeeAPI.get(this.$store.state.auth.userId, _params, (response) => {
-        let event = store.sync(response.data)
-        // console.log('header event', event)
-
-        if (event.companies.length > 0) {
-          let cosmicdata = event.companies[0].contents[0].content
-          // console.log('header cosmicdata', cosmicdata)
-
-          this.$http.get(cosmicdata, {}).then((response) => {
-            this.company = response.body;
-            Log.put('header/created company', this.company)
-          })
-        }
-      }, (err) => console.log('header.vue err', err))
     },
 
     mounted () {
