@@ -4,6 +4,7 @@ import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
 import OrderNewSelectUser from './../../views/orders/OrderNewUser.vue'
 import employeeAPI from './../../api/employee-api'
+import swal from 'sweetalert2'
 import { Log } from './../../helpers'
 
 const { Store } = require('yayson')()
@@ -158,6 +159,14 @@ export default {
 
     cancelOrder () {
       this.startedOrder = false
+    },
+
+    orderDisabled () {
+      swal({
+        type: 'warning',
+        title: 'Oops...',
+        text: 'This feature is not enabled, please see your IT Admin'
+      })
     }
   }
 }

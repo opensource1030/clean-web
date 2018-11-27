@@ -86,10 +86,8 @@
                 <div class="device-image">
                   <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Place an Order</router-link>
-                  <!--<a class="button large" @click.stop="upgradeDevice()">-->
-                    <!--<i class="fa fa-mobile"></i>Upgrade Device-->
-                  <!--</a>-->
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="userInfo.data.companyId != 48">Place an Order</router-link>
+                  <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
                 </div>
                 <div class="device-detail second">
                   <div class="row expanded">
@@ -202,10 +200,8 @@
                 <div class="device-image">
                   <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}">Place an Order</router-link>
-                  <!--<a class="button large" @click.stop="upgradeDevice()">-->
-                  <!--<i class="fa fa-mobile"></i>Upgrade Device-->
-                  <!--</a>-->
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="userInfo.data.companyId != 48">Place an Order</router-link>
+                  <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
                 </div>
                 <div class="device-detail second"></div>
               </div>
