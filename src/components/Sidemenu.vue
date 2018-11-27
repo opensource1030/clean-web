@@ -28,7 +28,8 @@
               <!-- to EasyWIM-->
               <a :href="'https://oauth2.eztest.nu/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <!--<a :href="ezmLink + '&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">-->
-                <i class="fa fa-circle-o"></i> Report Details</a>
+                <i class="fa fa-circle-o"></i> Report Details
+              </a>
             </li>
           </template>
           <template v-else>
