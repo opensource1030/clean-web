@@ -19,20 +19,7 @@
           <i class="fa fa-minus pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <template v-if="showMobility">
-            <li class="">
-              <!-- to mobility central -->
-              <!--    <a :href="'https://prodn02.mymobilitycentral.com/oauth/v1/auth.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
-                   <i class="fa fa-circle-o"></i> Report Details</a> -->
-
-              <!-- to EasyWIM-->
-              <a :href="'https://oauth2.eztest.nu/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
-                <!--<a :href="ezmLink + '&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">-->
-                <i class="fa fa-circle-o"></i> Report Details
-              </a>
-            </li>
-          </template>
-          <template v-else>
+          <template v-if="showLegacy">
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='">
                 <i class="fa fa-circle-o"></i> Charge</a>
@@ -68,6 +55,21 @@
                 <i class="fa fa-circle-o"></i> Intercompany Charge</a>
             </li>
           </template>
+          <template v-if="showAv1">
+            <li class="redirect-link">
+              <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+                <i class="fa fa-circle-o"></i> Advanced Analytics
+              </a>
+            </li>
+          </template>
+          <template v-if="showAv2">
+            <li class="redirect-link">
+              <!-- to mobility central -->
+              <a :href="'https://prodn02.mymobilitycentral.com/login.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+                <i class="fa fa-circle-o"></i> Advanced Analytics
+              </a>
+            </li>
+          </template>
         </ul>
       </li>
 
@@ -82,21 +84,18 @@
         <ul class="treeview-menu">
 
           <!--
-                    <li class="page-link"
-                        v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
-                      <!-- <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
+                    <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_devices')">
+                       <a class="admin" name="Devices" href="/devices"><i class="fa fa-circle-o"></i>Equipment</a>
                       <router-link to="/devices" name="device"><i class="fa fa-circle-o"></i>Equipment</router-link>
                     </li>
 
-                    <li class="page-link"
-                        v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
-                      <!-- <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
+                    <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_presets')">
+                      <a class="admin" name="presets" href="/presets"><i class="fa fa-circle-o"></i>Equipment Groups</a>
                       <router-link to="/presets" name="preset"><i class="fa fa-circle-o"></i>Equipment Groups</router-link>
                     </li>
 
-                    <li class="page-link"
-                        v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
-                      <!-- <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
+                    <li class="page-link" v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_services')">
+                      <a class="admin" name="services" href="/services"><i class="fa fa-circle-o"></i>Services & Plans</a>
                       <router-link to="/services" name="service"><i class="fa fa-circle-o"></i>Services & Plans</router-link>
                     </li>
 
@@ -209,7 +208,12 @@
         features: features,
         legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
         redirectScopeToken: '',
-        showMobility: false
+        showAv1: false,
+        showAv2: false,
+        showLegacy: false,
+        advancedAnalytics1: [9, 33],
+        advancedAnalytics2: [9, 15],
+        legacyAnalytics: []
       }
     },
 
@@ -241,20 +245,23 @@
       };
 
       let profile = Utils.parseJsonString(Storage.get('profile'));
-      companyAPI.get(profile.companyId, _params, res => {
-        let event = store.sync(res.data);
-        let test = event.globalsettingvalues;
-
-        console.log(test);
-        let globalSettingId = _.filter(test, {'globalSettingId': 6, 'name': 'enable'});
-        if (_.isEmpty(globalSettingId)) {
-          return false
-        } else {
-          if (globalSettingId[0].globalsettings[0].name === "mobility_central_login") {
-            this.$set(this, 'showMobility', true)
-          }
-        }
-      }, err => Log.put('dashboard/created client info err', err))
+      _.indexOf(this.advancedAnalytics1, profile.companyId) > 1 ? this.showAv1 = true : null;
+      _.indexOf(this.advancedAnalytics2, profile.companyId) > 2 ? this.showAv2 = true : null;
+      this.showLegacy = true;
+      // companyAPI.get(profile.companyId, _params, res => {
+      //   let event = store.sync(res.data);
+      //   let test = event.globalsettingvalues;
+      //
+      //   console.log(test);
+      //   let globalSettingId = _.filter(test, {'globalSettingId': 6, 'name': 'enable'});
+      //   if (_.isEmpty(globalSettingId)) {
+      //     return false
+      //   } else {
+      //     if (globalSettingId[0].globalsettings[0].name === "mobility_central_login") {
+      //       this.$set(this, 'showMobility', true)
+      //     }
+      //   }
+      // }, err => Log.put('dashboard/created client info err', err))
     },
 
     mounted () {
