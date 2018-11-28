@@ -56,14 +56,14 @@
             </li>
           </template>
           <template v-if="showAv1">
-            <li class="redirect-link">
+            <li class="">
               <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <i class="fa fa-circle-o"></i> Advanced Analytics
               </a>
             </li>
           </template>
           <template v-if="showAv2">
-            <li class="redirect-link">
+            <li class="">
               <!-- to mobility central -->
               <a :href="'https://prodn02.mymobilitycentral.com/login.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
                 <i class="fa fa-circle-o"></i> Advanced Analytics
@@ -211,8 +211,8 @@
         showAv1: false,
         showAv2: false,
         showLegacy: false,
-        advancedAnalytics1: [9, 33],
-        advancedAnalytics2: [9, 15],
+        advancedAnalytics1: ['WA', 'SONO'],
+        advancedAnalytics2: ['WA', 'PRXL'],
         legacyAnalytics: []
       }
     },
@@ -245,9 +245,10 @@
       };
 
       let profile = Utils.parseJsonString(Storage.get('profile'));
-      _.indexOf(this.advancedAnalytics1, profile.companyId) > 1 ? this.showAv1 = true : null;
-      _.indexOf(this.advancedAnalytics2, profile.companyId) > 2 ? this.showAv2 = true : null;
+      _.indexOf(this.advancedAnalytics1, profile.companies[0].shortName) >= 0 ? this.showAv1 = true : null;
+      _.indexOf(this.advancedAnalytics2, profile.companies[0].shortName) >= 0 ? this.showAv2 = true : null;
       this.showLegacy = true;
+
       // companyAPI.get(profile.companyId, _params, res => {
       //   let event = store.sync(res.data);
       //   let test = event.globalsettingvalues;

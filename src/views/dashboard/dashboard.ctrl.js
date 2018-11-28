@@ -72,6 +72,7 @@ export default {
         let event = store.sync(res.data);
         this.userInfo.data = event;
 
+        console.log(this.userInfo.data);
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
