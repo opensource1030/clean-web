@@ -5,7 +5,7 @@ import TrendChart from './Trendchart.vue'
 import OrderNewSelectUser from './../../views/orders/OrderNewUser.vue'
 import employeeAPI from './../../api/employee-api'
 import swal from 'sweetalert2'
-import { Log } from './../../helpers'
+import { Storage, Utils, Log } from './../../helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -30,6 +30,7 @@ export default {
         lastAllocations: [],
         loading: true
       },
+      companyInfo: {},
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
@@ -56,6 +57,8 @@ export default {
 
       this.clientInfo.loading = false
     });
+
+    let profile = Utils.parseJsonString(Storage.get('profile'));
 
     let _params = {
       params: {
@@ -91,8 +94,9 @@ export default {
       setTimeout(supportRequest, 2000);
     }, err => {
       Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = {allocations: []};
-      this.userInfo.loading = false
+      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
+      this.userInfo.data.allocations = [];
+      this.userInfo.loading = false;
     });
   },
 
