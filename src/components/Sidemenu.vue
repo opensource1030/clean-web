@@ -49,11 +49,6 @@
               <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='">
                 <i class="fa fa-circle-o"></i> International</a>
             </li>
-
-            <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink + '/report_ap.asp?token='">
-                <i class="fa fa-circle-o"></i> Intercompany Charge</a>
-            </li>
           </template>
           <template v-if="showAv1">
             <li class="">
