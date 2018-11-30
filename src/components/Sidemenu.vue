@@ -201,7 +201,7 @@
     data () {
       return {
         features: features,
-        legacyLink: process.env.LEGACY_URL + '/helpdesk/udl',
+        legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
         redirectScopeToken: '',
         showAv1: false,
         showAv2: false,
