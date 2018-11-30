@@ -36,11 +36,6 @@
             </li>
 
             <li class="redirect-link">
-              <a href="javascript:;" :data-href="legacyLink + '/dashboard_trend.asp?token='">
-                <i class="fa fa-circle-o"></i> Trends</a>
-            </li>
-
-            <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='">
                 <i class="fa fa-circle-o"></i> Usage</a>
             </li>
