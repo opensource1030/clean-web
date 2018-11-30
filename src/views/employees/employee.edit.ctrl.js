@@ -27,7 +27,7 @@ export default {
                 username: '',
                 domainId: '',
                 email: '',
-                notify: 1,
+                notify: 0,
                 confirmed: 0,
                 companyId: '',
                 notes: '',
