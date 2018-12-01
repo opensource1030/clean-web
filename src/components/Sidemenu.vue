@@ -201,7 +201,7 @@
         showAv1: false,
         showAv2: false,
         showLegacy: false,
-        advancedAnalytics1: ['WA', 'SONO'],
+        advancedAnalytics1: ['WA'],
         advancedAnalytics2: ['WA', 'PRXL'],
         legacyAnalytics: []
       }
