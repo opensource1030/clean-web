@@ -2,7 +2,7 @@ role :app, %w{34.229.80.114}
 
 set :stage, :production
 set :branch, 'env/prod'
-set :deploy_to, '/home/forge/beta.wirelessanalytics.com/'
+set :deploy_to, '/home/forge/app.wirelessanalytics.com/'
 
 set :log_level, :debug
 
@@ -10,7 +10,7 @@ set :ssh_options, {
   user: 'forge'
 }
 
-set :tmp_dir, '/home/forge/beta.wirelessanalytics.com/tmp'
+set :tmp_dir, '/home/forge/app.wirelessanalytics.com/tmp'
 
 namespace :ops do
 
