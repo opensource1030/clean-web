@@ -355,7 +355,12 @@ const actions = {
         authAPI.login({
           email: email
         }, (res) => {
-          window.location.href = res.data.data.redirectUrl;
+          var tempArray = email.split('@');
+          var domains = ['thermofisher.com', 'affymetrix.com', 'patheon.com', 'fei.com'];
+          if(_.includes(domains, tempArray[1]))
+            window.location.href = 'https://legacy.wirelessanalytics.com/app?email=' + email;
+          else
+            window.location.href = res.data.data.redirectUrl;
           resolve(res)
         }, (err) => {
           commit('LOGIN_FAILURE')

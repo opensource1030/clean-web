@@ -51,7 +51,7 @@ export default {
       credentials: {
         email: ''
       },
-      version: '4.1.8'
+      version: '4.1.9'
     }
   },
 
