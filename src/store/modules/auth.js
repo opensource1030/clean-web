@@ -356,7 +356,8 @@ const actions = {
           email: email
         }, (res) => {
           var tempArray = email.split('@');
-          if(tempArray[1] == 'thermofisher.com')
+          var domains = ['thermofisher.com', 'affymetrix.com', 'patheon.com', 'fei.com'];
+          if(_.includes(domains, tempArray[1]))
             window.location.href = 'https://legacy.wirelessanalytics.com/app?email=' + email;
           else
             window.location.href = res.data.data.redirectUrl;
