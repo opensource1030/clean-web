@@ -22,33 +22,33 @@
           <template v-if="showLegacy">
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='">
-                <i class="fa fa-circle-o"></i> Charge</a>
+                <i class="fa fa-circle-o"></i> <span>Charge</span></a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='">
-                <i class="fa fa-circle-o"></i> Top 10 Reports</a>
+                <i class="fa fa-circle-o"></i> <span>Top 10 Reports</span></a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='">
-                <i class="fa fa-circle-o"></i> Zero Usage</a>
+                <i class="fa fa-circle-o"></i> <span>Zero Usage</span></a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='">
-                <i class="fa fa-circle-o"></i> Usage</a>
+                <i class="fa fa-circle-o"></i> <span>Usage</span></a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='">
-                <i class="fa fa-circle-o"></i> International</a>
+                <i class="fa fa-circle-o"></i> <span>International</span></a>
             </li>
           </template>
           <template v-if="showAv1">
             <li class="">
-              <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
-                <i class="fa fa-circle-o"></i> Advanced Analytics
+              <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goEzwimCentral($event)">
+                <i class="fa fa-circle-o"></i> <span>Advanced Analytics</span>
               </a>
             </li>
           </template>
@@ -56,7 +56,7 @@
             <li class="">
               <!-- to mobility central -->
               <a :href="'https://prodn02.mymobilitycentral.com/login.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
-                <i class="fa fa-circle-o"></i> Advanced Analytics
+                <i class="fa fa-circle-o"></i> <span>Advanced Analytics</span>
               </a>
             </li>
           </template>
@@ -256,6 +256,8 @@
     },
 
     mounted () {
+      let profile = Utils.parseJsonString(Storage.get('profile'));
+
       var intervalId = setInterval(function () {
         var token = JSON.parse(localStorage.getItem("token")).access_token;
         var id = localStorage.userId;
@@ -277,6 +279,14 @@
 
       $('.redirect-link a').each(function () {
         $(this).click(function (e) {
+          var type = $(this).children('span').html();
+
+          analytics.track('Report Visited', {
+            name: profile.firstName + ' ' + profile.lastName,
+            email: profile.email,
+            type: type
+          });
+
           var newWindow = $(this).data('href');
           swal({
             title: 'Thank You!',
@@ -381,6 +391,47 @@
       goMobilityCentral (e) {
         if (e.isTrusted) {
           e.preventDefault()
+
+          let profile = Utils.parseJsonString(Storage.get('profile'));
+
+          analytics.track('Report Visited', {
+            name: profile.firstName + ' ' + profile.lastName,
+            email: profile.email,
+            type: 'Advanced Analytics - MyMobileCentral'
+          });
+
+          swal({
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+          }).then(
+            function () {
+            },
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                e.target.click()
+              }
+            }
+          )
+        }
+      },
+
+      goEzwim (e) {
+        if (e.isTrusted) {
+          e.preventDefault()
+
+          let profile = Utils.parseJsonString(Storage.get('profile'));
+
+          analytics.track('Report Visited', {
+            name: profile.firstName + ' ' + profile.lastName,
+            email: profile.email,
+            type: 'Advanced Analytics - Ezwim'
+          });
+
           swal({
             title: 'Thank You!',
             text: 'You will now be redirected...',
