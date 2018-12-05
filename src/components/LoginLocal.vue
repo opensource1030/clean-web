@@ -72,7 +72,7 @@ export default {
       },
       deskpro: '',
       error: '',
-      version: '4.1.10'
+      version: process.env.VERSION
     }
   },
 

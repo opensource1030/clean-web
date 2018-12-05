@@ -36,7 +36,7 @@
         </div>
 
         <div id="version">
-        <span v-if="version" class="version"> v{{ version }}</span>
+        <span v-if="version" class="version"> {{ version }}</span>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@ export default {
       credentials: {
         email: ''
       },
-      version: '4.1.10'
+      version: process.env.VERSION
     }
   },
 
