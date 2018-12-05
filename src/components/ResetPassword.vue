@@ -64,7 +64,7 @@ export default {
       messageShow: false,
       passwordType: false,
       buttonMessage: 'Send Password Reset Link',
-      version: '4.0.0-rc.1',
+      version: '4.1.10',
       message: 'If you don\'t know your password, please enter your corporate email address and click Send Password Reset Link',
       companyEmail: 'Enter your company email'
     }
