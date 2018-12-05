@@ -1,5 +1,6 @@
 module.exports = {
   NODE_ENV: '"local"',
+    VERSION: '"v4.1.11"',
   // URL_API: '"http://clean.api"',
   URL_API: '"https://staging.api.wirelessanalytics.com"',
   // URL_API: '"https://dev.api.wirelessanalytics.com"',
