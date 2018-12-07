@@ -92,15 +92,15 @@
           -->
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
+            <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
+          </li>
+
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <router-link to="/employees/new" name="employee"><i class="fa fa-circle-o"></i>New Employee</router-link>
           </li>
 
           <!--
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
-            <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
-          </li>
-
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
