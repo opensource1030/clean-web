@@ -1,5 +1,5 @@
 <template>
-  <section class="menu-left">
+  <section class="menu-left ">
     <ul id="menu" class="sidebar-menu">
       <li class="menu-toggle">
         <a href="javascript:;" class="icon-close"><i class="fa fa-bars"></i></a>
@@ -22,41 +22,41 @@
           <template v-if="showLegacy">
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_allocation.asp?token='">
-                <i class="fa fa-circle-o"></i> <span>Charge</span></a>
+                <i class="fa fa-circle-o"></i> Charge</a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/dashboard_top_ten.asp?token='">
-                <i class="fa fa-circle-o"></i> <span>Top 10 Reports</span></a>
+                <i class="fa fa-circle-o"></i> Top 10 Reports</a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_zero_usage.asp?token='">
-                <i class="fa fa-circle-o"></i> <span>Zero Usage</span></a>
+                <i class="fa fa-circle-o"></i> Zero Usage</a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_usage.asp?token='">
-                <i class="fa fa-circle-o"></i> <span>Usage</span></a>
+                <i class="fa fa-circle-o"></i> Usage</a>
             </li>
 
             <li class="redirect-link">
               <a href="javascript:;" :data-href="legacyLink +'/report_international.asp?token='">
-                <i class="fa fa-circle-o"></i> <span>International</span></a>
+                <i class="fa fa-circle-o"></i> International</a>
             </li>
           </template>
           <template v-if="showAv1">
             <li class="">
-              <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token='" class="go-advanced-analytics">
-                <i class="fa fa-circle-o"></i> <span data-id="Ezwim">Advanced Analytics</span>
+              <a :href="'https://oauth2.ezwim.com/sso?partner=WIRELESS&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+                <i class="fa fa-circle-o"></i> Advanced Analytics
               </a>
             </li>
           </template>
           <template v-if="showAv2">
             <li class="">
               <!-- to mobility central -->
-              <a :href="'https://prodn02.mymobilitycentral.com/login.agi?ssoUrlMarker=wasso&access_token='" class="go-advanced-analytics">
-                <i class="fa fa-circle-o"></i> <span data-id="MyMobilityCentral">Advanced Analytics</span>
+              <a :href="'https://prodn02.mymobilitycentral.com/login.agi?ssoUrlMarker=wasso&access_token=' + redirectScopeToken" target="_blank" @click="goMobilityCentral($event)">
+                <i class="fa fa-circle-o"></i> Advanced Analytics
               </a>
             </li>
           </template>
@@ -92,15 +92,15 @@
           -->
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
-            <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
-          </li>
-
-          <li class="page-link"
-              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
             <router-link to="/employees/new" name="employee"><i class="fa fa-circle-o"></i>New Employee</router-link>
           </li>
 
           <!--
+          <li class="page-link"
+              v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_employees')">
+            <router-link to="/employees" name="employee"><i class="fa fa-circle-o"></i>Employees</router-link>
+          </li>
+
           <li class="page-link"
               v-if="ScopeHelper.hasPermissionOnFeature($store.state.auth.profile.roles[0], 'manage_companies')">
             <router-link to="/companies" name="company"><i class="fa fa-circle-o"></i>Companies</router-link>
@@ -151,7 +151,7 @@
             -->
 
       <li class="treeview">
-        <a class="open-support" href="javascript:;" name="get-support">
+        <a class="open-support" href="javascript:;" name="get-support" @click="openSupportTicket()">
           <i class="fa fa-phone"></i>
           <span>Get Support</span>
         </a>
@@ -198,11 +198,11 @@
         features: features,
         legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
         redirectScopeToken: '',
-        showAv1: true,
-        showAv2: true,
+        showAv1: false,
+        showAv2: false,
         showLegacy: false,
-        advancedAnalytics1: ['WA'],
-        advancedAnalytics2: ['WA', 'PRXL'],
+        advancedAnalytics1: ['WA','ACME'],
+        advancedAnalytics2: ['WA', 'PRXL', 'OYLB'],
         legacyAnalytics: []
       }
     },
@@ -235,8 +235,8 @@
       };
 
       let profile = Utils.parseJsonString(Storage.get('profile'));
-      // _.indexOf(this.advancedAnalytics1, profile.companies[0].shortName) >= 0 ? this.showAv1 = true : null;
-      // _.indexOf(this.advancedAnalytics2, profile.companies[0].shortName) >= 0 ? this.showAv2 = true : null;
+      _.indexOf(this.advancedAnalytics1, profile.companies[0].shortName) >= 0 ? this.showAv1 = true : null;
+      _.indexOf(this.advancedAnalytics2, profile.companies[0].shortName) >= 0 ? this.showAv2 = true : null;
       this.showLegacy = true;
 
       // companyAPI.get(profile.companyId, _params, res => {
@@ -256,8 +256,6 @@
     },
 
     mounted () {
-      let profile = Utils.parseJsonString(Storage.get('profile'));
-
       var intervalId = setInterval(function () {
         var token = JSON.parse(localStorage.getItem("token")).access_token;
         var id = localStorage.userId;
@@ -275,112 +273,34 @@
         if (token !== undefined) {
           clearInterval(intervalId)
         }
-      }, 2000);
+      }, 2000)
 
-      $('#app').on('click', '.redirect-link a', function() {
-        var type = $(this).children('span').html();
-
-        analytics.track('Report Visited', {
-          name: profile.firstName + ' ' + profile.lastName,
-          email: profile.email,
-          type: type
-        });
-
-        var newWindow = $(this).data('href');
-        swal({
-          title: 'Thank You!',
-          text: 'You will now be redirected...',
-          timer: 2500,
-          type: 'success',
-          showCancelButton: false,
-          showConfirmButton: false,
-        }).then(
-          function () {
-          },
-          // handling the promise rejection
-          function (dismiss) {
-            if (dismiss === 'timer') {
-              /*window.open(newWindow,'_blank')*/
-              var newLink = document.createElement('a');
-              newLink.href = newWindow;
-              newLink.setAttribute('target', '_blank');
-              newLink.click();
+      $('.redirect-link a').each(function () {
+        $(this).click(function (e) {
+          var newWindow = $(this).data('href');
+          swal({
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+          }).then(
+            function () {
+            },
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                /*window.open(newWindow,'_blank')*/
+                var newLink = document.createElement('a');
+                newLink.href = newWindow;
+                newLink.setAttribute('target', '_blank');
+                newLink.click();
+              }
             }
-          }
-        )
-      });
-
-      $('#app').on('click', '.open-support', function() {
-        $('.support-form-holder').show();
-        heap.track('Support Ticket Opened', {'clicked': 'yes'});
-      });
-
-      var self = this;
-
-      $('#app').on('click', '.go-advanced-analytics', function(e) {
-        e.preventDefault();
-        var type = $(this).children('span').attr('data-id');
-
-        let profile = Utils.parseJsonString(Storage.get('profile'));
-
-        analytics.track('Report Visited', {
-          name: profile.firstName + ' ' + profile.lastName,
-          email: profile.email,
-          type: 'Advanced Analytics - ' + type
-        });
-
-        var newWindow = $(this).attr('href') + self.redirectScopeToken;
-        swal({
-          title: 'Thank You!',
-          text: 'You will now be redirected...',
-          timer: 2500,
-          type: 'success',
-          showCancelButton: false,
-          showConfirmButton: false,
-        }).then(
-          function () {
-          },
-          // handling the promise rejection
-          function (dismiss) {
-            if (dismiss === 'timer') {
-              var newLink = document.createElement('a');
-              newLink.href = newWindow;
-              newLink.setAttribute('target', '_blank');
-              newLink.click();
-            }
-          }
-        )
-      });
-
-      $('#app').on('click', '.go-mobility-central', function(e) {
-        e.preventDefault();
-
-        let profile = Utils.parseJsonString(Storage.get('profile'));
-
-        analytics.track('Report Visited', {
-          name: profile.firstName + ' ' + profile.lastName,
-          email: profile.email,
-          type: 'Advanced Analytics - MyMobileCentral'
-        });
-
-        swal({
-          title: 'Thank You!',
-          text: 'You will now be redirected...',
-          timer: 2500,
-          type: 'success',
-          showCancelButton: false,
-          showConfirmButton: false,
-        }).then(
-          function () {
-          },
-          // handling the promise rejection
-          function (dismiss) {
-            if (dismiss === 'timer') {
-              e.target.click()
-            }
-          }
-        )
-      });
+          )
+        })
+      })
 
       $.sidebarMenu = function (menu) {
         var animationSpeed = 300;
@@ -417,9 +337,7 @@
             e.preventDefault();
           }
         });
-      };
-
-      $.sidebarMenu($('#menu'));
+      }
 
       $(".icon-close").click(function () {
         if ($(".menu-left").hasClass("test") == true) {
@@ -448,14 +366,40 @@
         $(this).parent().toggleClass('active');
       });
 
+      $.sidebarMenu($('#menu'));
       $('#menu').slicknav({prependTo: 'section.top-bar-section'});
-
       setTimeout(supportRequest, 100);
       $(this.$el).foundation();
     },
 
     methods: {
+      openSupportTicket: function () {
+        $('.support-form-holder').show();
+        heap.track('Support Ticket Opened', {'clicked': 'yes'});
+      },
 
+      goMobilityCentral (e) {
+        if (e.isTrusted) {
+          e.preventDefault()
+          swal({
+            title: 'Thank You!',
+            text: 'You will now be redirected...',
+            timer: 2500,
+            type: 'success',
+            showCancelButton: false,
+            showConfirmButton: false,
+          }).then(
+            function () {
+            },
+            // handling the promise rejection
+            function (dismiss) {
+              if (dismiss === 'timer') {
+                e.target.click()
+              }
+            }
+          )
+        }
+      },
     }
   }
 </script>
