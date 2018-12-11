@@ -62,8 +62,7 @@ export default {
 
     let _params = {
       params: {
-        include: 'companies.currentBillMonths,allocations',
-        'filter[allocations.billMonth]': '[currentBillMonths.last:3]'
+        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
       }
     };
 
