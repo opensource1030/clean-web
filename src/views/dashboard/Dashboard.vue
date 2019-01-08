@@ -86,7 +86,7 @@
                 <div class="device-image">
                   <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="userInfo.data.companies[0].shortName != 'PRXL'">Place an Order</router-link>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="checkIfOrderable()">Place an Order</router-link>
                   <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
                 </div>
                 <div class="device-detail second">
@@ -200,7 +200,7 @@
                 <div class="device-image">
                   <span class="bold color-tuatara">Order Catalog</span>
                   <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="userInfo.data.companies[0].shortName != 'PRXL'">Place an Order</router-link>
+                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="checkIfOrderable()">Place an Order</router-link>
                   <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
                 </div>
                 <div class="device-detail second"></div>

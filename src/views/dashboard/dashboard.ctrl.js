@@ -165,6 +165,15 @@ export default {
       this.startedOrder = false
     },
 
+    checkIfOrderable () {
+      var exceptionList = ['PRXL', 'BRKR', 'ALOG'];
+
+      if(exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
+        return false;
+      else
+        return true;
+    },
+
     orderDisabled () {
       swal({
         type: 'warning',
