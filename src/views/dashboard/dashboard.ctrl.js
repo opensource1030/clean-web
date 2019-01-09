@@ -166,7 +166,7 @@ export default {
     },
 
     checkIfOrderable () {
-      var exceptionList = ['PRXL', 'BRKR', 'ALOG'];
+      var exceptionList = ['PRXL', 'BRKR'];
 
       if(exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
         return false;
