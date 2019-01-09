@@ -43,7 +43,7 @@
                       <p class="text-center">
                         <span class="bold color-tuatara">User</span>
                         <br/>
-                        <span>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</span>
+                        <spPXLan>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</spPXLan>
                       </p>
                     </div>
                     <div class="overview-item last">
