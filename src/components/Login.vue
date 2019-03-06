@@ -1,72 +1,66 @@
 <template>
-<div>
-  <div class="bg-login">
-    <div class="login">
-      <div class="large-4 large-centered medium-8 medium-centered  columns login-form-holder">
-        <div v-if="$store.getters['error/hasError']">
-          <div class="is-error callout" data-closable>
-            <div class="container">
-              <h5>{{ $store.getters['error/error'] }}</h5>
-            </div>
+  <div class="app flex-row align-items-center bg-login">
+    <div class="container">
+      <b-row class="justify-content-center">
+        <b-col md="8">
+          <div>
+            <b-img center :src="require('./../assets/clean-logo-blue.png')" alt="CLEAN Platform" />
           </div>
-        </div>
-        <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform"></h1>
-        <div class="login-box">
-          <div class="row">
-            <div class="large-12 columns">
-              <form v-on:submit.prevent="submit()">
-                <div class="large-12  columns">
-                  <div class="input-group bg-orange">
-                    <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                    <input name="email" id="email" class="input-group-field" type="text"
-                           v-model.trim="credentials.email" v-validate="'required|email'"
-                           placeholder="Enter your company email"/>
-                  </div>
-                </div>
-                <div class="large-12 large-centered columns">
-                  <input type="submit" class="button expanded" value="Sign In"/>
-                </div>
-              </form>
-            </div>
+          <b-card-group>
+            <b-card no-body class="p-4">
+              <b-card-body>
+                <b-form>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="text" class="form-control" placeholder="Username" autocomplete="username email" />
+                  </b-input-group>
+                  <b-row>
+                    <b-col cols="12">
+                      <b-button variant="primary" class="px-4 w-100">Sign In</b-button>
+                    </b-col>
+                  </b-row>
+                </b-form>
+              </b-card-body>
+            </b-card>
+          </b-card-group>
+          <div class="powered-by">
+            <span class="align-middle">Powered By</span>
+            <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
           </div>
-        </div>
-        <div class="powered-by">
-          <span>Powered By</span>
-          <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
-        </div>
-
-        <div id="version">
-        <span v-if="version" class="version"> {{ version }}</span>
-        </div>
-      </div>
+        </b-col>
+      </b-row>
     </div>
   </div>
-</div>
 </template>
 
 <script>
+
+//<b-img center :src="require('./../assets/wa-logo.png')" alt="CLEAN Platform" />
 export default {
-  data() {
-    return {
-      credentials: {
-        email: ''
-      },
-      version: process.env.VERSION
-    }
-  },
-
-  mounted() {
-    $('input[name="email"]').focus()
-  },
-
-  methods: {
-    submit() {
-      this.$store.dispatch('error/clearAll')
-      this.$store.dispatch('auth/login', {
-        router: this.$router,
-        email: this.credentials.email
-      })
-    },
-  }
+  name: 'Login'
 }
 </script>
+
+<style lang="scss">
+.powered-by{
+  max-width: 210px;
+  margin: 3rem auto 0;
+  overflow: hidden;
+  span{
+    float: left;
+    line-height:2rem;
+    font-size: 0.82rem;
+  }
+  img{
+    float: right;
+    max-width: 130px;
+    border-left:1px solid lighten(black,45%);
+    padding-left: 0.5rem ;
+  }
+
+  .bg-login{
+    background: #066199;
+  }
+
+}
+</style>
