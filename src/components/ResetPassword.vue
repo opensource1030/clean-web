@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <div class="app flex-row align-items-center bg-login">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="5">
@@ -11,12 +11,19 @@
               <b-card-body>
                 <b-form>
                   <b-input-group class="mb-3">
-                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-input-group-prepend><b-input-group-text><i class="icon-home"></i></b-input-group-text></b-input-group-prepend>
                     <b-form-input type="text" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
                   <b-row>
+                    <b-col cols="12" class="text-center">
+                      <p>
+                      {{message}}
+                      </p>
+                    </b-col>
+                  </b-row>
+                  <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100 ">Sign In</b-button>
+                      <b-button variant="primary" class="px-4 w-100">{{buttonMessage}}</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -36,12 +43,20 @@
 <script>
 
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      message: 'If you don\'t know your password, please enter your corporate email address and click Send Password Reset Link',
+      companyEmail: 'Enter your company email',
+      buttonMessage: 'Send Password Reset Link',
+      allOk: 'The reset password message has been sent to your email, check it for new instructions.'
+
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-
 .powered-by{
   max-width: 210px;
   margin: 3rem auto 0;

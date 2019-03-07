@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <div class="app flex-row align-items-center bg-login">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="5">
@@ -11,12 +11,31 @@
               <b-card-body>
                 <b-form>
                   <b-input-group class="mb-3">
-                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-input-group-prepend><b-input-group-text><i class="icon-home"></i></b-input-group-text></b-input-group-prepend>
                     <b-form-input type="text" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
+                  <b-input-group class="mb-4">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="password" class="form-control" placeholder="Password" autocomplete="current-password" />
+                  </b-input-group>
+                  <b-row class="mb-3">
+                    <b-col cols="6">
+                        <b-form-checkbox
+                        id="checkbox1"
+                        v-model="status"
+                        value="accepted"
+                        unchecked-value="not_accepted"
+                        >
+                        remember me
+                      </b-form-checkbox>
+                    </b-col>
+                    <b-col cols="6">
+                      <a><strong>Forgot Password?</strong></a>
+                    </b-col>
+                  </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100 ">Sign In</b-button>
+                      <b-button variant="primary" class="px-4 w-100">Sign In</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -41,7 +60,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .powered-by{
   max-width: 210px;
   margin: 3rem auto 0;
