@@ -1,6 +1,7 @@
 <template>
   <div class="app flex-row align-items-center">
     <div class="container">
+      <b-alert show variant="danger" v-if="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
       <b-row class="justify-content-center">
         <b-col md="5">
           <div class="mb-3">
@@ -9,14 +10,14 @@
           <b-card-group>
             <b-card no-body class="p-3">
               <b-card-body>
-                <b-form>
+                <b-form v-on:submit.prevent="submit()">
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="Enter your company email" />
+                    <b-form-input type="text" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100 ">Sign In</b-button>
+                      <b-button type="submit" variant="primary" class="px-4 w-100 ">Sign In</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -36,7 +37,27 @@
 <script>
 
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      credentials: {
+        email: ''
+      }
+    }
+  },
+  mounted() {
+    $('input[name="email"]').focus()
+  },
+
+  methods: {
+    submit(){
+      this.$store.dispatch('error/clearAll')
+      this.$store.dispatch('auth/login', {
+        router: this.$router,
+        email: this.credentials.email
+      })
+    }
+  }
 }
 </script>
 

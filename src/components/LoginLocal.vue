@@ -1,6 +1,7 @@
 <template>
-  <div class="app flex-row align-items-center bg-login">
+  <div class="app flex-row align-items-center">
     <div class="container">
+      <b-alert show variant="danger" v-if="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
       <b-row class="justify-content-center">
         <b-col md="5">
           <div class="mb-3">
@@ -9,33 +10,30 @@
           <b-card-group>
             <b-card no-body class="p-3">
               <b-card-body>
-                <b-form>
+                <b-form v-on:submit.prevent="submit()">
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-home"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="Enter your company email" />
+                    <b-form-input type="text" id="email" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
                   <b-input-group class="mb-4">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" class="form-control" placeholder="Password" autocomplete="current-password" />
+                    <b-form-input type="password" v-model="credentials.password" class="form-control" placeholder="Password" autocomplete="current-password" />
                   </b-input-group>
                   <b-row class="mb-3">
                     <b-col cols="6">
                         <b-form-checkbox
                         id="checkbox1"
-                        v-model="status"
-                        value="accepted"
-                        unchecked-value="not_accepted"
                         >
                         remember me
                       </b-form-checkbox>
                     </b-col>
                     <b-col cols="6">
-                      <a><strong>Forgot Password?</strong></a>
+                      <a @click="resetPassword()" style="cursor: pointer"><strong>Forgot Password?</strong></a>
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100">Sign In</b-button>
+                      <b-button variant="primary" type="submit" class="px-4 w-100">Sign In</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -55,7 +53,42 @@
 <script>
 
 export default {
-  name: 'Login'
+  name: 'loginLogin',
+  data () {
+    return {
+      credentials: {
+        email: this.$route.params.email,
+        password: ''
+      },
+      deskpro: '',
+      error: ''
+    }
+  },
+
+  mounted () {
+    let currentLocation = decodeURIComponent(window.location.href);
+    if(currentLocation.split('return=').length > 1){
+      this.deskpro = currentLocation.split('return=')[1];
+      $('input[name="email"]').focus()
+    } else
+      $('input[name="password"]').focus()
+  },
+
+  methods: {
+    submit() {
+      this.$store.dispatch('auth/loginLocal', {
+        router: this. $router,
+        credentials: this.credentials,
+        returnUrl: this.deskpro
+      })
+    },
+
+    resetPassword(){
+      this.$router.push({
+        name: 'Reset Password'
+      })
+    }
+  }
 }
 </script>
 
@@ -74,10 +107,6 @@ export default {
     max-width: 130px;
     border-left:1px solid lighten(black,45%);
     padding-left: 0.5rem ;
-  }
-
-  .bg-login{
-    background: #066199;
   }
 
 }
