@@ -9,8 +9,8 @@ import BootstrapVue from 'bootstrap-vue'
 import App from './App'
 import router from './router'
 import store from './store'
-
-
+import {sync} from 'vuex-router-sync'
+sync(store, router)
 window.$ = require('jquery')
 
 // todo

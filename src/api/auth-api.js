@@ -1,7 +1,10 @@
 import _ from "lodash";
 import Vue from "vue";
+import VueResource from 'vue-resource'
 import $store from "./../store";
 import {AuthHelper} from "./../helpers";
+Vue.use(VueResource)
+
 const http = Vue.http
 
 const {Store} = require('yayson')()
@@ -13,6 +16,8 @@ const API_BASE_URL = process.env.URL_API;
 
 export default {
   login (params, cb, errCb) {
+    console.log(process)
+    console.log(API_BASE_URL)
     http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + process.env.URL + '/sso')
       .then(res => cb(res), err => errCb(err))
   },
