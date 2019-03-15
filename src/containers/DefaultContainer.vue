@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import nav from '@/_nav'
+//import nav from '@/_nav'
+import nav from './../_nav'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
 

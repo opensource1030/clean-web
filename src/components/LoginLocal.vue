@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <div class="app flex-row align-items-center bg-primary">
     <div class="container">
       <b-alert show variant="danger" v-if="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
       <b-row class="justify-content-center">

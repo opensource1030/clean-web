@@ -3,61 +3,77 @@ var config = require('../config');
 var utils = require('./utils');
 var projectRoot = path.resolve(__dirname, '../');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 let extractCSS = new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css'))
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
     // app: './src/main.js'
     app: ['babel-polyfill', './src/main.js']
   },
+  //entry: './../src/main.js',
   output: {
     path: config.build.assetsRoot,
     publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
     filename: 'build.js'
   },
   resolve: {
-    extensions: ['', '.js', '.vue'],
-    fallback: [path.join(__dirname, '../node_modules')],
+    extensions: ['.js', '.vue'],
+    //fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-       vue$: 'vue/dist/vue.common.js',
+      vue$: 'vue/dist/vue.common.js',
+      //'@': resolve('src'),
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/images'),
       'components': path.resolve(__dirname, '../src/components'),
       'views': path.resolve(__dirname, '../src/views')
     }
   },
-  resolveLoader: {
+  /*resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
-  vue: {
+  /*vue: {
     loaders: utils.cssLoaders(),
     postcss: [
       require('autoprefixer')({
         browsers: ['last 2 versions']
       })
     ]
-  },
+  },*/
   module: {
-    preLoaders: [
+    rules: [
+      //new
       {
-        test: /\.(vue|js)$/,
-        loader: 'eslint',
-        include: projectRoot,
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.vue$/,
-        loader: 'vue'
+        test: /\.html$/,
+        use: {
+          loader: 'file-loader',
+        query: {
+            name: '[name].[ext]'
+        },
+        }
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'eslint-loader',
+        include: projectRoot,
+
+        //exclude: /node_modules/,
+        exclude: path.resolve(__dirname, "node_modules"),
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
         // include: [/whatwg-.*/, projectRoot],
         include: projectRoot,
         exclude: /node_modules/
@@ -68,7 +84,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url',
+        loader: 'url-loader', // + -loader
         query: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
@@ -76,7 +92,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url',
+        loader: 'url-loader', // + loader
         query: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
@@ -84,17 +100,31 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: extractCSS.extract(['css', 'sass'])
-        // loaders: ['style', 'css', 'sass']
+        //loader: extractCSS.extract(['css', 'sass'])
+        //loaders: ['style', 'css', 'sass']
+        use: [
+          "style-loader", // creates style nodes from JS strings
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
       },
       {
         test: /\.css$/,
-        loader: extractCSS.extract(['css', 'sass'])
+        //loader: extractCSS.extract(['css', 'sass'])
         // loaders: ['style', 'css', 'sass']
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       }
     ]
   },
+  
   plugins: [
-    extractCSS
+    extractCSS,
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: './../public/index.html'
+    })
   ]
 }
