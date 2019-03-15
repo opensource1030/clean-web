@@ -3,6 +3,8 @@ import Vue from "vue";
 import VueResource from 'vue-resource'
 import $store from "./../store";
 import {AuthHelper} from "./../helpers";
+var config = require('../../config/dev.env')
+
 Vue.use(VueResource)
 
 const http = Vue.http
@@ -10,7 +12,7 @@ const http = Vue.http
 const {Store} = require('yayson')()
 const store = new Store()
 
-const API_BASE_URL = process.env.URL_API;
+const API_BASE_URL = config.URL_API;
 
 // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
@@ -18,14 +20,14 @@ export default {
   login (params, cb, errCb) {
     console.log(process)
     console.log(API_BASE_URL)
-    http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + process.env.URL + '/sso')
+    http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + config.URL + '/sso')
       .then(res => cb(res), err => errCb(err))
   },
 
   register (params, cb, errCb) {
     http.post(API_BASE_URL + '/users', {
       data: params.data,
-      url: process.env.URL
+      url: config.URL
     }).then(res => cb(res), err => errCb(err))
   },
 
@@ -40,8 +42,8 @@ export default {
   loginLocal (params, cb, errCb) {
     http.post(API_BASE_URL + '/oauth/token', {
       grant_type: 'password',
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: config.CLIENT_ID,
+      client_secret: config.CLIENT_SECRET,
       username: params.email,
       password: params.password,
       scope: '*'
@@ -51,8 +53,8 @@ export default {
   singleSignOn (params, cb, errCb) {
     http.post(API_BASE_URL + '/oauth/token', {
       grant_type: 'sso',
-      client_id: process.env.CLIENT_ID,
-      client_secret: process.env.CLIENT_SECRET,
+      client_id: config.CLIENT_ID,
+      client_secret: config.CLIENT_SECRET,
       uuid: params,
     }).then(res => cb(res), err => errCb(err))
   },

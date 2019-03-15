@@ -18,8 +18,8 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    index: path.resolve(__dirname, '../public/index.html'),
+    assetsRoot: path.resolve(__dirname, '../public'),
     assetsSubDirectory: 'assets',
     assetsPublicPath: '/',
     port: 8080,

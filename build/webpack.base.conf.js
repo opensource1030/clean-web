@@ -122,9 +122,6 @@ module.exports = {
   
   plugins: [
     extractCSS,
-    new VueLoaderPlugin(),
-    new HtmlWebpackPlugin({
-      filename: './../public/index.html'
-    })
+    new VueLoaderPlugin()
   ]
 }

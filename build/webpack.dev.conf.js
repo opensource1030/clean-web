@@ -3,7 +3,7 @@ var webpack = require('webpack')
 var merge = require('webpack-merge')
 var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+//var HtmlWebpackPlugin = require('html-webpack-plugin')
 var features=config.local.env.FEATURESV
 
 
@@ -27,10 +27,10 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     //new webpack.NoErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
+    /*new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.html',
+      template: 'public/index.html',
       inject: true
-    })
+    })*/
   ]
 })
