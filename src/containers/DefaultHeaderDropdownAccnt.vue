@@ -8,47 +8,81 @@
     </template>\
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-bell-o" /> Updates
-        <b-badge variant="info">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-envelope-o" /> Messages
-        <b-badge variant="success">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-tasks" /> Tasks
-        <b-badge variant="danger">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-comments" /> Comments
-        <b-badge variant="warning">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-header
-        tag="div"
-        class="text-center">
-        <strong>Settings</strong>
-      </b-dropdown-header>
       <b-dropdown-item><i class="fa fa-user" /> Profile</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-wrench" /> Settings</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-usd" /> Payments
-        <b-badge variant="secondary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-file" /> Projects
-        <b-badge variant="primary">{{ itemsCount }}</b-badge>
-      </b-dropdown-item>
-      <b-dropdown-divider />
-      <b-dropdown-item><i class="fa fa-shield" /> Lock Account</b-dropdown-item>
-      <b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item>
+      <a  @click="logout()" id="logout"><b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item></a>
     </template>
   </AppHeaderDropdown>
 </template>
 
 <script>
+import _ from 'lodash'
+import {Storage, Utils, Log} from './../helpers'
+import employeeAPI from './../api/employee-api'
+
 import { HeaderDropdown as AppHeaderDropdown } from '@coreui/vue'
+
 export default {
   name: 'DefaultHeaderDropdownAccnt',
   components: {
     AppHeaderDropdown
   },
-  data: () => {
-    return { itemsCount: 42 }
+  data () {
+    return {
+    }
+  },
+
+  computed: {
+      _ () {
+        return _
+      },
+    },
+
+  created () {
+      
+    },
+
+  mounted () {
+      
+
+      heap.identify(this.$store.state.auth.profile.identification);
+
+      (function () {
+        let t, timeout = 7.2e+6;
+
+        function resetTimer() {
+          if (t) {
+            window.clearTimeout(t);
+          }
+          t = window.setTimeout(logOut, timeout);
+        }
+
+        function logOut() {
+          localStorage.clear('token');
+          location.reload();
+        }
+
+        resetTimer();
+        // And bind the events to call `resetTimer()`
+        ["click", "mousemove", "keypress"].forEach(function (name) {
+          document.addEventListener(name, resetTimer);
+        });
+      }());
+    },
+  
+  methods: {
+    logout () {
+        document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        heap.track('User logged out', {'clicked': 'yes'});
+
+        this.$store.dispatch('auth/logout').then(res => {
+          console.log('header logout');
+          history.go(0);
+          this.$router.push({ path: '/login' })
+        })
+      }
   }
+
+
 }
 </script>

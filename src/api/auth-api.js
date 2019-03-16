@@ -18,8 +18,9 @@ const API_BASE_URL = config.URL_API;
 
 export default {
   login (params, cb, errCb) {
-    console.log(process)
     console.log(API_BASE_URL)
+    console.log(params.email)
+    console.log(config.URL)
     http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + config.URL + '/sso')
       .then(res => cb(res), err => errCb(err))
   },

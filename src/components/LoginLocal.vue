@@ -25,7 +25,7 @@
                         id="checkbox1"
                         >
                         remember me
-                      </b-form-checkbox>
+                        </b-form-checkbox>
                     </b-col>
                     <b-col cols="6">
                       <a @click="resetPassword()" style="cursor: pointer"><strong>Forgot Password?</strong></a>
@@ -77,7 +77,7 @@ export default {
   methods: {
     submit() {
       this.$store.dispatch('auth/loginLocal', {
-        router: this. $router,
+        router: this.$router,
         credentials: this.credentials,
         returnUrl: this.deskpro
       })
