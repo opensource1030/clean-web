@@ -111,7 +111,7 @@ const actions = {
           commit(types.AUTH_LOGIN_DONE)
 
           // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-          router.push({name: 'dashboard'})
+          router.push({name: 'Dashboard'})
           resolve(result)
         }
       }, (error) => {

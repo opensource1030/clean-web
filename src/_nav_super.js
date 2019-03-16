@@ -7,7 +7,7 @@ export default {
     },
     {
       name: 'REPORTS',
-      url: '',
+      url: '/reports',
       icon: 'icon-puzzle',
       children: [
         {
@@ -34,7 +34,7 @@ export default {
     },
     {
       name: 'INVENTORY',
-      url: '',
+      url: '/inventory',
       icon: 'icon-cursor',
       children: [
         {
@@ -48,17 +48,6 @@ export default {
       name: 'GET SUPPORT',
       url: '',
       icon: 'icon-pie-chart'
-    },
-    {
-      divider: true
-    },
-    {
-      name: 'Download CoreUI',
-      url: 'http://coreui.io/vue/',
-      icon: 'icon-cloud-download',
-      class: 'mt-auto',
-      variant: 'success',
-      attributes: { target: '_blank', rel: 'noopener' }
     }
   ]
 }
