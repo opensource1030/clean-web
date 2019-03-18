@@ -21,7 +21,7 @@
       <AppSidebar fixed>
         <SidebarHeader/>
         <SidebarForm/>
-        <SidebarNav v-if="true" :navItems="nav">
+        <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
         <SidebarNav v-else :navItems="normal_nav">
         </SidebarNav>
@@ -42,13 +42,8 @@
     </div>
     <TheFooter>
       <!--footer-->
-      <div>
-        <a href="https://coreui.io">CoreUI</a>
-        <span class="ml-1">&copy; 2018 creativeLabs.</span>
-      </div>
-      <div class="ml-auto">
-        <span class="mr-1">Powered by</span>
-        <a href="https://coreui.io">CoreUI for Vue</a>
+      <div class="footer_div">
+        	<div id="footer">&copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span></div>
       </div>
     </TheFooter>
   </div>
@@ -63,13 +58,13 @@
   import _ from 'lodash'
   import {Storage, Utils, Log, ScopeHelper } from './../helpers'
   import authAPI from './../api/auth-api'
+  
+  //import store from './../store'
+  //const {Store} = require('yayson')()
+  //const store = new Store()
 
-  const {Store} = require('yayson')()
-  const store = new Store()
-
-  console.log("Hola")
-  //console.log(ScopeHelper.hasAdminRole($store.state.auth.profile.roles[0]))
-
+  console.log(ScopeHelper)
+  //console.log(ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0]))
 export default {
   name: 'DefaultContainer',
   components: {
@@ -91,6 +86,8 @@ export default {
     return {
       nav: nav.items,
       normal_nav: normal_nav.items,
+      legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
+
       //showLegacy: false,
 
     }
@@ -101,6 +98,9 @@ export default {
     },
     list () {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
+    },
+    ScopeHelper () {
+      return ScopeHelper
     }
   },
   
@@ -170,6 +170,9 @@ export default {
     max-width: 74%;
     display: none;
   }
+}
+.footer_div{
+  margin: auto;
 }
 
 </style>

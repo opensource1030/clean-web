@@ -39,8 +39,8 @@ export default {
       children: [
         {
           name: 'New Employee',
-          url: '',
-          icon: 'icon-cursor'
+          url: '/employees/new',
+          
         }
       ]
     },
