@@ -23,12 +23,13 @@
                     <b-col cols="6">
                         <b-form-checkbox
                         id="checkbox1"
+                        style="color: black;"
                         >
                         remember me
                         </b-form-checkbox>
                     </b-col>
                     <b-col cols="6">
-                      <a @click="resetPassword()" style="cursor: pointer"><strong>Forgot Password?</strong></a>
+                      <a @click="resetPassword()" style="cursor: pointer; color: black;"><strong>Forgot Password?</strong></a>
                     </b-col>
                   </b-row>
                   <b-row>

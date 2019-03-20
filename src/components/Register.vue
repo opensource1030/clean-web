@@ -12,39 +12,42 @@
                 <b-form>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="First Name" />
+                    <b-form-input type="text" class="form-control" v-model="credentials.firstName" placeholder="First Name" />
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="Last Name" />
+                    <b-form-input type="text" class="form-control" v-model="credentials.lastName" placeholder="Last Name" />
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" placeholder="email"/>
+                    <b-form-input type="text" class="form-control" v-model="credentials.email" placeholder="email"/>
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" class="form-control" placeholder="Enter your password" autocomplete="Enter your password" />
+                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
+                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
+                  
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" class="form-control" placeholder="Reprat your password" autocomplete="Reprat your password" />
+                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />                    
+                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />
                   </b-input-group>
                   <b-row class="mb-3">
                     <b-col cols="6">
                         <b-form-checkbox
                         id="checkbox1"
-                        v-model="status"
                         value="accepted"
-                        unchecked-value="not_accepted"
+                        v-model="passwordType"
                         >
                         show passwords
                       </b-form-checkbox>
                     </b-col>
                   </b-row>
+                  <b-alert show variant="danger" v-show="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100">Sign In</b-button>
+                      <b-button variant="primary" class="px-4 w-100" @click="submit()">Sign In</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -59,9 +62,46 @@
 </template>
 
 <script>
-
+import {
+  mapGetters
+} from 'vuex'
 export default {
-  name: 'Login'
+  name: 'register',
+  beforeCreate() {
+      this.$store.commit('auth/recoveryVariations');
+  },
+  computed: {
+      ...mapGetters({
+        variations: 'auth/getVariations',
+      })
+  },
+data() {
+      return {
+        credentials: {
+          firstName: '',
+          lastName: '',
+          email: this.$route.params.email,
+          password1: '',
+          password2: '',
+        },
+        passwordType: false,
+        newPassword: 'Enter your password',
+        repeatPassword: 'Repeat your password',
+        buttonMessage: 'Register New User',
+
+      }
+    },
+  methods: {
+      submit() {
+        if (this.variations.clickAgain) {
+
+          this.$store.dispatch('error/clearAll');
+          this.$store.dispatch('auth/register', {
+            credentials: this.credentials
+          });
+        }
+      }
+    }
 }
 </script>
 

@@ -30,13 +30,17 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  var config = require('../../config/dev.env')
 
 export default {
   created() {
+
+        console.log("created")
+
     this.credentials.identification = this.$route.params.identification;
     this.credentials.code = this.$route.params.code;
     if (this.credentials.identification != '' && this.credentials.code != '') {
-      this.$http.get(process.env.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code)
+      this.$http.get(config.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code)
         .then((response) => {
           this.messageShow = true;
         }, (response) => {
@@ -67,6 +71,7 @@ export default {
   },
 
   mounted() {
+    console.log("mounted")
     $(function () {
       $('#email').bind('input', function () {
         $(this).val(function (_, v) {

@@ -16,7 +16,7 @@
                   </b-input-group>
                   <b-row>
                     <b-col cols="12" class="text-center">
-                      <p>
+                      <p style="color: black;">
                       {{message}}
                       </p>
                     </b-col>
