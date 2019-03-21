@@ -48,6 +48,9 @@
         </b-col>
       </b-row>
     </div>
+    <div id="version">
+          <span v-if="version" class="version"> {{ version }}</span>
+        </div>
   </div>
 </template>
 
@@ -62,7 +65,8 @@ export default {
         password: ''
       },
       deskpro: '',
-      error: ''
+      error: '',
+      version: 'v 4 . 1 . 1 3',
     }
   },
 
@@ -92,7 +96,14 @@ export default {
   }
 }
 </script>
-
+<style>
+#version
+{
+     position: fixed;
+     bottom: 20px;
+     left: 50px;
+}
+</style>
 <style lang="scss">
 .powered-by{
   max-width: 210px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center bg-login">
+  <div class="app flex-row align-items-center bg-primary">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="5">
@@ -20,7 +20,7 @@
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" class="form-control" v-model="credentials.email" placeholder="email"/>
+                    <b-form-input type="text" class="form-control" v-model="credentials.email" placeholder="email" disabled/>
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
@@ -39,6 +39,7 @@
                         id="checkbox1"
                         value="accepted"
                         v-model="passwordType"
+                        style="color: black;"
                         >
                         show passwords
                       </b-form-checkbox>
@@ -47,7 +48,7 @@
                   <b-alert show variant="danger" v-show="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary" class="px-4 w-100" @click="submit()">Sign In</b-button>
+                      <b-button variant="primary" class="px-4 w-100" @click="submit()">Register New User</b-button>
                     </b-col>
                   </b-row>
                 </b-form>

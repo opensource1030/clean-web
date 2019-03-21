@@ -43,6 +43,10 @@
         </b-col>
       </b-row>
     </div>
+
+    <div id="version">
+          <span v-if="version" class="version"> {{ version }}</span>
+        </div>
   </div>
 </template>
 
@@ -69,7 +73,9 @@ export default {
       buttonMessage: 'Send Password Reset Link',
       version: process.env.VERSION,
       message: 'If you don\'t know your password, please enter your corporate email address and click Send Password Reset Link',
-      companyEmail: 'Enter your company email'
+      companyEmail: 'Enter your company email',
+      version: 'v 4 . 1 . 1 3',
+
     }
   },
   mounted() {
@@ -94,7 +100,14 @@ export default {
   }
 }
 </script>
-
+<style>
+#version
+{
+     position: fixed;
+     bottom: 20px;
+     left: 50px;
+}
+</style>
 <style lang="scss">
 .powered-by{
   max-width: 210px;

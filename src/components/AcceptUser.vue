@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center">
+  <div class="app flex-row align-items-center bg-primary">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="5">
@@ -25,6 +25,9 @@
         </b-col>
       </b-row>
     </div>
+    <div id="version">
+          <span v-if="version" class="version"> {{ version }}</span>
+        </div>
   </div>
 </template>
 
@@ -66,7 +69,9 @@ export default {
       messageShow: false,
       error: 'The User has not been created properly, try again later, sorry for the inconvenience.',
       errorShow: false,
-      buttonMessage: 'Redirect to Login Page'
+      buttonMessage: 'Redirect to Login Page',
+      version: '4 . 0 . 0 - r c . 1',
+
     }
   },
 
@@ -87,7 +92,14 @@ export default {
   }
 }
 </script>
-
+<style>
+#version
+{
+     position: fixed;
+     bottom: 20px;
+     left: 50px;
+}
+</style>
 <style lang="scss">
 .messageAcceptUser{
   color: green;

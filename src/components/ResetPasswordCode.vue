@@ -15,7 +15,7 @@
                 <b-form v-on:submit.prevent="submit()">
                   <b-row class="mb-2">
                     <b-col cols="12" class="text-center">
-                      <p><strong>{{resetPasswordMessage}}</strong></p>
+                      <p style="color: black;">{{resetPasswordMessage}}</p>
                     </b-col>
                   </b-row>
                  <b-input-group class="mb-3">
@@ -33,6 +33,7 @@
                         <b-form-checkbox
                         id="checkbox1"
                         v-model="passwordType"
+                        style="color: black;"
                         >
                         show passwords
                       </b-form-checkbox>
@@ -40,14 +41,14 @@
                   </b-row>
                   <b-row>
                     <b-col cols="12" class="text-center">
-                      <p>
+                      <p style="color: black;">
                       {{message}}
                       </p>
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col cols="12">
-                      <b-button variant="primary">{{sendRequest}}</b-button>
+                      <b-button variant="primary" type="submit" class="px-4 w-100">{{sendRequest}}</b-button>
                     </b-col>
                   </b-row>
                 </b-form>
@@ -57,6 +58,9 @@
         </b-col>
       </b-row>
     </div>
+    <div id="version">
+          <span v-if="version" class="version"> {{ version }}</span>
+        </div>
   </div>
 </template>
 
@@ -89,7 +93,8 @@ export default {
         resetPasswordMessage: 'Change your password below.',
         version: '4.0.0-rc.1',
         message: 'Here you can reset your password, if it is not valid, you should see an error, if it is correct, you will be redirected to the Login Page.',
-        companyEmail: 'Enter your company email'
+        companyEmail: 'Enter your company email',
+        version: '4 . 0 . 0 - r c . 1',
     }
   },
 
@@ -116,5 +121,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
+#version
+{
+     position: fixed;
+     bottom: 20px;
+     left: 50px;
+}
 </style>

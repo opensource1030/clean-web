@@ -29,8 +29,11 @@
             <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
           </div>
         </b-col>
-      </b-row>
+      </b-row>  
     </div>
+        <div id="version">
+          <span v-if="version" class="version"> {{ version }}</span>
+        </div>
   </div>
 </template>
 
@@ -42,7 +45,9 @@ export default {
     return {
       credentials: {
         email: ''
-      }
+      },
+      version: 'v 4 . 1 . 1 3',
+        //version: process.env.VERSION
     }
   },
   mounted() {
@@ -60,6 +65,15 @@ export default {
   }
 }
 </script>
+
+<style>
+#version
+{
+     position: fixed;
+     bottom: 20px;
+     left: 50px;
+}
+</style>
 
 <style lang="scss">
 
@@ -82,6 +96,5 @@ export default {
   .bg-login{
     background: #066199;
   }
-
 }
 </style>
