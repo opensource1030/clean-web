@@ -31,7 +31,7 @@
 </template>
 
 <script>
-//import './dashboard.ctrl.js'
+import './dashboard.ctrl.js'
 export default {
   name: 'dashboard',
   components: {

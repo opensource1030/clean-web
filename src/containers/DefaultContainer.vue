@@ -12,7 +12,7 @@
           <i class="icon-bell"></i>
           <b-badge pill variant="danger">5</b-badge>
         </b-nav-item>
-        <DefaultHeaderDropdownAccnt/>
+            <DefaultHeaderDropdownAccnt/>
         
       </b-navbar-nav>
       <!--<AsideToggler class="d-lg-none" mobile />-->
@@ -132,10 +132,13 @@ export default {
       */
   },
 
+  
+
   mounted () {
 
   }
 }
+
 </script>
 
 <style lang="scss">

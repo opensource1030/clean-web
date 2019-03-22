@@ -5,6 +5,7 @@
         src="img/avatars/6.jpg"
         class="img-avatar"
         alt="admin@bootstrapmaster.com" />
+        Hi, <span class="greeting">{{ firstName() }}</span>
     </template>\
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
@@ -80,7 +81,10 @@ export default {
           history.go(0);
           this.$router.push({ path: '/login' })
         })
-      }
+      },
+    firstName () {
+        return this.$store.state.auth.profile.firstName
+    },
   }
 
 

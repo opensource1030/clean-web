@@ -46,6 +46,7 @@
                     </b-col>
                   </b-row>
                   <b-alert show variant="danger" v-show="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
+                  <b-alert show variant="success" v-show="variations.messageShow">{{ variations.message }}</b-alert>
                   <b-row>
                     <b-col cols="12">
                       <b-button variant="primary" class="px-4 w-100" @click="submit()">Register New User</b-button>
@@ -55,7 +56,6 @@
               </b-card-body>
             </b-card>
           </b-card-group>
-          
         </b-col>
       </b-row>
     </div>
@@ -63,9 +63,8 @@
 </template>
 
 <script>
-import {
-  mapGetters
-} from 'vuex'
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'register',
   beforeCreate() {
@@ -95,9 +94,8 @@ data() {
   methods: {
       submit() {
         if (this.variations.clickAgain) {
-
-          this.$store.dispatch('error/clearAll');
-          this.$store.dispatch('auth/register', {
+            this.$store.dispatch('error/clearAll');
+            this.$store.dispatch('auth/register', {
             credentials: this.credentials
           });
         }
@@ -105,6 +103,3 @@ data() {
     }
 }
 </script>
-
-<style lang="scss">
-</style>
