@@ -3,7 +3,7 @@ import authAPI from "./../../api/auth-api";
 import * as types from "./../mutation-types";
 import user from "./../../models/User";
 import {Storage, Utils} from "./../../helpers";
-
+var config = require('../../../config/dev.env');
 // initial state
 const state = {
   // email: localStorage.getItem('email') || '',
@@ -233,7 +233,7 @@ const actions = {
     commit('RECOVERY_VARIATIONS')
     let params = {
       params: {
-        'url': process.env.URL
+        'url': config.URL
       }
     };
 

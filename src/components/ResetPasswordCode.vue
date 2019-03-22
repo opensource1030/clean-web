@@ -46,6 +46,7 @@
                       </p>
                     </b-col>
                   </b-row>
+                    <b-alert show variant="danger" v-show="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
                   <b-row>
                     <b-col cols="12">
                       <b-button variant="primary" type="submit" class="px-4 w-100">{{sendRequest}}</b-button>
@@ -91,7 +92,6 @@ export default {
         repeatPassword: 'Repeat the password',
         sendRequest: 'change my password',
         resetPasswordMessage: 'Change your password below.',
-        version: '4.0.0-rc.1',
         message: 'Here you can reset your password, if it is not valid, you should see an error, if it is correct, you will be redirected to the Login Page.',
         companyEmail: 'Enter your company email',
         version: '4 . 0 . 0 - r c . 1',
