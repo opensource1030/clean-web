@@ -1,12 +1,12 @@
 <template>
-  <AppHeaderDropdown right no-caret>
+  <AppHeaderDropdown right no-caret class="mr-3">
     <template slot="header">
       <img
         src="img/avatars/6.jpg"
         class="img-avatar"
         alt="admin@bootstrapmaster.com" />
         Hi, <span class="greeting">{{ firstName() }}</span>
-    </template>\
+    </template>
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
       <b-dropdown-item><i class="fa fa-user" /> Profile</b-dropdown-item>
