@@ -3,6 +3,9 @@
 import 'core-js/es6/promise'
 import 'core-js/es6/string'
 import 'core-js/es7/array'
+
+import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
+
 // import cssVars from 'css-vars-ponyfill'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
@@ -17,6 +20,7 @@ window.$ = require('jquery')
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(VueCharts)
 
 /* eslint-disable no-new */
 new Vue({

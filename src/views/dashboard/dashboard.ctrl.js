@@ -65,16 +65,20 @@ export default {
         include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
       }
     };
+    console.log(this.$store.state.auth)
 
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
+      console.log("Entra?")
       if (res.status == 404) {
+        console.log("Status 404")
         this.userInfo.data.allocations = [];
         this.userInfo.lastAllocations = [];
+        
       } else {
+        console.log("ELSEEE")
         let event = store.sync(res.data);
         this.userInfo.data = event;
 
-        console.log(this.userInfo.data);
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
@@ -92,11 +96,13 @@ export default {
       this.userInfo.loading = false;
       setTimeout(supportRequest, 2000);
     }, err => {
+      console.log("userInfo data allocations")
       Log.put('dashboard/created user allocation err', err);
       this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
       this.userInfo.data.allocations = [];
       this.userInfo.loading = false;
     });
+
   },
 
   methods: {
