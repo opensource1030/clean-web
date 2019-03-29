@@ -40,6 +40,7 @@
         </div>
       </main>
     </div>
+    <SupportRequest />
     <TheFooter>
       <!--footer-->
       <div class="footer_div">
@@ -58,7 +59,8 @@
   import _ from 'lodash'
   import {Storage, Utils, Log, ScopeHelper } from './../helpers'
   import authAPI from './../api/auth-api'
-  
+  import SupportRequest from '../components/SupportRequest.vue'
+
   //import store from './../store'
   //const {Store} = require('yayson')()
   //const store = new Store()
@@ -80,7 +82,8 @@ export default {
     SidebarToggler,
     SidebarHeader,
     SidebarNav,
-    SidebarMinimizer
+    SidebarMinimizer,
+    SupportRequest
   },
   data () {
     return {

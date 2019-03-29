@@ -13,7 +13,11 @@
       </b-card-body>
     </b-card>
     <div class="mb-4">
-      <b-card-header header="Overview" />
+      <div style="width: 199px;">
+        <b-card-header class="bg-info">
+          <strong>Overview</strong>
+        </b-card-header>
+      </div>
         <div v-if="userInfo.loading">
           <h1>LOADING</h1>
         </div>
@@ -23,7 +27,7 @@
               <td class="td-normal-width td-normal-height">
                 <p>
                   <br>
-                  <span>User</span>
+                  <span class="bold">User</span>
                   <br/>
                   <span class="sub-text">{{userInfo.data.firstName}} {{userInfo.data.lastName}}</span>
                 </p>
@@ -36,21 +40,25 @@
                   <span class="sub-text">{{userInfo.lastAllocations[activeAllocationIndex].device}}</span>
                 </p>
               </td>
-              <td class="td-normal-width td-normal-height" rowspan="3">
+              <td rowspan="3" style="width: 400px;">
                 <span class="bold color-tuatara">Order Catalog</span>
-                  <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="checkIfOrderable()">Place an Order</router-link>
-                  <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
+                  <div class="div-img" style="whidth: 100%;">
+                    <img class="img-phone" src="../../images/phone-mifi-tablet.svg">
+                  </div>
+                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary" ><router-link :to="{ name: 'legacyInfo'}" style="color: white;">Place an Order</router-link></b-btn>
+                  <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>
               </td>
               <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Service Plan Charges</span>
                   <br/>
                   <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].service_plan_charge.toFixed(2)}}</span>
                 </p>
               </td>
-              <td>
+              <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Other Charges</span>
                   <br/>
                   <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].other_charge.toFixed(2)}}</span>
@@ -60,6 +68,7 @@
             <tr>
               <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Bill Month</span>
                   <br/>
                   <span class="sub-text">{{userInfo.lastAllocations[activeAllocationIndex].bill_month | cleanDate}}</span>
@@ -74,6 +83,7 @@
               </td>
               <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Usage Charges</span>
                   <br/>
                   <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].usage_charge.toFixed(2)}}</span>
@@ -81,6 +91,7 @@
               </td>
               <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Total Allocation Charges</span>
                   <br/>
                   <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].allocated_charge.toFixed(2)}}</span>
@@ -90,6 +101,7 @@
             <tr>
               <td class="td-normal-height" colspan="2">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Last Upgrade Date</span>
                   <br/>
                   <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
@@ -188,11 +200,32 @@ th, td {
   color: rgb(151, 151, 151, 0.3);
 }
 .td-normal-width {
-  max-width: 360px;
-  width: 360px;
+  max-width: 300px;
+  width: 300px;
 }
 .td-normal-height{
   max-height: 300px;
   height: 100px;
 }
+.bold {
+  font-weight: bold;
+}
+.color-orange{
+  color: #FF690A;
+}
+.color-tuatara {
+    color: #444;
+  }
+
+.img-phone{
+  width: calc(100% - 20px);
+  max-width: 220px;
+  height: 220px;
+}
+.div_img{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 </style>
