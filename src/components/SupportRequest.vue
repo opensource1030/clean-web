@@ -104,12 +104,3 @@
         </b-card>
   </div>
 </template>
-
-
-<style>
-.form-leteral {
-    margin-left: 500px;
-    width: 500px;
-}
-
-</style>

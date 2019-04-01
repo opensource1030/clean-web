@@ -106,39 +106,21 @@ export default {
       return ScopeHelper
     }
   },
-  
   created () {
-    /*let _params =  {
-        name: 'redirct_scope',
-        scopes: [ 'get_user_me', 'get_companies', 'get_globalsettings']
-      };
-      authAPI.scopeToken(_params, res => {
-        if (res.status == 200) {
-          this.redirectScopeToken = res.data.accessToken
-        } else {
-          console.log('scope_token res', res)
-        }
-      }, err => {
-        console.log('scope_token err', err)
-      });
-
-      _params = {
-        params: {
-          include: 'globalsettingvalues.globalsettings'
-        }
-      };
-
-      let profile = Utils.parseJsonString(Storage.get('profile'));
-      _.indexOf(this.advancedAnalytics1, profile.companies[0].shortName) >= 0 ? this.showAv1 = true : null;
-      _.indexOf(this.advancedAnalytics2, profile.companies[0].shortName) >= 0 ? this.showAv2 = true : null;
-      this.showLegacy = true;
-      */
+    
   },
-
-  
-
   mounted () {
-
+    $(document).keyup(function (e) {
+        if($('.support-form-holder').is(":visible") && e.keyCode == 27) {
+          setTimeout(function() {
+            $('.support-form-holder .btn-close').click();
+          }, 200);
+        } else if($('.spent-info').hasClass('active') && e.keyCode == 27) {
+          setTimeout(function() {
+            history.back();
+          },200)
+        }
+      })
   }
 }
 

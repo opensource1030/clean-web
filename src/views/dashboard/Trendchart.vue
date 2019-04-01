@@ -1,9 +1,14 @@
 <template>
-    
+  <div class="tabs-content" data-tabs-content="trend-tabs">
+      <template v-for="(key, index) in groupDataKeys">
+        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+          <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
+        </div>
+      </template>
+    </div>
 </template>
 
 <script>
-    
   import _ from 'lodash';
   import moment from 'moment';
 
@@ -12,10 +17,10 @@
 
      data: function () {
       const currency = '$';
-      const formatter = new google.visualization.NumberFormat({
+      /*const formatter = new google.visualization.NumberFormat({
         fractionDigits: 2,
         prefix: currency
-      });
+      });*/
       return {
         activeIndex: 0,
         columns: [
