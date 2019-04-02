@@ -4,6 +4,8 @@ import 'core-js/es6/promise'
 import 'core-js/es6/string'
 import 'core-js/es7/array'
 import VueAnalytics from 'vue-analytics'
+import 'jquery-match-height'
+import 'select2'
 
 import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
 import VueChartjs from 'vue-chartjs'

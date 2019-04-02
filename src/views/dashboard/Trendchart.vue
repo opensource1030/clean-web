@@ -1,11 +1,13 @@
 <template>
-  <div class="tabs-content" data-tabs-content="trend-tabs">
+  <div class="coming-soon">
+    <div class="tabs-content" data-tabs-content="trend-tabs">
       <template v-for="(key, index) in groupDataKeys">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
           <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
         </div>
       </template>
     </div>
+  </div>
 </template>
 
 <script>

@@ -12,17 +12,18 @@ function supportRequest() {
   });
 
   populateCountries.populateCountries("country2");
+  
   $('.eq-Hght').matchHeight({
     byRow: true,
     property: 'height',
     target: null,
     remove: false
   });
-  let calendar = new Flatpickr(document.getElementById('flatpickr'), {
+  /*let calendar = new Flatpickr(document.getElementById('flatpickr'), {
     altInput: true,
     altFormat: "F j, Y",
     "mode": "range"
-  });
+  });*/
   $('.select-me').select2({
     placeholder: "Select your country",
     allowClear: true
@@ -31,6 +32,8 @@ function supportRequest() {
   var $selectOption = $('.user-actions');
 
   $selectOption.on('change', function () {
+    console.log("Choose")
+
     var value = $(this).val();
     $('.mix').show(200);
     setTimeout(function() {

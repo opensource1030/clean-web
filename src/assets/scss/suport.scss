@@ -1,3 +1,32 @@
+.coming-soon {
+  position: relative;
+  min-height: 350px;
+  width: 90%;
+  .tabs-content {
+    border: none;
+  }
+  .pie-chart-title {
+    font-weight: 600;
+  }
+}
+
+.form-footer{
+  padding:1.15385rem;
+  border-top:1px rgb(136, 136, 136) solid;
+  background: white;
+  position: absolute;
+  bottom:0;
+  width: 100%;
+  left: 0;
+  .button{
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    &:hover{
+      background: orange;
+    }
+  }
+}
 .support-form-holder{
 
     //display: none;
@@ -17,10 +46,10 @@
   .support-form-holder, .legacy-form-holder {
     z-index: 999;
     position: fixed;
-    top: 0;
+    top: 30px;
     right:0;
     width: 100%;
-    height: 100%;
+    height: 90%;
   
     .form-header{
       padding:1rem;

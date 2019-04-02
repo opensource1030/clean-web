@@ -1,6 +1,5 @@
 <template>
-  <div>
-    
+  <div class="coming-soon">
     <div>
       <template v-for="(allocation, index) in data">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
