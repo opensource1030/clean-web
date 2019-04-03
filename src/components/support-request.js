@@ -135,7 +135,7 @@ function supportRequest() {
             "Recipient_Mail" : $('#recipient_email').val(),
             "Recipient_Name" : "" ,
             ///////////////////////////////////////////////////////////////////////////////////
-            "Origin" : process.env.EASYVISTA_CODE,
+            "Origin" : config.EASYVISTA_CODE,
             //"Origin" : process.env.EASYVISTA_CODE,
             "Description" : msg,
             "ParentRequest" : "",
@@ -175,6 +175,7 @@ function supportRequest() {
           console.log("succes")
           $modal.html('');
           $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
+          alert("Ticket Opened Successfully")
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
           heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
@@ -183,6 +184,7 @@ function supportRequest() {
           $('.support-form-holder').removeClass('loading');
           $('#modal').html('');
           $modal.removeClass('is-success').addClass('is-error').append("<h4>" + "Status: " + textStatus + "</h4>" + "<p>" + "Error: " + errorThrown + "</p>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
+          alert("Error")
         }
       });
     }
