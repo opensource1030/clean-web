@@ -1,7 +1,8 @@
 import populateCountries from "./../api/countries";
 const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
-
+var config = require('../../config/dev.env')
+var local = require('../../config/local.env')
 function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
@@ -55,6 +56,7 @@ function supportRequest() {
   });
 
   $("#support-form").validate({
+    
     rules: {
       "description": {
         required: true,
@@ -63,6 +65,7 @@ function supportRequest() {
     },
 
     submitHandler: function (form) {
+      console.log("validate")
       var form = $('#support-form');
       var $modal = $('#modal');
       var company = "wirelessanalytics";
@@ -131,7 +134,9 @@ function supportRequest() {
             "Recipient_Identification" : "",
             "Recipient_Mail" : $('#recipient_email').val(),
             "Recipient_Name" : "" ,
+            ///////////////////////////////////////////////////////////////////////////////////
             "Origin" : process.env.EASYVISTA_CODE,
+            //"Origin" : process.env.EASYVISTA_CODE,
             "Description" : msg,
             "ParentRequest" : "",
             "CI_ID" : "",
@@ -147,7 +152,10 @@ function supportRequest() {
         //url: "https://api.elasticemail.com/v2/email/send",
         // headers: {"Authorization": "Bearer " + key},
         data: JSON.stringify(json),
-        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        url: "https://wa.easyvista.com/api/v1/"  + local.EV_ACCOUNT + "/requests",
+//        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
+
         headers: {"Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw=="},
         // contentType: "application/x-www-form-urlencoded",
         contentType: "application/json; charset=UTF-8",
@@ -164,8 +172,9 @@ function supportRequest() {
           $('.support-form-holder').addClass('loading');
         },
         success: function () {
+          console.log("succes")
           $modal.html('');
-          $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+          $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
           heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
@@ -173,7 +182,7 @@ function supportRequest() {
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           $('.support-form-holder').removeClass('loading');
           $('#modal').html('');
-          $modal.removeClass('is-success').addClass('is-error').append("<h4>" + "Status: " + textStatus + "</h4>" + "<p>" + "Error: " + errorThrown + "</p>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").foundation('open');
+          $modal.removeClass('is-success').addClass('is-error').append("<h4>" + "Status: " + textStatus + "</h4>" + "<p>" + "Error: " + errorThrown + "</p>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
         }
       });
     }
