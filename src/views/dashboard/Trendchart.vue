@@ -1,8 +1,19 @@
 <template>
   <div class="coming-soon">
+    <ul class="tabs" data-tabs id="trend-tabs">
+      <template v-for="(key, index) in groupDataKeys">
+        <b-btn variant="outline" class="mr-0">
+          <a :data-index="index">{{ key | phone }}</a>
+        </b-btn>
+      </template>
+    </ul>
+
     <div class="tabs-content" data-tabs-content="trend-tabs">
       <template v-for="(key, index) in groupDataKeys">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+          <p class="charts_tel">
+            {{ key | phone }}
+          </p>
           <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
         </div>
       </template>

@@ -1,7 +1,8 @@
 .coming-soon {
   position: relative;
   min-height: 350px;
-  width: 90%;
+  width: 100%;
+  height: 100%;
   .tabs-content {
     border: none;
   }
@@ -10,14 +11,20 @@
   }
 }
 
+.charts_tel{
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.479);
+}
+
 .form-footer{
   padding:1.15385rem;
   border-top:1px rgb(136, 136, 136) solid;
   background: white;
-  position: absolute;
+  position: relative;
   bottom:0;
   width: 100%;
   left: 0;
+  z-index: 1;
   .button{
     margin-bottom: 0;
     font-size: 1rem;
@@ -44,12 +51,12 @@
   }
 
   .support-form-holder, .legacy-form-holder {
-    z-index: 999;
+    z-index: 10000000000;
     position: fixed;
-    top: 30px;
+    top: 0;
     right:0;
     width: 100%;
-    height: 90%;
+    height: 100%;
   
     .form-header{
       padding:1rem;
@@ -78,7 +85,8 @@
 
   .support-form-holder{
     display: none;
-  
+    overflow-y: scroll;
+    
     &.loading{
       &:after{
         content: '';

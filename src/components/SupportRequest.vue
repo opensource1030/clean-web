@@ -1,5 +1,5 @@
 <template>
-    <div class="support-form-holder">
+    <div class="support-form-holder font_size_form">
         <b-card>
             <div class="form-header">
                 <a class="btn-close" href="javascript:;" title="close"><i class="fa fa-times-circle"> </i> </a>
@@ -119,10 +119,20 @@
                                 <legend>
                                 <label>Email Services </label>
                                 <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span></legend>
-                                <input type="radio" class="form-check-input" name="email_services" value="Email Setup" id="email_setup" required>
-                                <label for="email_setup">Email Setup</label>                               
-                                <input type="radio" class="form-check-input" name="email_services" value="Email Troubleshooting" id="email_troubleshooting">
-                                <label for="email_troubleshooting">Email Troubleshooting</label>
+                                <b-row>
+                                    <b-col col="4">
+                                        <div class="column large-6">
+                                            <input type="radio" name="email_services" value="Email Setup" id="email_setup" required>
+                                            <label class="ml-1" for="email_setup">Email Setup</label>
+                                        </div>                                    
+                                    </b-col>
+                                    <b-col col="8">
+                                        <div class="column large-6">
+                                            <input type="radio" name="email_services" value="Email Troubleshooting" id="email_troubleshooting">
+                                            <label class="ml-1" for="email_troubleshooting">Email Troubleshooting</label>
+                                        </div>
+                                    </b-col>
+                                </b-row>
                             </fieldset>
                         </div>
                         <div>
@@ -133,7 +143,7 @@
                                     <i class="fa fa-question-circle"></i>
                                 </span>
                             </label>
-                            <input id="requestor_email" type="text"> 
+                            <input class="form-control" id="requestor_email" type="text"> 
                         </div>
                         <div class="medium-12 columns">
                             <label>
@@ -142,7 +152,7 @@
                             <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user.">
                                 <i class="fa fa-question-circle"></i>
                             </span>
-                            <input type="text" id="recipient_email" placeholder="your email">
+                            <input class="form-control" type="text" id="recipient_email" placeholder="your email">
                             </label>
                         </div>
                         <div>
@@ -152,7 +162,7 @@
                             <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="if number is unavailable, please add N/A.">
                                 <i class="fa fa-question-circle"></i>
                             </span>
-                            <input id="recipient_mobile" type="text" placeholder="recipient mobile #">
+                            <input class="form-control" id="recipient_mobile" type="text" placeholder="recipient mobile #">
                             </label>
                         </div>
                         <div>
@@ -202,11 +212,11 @@
                             <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Please explain the question or problem in detail, and let us know how you'd like to be contacted.">
                                 <i class="fa fa-question-circle"></i>
                             </span>
-                                <textarea rows="3" id="description" name="description" required></textarea>
+                                <textarea class="form-control" rows="3" id="description" name="description" required></textarea>
                             </label>
                         </div>
                         <div class="form-footer">
-                            <button type="submit" class="button btn-submit ">Submit Ticket</button>
+                            <button type="submit" class="button btn-primary btn-submit ">Submit Ticket</button>
                         </div>
                         <div class="tiny reveal request-modal" id="modal" data-reveal>
                             <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
@@ -219,3 +229,12 @@
         </b-card>
   </div>
 </template>
+
+<style>
+.font_size_form label{
+    font-size: 0.875rem;
+}
+.font_size_form span{
+    font-size: 0.875rem;
+}
+</style>

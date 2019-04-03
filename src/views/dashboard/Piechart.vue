@@ -1,8 +1,19 @@
 <template>
   <div class="coming-soon">
-    <div>
+    <ul class="tabs" data-tabs id="spend-tabs">
+      <template v-for="(allocation, index) in data">
+        <b-btn variant="outline">
+          <a :data-index="index">{{ allocation.mobile_number | phone }}</a>
+        </b-btn>
+      </template>
+    </ul>
+
+    <div class="tabs-content" data-tabs-content="trend-tabs">
       <template v-for="(allocation, index) in data">
         <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+          <p class="charts_tel">
+            {{ title(allocation) }}
+          </p>
           <vue-chart :v-ref="'vuechart' + index" chart-type="PieChart" :columns="columns" :rows="pieData(index)" :options="options"></vue-chart>
         </div>
       </template>
@@ -62,9 +73,8 @@ export default {
     },
      methods: {
       title (allocation) {
-        return this.options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
+        return allocation.mobile_number + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
       },
-
       pieData (index) {
         if (index !== this.activeIndex) {
           return [['Dummy', 0]]
