@@ -66,6 +66,7 @@ function supportRequest() {
 
     submitHandler: function (form) {
       console.log("validate")
+
       var form = $('#support-form');
       var $modal = $('#modal');
       var company = "wirelessanalytics";
