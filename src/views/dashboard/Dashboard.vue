@@ -78,7 +78,9 @@
                 <p class="text-center">
                   <span class="bold color-tuatara">Mobile No</span>
                   <br/>
-                  
+                  <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.lastAllocations[activeAllocationIndex].id}}" class="alloc_mblnumber"
+                          v-html="$options.filters.phone(userInfo.lastAllocations[activeAllocationIndex].mobile_number)">
+                        </router-link>
                 </p>
               </td>
               <td class="td-normal-width td-normal-height">
@@ -195,6 +197,7 @@
     </b-row>
   </div>
 </template>
+
 
 <script src="./dashboard.ctrl.js" lang="babel"></script>
 

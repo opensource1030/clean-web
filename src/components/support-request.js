@@ -34,7 +34,7 @@ function supportRequest() {
 
   $selectOption.on('change', function () {
     console.log("Choose")
-
+    
     var value = $(this).val();
     $('.mix').show(200);
     setTimeout(function() {

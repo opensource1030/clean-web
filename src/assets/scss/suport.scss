@@ -1,3 +1,20 @@
+#modal{
+  &.is-error{
+    background: red;
+    padding: 4.5rem 4rem;
+    color: white;
+    max-width: 50%;
+  }
+  &.is-success{
+    background:green;
+    color: white;
+  }
+  .close-button{
+    color: white;
+  }
+}
+
+
 .coming-soon {
   position: relative;
   min-height: 350px;
