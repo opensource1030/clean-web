@@ -76,9 +76,12 @@
               </td>
               <td class="td-normal-width td-normal-height">
                 <p class="text-center">
+                  <br>
                   <span class="bold color-tuatara">Mobile No</span>
                   <br/>
-                  
+                  <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.lastAllocations[activeAllocationIndex].id}}" class="alloc_mblnumber" 
+                  v-html="userInfo.lastAllocations[activeAllocationIndex].mobile_number"
+                  ></router-link>
                 </p>
               </td>
               <td class="td-normal-width td-normal-height">

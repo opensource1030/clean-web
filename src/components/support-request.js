@@ -3,6 +3,8 @@ const Flatpickr = require("flatpickr");
 const gaId = 'UA-42900219-2';
 var config = require('../../config/dev.env')
 var local = require('../../config/local.env')
+
+//import show from './SupportRequest.vue'
 function supportRequest() {
   // Pre filling
   $('.open-support').on('click', function() {
@@ -34,7 +36,8 @@ function supportRequest() {
 
   $selectOption.on('change', function () {
     console.log("Choose")
-    
+    //$('#my-modal').show()
+
     var value = $(this).val();
     $('.mix').show(200);
     setTimeout(function() {
@@ -174,12 +177,16 @@ function supportRequest() {
         },
         success: function () {
           console.log("succes")
-          $modal.html('');
+          /*$modal.html('');
           $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
-          alert("Ticket Opened Successfully")
+          alert("Ticket Opened Successfully")*/
+          //this.$refs['my-modal'].show()
+          //SupportRequest.$refs['my-modal'].show()
+          //$modal.html('');
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
           heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
+          
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           $('.support-form-holder').removeClass('loading');

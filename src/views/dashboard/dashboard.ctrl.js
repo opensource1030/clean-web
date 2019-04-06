@@ -10,6 +10,8 @@ import { Storage, Utils, Log } from './../../helpers'
 const { Store } = require('yayson')()
 const store = new Store()
 
+
+
 export default {
   name : 'dashboard',
 
@@ -52,6 +54,7 @@ export default {
   },
 
   created () {
+    
     this.$root.$on('company_content_loaded', (response) => {
       if(response.data)
         this.clientInfo.data = response.data.object;
@@ -107,6 +110,9 @@ export default {
   },
 
   methods: {
+
+    /////////////
+
     setAllocation (index) {
       this.activeAllocationIndex = index;
     },

@@ -218,17 +218,32 @@
                         <div class="form-footer">
                             <button type="submit" class="button btn-primary btn-submit ">Submit Ticket</button>
                         </div>
-                        <div class="tiny reveal request-modal" id="modal" data-reveal>
+                            <b-button id="show-btn" @click="showModal">Open Modal</b-button>
+
+                        <div class="tiny reveal request-modal" id="modal">
                             <button class="close-button" data-close aria-label="Close Accessible Modal" type="button">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
+                        <b-modal ref="my-modal" id="my-modal" hide-footer>
+                        <div class="d-block text-center">
+                            <h3>Ticket Opened Successfully</h3>
+                        </div>
+                        
+                        </b-modal>
+                        <b-modal ref="my-modal2" id="my-modal2" hide-footer>
+                        <div class="d-block text-center">
+                            <h3>Error</h3>
+                        </div>
+                        </b-modal>
                     </div>
             </b-form-group>
         </b-form>
         </b-card>
   </div>
 </template>
+
+<script src="./support" lang="babel"></script>
 
 <style>
 .font_size_form label{
