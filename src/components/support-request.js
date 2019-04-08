@@ -5,7 +5,7 @@ var config = require('../../config/dev.env')
 var local = require('../../config/local.env')
 
 //import show from './SupportRequest.vue'
-function supportRequest() {
+function supportRequest(dashboard) {
   // Pre filling
   $('.open-support').on('click', function() {
     $('#recipient_email').val(JSON.parse(localStorage.getItem("profile")).email);
@@ -150,8 +150,12 @@ function supportRequest() {
           }
         ]
       };
-
-      $.ajax({
+      $modal.html('');
+      $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").show();
+          
+      //$('#my-modal').show();
+      //dashboard.$refs['my-modal'].show()
+      /*$.ajax({
         type: "POST",
         //url: "https://api.elasticemail.com/v2/email/send",
         // headers: {"Authorization": "Bearer " + key},
@@ -178,11 +182,12 @@ function supportRequest() {
         success: function () {
           console.log("succes")
           /*$modal.html('');
-          $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
-          alert("Ticket Opened Successfully")*/
+          $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").fundation;
+          alert("Ticket Opened Successfully")
           //this.$refs['my-modal'].show()
           //SupportRequest.$refs['my-modal'].show()
           //$modal.html('');
+
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
           heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
@@ -194,7 +199,7 @@ function supportRequest() {
           $modal.removeClass('is-success').addClass('is-error').append("<h4>" + "Status: " + textStatus + "</h4>" + "<p>" + "Error: " + errorThrown + "</p>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
           alert("Error")
         }
-      });
+      });*/
     }
   });
 }

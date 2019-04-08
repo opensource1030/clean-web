@@ -1,13 +1,17 @@
 <template>
   <div>
+    <div style="width: 199px;">
+        <b-card-header class="bg-info">
+          <strong>{{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}</strong>
+        </b-card-header>
+      </div>
     <b-card>
-      <h4 slot="header">Dashboard</h4>
       <b-card-body>
         <div v-if="clientInfo.loading">
           <h1>LOADING</h1>
         </div>
         <div v-else>
-          <h1>GOGOGO</h1>
+          <div v-html="clientInfo.data.content"></div>
         </div>
 
       </b-card-body>
@@ -18,7 +22,7 @@
           <strong>Overview</strong>
         </b-card-header>
       </div>
-        <div v-if="userInfo.loading">
+        <div v-if="true">
           <h1>LOADING</h1>
         </div>
         <div v-else>

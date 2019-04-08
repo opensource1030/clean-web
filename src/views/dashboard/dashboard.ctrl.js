@@ -98,7 +98,7 @@ export default {
       Log.put('dashboard/created user info', this.userInfo);
 
       this.userInfo.loading = false;
-      setTimeout(supportRequest, 2000);
+      setTimeout(supportRequest, 2000, this);
     }, err => {
       console.log("userInfo data allocations")
       Log.put('dashboard/created user allocation err', err);
