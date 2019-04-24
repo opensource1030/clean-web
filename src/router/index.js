@@ -5,6 +5,7 @@ import store from "./../store";
 import NProgress from "nprogress";
 // routes auth
 import Sso from "./../components/Sso.vue";
+import SsoMobile from "./../components/SsoMobile.vue";
 import Login from "./../components/Login.vue";
 import Register from "./../components/Register.vue";
 import LoginLocal from "./../components/LoginLocal.vue";
@@ -73,6 +74,7 @@ const router = new VueRouter({
 
     // main
     {path: '/sso/:id', component: Sso, name: 'sso'},
+    {path: '/ssoMobile/:id', component: SsoMobile, name: 'ssoMobile'},
     {path: '/sidemenu', component: Sidemenu},
     {
       path: '/dashboard', component: Dashboard, name: 'dashboard', breadcrumb: 'Dashboard', meta: {requiresAuth: true},
