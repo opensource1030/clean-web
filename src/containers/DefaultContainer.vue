@@ -12,11 +12,11 @@
           <i class="icon-bell"></i>
           <b-badge pill variant="danger">5</b-badge>
         </b-nav-item>
-            <DefaultHeaderDropdownAccnt/>
-        
+        <DefaultHeaderDropdownAccnt/>
       </b-navbar-nav>
       <!--<AsideToggler class="d-lg-none" mobile />-->
     </AppHeader>
+
     <div class="app-body">
       <AppSidebar fixed>
         <SidebarHeader/>
@@ -40,35 +40,38 @@
         </div>
       </main>
     </div>
+
     <SupportRequest />
+
+    <!--footer-->
     <TheFooter>
-      <!--footer-->
       <div class="footer_div">
-        	<div id="footer">&copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span></div>
+        <div id="footer">&copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span></div>
       </div>
     </TheFooter>
   </div>
 </template>
 
 <script>
-//import nav from '@/_nav'
-  import nav from './../_nav_super'
-  import normal_nav from './../_nav_normal'
-  import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
-  import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
-  import _ from 'lodash'
-  import {Storage, Utils, Log, ScopeHelper } from './../helpers'
-  import authAPI from './../api/auth-api'
-  import SupportRequest from '../components/SupportRequest.vue'
+// import nav from '@/_nav'
+import nav from './../_nav_super'
+import normal_nav from './../_nav_normal'
+import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
+import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
+import _ from 'lodash'
+import { Storage, Utils, Log, ScopeHelper } from './../helpers'
+import authAPI from './../api/auth-api'
+import SupportRequest from '../components/SupportRequest.vue'
 
-  //import store from './../store'
-  //const {Store} = require('yayson')()
-  //const store = new Store()
+// import store from './../store'
+// const {Store} = require('yayson')()
+// const store = new Store()
 
-  console.log(ScopeHelper)
-  //console.log(ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0]))
+console.log(ScopeHelper)
+// console.log(ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0]))
 export default {
   name: 'DefaultContainer',
+
   components: {
     AsideToggler,
     AppHeader,
@@ -85,49 +88,57 @@ export default {
     SidebarMinimizer,
     SupportRequest
   },
+
   data () {
     return {
       nav: nav.items,
       normal_nav: normal_nav.items,
       legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
-
-      //showLegacy: false,
-
+      // showLegacy: false,
     }
   },
+
   computed: {
     name () {
       return this.$route.name
     },
+
     list () {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
     },
+
     ScopeHelper () {
       return ScopeHelper
     }
   },
+
   created () {
-    
+    let profile = Utils.parseJsonString(Storage.get('profile'))
+    if (profile.companies.length) {
+      let cosmicdata = profile.companies[0].contents[0].content
+      Log.put('DefaultContainer/created', cosmicdata)
+      this.$store.dispatch('auth/loadCompany', cosmicdata)
+    }
   },
+
   mounted () {
     $(document).keyup(function (e) {
-        if($('.support-form-holder').is(":visible") && e.keyCode == 27) {
-          setTimeout(function() {
-            $('.support-form-holder .btn-close').click();
-          }, 200);
-        } else if($('.spent-info').hasClass('active') && e.keyCode == 27) {
-          setTimeout(function() {
-            history.back();
-          },200)
-        }
-      })
+      if ($('.support-form-holder').is(":visible") && e.keyCode == 27) {
+        setTimeout(function() {
+          $('.support-form-holder .btn-close').click()
+        }, 200)
+      } else if ($('.spent-info').hasClass('active') && e.keyCode == 27) {
+        setTimeout(function() {
+          history.back()
+        }, 200)
+      }
+    })
   }
 }
-
 </script>
 
 <style lang="scss">
-.nav-poweredby{
+.nav-poweredby {
   border-top: 1px solid rgba(204, 204, 204, 0.12);
   text-align: center;
   left: 0;
@@ -135,9 +146,8 @@ export default {
   padding: 2px 0 10px;
   width: 100%;
   position: absolute;
-
   z-index: 999;
-  .text-copyright{
+  .text-copyright {
     float: left;
     font-size: 10px;
     font-weight: 700;
@@ -146,21 +156,21 @@ export default {
     margin-top: 10px;
     text-transform: uppercase;
   }
-  .img-full{
+  .img-full {
     float: left;
     margin-top: 3px;
     max-width: 50%;
     padding-top: 5px;
-    
+
   }
-  .img-collapse{
+  .img-collapse {
     margin: 0 auto;
     max-width: 74%;
     display: none;
   }
 }
-.footer_div{
+
+.footer_div {
   margin: auto;
 }
-
 </style>

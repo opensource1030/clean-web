@@ -13,7 +13,8 @@ const state = {
   userId: Storage.get('userId') || null,
   token: Utils.parseJsonString(Storage.get('token')),
   profile: Utils.parseJsonString(Storage.get('profile')),
-
+  company: {},
+  company_loading: true,
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -33,7 +34,7 @@ const getters = {
 
   isExpired: (state) => {
     let status = false;
-    if(state.token)
+    if (state.token)
       status = Date.now() > (state.token.updated_at + state.token.expires_in);
 
     return status;
@@ -45,6 +46,13 @@ const getters = {
 
   getVariations: (state) => {
     return state.variations
+  },
+
+  getClientInfo: (state) => {
+    return {
+      data: state.company.object,
+      loading: state.company_loading
+    }
   },
 }
 
@@ -121,6 +129,16 @@ const actions = {
         }, {root: true})
         reject(error)
       })
+    })
+  },
+
+  loadCompany({ commit }, company_url) {
+    authAPI.getCompany(company_url, (response) => {
+      // console.log('auth/loadCompany', company_url, response.body)
+      commit('setCompany', response.body)
+      commit('setCompanyLoading', false)
+    }, (error) => {
+      commit('setCompanyLoading', false)
     })
   },
 
@@ -545,6 +563,14 @@ const mutations = {
   [types.AUTH_SET_PROFILE] (state, result) {
     Storage.set('userProfile', JSON.stringify(result.profile))
     state.profile = result.profile
+  },
+
+  setCompany (state, company) {
+    state.company = company
+  },
+
+  setCompanyLoading (state, company_loading) {
+    state.company_loading = company_loading
   },
 
   recoveryVariations (state) {

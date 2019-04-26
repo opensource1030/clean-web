@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import moment from 'moment'
+  import moment from 'moment'
 
-export default {
+  export default {
     props: ['data'],
     data() {
     return {
@@ -106,8 +106,5 @@ export default {
         return piechart_data;
       },
     }
-
-}
-
+  }
 </script>
-

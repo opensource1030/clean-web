@@ -3,21 +3,20 @@
 import 'core-js/es6/promise'
 import 'core-js/es6/string'
 import 'core-js/es7/array'
-import VueAnalytics from 'vue-analytics'
 import 'jquery-match-height'
 import 'select2'
 import 'jquery-validation'
 
-import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js";
+import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
 import VueChartjs from 'vue-chartjs'
-//import VueGoogleCharts from 'vue-google-charts'
-//import {GoogleCharts} from 'google-charts';
-
+// import VueAnalytics from 'vue-analytics'
+// import VueGoogleCharts from 'vue-google-charts'
+// import {GoogleCharts} from 'google-charts'
 // import cssVars from 'css-vars-ponyfill'
 import './assets/scss/suport.scss'
 
-import VeeValidate from "vee-validate";
-import Vue2Filters from "vue2-filters";
+import VeeValidate from "vee-validate"
+import Vue2Filters from "vue2-filters"
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
@@ -35,17 +34,17 @@ Vue.filter('cleanDate', function (value) {
   if (value === 'N/A' || value === null || value === undefined) {
     return 'N/A'
   } else {
-    let str = value + '';
-    return value = moment(str, 'YYYY-MM-DD').format('MMM Y');
+    let str = value + ''
+    return value = moment(str, 'YYYY-MM-DD').format('MMM Y')
   }
-});
+})
 
 Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
     return value = '-'
-  }
-  else {
-    value *= 1000; // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+  } else {
+    // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+    value *= 1000
     return numeral(value).format('0.00b')
   }
 })
@@ -53,15 +52,10 @@ Vue.filter('formatBytes', function (value) {
 Vue.filter('formatCurrency', function (value, locale = "us") {
   if (value === null || value === undefined) {
     return value = '-'
-  }
-  else {
+  } else {
     return numeral(value).format('$0,0.00')
   }
 })
-
-
-
-
 
 // cssVars()
 
@@ -70,20 +64,19 @@ Vue.use(VueCharts)
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
 Vue.use(VueChartjs)
-//Vue.use(VueGoogleCharts)
-//Vue.use(GoogleCharts)
+// Vue.use(VueGoogleCharts)
+// Vue.use(GoogleCharts)
+
 /* eslint-disable no-new */
 
-/*const gaId = 'UA-42900219-2'
-Vue.use(VueAnalytics, {gaId, router});
-*/
-// config
-/*Vue.config.productionTip = false
-if (process.env.NODE_ENV == 'production') {
-  Vue.config.devtools = false;
-}
-*/
+// const gaId = 'UA-42900219-2'
+// Vue.use(VueAnalytics, {gaId, router})
 
+// config
+// Vue.config.productionTip = false
+// if (process.env.NODE_ENV == 'production') {
+//   Vue.config.devtools = false
+// }
 
 new Vue({
   el: '#app',

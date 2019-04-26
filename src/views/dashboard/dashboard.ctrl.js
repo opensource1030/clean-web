@@ -10,8 +10,6 @@ import { Storage, Utils, Log } from './../../helpers'
 const { Store } = require('yayson')()
 const store = new Store()
 
-
-
 export default {
   name : 'dashboard',
 
@@ -23,16 +21,11 @@ export default {
 
   data () {
     return {
-      clientInfo: {
-        data: {},
-        loading: true
-      },
       userInfo: {
         data: {},
         lastAllocations: [],
         loading: true
       },
-      companyInfo: {},
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
@@ -44,75 +37,16 @@ export default {
       return _
     },
 
+    clientInfo () {
+      return this.$store.getters['auth/getClientInfo']
+    },
+
     disabledBeginOrder () {
       return this.selectedOrder == '' ? 'disabled' : false
     }
   },
 
-  beforeCreate () {
-    
-  },
-
-  created () {
-    
-    this.$root.$on('company_content_loaded', (response) => {
-      if(response.data)
-        this.clientInfo.data = response.data.object;
-
-      this.clientInfo.loading = false
-    });
-
-    let profile = Utils.parseJsonString(Storage.get('profile'));
-
-    let _params = {
-      params: {
-        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
-      }
-    };
-    console.log(this.$store.state.auth)
-
-    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
-      console.log("Entra?")
-      if (res.status == 404) {
-        console.log("Status 404")
-        this.userInfo.data.allocations = [];
-        this.userInfo.lastAllocations = [];
-        
-      } else {
-        console.log("ELSEEE")
-        let event = store.sync(res.data);
-        this.userInfo.data = event;
-
-        for (let allocation of this.userInfo.data.allocations) {
-          allocation.issue = ''
-        }
-
-        let lastAllocations = [];
-        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
-        _.forEach(allocationsByPhone, function(allocations) {
-          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
-        });
-        this.userInfo.lastAllocations = lastAllocations;
-      }
-
-      Log.put('dashboard/created user info', this.userInfo);
-
-      this.userInfo.loading = false;
-      setTimeout(supportRequest, 2000, this);
-    }, err => {
-      console.log("userInfo data allocations")
-      Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
-      this.userInfo.data.allocations = [];
-      this.userInfo.loading = false;
-    });
-
-  },
-
   methods: {
-
-    /////////////
-
     setAllocation (index) {
       this.activeAllocationIndex = index;
     },
@@ -194,5 +128,50 @@ export default {
         text: 'This feature is not enabled, please see your IT Admin'
       })
     }
+  },
+
+  beforeCreate () {
+  },
+
+  created () {
+    let profile = Utils.parseJsonString(Storage.get('profile'));
+
+    let _params = {
+      params: {
+        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
+      }
+    };
+    // console.log(this.$store.state.auth)
+
+    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
+      console.log("Entra?")
+      if (res.status == 404) {
+        this.userInfo.data.allocations = []
+        this.userInfo.lastAllocations = []
+      } else {
+        let event = store.sync(res.data);
+        this.userInfo.data = event;
+
+        for (let allocation of this.userInfo.data.allocations) {
+          allocation.issue = ''
+        }
+
+        let lastAllocations = [];
+        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
+        _.forEach(allocationsByPhone, function(allocations) {
+          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
+        });
+        this.userInfo.lastAllocations = lastAllocations;
+      }
+
+      Log.put('dashboard/created user info', this.userInfo);
+      this.userInfo.loading = false;
+      setTimeout(supportRequest, 2000);
+    }, err => {
+      Log.put('dashboard/created user allocation err', err);
+      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
+      this.userInfo.data.allocations = [];
+      this.userInfo.loading = false;
+    })
   }
 }

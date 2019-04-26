@@ -21,12 +21,10 @@
                   </b-input-group>
                   <b-row class="mb-3">
                     <b-col cols="6">
-                        <b-form-checkbox
+                      <b-form-checkbox
                         id="checkbox1"
                         style="color: black;"
-                        >
-                        remember me
-                        </b-form-checkbox>
+                      >remember me</b-form-checkbox>
                     </b-col>
                     <b-col cols="6">
                       <a @click="resetPassword()" style="cursor: pointer; color: black;"><strong>Forgot Password?</strong></a>
@@ -49,13 +47,12 @@
       </b-row>
     </div>
     <div id="version">
-          <span v-if="version" class="version"> {{ version }}</span>
-        </div>
+      <span v-if="version" class="version">{{ version }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'loginLogin',
   data () {
@@ -72,11 +69,12 @@ export default {
 
   mounted () {
     let currentLocation = decodeURIComponent(window.location.href);
-    if(currentLocation.split('return=').length > 1){
+    if (currentLocation.split('return=').length > 1) {
       this.deskpro = currentLocation.split('return=')[1];
       $('input[name="email"]').focus()
-    } else
+    } else {
       $('input[name="password"]').focus()
+    }
   },
 
   methods: {
@@ -96,6 +94,7 @@ export default {
   }
 }
 </script>
+
 <style>
 #version
 {
