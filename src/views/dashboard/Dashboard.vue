@@ -17,11 +17,11 @@
         Overview
       </div>
       <b-card>
-        <div v-if="true">
+        <div v-if="userInfo.loading">
           <h1>LOADING</h1>
         </div>
         <div v-else>
-          <table style="width:100%; ">
+          <table style="width:100%;">
             <tr>
               <td class="td-normal-width td-normal-height">
                 <p>
@@ -44,7 +44,7 @@
                   <div class="div-img" style="whidth: 100%;">
                     <img class="img-phone" src="../../images/phone-mifi-tablet.svg">
                   </div>
-                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary" ><router-link :to="{ name: 'legacyInfo'}" style="color: white;">Place an Order</router-link></b-btn>
+                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary"><router-link :to="{ name: 'legacyInfo' }" style="color: white;">Place an Order</router-link></b-btn>
                   <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>
               </td>
               <td class="td-normal-width td-normal-height">
@@ -174,7 +174,10 @@
             <div v-if="userInfo.loading">
               <h1>LOADING</h1>
             </div>
-            <PieChart :data="userInfo.lastAllocations" v-if="userInfo.lastAllocations.length"></PieChart>
+            <PieChart
+              v-if="!userInfo.loading && userInfo.lastAllocations.length"
+              :data="userInfo.lastAllocations"
+            />
           </b-card-body>
         </b-card>
       </b-col>
@@ -187,7 +190,10 @@
             <div v-if="userInfo.loading">
               <h1>LOADING</h1>
             </div>
-            <TrendChart :data="userInfo.data.allocations" v-if="userInfo.data.allocations.length"></TrendChart>
+            <TrendChart
+              v-if="!userInfo.loading && userInfo.data.allocations.length"
+              :data="userInfo.data.allocations"
+            />
           </b-card-body>
         </b-card>
       </b-col>

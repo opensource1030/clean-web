@@ -144,7 +144,6 @@ export default {
     // console.log(this.$store.state.auth)
 
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
-      console.log("Entra?")
       if (res.status == 404) {
         this.userInfo.data.allocations = []
         this.userInfo.lastAllocations = []

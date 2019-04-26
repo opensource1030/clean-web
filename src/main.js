@@ -7,22 +7,26 @@ import 'jquery-match-height'
 import 'select2'
 import 'jquery-validation'
 
+import Vue from 'vue'
 import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
 import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
 // import cssVars from 'css-vars-ponyfill'
-import './assets/scss/suport.scss'
-
 import VeeValidate from "vee-validate"
 import Vue2Filters from "vue2-filters"
-import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
+
 import App from './App'
 import router from './router'
 import store from './store'
 import {sync} from 'vuex-router-sync'
+
+import './filters/phone-formatter.js'
+
+import './assets/scss/suport.scss'
+
 sync(store, router)
 window.$ = require('jquery')
 

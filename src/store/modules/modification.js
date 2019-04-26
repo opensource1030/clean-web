@@ -90,7 +90,7 @@ const mutations = {
     state.records = records
   },
 
-  [types.MODIFICATION_CREATE] (state, record) {
+  [types.MODIFICATION_ADD] (state, record) {
     state.records.push(record)
   },
 

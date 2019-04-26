@@ -162,11 +162,11 @@ const actions = {
   },
 
   addVariation ({commit}, variation) {
-    commit(types.DEVICE_ADD_VARIATTION, variation)
+    commit(types.DEVICE_ADD_VARIATION, variation)
   },
 
   removeVariation ({commit}, variation) {
-    commit(types.DEVICE_REMOVE_VARIATTION, variation)
+    commit(types.DEVICE_REMOVE_VARIATION, variation)
   }
 }
 
@@ -223,12 +223,12 @@ const mutations = {
     }
   },
 
-  [types.DEVICE_ADD_VARIATTION] (state, variation) {
+  [types.DEVICE_ADD_VARIATION] (state, variation) {
     let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
     device.devicevariations.push(variation)
   },
 
-  [types.DEVICE_REMOVE_VARIATTION] (state, variation) {
+  [types.DEVICE_REMOVE_VARIATION] (state, variation) {
     let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
     _.remove(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation.id)))
   },

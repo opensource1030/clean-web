@@ -3,8 +3,14 @@
     <AppHeader fixed>
       <SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="#">
-        <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+        <!-- <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo"> -->
+        <img
+           v-if="company.object"
+          :src="_.get(company.object, 'metadata.logo.url', '')"
+          alt="Company Logo"
+          title="Client Logo" height="25"
+        >
       </b-link>
       <SidebarToggler class="d-md-down-none" display="lg" />
       <b-navbar-nav class="ml-auto">
@@ -53,12 +59,12 @@
 </template>
 
 <script>
+import _ from 'lodash'
 // import nav from '@/_nav'
 import nav from './../_nav_super'
 import normal_nav from './../_nav_normal'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
-import _ from 'lodash'
 import { Storage, Utils, Log, ScopeHelper } from './../helpers'
 import authAPI from './../api/auth-api'
 import SupportRequest from '../components/SupportRequest.vue'
@@ -67,7 +73,7 @@ import SupportRequest from '../components/SupportRequest.vue'
 // const {Store} = require('yayson')()
 // const store = new Store()
 
-console.log(ScopeHelper)
+// console.log(ScopeHelper)
 // console.log(ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0]))
 export default {
   name: 'DefaultContainer',
@@ -99,8 +105,16 @@ export default {
   },
 
   computed: {
+    _() {
+      return _
+    },
+
     name () {
       return this.$route.name
+    },
+
+    company() {
+      return this.$store.state.auth.company
     },
 
     list () {
@@ -114,7 +128,7 @@ export default {
 
   created () {
     let profile = Utils.parseJsonString(Storage.get('profile'))
-    if (profile.companies.length) {
+    if (profile.companies && profile.companies.length) {
       let cosmicdata = profile.companies[0].contents[0].content
       Log.put('DefaultContainer/created', cosmicdata)
       this.$store.dispatch('auth/loadCompany', cosmicdata)
