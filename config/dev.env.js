@@ -1,22 +1,19 @@
 module.exports = {
   NODE_ENV: 'development',
-  //URL_API: '"https://dev.api.wirelessanalytics.com"',
+  // URL_API: '"https://dev.api.wirelessanalytics.com"',
   // URL_API: 'https://cleanapi.wirelessanalytics.com',
   URL_API: 'https://staging.api.wirelessanalytics.com',
   URL: 'http://localhost:8080',
-  //URL: '"https://dev.wirelessanalytics.com"',
+  // URL: '"https://dev.wirelessanalytics.com"',
   CLIENT_ID: '2',
   CLIENT_SECRET: 'ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7',
   LEGACY_URL: 'https://dev.legacy.wirelessanalytics.com',
-  SUPPORT_EMAIL: 'evprod@wirelessanalytics.com',
-
+  SUPPORT_EMAIL: 'product.support@wirelessanalytics.com',
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
   },
-
   EASYVISTA_CODE: 13,
-
   FEATURES: {
     "Procurements": {
       enabled: true,
@@ -53,7 +50,5 @@ module.exports = {
         "*@wa.com": true
       }
     }
-  },
-  SUPPORT_EMAIL: '"product.support@wirelessanalytics.com"'
-
-};
+  }
+}

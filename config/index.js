@@ -16,21 +16,6 @@ module.exports = {
     productionGzip: false,
     productionGzipExtensions: ['js', 'css']
   },
-  dev: {
-    env: require('./dev.env'),
-    index: path.resolve(__dirname, '../public/index.html'),
-    assetsRoot: path.resolve(__dirname, '../public'),
-    assetsSubDirectory: 'assets',
-    assetsPublicPath: '/',
-    port: 8080,
-    productionSourceMap: true,
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
-    productionGzip: false,
-    productionGzipExtensions: ['js', 'css']
-  },
   staging: {
     env: require('./staging.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
@@ -76,8 +61,8 @@ module.exports = {
     productionGzip: false,
     productionGzipExtensions: ['js', 'css']
   },
-  local: {
-    env: require('./local.env'),
+  dev: {
+    env: require('./dev.env'),
     port: 8080,
     assetsSubDirectory: 'assets',
     assetsPublicPath: '/',

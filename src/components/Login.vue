@@ -67,21 +67,19 @@ export default {
 </script>
 
 <style>
-#version
-{
-     position: fixed;
-     bottom: 20px;
-     left: 50px;
+#version {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
 }
 </style>
 
 <style lang="scss">
-
-.powered-by{
+.powered-by {
   max-width: 210px;
   margin: 3rem auto 0;
   overflow: hidden;
-  span{
+  span {
     float: left;
     line-height:2rem;
     font-size: 0.82rem;

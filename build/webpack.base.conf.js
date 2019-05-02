@@ -1,82 +1,40 @@
-var path = require('path');
-var config = require('../config');
-var utils = require('./utils');
-var projectRoot = path.resolve(__dirname, '../');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-let extractCSS = new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css'))
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require(`vue-loader`);
+const nodeSassMagicImporter = require(`node-sass-magic-importer`);
+const path = require(`path`);
+const utils = require(`./utils`);
+const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
+const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`);
+const UglifyJsPlugin = require(`uglifyjs-webpack-plugin`);
 
-module.exports = {
-  entry: {
-    // app: './src/main.js'
-    app: ['babel-polyfill', './src/main.js']
-  },
-  //entry: './../src/main.js',
+const env = process.env.NODE_ENV;
+const minify = env === `production`;
+const sourceMap = env === `development`;
+
+const webpackConfig = {
+  entry: path.resolve(__dirname, '../src/main.js'),
+  mode: env,
   output: {
-    path: config.build.assetsRoot,
-    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
-    filename: 'build.js'
+    publicPath: `/`,
   },
+  devtool: sourceMap ? `cheap-module-eval-source-map` : undefined,
   resolve: {
-    extensions: ['.js', '.vue'],
-    //fallback: [path.join(__dirname, '../node_modules')],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
-      vue$: 'vue/dist/vue.common.js',
-      //'@': resolve('src'),
-      'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../src/images'),
-      'components': path.resolve(__dirname, '../src/components'),
-      'views': path.resolve(__dirname, '../src/views')
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, '../src'),
     }
   },
-  /*resolveLoader: {
-    fallback: [path.join(__dirname, '../node_modules')]
-  },
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
-  },
-  /*vue: {
-    loaders: utils.cssLoaders(),
-    postcss: [
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
-    ]
-  },*/
   module: {
     rules: [
-      //new
-      {
-        test: /\.html$/,
-        use: {
-          loader: 'file-loader',
-        query: {
-            name: '[name].[ext]'
-        },
-        }
-      },
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-
-        //exclude: /node_modules/,
-        exclude: path.resolve(__dirname, "node_modules"),
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: `vue-loader`,
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        // include: [/whatwg-.*/, projectRoot],
-        include: projectRoot,
-        exclude: /node_modules/
+        loader: `babel-loader`,
+        include: [path.resolve(__dirname, `../src`)],
       },
       {
         test: /\.json$/,
@@ -84,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader', // + -loader
+        loader: 'url-loader',
         query: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
@@ -92,16 +50,33 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader', // + loader
+        loader: 'url-loader',
         query: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
+      // {
+      //   test: /\.s?css$/,
+      //   use: [
+      //     `vue-style-loader`,
+      //     {
+      //       loader: `css-loader`,
+      //       options: {
+      //         sourceMap,
+      //       },
+      //     },
+      //     {
+      //       loader: `sass-loader`,
+      //       options: {
+      //         importer: nodeSassMagicImporter(),
+      //         sourceMap,
+      //       },
+      //     },
+      //   ],
+      // },
       {
         test: /\.scss$/,
-        //loader: extractCSS.extract(['css', 'sass'])
-        //loaders: ['style', 'css', 'sass']
         use: [
           "style-loader", // creates style nodes from JS strings
           "css-loader", // translates CSS into CommonJS
@@ -116,12 +91,20 @@ module.exports = {
           'style-loader',
           'css-loader'
         ]
-      }
-    ]
+      },
+    ],
   },
-  
   plugins: [
-    extractCSS,
-    new VueLoaderPlugin()
-  ]
-}
+    new VueLoaderPlugin(),
+  ],
+};
+
+// if (env !== `development`) {
+//   webpackConfig.plugins.push(new MiniCssExtractPlugin());
+//   const sassLoader = webpackConfig.module.rules.find(({ test }) => test.test(`.scss`));
+//   // Replace the `vue-style-loader` with
+//   // the MiniCssExtractPlugin loader.
+//   sassLoader.use[0] = MiniCssExtractPlugin.loader;
+// }
+
+module.exports = webpackConfig;

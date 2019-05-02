@@ -6,13 +6,13 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var features=config.local.env.FEATURESV;
+var features=config.dev.env.FEATURESV;
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : config.dev.env
 
 var webpackConfig = merge(baseWebpackConfig, {
-
+  mode: 'development',
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   output: {
     path: config.build.assetsRoot,

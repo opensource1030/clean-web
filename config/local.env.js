@@ -12,7 +12,6 @@ module.exports = {
   EV_ACCOUNT: 50005,
   SUPPORT_EMAIL: '"evprod@wirelessanalytics.com"',
   EZW_SSO_URL: '"https://oauth2.eztest.nu/sso?partner=WIRELESS"',
-
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true // isProduction() ? false : true,

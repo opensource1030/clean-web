@@ -2,8 +2,8 @@ import _ from "lodash";
 import authAPI from "./../../api/auth-api";
 import * as types from "./../mutation-types";
 import user from "./../../models/User";
-import {Storage, Utils} from "./../../helpers";
-import { stat } from "fs";
+import { Storage, Utils } from "./../../helpers";
+
 var config = require('../../../config/dev.env');
 // initial state
 const state = {

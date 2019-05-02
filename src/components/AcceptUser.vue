@@ -26,39 +26,37 @@
       </b-row>
     </div>
     <div id="version">
-          <span v-if="version" class="version"> {{ version }}</span>
-        </div>
+      <span v-if="version" class="version"> {{ version }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  var config = require('../../config/dev.env')
+import { mapGetters } from 'vuex'
+var config = require('../../config/dev.env')
 
 export default {
   created() {
-
-        console.log("created")
+    console.log("created")
 
     this.credentials.identification = this.$route.params.identification;
     this.credentials.code = this.$route.params.code;
     if (this.credentials.identification != '' && this.credentials.code != '') {
-      this.$http.get(config.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code)
-        .then((response) => {
+      this.$http.get(config.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code).then((response) => {
+        this.messageShow = true;
+      }, (response) => {
+        if (response.data.message == 'User is already Active') {
           this.messageShow = true;
-        }, (response) => {
-          if (response.data.message == 'User is already Active') {
-            this.messageShow = true;
-            this.message = response.data.message;
-          } else {
-            this.errorShow = true;
-          }
-
-        });
+          this.message = response.data.message;
+        } else {
+          this.errorShow = true;
+        }
+      });
     } else {
       this.errorShow = true;
     }
   },
+
   data() {
     return {
       credentials: {
@@ -71,7 +69,12 @@ export default {
       errorShow: false,
       buttonMessage: 'Redirect to Login Page',
       version: '4 . 0 . 0 - r c . 1',
+    }
+  },
 
+  methods: {
+    submit() {
+      this.$router.push({name: 'login'});
     }
   },
 
@@ -80,31 +83,27 @@ export default {
     $(function () {
       $('#email').bind('input', function () {
         $(this).val(function (_, v) {
-            return v.replace(/\s+/g, '');
-          })
+          return v.replace(/\s+/g, '');
+        })
       })
     })
-  },
-  methods: {
-    submit() {
-      this.$router.push({name: 'login'});
-    }
   }
 }
 </script>
+
 <style>
-#version
-{
-     position: fixed;
-     bottom: 20px;
-     left: 50px;
+#version {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
 }
 </style>
+
 <style lang="scss">
-.messageAcceptUser{
+.messageAcceptUser {
   color: green;
 }
-.errorAcceptUser{
+.errorAcceptUser {
   color: red;
 }
 </style>

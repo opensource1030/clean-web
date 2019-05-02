@@ -1,27 +1,27 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import 'core-js/es6/promise'
-import 'core-js/es6/string'
-import 'core-js/es7/array'
-import 'jquery-match-height'
+// import 'core-js/es6/promise'
+// import 'core-js/es6/string'
+// import 'core-js/es7/array'
+// import 'jquery-match-height'
 // import 'select2'
-import 'jquery-validation'
+// import 'jquery-validation'
 
 import Vue from 'vue'
-import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
-import VueChartjs from 'vue-chartjs'
+// import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
+// import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
 // import cssVars from 'css-vars-ponyfill'
-import VeeValidate from "vee-validate"
-import Vue2Filters from "vue2-filters"
+// import VeeValidate from "vee-validate"
+// import Vue2Filters from "vue2-filters"
 import BootstrapVue from 'bootstrap-vue'
 
 import App from './App'
 import router from './router'
 import store from './store'
-import {sync} from 'vuex-router-sync'
+import { sync } from 'vuex-router-sync'
 
 import './filters/phone-formatter.js'
 
@@ -64,10 +64,10 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
 // cssVars()
 
 Vue.use(BootstrapVue)
-Vue.use(VueCharts)
-Vue.use(VeeValidate)
-Vue.use(Vue2Filters)
-Vue.use(VueChartjs)
+// Vue.use(VueCharts)
+// Vue.use(VeeValidate)
+// Vue.use(Vue2Filters)
+// Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
 
