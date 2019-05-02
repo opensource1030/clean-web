@@ -97,7 +97,6 @@ const getters = {
 
 const actions = {
   getOne ({ dispatch, commit, state }, id) {
-
     return new Promise((resolve, reject) => {
       let params = {
         params: {

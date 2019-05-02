@@ -15,18 +15,20 @@ function supportRequest(dashboard) {
   });
 
   populateCountries.populateCountries("country2");
-  
+
   $('.eq-Hght').matchHeight({
     byRow: true,
     property: 'height',
     target: null,
     remove: false
   });
+
   /*let calendar = new Flatpickr(document.getElementById('flatpickr'), {
     altInput: true,
     altFormat: "F j, Y",
     "mode": "range"
   });*/
+
   $('.select-me').select2({
     placeholder: "Select your country",
     allowClear: true
@@ -59,7 +61,6 @@ function supportRequest(dashboard) {
   });
 
   $("#support-form").validate({
-    
     rules: {
       "description": {
         required: true,
@@ -152,7 +153,7 @@ function supportRequest(dashboard) {
       };
       $modal.html('');
       $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").show();
-          
+
       //$('#my-modal').show();
       //dashboard.$refs['my-modal'].show()
       /*$.ajax({
@@ -162,7 +163,7 @@ function supportRequest(dashboard) {
         data: JSON.stringify(json),
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         url: "https://wa.easyvista.com/api/v1/"  + local.EV_ACCOUNT + "/requests",
-//        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
+        // url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
 
         headers: {"Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw=="},
         // contentType: "application/x-www-form-urlencoded",
@@ -191,7 +192,7 @@ function supportRequest(dashboard) {
           $('.support-form-holder').removeClass('loading');
           $('#support-form')[0].reset();
           heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
-          
+
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           $('.support-form-holder').removeClass('loading');

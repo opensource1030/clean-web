@@ -8,7 +8,7 @@
         <h1>LOADING</h1>
       </div>
       <div v-else>
-        <div v-html="clientInfo.data.content"></div>
+        <div v-html="_.get(clientInfo.data, 'content', '')"></div>
       </div>
     </b-card>
 
@@ -105,14 +105,19 @@
                 <p class="text-center">
                   <br>
                   <span class="bold color-tuatara">Last Upgrade Date</span>
-                  <br/>
-                  <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
+                  <br>
+                  <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{ userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate }}</span>
                   <span v-else>N/A</span>
                 </p>
               </td>
               <td class="td-normal-height" colspan="2">
                 <p>
-                  <select id="choose-issues" class="user-actions form-control" v-model="userInfo.lastAllocations[activeAllocationIndex].issue">
+                  <select
+                    v-model="userInfo.lastAllocations[activeAllocationIndex].issue"
+                    @change="onChangeTicketIssue"
+                    id="choose-issues"
+                    class="user-actions form-control"
+                  >
                     <option disabled value="">-- Choose an issue --</option>
                     <optgroup label="Billing">
                       <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">

@@ -3,6 +3,7 @@ import authAPI from "./../../api/auth-api";
 import * as types from "./../mutation-types";
 import user from "./../../models/User";
 import {Storage, Utils} from "./../../helpers";
+import { stat } from "fs";
 var config = require('../../../config/dev.env');
 // initial state
 const state = {
@@ -15,6 +16,8 @@ const state = {
   profile: Utils.parseJsonString(Storage.get('profile')),
   company: {},
   company_loading: true,
+  show_ticket: false,
+  ticket_issue: '',
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -141,6 +144,14 @@ const actions = {
       commit('setCompanyLoading', false)
     })
   },
+
+  // setShowTicket({ commit }, show_ticket) {
+  //   commit('setShowTicket', show_ticket)
+  // },
+
+  // setTicketIssue({ commit }, ticket_issue) {
+  //   commit('setTicketIssue', ticket_issue)
+  // },
 
   checkIfThePasswordIsStrongEnough ({ dispatch, commit, state }, { password1, password2 }) {
     if (password1 == '' || password2 == '') {
@@ -364,7 +375,6 @@ const actions = {
   },
 
   login ({ dispatch, commit, state }, { router, email }) {
-    
     if (email == "" || email == null) {
       dispatch('error/addNew', {
         message: "The Email must not be empty, please, fill it properly."
@@ -567,6 +577,14 @@ const mutations = {
 
   setCompany (state, company) {
     state.company = company
+  },
+
+  setShowTicket (state, show_ticket) {
+    state.show_ticket = show_ticket
+  },
+
+  setTicketIssue (state, ticket_issue) {
+    state.ticket_issue = ticket_issue
   },
 
   setCompanyLoading (state, company_loading) {

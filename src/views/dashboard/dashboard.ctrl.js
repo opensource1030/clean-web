@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import supportRequest from './../../components/support-request'
+// import supportRequest from './../../components/support-request'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
 import OrderNewSelectUser from '../orders/OrderNewUser.vue'
@@ -115,7 +115,7 @@ export default {
     checkIfOrderable () {
       var exceptionList = ['PRXL', 'BRKR'];
 
-      if(exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
+      if (exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
         return false;
       else
         return true;
@@ -127,6 +127,13 @@ export default {
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'
       })
+    },
+
+    onChangeTicketIssue(event) {
+      const value = event.target.value
+      this.$store.commit('auth/setTicketIssue', value)
+      this.$store.commit('auth/setShowTicket', true)
+      console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     }
   },
 
@@ -165,7 +172,7 @@ export default {
 
       Log.put('dashboard/created user info', this.userInfo);
       this.userInfo.loading = false;
-      setTimeout(supportRequest, 2000);
+      // setTimeout(supportRequest, 2000);
     }, err => {
       Log.put('dashboard/created user allocation err', err);
       this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));

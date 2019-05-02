@@ -47,7 +47,7 @@
       </main>
     </div>
 
-    <SupportRequest />
+    <SupportRequest v-if="$store.state.auth.show_ticket" />
 
     <!--footer-->
     <TheFooter>

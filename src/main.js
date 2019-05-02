@@ -4,7 +4,7 @@ import 'core-js/es6/promise'
 import 'core-js/es6/string'
 import 'core-js/es7/array'
 import 'jquery-match-height'
-import 'select2'
+// import 'select2'
 import 'jquery-validation'
 
 import Vue from 'vue'
@@ -25,7 +25,7 @@ import {sync} from 'vuex-router-sync'
 
 import './filters/phone-formatter.js'
 
-import './assets/scss/suport.scss'
+// import './assets/scss/support.scss'
 
 sync(store, router)
 window.$ = require('jquery')
