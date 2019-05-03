@@ -42,7 +42,7 @@
               <td rowspan="3" style="width: 400px;">
                 <span class="bold color-tuatara">Order Catalog</span>
                   <div class="div-img" style="whidth: 100%;">
-                    <img class="img-phone" src="../../images/phone-mifi-tablet.svg">
+                    <img class="img-phone" src="@/assets/images/phone-mifi-tablet.svg">
                   </div>
                   <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary"><router-link :to="{ name: 'legacyInfo' }" style="color: white;">Place an Order</router-link></b-btn>
                   <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>

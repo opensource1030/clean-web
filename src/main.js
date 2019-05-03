@@ -8,14 +8,13 @@
 // import 'jquery-validation'
 
 import Vue from 'vue'
-// import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
-// import VueChartjs from 'vue-chartjs'
+import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
+import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
-// import cssVars from 'css-vars-ponyfill'
-// import VeeValidate from "vee-validate"
-// import Vue2Filters from "vue2-filters"
+import VeeValidate from "vee-validate"
+import Vue2Filters from "vue2-filters"
 import BootstrapVue from 'bootstrap-vue'
 
 import App from './App'
@@ -61,22 +60,17 @@ Vue.filter('formatCurrency', function (value, locale = "us") {
   }
 })
 
-// cssVars()
-
 Vue.use(BootstrapVue)
-// Vue.use(VueCharts)
-// Vue.use(VeeValidate)
-// Vue.use(Vue2Filters)
-// Vue.use(VueChartjs)
+Vue.use(VueCharts)
+Vue.use(VeeValidate)
+Vue.use(Vue2Filters)
+Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
-
-/* eslint-disable no-new */
 
 // const gaId = 'UA-42900219-2'
 // Vue.use(VueAnalytics, {gaId, router})
 
-// config
 // Vue.config.productionTip = false
 // if (process.env.NODE_ENV == 'production') {
 //   Vue.config.devtools = false

@@ -1,6 +1,6 @@
 module.exports = {
   NODE_ENV: '"local"',
-    VERSION: '"v4.1.13"',
+  VERSION: '"v4.1.13"',
   // URL_API: '"http://clean.api"',
   URL_API: '"https://cleanapi.wirelessanalytics.com"',
   // URL_API: '"https://dev.api.wirelessanalytics.com"',

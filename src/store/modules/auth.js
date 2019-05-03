@@ -1,10 +1,10 @@
 import _ from "lodash";
-import authAPI from "./../../api/auth-api";
-import * as types from "./../mutation-types";
-import user from "./../../models/User";
-import { Storage, Utils } from "./../../helpers";
+import authAPI from "@/api/auth-api";
+import * as types from "@/store/mutation-types";
+import user from "@/models/User";
+import { Storage, Utils } from "@/helpers";
+var config = require('@/../config/dev.env');
 
-var config = require('../../../config/dev.env');
 // initial state
 const state = {
   // email: localStorage.getItem('email') || '',

@@ -1,9 +1,9 @@
 import _ from "lodash";
 import Vue from "vue";
 import VueResource from 'vue-resource'
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
-var config = require('../../config/dev.env')
+import $store from "@/store"
+import { AuthHelper } from "@/helpers"
+var config = require('@/../config/dev.env')
 
 Vue.use(VueResource)
 

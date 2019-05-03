@@ -4,7 +4,7 @@
       <b-row class="justify-content-center">
         <b-col md="5">
           <div class="mb-3">
-            <b-img center height="50" :src="require('./../assets/wa-logo.png')" alt="Wireless Analytics" />
+            <b-img center height="50" :src="require('@/assets/images/wa-logo.png')" alt="Wireless Analytics" />
           </div>
           <b-card-group>
             <b-card no-body class="p-3">

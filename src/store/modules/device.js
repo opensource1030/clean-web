@@ -1,8 +1,9 @@
 import _ from 'lodash'
-import deviceAPI from './../../api/device-api'
-import * as types from './../mutation-types'
+import deviceAPI from '@/api/device-api'
+import * as types from '@/store/mutation-types'
+var config = require('@/../config/dev.env');
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state
@@ -64,7 +65,6 @@ const getters = {
 // actions
 const actions = {
   search ({ dispatch, commit, state }) {
-
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -109,7 +109,7 @@ const actions = {
           if (device.images.length > 0) {
             _.extend(device, {
               priceName: [],
-              image: process.env.URL_API + '/images/' + device.images[0].id,
+              image: config.URL_API + '/images/' + device.images[0].id,
             })
           } else {
             _.extend(device, {
@@ -148,7 +148,7 @@ const actions = {
     }
   },
 
-  nextPage ({ dispatch, commit }) {
+  nextPage ({ dispatch, commit, state }) {
     // console.log('device nextPage')
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.DEVICE_NEXT_PAGE)

@@ -21,7 +21,7 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+      'vue$': 'vue/dist/vue.js',
       '@': path.resolve(__dirname, '../src'),
     }
   },
@@ -85,8 +85,6 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        //loader: extractCSS.extract(['css', 'sass'])
-        // loaders: ['style', 'css', 'sass']
         use: [
           'style-loader',
           'css-loader'

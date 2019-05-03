@@ -5,7 +5,7 @@
       <b-row class="justify-content-center">
         <b-col md="5">
           <div class="mb-3">
-            <b-img center height="50" :src="require('./../assets/clean-logo-blue.png')" alt="CLEAN Platform" />
+            <b-img center height="50" :src="require('@/assets/images/clean-logo-blue.png')" alt="CLEAN Platform" />
           </div>
           <b-card-group>
             <b-card no-body class="p-3">
@@ -41,7 +41,7 @@
           </b-card-group>
           <div class="powered-by">
             <span class="align-middle text-white">Powered By</span>
-            <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
+            <img src="@/assets/images/wa-logo.png" alt="Wireless Analytics">
           </div>
         </b-col>
       </b-row>
