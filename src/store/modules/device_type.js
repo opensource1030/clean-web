@@ -1,7 +1,7 @@
 import _ from 'lodash'
-import devicetypeAPI from './../../api/device_type-api'
-import * as types from './../mutation-types'
-import FilterItem from './../../models/FilterItem'
+import devicetypeAPI from '@/api/device_type-api'
+import * as types from '@/store/mutation-types'
+import FilterItem from '@/models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()

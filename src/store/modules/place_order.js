@@ -1,9 +1,9 @@
-import packageAPI from "./../../api/package-api";
-import orderAPI from "./../../api/order-api";
-import employeeAPI from "./../../api/employee-api";
-import * as types from "./../mutation-types";
+import * as types from '@/store/mutation-types'
+import packageAPI from '@/api/package-api'
+import orderAPI from '@/api/order-api'
+import employeeAPI from '@/api/employee-api'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state

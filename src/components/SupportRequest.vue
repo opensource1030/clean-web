@@ -226,7 +226,6 @@
 </template>
 
 <script src="./support" lang="babel"></script>
-<!-- <script src="./support-request" lang="babel"></script> -->
 
 <style scoped>
 .font_size_form label {

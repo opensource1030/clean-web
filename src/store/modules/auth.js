@@ -1,9 +1,8 @@
-import _ from "lodash";
-import authAPI from "@/api/auth-api";
-import * as types from "@/store/mutation-types";
-import user from "@/models/User";
-import { Storage, Utils } from "@/helpers";
-var config = require('@/../config/dev.env');
+import _ from 'lodash'
+import authAPI from '@/api/auth-api'
+import * as types from './../mutation-types'
+import user from '@/models/User'
+import { Storage, Utils } from '@/helpers'
 
 // initial state
 const state = {
@@ -25,7 +24,7 @@ const state = {
     messageShow: true,
     message: ''
   }
-};
+}
 
 // Prepare the Model
 // getters
@@ -36,15 +35,15 @@ const getters = {
   },
 
   isExpired: (state) => {
-    let status = false;
-    if (state.token)
-      status = Date.now() > (state.token.updated_at + state.token.expires_in);
-
-    return status;
+    let status = false
+    if (state.token) {
+      status = Date.now() > (state.token.updated_at + state.token.expires_in)
+    }
+    return status
   },
 
   getProfile: (state) => {
-    return state.profile;
+    return state.profile
   },
 
   getVariations: (state) => {
@@ -112,13 +111,13 @@ const actions = {
           user_id: res.data.user_id,
           token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
           profile: response
-        };
+        }
 
-        commit(types.AUTH_LOGIN_SUCCESS, result);
+        commit(types.AUTH_LOGIN_SUCCESS, result)
 
-        if(returnUrl)
-          location.href = returnUrl + '?jwt=' + response.deskproJwt;
-        else {
+        if (returnUrl) {
+          location.href = returnUrl + '?jwt=' + response.deskproJwt
+        } else {
           commit(types.AUTH_LOGIN_DONE)
 
           // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
@@ -262,7 +261,7 @@ const actions = {
     commit('RECOVERY_VARIATIONS')
     let params = {
       params: {
-        'url': config.URL
+        'url': process.env.URL
       }
     };
 

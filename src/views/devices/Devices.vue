@@ -5,8 +5,5 @@
     </modal>
 
     <router-link to="/devices/new" class="btn btn-dark">New Device</router-link>
-
-
-
   </div>
 </template>

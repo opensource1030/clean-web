@@ -2,7 +2,7 @@
   <AppHeaderDropdown right no-caret class="mr-3">
     <template slot="header">
       <img
-        src="img/avatars/6.jpg"
+        :src="require('@/assets/images/avatars/6.jpg')"
         class="img-avatar"
         alt="admin@bootstrapmaster.com" />
         Hi, <span class="greeting">{{ firstName() }}</span>

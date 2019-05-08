@@ -8,13 +8,13 @@
 // import 'jquery-validation'
 
 import Vue from 'vue'
-import VueCharts from "./../node_modules/vue-charts/dist/vue-charts.js"
+import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
-import VeeValidate from "vee-validate"
-import Vue2Filters from "vue2-filters"
+import VeeValidate from 'vee-validate'
+import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 
 import App from './App'
@@ -46,13 +46,13 @@ Vue.filter('formatBytes', function (value) {
   if (value === null || value === undefined) {
     return value = '-'
   } else {
-    // the source base value assumes "KB" -- this gets it to bytes that numeral.js expects
+    // the source base value assumes 'KB' -- this gets it to bytes that numeral.js expects
     value *= 1000
     return numeral(value).format('0.00b')
   }
 })
 
-Vue.filter('formatCurrency', function (value, locale = "us") {
+Vue.filter('formatCurrency', function (value, locale = 'us') {
   if (value === null || value === undefined) {
     return value = '-'
   } else {

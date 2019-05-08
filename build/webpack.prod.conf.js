@@ -1,31 +1,24 @@
 const path = require(`path`);
 var config = require('../config')
-var utils = require('./utils')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`);
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-
-var env = config.build.env
-var features = config.build.env.FEATURESV
 
 var webpackConfig = merge(baseWebpackConfig, {
   mode: `production`,
-  optimization: {
-    splitChunks: {
-      // Must be specified for HtmlWebpackPlugin to work correctly.
-      // See: https://github.com/jantimon/html-webpack-plugin/issues/882
-      chunks: `all`,
-    },
-  },
+  // optimization: {
+  //   splitChunks: {
+  //     // Must be specified for HtmlWebpackPlugin to work correctly.
+  //     // See: https://github.com/jantimon/html-webpack-plugin/issues/882
+  //     chunks: `all`,
+  //   },
+  // },
   plugins: [
     // http://vuejs.github.io/vue-loader/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env,
-      'features': features
+      'process.env': JSON.stringify(config.build.env),
+      'features': config.build.env.FEATURESV
     }),
     new HtmlWebpackPlugin({
       filename: path.resolve(__dirname, '../dist/index.html'),

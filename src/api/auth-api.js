@@ -1,18 +1,19 @@
-import _ from "lodash";
-import Vue from "vue";
+/*global _ */
+// import _ from 'lodash'
+import Vue from 'vue'
 import VueResource from 'vue-resource'
-import $store from "@/store"
-import { AuthHelper } from "@/helpers"
-var config = require('@/../config/dev.env')
+import $store from '@/store'
+import { AuthHelper } from '@/helpers'
 
 Vue.use(VueResource)
 
 const http = Vue.http
+// var config = require('@/../config/dev.env')
+// const API_BASE_URL = config.URL_API
+const API_BASE_URL = process.env.URL_API
 
 const {Store} = require('yayson')()
 const store = new Store()
-
-const API_BASE_URL = config.URL_API;
 
 // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
@@ -20,15 +21,15 @@ export default {
   login (params, cb, errCb) {
     console.log(API_BASE_URL)
     console.log(params.email)
-    console.log(config.URL)
-    http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + config.URL + '/sso')
+    console.log(process.env.URL)
+    http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + process.env.URL + '/sso')
       .then(res => cb(res), err => errCb(err))
   },
 
   register (params, cb, errCb) {
     http.post(API_BASE_URL + '/users', {
       data: params.data,
-      url: config.URL
+      url: process.env.URL
     }).then(res => cb(res), err => errCb(err))
   },
 
@@ -43,8 +44,8 @@ export default {
   loginLocal (params, cb, errCb) {
     http.post(API_BASE_URL + '/oauth/token', {
       grant_type: 'password',
-      client_id: config.CLIENT_ID,
-      client_secret: config.CLIENT_SECRET,
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
       username: params.email,
       password: params.password,
       scope: '*'
@@ -54,8 +55,8 @@ export default {
   singleSignOn (params, cb, errCb) {
     http.post(API_BASE_URL + '/oauth/token', {
       grant_type: 'sso',
-      client_id: config.CLIENT_ID,
-      client_secret: config.CLIENT_SECRET,
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
       uuid: params,
     }).then(res => cb(res), err => errCb(err))
   },

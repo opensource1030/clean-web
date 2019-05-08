@@ -15,14 +15,14 @@ const webpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.dev.env,
+      'process.env': JSON.stringify(config.dev.env),
       'features': features
     }),
     // new webpack.HotModuleReplacementPlugin(),
     // new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'public/index.html',
+      filename: 'index.html',
       template: 'public/index.html',
       inject: true
     }),

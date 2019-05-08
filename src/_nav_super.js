@@ -40,7 +40,6 @@ export default {
         {
           name: 'New Employee',
           url: '/employees/new',
-          
         }
       ]
     },

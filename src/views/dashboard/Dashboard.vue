@@ -209,80 +209,80 @@
 <script src="./dashboard.ctrl.js" lang="babel"></script>
 
 <style scoped>
-  .tag-header {
-    display: inline-block;
-    /* min-width: 200px; */
-    padding: 10px 15px;
-    font-weight: 500;
-  }
+.tag-header {
+  display: inline-block;
+  /* min-width: 200px; */
+  padding: 10px 15px;
+  font-weight: 500;
+}
 
-  .card.client-info-card >>> ul {
-    margin-bottom: 0;
-    padding-left: 15px;
-  }
-  .card.client-info-card >>> ul:before {
-    content: ' ' !important;
-  }
-  .card.client-info-card >>> ul li {
-    list-style: none;
-    line-height: 20px;
-  }
-  .card.client-info-card >>> p {
-    margin-bottom: 0;
-    line-height: 24px;
-  }
+.card.client-info-card >>> ul {
+  margin-bottom: 0;
+  padding-left: 15px;
+}
+.card.client-info-card >>> ul:before {
+  content: ' ' !important;
+}
+.card.client-info-card >>> ul li {
+  list-style: none;
+  line-height: 20px;
+}
+.card.client-info-card >>> p {
+  margin-bottom: 0;
+  line-height: 24px;
+}
 
-  .chart {
-    width: 100%;
-  }
+.chart {
+  width: 100%;
+}
 
-  table, th, td {
-    border: 1px solid rgba(151, 151, 151, 0.3);
-    border-collapse: collapse;
-    background-color: white;
-  }
+table, th, td {
+  border: 1px solid rgba(151, 151, 151, 0.3);
+  border-collapse: collapse;
+  background-color: white;
+}
 
-  th, td {
-    padding: 5px;
-    text-align: center;
-    vertical-align: center;
-  }
+th, td {
+  padding: 5px;
+  text-align: center;
+  vertical-align: center;
+}
 
-  .sub-text {
-    color: rgba(151, 151, 151, 0.3)
-  }
+.sub-text {
+  color: rgba(151, 151, 151, 0.3)
+}
 
-  .td-normal-width {
-    max-width: 300px;
-    width: 300px;
-  }
+.td-normal-width {
+  max-width: 300px;
+  width: 300px;
+}
 
-  .td-normal-height {
-    max-height: 300px;
-    height: 100px;
-  }
+.td-normal-height {
+  max-height: 300px;
+  height: 100px;
+}
 
-  .bold {
-    font-weight: bold;
-  }
+.bold {
+  font-weight: bold;
+}
 
-  .color-orange {
-    color: #FF690A;
-  }
+.color-orange {
+  color: #FF690A;
+}
 
-  .color-tuatara {
-    color: #444;
-  }
+.color-tuatara {
+  color: #444;
+}
 
-  .img-phone {
-    width: calc(100% - 20px);
-    max-width: 220px;
-    height: 220px;
-  }
+.img-phone {
+  width: calc(100% - 20px);
+  max-width: 220px;
+  height: 220px;
+}
 
-  .div_img {
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
+.div_img {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 </style>

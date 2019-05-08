@@ -1,10 +1,10 @@
 import _ from 'lodash'
-import employeeAPI from './../../api/employee-api'
-import * as types from './../mutation-types'
-import {EmployeesPresenter} from './../../presenters'
-import FilterItem from './../../models/FilterItem'
+import employeeAPI from '@/api/employee-api'
+import * as types from '@/store/mutation-types'
+import { EmployeesPresenter } from '@/presenters'
+import FilterItem from '@/models/FilterItem'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state

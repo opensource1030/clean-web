@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import deviceAPI from '@/api/device-api'
 import * as types from '@/store/mutation-types'
-var config = require('@/../config/dev.env');
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -109,7 +108,7 @@ const actions = {
           if (device.images.length > 0) {
             _.extend(device, {
               priceName: [],
-              image: config.URL_API + '/images/' + device.images[0].id,
+              image: process.env.URL_API + '/images/' + device.images[0].id,
             })
           } else {
             _.extend(device, {

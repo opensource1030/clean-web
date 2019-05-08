@@ -1,7 +1,6 @@
-import * as types from "./../mutation-types";
+import * as types from '@/store/mutation-types'
 
-
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state

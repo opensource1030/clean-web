@@ -31,9 +31,9 @@
         </b-col>
       </b-row>  
     </div>
-        <div id="version">
-          <span v-if="version" class="version"> {{ version }}</span>
-        </div>
+    <div id="version">
+      <span v-if="version" class="version">{{ version }}</span>
+    </div>
   </div>
 </template>
 
@@ -46,12 +46,9 @@ export default {
       credentials: {
         email: ''
       },
-      version: 'v 4 . 1 . 1 3',
-        //version: process.env.VERSION
+      // version: 'v 4 . 1 . 1 3',
+      version: process.env.VERSION,
     }
-  },
-  mounted() {
-    $('input[name="email"]').focus()
   },
 
   methods: {
@@ -62,7 +59,11 @@ export default {
         email: this.credentials.email
       })
     }
-  }
+  },
+
+  mounted() {
+    $('input[name="email"]').focus()
+  },
 }
 </script>
 

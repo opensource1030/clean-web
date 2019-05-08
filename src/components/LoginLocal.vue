@@ -63,17 +63,8 @@ export default {
       },
       deskpro: '',
       error: '',
-      version: 'v 4 . 1 . 1 3',
-    }
-  },
-
-  mounted () {
-    let currentLocation = decodeURIComponent(window.location.href);
-    if (currentLocation.split('return=').length > 1) {
-      this.deskpro = currentLocation.split('return=')[1];
-      $('input[name="email"]').focus()
-    } else {
-      $('input[name="password"]').focus()
+      // version: 'v 4 . 1 . 1 3',
+      version: process.env.VERSION,
     }
   },
 
@@ -91,7 +82,17 @@ export default {
         name: 'Reset Password'
       })
     }
-  }
+  },
+
+  mounted () {
+    let currentLocation = decodeURIComponent(window.location.href);
+    if (currentLocation.split('return=').length > 1) {
+      this.deskpro = currentLocation.split('return=')[1];
+      $('input[name="email"]').focus()
+    } else {
+      $('input[name="password"]').focus()
+    }
+  },
 }
 </script>
 

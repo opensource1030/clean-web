@@ -1,11 +1,9 @@
-import Vue from "vue";
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
-const http = Vue.http
-var config = require('../../config/dev.env')
+import Vue from 'vue'
+import $store from '@/store'
+import { AuthHelper } from '@/helpers'
 
-//const API_BASE_URL = process.env.URL_API
-const API_BASE_URL = config.URL_API
+const http = Vue.http
+const API_BASE_URL = process.env.URL_API
 
 export default {
   search (params, cb, errCb) {

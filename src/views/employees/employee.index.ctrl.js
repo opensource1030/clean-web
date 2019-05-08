@@ -1,11 +1,11 @@
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import modal from './../../components/modal.vue'
-import paginate from './../../components/paginate.vue'
-import employeeAPI from './../../api/employee-api.js'
-import companyAPI from './../../api/company-api.js'
+import modal from '@/components/modal.vue'
+import paginate from '@/components/paginate.vue'
+import employeeAPI from '@/api/employee-api.js'
+import companyAPI from '@/api/company-api.js'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 export default {
@@ -31,35 +31,6 @@ export default {
     ...mapGetters({
       employees: 'employee/sorted',
     })
-  },
-
-  /**
-   * #TODO
-   * 1. show uploading status if there is running job
-   * 2. go to /bulk/review page by clicking the status
-   * 3. otherwise, show add_bulk button
-   */
-  created () {
-    this.isReady = false
-    this.$store.dispatch('employee/search').then((res) => {
-      this.isReady = true
-    })
-
-    // check running job
-    let vm = this,  jobs;
-    companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
-      jobs = store.sync(res.data)
-      if (jobs instanceof Array) {
-        // console.log('jobs', jobs)
-        vm.jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
-        if (vm.jobs.length > 0) {
-          vm.hasRunningJob = true
-        }
-        vm.isReadyBulk = true
-        // this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
-        // console.log('employee.index/created job', jobs[0])
-      }
-    }, err => {})
   },
 
   methods: {
@@ -113,5 +84,34 @@ export default {
         this.$router.push({ path: '/employees/bulk/review' })
       }
     }
-  }
+  },
+
+  /**
+   * #TODO
+   * 1. show uploading status if there is running job
+   * 2. go to /bulk/review page by clicking the status
+   * 3. otherwise, show add_bulk button
+   */
+  created () {
+    this.isReady = false
+    this.$store.dispatch('employee/search').then((res) => {
+      this.isReady = true
+    })
+
+    // check running job
+    let vm = this,  jobs;
+    companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
+      jobs = store.sync(res.data)
+      if (jobs instanceof Array) {
+        // console.log('jobs', jobs)
+        vm.jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
+        if (vm.jobs.length > 0) {
+          vm.hasRunningJob = true
+        }
+        vm.isReadyBulk = true
+        // this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
+        // console.log('employee.index/created job', jobs[0])
+      }
+    }, err => {})
+  },
 }

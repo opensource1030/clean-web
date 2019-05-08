@@ -1,8 +1,8 @@
-import Vue from "vue";
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
-const http = Vue.http
+import Vue from 'vue'
+import $store from '@/store'
+import { AuthHelper } from '@/helpers'
 
+const http = Vue.http
 const API_BASE_URL = process.env.URL_API
 
 export default {
@@ -17,6 +17,4 @@ export default {
       http.get(API_BASE_URL + '/allocations/' + id, _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },
-
-
 }

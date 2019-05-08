@@ -1,14 +1,13 @@
-import _ from "lodash";
-import packageAPI from "./../../api/package-api";
-import companyAPI from "./../../api/company-api";
-import presetAPI from "./../../api/preset-api";
-import carrierAPI from "./../../api/carrier-api";
-import serviceAPI from "./../../api/service-api";
+import _ from 'lodash'
+import * as types from '@/store/mutation-types'
+import packageAPI from '@/api/package-api'
+import companyAPI from '@/api/company-api'
+import presetAPI from '@/api/preset-api'
+import carrierAPI from '@/api/carrier-api'
+import serviceAPI from '@/api/service-api'
 
-import * as types from "./../mutation-types";
-
-const {Store} = require('yayson')();
-const store = new Store();
+const { Store } = require('yayson')()
+const store = new Store()
 
 // initial state
 const state = {
@@ -23,7 +22,7 @@ const state = {
     per_page: 25
   },
   searchFilter: ''
-};
+}
 
 // getters
 const getters = {
@@ -38,7 +37,7 @@ const getters = {
   allCarriers: (state) => {
     return state.carriers
   }
-};
+}
 
 // actions
 const actions = {
@@ -338,7 +337,7 @@ const mutations = {
   [types.PACKAGE_UPDATE_FILTERS] (state, query ) {
     state.searchFilter = query
   },
-};
+}
 
 export default {
   namespaced: true,

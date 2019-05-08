@@ -67,39 +67,42 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'register',
-  beforeCreate() {
-      this.$store.commit('auth/recoveryVariations');
-  },
-  computed: {
-      ...mapGetters({
-        variations: 'auth/getVariations',
-      })
-  },
-data() {
-      return {
-        credentials: {
-          firstName: '',
-          lastName: '',
-          email: this.$route.params.email,
-          password1: '',
-          password2: '',
-        },
-        passwordType: false,
-        newPassword: 'Enter your password',
-        repeatPassword: 'Repeat your password',
-        buttonMessage: 'Register New User',
 
-      }
-    },
+  data() {
+    return {
+      credentials: {
+        firstName: '',
+        lastName: '',
+        email: this.$route.params.email,
+        password1: '',
+        password2: '',
+      },
+      passwordType: false,
+      newPassword: 'Enter your password',
+      repeatPassword: 'Repeat your password',
+      buttonMessage: 'Register New User',
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      variations: 'auth/getVariations',
+    })
+  },
+
   methods: {
-      submit() {
-        if (this.variations.clickAgain) {
-            this.$store.dispatch('error/clearAll');
-            this.$store.dispatch('auth/register', {
-            credentials: this.credentials
-          });
-        }
+    submit() {
+      if (this.variations.clickAgain) {
+        this.$store.dispatch('error/clearAll');
+        this.$store.dispatch('auth/register', {
+          credentials: this.credentials
+        })
       }
     }
+  },
+
+  beforeCreate() {
+    this.$store.commit('auth/recoveryVariations');
+  },
 }
 </script>

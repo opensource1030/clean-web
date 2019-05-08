@@ -1,9 +1,9 @@
-import _ from "lodash";
-import authAPI from "./../../api/auth-api";
-import * as types from "./../mutation-types";
-import { Log, Utils } from "./../../helpers";
+import _ from 'lodash'
+import * as types from '@/store/mutation-types'
+import authAPI from '@/api/auth-api'
+import { Log, Utils } from '@/helpers'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state

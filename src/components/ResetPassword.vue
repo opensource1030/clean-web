@@ -16,9 +16,7 @@
                   </b-input-group>
                   <b-row>
                     <b-col cols="12" class="text-center">
-                      <p style="color: black;">
-                      {{message}}
-                      </p>
+                      <p style="color: black;">{{ message }}</p>
                     </b-col>
                   </b-row>
                   <b-row>
@@ -43,25 +41,16 @@
         </b-col>
       </b-row>
     </div>
-
     <div id="version">
-          <span v-if="version" class="version"> {{ version }}</span>
-        </div>
+      <span v-if="version" class="version">{{ version }}</span>
+    </div>
   </div>
 </template>
 
 <script>
-  import{ mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-  beforeCreate() {
-    this.$store.commit('auth/recoveryVariations');
-  },
-  computed: {
-    ...mapGetters({
-      variations: 'auth/getVariations'
-    })
-  },
   data() {
     return {
       credentials: {
@@ -71,22 +60,19 @@ export default {
       messageShow: false,
       passwordType: false,
       buttonMessage: 'Send Password Reset Link',
-      version: process.env.VERSION,
       message: 'If you don\'t know your password, please enter your corporate email address and click Send Password Reset Link',
+      // version: 'v 4 . 1 . 1 3',
+      version: process.env.VERSION,
       companyEmail: 'Enter your company email',
-      version: 'v 4 . 1 . 1 3',
-
     }
   },
-  mounted() {
-    $(function () {
-      $('email').bind('input', function () {
-        $(this).val(function (_, v) {
-          return v.replace(/\s+/g, '');
-        })
-      })
+
+  computed: {
+    ...mapGetters({
+      variations: 'auth/getVariations'
     })
   },
+
   methods: {
     submit() {
       console.log(this.credentials.email)
@@ -97,37 +83,50 @@ export default {
         })
       }
     }
+  },
+
+  beforeCreate() {
+    this.$store.commit('auth/recoveryVariations');
+  },
+
+  mounted() {
+    $(function () {
+      $('email').bind('input', function () {
+        $(this).val(function (_, v) {
+          return v.replace(/\s+/g, '');
+        })
+      })
+    })
   }
 }
 </script>
+
 <style>
-#version
-{
-     position: fixed;
-     bottom: 20px;
-     left: 50px;
+#version {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
 }
 </style>
+
 <style lang="scss">
-.powered-by{
+.powered-by {
   max-width: 210px;
   margin: 3rem auto 0;
   overflow: hidden;
-  span{
+  span {
     float: left;
     line-height:2rem;
     font-size: 0.82rem;
   }
-  img{
+  img {
     float: right;
     max-width: 130px;
     border-left:1px solid lighten(black,45%);
     padding-left: 0.5rem ;
   }
-
   .bg-login{
     background: #066199;
   }
-
 }
 </style>

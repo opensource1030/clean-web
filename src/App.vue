@@ -4,7 +4,12 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    console.log('app created')
+    console.log('features', features)
+    console.log('process.env', process.env)
+  }
 }
 </script>
 

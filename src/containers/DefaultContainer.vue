@@ -61,13 +61,13 @@
 <script>
 import _ from 'lodash'
 // import nav from '@/_nav'
-import nav from './../_nav_super'
-import normal_nav from './../_nav_normal'
+import nav from '@/_nav_super'
+import normal_nav from '@/_nav_normal'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
-import { Storage, Utils, Log, ScopeHelper } from './../helpers'
-import authAPI from './../api/auth-api'
-import SupportRequest from '../components/SupportRequest.vue'
+import { Storage, Utils, Log, ScopeHelper } from '@/helpers'
+import authAPI from '@/api/auth-api'
+import SupportRequest from '@/components/SupportRequest.vue'
 
 // import store from './../store'
 // const {Store} = require('yayson')()
@@ -99,7 +99,8 @@ export default {
     return {
       nav: nav.items,
       normal_nav: normal_nav.items,
-      legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
+      // legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
+      legacyLink: '/app/helpdesk/udl',
       // showLegacy: false,
     }
   },

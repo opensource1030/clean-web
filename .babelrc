@@ -3,9 +3,9 @@
     [
       "@babel/preset-env",
       {
-        "debug": true,
-        "useBuiltIns": "usage",
-        // "modules": false
+        // "debug": true,
+        // "useBuiltIns": "usage",
+        "modules": false
       }
     ]
   ],

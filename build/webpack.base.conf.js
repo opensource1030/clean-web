@@ -1,21 +1,36 @@
 const { VueLoaderPlugin } = require(`vue-loader`);
-const nodeSassMagicImporter = require(`node-sass-magic-importer`);
 const path = require(`path`);
 const utils = require(`./utils`);
-const HtmlWebpackPlugin = require(`html-webpack-plugin`);
-const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
-const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`);
-const UglifyJsPlugin = require(`uglifyjs-webpack-plugin`);
+// const HtmlWebpackPlugin = require(`html-webpack-plugin`);
+// const nodeSassMagicImporter = require(`node-sass-magic-importer`);
+// const MiniCssExtractPlugin = require(`mini-css-extract-plugin`);
+// const OptimizeCSSAssetsPlugin = require(`optimize-css-assets-webpack-plugin`);
+// const UglifyJsPlugin = require(`uglifyjs-webpack-plugin`);
 
 const env = process.env.NODE_ENV;
+// const isProduction = env === `production`;
 const minify = env === `production`;
 const sourceMap = env === `development`;
 
 const webpackConfig = {
   entry: path.resolve(__dirname, '../src/main.js'),
-  mode: env,
   output: {
     publicPath: `/`,
+    filename: '[name].bundle.js',
+    // chunkFilename: '[name].[chunkhash].bundle.js',
+    // path: path.resolve(__dirname, 'dist')
+  },
+  optimization: {
+    splitChunks: {
+      // chunks: 'all',
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    }
   },
   devtool: sourceMap ? `cheap-module-eval-source-map` : undefined,
   resolve: {
@@ -94,6 +109,10 @@ const webpackConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    // new webpack.optimize.AggressiveSplittingPlugin({
+    //   minSize: 10000,
+    //   maxSize: 30000,
+    // }),
   ],
 };
 

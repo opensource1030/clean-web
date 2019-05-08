@@ -1,9 +1,9 @@
 import _ from 'lodash'
-import { country_arr } from "./../api/countries";
+import { country_arr } from "./../api/countries"
 import { Log } from './../helpers'
 import select2 from './select2.vue'
-// const Flatpickr = require("flatpickr");
-var config = require('../../config/dev.env')
+// const Flatpickr = require("flatpickr")
+// var config = require('../../config/dev.env')
 
 export default {
   components: {
@@ -105,8 +105,8 @@ export default {
       var json = {
         "requests" : [
           {
-            "Origin" : config.EASYVISTA_CODE,
-            // "Origin" : process.env.EASYVISTA_CODE,
+            // "Origin" : config.EASYVISTA_CODE,
+            "Origin" : process.env.EASYVISTA_CODE,
             "Catalog_GUID" : "",
             "Catalog_Code" : helpdesk_code,
             "AssetID" : "",
@@ -213,5 +213,5 @@ export default {
   },
 
   mounted() {
-  }
+  },
 }

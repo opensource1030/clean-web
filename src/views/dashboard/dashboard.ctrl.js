@@ -1,11 +1,10 @@
 import _ from 'lodash'
-// import supportRequest from './../../components/support-request'
+import employeeAPI from '@/api/employee-api'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
-import OrderNewSelectUser from '../orders/OrderNewUser.vue'
-import employeeAPI from './../../api/employee-api'
+import OrderNewSelectUser from './../orders/OrderNewUser.vue'
 import swal from 'sweetalert2'
-import { Storage, Utils, Log } from './../../helpers'
+import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -172,7 +171,6 @@ export default {
 
       Log.put('dashboard/created user info', this.userInfo);
       this.userInfo.loading = false;
-      // setTimeout(supportRequest, 2000);
     }, err => {
       Log.put('dashboard/created user allocation err', err);
       this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
