@@ -4,12 +4,13 @@
       <img
         :src="require('@/assets/images/avatars/6.jpg')"
         class="img-avatar"
-        alt="admin@bootstrapmaster.com" />
-        Hi, <span class="greeting">{{ firstName() }}</span>
+        alt="admin@bootstrapmaster.com"
+      />
+      Hi, <span class="greeting">{{ firstName }}</span>
     </template>
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-      <b-dropdown-item><i class="fa fa-user" /> Profile</b-dropdown-item>
+      <b-dropdown-item @click="profile()"><i class="fa fa-user"/> Profile</b-dropdown-item>
       <a @click="logout()" id="logout"><b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item></a>
     </template>
   </AppHeaderDropdown>
@@ -17,8 +18,8 @@
 
 <script>
 import _ from 'lodash'
-import { Storage, Utils, Log } from './../helpers'
-import employeeAPI from './../api/employee-api'
+import { Storage, Utils, Log } from '@/helpers'
+import employeeAPI from '@/api/employee-api'
 
 import { HeaderDropdown as AppHeaderDropdown } from '@coreui/vue'
 
@@ -29,19 +30,23 @@ export default {
     AppHeaderDropdown
   },
 
-  data () {
+  data() {
     return {
     }
   },
 
   computed: {
-    _ () {
+    _() {
       return _
+    },
+
+    firstName() {
+      return _.get(this.$store.state.auth.profile, 'firstName', '')
     },
   },
 
   methods: {
-    logout () {
+    logout() {
       document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
       document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
       heap.track('User logged out', {'clicked': 'yes'})
@@ -53,8 +58,9 @@ export default {
       })
     },
 
-    firstName () {
-      return this.$store.state.auth.profile.firstName
+    profile() {
+      console.log('DefaultHeaderDropdownAccnt profile', this.$store.state.auth.userId)
+      this.$router.push({ path: `/employees/${this.$store.state.auth.userId}` })
     },
   },
 

@@ -27,4 +27,4 @@
   </div>
 </template>
 
-<script src="./employee.index.ctrl.js" lang="babel"></script>
+<script src="./employee_index.ctrl.js" lang="babel"></script>
