@@ -25,19 +25,18 @@
 
     <div class="app-body">
       <AppSidebar fixed>
-        <SidebarHeader/>
+        <SidebarMinimizer/>
+        <SidebarHeader></SidebarHeader>
         <SidebarForm/>
         <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
         <SidebarNav v-else :navItems="normal_nav">
         </SidebarNav>
         <SidebarFooter>
-          <div class="nav-poweredby">
-            <span class="text-copyright">Powered By</span>
-            <img class="img-full" src="@/assets/images/wa-logo.png" alt="Wireless Analytics">
-          </div>
+          <span class="text-copyright">Powered By</span>
+          <img class="img-full" src="@/assets/images/wa-logo.png" alt="Wireless Analytics">
+          <img class="img-collapse" src="@/assets/images/logo.png" alt="Wireless Analytics">
         </SidebarFooter>
-        <SidebarMinimizer/>
       </AppSidebar>
       <main class="main">
         <Breadcrumb :list="list"/>
@@ -153,39 +152,4 @@ export default {
 </script>
 
 <style lang="scss">
-.nav-poweredby {
-  border-top: 1px solid rgba(204, 204, 204, 0.12);
-  text-align: center;
-  left: 0;
-  bottom: 72px;
-  padding: 2px 0 10px;
-  width: 100%;
-  position: absolute;
-  z-index: 999;
-  .text-copyright {
-    float: left;
-    font-size: 10px;
-    font-weight: 700;
-    margin-left: 12px;
-    margin-right: 13px;
-    margin-top: 10px;
-    text-transform: uppercase;
-  }
-  .img-full {
-    float: left;
-    margin-top: 3px;
-    max-width: 50%;
-    padding-top: 5px;
-
-  }
-  .img-collapse {
-    margin: 0 auto;
-    max-width: 74%;
-    display: none;
-  }
-}
-
-.footer_div {
-  margin: auto;
-}
 </style>
