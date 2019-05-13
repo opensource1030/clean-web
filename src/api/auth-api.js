@@ -1,17 +1,27 @@
-import _ from "lodash";
-import {http} from "vue";
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
+/*global _ */
+// import _ from 'lodash'
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import $store from '@/store'
+import { AuthHelper } from '@/helpers'
+
+Vue.use(VueResource)
+
+const http = Vue.http
+// var config = require('@/../config/dev.env')
+// const API_BASE_URL = config.URL_API
+const API_BASE_URL = process.env.URL_API
 
 const {Store} = require('yayson')()
 const store = new Store()
-
-const API_BASE_URL = process.env.URL_API;
 
 // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 
 export default {
   login (params, cb, errCb) {
+    console.log(API_BASE_URL)
+    console.log(params.email)
+    console.log(process.env.URL)
     http.get(API_BASE_URL + '/doSSO/' + params.email + '?redirectToUrl=' + process.env.URL + '/sso')
       .then(res => cb(res), err => errCb(err))
   },
@@ -70,5 +80,9 @@ export default {
     $store.dispatch('scope_token/get', 'get_user_me').then(result => {
       http.get(API_BASE_URL + '/users/me', _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(store.sync(res.data)), err => errCb(err))
     }, err => errCb(err))
+  },
+
+  getCompany (url, cb, errCb) {
+    http.get(url, {}).then(res => cb(res), err => errCb(err))
   },
 }

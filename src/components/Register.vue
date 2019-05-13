@@ -1,160 +1,108 @@
 <template>
-  <div>
-    <div class="bg-login">
-      <div class="login">
-        <div class="large-4 large-centered columns login-form-holder">
-          <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
-          <div class="login-box">
-            <div class="row">
-              <div class="large-12 columns">
-                <form v-on:submit.prevent="submit()">
-                  <div class="row">
-                    <div class="large-12 columns">
-                      <div class="input-group bg-orange">
-                        <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                        <input v-show="variations.allowChanges" class="input-group-field"
-                        type="text" v-model="credentials.firstName"
-                        placeholder="First Name"/>
-                        <input v-show="!variations.allowChanges" class="input-group-field"
-                        type="text" v-model="credentials.firstName"
-                        placeholder="First Name" disabled/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="large-12 columns">
-                      <div class="input-group bg-orange">
-                        <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                        <input v-show="variations.allowChanges" class="input-group-field"
-                        type="text" v-model="credentials.lastName"
-                        placeholder="Last Name"/>
-                        <input v-show="!variations.allowChanges" class="input-group-field"
-                        type="text" v-model="credentials.lastName"
-                        placeholder="Last Name" disabled/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="large-12 columns">
-                      <div class="input-group bg-orange">
-                        <span class="input-group-label"> <i class="fa fa-user"> </i> </span>
-                        <input class="input-group-field" type="email"
-                        v-model="credentials.email" placeholder="email" disabled/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="large-12 columns">
-                      <div class="input-group bg-orange">
-                        <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                        <input v-show="passwordType && variations.allowChanges" id="password1"
-                        class="input-group-field" type="text"
-                        v-model="credentials.password1" :placeholder="newPassword"/>
-                        <input v-show="!passwordType && variations.allowChanges" id="password1"
-                        class="input-group-field" type="password"
-                        v-model="credentials.password1" :placeholder="newPassword"/>
-                        <input v-show="passwordType && !variations.allowChanges" id="password1"
-                        class="input-group-field" type="text"
-                        v-model="credentials.password1" :placeholder="newPassword"
-                        disabled/>
-                        <input v-show="!passwordType && !variations.allowChanges" id="password1"
-                        class="input-group-field" type="password"
-                        v-model="credentials.password1" :placeholder="newPassword"
-                        disabled/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="large-12 columns">
-                      <div class="input-group bg-orange">
-                        <span class="input-group-label"> <i class="fa fa-key"> </i> </span>
-                        <input v-show="passwordType && variations.allowChanges" id="password2"
-                        class="input-group-field" type="text"
-                        v-model="credentials.password2" :placeholder="repeatPassword"/>
-                        <input v-show="!passwordType && variations.allowChanges" id="password2"
-                        class="input-group-field" type="password"
-                        v-model="credentials.password2" :placeholder="repeatPassword"/>
-                        <input v-show="passwordType && !variations.allowChanges" id="password2"
-                        class="input-group-field" type="text"
-                        v-model="credentials.password2" :placeholder="repeatPassword"
-                        disabled/>
-                        <input v-show="!passwordType && !variations.allowChanges" id="password2"
-                        class="input-group-field" type="password"
-                        v-model="credentials.password2" :placeholder="repeatPassword"
-                        disabled/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="large-6 end small-6 columns" style="text-align: left;">
-                    <input id="checkbox3" type="checkbox" v-model="passwordType"><label
-                    for="checkbox3">show passwords</label>
-                  </div>
-                  <div class="large-12 columns"
-                  style="color: red; padding-bottom: 10px; font-weight: bold;">
-                  {{ $store.getters['error/error']}}
-                </div>
-                <div class="large-12 columns"
-                style="color: green; padding-bottom: 10px; font-weight: bold;">
-                {{variations.message}}
-              </div>
-              <div class="row">
-                <div v-show="variations.allowChanges" class="large-12 large-centered columns">
-                  <input type="submit" class="button expanded" :value="buttonMessage"/>
-                </div>
-              </div>
-            </form>
+  <div class="app flex-row align-items-center bg-primary">
+    <div class="container">
+      <b-row class="justify-content-center">
+        <b-col md="5">
+          <div class="mb-3">
+            <b-img center height="50" :src="require('@/assets/images/wa-logo.png')" alt="Wireless Analytics" />
           </div>
-        </div>
-      </div>
+          <b-card-group>
+            <b-card no-body class="p-3">
+              <b-card-body>
+                <b-form>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="text" class="form-control" v-model="credentials.firstName" placeholder="First Name" />
+                  </b-input-group>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="text" class="form-control" v-model="credentials.lastName" placeholder="Last Name" />
+                  </b-input-group>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="text" class="form-control" v-model="credentials.email" placeholder="email" disabled/>
+                  </b-input-group>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
+                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
+                  
+                  </b-input-group>
+                  <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />                    
+                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />
+                  </b-input-group>
+                  <b-row class="mb-3">
+                    <b-col cols="6">
+                        <b-form-checkbox
+                        id="checkbox1"
+                        value="accepted"
+                        v-model="passwordType"
+                        style="color: black;"
+                        >
+                        show passwords
+                      </b-form-checkbox>
+                    </b-col>
+                  </b-row>
+                  <b-alert show variant="danger" v-show="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
+                  <b-alert show variant="success" v-show="variations.messageShow">{{ variations.message }}</b-alert>
+                  <b-row>
+                    <b-col cols="12">
+                      <b-button variant="primary" class="px-4 w-100" @click="submit()">Register New User</b-button>
+                    </b-col>
+                  </b-row>
+                </b-form>
+              </b-card-body>
+            </b-card>
+          </b-card-group>
+        </b-col>
+      </b-row>
     </div>
   </div>
-</div>
-</div>
 </template>
 
 <script>
-  import {
-    mapGetters,
-  } from 'vuex'
-  export default {
-    name: "register",
-    beforeCreate() {
+import { mapGetters } from 'vuex';
 
-      this.$store.commit('auth/recoveryVariations');
-    },
-    computed: {
-      ...mapGetters({
-        variations: 'auth/getVariations',
+export default {
+  name: 'register',
 
+  data() {
+    return {
+      credentials: {
+        firstName: '',
+        lastName: '',
+        email: this.$route.params.email,
+        password1: '',
+        password2: '',
+      },
+      passwordType: false,
+      newPassword: 'Enter your password',
+      repeatPassword: 'Repeat your password',
+      buttonMessage: 'Register New User',
+    }
+  },
 
-      })
-    },
-    data() {
-      return {
-        credentials: {
-          firstName: '',
-          lastName: '',
-          email: this.$route.params.email,
-          password1: '',
-          password2: '',
-        },
-        passwordType: false,
-        newPassword: 'Enter your password',
-        repeatPassword: 'Repeat your password',
-        buttonMessage: 'Register New User',
+  computed: {
+    ...mapGetters({
+      variations: 'auth/getVariations',
+    })
+  },
 
-      }
-    },
-    methods: {
-      submit() {
-        if (this.variations.clickAgain) {
-
-          this.$store.dispatch('error/clearAll');
-          this.$store.dispatch('auth/register', {
-            credentials: this.credentials
-          });
-        }
+  methods: {
+    submit() {
+      if (this.variations.clickAgain) {
+        this.$store.dispatch('error/clearAll');
+        this.$store.dispatch('auth/register', {
+          credentials: this.credentials
+        })
       }
     }
-  }
+  },
+
+  beforeCreate() {
+    this.$store.commit('auth/recoveryVariations');
+  },
+}
 </script>

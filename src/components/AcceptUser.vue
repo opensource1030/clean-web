@@ -1,56 +1,62 @@
 <template>
-  <div class="bg-login">
-    <div class="login">
-      <div class="large-4 large-centered columns login-form-holder">
-        <img src="./../assets/wa-logo.png" alt="Wireless Analytics">
-        <h1 class="title"><img src="./../assets/clean-logo-blue.png" alt="CLEAN Platform"></h1>
-        <div class="login-box">
-          <div class="row">
-            <div class="large-12 small-12 columns">
-              <div v-show="messageShow" class="large-12 small-12 columns" style="text-align:center; color:green; padding-bottom: 20px;">
-                {{message}}
-              </div>
-              <div v-show="errorShow" class="large-12 small-12 columns" style="text-align:center; color:red; padding-bottom: 20px;">
-                {{error}}
-              </div>
-              <div v-show="messageShow" class="row">
-                <div class="large-12 large-centered small-12 columns">
-                  <input  @click="submit()" type="submit" class="button expanded" :value="buttonMessage"/>
-                </div>
-              </div>
-            </div>
+  <div class="app flex-row align-items-center bg-primary">
+    <div class="container">
+      <b-row class="justify-content-center">
+        <b-col md="5">
+           <div class="mb-3">
+            <b-img center height="50" :src="require('@/assets/images/wa-logo.png')" alt="Wireless Analytics" />
           </div>
-        </div>
-        <span v-if="version" class="version"> {{ version }}</span>
-      </div>
+          <div class="mb-3">
+            <b-img center height="50" :src="require('@/assets/images/clean-logo-blue.png')" alt="CLEAN Platform" />
+          </div>
+          <b-card-group>
+            <b-card no-body class="p-3">
+              <b-card-body>
+                <b-card-text class="text-center" v-show="messageShow"><p class="messageAcceptUser">{{message}}</p></b-card-text>
+                <b-card-text class="text-center" v-show="errorShow"><p class="errorAcceptUser">{{error}}</p></b-card-text>
+                <b-row v-show="messageShow">
+                  <b-col cols="12">
+                      <b-button block variant="primary" @click="submit()" type="submit">{{buttonMessage}}</b-button>
+                    </b-col>
+                </b-row>
+              </b-card-body>
+            </b-card>
+          </b-card-group>
+        </b-col>
+      </b-row>
+    </div>
+    <div id="version">
+      <span v-if="version" class="version"> {{ version }}</span>
     </div>
   </div>
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
+var config = require('../../config/dev.env')
 
 export default {
   created() {
+    console.log("created")
+
     this.credentials.identification = this.$route.params.identification;
     this.credentials.code = this.$route.params.code;
     if (this.credentials.identification != '' && this.credentials.code != '') {
-      this.$http.get(process.env.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code)
-        .then((response) => {
+      this.$http.get(config.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code).then((response) => {
+        this.messageShow = true;
+      }, (response) => {
+        if (response.data.message == 'User is already Active') {
           this.messageShow = true;
-        }, (response) => {
-          if (response.data.message == 'User is already Active') {
-            this.messageShow = true;
-            this.message = response.data.message;
-          } else {
-            this.errorShow = true;
-          }
-
-        });
+          this.message = response.data.message;
+        } else {
+          this.errorShow = true;
+        }
+      });
     } else {
       this.errorShow = true;
     }
   },
+
   data() {
     return {
       credentials: {
@@ -62,23 +68,42 @@ export default {
       error: 'The User has not been created properly, try again later, sorry for the inconvenience.',
       errorShow: false,
       buttonMessage: 'Redirect to Login Page',
-      version : '4.0.0-rc.1',
+      version: '4 . 0 . 0 - r c . 1',
     }
   },
-  mounted(){
-    $(function(){
-      $('#email').bind('input', function(){
-        $(this).val(function(_, v){
-          return v.replace(/\s+/g, '');
-        });
-      });
-    });
-  },
+
   methods: {
     submit() {
       this.$router.push({name: 'login'});
     }
+  },
+
+  mounted() {
+    console.log("mounted")
+    $(function () {
+      $('#email').bind('input', function () {
+        $(this).val(function (_, v) {
+          return v.replace(/\s+/g, '');
+        })
+      })
+    })
   }
 }
-
 </script>
+
+<style>
+#version {
+  position: fixed;
+  bottom: 20px;
+  left: 50px;
+}
+</style>
+
+<style lang="scss">
+.messageAcceptUser {
+  color: green;
+}
+.errorAcceptUser {
+  color: red;
+}
+</style>

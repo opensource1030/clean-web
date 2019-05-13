@@ -1,301 +1,288 @@
 <template>
-  <div id="dashboard">
-    <order-new-select-user v-if="startedOrder" :next="beginOrder" :cancel="cancelOrder"></order-new-select-user>
-
-    <!-- <div>{{ $store.state.scope_token.records }}</div> -->
-    <div class="row expanded">
-      <div class="columns small-12">
-        <div class="tag-header">
-          <h1>{{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}</h1>
-        </div>
-      </div>
-      <div class="column small-12">
-        <div class="grid-box">
-          <div class="box-content-holder is-relative" v-if="clientInfo.loading">
-            <div class="is-loading"></div>
-          </div>
-          <div class="box-content-holder client-info" v-else>
-            <div class="row expanded">
-              <div v-html="clientInfo.data.content"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div>
+    <div class="tag-header bg-info">
+      {{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}
     </div>
+    <b-card class="client-info-card">
+      <div v-if="clientInfo.loading">
+        <h1>LOADING</h1>
+      </div>
+      <div v-else>
+        <div v-html="_.get(clientInfo.data, 'content', '')"></div>
+      </div>
+    </b-card>
 
-    <div class="row expanded m-t-25">
-      <div class="columns small-12">
-        <div class="tag-header">
-          <h1>Overview</h1>
-        </div>
+    <div class="mb-4">
+      <div class="tag-header bg-info">
+        Overview
       </div>
-      <div class="columns small-12">
-        <div class="grid-box">
-          <div class="box-content-holder is-relative" v-if="userInfo.loading">
-            <div class="is-loading"></div>
-          </div>
-          <div class="box-content-holder overview" v-else>
-            <div class="row expanded" v-if="userInfo.lastAllocations.length">
-              <div class="row expanded">
-                <div class="device-detail first">
-                  <div class="row expanded">
-                    <div class="overview-item">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">User</span>
-                        <br/>
-                        <spPXLan>{{userInfo.data.firstName}} {{userInfo.data.lastName}}</spPXLan>
-                      </p>
-                    </div>
-                    <div class="overview-item last">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Device</span>
-                        <br/>
-                        <span>{{userInfo.lastAllocations[activeAllocationIndex].device}}</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row expanded">
-                    <div class="overview-item">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Bill Month</span>
-                        <br/>
-                        <span>{{userInfo.lastAllocations[activeAllocationIndex].bill_month | cleanDate}}</span>
-                      </p>
-                    </div>
-                    <div class="overview-item last">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Mobile No</span>
-                        <br/>
-                        <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.lastAllocations[activeAllocationIndex].id}}" class="alloc_mblnumber"
-                          v-html="$options.filters.phone(userInfo.lastAllocations[activeAllocationIndex].mobile_number)">
-                        </router-link>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row expanded">
-                    <div class="overview-item full last">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Last Upgrade Date</span>
-                        <br/>
-                        <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate}}</span>
-                        <span v-else>N/A</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div class="device-image">
-                  <span class="bold color-tuatara">Order Catalog</span>
-                  <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="checkIfOrderable()">Place an Order</router-link>
-                  <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
-                </div>
-                <div class="device-detail second">
-                  <div class="row expanded">
-                    <div class="overview-item">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Service Plan Charges</span>
-                        <br/>
-                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].service_plan_charge.toFixed(2)}}</span>
-                      </p>
-                    </div>
-                    <div class="overview-item last">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Other Charges</span>
-                        <br/>
-                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].other_charge.toFixed(2)}}</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row expanded">
-                    <div class="overview-item">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Usage Charges</span>
-                        <br/>
-                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].usage_charge.toFixed(2)}}</span>
-                      </p>
-                    </div>
-                    <div class="overview-item last">
-                      <p class="text-center">
-                        <span class="bold color-tuatara">Total Allocation Charges</span>
-                        <br/>
-                        <span class="bold color-orange">{{'$' + userInfo.lastAllocations[activeAllocationIndex].allocated_charge.toFixed(2)}}</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row expanded">
-                    <div class="overview-item full last">
-                      <p>
-                        <select id="choose-issues" class="user-actions" v-model="userInfo.lastAllocations[activeAllocationIndex].issue">
-                          <option disabled value="">-- Choose an issue --</option>
-                          <optgroup label="Billing">
-                            <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
-                              Questions About My Monthly Statement
-                            </option>
-                            <option data-id="issue-15" data-support-tag="ALR4" data-value="Other Billing Issues" value="obi">
-                              Other Billing Issues
-                            </option>
-                          </optgroup>
-                          <optgroup label="Device Support">
-                            <option data-id="issue-5" data-value="Activate My Device" data-support-tag="IRE0" value="amd">
-                              Activate My Device
-                            </option>
-                            <option data-id="issue-3" data-value="Email Connectivity" data-support-tag="IRE0" value="ec">
-                              Email Connectivity
-                            </option>
-                            <option data-id="issue-8" data-support-tag="IRE0" data-value="Issues While Traveling Abroad" value="iwta">
-                              Issues While Traveling Abroad
-                            </option>
-                            <option data-id="issue-9" data-support-tag="IRE0" data-value="Other Device Support Issues" value="odsi">
-                              Other Device Support Issues
-                            </option>
-                          </optgroup>
-                          <optgroup label="Service Plan / Feature">
-                            <option data-id="issue-6" data-support-tag="IRE1" data-value="Add/Remove International Features" value="aif">
-                              Add/Remove International Features
-                            </option>
-                            <option data-id="issue-10" data-support-tag="IRE1" data-value="Cancel Service" value="cs">
-                              Cancel Service
-                            </option>
-                            <option data-id="issue-2" data-support-tag="IRE1" data-value="Change Existing Features" value="cef">
-                              Change Existing Features
-                            </option>
-                            <option data-id="issue-12" data-support-tag="IRE1" data-value="Suspend/Unsuspend Wireless Service" value="sws">
-                              Suspend/Unsuspend Wireless Service
-                            </option>
-                            <option data-id="issue-13" data-support-tag="IRE1" data-value="Transfer Service to a Personal Account" value="tstpa">
-                              Transfer Service to a Personal Account
-                            </option>
-                            <option data-id="issue-14" data-support-tag="IRE1" data-value="Other Service and Plan Issues" value="osapi">
-                              Other Service and Plan Issues
-                            </option>
-                          </optgroup>
-                        </select>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row expanded">
-                <div class="custom-pagination">
-                  <a class="item-prev" :class="{ 'inactive': activeAllocationIndex == 0 }" @click="prevAllocation()">
-                    <i class="fa fa-arrow-left fa-2x"></i>
-                  </a>
-                  <div class="pagination-pages">
-                    <div class="group">
-                      <a class="page-item" v-for="(allocation, index) in userInfo.lastAllocations"
-                        :class="{ 'active': activeAllocationIndex == index}" @click="setAllocation(index)"></a>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <a class="item-next" :class="{ 'inactive': activeAllocationIndex == userInfo.lastAllocations.length - 1 }"
-                    @click="nextAllocation()">
-                    <i class="fa fa-arrow-right fa-2x"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="row expanded" v-else>
-              <div class="row expanded">
-                <div class="device-detail first"></div>
-                <div class="device-image">
-                  <span class="bold color-tuatara">Order Catalog</span>
-                  <div></div>
-                  <router-link class="button btn-round btn-started" :to="{ name: 'legacyInfo'}" v-if="checkIfOrderable()">Place an Order</router-link>
-                  <button class="button btn-round btn-started" v-else @click="orderDisabled()">Place an Order</button>
-                </div>
-                <div class="device-detail second"></div>
-              </div>
-            </div>
-          </div>
+      <b-card>
+        <div v-if="userInfo.loading">
+          <h1>LOADING</h1>
         </div>
-      </div>
+        <div v-else>
+          <table style="width:100%;">
+            <tr>
+              <td class="td-normal-width td-normal-height">
+                <p>
+                  <br>
+                  <span class="bold">User</span>
+                  <br/>
+                  <span class="sub-text">{{ userInfo.data.firstName }} {{ userInfo.data.lastName }}</span>
+                </p>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Device</span>
+                  <br/>
+                  <span class="sub-text">{{ userInfo.lastAllocations[activeAllocationIndex].device }}</span>
+                </p>
+              </td>
+              <td rowspan="3" style="width: 400px;">
+                <span class="bold color-tuatara">Order Catalog</span>
+                  <div class="div-img" style="whidth: 100%;">
+                    <img class="img-phone" src="@/assets/images/phone-mifi-tablet.svg">
+                  </div>
+                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary"><router-link :to="{ name: 'legacyInfo' }" style="color: white;">Place an Order</router-link></b-btn>
+                  <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Service Plan Charges</span>
+                  <br/>
+                  <span class="bold color-orange">{{ '$' + userInfo.lastAllocations[activeAllocationIndex].service_plan_charge.toFixed(2) }}</span>
+                </p>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Other Charges</span>
+                  <br/>
+                  <span class="bold color-orange">{{ '$' + userInfo.lastAllocations[activeAllocationIndex].other_charge.toFixed(2) }}</span>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Bill Month</span>
+                  <br/>
+                  <span class="sub-text">{{ userInfo.lastAllocations[activeAllocationIndex].bill_month | cleanDate }}</span>
+                </p>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Mobile No</span>
+                  <br/>
+                  <router-link :to="{ name: 'Mobile Charges', params: {id: userInfo.lastAllocations[activeAllocationIndex].id}}" class="alloc_mblnumber" 
+                  v-html="userInfo.lastAllocations[activeAllocationIndex].mobile_number"
+                  ></router-link>
+                </p>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Usage Charges</span>
+                  <br/>
+                  <span class="bold color-orange">{{ '$' + userInfo.lastAllocations[activeAllocationIndex].usage_charge.toFixed(2) }}</span>
+                </p>
+              </td>
+              <td class="td-normal-width td-normal-height">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Total Allocation Charges</span>
+                  <br/>
+                  <span class="bold color-orange">{{ '$' + userInfo.lastAllocations[activeAllocationIndex].allocated_charge.toFixed(2) }}</span>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="td-normal-height" colspan="2">
+                <p class="text-center">
+                  <br>
+                  <span class="bold color-tuatara">Last Upgrade Date</span>
+                  <br>
+                  <span v-if="userInfo.lastAllocations[activeAllocationIndex].last_upgrade" class="color-orange bold">{{ userInfo.lastAllocations[activeAllocationIndex].last_upgrade | cleanDate }}</span>
+                  <span v-else>N/A</span>
+                </p>
+              </td>
+              <td class="td-normal-height" colspan="2">
+                <p>
+                  <select
+                    v-model="userInfo.lastAllocations[activeAllocationIndex].issue"
+                    @change="onChangeTicketIssue"
+                    id="choose-issues"
+                    class="user-actions form-control"
+                  >
+                    <option disabled value="">-- Choose an issue --</option>
+                    <optgroup label="Billing">
+                      <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
+                        Questions About My Monthly Statement
+                      </option>
+                      <option data-id="issue-15" data-support-tag="ALR4" data-value="Other Billing Issues" value="obi">
+                        Other Billing Issues
+                      </option>
+                    </optgroup>
+                    <optgroup label="Device Support">
+                      <option data-id="issue-5" data-value="Activate My Device" data-support-tag="IRE0" value="amd">
+                        Activate My Device
+                      </option>
+                      <option data-id="issue-3" data-value="Email Connectivity" data-support-tag="IRE0" value="ec">
+                        Email Connectivity
+                      </option>
+                      <option data-id="issue-8" data-support-tag="IRE0" data-value="Issues While Traveling Abroad" value="iwta">
+                        Issues While Traveling Abroad
+                      </option>
+                      <option data-id="issue-9" data-support-tag="IRE0" data-value="Other Device Support Issues" value="odsi">
+                        Other Device Support Issues
+                      </option>
+                    </optgroup>
+                    <optgroup label="Service Plan / Feature">
+                      <option data-id="issue-6" data-support-tag="IRE1" data-value="Add/Remove International Features" value="aif">
+                        Add/Remove International Features
+                      </option>
+                      <option data-id="issue-10" data-support-tag="IRE1" data-value="Cancel Service" value="cs">
+                        Cancel Service
+                      </option>
+                      <option data-id="issue-2" data-support-tag="IRE1" data-value="Change Existing Features" value="cef">
+                        Change Existing Features
+                      </option>
+                      <option data-id="issue-12" data-support-tag="IRE1" data-value="Suspend/Unsuspend Wireless Service" value="sws">
+                        Suspend/Unsuspend Wireless Service
+                      </option>
+                      <option data-id="issue-13" data-support-tag="IRE1" data-value="Transfer Service to a Personal Account" value="tstpa">
+                        Transfer Service to a Personal Account
+                      </option>
+                      <option data-id="issue-14" data-support-tag="IRE1" data-value="Other Service and Plan Issues" value="osapi">
+                        Other Service and Plan Issues
+                      </option>
+                    </optgroup>
+                  </select>
+                </p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </b-card>
     </div>
-
-    <!--
-    <div class="row expanded m-t-25">
-      <div class="columns small-12">
-        <div class="tag-header">
-          <h1>Place Order</h1>
+    <b-row>
+      <b-col cols="6">
+        <div class="tag-header bg-info">
+          Spend By Category
         </div>
-      </div>
-      <div class="column small-12">
-        <div class="grid-box">
-          <div class="box-content-holder place-order">
-            <div class="row expanded p-20">
-              <div class="columns small-12 medium-4 each-order" @click="selectOrderType('new')">
-                <i class="fa fa-wrench fa-5x" :class="{ active: selectedOrder == 'new' }"></i>
-                <p class="ft-18 m-t-15 m-b-0">Order a New Line of Service</p>
-                <p class="ft-13 italic bold black">with new device</p>
-              </div>
-              <div class="columns small-12 medium-4 each-order" @click="selectOrderType('transfer')">
-                <i class="fa fa-random fa-5x" :class="{ active: selectedOrder == 'transfer' }"></i>
-                <p class="ft-18 m-t-15 m-b-0">Transfer Wireless Service Liability</p>
-                <p class="ft-13 italic bold black">also includes option to order a new device</p>
-              </div>
-              <div class="columns small-12 medium-4 each-order" @click="selectOrderType('accessories')">
-                <i class="fa fa-headphones fa-5x" :class="{ active: selectedOrder == 'accessories' }"></i>
-                <p class="ft-18 m-t-15 m-b-0">Order Accessories</p>
-                <p class="ft-13 italic bold black">headphones, chargers, bags</p>
-              </div>
-              <div class="columns small-12 text-center">
-                <button class="button large m-t-25" :disabled="disabledBeginOrder" @click="placeOrder()">Begin Order</button>
-              </div>
+        <b-card class="chart">
+          <b-card-body>
+            <div v-if="userInfo.loading">
+              <h1>LOADING</h1>
             </div>
-          </div>
+            <PieChart
+              v-if="!userInfo.loading && userInfo.lastAllocations.length"
+              :data="userInfo.lastAllocations"
+            />
+          </b-card-body>
+        </b-card>
+      </b-col>
+      <b-col cols="6">
+        <div class="tag-header bg-info">
+          Trend By Category
         </div>
-      </div>
-    </div>
-    -->
-
-    <div class="row expanded m-t-25">
-      <div class="columns small-12 large-6 no-padding">
-        <div class="row expanded">
-          <div class="columns small-12">
-            <div class="tag-header">
-              <h1>Spend By Category</h1>
+        <b-card class="chart">
+          <b-card-body>
+            <div v-if="userInfo.loading">
+              <h1>LOADING</h1>
             </div>
-          </div>
-          <div class="columns small-12">
-            <div class="grid-box">
-              <div class="box-content-holder is-relative" v-if="userInfo.loading">
-                <div class="is-loading"></div>
-              </div>
-              <div class="box-content-holder no-padding" v-else>
-                <PieChart :data="userInfo.lastAllocations" v-if="userInfo.lastAllocations.length"></PieChart>
-                <div class="row expanded no-data" v-else>
-                  <p class="text-center bold black ft-18 m-b-15 m-t-15">N/A</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="columns small-12 large-6 no-padding">
-        <div class="row expanded">
-          <div class="columns small-12">
-            <div class="tag-header">
-              <h1>Trend By Category</h1>
-            </div>
-          </div>
-          <div class="columns small-12">
-            <div class="grid-box">
-              <div class="box-content-holder is-relative" v-if="userInfo.loading">
-                <div class="is-loading"></div>
-              </div>
-              <div class="box-content-holder no-padding" v-else>
-                <TrendChart :data="userInfo.data.allocations" v-if="userInfo.data.allocations.length"></TrendChart>
-                <div class="row expanded no-data" v-else>
-                  <p class="text-center bold black ft-18 m-b-15 m-t-15">N/A</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <router-view class="child"></router-view>
+            <TrendChart
+              v-if="!userInfo.loading && userInfo.data.allocations.length"
+              :data="userInfo.data.allocations"
+            />
+          </b-card-body>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script src="./dashboard.ctrl.js" lang="babel"></script>
+
+<style scoped>
+.tag-header {
+  display: inline-block;
+  /* min-width: 200px; */
+  padding: 10px 15px;
+  font-weight: 500;
+}
+
+.card.client-info-card >>> ul {
+  margin-bottom: 0;
+  padding-left: 15px;
+}
+.card.client-info-card >>> ul:before {
+  content: ' ' !important;
+}
+.card.client-info-card >>> ul li {
+  list-style: none;
+  line-height: 20px;
+}
+.card.client-info-card >>> p {
+  margin-bottom: 0;
+  line-height: 24px;
+}
+
+.chart {
+  width: 100%;
+}
+
+table, th, td {
+  border: 1px solid rgba(151, 151, 151, 0.3);
+  border-collapse: collapse;
+  background-color: white;
+}
+
+th, td {
+  padding: 5px;
+  text-align: center;
+  vertical-align: center;
+}
+
+.sub-text {
+  color: rgba(151, 151, 151, 0.3)
+}
+
+.td-normal-width {
+  max-width: 300px;
+  width: 300px;
+}
+
+.td-normal-height {
+  max-height: 300px;
+  height: 100px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.color-orange {
+  color: #FF690A;
+}
+
+.color-tuatara {
+  color: #444;
+}
+
+.img-phone {
+  width: calc(100% - 20px);
+  max-width: 220px;
+  height: 220px;
+}
+
+.div_img {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+</style>

@@ -1,9 +1,9 @@
-import serviceAPI from "./../../../api/service-api";
-import Services from "./../../../models/Service";
-import * as types from "./../../mutation-types";
-import {findByAddons, findServiceItem} from "./../../../components/filters.js";
+import serviceAPI from '@/api/service-api'
+import Services from '@/models/Service'
+import * as types from '@/store/mutation-types'
+import { findByAddons, findServiceItem } from '@/components/filters.js'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 const state = {
@@ -97,7 +97,6 @@ const getters = {
 
 const actions = {
   getOne ({ dispatch, commit, state }, id) {
-
     return new Promise((resolve, reject) => {
       let params = {
         params: {

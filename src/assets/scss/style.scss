@@ -1,0 +1,14 @@
+// if you want to override variables do it here
+@import "variables";
+
+// coreui styles
+@import "~@coreui/coreui/scss/coreui";
+
+// ie fixes
+@import "ie-fix";
+
+// sidebar
+@import "sidebar";
+
+// support form
+@import "support";

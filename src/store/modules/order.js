@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import orderAPI from './../../api/order-api'
-import * as types from './../mutation-types'
+import * as types from '@/store/mutation-types'
+import orderAPI from '@/api/order-api'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state

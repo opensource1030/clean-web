@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import companyAPI from './../../api/company-api'
-import * as types from './../mutation-types'
-import { CompaniesPresenter } from './../../presenters'
-import FilterItem from './../../models/FilterItem'
+import companyAPI from '@/api/company-api'
+import * as types from '@/store/mutation-types'
+import { CompaniesPresenter } from '@/presenters'
+import FilterItem from '@/models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -60,7 +60,7 @@ const actions = {
         _params.params[key] = value
       }
 
-      if(state.filters.indexAll) {
+      if (state.filters.indexAll) {
         _params.params['indexAll'] = 1
         _params.params['include'] = 'domains'
       } else {
@@ -68,7 +68,6 @@ const actions = {
         _params.params['page'] = state.pagination.current_page
         _params.params['include'] = 'udls.udlvalues,addresses'
       }
-
 
       companyAPI.search(_params, res => {
         const companies = store.sync(res.data)
