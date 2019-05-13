@@ -30,8 +30,38 @@
         <SidebarForm/>
         <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
-        <SidebarNav v-else :navItems="normal_nav">
-        </SidebarNav>
+        <!-- <SidebarNav v-else :navItems="normal_nav">
+        </SidebarNav> -->
+        <nav class="sidebar-nav">
+          <b-nav>
+            <b-nav-item to="/dashboard">
+              <i class="nav-icon icon-speedometer"></i>Dashboard
+            </b-nav-item>
+            <li class="nav-item">
+              <div
+                @click="show_report_submenu = !show_report_submenu"
+                class="nav-link nav-dropdown-toggle"
+              >
+                <i class="nav-icon icon-puzzle"></i>Reports
+              </div>
+              <div class="submenu-container">
+                <ul
+                  v-show="show_report_submenu"
+                  class="submenu"
+                >
+                  <li>Change</li>
+                  <li>Top 10 Reports</li>
+                  <li>Zero Usage</li>
+                  <li>Usage</li>
+                  <li>International</li>
+                </ul>
+              </div>
+            </li>
+            <b-nav-item>
+              <i class="nav-icon icon-pie-chart"></i>Get Support
+            </b-nav-item>
+          </b-nav>
+        </nav>
         <SidebarFooter>
           <span class="text-copyright">Powered By</span>
           <img class="img-full" src="@/assets/images/wa-logo.png" alt="Wireless Analytics">
@@ -94,12 +124,13 @@ export default {
     SupportRequest
   },
 
-  data () {
+  data() {
     return {
       nav: nav.items,
       normal_nav: normal_nav.items,
       // legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
       legacyLink: '/app/helpdesk/udl',
+      show_report_submenu: false,
       // showLegacy: false,
     }
   },
@@ -109,7 +140,7 @@ export default {
       return _
     },
 
-    name () {
+    name() {
       return this.$route.name
     },
 
@@ -117,16 +148,22 @@ export default {
       return this.$store.state.auth.company
     },
 
-    list () {
+    list() {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
     },
 
-    ScopeHelper () {
+    ScopeHelper() {
       return ScopeHelper
     }
   },
 
-  created () {
+  methods: {
+    // onSidebarMinimize(isMinimized) {
+    //   console.log('cui-sidebar-minimize', isMinimized)
+    // }
+  },
+
+  created() {
     let profile = Utils.parseJsonString(Storage.get('profile'))
     if (profile.companies && profile.companies.length) {
       let cosmicdata = profile.companies[0].contents[0].content
@@ -135,7 +172,7 @@ export default {
     }
   },
 
-  mounted () {
+  mounted() {
     $(document).keyup(function (e) {
       if ($('.support-form-holder').is(":visible") && e.keyCode == 27) {
         setTimeout(function() {
