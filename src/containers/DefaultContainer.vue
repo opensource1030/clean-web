@@ -1,10 +1,7 @@
 <template>
   <div class="app">
     <AppHeader fixed>
-      <SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="#">
-        <!-- <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo"> -->
         <img
            v-if="company.object"
           :src="_.get(company.object, 'metadata.logo.url', '')"
@@ -12,11 +9,11 @@
           title="Client Logo" height="25"
         >
       </b-link>
+      <SidebarToggler class="d-lg-none" display="md" mobile />
       <SidebarToggler class="d-md-down-none" display="lg" />
       <b-navbar-nav class="ml-auto">
-        <b-nav-item class="d-md-down-none">
-          <i class="icon-bell"></i>
-          <b-badge pill variant="danger">5</b-badge>
+        <b-nav-item>
+          <div class="HW-container"></div>
         </b-nav-item>
         <DefaultHeaderDropdownAccnt/>
       </b-navbar-nav>
@@ -184,6 +181,14 @@ export default {
         }, 200)
       }
     })
+
+    let config = {
+      selector: '.HW-container',
+      account: 'JPYPKy',
+      enabled: true
+    }
+    Headway.init(config)
+    heap.identify(this.$store.state.auth.profile.identification)
   }
 }
 </script>
