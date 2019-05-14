@@ -30,19 +30,18 @@
         <SidebarForm/>
         <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
-        <!-- <SidebarNav v-else :navItems="normal_nav">
-        </SidebarNav> -->
+        <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
         <nav class="sidebar-nav">
           <b-nav>
             <b-nav-item to="/dashboard">
-              <i class="nav-icon icon-speedometer"></i>Dashboard
+              <i class="nav-icon icon-speedometer"></i>DASHBOARD
             </b-nav-item>
             <li class="nav-item">
               <div
                 @click="show_report_submenu = !show_report_submenu"
                 class="nav-link nav-dropdown-toggle"
               >
-                <i class="nav-icon icon-puzzle"></i>Reports
+                <i class="nav-icon icon-puzzle"></i>REPORTS
               </div>
               <div class="submenu-container">
                 <ul
@@ -57,8 +56,8 @@
                 </ul>
               </div>
             </li>
-            <b-nav-item>
-              <i class="nav-icon icon-pie-chart"></i>Get Support
+            <b-nav-item @click="openSupport()">
+              <i class="nav-icon icon-pie-chart"></i>GET SUPPORT
             </b-nav-item>
           </b-nav>
         </nav>
@@ -158,9 +157,10 @@ export default {
   },
 
   methods: {
-    // onSidebarMinimize(isMinimized) {
-    //   console.log('cui-sidebar-minimize', isMinimized)
-    // }
+    openSupport() {
+      this.$store.commit('auth/setTicketIssue', '')
+      this.$store.commit('auth/setShowTicket', true)
+    },
   },
 
   created() {

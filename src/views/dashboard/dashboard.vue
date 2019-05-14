@@ -211,21 +211,35 @@
 <style scoped>
 .tag-header {
   display: inline-block;
-  /* min-width: 200px; */
-  padding: 10px 15px;
+  padding: 0px 100px 0px 20px;
+  font-size: 18px;
   font-weight: 500;
+  line-height: 40px;
 }
 
 .card.client-info-card >>> ul {
+  margin-left: 10px;
   margin-bottom: 0;
   padding-left: 15px;
+  font-size: 14px;
 }
 .card.client-info-card >>> ul:before {
   content: ' ' !important;
 }
 .card.client-info-card >>> ul li {
-  list-style: none;
-  line-height: 20px;
+  /* list-style: none; */
+  font-size: 16px;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  font-weight: 300;
+  line-height: 24px;
+}
+.card.client-info-card >>> ul li i {
+  width: 16px;
+}
+.card.client-info-card >>> ul li a {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
 }
 .card.client-info-card >>> p {
   margin-bottom: 0;
@@ -249,7 +263,7 @@ th, td {
 }
 
 .sub-text {
-  color: rgba(151, 151, 151, 0.3)
+  color: #8a8a8a;
 }
 
 .td-normal-width {

@@ -132,7 +132,7 @@ export default {
       const value = event.target.value
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
-      console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
+      // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     }
   },
 
