@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page dashboard-page">
     <div class="tag-header bg-info">
       {{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}
     </div>
@@ -166,11 +166,34 @@
               </td>
             </tr>
           </table>
+
+          <div>
+            <div class="custom-pagination">
+              <a class="item-prev" :class="{ 'inactive': activeAllocationIndex == 0 }" @click="prevAllocation()">
+                <i class="fa fa-arrow-left fa-2x"></i>
+              </a>
+              <div class="pagination-pages">
+                <div class="group">
+                  <a class="page-item" v-for="(allocation, index) in userInfo.lastAllocations"
+                    :class="{ 'active': activeAllocationIndex == index}" @click="setAllocation(index)"></a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+              <a
+                @click="nextAllocation()"
+                :class="{ 'inactive': activeAllocationIndex == userInfo.lastAllocations.length - 1 }"
+                class="item-next"
+              >
+                <i class="fa fa-arrow-right fa-2x"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </b-card>
     </div>
+
     <b-row>
-      <b-col cols="6">
+      <b-col md="6" >
         <div class="tag-header bg-info">
           Spend By Category
         </div>
@@ -184,7 +207,7 @@
           />
         </b-card>
       </b-col>
-      <b-col cols="6">
+      <b-col md="6">
         <div class="tag-header bg-info">
           Trend By Category
         </div>
