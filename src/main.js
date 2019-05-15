@@ -9,7 +9,7 @@
 
 import Vue from 'vue'
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
-import VueChartjs from 'vue-chartjs'
+// import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
@@ -64,7 +64,7 @@ Vue.use(BootstrapVue)
 Vue.use(VueCharts)
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
-Vue.use(VueChartjs)
+// Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
 

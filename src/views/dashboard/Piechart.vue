@@ -1,23 +1,21 @@
 <template>
   <div class="coming-soon">
-    <ul class="tabs" data-tabs id="spend-tabs">
+    <b-tabs>
       <template v-for="(allocation, index) in data">
-        <b-btn variant="outline">
-          <a :data-index="index">{{ allocation.mobile_number | phone }}</a>
-        </b-btn>
+        <b-tab
+          :title="$options.filters.phone(allocation.mobile_number)"
+        >
+          <p class="charts_tel">{{ title(allocation) }}</p>
+          <vue-chart
+            :v-ref="'vuechart' + index"
+            chart-type="PieChart"
+            :columns="columns"
+            :rows="pieData(index)"
+            :options="options"
+          ></vue-chart>
+        </b-tab>
       </template>
-    </ul>
-
-    <div class="tabs-content" data-tabs-content="trend-tabs">
-      <template v-for="(allocation, index) in data">
-        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'spend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
-          <p class="charts_tel">
-            {{ title(allocation) }}
-          </p>
-          <vue-chart :v-ref="'vuechart' + index" chart-type="PieChart" :columns="columns" :rows="pieData(index)" :options="options"></vue-chart>
-        </div>
-      </template>
-    </div>
+    </b-tabs>
   </div>
 </template>
 
@@ -59,20 +57,20 @@ export default {
 
   methods: {
     title (allocation) {
-      return allocation.mobile_number + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
+      return this.$options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
     },
 
     pieData (index) {
-      if (index !== this.activeIndex) {
-        return [['Dummy', 0]]
-      }
+      // if (index !== this.activeIndex) {
+      //   return [['Dummy', 0]]
+      // }
 
       let allocation = this.data[index]
-      var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+      let ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
       ildvc = ildvc ? ildvc : 0;
-      var oc = (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100);
+      let oc = (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100);
       oc = oc ? oc : 0;
-      var piechart_data = [
+      let piechart_data = [
         ['Service Plan Charges', {v: allocation.service_plan_charge, f: '$'+allocation.service_plan_charge}],
         ['Domestic Usage Charges', {v: allocation.domestic_usage_charge, f: '$'+allocation.domestic_usage_charge}],
         ['International Roam Usage Charges', {v: allocation.intl_roam_usage_charge, f: '$'+allocation.intl_roam_usage_charge}],
@@ -80,36 +78,27 @@ export default {
         ['Other Charges', {v: oc, f: '$' + oc}]
       ];
 
-      let vm = this
-      this.$nextTick(() => {
-        $('#spend-tabs li a').off('click').on('click', function(e) {
-          setTimeout(() => {
-            let index = $(this).data('index')
-            vm.$set(vm, 'activeIndex', index)
-          })
-        })
-      });
-
       return piechart_data;
     },
   },
 
-  created() {
-    const self = this;
-    this.$on('redrawChart', function() {
-      for (var idx in self.$children) {
-        self.$children[idx].drawChart();
-      }
-    })
-  },
+  // created() {
+  //   const vm = this
+  //   this.$on('redrawChart', function() {
+  //     console.log('Piechart redrawChart...')
+  //     for (let idx in vm.$children) {
+  //       vm.$children[idx].drawChart()
+  //     }
+  //   })
+  // },
 
-  mounted () {
-    const self = this;
-    $(function() {
-      $(window).resize(function() {
-        self.$emit('redrawChart');
-      })
-    })
-  },
+  // mounted () {
+  //   const vm = this
+  //   $(function() {
+  //     $(window).resize(function() {
+  //       vm.$emit('redrawChart')
+  //     })
+  //   })
+  // },
 }
 </script>

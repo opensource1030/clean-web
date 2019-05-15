@@ -1,23 +1,22 @@
 <template>
   <div class="coming-soon">
-    <ul class="tabs" data-tabs id="trend-tabs">
+    <b-tabs>
       <template v-for="(key, index) in groupDataKeys">
-        <b-btn variant="outline" class="mr-0">
-          <a :data-index="index">{{ key | phone }}</a>
-        </b-btn>
-      </template>
-    </ul>
-
-    <div class="tabs-content" data-tabs-content="trend-tabs">
-      <template v-for="(key, index) in groupDataKeys">
-        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
+        <b-tab
+          :title="$options.filters.phone(key)"
+        >
           <p class="charts_tel">
             {{ key | phone }}
           </p>
-          <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
-        </div>
+          <vue-chart
+            chart-type="ColumnChart"
+            :columns="columns"
+            :rows="seriesData(key, index)"
+            :options="options"
+          ></vue-chart>
+        </b-tab>
       </template>
-    </div>
+    </b-tabs>
   </div>
 </template>
 
@@ -30,10 +29,10 @@ export default {
 
   data: function () {
     const currency = '$';
-    /*const formatter = new google.visualization.NumberFormat({
-      fractionDigits: 2,
-      prefix: currency
-    });*/
+    // const formatter = new google.visualization.NumberFormat({
+    //   fractionDigits: 2,
+    //   prefix: currency
+    // });
     return {
       activeIndex: 0,
       columns: [
@@ -112,10 +111,10 @@ export default {
             bill_month = moment(allocation.bill_month)
           }
 
-          var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+          let ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
           ildvc = ildvc ? ildvc : 0;
 
-          var oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
+          let oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
           oc = oc ? oc : 0;
 
           return [
@@ -140,36 +139,27 @@ export default {
         }
       }
 
-      let vm = this
-      this.$nextTick(() => {
-        $('#trend-tabs li a').off('click').on('click', function(e) {
-          setTimeout(() => {
-            let index = $(this).data('index')
-            vm.$set(vm, 'activeIndex', index)
-          })
-        })
-      });
-
       return trendchart_data;
     }
   },
 
-  created() {
-    const self = this;
-    this.$on('redrawChart', function() {
-      for(var idx in self.$children) {
-        self.$children[idx].drawChart();
-      }
-    })
-  },
+  // created() {
+  //   const vm = this
+  //   this.$on('redrawChart', function() {
+  //     console.log('Trendchart redrawChart...')
+  //     for (let idx in vm.$children) {
+  //       vm.$children[idx].drawChart();
+  //     }
+  //   })
+  // },
 
-  mounted () {
-    const self = this;
-    $(function() {
-      $(window).resize(function() {
-        self.$emit('redrawChart');
-      })
-    })
-  },
+  // mounted () {
+  //   const vm = this
+  //   $(function() {
+  //     $(window).resize(function() {
+  //       vm.$emit('redrawChart');
+  //     })
+  //   })
+  // },
 }
 </script>

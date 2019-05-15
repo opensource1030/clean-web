@@ -15,7 +15,6 @@ function filterByFilters(list, value) {
 
 function filterByModifications(list, value) {
   if (list != null) {
-
     return list.filter(function (item) {
       return item.attributes.modType.indexOf(value) > -1;
     });
@@ -25,28 +24,25 @@ function filterByModifications(list, value) {
 }
 
 function filterByModificationsd(list, value) {
-    if (list) {
-        return list.filter(function (item) {
-            return item.modType.indexOf(value) > -1;
-        });
-    } else {
-        return
-    }
+  if (list) {
+    return list.filter(function (item) {
+      return item.modType.indexOf(value) > -1;
+    });
+  } else {
+    return
+  }
 }
 
 function filterByCarrier(list, value) {
-
   return list.filter(function (item) {
-      return item.carrierId == value;
+    return item.carrierId == value;
   });
 }
 
 function findBy(list, value) {
   return list.filter(function (item) {
-          return item == value;
-
-        });
-
+    return item == value;
+  });
 }
 
 /*
@@ -61,90 +57,74 @@ function findBy(list, value) {
  *
  */
 function findServiceItem(service, category, domain) {
-    for (let item of service.serviceitems) {
-        if (item.category == category && item.domain == domain) {
-            return item;
-        }
+  for (let item of service.serviceitems) {
+    if (item.category == category && item.domain == domain) {
+      return item;
     }
+  }
 
-    let unitItem = '';
+  let unitItem = '';
 
-    if(category == 'voice'){
-        unitItem = 'minutes';
-    } else if (category == 'data') {
-        unitItem = 'Gb';
-    } else if (category == 'messaging') {
-        unitItem = 'messages';
-    } else {
-        // Other future options.
-    }
+  if (category == 'voice') {
+    unitItem = 'minutes';
+  } else if (category == 'data') {
+    unitItem = 'Gb';
+  } else if (category == 'messaging') {
+    unitItem = 'messages';
+  } else {
+    // Other future options.
+  }
 
-    return {
-        serviceId : service.id,
-        category : category,
-        description: '',
-        value: 0,
-        unit: unitItem,
-        cost: 0,
-        domain: domain,
-        type: 'service_items'
-    };
+  return {
+    serviceId : service.id,
+    category : category,
+    description: '',
+    value: 0,
+    unit: unitItem,
+    cost: 0,
+    domain: domain,
+    type: 'service_items'
+  };
 }
 
 function findByAddons(list,category,domain ) {
-return list.filter(function (item) {
-          return item.category == category && item.domain == domain;
-
-        });
-
+  return list.filter(function (item) {
+    return item.category == category && item.domain == domain;
+  });
 }
 
 function findByCapacity(list, value) {
   return list.filter(function (item) {
-          return item == value;
-
-        });
-
+    return item == value;
+  });
 }
 
 function findByPrices(list, filter) {
-
   if (list.length > 0) {
     if (filter.style == null && filter.capacity == null && filter.carrier == null && filter.company== null ) {
-
       return list;
     }
 
     return list.filter(function (item) {
+      var mostrar = true;
+      if (filter.capacity != null) {
+        mostrar = mostrar && filter.capacity.id == item.capacity;
+      }
 
-              var mostrar = true;
-              if (filter.capacity != null) {
+      if (filter.style != null) {
+        mostrar = mostrar && filter.style.id == item.style;
+      }
 
-                mostrar = mostrar && filter.capacity.id == item.capacity;
+      if (filter.carrier != null) {
+        mostrar = mostrar && filter.carrier.id == item.carrierId;
+      }
 
-              }
+      if (filter.company != null) {
+        mostrar = mostrar && filter.company.id == item.companyId;
+      }
 
-              if (filter.style != null) {
-
-                mostrar = mostrar && filter.style.id == item.style;
-
-              }
-
-              if (filter.carrier != null) {
-
-                mostrar = mostrar && filter.carrier.id == item.carrierId;
-
-              }
-
-              if (filter.company != null) {
-
-                mostrar = mostrar && filter.company.id == item.companyId;
-
-              }
-
-              return mostrar;
-
-            });
+      return mostrar;
+    });
 
   } else {
     return '';
@@ -168,28 +148,28 @@ function reverse(value) {
  *
  */
 function getFilters(list, value, order) {
+  let aux = value;
+  if (aux.length >= 50) {
+    aux = aux.substring(0, 50);
+    aux = aux + '...';
+  }
 
-    let aux = value;
-    if(aux.length >= 50){
-        aux = aux.substring(0, 50);
-        aux = aux + '...';
+  if (list.length == 0) {
+    list.push(aux)
+  } else {
+    let ok = true;
+    for (let a of list) {
+      if (a == aux) {
+        ok = false;
+      }
     }
 
-    if (list.length == 0) {
-        list.push(aux)
-    } else {
-        let ok = true;
-        for (let a of list) {
-            if (a == aux) {
-                ok = false;
-            }
-        }
-
-        if (ok) {
-            list.push(aux);
-        }
+    if (ok) {
+      list.push(aux);
     }
-    return orderFilters(list, '', order, 'asc');
+  }
+
+  return orderFilters(list, '', order, 'asc');
 }
 
 /*
@@ -207,25 +187,25 @@ function getFilters(list, value, order) {
  *
  */
 function deleteRepeated(list, attributeFilter, attributeOrder, type, order) {
-    let aux = [];
-    for (let l of list) {
-        if (aux.length == 0) {
-            aux.push(l);
-        } else {
-            let ok = true;
-            for (let a of aux) {
-                if (l.hasOwnProperty(attributeFilter) && a.hasOwnProperty(attributeFilter)) {
-                    if(a[attributeFilter] == l[attributeFilter]) {
-                        ok = false;
-                    }
-                }
-            }
-            if (ok) {
-                aux.push(l);
-            }
+  let aux = [];
+  for (let l of list) {
+    if (aux.length == 0) {
+      aux.push(l);
+    } else {
+      let ok = true;
+      for (let a of aux) {
+        if (l.hasOwnProperty(attributeFilter) && a.hasOwnProperty(attributeFilter)) {
+          if (a[attributeFilter] == l[attributeFilter]) {
+            ok = false;
+          }
         }
+      }
+      if (ok) {
+        aux.push(l);
+      }
     }
-    return orderFilters(aux, attributeOrder, type, order);
+  }
+  return orderFilters(aux, attributeOrder, type, order);
 }
 
 /*
@@ -310,4 +290,18 @@ function orderFilters(list, attribute, type, orderby) {
   });
 }
 
-export {filterBy, reverse, findByPrices, findBy, filterByModifications, filterByModificationsd, filterByFilters, filterByCarrier,findServiceItem,findByAddons, deleteRepeated, orderFilters, getFilters};
+export {
+  filterBy,
+  reverse,
+  findByPrices,
+  findBy,
+  filterByModifications,
+  filterByModificationsd,
+  filterByFilters,
+  filterByCarrier,
+  findServiceItem,
+  findByAddons,
+  deleteRepeated,
+  orderFilters,
+  getFilters
+};

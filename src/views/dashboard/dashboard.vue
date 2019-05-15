@@ -175,15 +175,13 @@
           Spend By Category
         </div>
         <b-card class="chart">
-          <b-card-body>
-            <div v-if="userInfo.loading">
-              <h1>LOADING</h1>
-            </div>
-            <PieChart
-              v-if="!userInfo.loading && userInfo.lastAllocations.length"
-              :data="userInfo.lastAllocations"
-            />
-          </b-card-body>
+          <div v-if="userInfo.loading">
+            <h1>LOADING</h1>
+          </div>
+          <PieChart
+            v-if="!userInfo.loading && userInfo.lastAllocations.length"
+            :data="userInfo.lastAllocations"
+          />
         </b-card>
       </b-col>
       <b-col cols="6">
@@ -191,15 +189,13 @@
           Trend By Category
         </div>
         <b-card class="chart">
-          <b-card-body>
-            <div v-if="userInfo.loading">
-              <h1>LOADING</h1>
-            </div>
-            <TrendChart
-              v-if="!userInfo.loading && userInfo.data.allocations.length"
-              :data="userInfo.data.allocations"
-            />
-          </b-card-body>
+          <div v-if="userInfo.loading">
+            <h1>LOADING</h1>
+          </div>
+          <TrendChart
+            v-if="!userInfo.loading && userInfo.data.allocations.length"
+            :data="userInfo.data.allocations"
+          />
         </b-card>
       </b-col>
     </b-row>
