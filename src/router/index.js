@@ -10,14 +10,14 @@ import DefaultContainer from '@/containers/DefaultContainer'
 // Views
 import Dashboard from '@/views/dashboard/dashboard'
 
-// Components auth
-import Login from '@/components/Login'
-import LoginLocal from '@/components/LoginLocal'
-import ResetPassword from '@/components/ResetPassword'
-import ResetPasswordCode from '@/components/ResetPasswordCode'
-import Register from '@/components/Register'
-import AcceptUser from '@/components/AcceptUser'
-import Sso from '@/components/Sso'
+// View Auth
+import Login from '@/views/auth/Login'
+import LoginLocal from '@/views/auth/LoginLocal'
+import ResetPassword from '@/views/auth/ResetPassword'
+import ResetPasswordCode from '@/views/auth/ResetPasswordCode'
+import Register from '@/views/auth/Register'
+import AcceptUser from '@/views/auth/AcceptUser'
+import Sso from '@/views/auth/Sso'
 
 // Views Devices
 import DeviceIndex from '@/views/devices/device_list'
@@ -46,7 +46,7 @@ const router = new Router({
     // main
     { path: '/sso/:id', component: Sso, name: 'sso' },
     {
-      path: '/', component: DefaultContainer, name: 'Home', breadcrumb: 'Dashboard', meta: { requiresAuth: true },
+      path: '/', component: DefaultContainer, meta: { requiresAuth: true },
       children: [
         {
           path: 'dashboard', component: Dashboard, name: 'Dashboard',

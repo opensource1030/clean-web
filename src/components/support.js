@@ -1,13 +1,11 @@
 import _ from 'lodash'
 import { country_arr } from "./../api/countries"
 import { Log } from './../helpers'
-import select2 from './select2.vue'
 // const Flatpickr = require("flatpickr")
 // var config = require('../../config/dev.env')
 
 export default {
   components: {
-    select2
   },
 
   data() {
@@ -61,6 +59,11 @@ export default {
 
     onSubmit() {
       console.log('ticket onSubmit', this.ticket)
+
+      if (this.ticket.issue === 'aif' && this.ticket.data.countries.length === 0) {
+        console.log('please select at least a country')
+        return false
+      }
 
       // var form = $('#support-form');
       // var $modal = $('#modal');
@@ -199,7 +202,8 @@ export default {
   },
 
   created() {
-    this.countries = _.map(country_arr, (c) => { return { id: c, text: c } })
+    // this.countries = _.map(country_arr, (c) => { return { id: c, text: c } })
+    this.countries = country_arr
 
     const profile = JSON.parse(localStorage.getItem("profile"))
     this.ticket.recipient_email = profile.email

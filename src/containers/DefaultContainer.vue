@@ -31,14 +31,14 @@
         <nav class="sidebar-nav">
           <b-nav>
             <b-nav-item to="/dashboard">
-              <i class="nav-icon icon-speedometer"></i>DASHBOARD
+              <i class="nav-icon fa fa-dashboard"></i>DASHBOARD
             </b-nav-item>
             <li class="nav-item">
               <div
                 @click="show_report_submenu = !show_report_submenu"
                 class="nav-link nav-dropdown-toggle"
               >
-                <i class="nav-icon icon-puzzle"></i>REPORTS
+                <i class="nav-icon fa fa-bar-chart"></i>REPORTS
               </div>
               <div class="submenu-container">
                 <ul
@@ -54,7 +54,7 @@
               </div>
             </li>
             <b-nav-item @click="openSupport()">
-              <i class="nav-icon icon-pie-chart"></i>GET SUPPORT
+              <i class="nav-icon fa fa-phone"></i>GET SUPPORT
             </b-nav-item>
           </b-nav>
         </nav>
@@ -145,7 +145,9 @@ export default {
     },
 
     list() {
-      return this.$route.matched.filter((route) => route.name || route.meta.label )
+      const list = this.$route.matched.filter((route) => (route.name || route.meta.label))
+      console.log('breadcrumb', list)
+      return list
     },
 
     ScopeHelper() {

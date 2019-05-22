@@ -1,5 +1,5 @@
 <template>
-  <div class="app flex-row align-items-center bg-primary">
+  <div class="page auth-page flex-row align-items-center bg-primary">
     <div class="container">
       <b-row class="justify-content-center">
         <b-col md="5">
@@ -33,7 +33,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-var config = require('../../config/dev.env')
+// var config = require('@/../config/dev.env')
+// const API_BASE_URL = config.URL_API
+const API_BASE_URL = process.env.URL_API
 
 export default {
   created() {
@@ -42,7 +44,7 @@ export default {
     this.credentials.identification = this.$route.params.identification;
     this.credentials.code = this.$route.params.code;
     if (this.credentials.identification != '' && this.credentials.code != '') {
-      this.$http.get(config.URL_API + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code).then((response) => {
+      this.$http.get(API_BASE_URL + '/acceptUser/' + this.credentials.identification + '/' + this.credentials.code).then((response) => {
         this.messageShow = true;
       }, (response) => {
         if (response.data.message == 'User is already Active') {
@@ -90,14 +92,6 @@ export default {
   }
 }
 </script>
-
-<style>
-#version {
-  position: fixed;
-  bottom: 20px;
-  left: 50px;
-}
-</style>
 
 <style lang="scss">
 .messageAcceptUser {

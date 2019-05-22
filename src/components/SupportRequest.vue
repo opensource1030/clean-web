@@ -78,7 +78,13 @@
           <label>
             <span class="field-title">What Country are you travelling to?</span>
             <span data-tooltip aria-haspopup="true" class="has-tip top is-required" data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-            <select2 v-model="ticket.data.countries" :options="countries" name="countries" multiple=true></select2>
+            <multiselect
+              v-model="ticket.data.countries"
+              name="countries"
+              :options="countries"
+              :multiple="true"
+              :taggable="true"
+            />
           </label>
         </div>
 

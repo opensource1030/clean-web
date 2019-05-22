@@ -1,13 +1,13 @@
 <template>
-  <div class="app flex-row align-items-center bg-primary">
+  <div class="page auth-page flex-row align-items-center bg-primary">
     <div class="container">
       <b-row class="justify-content-center">
-        <b-col md="5">
+        <b-col lg="5">
           <div class="mb-3">
             <b-img center height="50" :src="require('@/assets/images/wa-logo.png')" alt="Wireless Analytics" />
           </div>
           <b-card-group>
-            <b-card no-body class="p-3">
+            <b-card no-body>
               <b-card-body>
                 <b-form>
                   <b-input-group class="mb-3">

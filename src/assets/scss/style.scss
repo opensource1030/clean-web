@@ -10,14 +10,12 @@
 // common
 @import "global";
 
-// header
+// components
 @import "header";
-
-// sidebar
+@import "breadcrumb";
 @import "sidebar";
-
-// support form
 @import "support";
 
-// dashboard
+// pages
+@import "auth";
 @import "dashboard";

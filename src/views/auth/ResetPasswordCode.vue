@@ -1,8 +1,8 @@
 <template>
-  <div class="app flex-row align-items-center bg-primary">
-    <div class="container">
+  <div class="page auth-page flex-row align-items-center bg-primary">
+    <div class="container-fluid">
       <b-row class="justify-content-center">
-        <b-col md="5">
+        <b-col lg="5">
           <div class="mb-3">
             <b-img center height="50" :src="require('@/assets/images/wa-logo.png')" alt="Wireless Analytics" />
           </div>
@@ -122,11 +122,3 @@ export default {
   },
 }
 </script>
-
-<style>
-#version {
-  position: fixed;
-  bottom: 20px;
-  left: 50px;
-}
-</style>
