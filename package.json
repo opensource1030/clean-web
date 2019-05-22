@@ -17,7 +17,13 @@
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "vue:dev": "vue-cli-service serve",
+    "vue:build": "vue-cli-service build",
+    "vue:lint": "vue-cli-service lint",
+    "vue:unit": "vue-cli-service test:unit",
+    "vue:e2e": "vue-cli-service test:e2e",
+    "start:dev": "webpack-dev-server --config build/webpack.dev.conf.js"
   },
   "dependencies": {
     "@coreui/coreui": "^2.1.6",
@@ -32,6 +38,8 @@
     "copy-webpack-plugin": "^5.0.1",
     "core-js": "^2.6.2",
     "css-vars-ponyfill": "^1.16.2",
+    "eslint": "^5.15.1",
+    "eslint-friendly-formatter": "^4.0.1",
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "flag-icon-css": "^3.2.0",
@@ -68,7 +76,16 @@
     "yayson": "^2.0.8"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.3.4",
+    "@vue/babel-preset-app": "^3.7.0",
+    "@vue/cli-plugin-e2e-nightwatch": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-plugin-unit-jest": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "@vue/test-utils": "^1.0.0-beta.28",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.5",
     "cross-env": "^5.2.0",
@@ -86,6 +103,8 @@
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.5.22",
     "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1",
     "webpack-hot-middleware": "^2.24.3"
   },
   "browserslist": [

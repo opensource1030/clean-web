@@ -10,7 +10,7 @@
 </template>
 
 <script lang="babel">
-import Select2 from 'select2'
+// import Select2 from 'select2'
 
 export default {
   props: {
