@@ -1,21 +1,40 @@
 <template>
   <div class="coming-soon">
-    <b-tabs>
-      <template v-for="(allocation, index) in data">
-        <b-tab
-          :title="$options.filters.phone(allocation.mobile_number)"
-        >
-          <p class="charts_tel">{{ title(allocation) }}</p>
-          <vue-chart
-            :v-ref="'vuechart' + index"
-            chart-type="PieChart"
-            :columns="columns"
-            :rows="pieData(index)"
-            :options="options"
-          ></vue-chart>
-        </b-tab>
-      </template>
-    </b-tabs>
+    <div class="tabs">
+      <ul class="nav nav-tabs" role="tablist">
+        <template v-for="(allocation, index) in data">
+          <li class="nav-item">
+            <label
+              data-toggle="tab"
+              @click="activeIndex = index"
+              role="tab"
+              :class="{'active': activeIndex == index}"
+              class="nav-link mb-0"
+            >{{ title(allocation) }}</label>
+          </li>
+        </template>
+      </ul>
+      <div class="tab-content">
+        <template v-for="(allocation, index) in data">
+          <div
+            v-if="activeIndex == index"
+            :id="`pie-${index}`"
+            role="tabpanel"
+            :class="{'show active': activeIndex == index}"
+            class="tab-pane fade"
+          >
+            <p class="charts_tel">{{ title(allocation) }}</p>
+            <vue-chart
+              :ref="`pie-${index}`"
+              chart-type="PieChart"
+              :columns="columns"
+              :rows="pieData(allocation)"
+              :options="options"
+            ></vue-chart>
+          </div>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,22 +69,21 @@ export default {
         height: 300,
         pieHole: 0.4,
         colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
-        legend: {position: 'bottom', textStyle: {color: 'blue', fontSize: 16}, alignment: 'center'}
+        legend: {position: 'bottom', textStyle: {color: 'black', fontSize: 11}, alignment: 'center'}
       }
     }
   },
 
   methods: {
-    title (allocation) {
+    title(allocation) {
       return this.$options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
     },
 
-    pieData (index) {
+    pieData(allocation) {
       // if (index !== this.activeIndex) {
       //   return [['Dummy', 0]]
       // }
-
-      let allocation = this.data[index]
+      // let allocation = this.data[index]
       let ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
       ildvc = ildvc ? ildvc : 0;
       let oc = (Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100);
@@ -77,9 +95,16 @@ export default {
         ['International Long Distance Voice Charges', {v: ildvc, f: '$' + ildvc}],
         ['Other Charges', {v: oc, f: '$' + oc}]
       ];
-
       return piechart_data;
     },
+
+    onTabClick(index) {
+      const chart_ref = `pie-${index}`
+      console.log('onTabClick', index, chart_ref)
+      console.log(this.$refs[chart_ref])
+      // this.$refs[chart_ref][0].drawChart()
+      this.$refs[chart_ref][0].updateDataTable()
+    }
   },
 
   // created() {

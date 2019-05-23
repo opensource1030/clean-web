@@ -1,22 +1,40 @@
 <template>
   <div class="coming-soon">
-    <b-tabs>
-      <template v-for="(key, index) in groupDataKeys">
-        <b-tab
-          :title="$options.filters.phone(key)"
-        >
-          <p class="charts_tel">
-            {{ key | phone }}
-          </p>
-          <vue-chart
-            chart-type="ColumnChart"
-            :columns="columns"
-            :rows="seriesData(key, index)"
-            :options="options"
-          ></vue-chart>
-        </b-tab>
-      </template>
-    </b-tabs>
+    <div class="tabs">
+      <ul class="nav nav-tabs" role="tablist">
+        <template v-for="(key, index) in groupDataKeys">
+          <li class="nav-item">
+            <label
+              data-toggle="tab"
+              @click="activeIndex = index"
+              role="tab"
+              :class="{'active': activeIndex == index}"
+              class="nav-link mb-0"
+            >{{ $options.filters.phone(key) }}</label>
+          </li>
+        </template>
+      </ul>
+      <div class="tab-content">
+        <template v-for="(key, index) in groupDataKeys">
+          <div
+            v-if="activeIndex == index"
+            :id="`pie-${index}`"
+            role="tabpanel"
+            :class="{'show active': activeIndex == index}"
+            class="tab-pane fade"
+          >
+            <p class="charts_tel">{{ key | phone }}</p>
+            <vue-chart
+              :ref="`bar-${index}`"
+              chart-type="ColumnChart"
+              :columns="columns"
+              :rows="seriesData(key, index)"
+              :options="options"
+            ></vue-chart>
+          </div>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
