@@ -69,7 +69,7 @@ export default {
         height: 300,
         pieHole: 0.4,
         colors: ['#4374e0', '#fce473', '#42afe3', '#ed6c63', '#97cd76'],
-        legend: {position: 'bottom', textStyle: {color: 'black', fontSize: 11}, alignment: 'center'}
+        legend: {position: 'bottom', textStyle: {color: 'black', fontSize: 12}, alignment: 'center'}
       }
     }
   },
@@ -98,32 +98,21 @@ export default {
       return piechart_data;
     },
 
-    onTabClick(index) {
+    onWindowResize() {
+      const index = this.activeIndex
       const chart_ref = `pie-${index}`
-      console.log('onTabClick', index, chart_ref)
-      console.log(this.$refs[chart_ref])
-      // this.$refs[chart_ref][0].drawChart()
-      this.$refs[chart_ref][0].updateDataTable()
+      // console.log('onWindowResize', index, chart_ref)
+      // console.log(this.$refs[chart_ref])
+      this.$refs[chart_ref][0].drawChart()
     }
   },
 
-  // created() {
-  //   const vm = this
-  //   this.$on('redrawChart', function() {
-  //     console.log('Piechart redrawChart...')
-  //     for (let idx in vm.$children) {
-  //       vm.$children[idx].drawChart()
-  //     }
-  //   })
-  // },
+  created() {
+    window.addEventListener('resize', this.onWindowResize)
+  },
 
-  // mounted () {
-  //   const vm = this
-  //   $(function() {
-  //     $(window).resize(function() {
-  //       vm.$emit('redrawChart')
-  //     })
-  //   })
-  // },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onWindowResize)
+  }
 }
 </script>

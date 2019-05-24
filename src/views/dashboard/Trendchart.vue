@@ -158,26 +158,23 @@ export default {
       }
 
       return trendchart_data;
+    },
+
+    onWindowResize() {
+      const index = this.activeIndex
+      const chart_ref = `bar-${index}`
+      // console.log('onWindowResize', index, chart_ref)
+      // console.log(this.$refs[chart_ref])
+      this.$refs[chart_ref][0].drawChart()
     }
   },
 
-  // created() {
-  //   const vm = this
-  //   this.$on('redrawChart', function() {
-  //     console.log('Trendchart redrawChart...')
-  //     for (let idx in vm.$children) {
-  //       vm.$children[idx].drawChart();
-  //     }
-  //   })
-  // },
+  created() {
+    window.addEventListener('resize', this.onWindowResize)
+  },
 
-  // mounted () {
-  //   const vm = this
-  //   $(function() {
-  //     $(window).resize(function() {
-  //       vm.$emit('redrawChart');
-  //     })
-  //   })
-  // },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onWindowResize)
+  }
 }
 </script>
