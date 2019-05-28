@@ -17,6 +17,7 @@ import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
+import Spinner from '@/components/spinner'
 
 import App from './App'
 import router from './router'
@@ -70,6 +71,7 @@ Vue.use(Vue2Filters)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
 Vue.component('multiselect', Multiselect)
+Vue.component('spinner', Spinner)
 
 // const gaId = 'UA-42900219-2'
 // Vue.use(VueAnalytics, {gaId, router})

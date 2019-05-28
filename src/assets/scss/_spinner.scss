@@ -1,0 +1,18 @@
+.wa-spinner-container {
+  position: relative;
+  min-height: 300px;
+
+  .wa-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin-top: 0;
+    padding: 20px;
+    background-origin: padding-box;
+    background: url('assets/images/loading.svg') center center no-repeat;
+    background-size: 60px 60px;
+    text-align: center;
+  }  
+}

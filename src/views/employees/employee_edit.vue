@@ -135,18 +135,7 @@
       </div>
     </div>
 
-    <div v-else class="is-relative">
-      <h1>LOADING</h1>
-      <!-- <transition appear
-                  enter-class=""
-                  enter-active-class="animated zoomIn"
-                  leave-class=""
-                  leave-active-class="animated zoomOut"
-
-      >
-        <div class="is-loading"></div>
-      </transition> -->
-    </div>
+    <spinner v-else />
   </div>
 </template>
 
