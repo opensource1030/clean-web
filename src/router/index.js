@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import store from '@/store'
-// import NProgress from 'nprogress'
+import NProgress from 'nprogress'
 
 // Containers
 import DefaultContainer from '@/containers/DefaultContainer'
@@ -89,6 +89,12 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0)
+  NProgress.start()
+  next()
+})
+
+router.beforeEach((to, from, next) => {
   let authenticated = store.getters['auth/isAuthenticated']
   let currentLocation = decodeURIComponent(window.location.href)
 
@@ -131,15 +137,15 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-// Vue.http.interaction.push((request, next) => {
-//   NProgress.inc(0.2)
-//   next((response) => {
-//     NProgress.done()
-//   })
-// })
+Vue.http.interceptors.push((request, next) => {
+  NProgress.inc(0.2)
+  next((response) => {
+    NProgress.done()
+  })
+})
 
-// Router.afterEach(() => {
-//   NProgress.done()
-// })
+router.afterEach(() => {
+  NProgress.done()
+})
 
 export default router
