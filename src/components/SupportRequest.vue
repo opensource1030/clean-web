@@ -221,7 +221,7 @@
       </div>
 
       <div class="form-footer">
-        <button type="submit" class="button btn-primary btn-submit ">Submit Ticket</button>
+        <button type="submit" class="button btn-primary btn-submit">Submit Ticket</button>
       </div>
     </b-form>
 

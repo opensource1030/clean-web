@@ -25,7 +25,7 @@ import DeviceEdit from '@/views/devices/device_edit'
 
 // Views employees
 import EmployeeIndex from '@/views/employees/employee_index'
-// import EmployeeEdit from '@/views/employees/employee_edit'
+import EmployeeEdit from '@/views/employees/employee_edit'
 
 Vue.use(VueResource)
 Vue.use(Router)
@@ -57,7 +57,7 @@ const router = new Router({
         },
         //devices
         {
-          path: '/devices',
+          path: 'devices',
           component: { template: '<router-view></router-view>' },
           meta: { requiresAuth: true, label: 'Devices' },
           children: [
@@ -66,13 +66,18 @@ const router = new Router({
         },
         // employees
         {
-          path: '/employees',
+          path: 'employees',
           component: { template: '<router-view></router-view>' },
-          meta: { requiresAuth: true, label: 'Employees' },
+          meta: { label: 'Employees' },
           children: [
-            { path: '', component: EmployeeIndex, name: 'List Employees',  meta: { label: 'All' } },
-            // { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
-            // { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
+            { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
+            // { path: 'bulk/add', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: { label: 'Bulk Add' } },
+            // { path: 'bulk/udlmapping', component: EmployeeBulkUDLMapping, name: 'Mapping UDL', meta: { label: 'Mapping UDL' } },
+            // { path: 'bulk/mapping', component: EmployeeBulkMapping, name: 'Mapping Fields', meta: { label: 'Mapping Fields' } },
+            // { path: 'bulk/review', component: EmployeeBulkReview, name: 'Review Bulk Employees', meta: { label: 'Review' } },
+            { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
+            { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
+            // { path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: { label: 'Review' } },
           ]
         },
       ]

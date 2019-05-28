@@ -1,0 +1,40 @@
+@import "variables";
+
+.page.employee-page.employee-edit-page {
+  .card {
+    margin-bottom: 10px;
+    .card-header {
+      background-color: $color-3;
+      color: $color-1;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
+  fieldset {
+    padding: 0 15px;
+    // margin: 0 0 20px;
+    border: 1px solid #cacaca;
+
+    legend {
+      width: auto;
+    }
+  }
+
+  label.field {
+    width: 100%;
+    margin-bottom: 0;
+
+    input, select, textarea {
+      width: 100%;
+      height: auto;
+      margin: 4px 0 16px;
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+
+  .at-mark {
+    padding-top: 32px;
+  }
+}

@@ -33,7 +33,8 @@ const actions = {
   },
 
   clearAll ({commit}) {
-    commit(types.ERROR_CLEAR_ALL);
+    // console.log('error/clearAll')
+    commit(types.ERROR_CLEAR_ALL)
   }
 }
 
