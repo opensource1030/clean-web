@@ -1,0 +1,22 @@
+.breadcrumb {
+  &:before {
+    display: inline-block;
+    font-family: FontAwesome;
+    content: "\F015";
+    margin-left: 15px;
+    margin-right: 2px;
+  }
+  font-family: Roboto,sans-serif;
+  font-size: 15px;
+
+  li {
+    &::before {
+      display: inline-block;
+      font-family: FontAwesome;
+      content: "\F105";
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #cacaca;
+    }
+  }
+}

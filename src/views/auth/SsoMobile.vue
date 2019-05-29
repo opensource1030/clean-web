@@ -17,8 +17,8 @@
 </script>
 
 <style>
-  .sso_mobile {
-    margin-top: 50px;
-    text-align: center;
-  }
+.sso_mobile {
+  margin-top: 50px;
+  text-align: center;
+}
 </style>

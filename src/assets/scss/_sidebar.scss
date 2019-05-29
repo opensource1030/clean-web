@@ -3,6 +3,7 @@
   background-color: #0c2e82;
 
   ul.nav {
+    font-weight: 400;
     & > li.nav-item {
       border-top: 1px solid hsla(0, 0%, 100%, 0.2);
       &:hover {
@@ -136,13 +137,4 @@
     display: none;
     margin-bottom: 0;
   }
-}
-
-.app-header .navbar-brand {
-  width: auto;
-  margin: 0 20px;
-}
-
-.brand-minimized .app-header .navbar-brand {
-  width: auto;
 }

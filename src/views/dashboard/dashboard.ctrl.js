@@ -18,7 +18,7 @@ export default {
     OrderNewSelectUser,
   },
 
-  data () {
+  data() {
     return {
       userInfo: {
         data: {},
@@ -32,42 +32,42 @@ export default {
   },
 
   computed: {
-    _ () {
+    _() {
       return _
     },
 
-    clientInfo () {
+    clientInfo() {
       return this.$store.getters['auth/getClientInfo']
     },
 
-    disabledBeginOrder () {
+    disabledBeginOrder() {
       return this.selectedOrder == '' ? 'disabled' : false
     }
   },
 
   methods: {
-    setAllocation (index) {
+    setAllocation(index) {
       this.activeAllocationIndex = index;
     },
 
-    prevAllocation () {
+    prevAllocation() {
       this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null;
     },
 
-    nextAllocation () {
+    nextAllocation() {
       this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null;
     },
 
-    selectOrderType (type) {
+    selectOrderType(type) {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
 
-    upgradeDevice () {
+    upgradeDevice() {
       this.selectedOrder = 'upgrade'
       this.placeOrder()
     },
 
-    placeOrder () {
+    placeOrder() {
       // console.log('dashboard/placeOrder role', _.get(this.$store.state.auth.profile, 'roles[0].name', ''))
       if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
         this.startedOrder = true
@@ -77,7 +77,7 @@ export default {
       }
     },
 
-    beginOrder () {
+    beginOrder() {
       // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
       let path = ''
       switch (this.selectedOrder) {
@@ -107,11 +107,11 @@ export default {
       this.$router.push({path: path})
     },
 
-    cancelOrder () {
+    cancelOrder() {
       this.startedOrder = false
     },
 
-    checkIfOrderable () {
+    checkIfOrderable() {
       var exceptionList = ['PRXL', 'BRKR'];
 
       if (exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
@@ -120,7 +120,7 @@ export default {
         return true;
     },
 
-    orderDisabled () {
+    orderDisabled() {
       swal({
         type: 'warning',
         title: 'Oops...',
@@ -132,14 +132,14 @@ export default {
       const value = event.target.value
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
-      console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
+      // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     }
   },
 
-  beforeCreate () {
+  beforeCreate() {
   },
 
-  created () {
+  created() {
     let profile = Utils.parseJsonString(Storage.get('profile'));
 
     let _params = {

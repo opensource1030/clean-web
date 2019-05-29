@@ -9,13 +9,14 @@
 
 import Vue from 'vue'
 import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
-import VueChartjs from 'vue-chartjs'
+// import VueChartjs from 'vue-chartjs'
 // import VueAnalytics from 'vue-analytics'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
 import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
+import Multiselect from 'vue-multiselect'
 
 import App from './App'
 import router from './router'
@@ -25,6 +26,7 @@ import { sync } from 'vuex-router-sync'
 import './filters/phone-formatter.js'
 
 // import './assets/scss/support.scss'
+import './../node_modules/vue-multiselect/dist/vue-multiselect.min.css'
 
 sync(store, router)
 window.$ = require('jquery')
@@ -64,9 +66,10 @@ Vue.use(BootstrapVue)
 Vue.use(VueCharts)
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
-Vue.use(VueChartjs)
+// Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
+Vue.component('multiselect', Multiselect)
 
 // const gaId = 'UA-42900219-2'
 // Vue.use(VueAnalytics, {gaId, router})

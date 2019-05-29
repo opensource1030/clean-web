@@ -7,8 +7,15 @@
 // ie fixes
 @import "ie-fix";
 
-// sidebar
-@import "sidebar";
+// common
+@import "global";
 
-// support form
+// components
+@import "header";
+@import "breadcrumb";
+@import "sidebar";
 @import "support";
+
+// pages
+@import "auth";
+@import "dashboard";

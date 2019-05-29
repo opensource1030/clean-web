@@ -1,22 +1,39 @@
 <template>
   <div class="coming-soon">
-    <ul class="tabs" data-tabs id="trend-tabs">
-      <template v-for="(key, index) in groupDataKeys">
-        <b-btn variant="outline" class="mr-0">
-          <a :data-index="index">{{ key | phone }}</a>
-        </b-btn>
-      </template>
-    </ul>
-
-    <div class="tabs-content" data-tabs-content="trend-tabs">
-      <template v-for="(key, index) in groupDataKeys">
-        <div :class="'tabs-panel ' + (index == activeIndex ? 'is-active' : '')" :id="'trend-' + index" :aria-hidden="index == activeIndex ? 'false' : 'true'">
-          <p class="charts_tel">
-            {{ key | phone }}
-          </p>
-          <vue-chart chart-type="ColumnChart" :columns="columns" :rows="seriesData(key, index)" :options="options" v-if="index == activeIndex"></vue-chart>
-        </div>
-      </template>
+    <div class="tabs">
+      <ul class="nav nav-tabs" role="tablist">
+        <template v-for="(key, index) in groupDataKeys">
+          <li class="nav-item">
+            <label
+              data-toggle="tab"
+              @click="activeIndex = index"
+              role="tab"
+              :class="{'active': activeIndex == index}"
+              class="nav-link mb-0"
+            >{{ $options.filters.phone(key) }}</label>
+          </li>
+        </template>
+      </ul>
+      <div class="tab-content">
+        <template v-for="(key, index) in groupDataKeys">
+          <div
+            v-if="activeIndex == index"
+            :id="`pie-${index}`"
+            role="tabpanel"
+            :class="{'show active': activeIndex == index}"
+            class="tab-pane fade"
+          >
+            <p class="charts_tel">{{ key | phone }}</p>
+            <vue-chart
+              :ref="`bar-${index}`"
+              chart-type="ColumnChart"
+              :columns="columns"
+              :rows="seriesData(key, index)"
+              :options="options"
+            ></vue-chart>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -30,10 +47,10 @@ export default {
 
   data: function () {
     const currency = '$';
-    /*const formatter = new google.visualization.NumberFormat({
-      fractionDigits: 2,
-      prefix: currency
-    });*/
+    // const formatter = new google.visualization.NumberFormat({
+    //   fractionDigits: 2,
+    //   prefix: currency
+    // });
     return {
       activeIndex: 0,
       columns: [
@@ -112,10 +129,10 @@ export default {
             bill_month = moment(allocation.bill_month)
           }
 
-          var ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
+          let ildvc = allocation.intl_ld_usage_charge + allocation.intl_ld_voice_charge;
           ildvc = ildvc ? ildvc : 0;
 
-          var oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
+          let oc = Math.round((allocation.equipment_charge + allocation.etf_charge + allocation.other_carrier_charge + allocation.taxes_charge) * 100) / 100;
           oc = oc ? oc : 0;
 
           return [
@@ -140,36 +157,24 @@ export default {
         }
       }
 
-      let vm = this
-      this.$nextTick(() => {
-        $('#trend-tabs li a').off('click').on('click', function(e) {
-          setTimeout(() => {
-            let index = $(this).data('index')
-            vm.$set(vm, 'activeIndex', index)
-          })
-        })
-      });
-
       return trendchart_data;
+    },
+
+    onWindowResize() {
+      const index = this.activeIndex
+      const chart_ref = `bar-${index}`
+      // console.log('onWindowResize', index, chart_ref)
+      // console.log(this.$refs[chart_ref])
+      this.$refs[chart_ref][0].drawChart()
     }
   },
 
   created() {
-    const self = this;
-    this.$on('redrawChart', function() {
-      for(var idx in self.$children) {
-        self.$children[idx].drawChart();
-      }
-    })
+    window.addEventListener('resize', this.onWindowResize)
   },
 
-  mounted () {
-    const self = this;
-    $(function() {
-      $(window).resize(function() {
-        self.$emit('redrawChart');
-      })
-    })
-  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onWindowResize)
+  }
 }
 </script>

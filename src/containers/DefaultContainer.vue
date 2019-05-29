@@ -1,10 +1,7 @@
 <template>
   <div class="app">
     <AppHeader fixed>
-      <SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="#">
-        <!-- <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo"> -->
         <img
            v-if="company.object"
           :src="_.get(company.object, 'metadata.logo.url', '')"
@@ -12,11 +9,11 @@
           title="Client Logo" height="25"
         >
       </b-link>
+      <SidebarToggler class="d-lg-none" display="md" mobile />
       <SidebarToggler class="d-md-down-none" display="lg" />
       <b-navbar-nav class="ml-auto">
-        <b-nav-item class="d-md-down-none">
-          <i class="icon-bell"></i>
-          <b-badge pill variant="danger">5</b-badge>
+        <b-nav-item>
+          <div class="HW-container"></div>
         </b-nav-item>
         <DefaultHeaderDropdownAccnt/>
       </b-navbar-nav>
@@ -30,19 +27,18 @@
         <SidebarForm/>
         <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
-        <!-- <SidebarNav v-else :navItems="normal_nav">
-        </SidebarNav> -->
+        <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
         <nav class="sidebar-nav">
           <b-nav>
             <b-nav-item to="/dashboard">
-              <i class="nav-icon icon-speedometer"></i>Dashboard
+              <i class="nav-icon fa fa-dashboard"></i>DASHBOARD
             </b-nav-item>
             <li class="nav-item">
               <div
                 @click="show_report_submenu = !show_report_submenu"
                 class="nav-link nav-dropdown-toggle"
               >
-                <i class="nav-icon icon-puzzle"></i>Reports
+                <i class="nav-icon fa fa-bar-chart"></i>REPORTS
               </div>
               <div class="submenu-container">
                 <ul
@@ -57,8 +53,8 @@
                 </ul>
               </div>
             </li>
-            <b-nav-item>
-              <i class="nav-icon icon-pie-chart"></i>Get Support
+            <b-nav-item @click="openSupport()">
+              <i class="nav-icon fa fa-phone"></i>GET SUPPORT
             </b-nav-item>
           </b-nav>
         </nav>
@@ -149,7 +145,9 @@ export default {
     },
 
     list() {
-      return this.$route.matched.filter((route) => route.name || route.meta.label )
+      const list = this.$route.matched.filter((route) => (route.name || route.meta.label))
+      console.log('breadcrumb', list)
+      return list
     },
 
     ScopeHelper() {
@@ -158,9 +156,10 @@ export default {
   },
 
   methods: {
-    // onSidebarMinimize(isMinimized) {
-    //   console.log('cui-sidebar-minimize', isMinimized)
-    // }
+    openSupport() {
+      this.$store.commit('auth/setTicketIssue', '')
+      this.$store.commit('auth/setShowTicket', true)
+    },
   },
 
   created() {
@@ -184,6 +183,14 @@ export default {
         }, 200)
       }
     })
+
+    let config = {
+      selector: '.HW-container',
+      account: 'JPYPKy',
+      enabled: true
+    }
+    Headway.init(config)
+    heap.identify(this.$store.state.auth.profile.identification)
   }
 }
 </script>

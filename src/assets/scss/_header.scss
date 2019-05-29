@@ -1,0 +1,39 @@
+.app-header {
+  .navbar-brand {
+    width: auto;
+    margin: 0 10px;
+  }
+
+  .nav-item {
+    min-width: auto;
+  }
+}
+
+.brand-minimized .app-header .navbar-brand {
+  width: auto;
+}
+
+.HW-container {
+  line-height: 50px;
+}
+
+#HW_badge_cont.HW_visible {
+  height: 50px;
+
+  &:before {
+    content: "\F0F3";
+    color: #103fb1;
+    font-family: FontAwesome;
+    font-size: 1.6rem;
+    box-shadow: 0 0 #f5f5f5;
+    margin-left: -30px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .app-header .navbar-brand {
+    position: relative;
+    left: 0;
+    max-width: 150px;
+  }
+}
