@@ -41,3 +41,7 @@ b, strong {
 .page {
   min-height: calc(100vh - 180px);
 }
+
+.page.auth-page {
+  min-height: 100vh;
+}

@@ -17,6 +17,7 @@ import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
+import DatePicker from 'vuejs-datepicker'
 import Spinner from '@/components/spinner'
 
 import App from './App'
@@ -71,6 +72,7 @@ Vue.use(Vue2Filters)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
 Vue.component('multiselect', Multiselect)
+Vue.component('datepicker', DatePicker)
 Vue.component('spinner', Spinner)
 
 // const gaId = 'UA-42900219-2'
