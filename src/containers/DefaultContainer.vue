@@ -76,8 +76,10 @@
 
     <!--footer-->
     <TheFooter>
-      <div class="footer_div">
-        <div id="footer">&copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span></div>
+      <div class="footer">
+        <span>&copy; {{ new Date().getFullYear() }}</span>
+        <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a>
+        <span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span>
       </div>
     </TheFooter>
   </div>
