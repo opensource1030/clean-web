@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
-import modal from '@/components/modal.vue'
-import paginate from '@/components/paginate.vue'
+import Pagination from '@/components/pagination'
 import employeeAPI from '@/api/employee-api.js'
 import companyAPI from '@/api/company-api.js'
 
@@ -12,8 +11,7 @@ export default {
   name: 'EmployeeIndex',
 
   components: {
-    modal,
-    paginate,
+    Pagination,
   },
 
   data () {
