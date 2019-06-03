@@ -50,7 +50,7 @@
 
   .tag-header {
     display: inline-block;
-    padding: 0px 100px 0px 20px;
+    padding: 0 100px 0 20px;
     font-size: 18px;
     font-weight: 500;
     line-height: 40px;
@@ -68,7 +68,7 @@
       width: 100%;
       margin: 0;
       padding-left: 30px;
-      border: 0px none;
+      border: 0 none;
       border-bottom: 1px solid $border-color;
     }
     i {
@@ -146,7 +146,7 @@
         }
         .detail-box {
           display: flex;
-          padding: 10px 20px 10px 20px;
+          padding: 10px 20px;
           .content {
             width: 100%;
           }
