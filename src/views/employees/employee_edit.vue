@@ -1,6 +1,6 @@
 <template>
   <div class="page employee-page employee-edit-page">
-    <div v-if="parseInt(employee.id) === parseInt(employee_id)">
+    <div v-if="employee.id == employee_id">
       <b-modal
         :visible="$store.getters['error/hasError']"
         @hidden="$store.dispatch('error/clearAll')"
@@ -82,7 +82,7 @@
                 <div class="col-7">
                   <label class="field">
                     <span>Country</span>
-                    <select name="employee-location" v-model="employee.locationId">
+                    <select name="employee-location" v-model="employee.defaultLocationId">
                       <option v-for="location in locations" :value="location.id">{{ location.fullname }}</option>
                     </select>
                   </label>

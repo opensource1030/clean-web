@@ -31,7 +31,7 @@ export default {
         confirmed: 0,
         companyId: '',
         notes: '',
-        locationId: 236,
+        defaultLocationId: 236,
         defaultLang: 'en',
         isSupervisor: 0,
         isActive: 0
@@ -175,15 +175,9 @@ export default {
   },
 
   created() {
-    let employee_id = this.$route.params.id || 0
+    let employee_id = parseInt(this.$route.params.id) || 0
 
-    this.$store.dispatch('company/searchAllByActive', {query: 1, all: true}).then(res => {
-      if (res.length) {
-        this.employee.companyId = res[0].id;
-        this.domains = res[0].domains;
-        this.employee.domainId = this.domains[0].id;
-      }
-
+    this.$store.dispatch('company/searchAllByActive', {query: 1, all: true}).then(companies => {
       let _params = {
         params: {
           indexAll: 1
@@ -203,12 +197,23 @@ export default {
         }
         employeeAPI.get(employee_id, _params, res => {
           this.$set(this, 'employee', store.sync(res.data))
-          // this.$set(this, 'activeCompany', (this.employee.companies.length > 0 && !!this.employee.companies[0] ? this.employee.companies[0] : null))
-          // console.log('employee', this.employee)
+
+          let domain = this.employee.email.split('@')[1]
+          let company = _.find(companies, (item) => (item.id == this.employee.companyId))
+          this.domains = _.get(company, 'domains', [])
+          this.employee.domainId = _.chain(company.domains).find((item) => (item.domain == domain)).get('id').value()
+          // console.log('employee_edit created', domain, company, this.employee)
+
           this.init()
           this.$set(this, 'employee_id', employee_id)
         })
       } else {
+        if (companies.length) {
+          this.domains = companies[0].domains;
+          this.employee.companyId = companies[0].id;
+          this.employee.domainId = this.domains[0].id;
+        }
+
         this.init()
         this.$set(this, 'employee_id', employee_id)
       }
