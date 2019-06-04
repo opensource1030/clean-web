@@ -100,8 +100,11 @@
                 <div class="col-sm-2">
                   <label>
                     <span>Supervisor</span>
-                    <b-form-checkbox v-model="employee.isSupervisor" switch>
-                    </b-form-checkbox>
+                    <!-- <b-form-checkbox v-model="employee.isSupervisor" switch></b-form-checkbox> -->
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" :id="`supervisor-${employee.id}`" v-model="employee.isSupervisor">
+                      <label class="custom-control-label" :for="`supervisor-${employee.id}`"></label>
+                    </div>
                   </label>
                 </div>
 

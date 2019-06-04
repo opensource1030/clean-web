@@ -44,8 +44,12 @@
                   </td>
                   <td>{{ employee.identification }}</td>
                   <td>
-                    <b-form-checkbox v-model="employee.isActive" switch></b-form-checkbox>
                     <!-- <input :id="'status-' + employee.id" type="checkbox" v-bind:checked="employee.isActive" @change="onEmployeeActiveChange($event, employee.id)"> -->
+                    <!-- <b-form-checkbox v-model="employee.isActive" switch></b-form-checkbox> -->
+                    <div class="custom-control custom-switch">
+                      <input type="checkbox" class="custom-control-input" :id="`active-${employee.id}`" v-model="employee.isActive" @change="onEmployeeActiveChange($event, employee.id)">
+                      <label class="custom-control-label" :for="`active-${employee.id}`"></label>
+                    </div>
                   </td>
                   <td>{{ employee.firstName }}</td>
                   <td>{{ employee.lastName }}</td>

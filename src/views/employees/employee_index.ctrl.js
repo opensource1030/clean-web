@@ -97,6 +97,7 @@ export default {
     })
 
     // check running job
+    // console.log('employee_index created', this.$store.state.auth.profile)
     let vm = this,  jobs;
     companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
       jobs = store.sync(res.data)
