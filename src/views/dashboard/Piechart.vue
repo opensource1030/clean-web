@@ -1,5 +1,5 @@
 <template>
-  <div class="coming-soon">
+  <div class="chart-container">
     <div class="tabs">
       <ul class="nav nav-tabs" role="tablist">
         <template v-for="(allocation, index) in data">
@@ -35,14 +35,23 @@
         </template>
       </div>
     </div>
+    <resize-observer @notify="onWindowResize" />
   </div>
 </template>
 
 <script>
 import moment from 'moment'
+import debounce from 'lodash/debounce'
+import { ResizeObserver } from 'vue-resize'
+
+import 'vue-resize/dist/vue-resize.css'
 
 export default {
   props: ['data'],
+
+  components: {
+    ResizeObserver
+  },
 
   data() {
     return {
@@ -98,6 +107,11 @@ export default {
       return piechart_data;
     },
 
+    // handleResize: debounce(function () {
+    //   console.log('handleResize Piechart', this)
+    //   this.onWindowResize()
+    // }, 200),
+
     onWindowResize() {
       const index = this.activeIndex
       const chart_ref = `pie-${index}`
@@ -108,11 +122,11 @@ export default {
   },
 
   created() {
-    window.addEventListener('resize', this.onWindowResize)
+    // window.addEventListener('resize', this.onWindowResize)
   },
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.onWindowResize)
+    // window.removeEventListener('resize', this.onWindowResize)
   }
 }
 </script>

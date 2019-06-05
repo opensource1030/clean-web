@@ -1,5 +1,5 @@
 <template>
-  <div class="coming-soon">
+  <div class="chart-container">
     <div class="tabs">
       <ul class="nav nav-tabs" role="tablist">
         <template v-for="(key, index) in groupDataKeys">
@@ -35,15 +35,21 @@
         </template>
       </div>
     </div>
+    <resize-observer @notify="onWindowResize" />
   </div>
 </template>
 
 <script>
 import _ from 'lodash'
 import moment from 'moment'
+import { ResizeObserver } from 'vue-resize'
 
 export default {
   props: ['data'],
+
+  components: {
+    ResizeObserver
+  },
 
   data: function () {
     const currency = '$';
@@ -170,11 +176,11 @@ export default {
   },
 
   created() {
-    window.addEventListener('resize', this.onWindowResize)
+    // window.addEventListener('resize', this.onWindowResize)
   },
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.onWindowResize)
+    // window.removeEventListener('resize', this.onWindowResize)
   }
 }
 </script>
