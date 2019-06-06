@@ -121,13 +121,12 @@
       />
     </div>
 
-    <div class="mt-3">
+    <div class="mt-3" v-if="hasPermissionOnJob">
       <div class="tag-header bg-info">Jobs</div>
 
       <b-card no-body class="job-list-card">
         <b-card-body class="p-0">
-          <spinner  v-if="!isReadyBulk" />
-
+          <spinner v-if="!isReadyBulk" />
           <table v-else class="table">
             <thead>
               <tr>

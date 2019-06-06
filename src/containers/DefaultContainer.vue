@@ -25,7 +25,7 @@
         <SidebarMinimizer/>
         <SidebarHeader></SidebarHeader>
         <SidebarForm/>
-        <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
+        <SidebarNav v-if="this.$store.state.auth.profile && ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
         <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
         <nav class="sidebar-nav">

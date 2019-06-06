@@ -21,6 +21,7 @@ export default {
       query: '',
       isReady: false,
       hasRunningJob: false,
+      hasPermissionOnJob: false,
       isReadyBulk: false,
     }
   },
@@ -91,26 +92,35 @@ export default {
    * 3. otherwise, show add_bulk button
    */
   created () {
+    let permissions = this.$store.getters['auth/getPermissions']
+    if (permissions.indexOf('get_users') === -1) {
+      this.$router.push({ path: '/dashboard' })
+      return
+    }
+
     this.isReady = false
     this.$store.dispatch('employee/search').then((res) => {
       this.isReady = true
     })
 
-    // check running job
-    // console.log('employee_index created', this.$store.state.auth.profile)
-    let vm = this,  jobs;
-    companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
-      jobs = store.sync(res.data)
-      if (jobs instanceof Array) {
-        // console.log('jobs', jobs)
-        vm.jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
-        if (vm.jobs.length > 0) {
-          vm.hasRunningJob = true
+    if (permissions.indexOf('get_jobs_companys') > -1) {
+      this.hasPermissionOnJob = true
+      // check running job
+      // console.log('employee_index created', this.$store.state.auth.profile)
+      let vm = this,  jobs;
+      companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
+        jobs = store.sync(res.data)
+        if (jobs instanceof Array) {
+          // console.log('jobs', jobs)
+          vm.jobs = _.filter(jobs, (o) => { return o.jobType == 'employeeimportjob' })
+          if (vm.jobs.length > 0) {
+            vm.hasRunningJob = true
+          }
+          vm.isReadyBulk = true
+          // this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
+          // console.log('employee.index/created job', jobs[0])
         }
-        vm.isReadyBulk = true
-        // this.$store.dispatch('employee_bulk/updateJob', jobs[0]).then(res => { vm.isReadyBulk = true }, err => { vm.isReadyBulk = true })
-        // console.log('employee.index/created job', jobs[0])
-      }
-    }, err => {})
+      }, err => {})
+    }
   },
 }

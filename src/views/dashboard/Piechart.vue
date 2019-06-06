@@ -35,7 +35,7 @@
         </template>
       </div>
     </div>
-    <resize-observer @notify="onWindowResize" />
+    <resize-observer v-if="resizeObserverEnabled" @notify="onWindowResize" />
   </div>
 </template>
 
@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       activeIndex: 0,
+      resizeObserverEnabled: false,
       columns: [
         {
           'type': 'string',
@@ -123,6 +124,7 @@ export default {
 
   created() {
     // window.addEventListener('resize', this.onWindowResize)
+    setTimeout(() => { this.resizeObserverEnabled = true }, 1000)
   },
 
   beforeDestroy() {
