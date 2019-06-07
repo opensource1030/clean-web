@@ -1,11 +1,7 @@
 <template>
   <AppHeaderDropdown right no-caret class="mr-3">
     <template slot="header">
-      <img
-        :src="require('@/assets/images/avatars/6.jpg')"
-        class="img-avatar"
-        alt="admin@bootstrapmaster.com"
-      />
+      <avatar :username="fullName" inline></avatar>
       Hi, <span class="greeting">{{ firstName }}</span>
     </template>
     <template slot="dropdown">
@@ -18,6 +14,7 @@
 
 <script>
 import _ from 'lodash'
+import Avatar from 'vue-avatar'
 import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
 
@@ -27,6 +24,7 @@ export default {
   name: 'DefaultHeaderDropdownAccnt',
 
   components: {
+    Avatar,
     AppHeaderDropdown
   },
 
@@ -42,6 +40,13 @@ export default {
 
     firstName() {
       return _.get(this.$store.state.auth.profile, 'firstName', '')
+    },
+
+    fullName() {
+      return _.compact([
+        _.get(this.$store.state.auth.profile, 'firstName', ''),
+        _.get(this.$store.state.auth.profile, 'lastName', '')
+      ]).join(' ')
     },
   },
 
