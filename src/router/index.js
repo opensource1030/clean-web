@@ -19,6 +19,9 @@ import Register from '@/views/auth/Register'
 import AcceptUser from '@/views/auth/AcceptUser'
 import Sso from '@/views/auth/Sso'
 
+// dashboard
+import LegacyInfo from "@/components/legacy_info"
+
 // Views Devices
 import DeviceIndex from '@/views/devices/device_list'
 import DeviceEdit from '@/views/devices/device_edit'
@@ -50,10 +53,10 @@ const router = new Router({
       children: [
         {
           path: 'dashboard', component: Dashboard, name: 'Dashboard',
-          // children: [
-          //   { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
-          //   { path: 'procurement/', component: LegacyInfo, name: 'legacyInfo' }
-          // ]
+          children: [
+            // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
+            { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' }
+          ]
         },
         //devices
         {
@@ -130,9 +133,9 @@ router.beforeEach((to, from, next) => {
   }
 
   if (to.name === 'legacyInfo') {
-    $('html').addClass('w1')
+    $('html').addClass('overflow-hidden')
   } else {
-    $('html').removeClass('w1')
+    $('html').removeClass('overflow-hidden')
   }
   next()
 })

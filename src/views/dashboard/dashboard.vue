@@ -69,10 +69,18 @@
                   <div class="div-img" style="whidth: 100%;">
                     <img class="img-phone" src="@/assets/images/phone-mifi-tablet.svg">
                   </div>
-                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary">
-                    <router-link :to="{ name: 'legacyInfo' }" style="color: white;">Place an Order</router-link>
-                  </b-btn>
-                  <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>
+                  <b-btn
+                    v-if="checkIfOrderable()"
+                    @click="$router.push({ name: 'legacyInfo' })"
+                    variant="primary"
+                    class="btn-lg"
+                  >Place an Order</b-btn>
+                  <b-btn
+                    v-else
+                    @click="orderDisabled()"
+                    variant="primary"
+                    class="btn-lg"
+                  >Place an Order</b-btn>
                 </div>
               </div>
 
@@ -218,6 +226,8 @@
         </b-card>
       </b-col>
     </b-row>
+
+    <router-view class="child"></router-view>
   </div>
 </template>
 
