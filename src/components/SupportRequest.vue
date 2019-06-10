@@ -92,7 +92,8 @@
           <label>
             <span class="field-title">Dates of travel</span>
             <span data-tooltip aria-haspopup="true" class="has-tip top is-required " data-disable-hover="false" tabindex="1" title="Required Field">*</span>
-            <input v-model="ticket.data.travel_date" class="form-control" type="text" placeholder="Select Date.." required>
+            <!-- <input v-model="ticket.data.travel_date" class="form-control" type="text" placeholder="Select Date.." required> -->
+            <datepicker v-model="ticket.data.travel_date" input-class="form-control" name="travel_date" required="true" />
           </label>
         </div>
 
@@ -221,7 +222,7 @@
       </div>
 
       <div class="form-footer">
-        <button type="submit" class="button btn-primary btn-submit ">Submit Ticket</button>
+        <button type="submit" class="button btn-primary btn-submit">Submit Ticket</button>
       </div>
     </b-form>
 

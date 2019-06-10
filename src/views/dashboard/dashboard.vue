@@ -5,9 +5,7 @@
     </div>
     <b-card no-body class="client-info-card">
       <b-card-body>
-        <div v-if="clientInfo.loading">
-          <h1>LOADING</h1>
-        </div>
+        <spinner v-if="clientInfo.loading" />
         <div v-else>
           <div v-html="_.get(clientInfo.data, 'content', '')"></div>
         </div>
@@ -20,9 +18,7 @@
       </div>
       <b-card no-body class="user-info-card border-0">
         <b-card-body class="p-0">
-          <div v-if="userInfo.loading" class="p-3">
-            <h1>LOADING</h1>
-          </div>
+          <spinner v-if="userInfo.loading" />
           <div v-else>
             <div class="row mx-0">
               <div class="col-md border">
@@ -73,10 +69,18 @@
                   <div class="div-img" style="whidth: 100%;">
                     <img class="img-phone" src="@/assets/images/phone-mifi-tablet.svg">
                   </div>
-                  <b-btn v-if="checkIfOrderable()" class="btn-lg bg-primary">
-                    <router-link :to="{ name: 'legacyInfo' }" style="color: white;">Place an Order</router-link>
-                  </b-btn>
-                  <b-btn v-else @click="orderDisabled()" class="btn-lg bg-primary" style="color: white;">Place an Order</b-btn>
+                  <b-btn
+                    v-if="checkIfOrderable()"
+                    @click="$router.push({ name: 'legacyInfo' })"
+                    variant="primary"
+                    class="btn-lg"
+                  >Place an Order</b-btn>
+                  <b-btn
+                    v-else
+                    @click="orderDisabled()"
+                    variant="primary"
+                    class="btn-lg"
+                  >Place an Order</b-btn>
                 </div>
               </div>
 
@@ -199,9 +203,7 @@
         </div>
         <b-card no-body class="chart-card border-0">
           <b-card-body class="p-0">
-            <div v-if="userInfo.loading" class="p-3">
-              <h1>LOADING</h1>
-            </div>
+            <spinner v-if="userInfo.loading" />
             <PieChart
               v-if="!userInfo.loading && userInfo.lastAllocations.length"
               :data="userInfo.lastAllocations"
@@ -215,9 +217,7 @@
         </div>
         <b-card no-body class="chart-card border-0">
           <b-card-body class="p-0">
-            <div v-if="userInfo.loading" class="p-3">
-              <h1>LOADING</h1>
-            </div>
+            <spinner  v-if="userInfo.loading" />
             <TrendChart
               v-if="!userInfo.loading && userInfo.data.allocations.length"
               :data="userInfo.data.allocations"
@@ -226,6 +226,8 @@
         </b-card>
       </b-col>
     </b-row>
+
+    <router-view class="child"></router-view>
   </div>
 </template>
 
@@ -269,9 +271,9 @@
   line-height: 24px;
 }
 
-.chart {
+/* .chart {
   width: 100%;
-}
+} */
 
 table, th, td {
   border: 1px solid rgba(151, 151, 151, 0.3);

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
 import store from '@/store'
-// import NProgress from 'nprogress'
+import NProgress from 'nprogress'
 
 // Containers
 import DefaultContainer from '@/containers/DefaultContainer'
@@ -19,13 +19,16 @@ import Register from '@/views/auth/Register'
 import AcceptUser from '@/views/auth/AcceptUser'
 import Sso from '@/views/auth/Sso'
 
+// dashboard
+import LegacyInfo from "@/components/legacy_info"
+
 // Views Devices
 import DeviceIndex from '@/views/devices/device_list'
 import DeviceEdit from '@/views/devices/device_edit'
 
 // Views employees
 import EmployeeIndex from '@/views/employees/employee_index'
-// import EmployeeEdit from '@/views/employees/employee_edit'
+import EmployeeEdit from '@/views/employees/employee_edit'
 
 Vue.use(VueResource)
 Vue.use(Router)
@@ -50,14 +53,14 @@ const router = new Router({
       children: [
         {
           path: 'dashboard', component: Dashboard, name: 'Dashboard',
-          // children: [
-          //   { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
-          //   { path: 'procurement/', component: LegacyInfo, name: 'legacyInfo' }
-          // ]
+          children: [
+            // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
+            { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' }
+          ]
         },
         //devices
         {
-          path: '/devices',
+          path: 'devices',
           component: { template: '<router-view></router-view>' },
           meta: { requiresAuth: true, label: 'Devices' },
           children: [
@@ -66,13 +69,18 @@ const router = new Router({
         },
         // employees
         {
-          path: '/employees',
+          path: 'employees',
           component: { template: '<router-view></router-view>' },
-          meta: { requiresAuth: true, label: 'Employees' },
+          meta: { label: 'Employees' },
           children: [
-            { path: '', component: EmployeeIndex, name: 'List Employees',  meta: { label: 'All' } },
-            // { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
-            // { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
+            { path: '', component: EmployeeIndex, name: 'List Employees', meta: { label: 'All' } },
+            // { path: 'bulk/add', component: EmployeeBulkAdd, name: 'Bulk Add Employee', meta: { label: 'Bulk Add' } },
+            // { path: 'bulk/udlmapping', component: EmployeeBulkUDLMapping, name: 'Mapping UDL', meta: { label: 'Mapping UDL' } },
+            // { path: 'bulk/mapping', component: EmployeeBulkMapping, name: 'Mapping Fields', meta: { label: 'Mapping Fields' } },
+            // { path: 'bulk/review', component: EmployeeBulkReview, name: 'Review Bulk Employees', meta: { label: 'Review' } },
+            { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
+            { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
+            // { path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: { label: 'Review' } },
           ]
         },
       ]
@@ -81,6 +89,12 @@ const router = new Router({
     //redirect
     { path: '*', redirect: '/dashboard' }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0)
+  NProgress.start()
+  next()
 })
 
 router.beforeEach((to, from, next) => {
@@ -113,28 +127,28 @@ router.beforeEach((to, from, next) => {
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-      next({name: 'login'})
-      // next({name: 'loginLocal'})
+      // next({name: 'login'})
+      next({name: 'loginLocal'})
     }
   }
 
   if (to.name === 'legacyInfo') {
-    $('html').addClass('w1')
+    $('html').addClass('overflow-hidden')
   } else {
-    $('html').removeClass('w1')
+    $('html').removeClass('overflow-hidden')
   }
   next()
 })
 
-// Vue.http.interaction.push((request, next) => {
-//   NProgress.inc(0.2)
-//   next((response) => {
-//     NProgress.done()
-//   })
-// })
+Vue.http.interceptors.push((request, next) => {
+  NProgress.inc(0.2)
+  next((response) => {
+    NProgress.done()
+  })
+})
 
-// Router.afterEach(() => {
-//   NProgress.done()
-// })
+router.afterEach(() => {
+  NProgress.done()
+})
 
 export default router

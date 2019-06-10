@@ -25,7 +25,7 @@
         <SidebarMinimizer/>
         <SidebarHeader></SidebarHeader>
         <SidebarForm/>
-        <SidebarNav v-if="ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
+        <SidebarNav v-if="this.$store.state.auth.profile && ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
         </SidebarNav>
         <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
         <nav class="sidebar-nav">
@@ -45,11 +45,11 @@
                   v-show="show_report_submenu"
                   class="submenu"
                 >
-                  <li>Change</li>
-                  <li>Top 10 Reports</li>
-                  <li>Zero Usage</li>
-                  <li>Usage</li>
-                  <li>International</li>
+                  <li><span @click="goExternalUrl('/report_allocation.asp')">Change</span></li>
+                  <li><span @click="goExternalUrl('/dashboard_top_ten.asp')">Top 10 Reports</span></li>
+                  <li><span @click="goExternalUrl('/report_zero_usage.asp')">Zero Usage</span></li>
+                  <li><span @click="goExternalUrl('/report_usage.asp')">Usage</span></li>
+                  <li><span @click="goExternalUrl('/report_international.asp')">International</span></li>
                 </ul>
               </div>
             </li>
@@ -76,8 +76,10 @@
 
     <!--footer-->
     <TheFooter>
-      <div class="footer_div">
-        <div id="footer">&copy; {{ new Date().getFullYear() }} <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a><span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span></div>
+      <div class="footer">
+        <span>&copy; {{ new Date().getFullYear() }}</span>
+        <a href="http://wirelessanalytics.com">Wireless Analytics, LLC. </a>
+        <span>Made with <i class="fa fa-heart text-orange"></i> from Danvers, Massachusetts, USA</span>
       </div>
     </TheFooter>
   </div>
@@ -124,8 +126,8 @@ export default {
     return {
       nav: nav.items,
       normal_nav: normal_nav.items,
-      // legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
-      legacyLink: '/app/helpdesk/udl',
+      legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
+      // legacyLink: '/app/helpdesk/udl',
       show_report_submenu: false,
       // showLegacy: false,
     }
@@ -159,6 +161,27 @@ export default {
     openSupport() {
       this.$store.commit('auth/setTicketIssue', '')
       this.$store.commit('auth/setShowTicket', true)
+    },
+
+    goExternalUrl(path) {
+      const vm = this
+      vm.$swal({
+        title: 'Thank You!',
+        text: 'You will now be redirected...',
+        timer: 2500,
+        type: 'success',
+        showCancelButton: false,
+        showConfirmButton: false,
+      }).then((result) => {
+        if (result.dismiss === 'timer') {
+          const token = JSON.parse(localStorage.getItem('token')).access_token
+          let new_url = vm.legacyLink + path + '?token=' + token + '&version=v4'
+          let newLink = document.createElement('a')
+          newLink.href = new_url
+          newLink.setAttribute('target', '_blank')
+          newLink.click()
+        }
+      })
     },
   },
 

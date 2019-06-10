@@ -140,7 +140,7 @@ export default {
   },
 
   created() {
-    let profile = Utils.parseJsonString(Storage.get('profile'));
+    let profile = Utils.parseJsonString(Storage.get('profile'))
 
     let _params = {
       params: {

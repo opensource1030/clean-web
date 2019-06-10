@@ -11,11 +11,17 @@
 @import "global";
 
 // components
-@import "header";
-@import "breadcrumb";
-@import "sidebar";
-@import "support";
+@import "components/nprogress";
+@import "components/spinner";
+@import "components/header";
+@import "components/footer";
+@import "components/breadcrumb";
+@import "components/sidebar";
+@import "components/pagination";
+@import "components/support";
+@import "components/legacy";
 
-// pages
-@import "auth";
-@import "dashboard";
+// containers / pages
+@import "containers/auth";
+@import "containers/dashboard";
+@import "containers/employee";

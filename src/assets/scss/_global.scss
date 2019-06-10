@@ -14,6 +14,39 @@ b, strong {
   padding: 0 10px;
 }
 
+/* button */
+.btn.btn-primary {
+  background-color: $color-6;
+}
+
+/* bootstrap switch */
+.custom-switch {
+  // .custom-control-input {
+  //   // width: auto !important;
+  // }
+  .custom-control-label {
+    &::before {
+      width: 40px;
+      height: 20px;
+      border-radius: 0;
+    }
+    &::after {
+      width: 16px;
+      height: 16px;
+      border-radius: 0;
+    }
+  }
+}
+.custom-switch .custom-control-input:checked ~ .custom-control-label{
+  &::after {
+    transform: translateX(20px);
+  }
+}
+
 .page {
+  min-height: calc(100vh - 180px);
+}
+
+.page.auth-page {
   min-height: 100vh;
 }

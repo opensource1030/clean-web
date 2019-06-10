@@ -17,6 +17,9 @@ import VeeValidate from 'vee-validate'
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
+import VueSweetalert2 from 'vue-sweetalert2'
+import DatePicker from 'vuejs-datepicker'
+import Spinner from '@/components/spinner'
 
 import App from './App'
 import router from './router'
@@ -66,10 +69,16 @@ Vue.use(BootstrapVue)
 Vue.use(VueCharts)
 Vue.use(VeeValidate)
 Vue.use(Vue2Filters)
+Vue.use(VueSweetalert2, {
+  confirmButtonColor: '#41b882',
+  cancelButtonColor: '#ff7674'
+})
 // Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
 Vue.component('multiselect', Multiselect)
+Vue.component('datepicker', DatePicker)
+Vue.component('spinner', Spinner)
 
 // const gaId = 'UA-42900219-2'
 // Vue.use(VueAnalytics, {gaId, router})

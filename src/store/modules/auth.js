@@ -56,6 +56,11 @@ const getters = {
       loading: state.company_loading
     }
   },
+
+  getPermissions: (state) => {
+    // return _.get(state.profile, 'roles[0].permissions', {})
+    return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
+  }
 }
 
 // actions
