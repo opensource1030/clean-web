@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
+import feature from './modules/feature'
 import auth from './modules/auth'
 import error from './modules/error'
 import device from './modules/device'
@@ -32,6 +33,7 @@ export default new Vuex.Store({
   actions: {},
   getters: {},
   modules: {
+    feature,
     auth,
     error,
     device,

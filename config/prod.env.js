@@ -11,6 +11,7 @@ module.exports = {
   EV_ACCOUNT: 50004,
   EASYVISTA_CODE: 16,
   EZW_SSO_URL: 'https://oauth2.ezwim.com/sso?partner=WIRELESS',
+  AIRSHIP_KEY: 'i8g0di0xcuzgiz82',
   FEATURESV: {
     FEATURE_FOR_BETA: false,
     AWESOME_FEATURE: false,
