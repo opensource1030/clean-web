@@ -69,18 +69,20 @@
                   <div class="div-img" style="whidth: 100%;">
                     <img class="img-phone" src="@/assets/images/phone-mifi-tablet.svg">
                   </div>
-                  <b-btn
-                    v-if="checkIfOrderable()"
-                    @click="$router.push({ name: 'legacyInfo' })"
-                    variant="primary"
-                    class="btn-lg"
-                  >Place an Order</b-btn>
-                  <b-btn
-                    v-else
-                    @click="orderDisabled()"
-                    variant="primary"
-                    class="btn-lg"
-                  >Place an Order</b-btn>
+                  <template v-if="$store.state.feature.enabled_place_order">
+                    <b-btn
+                      v-if="checkIfOrderable()"
+                      @click="$router.push({ name: 'legacyInfo' })"
+                      variant="primary"
+                      class="btn-lg"
+                    >Place an Order</b-btn>
+                    <b-btn
+                      v-else
+                      @click="orderDisabled()"
+                      variant="primary"
+                      class="btn-lg"
+                    >Place an Order</b-btn>
+                  </template>
                 </div>
               </div>
 

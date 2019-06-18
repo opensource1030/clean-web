@@ -122,7 +122,17 @@ const actions = {
       status = 'Disabled'
     }
 
-    let serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
+    let serviceo = new Services(
+      "services",
+      serviceDetails.id,
+      status,
+      serviceDetails.title,
+      serviceDetails.code,
+      serviceDetails.cost,
+      serviceDetails.description,
+      serviceDetails.currency,
+      serviceDetails.carrierId.id
+    )
 
     dispatch('checkPlan', {
       serviceo: serviceo,
@@ -154,7 +164,17 @@ const actions = {
       status = "Disabled"
     }
 
-    let serviceo = new Services("services", serviceDetails.id, status, serviceDetails.title, serviceDetails.code, serviceDetails.cost, serviceDetails.description, serviceDetails.currency, serviceDetails.carrierId.id)
+    let serviceo = new Services(
+      "services",
+      serviceDetails.id,
+      status,
+      serviceDetails.title,
+      serviceDetails.code,
+      serviceDetails.cost,
+      serviceDetails.description,
+      serviceDetails.currency,
+      serviceDetails.carrierId.id
+    )
     // console.log('serviceo', serviceo)
     dispatch('checkPlan', {
       serviceo: serviceo,
