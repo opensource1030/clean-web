@@ -1,7 +1,7 @@
-role :app, %w{54.87.193.65}
+role :app, %w{50.19.173.84}
 
 set :stage, :staging
-set :branch, 'master'
+set :branch, 'env/staging'
 set :deploy_to, '/home/forge/staging.wirelessanalytics.com/'
 
 set :log_level, :debug
