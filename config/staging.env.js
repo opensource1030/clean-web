@@ -10,6 +10,7 @@ module.exports = {
   EV_ACCOUNT: 50005,
   EASYVISTA_CODE: 13,
   EZW_SSO_URL: 'https://oauth2.eztest.nu/sso?partner=WIRELESS',
+  AIRSHIP_KEY: 'epfj6c15jzafy108',
   FEATURESV: {
     AWESOME_FEATURE: true,
     FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
