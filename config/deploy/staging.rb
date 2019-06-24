@@ -4,7 +4,7 @@ set :stage, :staging
 set :branch, 'env/staging'
 set :deploy_to, '/home/forge/staging.wirelessanalytics.com/'
 
-set
+set :keep_releases, 2
 set :log_level, :debug
 
 set :ssh_options, {
