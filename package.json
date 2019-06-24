@@ -10,7 +10,7 @@
     "start": "cross-env NODE_ENV=development node build/dev-server.js",
     "build": "cross-env NODE_ENV=production node build/build.js",
     "staging": "cross-env NODE_ENV=staging node build/staging-build.js",
-    "trial": "cross-env NODE_ENV=development node build/trial-build.js",
+    "develop": "cross-env NODE_ENV=development node build/dev-remote.js",
     "demo": "cross-env NODE_ENV=development node build/demo-build.js",
     "serve:prod": "cross-env NODE_ENV=production node build/spa-server.js",
     "serve:dev": "cross-env NODE_ENV=development node build/dev-server-2.js",
