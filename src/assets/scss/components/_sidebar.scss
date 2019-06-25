@@ -19,6 +19,7 @@
 
   .nav-link {
     background-color: #0c2e82;
+    font-weight: 500;
     &:hover {
       background-color: #ff690a;
     }
@@ -47,12 +48,13 @@
       line-height: 30px;
       background-color: #0c2e82;
       li {
-        color: #ffffff;
-        &:hover {
-          color: #ff690a;
-        }
-        span {
+        a, span {
+          color: #ffffff;
           cursor: pointer;
+          &:hover {
+            color: #ff690a;
+            text-decoration: none;
+          }
         }
       }
     }

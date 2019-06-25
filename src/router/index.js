@@ -7,10 +7,7 @@ import NProgress from 'nprogress'
 // Containers
 import DefaultContainer from '@/containers/DefaultContainer'
 
-// Views
-import Dashboard from '@/views/dashboard/dashboard'
-
-// View Auth
+// auth
 import Login from '@/views/auth/Login'
 import LoginLocal from '@/views/auth/LoginLocal'
 import ResetPassword from '@/views/auth/ResetPassword'
@@ -20,13 +17,14 @@ import AcceptUser from '@/views/auth/AcceptUser'
 import Sso from '@/views/auth/Sso'
 
 // dashboard
-import LegacyInfo from "@/components/legacy_info"
+import Dashboard from '@/views/dashboard/dashboard'
+import LegacyInfo from '@/components/legacy_info'
 
-// Views Devices
-import DeviceIndex from '@/views/devices/device_list'
-import DeviceEdit from '@/views/devices/device_edit'
+// device
+import DeviceIndex from '@/views/device/index'
+import DeviceEdit from '@/views/device/edit'
 
-// Views employees
+// employee
 import EmployeeIndex from '@/views/employees/employee_index'
 import EmployeeEdit from '@/views/employees/employee_edit'
 
@@ -64,7 +62,9 @@ const router = new Router({
           component: { template: '<router-view></router-view>' },
           meta: { requiresAuth: true, label: 'Devices' },
           children: [
-            { path: '', component: DeviceIndex, name: 'List Devices', meta: { label: 'All' } }
+            { path: '', component: DeviceIndex, name: 'List Devices', meta: { label: 'All' } },
+            { path: 'new', component: DeviceEdit, name: 'Add Device', meta: { label: 'Create' } },
+            { path: ':id', component: DeviceEdit, name: 'Update Device', meta: { label: 'Edit' } },
           ]
         },
         // employees

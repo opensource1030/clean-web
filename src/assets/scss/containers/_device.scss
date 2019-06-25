@@ -1,0 +1,37 @@
+@import "../variables";
+
+.page.device-page.device-index-page {
+  .btn.add-button {
+    margin-bottom: 15px;
+    background-color: $color-1;
+    color: #ffffff;
+    font-weight: 400;
+  }
+}
+
+.page.device-page.device-edit-page {
+  .card .card-header a.btn-info {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    &.collapsed {
+      background-color: $color-7;
+      border-color: $color-7;
+      color: $color-1;
+    }
+  }
+
+  label.field {
+    .input-group {
+      margin-top: 4px;
+      input, select {
+        width: auto;
+        margin: 0;
+      }
+      button {
+        height: 38px;
+      }
+    }
+  }
+}

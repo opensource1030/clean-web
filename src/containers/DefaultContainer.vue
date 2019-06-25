@@ -25,39 +25,9 @@
         <SidebarMinimizer/>
         <SidebarHeader></SidebarHeader>
         <SidebarForm/>
-        <SidebarNav v-if="this.$store.state.auth.profile && ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav">
-        </SidebarNav>
+        <!-- <SidebarNav v-if="this.$store.state.auth.profile && ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav"></SidebarNav> -->
         <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
-        <nav class="sidebar-nav">
-          <b-nav>
-            <b-nav-item to="/dashboard">
-              <i class="nav-icon fa fa-dashboard"></i>DASHBOARD
-            </b-nav-item>
-            <li class="nav-item">
-              <div
-                @click="show_report_submenu = !show_report_submenu"
-                class="nav-link nav-dropdown-toggle"
-              >
-                <i class="nav-icon fa fa-bar-chart"></i>REPORTS
-              </div>
-              <div class="submenu-container">
-                <ul
-                  v-show="show_report_submenu"
-                  class="submenu"
-                >
-                  <li><span @click="goExternalUrl('/report_allocation.asp')">Change</span></li>
-                  <li><span @click="goExternalUrl('/dashboard_top_ten.asp')">Top 10 Reports</span></li>
-                  <li><span @click="goExternalUrl('/report_zero_usage.asp')">Zero Usage</span></li>
-                  <li><span @click="goExternalUrl('/report_usage.asp')">Usage</span></li>
-                  <li><span @click="goExternalUrl('/report_international.asp')">International</span></li>
-                </ul>
-              </div>
-            </li>
-            <b-nav-item @click="openSupport()">
-              <i class="nav-icon fa fa-phone"></i>GET SUPPORT
-            </b-nav-item>
-          </b-nav>
-        </nav>
+        <side-nav/>
         <SidebarFooter>
           <span class="text-copyright">Powered By</span>
           <img class="img-full" src="@/assets/images/wa-logo.png" alt="Wireless Analytics">
@@ -88,16 +58,16 @@
 <script>
 import _ from 'lodash'
 // import nav from '@/_nav'
-import nav from '@/_nav_super'
-import normal_nav from '@/_nav_normal'
+// import nav from '@/_nav_super'
+// import normal_nav from '@/_nav_normal'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
+import SideNav from './components/side_nav'
+import SupportRequest from '@/components/SupportRequest'
 import { Storage, Utils, Log, ScopeHelper } from '@/helpers'
 import authAPI from '@/api/auth-api'
-import SupportRequest from '@/components/SupportRequest.vue'
 
-// import store from './../store'
-// const {Store} = require('yayson')()
+// const { Store } = require('yayson')()
 // const store = new Store()
 
 // console.log(ScopeHelper)
@@ -119,17 +89,14 @@ export default {
     SidebarHeader,
     SidebarNav,
     SidebarMinimizer,
+    SideNav,
     SupportRequest
   },
 
   data() {
     return {
-      nav: nav.items,
-      normal_nav: normal_nav.items,
-      legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
-      // legacyLink: '/app/helpdesk/udl',
-      show_report_submenu: false,
-      // showLegacy: false,
+      // nav: nav.items,
+      // normal_nav: normal_nav.items,
     }
   },
 
@@ -158,31 +125,6 @@ export default {
   },
 
   methods: {
-    openSupport() {
-      this.$store.commit('auth/setTicketIssue', '')
-      this.$store.commit('auth/setShowTicket', true)
-    },
-
-    goExternalUrl(path) {
-      const vm = this
-      vm.$swal({
-        title: 'Thank You!',
-        text: 'You will now be redirected...',
-        timer: 2500,
-        type: 'success',
-        showCancelButton: false,
-        showConfirmButton: false,
-      }).then((result) => {
-        if (result.dismiss === 'timer') {
-          const token = JSON.parse(localStorage.getItem('token')).access_token
-          let new_url = vm.legacyLink + path + '?token=' + token + '&version=v4'
-          let newLink = document.createElement('a')
-          newLink.href = new_url
-          newLink.setAttribute('target', '_blank')
-          newLink.click()
-        }
-      })
-    },
   },
 
   created() {
