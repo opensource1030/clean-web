@@ -10,7 +10,7 @@ const state = {
   serviceDetails: {
     id: 0,
     title: '',
-    carrierId: 0,
+    carrierId: null,
     status: '',
     code: '',
     cost: '',
@@ -158,7 +158,7 @@ const actions = {
 
   add ({ dispatch, commit, state }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
     let status = '';
-    if (serviceDetails.status == true) {
+    if (serviceDetails.status == "1") {
       status = 'Enabled'
     } else {
       status = "Disabled"
@@ -176,7 +176,7 @@ const actions = {
       serviceDetails.carrierId.id
     )
     // console.log('serviceo', serviceo)
-    dispatch('checkPlan', {
+    return dispatch('checkPlan', {
       serviceo: serviceo,
       addons: addons
     }).then(response => {
@@ -197,7 +197,9 @@ const actions = {
       } else {
         dispatch('error/addNew', {
           message: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.'
-        }, {root: true})
+        }, {root: true});
+
+        return 'error';
       }
     }, err => {
       console.log('service add err')
@@ -282,7 +284,7 @@ const mutations = {
     reorderButtons(state)
   },
 
-  hideAndPush (state, index) {
+  hideAndPush (state) {
     if (state.serviceDetails.id > 0) {
       state.addons.push({id: "0", description: '', cost: '', add: true, delete: false});
     } else {
@@ -308,17 +310,14 @@ const mutations = {
 
   updateServiceDetail (state, { e, type }) {
     // console.log('updateServiceDetail', e, state.serviceDetails)
+    //debugger;
     switch (type) {
-      case 'status':
-        state.serviceDetails[type] = e.target.checked
-        break
-      case 'currency':
-      case 'carrierId':
-        state.serviceDetails[type] = e
-        break
+      case 'description':
+        state.serviceDetails[type] = e.target.value;
+        break;
       default:
-        state.serviceDetails[type] = e.target.value
-        break
+        state.serviceDetails[type] = e;
+        break;
     }
   },
 
@@ -326,7 +325,7 @@ const mutations = {
     if (type == "unit") {
       state.domesticPlan.data[type] = e;
     } else {
-      state.domesticPlan[type].value = e.target.value;
+      state.domesticPlan[type].value = e;
     }
   },
 
@@ -334,7 +333,7 @@ const mutations = {
     if (type == "unit") {
       state.internationalPlan.data[type] = e;
     } else {
-      state.internationalPlan[type].value = e.target.value;
+      state.internationalPlan[type].value = e;
     }
   },
 
