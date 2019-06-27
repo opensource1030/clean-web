@@ -26,12 +26,37 @@
     .input-group {
       margin-top: 4px;
       input, select {
-        width: auto;
+        width: 0;
         margin: 0;
+        flex-grow: 1;
       }
       button {
         height: 38px;
       }
+    }
+  }
+
+  .card.companies-card {
+    .input-group {
+      flex-wrap: nowrap;
+      button {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .card.prices-card {
+    .device-variation-list {
+      position: relative;
+      .btn-control {
+        position: absolute;
+        top: -5px;
+        right: -30px;
+      }
+    }
+
+    .device-variation-list + .device-variation-list {
+      margin-top: 10px !important;
     }
   }
 }

@@ -45,6 +45,7 @@ export default {
       carriers: [],
       companies: [],
 
+      style: '',
       capacity: '',
       unit: 'Gb',
       companyFilter: '',
