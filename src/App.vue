@@ -30,12 +30,17 @@ export default {
             company_name: company.name
           }
         }
-        const flag = Flagger.flag('placeorderlegacy')
-        const place_order_eanbled = flag.isEnabled(user)
+        const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
         // const place_order_value = flag.getTreatment(user)
         if (this.$store.state.feature.enabled_place_order != place_order_eanbled) {
           console.log('place_order_legacy', place_order_eanbled)
           this.$store.dispatch('feature/setEnabledPlaceOrder', place_order_eanbled)
+        }
+
+        const equipment_eanbled = Flagger.flag('procurement-equipment-mgt').isEnabled(user)
+        if (this.$store.state.feature.enabled_equipment != equipment_eanbled) {
+          console.log('procurement-equipment-mgt', equipment_eanbled)
+          this.$store.dispatch('feature/setEnabledEquipment', equipment_eanbled)
         }
       }
     },
@@ -63,7 +68,7 @@ export default {
     console.log('features', features)
     console.log('process.env', process.env)
 
-    // this.watchFeatures()
+    this.watchFeatures()
   },
 
   beforeDestroy() {

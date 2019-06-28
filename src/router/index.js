@@ -56,7 +56,7 @@ const router = new Router({
             { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' }
           ]
         },
-        //devices
+        // devices
         {
           path: 'devices',
           component: { template: '<router-view></router-view>' },
@@ -120,9 +120,20 @@ router.beforeEach((to, from, next) => {
     })
   }
 
+  const toPath = to.path.split('/')
+  // console.log('rotuer.beforeEach', toPath[1], store.state.feature.enabled_equipment)
+
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
+      next({name: 'Dashboard'})
+    }
+  } else if (toPath[1] === 'devices') {
+    if (!store.state.feature.enabled_equipment) {
+      if (from.name === 'Dashboard') {
+        history.go(0)
+      } else {
         next({name: 'Dashboard'})
+      }
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
@@ -137,6 +148,7 @@ router.beforeEach((to, from, next) => {
   } else {
     $('html').removeClass('overflow-hidden')
   }
+
   next()
 })
 

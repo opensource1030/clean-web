@@ -24,7 +24,7 @@
         </div>
         <div class="submenu-container">
           <ul v-show="show_inventory_submenu" class="submenu">
-            <li><router-link to="/devices">Equipments</router-link></li>
+            <li v-if="$store.state.feature.enabled_equipment"><router-link to="/devices">Equipments</router-link></li>
             <!-- <li><router-link to="/presets">Equipment Groups</router-link></li>
             <li><router-link to="/services">Services & Plans</router-link></li>
             <li><router-link to="/employees">Employees</router-link></li>
