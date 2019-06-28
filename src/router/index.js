@@ -139,7 +139,7 @@ router.beforeEach((to, from, next) => {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
       // next({name: 'login'})
-      next({name: 'loginLocal'})
+      next({name: 'login'})
     }
   }
 
