@@ -10,7 +10,7 @@
         </div>
         <div class="submenu-container">
           <ul v-show="show_report_submenu" class="submenu">
-            <li><span @click="goExternalUrl('/report_allocation.asp')">Change</span></li>
+            <li><span @click="goExternalUrl('/report_allocation.asp')">Charge</span></li>
             <li><span @click="goExternalUrl('/dashboard_top_ten.asp')">Top 10 Reports</span></li>
             <li><span @click="goExternalUrl('/report_zero_usage.asp')">Zero Usage</span></li>
             <li><span @click="goExternalUrl('/report_usage.asp')">Usage</span></li>
