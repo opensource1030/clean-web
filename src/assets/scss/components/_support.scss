@@ -1,0 +1,243 @@
+// .coming-soon {
+//   position: relative;
+//   min-height: 350px;
+//   width: 100%;
+//   height: 100%;
+//   .tabs-content {
+//     border: none;
+//   }
+//   .pie-chart-title {
+//     font-weight: 600;
+//   }
+// }
+
+// .charts_tel {
+//   font-size: 20px;
+//   color: rgba(0, 0, 0, 0.479);
+// }
+
+.support-form-holder {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 430px;
+  background: white;
+  border: 1px solid white;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .29);
+
+  &.loading {
+    &:after {
+      content: '';
+      font-size: 48px;
+      font-family: FontAwesome;
+      color:#fff;
+      position: absolute;
+      z-index: 9999;
+      text-align: center;
+      width: 100%;
+      vertical-align: middle;
+      left: 0;
+      top:40vh;
+      -webkit-animation: fa-spin 2s infinite linear;
+      animation: fa-spin 2s infinite linear;
+    }
+    &:before {
+      background: rgba(black,0.6);
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 999;
+      top:0;
+      left: 0;
+    }
+    @-webkit-keyframes fa-spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+    @keyframes fa-spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+      }
+    }
+  }
+
+  .form-header {
+    padding: 16px;
+    position: relative;
+    border-bottom:1px rgb(167, 167, 167) solid;
+    background: white;
+    top:-1px;
+    z-index: 99;
+    h2 {
+      font-size: 18px;
+      margin: 0;
+      font-weight: 700;
+    }
+    .btn-close {
+      font-size: 18px;
+      position: absolute;
+      right: 16px;
+      top: 1px;
+      color:red;
+      cursor: pointer;
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  .form-body {
+    position: relative;
+    height: calc(100vh - 34px);
+
+    .support-form-container {
+      position: absolute;
+      height: calc(100% - 50px);
+      padding: 10px;
+      overflow-y: scroll;
+      background-color: #f9f9f9;
+    }
+
+    .form-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-top: 1px rgb(156, 156, 156) solid;
+      background: white;
+      width: 100%;
+      .button {
+        margin: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        &:hover {
+          background-color: orange;
+        }
+      }
+    }
+  }
+
+  input, select {
+    width: 100%;
+    height: auto;
+    margin: 4px 0 16px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  label {
+    width: 100%;
+    margin: 0;
+    color: #444;
+    font-size: 14px;
+    &.error {
+      z-index: 9;
+      position: absolute;
+      width: 95%;
+      bottom: 0;
+      left: 2px;
+      padding: 0 8px;
+      background: red;
+      color: white;
+      font-size: 0.9em;
+      line-height: 18px;
+      font-style: italic;
+      &#description-error {
+        margin-left: 9px;
+      }
+    }
+  }
+
+  .fieldset {
+    padding: 0 8px;
+    margin: 0 0 20px;
+    border: 1px solid #cacaca;
+    legend {
+      display: block;
+      width: auto;
+      margin: 0;
+      background-color: #F9F9F9;
+      color: #444;
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 20px;
+    }
+    input {
+      width: auto;
+      margin: 0;
+    }
+    label {
+      width: auto;
+    }
+  }
+
+  .multiselect {
+    min-height: 38px;
+    margin: 4px 0 16px;
+    .multiselect__tags {
+      min-height: 38px;
+    }
+    span.multiselect__placeholder {
+      line-height: 14px;
+    }
+    input.multiselect__input {
+      margin: 0 0 8px;
+      padding: 0 0 0 5px;
+    }
+  }
+
+  .field-title {
+    font-weight: 700;
+  }
+
+  .has-tip {
+    line-height: 16px;
+    &.is-required {
+      color: red;
+      border-color: red;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .fa-question-circle {
+      color: blue;
+    }
+  }
+
+  .modal {
+    .modal-content {
+      &.is-error {
+        background: red;
+        color: white;
+      }
+      &.is-success {
+        background: green;
+        color: white;
+      }
+
+      .modal-header {
+        border-bottom: none;
+        button {
+          color: white;
+        }
+      }
+    }
+  }
+}

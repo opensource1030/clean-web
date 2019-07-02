@@ -1,36 +1,33 @@
-var config = require('../config')
-var webpack = require('webpack')
-var merge = require('webpack-merge')
-var utils = require('./utils')
-var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var features=config.local.env.FEATURESV
-
-
-
+// const utils = require('./utils')
+const webpack = require('webpack')
+const config = require('../config')
+const merge = require('webpack-merge')
+const baseWebpackConfig = require('./webpack.base.conf')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const features = config.dev.env.FEATURESV
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 })
 
-module.exports = merge(baseWebpackConfig, {
-  // eval-source-map is faster for development
-  devtool: '#eval-source-map',
+const webpackConfig = merge(baseWebpackConfig, {
+  mode: 'development',
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': config.local.env,
+      'process.env': JSON.stringify(config.dev.env),
       'features': features
     }),
-    // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.html',
+      template: 'public/index.html',
       inject: true
-    })
+    }),
+    // new FriendlyErrorsPlugin()
   ]
 })
+
+module.exports = webpackConfig

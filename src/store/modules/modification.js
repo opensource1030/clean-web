@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import modificationAPI from './../../api/modification-api'
-import * as types from './../mutation-types'
+import * as types from '@/store/mutation-types'
+import modificationAPI from '@/api/modification-api'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -90,7 +90,7 @@ const mutations = {
     state.records = records
   },
 
-  [types.MODIFICATION_CREATE] (state, record) {
+  [types.MODIFICATION_ADD] (state, record) {
     state.records.push(record)
   },
 

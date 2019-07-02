@@ -1,0 +1,109 @@
+@import "../variables";
+
+.legacy-form-holder {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  right:0;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+  -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.29);
+
+  .pop-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0,0,0,0.3);
+  }
+
+  .pop-content {
+    width: 80%;
+    height: 100%;
+    position: relative;
+    background: #fff;
+    float: right;
+
+    .form-header {
+      z-index: 99;
+      position: relative;
+      top: -1px;
+      padding: 16px;
+      border-bottom:1px rgb(167, 167, 167) solid;
+      background: white;
+      h2 {
+        font-size: 18px;
+        margin: 0;
+        font-weight: 700;
+      }
+      .btn-close {
+        font-size: 18px;
+        position: absolute;
+        right: 16px;
+        top: 1px;
+        color:red;
+        cursor: pointer;
+        &:hover {
+          color: red;
+        }
+      }
+    }
+
+    // .form-header + div.expanded {
+    //   padding: 15px 10px;
+    // }
+
+    .legacy-heading {
+      display: flex;
+      align-items: center;
+      .pop-heading {
+        flex: 1;
+        font-size: 1.8rem;
+        font-weight: 500;
+      }
+      .pop-close {
+        font-size: 1.2rem;
+        box-shadow: 0 0 5px #ddd;
+        transition: background 0s!important;
+        background: transparent;
+        border: 1px $color-1 solid;
+        color: $color-4;
+        padding: 0 0.5rem 0 0;
+        .fa {
+          padding: 0.6em;
+          color: #fff;
+          background: $color-1;
+          margin-right: 0.2rem;
+        }
+        &.back-to{
+          margin-right: 11px;
+        }
+      }
+    }
+  }
+
+  .iframe-wrapper {
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+
+    #legacy-info{
+      position: absolute;
+      width: calc(100% - 10px);
+      height: 100%;
+      border: none;
+      #header{
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .legacy-form-holder {
+    .pop-content {
+      width: 100%;
+    }
+  }
+}

@@ -1,8 +1,8 @@
-import _ from "lodash";
-import authAPI from "./../../api/auth-api";
-import * as types from "./../mutation-types";
-import user from "./../../models/User";
-import {Storage, Utils} from "./../../helpers";
+import _ from 'lodash'
+import authAPI from '@/api/auth-api'
+import * as types from './../mutation-types'
+import user from '@/models/User'
+import { Storage, Utils } from '@/helpers'
 
 // initial state
 const state = {
@@ -13,7 +13,10 @@ const state = {
   userId: Storage.get('userId') || null,
   token: Utils.parseJsonString(Storage.get('token')),
   profile: Utils.parseJsonString(Storage.get('profile')),
-
+  company: {},
+  company_loading: true,
+  show_ticket: false,
+  ticket_issue: '',
   isAuthenticating: false,
   variations: {
     clickAgain: true,
@@ -21,7 +24,7 @@ const state = {
     messageShow: true,
     message: ''
   }
-};
+}
 
 // Prepare the Model
 // getters
@@ -32,20 +35,32 @@ const getters = {
   },
 
   isExpired: (state) => {
-    let status = false;
-    if(state.token)
-      status = Date.now() > (state.token.updated_at + state.token.expires_in);
-
-    return status;
+    let status = false
+    if (state.token) {
+      status = Date.now() > (state.token.updated_at + state.token.expires_in)
+    }
+    return status
   },
 
   getProfile: (state) => {
-    return state.profile;
+    return state.profile
   },
 
   getVariations: (state) => {
     return state.variations
   },
+
+  getClientInfo: (state) => {
+    return {
+      data: state.company.object,
+      loading: state.company_loading
+    }
+  },
+
+  getPermissions: (state) => {
+    // return _.get(state.profile, 'roles[0].permissions', {})
+    return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
+  }
 }
 
 // actions
@@ -101,17 +116,17 @@ const actions = {
           user_id: res.data.user_id,
           token: _.extend({created_at: current_time, updated_at: current_time}, res.data),
           profile: response
-        };
+        }
 
-        commit(types.AUTH_LOGIN_SUCCESS, result);
+        commit(types.AUTH_LOGIN_SUCCESS, result)
 
-        if(returnUrl)
-          location.href = returnUrl + '?jwt=' + response.deskproJwt;
-        else {
+        if (returnUrl) {
+          location.href = returnUrl + '?jwt=' + response.deskproJwt
+        } else {
           commit(types.AUTH_LOGIN_DONE)
 
           // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-          router.push({name: 'dashboard'})
+          router.push({name: 'Dashboard'})
           resolve(result)
         }
       }, (error) => {
@@ -123,6 +138,24 @@ const actions = {
       })
     })
   },
+
+  loadCompany({ commit }, company_url) {
+    authAPI.getCompany(company_url, (response) => {
+      // console.log('auth/loadCompany', company_url, response.body)
+      commit('setCompany', response.body)
+      commit('setCompanyLoading', false)
+    }, (error) => {
+      commit('setCompanyLoading', false)
+    })
+  },
+
+  // setShowTicket({ commit }, show_ticket) {
+  //   commit('setShowTicket', show_ticket)
+  // },
+
+  // setTicketIssue({ commit }, ticket_issue) {
+  //   commit('setTicketIssue', ticket_issue)
+  // },
 
   checkIfThePasswordIsStrongEnough ({ dispatch, commit, state }, { password1, password2 }) {
     if (password1 == '' || password2 == '') {
@@ -544,6 +577,22 @@ const mutations = {
   [types.AUTH_SET_PROFILE] (state, result) {
     Storage.set('userProfile', JSON.stringify(result.profile))
     state.profile = result.profile
+  },
+
+  setCompany (state, company) {
+    state.company = company
+  },
+
+  setShowTicket (state, show_ticket) {
+    state.show_ticket = show_ticket
+  },
+
+  setTicketIssue (state, ticket_issue) {
+    state.ticket_issue = ticket_issue
+  },
+
+  setCompanyLoading (state, company_loading) {
+    state.company_loading = company_loading
   },
 
   recoveryVariations (state) {

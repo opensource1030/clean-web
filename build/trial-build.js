@@ -1,6 +1,6 @@
 // https://github.com/shelljs/shelljs
 require('shelljs/global')
-env.NODE_ENV = 'trial'
+// env.NODE_ENV = 'trial'
 
 var path = require('path')
 var config = require('../config')

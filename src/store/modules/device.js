@@ -1,8 +1,8 @@
 import _ from 'lodash'
-import deviceAPI from './../../api/device-api'
-import * as types from './../mutation-types'
+import deviceAPI from '@/api/device-api'
+import * as types from '@/store/mutation-types'
 
-const {Store} = require('yayson')()
+const { Store } = require('yayson')()
 const store = new Store()
 
 // initial state
@@ -64,7 +64,6 @@ const getters = {
 // actions
 const actions = {
   search ({ dispatch, commit, state }) {
-
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
@@ -148,7 +147,7 @@ const actions = {
     }
   },
 
-  nextPage ({ dispatch, commit }) {
+  nextPage ({ dispatch, commit, state }) {
     // console.log('device nextPage')
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.DEVICE_NEXT_PAGE)
@@ -162,11 +161,11 @@ const actions = {
   },
 
   addVariation ({commit}, variation) {
-    commit(types.DEVICE_ADD_VARIATTION, variation)
+    commit(types.DEVICE_ADD_VARIATION, variation)
   },
 
   removeVariation ({commit}, variation) {
-    commit(types.DEVICE_REMOVE_VARIATTION, variation)
+    commit(types.DEVICE_REMOVE_VARIATION, variation)
   }
 }
 
@@ -223,12 +222,12 @@ const mutations = {
     }
   },
 
-  [types.DEVICE_ADD_VARIATTION] (state, variation) {
+  [types.DEVICE_ADD_VARIATION] (state, variation) {
     let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
     device.devicevariations.push(variation)
   },
 
-  [types.DEVICE_REMOVE_VARIATTION] (state, variation) {
+  [types.DEVICE_REMOVE_VARIATION] (state, variation) {
     let device = _.find(state.records, (d) => (parseInt(d.id) == parseInt(variation.deviceId)))
     _.remove(device.devicevariations, (dv) => (parseInt(dv.id) == parseInt(variation.id)))
   },

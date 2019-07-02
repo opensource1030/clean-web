@@ -15,8 +15,6 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     rake (11.2.2)
-    slackistrano (3.8.3)
-      capistrano (>= 3.8.1)
     sshkit (1.18.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
@@ -27,7 +25,6 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   rake (~> 11.2.2)
-  slackistrano
 
 BUNDLED WITH
    1.17.2

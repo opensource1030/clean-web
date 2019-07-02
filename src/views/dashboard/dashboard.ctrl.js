@@ -1,11 +1,10 @@
 import _ from 'lodash'
-import supportRequest from './../../components/support-request'
+import employeeAPI from '@/api/employee-api'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
-import OrderNewSelectUser from './../../views/orders/OrderNewUser.vue'
-import employeeAPI from './../../api/employee-api'
+import OrderNewSelectUser from './../orders/OrderNewUser.vue'
 import swal from 'sweetalert2'
-import { Storage, Utils, Log } from './../../helpers'
+import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -19,18 +18,13 @@ export default {
     OrderNewSelectUser,
   },
 
-  data () {
+  data() {
     return {
-      clientInfo: {
-        data: {},
-        loading: true
-      },
       userInfo: {
         data: {},
         lastAllocations: [],
         loading: true
       },
-      companyInfo: {},
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
@@ -38,90 +32,42 @@ export default {
   },
 
   computed: {
-    _ () {
+    _() {
       return _
     },
 
-    disabledBeginOrder () {
+    clientInfo() {
+      return this.$store.getters['auth/getClientInfo']
+    },
+
+    disabledBeginOrder() {
       return this.selectedOrder == '' ? 'disabled' : false
     }
   },
 
-  beforeCreate () {
-  },
-
-  created () {
-    this.$root.$on('company_content_loaded', (response) => {
-      if(response.data)
-        this.clientInfo.data = response.data.object;
-
-      this.clientInfo.loading = false
-    });
-
-    let profile = Utils.parseJsonString(Storage.get('profile'));
-
-    let _params = {
-      params: {
-        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
-      }
-    };
-
-    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
-      if (res.status == 404) {
-        this.userInfo.data.allocations = [];
-        this.userInfo.lastAllocations = [];
-      } else {
-        let event = store.sync(res.data);
-        this.userInfo.data = event;
-
-        console.log(this.userInfo.data);
-        for (let allocation of this.userInfo.data.allocations) {
-          allocation.issue = ''
-        }
-
-        let lastAllocations = [];
-        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
-        _.forEach(allocationsByPhone, function(allocations) {
-          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
-        });
-        this.userInfo.lastAllocations = lastAllocations;
-      }
-
-      Log.put('dashboard/created user info', this.userInfo);
-
-      this.userInfo.loading = false;
-      setTimeout(supportRequest, 2000);
-    }, err => {
-      Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
-      this.userInfo.data.allocations = [];
-      this.userInfo.loading = false;
-    });
-  },
-
   methods: {
-    setAllocation (index) {
+    setAllocation(index) {
       this.activeAllocationIndex = index;
     },
 
-    prevAllocation () {
+    prevAllocation() {
       this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null;
     },
 
-    nextAllocation () {
+    nextAllocation() {
       this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null;
     },
 
-    selectOrderType (type) {
+    selectOrderType(type) {
       this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
     },
 
-    upgradeDevice () {
+    upgradeDevice() {
       this.selectedOrder = 'upgrade'
       this.placeOrder()
     },
 
-    placeOrder () {
+    placeOrder() {
       // console.log('dashboard/placeOrder role', _.get(this.$store.state.auth.profile, 'roles[0].name', ''))
       if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
         this.startedOrder = true
@@ -131,7 +77,7 @@ export default {
       }
     },
 
-    beginOrder () {
+    beginOrder() {
       // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
       let path = ''
       switch (this.selectedOrder) {
@@ -161,25 +107,75 @@ export default {
       this.$router.push({path: path})
     },
 
-    cancelOrder () {
+    cancelOrder() {
       this.startedOrder = false
     },
 
-    checkIfOrderable () {
+    checkIfOrderable() {
       var exceptionList = ['PRXL', 'BRKR'];
 
-      if(exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
+      if (exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
         return false;
       else
         return true;
     },
 
-    orderDisabled () {
+    orderDisabled() {
       swal({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'
       })
+    },
+
+    onChangeTicketIssue(event) {
+      const value = event.target.value
+      this.$store.commit('auth/setTicketIssue', value)
+      this.$store.commit('auth/setShowTicket', true)
+      // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     }
+  },
+
+  beforeCreate() {
+  },
+
+  created() {
+    let profile = Utils.parseJsonString(Storage.get('profile'))
+
+    let _params = {
+      params: {
+        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
+      }
+    };
+    // console.log(this.$store.state.auth)
+
+    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
+      if (res.status == 404) {
+        this.userInfo.data.allocations = []
+        this.userInfo.lastAllocations = []
+      } else {
+        let event = store.sync(res.data);
+        this.userInfo.data = event;
+
+        for (let allocation of this.userInfo.data.allocations) {
+          allocation.issue = ''
+        }
+
+        let lastAllocations = [];
+        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
+        _.forEach(allocationsByPhone, function(allocations) {
+          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
+        });
+        this.userInfo.lastAllocations = lastAllocations;
+      }
+
+      Log.put('dashboard/created user info', this.userInfo);
+      this.userInfo.loading = false;
+    }, err => {
+      Log.put('dashboard/created user allocation err', err);
+      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
+      this.userInfo.data.allocations = [];
+      this.userInfo.loading = false;
+    })
   }
 }

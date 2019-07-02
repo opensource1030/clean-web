@@ -1,10 +1,12 @@
 import _ from 'lodash'
-import presetAPI from './../../../api/preset-api'
-import Preset from './../../../models/Preset';
-import * as types from './../../mutation-types'
-const {Store} = require('yayson')()
+import presetAPI from '@/api/preset-api'
+import Preset from '@/models/Preset'
+import * as types from '@/store/mutation-types'
+import { findServiceItem, findByAddons, orderFilters } from '@/components/filters.js'
+
+const { Store } = require('yayson')()
 const store = new Store()
-import {findServiceItem, findByAddons, orderFilters} from './../../../components/filters.js';
+
 const state = {
   preset:{
     id:null,
@@ -47,7 +49,6 @@ const actions = {
   update({ dispatch, commit, state, rootState }, { preset, router }) {
     commit('PRESET_COMPANY',{ id: rootState.auth.profile.companyId })
     dispatch('checkPreset', { preset: preset }).then(response => {
-
       if (response) {
         let presetObj = new Preset('presets', preset.id, preset.name, preset.companyId,);
         //  commit(types.PRESET_PREPARE_VARIATIONS, {router})

@@ -3,8 +3,7 @@ require 'capistrano/setup'
 
 # Include default deployment tasks
 require 'capistrano/deploy'
-require 'slackistrano/capistrano'
-require_relative 'config/lib/custom_messaging'
+#require_relative 'config/lib/custom_messaging'
 
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git

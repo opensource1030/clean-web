@@ -1,8 +1,10 @@
-import service from './../../../api/service-api'
-import * as types from './../../mutation-types'
-const {Store} = require('yayson')()
+import service from '@/api/service-api'
+import * as types from '@/store/mutation-types'
+import { findServiceItem, findByAddons, orderFilters, getFilters } from '@/components/filters.js'
+
+const { Store } = require('yayson')()
 const store = new Store()
-import {findServiceItem, findByAddons, orderFilters, getFilters} from './../../../components/filters.js';
+
 const state = {
   Services: {
     firstTime: true,
@@ -14,7 +16,6 @@ const state = {
     showtable: false,
     showModal: false,
     errorNotFound: false
-
   },
   pagination: {
     current_page: 1,
@@ -49,9 +50,11 @@ const getters = {
   getService: (state) => {
     return state.Services
   },
+
   getSelects: (state) => {
     return state.selects
   },
+
   getPagination: (state) => {
     return state.pagination
   }
@@ -79,7 +82,7 @@ const actions = {
         page: state.pagination.current_page,
         //sort: 'title'
       }
-    };
+    }
 
     /*
     if (state.filter.status != '') {
@@ -213,7 +216,6 @@ const mutations = {
             state.selects.codePlan = getFilters(state.selects.codePlan, serv.planCode, 'number');
           }
         }
-
         state.Services.firstTime = false;
       }
 

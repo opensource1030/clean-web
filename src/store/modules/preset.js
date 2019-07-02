@@ -1,6 +1,6 @@
-import presetAPI from "./../../api/preset-api";
-import * as types from "./../mutation-types";
-import FilterItem from "./../../models/FilterItem";
+import * as types from '@/store/mutation-types'
+import presetAPI from '@/api/preset-api'
+import FilterItem from '@/models/FilterItem'
 
 const { Store } = require('yayson')()
 const store = new Store()

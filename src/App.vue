@@ -1,128 +1,100 @@
 <template>
-  <div id="app">
-    <div class="off-canvas-wrapper">
-      <sidemenu v-if="$store.getters['auth/isAuthenticated']"></sidemenu>
-
-      <div :class="{ 'content-right ': $store.getters['auth/isAuthenticated'] }">
-        <div class="expanded row">
-          <headers v-if="$store.getters['auth/isAuthenticated']" :user="$store.state.auth.profile"></headers>
-          <div class="clearfix"></div>
-          <breadcrumb v-if="$store.getters['auth/isAuthenticated']"></breadcrumb>
-          <router-view></router-view>
-        </div>
-      </div>
-
-      <SupportRequest></SupportRequest>
-      <foo v-if="$store.getters['auth/isAuthenticated']"></foo>
-    </div>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>
-  import Sidemenu from './components/Sidemenu.vue'
-  import foo from './components/Footer.vue'
-  import headers from './components/header'
-  import breadcrumb from './components/breadcrumb'
-  import SupportRequest from './components/SupportRequest.vue'
+import _ from 'lodash'
+import Flagger from 'flagger'
 
-  require('script!jquery');
-  require('script!jquery-match-height');
-  require('script!jquery-validation');
+export default {
+  name: 'app',
 
-  export default {
-    name: "App",
-    components: {
-      Sidemenu,
-      foo,
-      headers,
-      breadcrumb,
-      SupportRequest
-    },
-    data () {
-      return {
-        company: {}
+  data() {
+    return {
+      feature_interval: null,
+    }
+  },
+
+  methods: {
+    pollingFeatures() {
+      if (this.$store.getters['auth/isAuthenticated']) {
+        const profile = this.$store.getters['auth/getProfile']
+        const company = _.get(profile, 'companies[0]', { id: '', name: '' })
+        const user = {
+          type: 'User',
+          id: profile.id,
+          displayName: profile.username,
+          attributes: {
+            email: profile.email,
+            company_id: company.id,
+            company_name: company.name
+          }
+        }
+        const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
+        // const place_order_value = flag.getTreatment(user)
+        if (this.$store.state.feature.enabled_place_order != place_order_eanbled) {
+          console.log('place_order_legacy', place_order_eanbled)
+          this.$store.dispatch('feature/setEnabledPlaceOrder', place_order_eanbled)
+        }
+
+        const equipment_eanbled = Flagger.flag('procurement-equipment-mgt').isEnabled(user)
+        if (this.$store.state.feature.enabled_equipment != equipment_eanbled) {
+          console.log('procurement-equipment-mgt', equipment_eanbled)
+          this.$store.dispatch('feature/setEnabledEquipment', equipment_eanbled)
+        }
       }
     },
-    created () {
-    },
-    mounted () {
 
-      $(function() {
-        var waitForFinalEvent = (function () {
-          var timers = {};
-          return function (callback, ms, uniqueId) {
-            if (!uniqueId) {
-              uniqueId = "Don't call this twice without a uniqueId";
-            }
-            if (timers[uniqueId]) {
-              clearTimeout(timers[uniqueId]);
-            }
-            timers[uniqueId] = setTimeout(callback, ms);
-          };
-        })();
-        $(function () {
-          $(window).resize(function () {
-            waitForFinalEvent(function () {
-              let Elm = $('.step-container');
-              let contentRight = $('.content-right').width();
-              Elm.css({
-                "width": contentRight + 'px',
-                "top": $('.top-bar-section').height() + 13 + 'px'
-              })
-            }, 500, "unique");
-          });
-        })
-
-        $(window).on("scroll", function() {
-          if ($(window).scrollTop() > 50) {
-            $(".top-bar-section").addClass("sticky-top");
-            $('body').addClass('sticky-header');
-            if ($('.step-container').length) {
-              let Elm = $('.step-container');
-              let contentRight = $('.content-right').width();
-              let menuLeft = $('.menu-left').width();
-              /*  Elm.width(contentRight + 'px');*/
-              Elm.css({
-                "position": 'fixed',
-                "width": contentRight + 'px',
-                "top": $('.top-bar-section').height() + 12 + 'px',
-                "background": 'white',
-                "z-index": '999',
-                "height": "75px"
-              })
-
-
-            }
-
-
-          }
-          else {
-            //remove the background property so it comes transparent again (defined in your css)
-            $(".top-bar-section").removeClass("sticky-top");
-            $('body').removeClass('sticky-header');
-            $('.step-container').css({
-              "position": "static",
-              "width": "auto",
-              "top": "auto",
-              "z-index": "inherit",
-              "height": "auto"
-
-            })
-          }
-        });
-      });
-
-      $(document).keyup(function (e) {
-        if($('.support-form-holder').is(":visible") && e.keyCode == 27) {
-          setTimeout(function() {
-            $('.support-form-holder .btn-close').click();
-          }, 200);
-        } else if($('.spent-info').hasClass('active') && e.keyCode == 27) {
-          setTimeout(function() {
-            history.back();
-          },200)
-        }
+    watchFeatures() {
+      const vm = this
+      Flagger.configure({ envKey: process.env.AIRSHIP_KEY }).then(res => {
+        console.log('Flagger connected')
+        vm.feature_interval = setInterval(() => {
+          vm.pollingFeatures()
+        }, 5000)
       })
     },
+
+    unwatchFeatures() {
+      if (this.feature_interval) {
+        clearInterval(this.feature_interval)
+        this.feature_interval = null
+      }
+    }
+  },
+
+  created() {
+    console.log('app created')
+    console.log('features', features)
+    console.log('process.env', process.env)
+
+    this.watchFeatures()
+  },
+
+  beforeDestroy() {
+    this.unwatchFeatures()
   }
+}
 </script>
+
+<style lang="scss">
+// CoreUI Icons Set
+@import '~@coreui/icons/css/coreui-icons.min.css';
+
+/* Import Font Awesome Icons Set */
+$fa-font-path: '~font-awesome/fonts/';
+@import '~font-awesome/scss/font-awesome.scss';
+
+/* Import Simple Line Icons Set */
+$simple-line-font-path: '~simple-line-icons/fonts/';
+@import '~simple-line-icons/scss/simple-line-icons.scss';
+
+/* Import Flag Icons Set */
+@import '~flag-icon-css/css/flag-icon.min.css';
+
+/* Import Bootstrap Vue Styles */
+@import '~bootstrap-vue/dist/bootstrap-vue.css';
+
+// Import Main styles for this application
+@import 'assets/scss/style';
+</style>

@@ -1,4 +1,4 @@
-import * as types from "./../mutation-types";
+import * as types from '@/store/mutation-types'
 
 // initial state
 const state = {
@@ -33,7 +33,8 @@ const actions = {
   },
 
   clearAll ({commit}) {
-    commit(types.ERROR_CLEAR_ALL);
+    // console.log('error/clearAll')
+    commit(types.ERROR_CLEAR_ALL)
   }
 }
 

@@ -1,11 +1,12 @@
-import {http} from "vue";
-import $store from "./../store";
-import {AuthHelper} from "./../helpers";
+import Vue from 'vue'
+import $store from '@/store'
+import { AuthHelper } from '@/helpers'
+
+const http = Vue.http
+const API_BASE_URL = process.env.URL_API
 
 const { Store } = require('yayson')()
 const store = new Store()
-
-const API_BASE_URL = process.env.URL_API
 
 export default {
   getAll (params, cb, errCb) {

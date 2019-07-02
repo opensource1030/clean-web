@@ -1,0 +1,28 @@
+// if you want to override variables do it here
+@import "variables";
+
+// coreui styles
+@import "~@coreui/coreui/scss/coreui";
+
+// ie fixes
+@import "ie-fix";
+
+// common
+@import "global";
+
+// components
+@import "components/nprogress";
+@import "components/spinner";
+@import "components/header";
+@import "components/footer";
+@import "components/breadcrumb";
+@import "components/sidebar";
+@import "components/pagination";
+@import "components/support";
+@import "components/legacy";
+
+// containers / pages
+@import "containers/auth";
+@import "containers/dashboard";
+@import "containers/employee";
+@import "containers/device";
