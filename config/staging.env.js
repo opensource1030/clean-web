@@ -1,7 +1,6 @@
 module.exports = {
   NODE_ENV: 'staging',
   URL_API: 'https://staging.api.wirelessanalytics.com',
-  // URL: 'https://staging.wirelessanalytics.com',
   URL: 'http://localhost:8080',
   CLIENT_ID: '2',
   CLIENT_SECRET: 'ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7',
@@ -11,46 +10,5 @@ module.exports = {
   EASYVISTA_CODE: 13,
   EZW_SSO_URL: 'https://oauth2.eztest.nu/sso?partner=WIRELESS',
   AIRSHIP_KEY: 'epfj6c15jzafy108',
-  FEATURESV: {
-    AWESOME_FEATURE: true,
-    FEATURE_IN_DEVELOPMENT: true// isProduction() ? false : true,
-  },
-  FEATURES: {
-    "Procurements": {
-      enabled: true,
-      users: {
-        "user@mail.com": true,
-        "*@email.com": true
-      }
-    },
-    "Packages": {
-      enabled: true,
-      users: {
-        "user@mail.com": true,
-        "*@email.com": true
-      }
-    },
-    "Presets": {
-      enabled: true,
-      users: {
-        "user@mail.com": true,
-        "*@email.com": true
-      }
-    },
-    "ManageDevices": {
-      enabled: true,
-      users: {
-        "user@mail.com": true,
-        "*@email.com": true
-      }
-    },
-    "ManageServices": {
-      enabled: true,
-      users: {
-        "user@mail.com": true,
-        "*@wa.com": true
-      }
-    }
-  },
-  VERSION: 'v4.1.13'
+  VERSION: 'v2019.6.1'
 }
