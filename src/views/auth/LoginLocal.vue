@@ -13,11 +13,11 @@
                 <b-form v-on:submit.prevent="submit()">
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="fa fa-home"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" id="email" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
+                    <b-form-input type="text" id="email" ref="email" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
                   <b-input-group class="mb-4">
                     <b-input-group-prepend><b-input-group-text><i class="fa fa-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="password" v-model="credentials.password" class="form-control" placeholder="Password" autocomplete="current-password" />
+                    <b-form-input type="password" ref="password" v-model="credentials.password" class="form-control" placeholder="Password" autocomplete="current-password" />
                   </b-input-group>
                   <b-row class="mb-3">
                     <b-col cols="6">
@@ -81,6 +81,10 @@ export default {
       this.$router.push({
         name: 'Reset Password'
       })
+    },
+
+    focusPassword() {
+      this.$refs.password.focus()
     }
   },
 
@@ -91,6 +95,10 @@ export default {
       $('input[name="email"]').focus()
     } else {
       $('input[name="password"]').focus()
+    }
+
+    if (this.$route.params.email != null) {
+      this.$nextTick(() => this.focusPassword())
     }
   },
 }
