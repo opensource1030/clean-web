@@ -16,6 +16,7 @@
     "serve:dev": "cross-env NODE_ENV=development node build/dev-server-2.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
+    "test:gauge":"gauge run ./tests/gauge/specs/",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "vue:dev": "vue-cli-service serve",
@@ -77,10 +78,17 @@
     "vuejs-datepicker": "^1.5.4",
     "vuex": "^3.1.0",
     "vuex-router-sync": "^5.0.0",
-    "yayson": "^2.0.8"
+    "yayson": "^2.0.8",
+    "@getgauge/cli": "latest",
+    "gauge-ts": "latest",
+    "taiko": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
+    "@types/node": "latest",
+    "chai": "^4.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.3.4",
     "@vue/babel-preset-app": "^3.7.0",
