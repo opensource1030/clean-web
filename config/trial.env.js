@@ -1,3 +1,4 @@
+
 module.exports = {
   NODE_ENV: 'trial',
   URL_API: 'https://staging.api.wirelessanalytics.com',
@@ -9,5 +10,5 @@ module.exports = {
   EV_ACCOUNT: 50005,
   EASYVISTA_CODE: 13,
   EZW_SSO_URL: 'https://oauth2.eztest.nu/sso?partner=WIRELESS',
-  VERSION: 'v2019.6.1'
+  VERSION:'v2019.6.1'
 };
