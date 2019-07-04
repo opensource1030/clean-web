@@ -3,7 +3,11 @@ const state = {
   enabled_equipment: false
 }
 
-const getters = {}
+const getters = {
+  isInventoryEnabled: (state) => {
+    return state.enabled_equipment
+  }
+}
 
 const actions  = {
   setEnabledPlaceOrder({ commit }, enabled_place_order) {

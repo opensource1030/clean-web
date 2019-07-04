@@ -18,7 +18,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" v-if="$store.getters['feature/isInventoryEnabled']">
         <div @click="show_inventory_submenu = !show_inventory_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-list-alt"></i>INVENTORY
         </div>
