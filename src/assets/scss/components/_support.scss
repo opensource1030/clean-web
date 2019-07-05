@@ -30,7 +30,7 @@
 
   &.loading {
     &:after {
-      content: '';
+      content: '\F110';
       font-size: 48px;
       font-family: FontAwesome;
       color:#fff;

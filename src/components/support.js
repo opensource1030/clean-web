@@ -10,8 +10,9 @@ export default {
 
   data() {
     return {
-      show_success_dialog: false,
-      show_error_dialog: false,
+      // show_success_dialog: false,
+      // show_error_dialog: false,
+      loading: false,
       ticket_issues: [
         { id: 'issue-4', value: 'qamms', tag: 'BIL1', label: 'Questions About My Monthly Statement' },
         { id: 'issue-15', value: 'obi', tag: 'BIL1', label: 'Other Billing Issues' },
@@ -61,12 +62,10 @@ export default {
       console.log('ticket onSubmit', this.ticket)
 
       if (this.ticket.issue === 'aif' && this.ticket.data.countries.length === 0) {
-        console.log('please select at least a country')
+        this.$swal('Error', 'Please select at least one country', 'error')
         return false
       }
 
-      // var form = $('#support-form');
-      // var $modal = $('#modal');
       const company = "wirelessanalytics";
       const key = "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";
 
@@ -142,62 +141,50 @@ export default {
 
       // console.log(msg)
       // console.log(json)
-
       // this.show_success_dialog = true
-      this.show_error_dialog = true
+      // this.show_error_dialog = true
 
-      // $modal.html('');
-      // $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").show();
-
-      // $('#my-modal').show();
-      // dashboard.$refs['my-modal'].show()
-      // $.ajax({
-      //   type: "POST",
-      //   //url: "https://api.elasticemail.com/v2/email/send",
-      //   // headers: {"Authorization": "Bearer " + key},
-      //   data: JSON.stringify(json),
-      //   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      //   url: "https://wa.easyvista.com/api/v1/"  + local.EV_ACCOUNT + "/requests",
-      //   // url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
-      //   headers: {"Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw=="},
-      //   // contentType: "application/x-www-form-urlencoded",
-      //   contentType: "application/json; charset=UTF-8",
-      //   processData: false,
-      //   // data: {
-      //   //   "subject": subject,
-      //   //   "to": process.env.SUPPORT_EMAIL,
-      //   //   "apikey": "fad6cdd8-a1dc-46c1-8656-0b66371d614b",
-      //   //   "bodyHtml": msg,
-      //   //   "from": $('#recipient_email').val(),
-      //   // },
-      //   // contentType: "application/json; charset=UTF-8",
-      //   beforeSend: function () {
-      //     $('.support-form-holder').addClass('loading');
-      //   },
-      //   success: function () {
-      //     console.log("succes")
-      //     /*$modal.html('');
-      //     $modal.removeClass('is-error').addClass('is-success').append("<h4>Ticket Opened Successfully </h4>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>").fundation;
-      //     alert("Ticket Opened Successfully")
-      //     //this.$refs['my-modal'].show()
-      //     //SupportRequest.$refs['my-modal'].show()
-      //     //$modal.html('');
-      //     $('.support-form-holder').removeClass('loading');
-      //     $('#support-form')[0].reset();
-      //     heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
-      //   },
-      //   error: function (XMLHttpRequest, textStatus, errorThrown) {
-      //     $('.support-form-holder').removeClass('loading');
-      //     $('#modal').html('');
-      //     $modal.removeClass('is-success').addClass('is-error').append("<h4>" + "Status: " + textStatus + "</h4>" + "<p>" + "Error: " + errorThrown + "</p>" + "<button data-close='' aria-label='Close Accessible Modal' type='button' class='close-button'><span aria-hidden='true'>×</span></button>");
-      //     alert("Error")
+      const vm = this
+      // vm.$swal('Error', '', 'error')
+      // vm.$swal({
+      //   title: 'Are you sure?',
+      //   text: 'You won\'t be able to revert this!',
+      //   type: 'warning',
+      //   showCancelButton: true,
+      //   confirmButtonColor: '#3085d6',
+      //   cancelButtonColor: '#d33',
+      //   confirmButtonText: 'Yes, delete it!'
+      // }).then((result) => {
+      //   // console.log(result.dismiss, result)
+      //   if (!result.dismiss && result.value) {
+      //   } else {
       //   }
       // })
-    },
 
-    showModal() {
-      this.$refs['my-modal'].show()
-      //$('#my-modal').trigger('focus')
+      $.ajax({
+        type: "POST",
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
+        headers: { "Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw==" },
+        // contentType: "application/x-www-form-urlencoded",
+        contentType: "application/json; charset=UTF-8",
+        processData: false,
+        data: JSON.stringify(json),
+        beforeSend: function (xhr) {
+          vm.loading = true
+        },
+        success: function () {
+          vm.$swal('Submitted', 'Ticket Opened Successfully', 'success').then(() => {
+            vm.loading = false
+            vm.$store.commit('auth/setShowTicket', false)
+          })
+          // heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          vm.$swal(textStatus, errorThrown, 'error')
+          vm.loading = false
+        }
+      })
     }
   },
 
