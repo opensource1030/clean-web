@@ -1,6 +1,7 @@
 import BaseAction from "../../common/baseAction";
 import AbstractPageUI from "../interfaces/abstract.ui";
 import { format } from "util";
+import { dropDown } from "taiko";
 
 export default class AbstractPage extends BaseAction {
   constructor() {
@@ -18,9 +19,8 @@ export default class AbstractPage extends BaseAction {
   }
 
   async selectDropdownByLocatorAndValue(locator: string, value: string) {
-    await this.clickElement(locator);
-    await this.sleep(2);
-    await this.clickElement(AbstractPageUI.DYNAMIC_ELEMENT_BY_TEXT, value);
+    await dropDown().select(value);
+    // TODO need update later
   }
 
   async clickCheckboxByLabel(label: string) {
@@ -28,6 +28,7 @@ export default class AbstractPage extends BaseAction {
   }
 
   async navigateByLeftMenu(menu: string, submenu?: string): Promise<void> {
+    await this.waitForElementExisting(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);
     await this.clickElement(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);
     if (submenu !== null) {
       await this.clickElement(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, submenu);

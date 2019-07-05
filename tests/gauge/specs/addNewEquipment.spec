@@ -11,6 +11,7 @@
 * User leaves required fields blank at New Device page
 * User clicks Save button at New Device page
 * Verify validations appeared on required fields at New Device page
+Validation are not displaying for all required field => So it is failing at the moment
 
 ## Scenario 6: Verify User can create a device successfully
 * User logged as "Global Admin"
@@ -21,16 +22,16 @@
 |-------------|-----------|------------|-----|---------|
 |    12       |Tablet     |Manufacturer|Model|Technical|
 
-* User inputs all information for Attributes with Capacity: "12", Color: "Black"
+* User selects provided information for Attributes with Capacity: "10Gb", Color: "Black"
 
 * User inputs all information for Vendor with Vendor: "ATT"
 
-* User inputs all information for Companies with Company: "Hologic"
+* User selects provided company from the list of checkbox: "Oyster Labs"
 
 * User inputs all information for Prices
-|Retail Price|Price One|Price Two|Price Own|
-|------------|---------|---------|---------|
-|    12      |13       |15       |18       |
+|Retail Price|Price One|Price Two|Price Own|Capacity    |Color  |Vendor     |Company       |
+|------------|---------|---------|---------|------------|-------|-----------|--------------|
+|    12      |13       |15       |18       |10Gb        |Black  |ATT        |Oyster Labs   |
 
 * User clicks Save button at New Device page
 * Verify new device "test device" is submitted to the database with correct information

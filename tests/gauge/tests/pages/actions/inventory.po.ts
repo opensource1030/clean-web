@@ -32,6 +32,19 @@ export default class InventoryPage extends AbstractPage {
     await this.inputTextFieldByLabel('Color', color);
   }
 
+  async selectProvidedOptionInAttributes(capacity: string, color: string): Promise<void> {
+    await this.selectProvidedCapacity(capacity);
+    await this.selectProvidedColor(color);
+  }
+
+  async selectProvidedCapacity(capacity: string) {
+    await this.clickElement(InventoryPageUI.DYNAMIC_CAPACITY_CHECKBOX, capacity);
+  }
+
+  async selectProvidedColor(color: string) {
+    await this.clickElement(InventoryPageUI.DYNAMIC_STYLE_CHECKBOX, color);
+  }
+
   async inputFieldsInVendor(vendor: string): Promise<void> {
     await this.clickCheckboxByLabel(vendor);
   }
@@ -39,6 +52,10 @@ export default class InventoryPage extends AbstractPage {
   async inputFieldsInCompanies(company: string): Promise<void> {
     await this.inputTextFieldByLabel('Find Company', company);
     await this.clickElement(InventoryPageUI.FIND_COMPANY_BUTTON);
+  }
+
+  async selectProvidedCompany(company: string): Promise<void> {
+    await this.clickElement(InventoryPageUI.DYNAMIC_PROVIDED_COMPANY_CHECKBOX, company);
   }
 
   async inputFieldsInPrice(retailPrice: string, priceOne: string, priceTwo: string, priceOwn: string): Promise<void> {
@@ -61,7 +78,7 @@ export default class InventoryPage extends AbstractPage {
 
   async isDeviceExistingOnList(deviceName: string): Promise<boolean> {
     await this.type(InventoryPageUI.DEVICE_NAME_HEADER_TXT, deviceName);
-    await press("Enter");
+    await this.clickElement(InventoryPageUI.DEVICE_SUGGESTION_LIST, deviceName);
     return await this.isElementByTextDisplayed(deviceName);
   }
 }

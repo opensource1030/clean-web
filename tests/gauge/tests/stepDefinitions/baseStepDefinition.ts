@@ -6,7 +6,8 @@ export default class BaseStepDefinition {
     @BeforeScenario()
     public async specSetup() {
         await openBrowser({
-            headless: false
+            headless: false,
+            args: ['--window-size=1368,768']
         });
         console.log("Setup needs to done before running the Scenario");
     }
