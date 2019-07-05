@@ -10,5 +10,6 @@ module.exports = {
   EASYVISTA_CODE: 13,
   EZW_SSO_URL: 'https://oauth2.eztest.nu/sso?partner=WIRELESS',
   AIRSHIP_KEY: 'm28fzq7j0yrpr8us',
-  VERSION:'v2019.6.3'
+  VERSION:'v2019.6.3',
+  EV_URL: 'https://wa.easyvista.com/api/v1'
 }

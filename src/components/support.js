@@ -164,7 +164,7 @@ export default {
       $.ajax({
         type: "POST",
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        url: "https://wa.easyvista.com/api/v1/"  + process.env.EV_ACCOUNT + "/requests",
+        url: process.env.EV_URL + '/' + process.env.EV_ACCOUNT + '/requests',
         headers: { "Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw==" },
         // contentType: "application/x-www-form-urlencoded",
         contentType: "application/json; charset=UTF-8",
