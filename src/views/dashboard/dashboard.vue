@@ -21,7 +21,7 @@
           <spinner v-if="userInfo.loading" />
           <div v-else>
             <div class="row mx-0">
-              <div class="col-md border">
+              <div v-if="userInfo.lastAllocations[activeAllocationIndex]" class="col-md border">
                 <b-row>
                   <b-col class="field-container border-right">
                     <div class="field">
@@ -86,7 +86,7 @@
                 </div>
               </div>
 
-              <div class="col-md border">
+              <div v-if="userInfo.lastAllocations[activeAllocationIndex]" class="col-md border">
                 <b-row>
                   <b-col class="field-container border-right">
                     <div class="field">
@@ -172,7 +172,7 @@
               </div>
             </div>
 
-            <div>
+            <div v-if="userInfo.lastAllocations[activeAllocationIndex]">
               <div class="custom-pagination">
                 <a class="item-prev" :class="{ 'inactive': activeAllocationIndex == 0 }" @click="prevAllocation()">
                   <i class="fa fa-arrow-left fa-2x"></i>
@@ -207,9 +207,10 @@
           <b-card-body class="p-0">
             <spinner v-if="userInfo.loading" />
             <PieChart
-              v-if="!userInfo.loading && userInfo.lastAllocations.length"
+              v-else-if="userInfo.lastAllocations.length"
               :data="userInfo.lastAllocations"
             />
+            <div v-else class="p-3 text-center bold border">N/A</div>
           </b-card-body>
         </b-card>
       </b-col>
@@ -221,9 +222,10 @@
           <b-card-body class="p-0">
             <spinner  v-if="userInfo.loading" />
             <TrendChart
-              v-if="!userInfo.loading && userInfo.data.allocations.length"
+              v-else-if="userInfo.data.allocations.length"
               :data="userInfo.data.allocations"
             />
+            <div v-else class="p-3 text-center bold border">N/A</div>
           </b-card-body>
         </b-card>
       </b-col>

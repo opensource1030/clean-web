@@ -173,7 +173,7 @@ export default {
       this.userInfo.loading = false;
     }, err => {
       Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = Utils.parseJsonString(Storage.get('profile'));
+      this.userInfo.data = profile;
       this.userInfo.data.allocations = [];
       this.userInfo.loading = false;
     })

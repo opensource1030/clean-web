@@ -1,5 +1,8 @@
 <template>
-  <div class="support-form-holder font_size_form">
+  <div
+    class="support-form-holder font_size_form"
+    :class="{ 'loading': loading }"
+  >
     <div class="form-header">
       <a @click="closeTicket()" class="btn-close" title="close"><i class="fa fa-times-circle"> </i></a>
     </div>
@@ -225,35 +228,7 @@
         <button type="submit" class="button btn-primary btn-submit">Submit Ticket</button>
       </div>
     </b-form>
-
-    <b-modal
-      v-model="show_success_dialog"
-      hide-footer
-    >
-      <div class="d-block text-center is-success">
-        <h3>Ticket Opened Successfully</h3>
-      </div>
-    </b-modal>
-
-    <b-modal
-      v-model="show_error_dialog"
-      content-class="is-error"
-      hide-footer
-    >
-      <div class="d-block text-center is-error">
-        <h3>Error</h3>
-      </div>
-    </b-modal>
   </div>
 </template>
 
 <script src="./support" lang="babel"></script>
-
-<style scoped>
-/* .font_size_form label {
-  font-size: 0.875rem;
-}
-.font_size_form span {
-  font-size: 0.875rem;
-} */
-</style>

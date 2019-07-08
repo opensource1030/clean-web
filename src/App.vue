@@ -23,7 +23,7 @@ export default {
         const user = {
           type: 'User',
           id: profile.id,
-          displayName: profile.username,
+          displayName: profile.username || profile.email,
           attributes: {
             email: profile.email,
             company_id: company.id,
