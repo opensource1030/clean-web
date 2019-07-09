@@ -4,8 +4,8 @@
 
     <div v-else>
       <div class="mb-4">
-        <div class="tag-header bg-info">
-          Plan Details
+        <div class="bg-info">
+          <h2 class="box-heading">Plan Details</h2>
         </div>
         <b-card no-body class="border-0">
           <b-card-body>
@@ -29,8 +29,7 @@
                   </div>
                   <div class="col-sm-3">
                     <label>Currency</label>
-                    <multiselect v-model="serviceDetails.currency" :options="currencyUnit" :searchable="false"
-                                 :show-labels="false" placeholder="Unit"
+                    <multiselect :options="currencyUnit" :searchable="false" :show-labels="false" placeholder="Unit"
                                  @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})"></multiselect>
                   </div>
                 </div>
@@ -45,7 +44,7 @@
               <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                   <label>Carriers</label>
-                  <multiselect v-model="serviceDetails.carrierId" track-by="presentation" label="presentation" :options="carriers"
+                  <multiselect track-by="presentation" label="presentation" :options="carriers"
                                :searchable="false" :show-labels="false" placeholder="Select Carrier"
                                @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})">
                     <template slot="singleLabel" slot-scope="{ option }">{{ option.presentation }}</template>
@@ -53,7 +52,7 @@
                 </div>
                 <div class="form-group">
                   <label class="block">Active</label>
-                  <c-switch color="primary" v-model="serviceDetails.status" value="1" uncheckedValue="0"
+                  <c-switch color="primary" value="1" uncheckedValue="0"
                             @change="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})"/>
                 </div>
               </div>
@@ -63,8 +62,8 @@
       </div>
 
       <div class="mb-4">
-        <div class="tag-header bg-info">
-          Domestic Services
+        <div class="bg-info">
+          <h2 class="box-heading">Domestic Services</h2>
         </div>
         <b-card no-body class="border-0">
           <b-card-body>
@@ -87,8 +86,7 @@
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="domesticPlan.data.value"
                                 @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})"></b-form-input>
-                  <multiselect v-model="domesticDataUnit" :options="dataUnit" :searchable="false"
-                               :show-labels="false" placeholder="Unit"
+                  <multiselect :options="dataUnit" :searchable="false" :show-labels="false" placeholder="Unit"
                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})"></multiselect>
                 </b-input-group>
               </div>
@@ -108,8 +106,8 @@
       </div>
 
       <div class="mb-4">
-        <div class="tag-header bg-info">
-          International Services
+        <div class="bg-info">
+          <h2 class="box-heading">International Services</h2>
         </div>
         <b-card no-body class="border-0">
           <b-card-body>
@@ -132,7 +130,7 @@
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="internationalPlan.data.value"
                                 @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})"></b-form-input>
-                  <multiselect v-model="internationalDataUnit" :options="dataUnit" :searchable="false"
+                  <multiselect :options="dataUnit" :searchable="false"
                                :show-labels="false" placeholder="Unit"
                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})"></multiselect>
                 </b-input-group>
@@ -154,7 +152,7 @@
 
       <div class="mb-4">
         <div class="tag-header bg-info">
-          Add-Ons
+          <h2 class="box-heading">Add-Ons</h2>
         </div>
         <b-card no-body class="border-0">
           <b-card-body>
@@ -202,59 +200,3 @@
 </template>
 
 <script src="./service_edit.ctrl.js" lang="babel"></script>
-
-<style lang="scss">
-  .service-edit-page {
-    .tag-header {
-      display: inline-block;
-      padding: 0px 100px 0px 20px;
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 40px;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    .multiselect {
-      width: initial;
-      min-height: 35px;
-
-      .multiselect__select {
-        height: 35px;
-      }
-
-      .multiselect__tags {
-        padding-top: 2px;
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-        min-height: 35px;
-      }
-
-      .multiselect__single, .multiselect__placeholder {
-        margin-bottom: 6px;
-        padding-top: 4px;
-      }
-    }
-
-    .block {
-      display: block;
-    }
-
-    .btn-control {
-      position: absolute;
-      right: 15px;
-      bottom: 20px;
-    }
-
-    .fa-lightbulb-o:before {
-      content: "\F067";
-    }
-
-    .btn-submit {
-
-    }
-
-  }
-</style>

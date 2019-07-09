@@ -185,7 +185,7 @@ const actions = {
         //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
         commit(types.SERVICE_PREPARE_ITEMS)
         commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject, service) => {
           serviceAPI.create({data: serviceo.toJSON()}, res => {
             commit(types.SERVICE_ADD_NEW, {router})
             resolve(service)
@@ -310,7 +310,6 @@ const mutations = {
 
   updateServiceDetail (state, { e, type }) {
     // console.log('updateServiceDetail', e, state.serviceDetails)
-    //debugger;
     switch (type) {
       case 'description':
         state.serviceDetails[type] = e.target.value;
@@ -377,7 +376,7 @@ const mutations = {
   },
 
   [types.SERVICE_ADD_NEW](state, { router }) {
-    router.push({name: 'List Services'});
+    router.push({name: 'Dashboard'});
   },
 
   [types.SERVICE_PREPARE_ITEMS](state) {

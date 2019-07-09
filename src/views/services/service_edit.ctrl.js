@@ -37,7 +37,7 @@ export default {
     this.$store.dispatch('carrier/search').then((res) => {
       this.isLoading = false;
     }, (err) => {
-      // console.log('error in carrier/search', err);
+      console.log('error in carrier/search', err);
       this.isLoading = false;
     })
   },
