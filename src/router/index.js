@@ -28,6 +28,9 @@ import DeviceEdit from '@/views/device/edit'
 import EmployeeIndex from '@/views/employees/employee_index'
 import EmployeeEdit from '@/views/employees/employee_edit'
 
+// service
+import ServiceIndex from '@/views/services/service_index'
+
 Vue.use(VueResource)
 Vue.use(Router)
 
@@ -83,6 +86,16 @@ const router = new Router({
             // { path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: { label: 'Review' } },
           ]
         },
+
+        // services
+        {
+          path: 'services',
+          component: { template: '<router-view></router-view>' },
+          meta: { label: 'Services' },
+          children: [
+            { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
+          ]
+        }
       ]
     },
 
