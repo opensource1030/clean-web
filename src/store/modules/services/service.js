@@ -92,7 +92,7 @@ const getters = {
 
   getAddons: (state) => {
     return state.addons
-  },
+  }
 }
 
 const actions = {
@@ -173,73 +173,20 @@ const actions = {
       serviceDetails.cost,
       serviceDetails.description,
       serviceDetails.currency,
-      serviceDetails.carrierId.id
+      serviceDetails.carrierId ? serviceDetails.carrierId.id : ''
     )
-    // console.log('serviceo', serviceo)
-    return dispatch('checkPlan', {
-      serviceo: serviceo,
-      addons: addons
-    }).then(response => {
-      // console.log('service/add', response)
-      if (response) {
-        //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
-        commit(types.SERVICE_PREPARE_ITEMS)
-        commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-        return new Promise((resolve, reject, service) => {
-          serviceAPI.create({data: serviceo.toJSON()}, res => {
-            commit(types.SERVICE_ADD_NEW, {router})
-            resolve(service)
-          }, err => {
-            console.log('service create err', err)
-            reject(err)
-          })
-        })
-      } else {
-        dispatch('error/addNew', {
-          message: 'Error, empty or invalid values. Please, check the inputs and complete it correctly.'
-        }, {root: true});
 
-        return 'error';
-      }
-    }, err => {
-      console.log('service add err')
+    commit(types.SERVICE_PREPARE_ITEMS)
+    commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
+    return new Promise((resolve, reject, service) => {
+      serviceAPI.create({data: serviceo.toJSON()}, res => {
+        commit(types.SERVICE_ADD_NEW, {router})
+        resolve(service)
+      }, err => {
+        console.log('service create err', err)
+        reject(err)
+      })
     })
-  },
-
-  checkPlan ({ dispatch, commit, state }, { serviceo, addons }) {
-    if (serviceo.title == "") {
-      // dispatch('error/addNew', { message: 'titleError' })
-      return false
-    }
-
-    if (serviceo.planCode == "") {
-      // dispatch('error/addNew', { message: 'planCodeError' })
-      return false
-    }
-
-    if (serviceo.cost == "") {
-      // dispatch('error/addNew', { message: 'costError' })
-      return false
-    }
-
-    if (serviceo.description == "") {
-      // dispatch('error/addNew', { message: 'description' })
-      return false
-    }
-
-    for (let addon of addons) {
-      if (addon.description == "") {
-        if (addon.cost != "") {
-          return false
-        }
-      } else {
-        if (addon.cost == "") {
-          return false
-        }
-      }
-    }
-
-    return true
   }
 }
 

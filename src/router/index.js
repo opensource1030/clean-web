@@ -94,7 +94,6 @@ const router = new Router({
           children: [
             { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
           ]
-
         }
       ]
     },

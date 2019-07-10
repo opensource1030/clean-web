@@ -1,5 +1,6 @@
 import {mapGetters, mapActions} from 'vuex'
 import { Switch as cSwitch } from '@coreui/vue'
+import { ServiceHelper } from '@/helpers'
 
 export default {
 
@@ -44,15 +45,22 @@ export default {
 
   methods: {
     save() {
-      let self = this;
+      let self = this
+      let valid = ServiceHelper.validateFields(self.serviceDetails, self.addons)
 
-      this.$store.dispatch('error/clearAll')
-      this.$store.dispatch('service/add', {
-        serviceDetails: this.serviceDetails,
-        domesticPlan: this.domesticPlan,
-        internationalPlan: this.internationalPlan,
-        addons: this.addons,
-        router: this.$router
+      self.$store.dispatch('error/clearAll')
+
+      if (valid !== true) {
+        self.$store.dispatch('error/addNew', { message: valid });
+        return
+      }
+
+      self.$store.dispatch('service/add', {
+        serviceDetails: self.serviceDetails,
+        domesticPlan: self.domesticPlan,
+        internationalPlan: self.internationalPlan,
+        addons: self.addons,
+        router: self.$router
       }).then((result) => {
         if(result == 'error') {
           self.$swal({

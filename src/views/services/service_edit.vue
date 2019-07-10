@@ -1,5 +1,15 @@
 <template>
   <div class="page service-page service-edit-page">
+    <b-modal
+      :visible="$store.getters['error/hasError']"
+      @hidden="$store.dispatch('error/clearAll')"
+      hide-footer
+    >
+      <div class="d-block text-center is-error">
+        <h3>{{ $store.getters['error/error'] }}</h3>
+      </div>
+    </b-modal>
+
     <spinner v-if="isLoading" />
 
     <div v-else>
@@ -9,28 +19,33 @@
         </div>
         <b-card no-body class="border-0">
           <b-card-body>
-            <div class="row expanded">
+            <div class="row mb-3">
               <div class="col-sm-6 col-xs-12">
                 <label>Title</label>
                 <b-form-input type="text" class="form-control" :value="serviceDetails.title"
-                              @input="$store.commit('service/updateServiceDetail',{e:$event,type:'title'})"></b-form-input>
+                              @input="$store.commit('service/updateServiceDetail',{e:$event,type:'title'})" />
               </div>
               <div class="col-sm-6 col-xs-12">
                 <div class="row">
                   <div class="col-sm-5">
                     <label>Plan Code</label>
                     <b-form-input type="text" class="form-control" :value="serviceDetails.code"
-                                  @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})"></b-form-input>
+                                  @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})" />
                   </div>
                   <div class="col-sm-4">
                     <label>Cost</label>
                     <b-form-input type="text" class="form-control" :value="serviceDetails.cost"
-                                  @input="$store.commit('service/updateServiceDetail',{e:$event,type:'cost'})"></b-form-input>
+                                  @input="$store.commit('service/updateServiceDetail',{e:$event,type:'cost'})" />
                   </div>
                   <div class="col-sm-3">
                     <label>Currency</label>
-                    <multiselect :options="currencyUnit" :searchable="false" :show-labels="false" placeholder="Unit"
-                                 @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})"></multiselect>
+                    <multiselect
+                      placeholder="Unit"
+                      :options="currencyUnit"
+                      :searchable="false"
+                      :show-labels="false"
+                      :value="serviceDetails.currency"
+                      @input="$store.commit('service/updateServiceDetail',{e:$event,type:'currency'})" />
                   </div>
                 </div>
               </div>
@@ -39,14 +54,19 @@
               <div class="col-sm-6 col-xs-12">
                 <label>Description</label>
                 <textarea class="form-control" rows="5" :value="serviceDetails.description"
-                          @input="$store.commit('service/updateServiceDetail',{e:$event,type:'description'})"></textarea>
+                          @input="$store.commit('service/updateServiceDetail',{e:$event,type:'description'})" />
               </div>
               <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                   <label>Carriers</label>
-                  <multiselect track-by="presentation" label="presentation" :options="carriers"
-                               :searchable="false" :show-labels="false" placeholder="Select Carrier"
-                               @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})">
+                  <multiselect
+                    label="presentation"
+                    placeholder="Select Carrier"
+                    :options="carriers"
+                    :searchable="false"
+                    :show-labels="false"
+                    :value="serviceDetails.carrierId"
+                    @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})">
                     <template slot="singleLabel" slot-scope="{ option }">{{ option.presentation }}</template>
                   </multiselect>
                 </div>
@@ -75,7 +95,7 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="domesticPlan.minutes.value"
-                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'minutes'})"></b-form-input>
+                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'minutes'})" />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -85,9 +105,14 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="domesticPlan.data.value"
-                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})"></b-form-input>
-                  <multiselect :options="dataUnit" :searchable="false" :show-labels="false" placeholder="Unit"
-                               @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})"></multiselect>
+                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})" />
+                  <multiselect
+                    placeholder="Unit"
+                    :options="dataUnit"
+                    :searchable="false"
+                    :show-labels="false"
+                    :value="domesticPlan.data.unit"
+                    @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -97,7 +122,7 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="domesticPlan.sms.value"
-                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'sms'})"></b-form-input>
+                                @input="$store.commit('service/updateDomesticplan',{e:$event,type:'sms'})" />
                 </b-input-group>
               </div>
             </div>
@@ -119,7 +144,7 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="internationalPlan.minutes.value"
-                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'minutes'})"></b-form-input>
+                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'minutes'})" />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -129,10 +154,14 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="internationalPlan.data.value"
-                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})"></b-form-input>
-                  <multiselect :options="dataUnit" :searchable="false"
-                               :show-labels="false" placeholder="Unit"
-                               @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})"></multiselect>
+                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})" />
+                  <multiselect
+                    placeholder="Unit"
+                    :options="dataUnit"
+                    :searchable="false"
+                    :show-labels="false"
+                    :value="internationalPlan.data.unit"
+                    @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -142,7 +171,7 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="internationalPlan.sms.value"
-                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'sms'})"></b-form-input>
+                                @input="$store.commit('service/updateInternationalplan',{e:$event,type:'sms'})" />
                 </b-input-group>
               </div>
             </div>
@@ -164,7 +193,7 @@
                     <b-input-group-text>Description</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="text" class="form-control" :value="addon.description"
-                                @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})"></b-form-input>
+                                @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})" />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -174,7 +203,7 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control" :value="addon.cost"
-                                @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})"></b-form-input>
+                                @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})" />
                   <b-input-group-prepend>
                     <b-input-group-text>{{ serviceDetails.currency }}</b-input-group-text>
                   </b-input-group-prepend>
