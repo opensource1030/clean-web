@@ -1,5 +1,4 @@
 import _ from 'lodash'
-// import modal from '@/components/modal'
 import Pagination from '@/components/pagination'
 // import { filterByModificationsd, filterByModifications, filterByCarrier, orderFilters } from '@/components/filters'
 import { mapGetters, mapActions } from 'vuex'

@@ -1,0 +1,56 @@
+
+.service-page {
+  .box-heading {
+    margin: 0;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .multiselect {
+    width: initial;
+    min-height: 35px;
+
+    .multiselect__select {
+      height: 35px;
+    }
+
+    .multiselect__tags {
+      padding-top: 2px;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+      min-height: 35px;
+    }
+
+    .multiselect__single, .multiselect__placeholder {
+      margin-bottom: 6px;
+      padding-top: 4px;
+    }
+  }
+
+  .block {
+    display: block;
+  }
+
+  .btn-control {
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+  }
+
+  .fa-lightbulb-o:before {
+    content: "\F067";
+  }
+
+  .btn-primary {
+    &:hover {
+      background: $color-1;
+      border: 1px solid $color-1;
+    }
+  }
+}
