@@ -1,0 +1,104 @@
+@import "../variables";
+
+.page.preset-page.preset-index-page {
+  .tag-header {
+    display: inline-block;
+    padding: 0 100px 0 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 40px;
+  }
+
+  .search-field {
+    position: relative;
+    padding: 0;
+    input[type="text"] {
+      height: 40px;
+      width: 100%;
+      margin: 0;
+      padding-left: 30px;
+      border: 0 none;
+      border-bottom: 1px solid $border-color;
+    }
+    i {
+      position: absolute;
+      left: 10px;
+      top: 12px;
+      color: #666666;
+    }
+  }
+
+  .btn.add-button {
+    margin-bottom: 15px;
+    background-color: $color-1;
+    color: #ffffff;
+    font-weight: 400;
+  }
+
+  .tag {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #0c2e82;
+    background: #e0eaf1;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+  }
+}
+
+.page.preset-page.preset-edit-page {
+  .card .card-header a.btn-info {
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    &.collapsed {
+      background-color: $color-7;
+      border-color: $color-7;
+      color: $color-1;
+    }
+  }
+
+  .card.device-card {
+    background-color: $color-1;
+    .card-img {
+      width: auto;
+      height: 200px;
+      margin: 15px;
+      padding: 0;
+      background-color: #fff;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .card-body {
+      text-align: center;
+      color: #fff;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  label.field {
+    .multiselect__input {
+      border: 0px none !important;
+    }
+
+    .input-group {
+      margin-top: 4px;
+      input, select {
+        width: 0;
+        margin: 0;
+        flex-grow: 1;
+      }
+      button {
+        height: 38px;
+      }
+    }
+  }
+}
