@@ -35,6 +35,10 @@ import PresetEdit from '@/views/preset/edit'
 // service
 import ServiceEdit from '@/views/services/service_edit'
 
+// package
+import PackageIndex from '@/views/package/index'
+import PackageEdit from '@/views/package/edit'
+
 Vue.use(VueResource)
 Vue.use(Router)
 
@@ -108,6 +112,17 @@ const router = new Router({
             { path: '', component: PresetIndex, name: 'List Presets', meta: { label: 'All' } },
             { path: 'new', component: PresetEdit, name: 'Add Preset', meta: { label: 'Create' } },
             { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
+          ]
+        },
+        // packages
+        {
+          path: '/packages',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Packages' },
+          children: [
+            { path: '', component: PackageIndex, name: 'List Packages', meta: { label: 'All' } },
+            { path: 'new', component: PackageEdit, name: 'Add Package', meta: { label: 'Create' } },
+            { path: ':id', component: PackageEdit, name: 'Update Package', meta: { label: 'Edit' } },
           ]
         },
       ]
