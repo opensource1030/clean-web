@@ -32,7 +32,7 @@ import DeviceEdit from '@/views/device/edit'
 import PresetIndex from '@/views/preset/index'
 import PresetEdit from '@/views/preset/edit'
 
-// Views Services
+// service
 import ServiceEdit from '@/views/services/service_edit'
 
 Vue.use(VueResource)
