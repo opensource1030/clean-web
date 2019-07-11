@@ -30,6 +30,7 @@ import EmployeeEdit from '@/views/employees/employee_edit'
 
 // service
 import ServiceIndex from '@/views/services/service_index'
+import ServiceEdit from '@/views/services/service_edit'
 
 Vue.use(VueResource)
 Vue.use(Router)
@@ -94,6 +95,7 @@ const router = new Router({
           meta: { label: 'Services' },
           children: [
             { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
+            { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
           ]
         }
       ]

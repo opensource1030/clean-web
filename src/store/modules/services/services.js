@@ -37,13 +37,13 @@ const state = {
   },
   //FILTERS
   filter: {
-      status: '',
-      plan:'',
-      details: '',
-      codePlan:'',
-      carriers:[],
-      cost:''
-  },
+    status: '',
+    plan:'',
+    details: '',
+    codePlan:'',
+    carriers:[],
+    cost:''
+  }
 }
 
 const getters = {
@@ -239,7 +239,7 @@ const mutations = {
         if (service.carriers.length == 0) {
           service.carriers[0] = {
             presentation: ''
-          }
+          };
         }
 
         state.Services.servicesList.push(service);
