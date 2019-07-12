@@ -165,17 +165,17 @@ const mutations = {
       case 'status':
         state.filter.status = records
         break
-      case 'plan':
-        state.filter.plan = records
+      case 'plans':
+        state.filter.plans = records
         break
       case 'carriers':
         state.filter.carriers = records
         break
       case 'details':
-        state.filter.details= records
+        state.filter.details = records
         break
       case 'codePlan':
-        state.filter.codePlan= records
+        state.filter.codePlan = records
         break
       case 'cost':
         state.filter.cost = records

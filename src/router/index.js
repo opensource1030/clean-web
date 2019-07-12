@@ -96,6 +96,7 @@ const router = new Router({
           children: [
             { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
             { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
+            { path: ':id', component: ServiceEdit, name: 'Update Service', meta: {label: 'Edit'}},
           ]
         }
       ]

@@ -1,8 +1,8 @@
 import {mapGetters, mapActions} from 'vuex'
 import { Switch as cSwitch } from '@coreui/vue'
-import { findServiceItem, findByAddons, orderFilters } from './../../components/filters.js';
-import serviceAPI from './../../api/service-api'
-import { ServicesPresenter } from './../../presenters'
+import serviceAPI from '@/api/service-api'
+import { findServiceItem, findByAddons, orderFilters } from '@/components/filters.js';
+import { ServicesPresenter } from '@/presenters'
 
 export default {
 
@@ -26,14 +26,14 @@ export default {
       },
       //Table Fields
       fields: [
-        { key: 'show_details', label: '' },
-        { key: 'status' },
-        { key: 'plans' },
-        { key: 'details' },
-        { key: 'plan_code' },
-        { key: 'carrier' },
-        { key: 'cost' },
-        { key: 'actions' }
+        { key: 'expand',    thClass:'th-width__3', label: '' },
+        { key: 'status',    thClass: 'th-width__6' },
+        { key: 'plans',     thClass: 'th-width__20'},
+        { key: 'details',   thClass: 'th-width__30' },
+        { key: 'plan_code', thClass: 'th-width__12' },
+        { key: 'carrier',   thClass: 'th-width__10' },
+        { key: 'cost',      thClass: 'th-width__10', sortable: true },
+        { key: 'actions',   thClass: 'th-width__12' }
       ]
     }
   },
@@ -100,7 +100,7 @@ export default {
 
     removeService (id) {
       const vm = this
-      swal({
+      vm.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         type: 'warning',
@@ -108,26 +108,25 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
-      }).then(function () {
-        serviceAPI.remove(id, res => {
-          vm.$store.dispatch('services/getAll')
-          // vm.$store.dispatch('services/getAll', {
-          //   costMax: vm.search.costMax,
-          //   costMin: vm.search.costMin,
-          // })
-        }, err => console.log('company remove', err))
-
-        swal('Deleted!', 'Requested service has been deleted.', 'success')
-      }, function (dismiss) {
-        // dismiss can be 'cancel', 'overlay',
-        // 'close', and 'timer'
-        if (dismiss === 'cancel') {
-          swal('Cancelled', 'Selected service is safe :)', 'error')
+      }).then((result) => {
+        if (!result.dismiss && result.value) {
+          serviceAPI.remove(id, res => {
+            vm.$store.dispatch('services/getAll', {
+              costMax: vm.search.costMax,
+              costMin: vm.search.costMin,
+            })
+          }, err => console.log('service remove', err))
+          vm.$swal('Deleted!', 'Requested service has been deleted.', 'success')
+        } else {
+          vm.$swal('Cancelled', 'Selected service is safe :)', 'error')
         }
-      });
+      })
     },
 
     onServiceActiveChange (e, srv) {
+      if( e === srv.status)
+        return
+
       let service = _.extend({}, srv)
       let isChecked = e;
       service.status = isChecked ? 'Enabled' : 'Disabled'
