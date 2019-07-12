@@ -33,7 +33,7 @@
           </ul>
         </div>
       </li>
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <div @click="show_package_submenu = !show_package_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-th-large"></i>PACKAGES
         </div>
@@ -44,7 +44,7 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <div @click="show_config_submenu = !show_config_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-tasks"></i>CONFIGURATION
         </div>

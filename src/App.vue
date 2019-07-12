@@ -68,7 +68,7 @@ export default {
     console.log('features', features)
     console.log('process.env', process.env)
 
-    // this.watchFeatures()
+    this.watchFeatures()
   },
 
   beforeDestroy() {

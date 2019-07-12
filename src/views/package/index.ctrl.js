@@ -1,13 +1,10 @@
-import modal from './../../components/modal.vue'
-import paginate from './../../components/paginate.vue'
-import {mapGetters, mapActions } from 'vuex'
-import swal from 'sweetalert2'
+import Pagination from '@/components/pagination'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'packages',
   components: {
-    modal,
-    paginate
+    Pagination
   },
   data () {
     return {
