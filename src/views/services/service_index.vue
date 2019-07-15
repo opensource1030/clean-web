@@ -137,7 +137,9 @@
             <template slot="actions" slot-scope="data">
               <div class="action-buttons">
                 <b-button variant="danger" @click="removeService(data.item.id)"><i class="fa fa-trash"></i></b-button>
-                <b-button :href="'/services/' + data.item.id" variant="warning"><i class="fa fa-edit"></i></b-button>
+                <router-link :to="'/services/' + data.item.id" title="Edit" class="btn bg-warning">
+                  <i class="fa fa-edit"></i>
+                </router-link>
               </div>
             </template>
 

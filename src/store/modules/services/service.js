@@ -314,7 +314,7 @@ const mutations = {
   },
 
   [types.SERVICE_ADD_NEW](state, { router }) {
-    router.push({name: 'List Services'});
+    router.push({name: 'Dashboard'});
   },
 
   [types.SERVICE_PREPARE_ITEMS](state) {
