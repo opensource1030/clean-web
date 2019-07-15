@@ -143,13 +143,12 @@ router.beforeEach((to, from, next) => {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
-  } else if (toPath[1] === 'devices') {
-    if (!store.state.feature.enabled_equipment) {
-      if (from.name === 'Dashboard') {
-        history.go(0)
-      } else {
-        next({name: 'Dashboard'})
-      }
+  } else if ((toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
+             (toPath[1] === 'services' && !store.state.feature.enabled_service )) {
+    if (from.name === 'Dashboard') {
+      history.go(0)
+    } else {
+      next({name: 'Dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
