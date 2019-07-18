@@ -8,6 +8,8 @@ selenium-debug.log
 .idea/*
 $CIRCLE_ARTIFACTS
 log/
+tests/gauge/logs
+tests/gauge/reports
 
 # ignore backup files
 *.bak

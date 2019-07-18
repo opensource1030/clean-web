@@ -20,13 +20,21 @@ import Sso from '@/views/auth/Sso'
 import Dashboard from '@/views/dashboard/dashboard'
 import LegacyInfo from '@/components/legacy_info'
 
+// employee
+import EmployeeIndex from '@/views/employees/employee_index'
+import EmployeeEdit from '@/views/employees/employee_edit'
+
 // device
 import DeviceIndex from '@/views/device/index'
 import DeviceEdit from '@/views/device/edit'
 
-// employee
-import EmployeeIndex from '@/views/employees/employee_index'
-import EmployeeEdit from '@/views/employees/employee_edit'
+// preset
+import PresetIndex from '@/views/preset/index'
+import PresetEdit from '@/views/preset/edit'
+
+// service
+import ServiceIndex from '@/views/services/service_index'
+import ServiceEdit from '@/views/services/service_edit'
 
 Vue.use(VueResource)
 Vue.use(Router)
@@ -56,17 +64,6 @@ const router = new Router({
             { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' }
           ]
         },
-        // devices
-        {
-          path: 'devices',
-          component: { template: '<router-view></router-view>' },
-          meta: { requiresAuth: true, label: 'Devices' },
-          children: [
-            { path: '', component: DeviceIndex, name: 'List Devices', meta: { label: 'All' } },
-            { path: 'new', component: DeviceEdit, name: 'Add Device', meta: { label: 'Create' } },
-            { path: ':id', component: DeviceEdit, name: 'Update Device', meta: { label: 'Edit' } },
-          ]
-        },
         // employees
         {
           path: 'employees',
@@ -81,6 +78,39 @@ const router = new Router({
             { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
             { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
             // { path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: { label: 'Review' } },
+          ]
+        },
+        // services
+        {
+          path: 'services',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Services' },
+          children: [
+            { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
+            { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
+            { path: ':id', component: ServiceEdit, name: 'Update Service', meta: {label: 'Edit'}},
+          ]
+        },
+        // devices
+        {
+          path: 'devices',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Devices' },
+          children: [
+            { path: '', component: DeviceIndex, name: 'List Devices', meta: { label: 'All' } },
+            { path: 'new', component: DeviceEdit, name: 'Add Device', meta: { label: 'Create' } },
+            { path: ':id', component: DeviceEdit, name: 'Update Device', meta: { label: 'Edit' } },
+          ]
+        },
+        // presets
+        {
+          path: '/presets',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Presets' },
+          children: [
+            { path: '', component: PresetIndex, name: 'List Presets', meta: { label: 'All' } },
+            { path: 'new', component: PresetEdit, name: 'Add Preset', meta: { label: 'Create' } },
+            { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
           ]
         },
       ]
@@ -122,18 +152,20 @@ router.beforeEach((to, from, next) => {
 
   const toPath = to.path.split('/')
   // console.log('rotuer.beforeEach', toPath[1], store.state.feature.enabled_equipment)
+  console.log(store.state.feature)
+  console.log("store.state.feature")
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
-  } else if (toPath[1] === 'devices') {
-    if (!store.state.feature.enabled_equipment) {
-      if (from.name === 'Dashboard') {
-        history.go(0)
-      } else {
-        next({name: 'Dashboard'})
-      }
+  } else if ((toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
+             (toPath[1] === 'services' && !store.state.feature.enabled_service )) {
+    // debugger
+    if (from.name === 'Dashboard') {
+      history.go(0)
+    } else {
+      next({name: 'Dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {

@@ -130,7 +130,7 @@ export class DevicesPresenter extends Presenter {
   //   if (!ctor.hasOwnProperty('__super__')) {
   //      Object.defineProperty(ctor, '__super__', { configurable: true, value: Object.getPrototypeOf(ctor) || ctor.__proto__ }); // eslint-disable-line
   //   }
-  //   return ctor.__super__ // eslint-disable-line; 
+  //   return ctor.__super__ // eslint-disable-line;
   // }
 
   attributes (instance) {
@@ -154,8 +154,23 @@ export class DevicesPresenter extends Presenter {
 }
 DevicesPresenter.prototype.type = 'devices'
 
+export class ServiceItemsPresenter extends Presenter {
+}
+ServiceItemsPresenter.prototype.type = 'serviceitems'
 
 export class ServicesPresenter extends Presenter {
+  attributes (instance) {
+    const attrs = super.attributes(instance)
+    delete attrs['carriers']
+    delete attrs['serviceitems']
+    return attrs
+  }
+
+  relationships () {
+    return {
+      serviceitems: ServiceItemsPresenter
+    }
+  }
 }
 ServicesPresenter.prototype.type = 'services'
 

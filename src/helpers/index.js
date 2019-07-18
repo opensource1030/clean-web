@@ -134,3 +134,37 @@ export const PackageHelper = {
     return GlobalSettingValueHelper.getBringOwnSetting(true)
   }
 }
+
+export const ServiceHelper = {
+  validateFields(serviceDetails, addons) {
+    if (!serviceDetails.title) {
+      return 'Please input Title.'
+    }
+
+    if (!serviceDetails.code) {
+      return 'Please input Plan Code.'
+    }
+
+    if (!serviceDetails.cost) {
+      return 'Please input Cost.'
+    }
+
+    if (!serviceDetails.description) {
+      return 'Please input Description.'
+    }
+
+    for (let addon of addons) {
+      if (addon.description == "") {
+        if (addon.cost != "") {
+          return 'Fill addon description'
+        }
+      } else {
+        if (addon.cost == "") {
+          return 'Fill addon cost'
+        }
+      }
+    }
+
+    return true
+  }
+}
