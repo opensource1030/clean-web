@@ -1,6 +1,6 @@
 const state = {
-  enabled_place_order: false,
-  enabled_equipment: false
+  enabled_place_order: true,
+  enabled_equipment: true
 }
 
 const getters = {
