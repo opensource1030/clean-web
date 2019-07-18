@@ -1,15 +1,17 @@
 import {mapGetters, mapActions} from 'vuex'
-import { Switch as cSwitch } from '@coreui/vue'
 import serviceAPI from '@/api/service-api'
 import { findServiceItem, findByAddons, orderFilters } from '@/components/filters.js';
 import { ServicesPresenter } from '@/presenters'
+import { Switch as cSwitch } from '@coreui/vue'
+import Pagination from '@/components/pagination'
 
 export default {
 
   name: 'ServiceIndex',
 
   components: {
-    cSwitch
+    cSwitch,
+    Pagination
   },
 
   data() {
@@ -131,35 +133,12 @@ export default {
       let isChecked = e;
       service.status = isChecked ? 'Enabled' : 'Disabled'
       let _jsonData = ServicesPresenter.toJSON(service)
-      delete _jsonData['data']['attributes']['carriers']
-      delete _jsonData['data']['attributes']['serviceitems']
-      delete _jsonData['data']['attributes']['created_at']
-      delete _jsonData['data']['attributes']['updated_at']
+
       let _params = JSON.stringify(_jsonData)
 
       serviceAPI.update(service.id, _params, res => {
         this.$store.dispatch('services/getAll')
       }, err => console.log('service err', err))
-    },
-
-    asyncFindStatus(query){
-      // this.$store.dispatch('services/searchDeviceType',{query:query})
-    },
-
-    asyncFindDetails(query){
-      //this.$store.dispatch('services/searchManufactures',{query:query})
-    },
-
-    asyncFindCodePlan(query){
-      // this.$store.dispatch('services/searchPrice',{query:query})
-    },
-
-    asyncFindCarriers(query){
-      this.$store.dispatch('carrier/searchByPresentation',{query:query})
-    },
-
-    asyncFindPlans(query){
-      // this.$store.dispatch('services/searchModification',{query:query})
     }
   }
 }

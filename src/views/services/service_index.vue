@@ -16,7 +16,7 @@
             responsive
             fixed
             :fields="fields"
-            :items="$store.state.services.Services.servicesList"
+            :items="Service.servicesList"
             @row-clicked="showDetails">
 
             <!-- Header Configuration -->
@@ -26,7 +26,6 @@
                 :value="$store.state.services.filter.status"
                 :options="select.status"
                 :multiple="true"
-                @search-change="asyncFindStatus"
                 @input="$store.dispatch('services/addFilter',{type:'status',records:$event})"
                 :select-label="''"
                 :hide-selected="false"
@@ -48,7 +47,6 @@
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="false"
-                @search-change="asyncFindPlans"
                 @input="$store.dispatch('services/addFilter',{type:'plans',records:$event})" />
             </template>
 
@@ -59,7 +57,6 @@
                 :options="select.details"
                 :multiple="true"
                 :internal-search="false"
-                @search-change="asyncFindDetails"
                 @input="$store.dispatch('services/addFilter',{type:'details',records:$event})"
                 :show-labels="false"
                 :select-label="''"
@@ -78,7 +75,6 @@
                 :multiple="true"
                 :searchable="true"
                 :internal-search="false"
-                @search-change="asyncFindCodePlan"
                 :show-labels="false"
                 :select-label="''"
                 :close-on-select="false"
@@ -98,7 +94,6 @@
                 :multiple="true"
                 :searchable="true"
                 :internal-search="false"
-                @search-change="asyncFindCarriers"
                 :show-labels="false"
                 :select-label="''"
                 :close-on-select="false"
@@ -205,6 +200,13 @@
               </div>
             </template>
           </b-table>
+
+          <pagination
+            v-show="!isLoading"
+            :pagination="pagination"
+            :prev="prevPage"
+            :next="nextPage"
+          />
         </div>
       </b-card-body>
     </b-card>
