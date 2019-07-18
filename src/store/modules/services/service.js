@@ -134,25 +134,16 @@ const actions = {
       serviceDetails.carrierId.id
     )
 
-    dispatch('checkPlan', {
-      serviceo: serviceo,
-      addons: addons
-    }).then(response => {
-      if (response) {
-        //  dispatch('prepareItems',{addons:addons,domesticPlan:domesticPlan,internationalPlan:internationalPlan,currency:serviceDetails.currency}).then(items => {
-
-        commit(types.SERVICE_PREPARE_ITEMS)
-        commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-        return new Promise((resolve, reject) => {
-          serviceAPI.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
-            commit(types.SERVICE_UPDATE, {router})
-            resolve(service)
-          }, err => {
-            console.log('service err', err)
-            reject(err)
-          })
-        })
-      }
+    commit(types.SERVICE_PREPARE_ITEMS)
+    commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
+    return new Promise((resolve, reject, service) => {
+      serviceAPI.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
+        commit(types.SERVICE_UPDATE, {router})
+        resolve(service)
+      }, err => {
+        console.log('service err', err)
+        reject(err)
+      })
     })
   },
 

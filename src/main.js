@@ -67,7 +67,9 @@ Vue.filter('formatCurrency', function (value, locale = 'us') {
 
 Vue.use(BootstrapVue)
 Vue.use(VueCharts)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, {
+  fieldsBagName: 'veeFields'
+})
 Vue.use(Vue2Filters)
 Vue.use(VueSweetalert2, {
   confirmButtonColor: '#41b882',

@@ -42,6 +42,12 @@ export default {
           console.log('procurement-equipment-mgt', equipment_eanbled)
           this.$store.dispatch('feature/setEnabledEquipment', equipment_eanbled)
         }
+
+        const service_enabled = Flagger.flag('procurement-service-mgt').isEnabled(user)
+        if (this.$store.state.feature.enabled_service != service_enabled) {
+          console.log('procurement-service-mgt', service_enabled)
+          this.$store.dispatch('feature/setEnabledService', service_enabled)
+        }
       }
     },
 

@@ -32,7 +32,8 @@ import DeviceEdit from '@/views/device/edit'
 import PresetIndex from '@/views/preset/index'
 import PresetEdit from '@/views/preset/edit'
 
-// Views Services
+// service
+import ServiceIndex from '@/views/services/service_index'
 import ServiceEdit from '@/views/services/service_edit'
 
 Vue.use(VueResource)
@@ -83,9 +84,11 @@ const router = new Router({
         {
           path: 'services',
           component: { template: '<router-view></router-view>' },
-          meta: { label: 'Services' },
+          meta: { requiresAuth: true, label: 'Services' },
           children: [
+            { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
             { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
+            { path: ':id', component: ServiceEdit, name: 'Update Service', meta: {label: 'Edit'}},
           ]
         },
         // devices
@@ -149,18 +152,20 @@ router.beforeEach((to, from, next) => {
 
   const toPath = to.path.split('/')
   // console.log('rotuer.beforeEach', toPath[1], store.state.feature.enabled_equipment)
+  console.log(store.state.feature)
+  console.log("store.state.feature")
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
-  } else if (toPath[1] === 'devices') {
-    if (!store.state.feature.enabled_equipment) {
-      if (from.name === 'Dashboard') {
-        history.go(0)
-      } else {
-        next({name: 'Dashboard'})
-      }
+  } else if ((toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
+             (toPath[1] === 'services' && !store.state.feature.enabled_service )) {
+    // debugger
+    if (from.name === 'Dashboard') {
+      history.go(0)
+    } else {
+      next({name: 'Dashboard'})
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
