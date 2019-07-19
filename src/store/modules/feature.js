@@ -5,7 +5,7 @@ const state = {
 
 const getters = {
   isInventoryEnabled: (state) => {
-    return state.enabled_equipment
+    return state.enabled_equipment || state.enabled_service
   }
 }
 
@@ -16,6 +16,10 @@ const actions  = {
 
   setEnabledEquipment({ commit }, enabled_equipment) {
     commit('setEnabledEquipment', enabled_equipment)
+  },
+
+  setEnabledService({ commit }, enabled_service) {
+    commit('setEnabledService', enabled_service)
   }
 }
 
@@ -26,6 +30,10 @@ const mutations = {
 
   setEnabledEquipment(state, enabled_equipment) {
     state.enabled_equipment = enabled_equipment
+  },
+
+  setEnabledService(state, enabled_service) {
+    state.enabled_service = enabled_service
   }
 }
 

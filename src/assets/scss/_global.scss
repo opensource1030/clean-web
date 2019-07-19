@@ -14,6 +14,16 @@ b, strong {
   padding: 0 10px;
 }
 
+.width-full {
+  width: 100%;
+}
+
+/* display mode */
+.ds-flex {
+  display: flex;
+  display: -ms-flexbox;
+}
+
 /* swal */
 .swal2-container.swal2-shown {
   z-index: 9999;
@@ -42,6 +52,7 @@ b, strong {
     }
   }
 }
+
 .custom-switch .custom-control-input:checked ~ .custom-control-label{
   &::after {
     transform: translateX(20px);
@@ -72,11 +83,16 @@ b, strong {
       th {
         padding: 8px 10px;
         border: 0 none;
+        vertical-align: middle;
         // border-top: 1px solid $border-color;
       }
     }
 
     tbody {
+      tr {
+        outline: 0;
+      }
+
       td {
         padding: 8px 10px;
         &.align-top {
@@ -101,10 +117,6 @@ b, strong {
             cursor: pointer;
           }
         }
-      }
-
-      tr:nth-of-type(4n+3) {
-        background-color: #f9f9f9;
       }
 
       tr.overview-tr {

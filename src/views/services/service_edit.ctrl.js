@@ -36,11 +36,14 @@ export default {
     this.isLoading = true;
 
     this.$store.dispatch('carrier/search').then((res) => {
-      this.isLoading = false;
-    }, (err) => {
-      console.log('error in carrier/search', err);
-      this.isLoading = false;
-    })
+      if (this.$route.params.id > 0) {
+        this.$store.dispatch('service/getOne', this.$route.params.id).then((res) => {
+          this.isLoading = false
+        }, (err) => { console.log('error in service/getOne', err) })
+      } else {
+        this.isLoading = false
+      }
+    }, (err) => { console.log('error in carrier/search', err) })
   },
 
   methods: {
@@ -55,24 +58,25 @@ export default {
         return
       }
 
-      self.$store.dispatch('service/add', {
-        serviceDetails: self.serviceDetails,
-        domesticPlan: self.domesticPlan,
-        internationalPlan: self.internationalPlan,
-        addons: self.addons,
-        router: self.$router
-      }).then((result) => {
-        if(result == 'error') {
-          self.$swal({
-            type: 'error',
-            title: 'Oops!',
-            text: self.$store.getters['error/error'],
-            onClose: () => {
-              self.$store.dispatch('error/clearAll')
-            }
-          })
-        }
-      });
+      if (self.serviceDetails.id > 0) {
+        self.$store.dispatch('error/clearAll')
+        self.$store.dispatch('service/update', {
+          serviceDetails: self.serviceDetails,
+          domesticPlan: self.domesticPlan,
+          internationalPlan: self.internationalPlan,
+          addons: self.addons,
+          router: self.$router
+        })
+      } else {
+        self.$store.dispatch('error/clearAll')
+        self.$store.dispatch('service/add', {
+          serviceDetails: self.serviceDetails,
+          domesticPlan: self.domesticPlan,
+          internationalPlan: self.internationalPlan,
+          addons: self.addons,
+          router: self.$router
+        })
+      }
     },
   }
 }
