@@ -52,7 +52,6 @@ b, strong {
     }
   }
 }
-
 .custom-switch .custom-control-input:checked ~ .custom-control-label{
   &::after {
     transform: translateX(20px);
@@ -143,12 +142,15 @@ b, strong {
           display: table-row;
           // background-color: rgba(251, 243, 238, 0.6);
         }
-        .detail-box {
-          display: flex;
-          padding: 10px 20px;
-          .content {
-            width: 100%;
-          }
+        // .detail-box {
+        //   display: flex;
+        //   padding: 10px 20px;
+        //   .content {
+        //     width: 100%;
+        //   }
+        // }
+        td {
+          border: 0 none;
         }
       }
     }
