@@ -1,18 +1,18 @@
-import InventoryPageUI from "../interfaces/inventory.ui";
-import AbstractPage from "./abstract.po";
+import EquipmentPageUI from "../../interfaces/inventory/equipment.ui";
+import AbstractPage from "../abstract.po";
 import { press, dropDown } from "taiko";
 
-export default class InventoryPage extends AbstractPage {
+export default class EquipmentPage extends AbstractPage {
   constructor() {
     super();
   }
   async clickNewDeviceButton(): Promise<void> {
-    await this.clickElement(InventoryPageUI.NEW_DEVICE_BUTTON);
+    await this.clickElement(EquipmentPageUI.NEW_DEVICE_BUTTON);
   }
 
   async isNewDevicePageDisplayed(): Promise<boolean> {
-    await this.waitForElementExisting(InventoryPageUI.DEVICE_NAME_TXT);
-    return await this.isElementDisplayed(InventoryPageUI.DEVICE_NAME_TXT);
+    await this.waitForElementExisting(EquipmentPageUI.DEVICE_NAME_TXT);
+    return await this.isElementDisplayed(EquipmentPageUI.DEVICE_NAME_TXT);
   }
 
   async openSectionInNewDevicePage(section: string): Promise<void> {
@@ -24,7 +24,7 @@ export default class InventoryPage extends AbstractPage {
     await dropDown('Device Type').select(deviceType);
     await this.inputTextFieldByLabel('Manufacturer', manufacturer);
     await this.inputTextFieldByLabel('Model', model);
-    await this.type(InventoryPageUI.TECHNICAL_INFORMATION_TXT, technical);
+    await this.type(EquipmentPageUI.TECHNICAL_INFORMATION_TXT, technical);
   }
 
   async inputFieldsInAttributes(capacity: string, color: string): Promise<void> {
@@ -38,11 +38,11 @@ export default class InventoryPage extends AbstractPage {
   }
 
   async selectProvidedCapacity(capacity: string) {
-    await this.clickElement(InventoryPageUI.DYNAMIC_CAPACITY_CHECKBOX, capacity);
+    await this.clickElement(EquipmentPageUI.DYNAMIC_CAPACITY_CHECKBOX, capacity);
   }
 
   async selectProvidedColor(color: string) {
-    await this.clickElement(InventoryPageUI.DYNAMIC_STYLE_CHECKBOX, color);
+    await this.clickElement(EquipmentPageUI.DYNAMIC_STYLE_CHECKBOX, color);
   }
 
   async inputFieldsInVendor(vendor: string): Promise<void> {
@@ -51,11 +51,11 @@ export default class InventoryPage extends AbstractPage {
 
   async inputFieldsInCompanies(company: string): Promise<void> {
     await this.inputTextFieldByLabel('Find Company', company);
-    await this.clickElement(InventoryPageUI.FIND_COMPANY_BUTTON);
+    await this.clickElement(EquipmentPageUI.FIND_COMPANY_BUTTON);
   }
 
   async selectProvidedCompany(company: string): Promise<void> {
-    await this.clickElement(InventoryPageUI.DYNAMIC_PROVIDED_COMPANY_CHECKBOX, company);
+    await this.clickElement(EquipmentPageUI.DYNAMIC_PROVIDED_COMPANY_CHECKBOX, company);
   }
 
   async inputFieldsInPrice(retailPrice: string, priceOne: string, priceTwo: string, priceOwn: string): Promise<void> {
@@ -77,8 +77,8 @@ export default class InventoryPage extends AbstractPage {
   }
 
   async isDeviceExistingOnList(deviceName: string): Promise<boolean> {
-    await this.type(InventoryPageUI.DEVICE_NAME_HEADER_TXT, deviceName);
-    await this.clickElement(InventoryPageUI.DEVICE_SUGGESTION_LIST, deviceName);
+    await this.type(EquipmentPageUI.DEVICE_NAME_HEADER_TXT, deviceName);
+    await this.clickElement(EquipmentPageUI.DEVICE_SUGGESTION_LIST, deviceName);
     return await this.isElementByTextDisplayed(deviceName);
   }
 }

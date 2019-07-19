@@ -1,4 +1,4 @@
-export default class InventoryPageUI {
+export default class EquipmentPageUI {
   static NEW_DEVICE_BUTTON = 'xpt=//a[normalize-space(text())="New Device"]';
 
   // New device page
@@ -17,5 +17,4 @@ export default class InventoryPageUI {
   // Device list
   static DEVICE_NAME_HEADER_TXT = 'css=input[placeholder="Device Name"]';
   static DEVICE_SUGGESTION_LIST = 'xpt=//ul//span/span[text()="%s"]';
-
 }
