@@ -4,6 +4,7 @@ import EquipmentPage from "../pages/actions/inventory/equipment.po";
 import ServicesAndPlansPage from "../pages/actions/inventory/service-plan.po";
 import AbstractPage from "../pages/actions/abstract.po";
 import { dropDown } from "taiko";
+import { goBack } from "taiko";
 
 const equipmentPage: EquipmentPage = new EquipmentPage();
 const abstractPage: AbstractPage = new AbstractPage();
@@ -19,8 +20,14 @@ export default class InventoryStepDefinition {
 
     @Step("User open New Service page")
     public async userOpenNewServicePage() {
-        await abstractPage.navigateByLeftMenu('Inventory', 'Services & Plans');
+        await abstractPage.navigateByLeftMenu('INVENTORY', 'Services & Plans');
         await servicePlanPage.clickNewServiceButton();
+    }
+
+    @Step("User can access to Service list page")
+    public async userCanAccessToServicePage() {
+      await abstractPage.navigateByLeftMenu('INVENTORY', 'Services & Plans');
+      expect(await servicePlanPage.getServiceListTitle()).to.contain('Service plans')
     }
 
     @Step("User can access New Service page")
@@ -114,10 +121,70 @@ export default class InventoryStepDefinition {
         expect(await equipmentPage.isDeviceExistingOnList(newDevice)).to.be.true;
     }
 
-    @Step(["User leaves required fields blank at New Device page", "User leaves required fields blank at New Service page"])
-    public async UserLeaveRequiredFields() {
-        // await equipmentPage.leaveRequireFields();
-        // Do nothing here
+    // @Step(["User leaves required fields blank at New Device page", "User leaves required fields blank at New Service page"])
+    // public async UserLeaveRequiredFields() {
+    //     // await equipmentPage.leaveRequireFields();
+    //     // Do nothing here
+    // }
+    
+    @Step("Verify show <message> when user empty Title field at New Serive page")
+    public async UserEmptyTitleField(message: string) {
+      await servicePlanPage.clickSaveButton();
+      expect(await servicePlanPage.getMessageError()).to.contain(message);
+      await servicePlanPage.clickClosePopup();
+    }
+
+    @Step("Verify show <message> when user empty Plan Code field at New Serive page")
+    public async UserEmptyPlanCodeField(message: string) {
+      await servicePlanPage.inputField('title', 'Title');
+      await servicePlanPage.clickSaveButton();
+      expect(await servicePlanPage.getMessageError()).to.contain(message);
+      await servicePlanPage.clickClosePopup();
+    }
+
+    @Step("Verify show <message> when user empty Cost field at New Serive page")
+    public async UserEmptyCostField(message: string) {
+      await servicePlanPage.inputField('plan code', 'Plan Code');
+      await servicePlanPage.clickSaveButton();
+      expect(await servicePlanPage.getMessageError()).to.contain(message);
+      await servicePlanPage.clickClosePopup();
+    }
+
+    @Step("Verify show <message> when user empty Description field at New Serive page")
+    public async UserEmptyDescriptionField(message: string) {
+      await servicePlanPage.inputField('cost', 'Cost')
+      await servicePlanPage.clickSaveButton();
+      expect(await servicePlanPage.getMessageError()).to.contain(message);
+      await servicePlanPage.clickClosePopup();
+    }
+
+    @Step("Verify user can modify an existing Service") 
+    public async UserCanModifyAnExistingService() {
+      await servicePlanPage.clickEditServiceButton();
+      await servicePlanPage.inputField('123', 'Title');
+      await servicePlanPage.clickSaveButton();
+      await abstractPage.sleep(3); // waiting for value update 
+      expect(await servicePlanPage.getFirstTitleSerive()).to.contain('123');
+    }
+
+    @Step("Verify user can delete an existing Service")
+    public async UserCanDeleteAnExistingService() {
+      await servicePlanPage.clickDeleteServiceButton();
+      await servicePlanPage.clickDeleteSubmitModal();
+      await abstractPage.sleep(10);
+      expect(await servicePlanPage.getMessageDeleteModal()).to.contain('Deleted!')
+      await servicePlanPage.clickOkModal();
+    }
+
+    @Step("Verify user can change status of an existing Service list")
+    public async UserCanChangeStatus() {
+      let oldStatus = await servicePlanPage.checkSelectedCheckbox();
+      await servicePlanPage.checkStatusCheckbox();
+      await servicePlanPage.clickNewServiceButton();
+      await goBack();
+      oldStatus === "true"
+        ? expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('false')
+        : expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('true');
     }
 
     @Step("Verify validations appeared on required fields at New Device page")

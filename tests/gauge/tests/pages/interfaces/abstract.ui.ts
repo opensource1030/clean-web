@@ -7,6 +7,6 @@ export default class AbstractPageUI {
     // Left menu
   static LOGO_IMG = 'css=img[title="Client Logo"]';
   static HAMBURGER_BUTTON = 'css=button[display=md] span[class= navbar-toggler-icon]';
-  static DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT = 'xpt=//ul[@class="sidebar-menu"]//*[normalize-space(text())="%s"]';
+  static DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT = 'xpt=//nav[@class="sidebar-nav"]//*[normalize-space(text())="%s"]';
 
 }

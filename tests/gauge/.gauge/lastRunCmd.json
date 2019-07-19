@@ -1,5 +1,5 @@
 [
-	"C:\\Users\\yt\\Desktop\\clean-web\\node_modules\\.bin\\\\..\\@getgauge\\cli\\bin\\gauge",
+	"gauge",
 	"run",
-	"./tests/gauge/specs/"
+	"./tests/gauge/specs/servicesAndPlans.spec"
 ]

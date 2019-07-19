@@ -16,7 +16,7 @@
     "serve:dev": "cross-env NODE_ENV=development node build/dev-server-2.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
-    "test:gauge":"gauge run ./tests/gauge/specs/",
+    "test:gauge": "gauge run ./tests/gauge/specs/servicesAndPlans.spec",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "vue:dev": "vue-cli-service serve",

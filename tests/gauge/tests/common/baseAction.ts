@@ -1,5 +1,5 @@
 import BaseElements from "./baseElements";
-import { click, write, clear, ElementWrapper, waitFor, currentURL } from "taiko";
+import { click, write, clear, ElementWrapper, waitFor, currentURL, evaluate } from "taiko";
 import Constants from "./constants";
 
 const defaultOption = Constants.timeout;
@@ -39,6 +39,7 @@ export default class BaseAction extends BaseElements {
     try {
       let returnText = "";
       const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
+      console.log(element);
       await element.exists();
       returnText = await element.text();
       return returnText;
@@ -50,9 +51,18 @@ export default class BaseAction extends BaseElements {
   async isElementDisplayed(locator: string, param?: string): Promise<boolean> {
     try {
       const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
-      return element.exists();
-    } catch (e) {
+      return await element.exists();
+    } catch (error) {
       return false;
+    }
+  }
+
+  async isChecked(locator: string, param?: string): Promise<string> {
+    try {
+      const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
+      return await evaluate(element, (elem) => elem.getAttribute('value'));
+    } catch (e) {
+      console.log(e);
     }
   }
 
