@@ -6,7 +6,7 @@
     </template>
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
-<!--      <b-dropdown-item @click="profile()"><i class="fa fa-user"/> Profile</b-dropdown-item>-->
+      <b-dropdown-item @click="profile()"><i class="fa fa-user"/> Profile</b-dropdown-item>
       <a @click="logout()" id="logout"><b-dropdown-item><i class="fa fa-lock" /> Logout</b-dropdown-item></a>
     </template>
   </AppHeaderDropdown>

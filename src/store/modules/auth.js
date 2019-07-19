@@ -57,6 +57,8 @@ const getters = {
     }
   },
 
+  getRole: state => _.get(state.profile, 'roles[0].name', 'user'),
+
   getPermissions: (state) => {
     // return _.get(state.profile, 'roles[0].permissions', {})
     return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
