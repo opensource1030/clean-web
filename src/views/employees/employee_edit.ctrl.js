@@ -186,7 +186,7 @@ export default {
       this.$store.dispatch('company/searchAllByActive', {query: 1, all: true}).then(companies => {
         let _params = {
           params: {
-            indexAll: 1
+            include: 'udlvalues,addresses,companies.udls.udlvalues'
           }
         }
   
