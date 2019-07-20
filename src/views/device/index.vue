@@ -176,72 +176,70 @@
                 >
                   <td></td>
                   <td colspan="8">
-                    <div class="detail-box">
-                      <div class="content">
-                        <div class="row">
-                          <div class="col-sm-7">
-                            <div class="row">
-                              <div class="col-sm-3 offset-sm-2">
-                                <div class="column row" v-for="carrier in device.priceName" :key="carrier.id">
-                                  <div class="row">
-                                    {{ carrier.carrier }}
-                                  </div>
-                                  <div class="row">
-                                    <div>{{ filterModificationsByType(carrier.modifications, 'style').join(', ') }}</div>
-                                    <div>{{ filterModificationsByType(carrier.modifications, 'capacity').join(', ') }}</div>
-                                  </div>
+                    <div class="w-100 p-3">
+                      <div class="row">
+                        <div class="col-sm-7">
+                          <div class="row">
+                            <div class="col-sm-3 offset-sm-2">
+                              <div class="column row" v-for="carrier in device.priceName" :key="carrier.id">
+                                <div class="row">
+                                  {{ carrier.carrier }}
                                 </div>
-                              </div>
-
-                              <div class="col-sm-3 offset-sm-3">
-                                <div class="listPrice" v-for="carrier in device.priceName" :key="carrier.id">
-                                  <ul>
-                                    <li>{{ carrier.priceRetail }} {{ device.currency }}</li>
-                                  </ul>
+                                <div class="row">
+                                  <div>{{ filterModificationsByType(carrier.modifications, 'style').join(', ') }}</div>
+                                  <div>{{ filterModificationsByType(carrier.modifications, 'capacity').join(', ') }}</div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div class="col-sm-5">
-                            <div class="row">
-                              <div class="col-sm-3">
-                                <div class="image">
-                                  <img :src="device.image" alt="Photo Iphone 6" width="100" height="100"/>
-                                </div>
-                              </div>
-                              <div class="col-sm-3" :class="{ 'up': device.show }">
-                                <span style="font-weight: bold;">Availability:</span><br>
-                                <span>Provider</span>
+                            <div class="col-sm-3 offset-sm-3">
+                              <div class="listPrice" v-for="carrier in device.priceName" :key="carrier.id">
                                 <ul>
-                                  <li v-for="carrier in device.priceName">{{ carrier.carrier }}</li>
-                                </ul>
-                              </div>
-                              <div class="col-sm-3" :class="{ 'up': device.show }">
-                                <br>
-                                <span>Capacity</span>
-                                <ul>
-                                  <li v-for="v in filterModificationsByType(device.modifications, 'capacity')">{{ v }}
-                                  </li>
-                                </ul>
-                              </div>
-                              <div class="col-sm-3" :class="{ 'up': device.show }">
-                                <br>
-                                <span>Style</span>
-                                <ul>
-                                  <li v-for="v in filterModificationsByType(device.modifications, 'style')">{{ v }}</li>
+                                  <li>{{ carrier.priceRetail }} {{ device.currency }}</li>
                                 </ul>
                               </div>
                             </div>
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-sm-6 offset-sm-7">
-                            <div class="information">
-                              <span><strong>Technical Information</strong></span><br>
-                              {{ device.properties }}
+                        <div class="col-sm-5">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <div class="image">
+                                <img :src="device.image" alt="Photo Iphone 6" width="100" height="100"/>
+                              </div>
                             </div>
+                            <div class="col-sm-3" :class="{ 'up': device.show }">
+                              <span style="font-weight: bold;">Availability:</span><br>
+                              <span>Provider</span>
+                              <ul>
+                                <li v-for="carrier in device.priceName">{{ carrier.carrier }}</li>
+                              </ul>
+                            </div>
+                            <div class="col-sm-3" :class="{ 'up': device.show }">
+                              <br>
+                              <span>Capacity</span>
+                              <ul>
+                                <li v-for="v in filterModificationsByType(device.modifications, 'capacity')">{{ v }}
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="col-sm-3" :class="{ 'up': device.show }">
+                              <br>
+                              <span>Style</span>
+                              <ul>
+                                <li v-for="v in filterModificationsByType(device.modifications, 'style')">{{ v }}</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6 offset-sm-7">
+                          <div class="information">
+                            <span><strong>Technical Information</strong></span><br>
+                            {{ device.properties }}
                           </div>
                         </div>
                       </div>
