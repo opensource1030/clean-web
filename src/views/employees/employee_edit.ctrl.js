@@ -34,7 +34,8 @@ export default {
         defaultLocationId: 236,
         defaultLang: 'en',
         isSupervisor: 0,
-        isActive: 0
+        isActive: 0,
+        domain: '',
       },
       languages: [
         {label: 'EN', value: 'en'},
@@ -43,13 +44,15 @@ export default {
         {label: 'FR', value: 'fr'}
       ],
       domains: [],
-      locations: []
+      locations: [],
+      isLoading: true,
     }
   },
 
   computed: {
     ...mapGetters({
       companies: 'company/allCompanies',
+      role: 'auth/getRole',
     }),
     EmployeeHelper() {
       return EmployeeHelper
@@ -177,49 +180,72 @@ export default {
   created() {
     let employee_id = parseInt(this.$route.params.id) || 0
 
-    this.$store.dispatch('company/searchAllByActive', {query: 1, all: true}).then(companies => {
-      let _params = {
-        params: {
-          indexAll: 1
-        }
-      }
+    this.isLoading = true
 
-      locationAPI.search(_params, res => {
-        this.$set(this, 'locations', store.sync(res.data))
-        this.$set(this, 'employee_id', employee_id)
-      })
-
-      if (employee_id > 0) {
+    if (this.role !== 'user') {
+      this.$store.dispatch('company/searchAllByActive', {query: 1, all: true}).then(companies => {
         let _params = {
           params: {
             include: 'udlvalues,addresses,companies.udls.udlvalues'
           }
         }
-        employeeAPI.get(employee_id, _params, res => {
-          this.$set(this, 'employee', store.sync(res.data))
-
-          let domain = this.employee.email.split('@')[1]
-          let company = _.find(companies, (item) => (item.id == this.employee.companyId))
-          this.domains = _.get(company, 'domains', [])
-          this.employee.domainId = _.chain(company.domains).find((item) => (item.domain == domain)).get('id').value()
-          // console.log('employee_edit created', domain, company, this.employee)
-
-          this.init()
+  
+        locationAPI.search(_params, res => {
+          this.$set(this, 'locations', store.sync(res.data))
           this.$set(this, 'employee_id', employee_id)
         })
-      } else {
-        if (companies.length) {
-          this.domains = companies[0].domains;
-          this.employee.companyId = companies[0].id;
-          this.employee.domainId = this.domains[0].id;
-        }
+  
+        if (employee_id > 0) {
+          let _params = {
+            params: {
+              include: 'udlvalues,addresses,companies.udls.udlvalues'
+            }
+          }
+          employeeAPI.get(employee_id, _params, res => {
+            this.$set(this, 'employee', store.sync(res.data))
+  
+            const [username, domain] = this.employee.email.split('@')
+            let company = _.find(companies, (item) => (item.id == this.employee.companyId))
+            this.domains = _.get(company, 'domains', [])
+            this.employee.domainId = _.chain(company.domains).find((item) => (item.domain == domain)).get('id').value()
+            this.employee.domain = domain;
 
-        this.init()
-        this.$set(this, 'employee_id', employee_id)
+            if (!this.employee.username) {
+              this.employee.username = username
+            }
+            // console.log('employee_edit created', domain, company, this.employee)
+  
+            this.init()
+            this.$set(this, 'employee_id', employee_id)
+          })
+        } else {
+          if (companies.length) {
+            this.domains = companies[0].domains
+            this.employee.companyId = companies[0].id
+            this.employee.domainId = this.domains[0].id
+          }
+  
+          this.init()
+          this.$set(this, 'employee_id', employee_id)
+        }
+  
+        this.isLoading = false;
+      }, err => {
+        console.log('can not get companies')
+      })
+    } else {
+      const { profile } = this.$store.state.auth
+
+      const [ username, domain ] = profile.email.split('@')
+
+      this.employee = { ...profile, domain }
+
+      if (!this.employee.username) {
+        this.employee.username = username
       }
-    }, err => {
-      console.log('can not get companies')
-    })
+
+      this.isLoading = false;
+    }    
   },
 
   mounted() {
