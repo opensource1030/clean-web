@@ -30,8 +30,15 @@ export default {
             company_name: company.name
           }
         }
-        const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
+
+        // const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
         // const place_order_value = flag.getTreatment(user)
+        // if (this.$store.state.feature.enabled_package != place_order_eanbled) {
+        //   console.log('place_order_legacy', place_order_eanbled)
+        //   this.$store.dispatch('feature/setFlag', { enabled_package: place_order_eanbled })
+        // }
+
+        const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
         if (this.$store.state.feature.enabled_place_order != place_order_eanbled) {
           console.log('place_order_legacy', place_order_eanbled)
           this.$store.dispatch('feature/setEnabledPlaceOrder', place_order_eanbled)
@@ -47,6 +54,18 @@ export default {
         if (this.$store.state.feature.enabled_service != service_enabled) {
           console.log('procurement-service-mgt', service_enabled)
           this.$store.dispatch('feature/setEnabledService', service_enabled)
+        }
+
+        const package_enabled = Flagger.flag('procurement-package-and-policy-management').isEnabled(user)
+        if (this.$store.state.feature.enabled_package != package_enabled) {
+          console.log('procurement-package-and-policy-management', package_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_package: package_enabled })
+        }
+
+        const package_edit_enabled = Flagger.flag('procurement-package-and-policy-creation').isEnabled(user)
+        if (this.$store.state.feature.enabled_package_edit != package_edit_enabled) {
+          console.log('procurement-package-and-policy-creation', package_edit_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_package_edit: package_edit_enabled })
         }
       }
     },
