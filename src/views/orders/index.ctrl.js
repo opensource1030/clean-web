@@ -181,8 +181,7 @@ export default {
     },
 
     ...mapGetters({
-      orders: 'order/sorted',
-      pagination: 'services/getPagination'
+      orders: 'order/sorted'
     }),
 
     OrderHelper () {

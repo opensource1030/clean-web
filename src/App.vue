@@ -59,7 +59,7 @@ export default {
         const order_enabled = Flagger.flag('procurement-order-console').isEnabled(user)
         if (this.$store.state.feature.enabled_order != order_enabled) {
           console.log('procurement-order-console', order_enabled)
-          this.$store.dispatch('feature/setEnabledOrder', order_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_order: order_enabled })
         }
 
         const package_enabled = Flagger.flag('procurement-package-and-policy-management').isEnabled(user)

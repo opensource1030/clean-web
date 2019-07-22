@@ -196,4 +196,4 @@
   </div>
 </template>
 
-<script src="./order_detail.ctrl.js"></script>
+<script src="./show.ctrl.js"></script>

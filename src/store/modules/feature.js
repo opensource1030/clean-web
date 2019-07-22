@@ -26,11 +26,6 @@ const actions = {
     commit('setEnabledService', enabled_service)
   },
 
-
-  setEnabledOrder({ commit }, enabled_order) {
-    commit('setEnabledOrder', enabled_order)
-  },
-
   setFlag({ commit }, flag) {
     commit('setFlag', flag)
   }
@@ -47,10 +42,6 @@ const mutations = {
 
   setEnabledService(state, enabled_service) {
     state.enabled_service = enabled_service
-  },
-
-  setEnabledOrder(state, enabled_order) {
-    state.enabled_order = enabled_order
   },
 
   setFlag(state, flag) {

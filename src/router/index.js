@@ -37,8 +37,8 @@ import ServiceIndex from '@/views/services/service_index'
 import ServiceEdit from '@/views/services/service_edit'
 
 // order
-import OrderIndex from '@/views/orders/order_index'
-import OrderDetail from '@/views/orders/order_detail'
+import OrderIndex from '@/views/orders/index'
+import OrderDetail from '@/views/orders/show'
 
 // package
 import PackageIndex from '@/views/package/index'

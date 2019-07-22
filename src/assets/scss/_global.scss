@@ -24,16 +24,6 @@ b, strong {
   display: -ms-flexbox;
 }
 
-.align-center {
-  align-items: center;
-  -ms-flex-align: center;
-}
-
-.justify-center {
-  justify-content: center;
-  -ms-flex-pack: center;
-}
-
 /* swal */
 .swal2-container.swal2-shown {
   z-index: 9999;
@@ -205,36 +195,4 @@ b, strong {
 
 .page.auth-page {
   min-height: 100vh;
-}
-
-.th-width__3 {
-  width: 3%;
-}
-
-.th-width__6 {
-  width: 6%;
-}
-
-.th-width__10 {
-  width: 10%;
-}
-
-.th-width__12 {
-  width: 12%;
-}
-
-.th-width__15 {
-  width: 15%;
-}
-
-.th-width__20 {
-  width: 20%;
-}
-
-.th-width__30 {
-  width: 30%;
-}
-
-.list-style-none {
-  list-style: none;
 }

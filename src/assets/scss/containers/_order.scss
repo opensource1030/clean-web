@@ -1,4 +1,4 @@
-.order-page {
+.page.order-page {
   .chart-column {
     position: relative;
     margin: 10px auto;
@@ -28,7 +28,7 @@
   }
 }
 
-.order-detail-page {
+.page.order-detail-page {
   .status {
     position: absolute;
     top: -40px;
@@ -45,5 +45,9 @@
     display: inline-block;
     min-width: 80px;
     color: $color-1;
+  }
+
+  .list-style-none {
+    list-style: none;
   }
 }

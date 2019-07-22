@@ -51,6 +51,7 @@
             v-else
             responsive
             fixed
+            class="table-splited"
             :fields="fields"
             :items="orders"
             @row-clicked="showDetails">
@@ -201,7 +202,7 @@
 
             <!-- Details Configuration -->
             <template slot="row-details" slot-scope="row">
-              <div class="row align-center">
+              <div class="row align-content-center">
                 <div class="col-md-2">
                   <div class="ds-flex details-container">
                     <avatar :username="row.item.users[0] ? `${row.item.users[0].firstName} ${row.item.users[0].lastName}` : 'Guest'" :size="avatarSize"></avatar>
@@ -242,7 +243,7 @@
         </div>
 
         <Pagination
-          :pagination="pagination"
+          :pagination="$store.state.order.pagination"
           :prev="prevPage"
           :next="nextPage"
           v-show="orders.total_pages > 1">
@@ -253,4 +254,4 @@
 </div>
 </template>
 
-<script src="./order_index.ctrl.js"></script>
+<script src="./index.ctrl.js"></script>
