@@ -2,7 +2,9 @@ const state = {
   enabled_place_order: false,
   enabled_equipment: false,
   enabled_service: false,
-  enabled_order: false
+  enabled_order: false,
+  enabled_package: false,
+  enabled_package_edit: false
 }
 
 const getters = {
@@ -24,8 +26,13 @@ const actions = {
     commit('setEnabledService', enabled_service)
   },
 
+
   setEnabledOrder({ commit }, enabled_order) {
     commit('setEnabledOrder', enabled_order)
+  },
+
+  setFlag({ commit }, flag) {
+    commit('setFlag', flag)
   }
 }
 
@@ -44,6 +51,11 @@ const mutations = {
 
   setEnabledOrder(state, enabled_order) {
     state.enabled_order = enabled_order
+  },
+
+  setFlag(state, flag) {
+    // state = {...state, ...flag}
+    state = Object.assign(state, flag)
   }
 }
 

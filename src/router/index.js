@@ -40,6 +40,10 @@ import ServiceEdit from '@/views/services/service_edit'
 import OrderIndex from '@/views/orders/order_index'
 import OrderDetail from '@/views/orders/order_detail'
 
+// package
+import PackageIndex from '@/views/package/index'
+import PackageEdit from '@/views/package/edit'
+
 Vue.use(VueResource)
 Vue.use(Router)
 
@@ -117,6 +121,7 @@ const router = new Router({
             { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
           ]
         },
+
         // orders
         {
           path: '/orders',
@@ -125,6 +130,18 @@ const router = new Router({
           children: [
             { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
             { path: ':id', component: OrderDetail, name: 'Order Detail', meta: { label: 'Detail' } }
+          ]
+        },
+
+        // packages
+        {
+          path: '/packages',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Packages' },
+          children: [
+            { path: '', component: PackageIndex, name: 'List Packages', meta: { label: 'All' } },
+            { path: 'new', component: PackageEdit, name: 'Add Package', meta: { label: 'Create' } },
+            { path: ':id', component: PackageEdit, name: 'Update Package', meta: { label: 'Edit' } },
           ]
         }
       ]
@@ -165,26 +182,27 @@ router.beforeEach((to, from, next) => {
   }
 
   const toPath = to.path.split('/')
-  // console.log('rotuer.beforeEach', toPath[1], store.state.feature.enabled_equipment)
-  console.log(store.state.feature)
-  console.log("store.state.feature")
+  // console.log('rotuer.beforeEach', toPath, store.state.feature)
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
-  } else if ((toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
-             (toPath[1] === 'services' && !store.state.feature.enabled_service )) {
-    // debugger
+  } else if (
+    (toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
+    (toPath[1] === 'services' && !store.state.feature.enabled_service ) ||
+    (toPath[1] === 'packages' && !store.state.feature.enabled_package) ||
+    (toPath[2] && !store.state.feature.enabled_package_edit)
+  ) {
     if (from.name === 'Dashboard') {
       history.go(0)
     } else {
-      next({name: 'Dashboard'})
+      // next({name: 'Dashboard'})
+      router.go(-1)
     }
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-      // next({name: 'login'})
       next({name: 'login'})
     }
   }
