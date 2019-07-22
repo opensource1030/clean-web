@@ -48,6 +48,13 @@ export default {
           console.log('procurement-service-mgt', service_enabled)
           this.$store.dispatch('feature/setEnabledService', service_enabled)
         }
+
+        const order_enabled = Flagger.flag('procurement-order-console').isEnabled(user)
+
+        if (this.$store.state.feature.enabled_order != order_enabled) {
+          console.log('procurement-order-console', order_enabled)
+          this.$store.dispatch('feature/setEnabledOrder', order_enabled)
+        }
       }
     },
 

@@ -32,6 +32,10 @@ const getters = {
   sorted: (state) => {
     return state.records
   },
+
+  getPagination: (state) => {
+    return state.pagination
+  }
 }
 
 // actions

@@ -1,15 +1,17 @@
 const state = {
   enabled_place_order: false,
-  enabled_equipment: false
+  enabled_equipment: false,
+  enabled_service: false,
+  enabled_order: false
 }
 
 const getters = {
   isInventoryEnabled: (state) => {
-    return state.enabled_equipment || state.enabled_service
+    return state.enabled_equipment || state.enabled_service || state.enabled_order
   }
 }
 
-const actions  = {
+const actions = {
   setEnabledPlaceOrder({ commit }, enabled_place_order) {
     commit('setEnabledPlaceOrder', enabled_place_order)
   },
@@ -20,6 +22,10 @@ const actions  = {
 
   setEnabledService({ commit }, enabled_service) {
     commit('setEnabledService', enabled_service)
+  },
+
+  setEnabledOrder({ commit }, enabled_order) {
+    commit('setEnabledOrder', enabled_order)
   }
 }
 
@@ -34,6 +40,10 @@ const mutations = {
 
   setEnabledService(state, enabled_service) {
     state.enabled_service = enabled_service
+  },
+
+  setEnabledOrder(state, enabled_order) {
+    state.enabled_order = enabled_order
   }
 }
 

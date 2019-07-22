@@ -36,6 +36,10 @@ import PresetEdit from '@/views/preset/edit'
 import ServiceIndex from '@/views/services/service_index'
 import ServiceEdit from '@/views/services/service_edit'
 
+// order
+import OrderIndex from '@/views/orders/order_index'
+import OrderDetail from '@/views/orders/order_detail'
+
 Vue.use(VueResource)
 Vue.use(Router)
 
@@ -113,6 +117,16 @@ const router = new Router({
             { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
           ]
         },
+        // orders
+        {
+          path: '/orders',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Orders' },
+          children: [
+            { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
+            { path: ':id', component: OrderDetail, name: 'Order Detail', meta: { label: 'Detail' } }
+          ]
+        }
       ]
     },
 

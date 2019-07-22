@@ -24,6 +24,16 @@ b, strong {
   display: -ms-flexbox;
 }
 
+.align-center {
+  align-items: center;
+  -ms-flex-align: center;
+}
+
+.justify-center {
+  justify-content: center;
+  -ms-flex-pack: center;
+}
+
 /* swal */
 .swal2-container.swal2-shown {
   z-index: 9999;
@@ -257,10 +267,18 @@ b, strong {
   width: 12%;
 }
 
+.th-width__15 {
+  width: 15%;
+}
+
 .th-width__20 {
   width: 20%;
 }
 
 .th-width__30 {
   width: 30%;
+}
+
+.list-style-none {
+  list-style: none;
 }

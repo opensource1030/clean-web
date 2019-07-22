@@ -1,0 +1,49 @@
+.order-page {
+  .chart-column {
+    position: relative;
+    margin: 10px auto;
+  }
+
+  .vue-chart-container {
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .tag-header {
+    display: inline-block;
+    padding-right: 80px;
+  }
+
+  .box-heading {
+    margin: 0;
+    padding: 0 20px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 40px;
+  }
+
+  .details-container {
+    padding: 5px 10px;
+  }
+}
+
+.order-detail-page {
+  .status {
+    position: absolute;
+    top: -40px;
+    right: 0;
+  }
+
+  .lined-title {
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .text-orange {
+    display: inline-block;
+    min-width: 80px;
+    color: $color-1;
+  }
+}
