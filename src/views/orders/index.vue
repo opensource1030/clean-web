@@ -6,7 +6,7 @@
     </div>
   </b-modal>
 
-  <div class="row charts">
+  <div class="row charts" v-if="$store.state.feature.enabled_order_report">
     <div class="col-md-4 chart-column ds-flex">
       <vue-chart
         :chart-type="packageCostChart.type"

@@ -3,6 +3,7 @@ const state = {
   enabled_equipment: false,
   enabled_service: false,
   enabled_order: false,
+  enabled_order_report: false,
   enabled_package: false,
   enabled_package_edit: false
 }
