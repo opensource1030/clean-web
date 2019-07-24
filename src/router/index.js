@@ -184,7 +184,7 @@ router.beforeEach((to, from, next) => {
   const toPath = to.path.split('/')
   // console.log('rotuer.beforeEach', toPath, store.state.feature)
 
-  if (to.name === 'login' || to.name === 'loginLocal') {
+  if (to.name === 'login' || to.name === 'loginLocal' || (to.name == undefined && from.name == null)) {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
