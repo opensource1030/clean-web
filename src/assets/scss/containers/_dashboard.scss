@@ -103,3 +103,100 @@
     }
   }
 }
+
+.page.dashboard-page {
+  margin: 0 15px;
+  font-family: Montserrat;
+  font-size: 12px;
+  line-height: 28px;
+  // color: $color-8;
+  h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  p {
+    margin: 0;
+  }
+  .left-panel {
+    padding: 40px;
+    border-radius: 5px;
+    background-color: #355BB9;
+    color: #fff;
+    .user-container {
+      ul {
+        li {
+          padding: 8px 0;
+          word-break: break-word;
+          line-height: 12px;
+        }
+      }
+    }
+    .device-container {
+      ul {
+        li {
+          padding: 15px 0;
+          line-height: 28px;
+          label {
+            position: relative;
+            margin: 0;
+            input[type="checkbox"] {
+              position: absolute;
+              top: 10px;
+              left: -25px;
+            }
+          }
+        }
+        li + li {
+          border-top: 1px solid rgba(255,255,255,0.5);
+        }
+      }
+    }
+    .setting-container {
+      select {
+        width: 100%;
+        padding: 5px;
+        background-color: transparent;
+        color: #fff;
+        option {
+          background: #355BB9;
+          color: #fff;
+          // text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
+  }
+  .right-panel {
+    padding: 40px;
+    background-color: #FFF;
+    .service-container {
+      .right-tag {
+        padding: 0 15px;
+        label {
+          color: $color-9;
+          white-space: pre;
+        }
+      }
+      .price-info {
+        padding: 15px;
+        border: 1px solid $border-color;
+        border-radius: 5px;
+        label {
+          display: block;
+          color: $color-9;
+        }
+        label + span {
+          display: block;
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

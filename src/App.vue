@@ -107,11 +107,10 @@ export default {
   },
 
   created() {
-    console.log('app created')
-    console.log('features', features)
-    console.log('process.env', process.env)
-
-    this.watchFeatures()
+    // console.log('app created')
+    // console.log('features', features)
+    // console.log('process.env', process.env)
+    // this.watchFeatures()
   },
 
   beforeDestroy() {

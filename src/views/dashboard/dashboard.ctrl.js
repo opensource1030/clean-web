@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import Avatar from 'vue-avatar'
 import employeeAPI from '@/api/employee-api'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
@@ -13,6 +14,7 @@ export default {
   name : 'dashboard',
 
   components: {
+    Avatar,
     PieChart,
     TrendChart,
     OrderNewSelectUser,
@@ -179,3 +181,4 @@ export default {
     })
   }
 }
+
