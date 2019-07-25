@@ -1,6 +1,7 @@
 <template>
   <div class="page employee-page employee-edit-page">
-    <div v-if="employee.id == employee_id">
+    <spinner v-if="isLoading" />
+    <div v-else>
       <b-modal
         :visible="$store.getters['error/hasError']"
         @hidden="$store.dispatch('error/clearAll')"
@@ -16,7 +17,7 @@
           Employee / Company Information
         </div>
         <div class="card-body">
-          <div class="row">
+          <div v-if="role === 'admin'" class="row">
             <div class="col-md-4">
               <label class="field">
                 <span>Company</span>
@@ -51,7 +52,10 @@
                   <div class="col-6">
                     <label class="field">
                       <span>Username</span>
-                      <input type="text" name="employee-user-name" placeholder="" v-model="employee.username">
+                      <input v-if="role != 'user'" type="text" name="employee-user-name" placeholder="" v-model="employee.username">
+                      <span v-else class="d-block mt-2">
+                        {{ employee.username }}
+                      </span>
                     </label>
                   </div>
                   <div class="col-1">
@@ -60,9 +64,12 @@
                   <div class="col-5">
                     <label class="field">
                       <span>Domain</span>
-                      <select name="employee-user-domain" v-model="employee.domainId">
+                      <select v-if="role === 'admin'" name="employee-user-domain" v-model="employee.domainId">
                         <option v-for="domain in domains" :value="domain.id">{{ domain.domain }}</option>
                       </select>
+                      <span v-else class="d-block mt-2">
+                        {{ employee.domain }}
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -96,7 +103,7 @@
                   </label>
                 </div>
               </div>
-              <div class="row">
+              <div v-if="role === 'admin'" class="row">
                 <div class="col-sm-2">
                   <label>
                     <span>Supervisor</span>
@@ -137,8 +144,6 @@
         <b-btn size="lg" variant="primary" class="save-button" @click="submit()">Save Changes</b-btn>
       </div>
     </div>
-
-    <spinner v-else />
   </div>
 </template>
 

@@ -275,4 +275,4 @@
   </div>
 </template>
 
-<script src="./edit.crtl.js" lang="babel"></script>
+<script src="./edit.ctrl.js" lang="babel"></script>

@@ -214,3 +214,45 @@
 </template>
 
 <script src="./service_index.ctrl.js" lang="babel"></script>
+
+<style lang="scss">
+.page.service-page.service-index-page {
+  .b-table {
+    tr:nth-of-type(2n) {
+      background-color: #f9f9f9;
+    }
+
+    tr:nth-of-type(2n + 1) {
+      background-color: #fff;
+    }
+
+    .b-table-has-details {
+      background-color: rgba(251, 243, 238, 1) !important;
+    }
+
+    .th-width__3 {
+      width: 3%;
+    }
+    
+    .th-width__6 {
+      width: 6%;
+    }
+    
+    .th-width__10 {
+      width: 10%;
+    }
+    
+    .th-width__12 {
+      width: 12%;
+    }
+    
+    .th-width__20 {
+      width: 20%;
+    }
+    
+    .th-width__30 {
+      width: 30%;
+    }
+  }
+}
+</style>
