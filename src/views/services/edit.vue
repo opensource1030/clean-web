@@ -228,4 +228,4 @@
   </div>
 </template>
 
-<script src="./service_edit.ctrl.js" lang="babel"></script>
+<script src="./edit.ctrl.js" lang="babel"></script>
