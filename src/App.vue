@@ -53,7 +53,19 @@ export default {
         const service_enabled = Flagger.flag('procurement-service-mgt').isEnabled(user)
         if (this.$store.state.feature.enabled_service != service_enabled) {
           console.log('procurement-service-mgt', service_enabled)
-          this.$store.dispatch('feature/setEnabledService', service_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_service: service_enabled })
+        }
+
+        const order_enabled = Flagger.flag('procurement-order-console').isEnabled(user)
+        if (this.$store.state.feature.enabled_order != order_enabled) {
+          console.log('procurement-order-console', order_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_order: order_enabled })
+        }
+
+        const order_report_enabled = Flagger.flag('procurement-order-console-reports').isEnabled(user)
+        if (this.$store.state.feature.enabled_order_report != order_report_enabled) {
+          console.log('procurement-order-console-reports', order_report_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_order_report: order_report_enabled })
         }
 
         const package_enabled = Flagger.flag('procurement-package-and-policy-management').isEnabled(user)

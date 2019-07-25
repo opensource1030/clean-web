@@ -3,49 +3,48 @@ export default {
     switch (order.status) {
       case 'New':
         return 'new'
-      case 'Pending Delivery':
-        return 'pending'
+      case 'Approval':
+        return 'approval'
+      case 'Deliver':
+        return 'deliver'
       case 'Delivered':
         return 'delivered'
-      case 'Denied':
-        return 'denied'
       default:
-        return 'draft'
+        return 'denied'
     }
   },
 
   getNextState (order) {
     let state = this.getState(order)
     let stateDic = {
-      'new': 'Pending Delivery',
-      'pending': 'Delivered',
-      'delivered': '',
-      'denied': 'New',
-      'draft': ''
+      'new': 'Approval',
+      'approval': 'Deliver',
+      'deliver': 'Delivered',
+      'delivered': 'Denied',
+      'denied': 'New'
     }
     return stateDic[state]
   },
 
   getButtonText (order) {
-    let state = this.getState(order)
     let textDic = {
       'new': 'Approve Request',
-      'pending': 'Mark Delivered',
-      'delivered': '',
-      'denied': 'Renew',
-      'draft': ''
+      'approval': 'Deliver',
+      'deliver': 'Mark Delivered',
+      'delivered': 'Deny',
+      'deny': 'Deny'
     }
-    return textDic[state]
+    return textDic[order]
   },
 
   getButtonClass (order) {
     let state = this.getState(order)
     let classDic = {
-      'new': 'warning',
-      'pending': 'success',
+      'new': 'primary',
+      'approval': 'info',
+      'deliver': 'success',
       'delivered': '',
-      'denied': 'alert',
-      'draft': ''
+      'denied': 'danger'
     }
     return classDic[state]
   },
