@@ -31,7 +31,7 @@ const state = {
 const getters = {
   sorted: (state) => {
     return state.records
-  },
+  }
 }
 
 // actions

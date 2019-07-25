@@ -33,8 +33,12 @@ import PresetIndex from '@/views/preset/index'
 import PresetEdit from '@/views/preset/edit'
 
 // service
-import ServiceIndex from '@/views/services/service_index'
-import ServiceEdit from '@/views/services/service_edit'
+import ServiceIndex from '@/views/services/index'
+import ServiceEdit from '@/views/services/edit'
+
+// order
+import OrderIndex from '@/views/orders/index'
+import OrderDetail from '@/views/orders/show'
 
 // package
 import PackageIndex from '@/views/package/index'
@@ -117,6 +121,18 @@ const router = new Router({
             { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
           ]
         },
+
+        // orders
+        {
+          path: '/orders',
+          component: { template: '<router-view></router-view>' },
+          meta: { requiresAuth: true, label: 'Orders' },
+          children: [
+            { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
+            { path: ':id', component: OrderDetail, name: 'Order Detail', meta: { label: 'Detail' } }
+          ]
+        },
+
         // packages
         {
           path: '/packages',
@@ -127,7 +143,7 @@ const router = new Router({
             { path: 'new', component: PackageEdit, name: 'Add Package', meta: { label: 'Create' } },
             { path: ':id', component: PackageEdit, name: 'Update Package', meta: { label: 'Edit' } },
           ]
-        },
+        }
       ]
     },
 
