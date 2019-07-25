@@ -67,4 +67,14 @@ export default class BaseAction extends BaseElements {
   async sleep(second: number) {
     return await new Promise(resolve => setTimeout(resolve, second * 1000));
   }
+
+  async genRandomString() : Promise<string> {
+    try{
+    let returnText = "";
+    returnText = Math.floor((Math.random() * 10000) + 1).toString();
+    return  returnText;
+    }catch (error) {
+      console.log(error);
+    }
+  }
 }
