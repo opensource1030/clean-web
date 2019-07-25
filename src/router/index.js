@@ -33,8 +33,8 @@ import PresetIndex from '@/views/preset/index'
 import PresetEdit from '@/views/preset/edit'
 
 // service
-import ServiceIndex from '@/views/services/service_index'
-import ServiceEdit from '@/views/services/service_edit'
+import ServiceIndex from '@/views/services/index'
+import ServiceEdit from '@/views/services/edit'
 
 // order
 import OrderIndex from '@/views/orders/index'

@@ -147,7 +147,7 @@ const actions = {
     })
   },
 
-  add ({ dispatch, commit, state }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
+  add ({ dispatch, commit, state, rootState }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
     let status = '';
     if (serviceDetails.status == "1") {
       status = 'Enabled'
@@ -170,7 +170,10 @@ const actions = {
     commit(types.SERVICE_PREPARE_ITEMS)
     commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
     return new Promise((resolve, reject, service) => {
-      serviceAPI.create({data: serviceo.toJSON()}, res => {
+      let data = serviceo.toJSON()
+      data.attributes.companyId = rootState.auth.profile.companyId;
+
+      serviceAPI.create({data: data}, res => {
         commit(types.SERVICE_ADD_NEW, {router})
         resolve(service)
       }, err => {
@@ -314,7 +317,7 @@ const mutations = {
   },
 
   [types.SERVICE_ADD_NEW](state, { router }) {
-    router.push({name: 'Dashboard'});
+    router.push({name: 'List Services'});
   },
 
   [types.SERVICE_PREPARE_ITEMS](state) {
