@@ -1,10 +1,9 @@
 import _ from 'lodash'
 import Avatar from 'vue-avatar'
 import employeeAPI from '@/api/employee-api'
-import PieChart from './Piechart.vue'
-import TrendChart from './Trendchart.vue'
-import OrderNewSelectUser from './../orders/OrderNewUser.vue'
-import swal from 'sweetalert2'
+import SpendChart from './components/spend_chart'
+import TrendChart from './components/trend_chart'
+import OrderNewSelectUser from './../orders/OrderNewUser'
 import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
@@ -15,7 +14,7 @@ export default {
 
   components: {
     Avatar,
-    PieChart,
+    SpendChart,
     TrendChart,
     OrderNewSelectUser,
   },
@@ -30,6 +29,7 @@ export default {
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
+      activeDevice: null
     }
   },
 
@@ -123,7 +123,7 @@ export default {
     },
 
     orderDisabled() {
-      swal({
+      this.$swal({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'

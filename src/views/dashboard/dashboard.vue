@@ -2,7 +2,7 @@
   <div class="page dashboard-page">
     <div class="row">
       <div class="col-md-3">
-        <h3>Welcome</h3>
+        <h4 class="mb-3">Welcome</h4>
       </div>
       <div class="col-md-9">
         <p>
@@ -35,6 +35,7 @@
                 <input type="checkbox">
                 <div><b>Samsung</b></div>
                 <div>(792) 650-7363</div>
+                <i class="fa fa-angle-right"></i>
               </label>
             </li>
             <li>
@@ -42,6 +43,7 @@
                 <input type="checkbox">
                 <div><b>iPad Gold</b></div>
                 <div>(792) 650-7363</div>
+                <i class="fas fa-angle-right"></i>
               </label>
             </li>
             <li>
@@ -49,6 +51,7 @@
                 <input type="checkbox">
                 <div><b>iPhone Black</b></div>
                 <div>(792) 650-7363</div>
+                <i class="fas fa-angle-right"></i>
               </label>
             </li>
           </ul>
@@ -85,24 +88,24 @@
           </div>
 
           <div class="row price-info mt-5">
-            <div class="col-sm-3 col-md-2">
+            <div class="col-6 col-sm-3 col-md-2">
               <label>Service Plan</label>
               <span>$39.99</span>
             </div>
-            <div class="col-sm-3 col-md-2">
+            <div class="col-6 col-sm-3 col-md-2">
               <label>Usage</label>
               <span>$0.00</span>
             </div>
-            <div class="col-sm-3 col-md-2">
+            <div class="col-6 col-sm-3 col-md-2">
               <label>Allocation</label>
               <span>$0.00</span>
             </div>
-            <div class="col-sm-3 col-md-2">
+            <div class="col-6 col-sm-3 col-md-2">
               <label>Other</label>
               <span>$0.00</span>
             </div>
             <div class="col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
-              <b-btn variant="outline-success px-5">Info</b-btn>
+              <b-btn variant="outline-primary px-5 my-3">Info</b-btn>
             </div>
           </div>
 
@@ -174,32 +177,18 @@
         <div class="chart-container mt-5">
           <b-row>
             <b-col md="6">
-              <div class="tag-header bg-info">
-                Spend By Category
-              </div>
+              <h4>Spend By Category</h4>
               <b-card no-body class="chart-card border-0">
                 <b-card-body class="p-0">
-                  <spinner v-if="userInfo.loading" />
-                  <PieChart
-                    v-else-if="userInfo.lastAllocations.length"
-                    :data="userInfo.lastAllocations"
-                  />
-                  <div v-else class="p-3 text-center bold border">N/A</div>
+                  <SpendChart/>
                 </b-card-body>
               </b-card>
             </b-col>
             <b-col md="6">
-              <div class="tag-header bg-info">
-                Trend By Category
-              </div>
+              <h4>Trend By Category</h4>
               <b-card no-body class="chart-card border-0">
                 <b-card-body class="p-0">
-                  <spinner  v-if="userInfo.loading" />
-                  <TrendChart
-                    v-else-if="userInfo.data.allocations.length"
-                    :data="userInfo.data.allocations"
-                  />
-                  <div v-else class="p-3 text-center bold border">N/A</div>
+                  <TrendChart/>
                 </b-card-body>
               </b-card>
             </b-col>
@@ -208,16 +197,18 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-3">
-        <h4>Support Information</h4>
-      </div>
-      <div class="col-md-9">
-        <ul class="list-unstyled">
-          <li><i class="fa fa-envelope"></i><a href="mailto:support@wirelessanalytics.com">&nbsp; support@wirelessanalytics.com</a></li>
-          <li><i class="fa fa-question"></i>&nbsp; Submit a Support Request by clicking the "Get Support" in sidebar</li>
-          <li><i class="fa fa-phone"></i>&nbsp; Call the Service Desk at 978-762-0900 or 888-588-5550 and select option 1</li>
-        </ul>
+    <div class="contact-container">
+      <div class="row">
+        <div class="col-md-3">
+          <h4 class="mb-3">Support Information</h4>
+        </div>
+        <div class="col-md-9">
+          <ul class="list-unstyled">
+            <li><i class="fa fa-envelope"></i><a href="mailto:support@wirelessanalytics.com">&nbsp; support@wirelessanalytics.com</a></li>
+            <li><i class="fa fa-question"></i>&nbsp; Submit a Support Request by clicking the "Get Support" in sidebar</li>
+            <li><i class="fa fa-phone"></i>&nbsp; Call the Service Desk at 978-762-0900 or 888-588-5550 and select option 1</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

@@ -114,6 +114,7 @@
     margin: 0;
     padding: 0;
     font-size: 24px;
+    font-weight: 600;
     line-height: 30px;
   }
   h4 {
@@ -125,77 +126,121 @@
   p {
     margin: 0;
   }
+
   .left-panel {
     padding: 40px;
     border-radius: 5px;
-    background-color: #355BB9;
+    background-color: $color-12;
     color: #fff;
-    .user-container {
-      ul {
-        li {
-          padding: 8px 0;
-          word-break: break-word;
-          line-height: 12px;
-        }
-      }
-    }
-    .device-container {
-      ul {
-        li {
-          padding: 15px 0;
-          line-height: 28px;
-          label {
-            position: relative;
-            margin: 0;
-            input[type="checkbox"] {
-              position: absolute;
-              top: 10px;
-              left: -25px;
-            }
-          }
-        }
-        li + li {
-          border-top: 1px solid rgba(255,255,255,0.5);
-        }
-      }
-    }
-    .setting-container {
-      select {
-        width: 100%;
-        padding: 5px;
-        background-color: transparent;
-        color: #fff;
-        option {
-          background: #355BB9;
-          color: #fff;
-          // text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
-        }
-      }
-    }
   }
   .right-panel {
     padding: 40px;
     background-color: #FFF;
-    .service-container {
-      .right-tag {
-        padding: 0 15px;
+  }
+
+  .user-container {
+    ul {
+      li {
+        padding: 8px 0;
+        word-break: break-word;
+        line-height: 12px;
+      }
+    }
+  }
+  .device-container {
+    ul {
+      li {
+        padding: 15px 0;
+        line-height: 28px;
         label {
-          color: $color-9;
-          white-space: pre;
+          position: relative;
+          widtH: 100%;
+          margin: 0;
+          input[type="checkbox"] {
+            position: absolute;
+            top: 10px;
+            left: -25px;
+          }
+        }
+        i {
+          position: absolute;
+          top: 50%;
+          right: 5px;
+          margin-top: -12px;
+          font-family: FontAwesome;
+          font-style: normal;
+          font-size: 16px;
         }
       }
-      .price-info {
-        padding: 15px;
-        border: 1px solid $border-color;
-        border-radius: 5px;
-        label {
-          display: block;
-          color: $color-9;
-        }
-        label + span {
-          display: block;
-          font-size: 24px;
-        }
+      li + li {
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+    }
+  }
+  .setting-container {
+    select {
+      width: 100%;
+      padding: 7px;
+      border-radius: 5px;
+      background-color: transparent;
+      color: #fff;
+      option {
+        background: $color-12;
+        color: #fff;
+        // text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+      }
+    }
+  }
+  .service-container {
+    .right-tag {
+      padding: 0 15px;
+      label {
+        color: $color-9;
+        white-space: pre;
+      }
+    }
+    .price-info {
+      padding: 15px;
+      border: 1px solid $border-color;
+      border-radius: 5px;
+      label {
+        display: block;
+        color: $color-9;
+      }
+      label + span {
+        display: block;
+        font-size: 24px;
+      }
+    }
+  }
+  .contact-container {
+    ul li {
+      position: relative;
+      padding: 5px 0 5px 30px;
+      i {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        color: $color-12;
+      }
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .page.dashboard-page {
+    .left-panel {
+      background-color: $color-13;
+      color: $color-4;
+    }
+    .device-container {
+      ul li + li {
+        border-color: rgba(151,151,15,0.2);
+      }
+    }
+    .setting-container {
+      select {
+        color: $color-4;
       }
     }
   }
