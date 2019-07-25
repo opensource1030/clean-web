@@ -20,6 +20,7 @@
 @import "components/pagination";
 @import "components/support";
 @import "components/legacy";
+@import "components/table";
 
 // containers / pages
 @import "containers/auth";
@@ -28,3 +29,4 @@
 @import "containers/services";
 @import "containers/device";
 @import "containers/preset";
+@import "containers/order";

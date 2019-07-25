@@ -2,17 +2,19 @@ const state = {
   enabled_place_order: false,
   enabled_equipment: false,
   enabled_service: false,
+  enabled_order: false,
+  enabled_order_report: false,
   enabled_package: false,
   enabled_package_edit: false
 }
 
 const getters = {
   isInventoryEnabled: (state) => {
-    return state.enabled_equipment || state.enabled_service
+    return state.enabled_equipment || state.enabled_service || state.enabled_order
   }
 }
 
-const actions  = {
+const actions = {
   setEnabledPlaceOrder({ commit }, enabled_place_order) {
     commit('setEnabledPlaceOrder', enabled_place_order)
   },
