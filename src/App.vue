@@ -53,7 +53,7 @@ export default {
         const service_enabled = Flagger.flag('procurement-service-mgt').isEnabled(user)
         if (this.$store.state.feature.enabled_service != service_enabled) {
           console.log('procurement-service-mgt', service_enabled)
-          this.$store.dispatch('feature/setEnabledService', service_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_service: service_enabled })
         }
 
         const order_enabled = Flagger.flag('procurement-order-console').isEnabled(user)

@@ -146,7 +146,7 @@ const actions = {
   addFilter ({dispatch,commit}, {type, records}) {
     commit(types.SERVICE_ADD_FILTER, {type, records})
     dispatch('getAll')
- },
+  }
 }
 
 const mutations = {

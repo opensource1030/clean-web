@@ -23,10 +23,6 @@ const actions = {
     commit('setEnabledEquipment', enabled_equipment)
   },
 
-  setEnabledService({ commit }, enabled_service) {
-    commit('setEnabledService', enabled_service)
-  },
-
   setFlag({ commit }, flag) {
     commit('setFlag', flag)
   }
@@ -39,10 +35,6 @@ const mutations = {
 
   setEnabledEquipment(state, enabled_equipment) {
     state.enabled_equipment = enabled_equipment
-  },
-
-  setEnabledService(state, enabled_service) {
-    state.enabled_service = enabled_service
   },
 
   setFlag(state, flag) {
