@@ -59,7 +59,7 @@ export default class PackageStepDefinition {
 
     @Step("User input Title field")
     public async inputTitleField() {
-        let title="";
+        let title = "";
         title = await packagePage.genRandomString();
         await packagePage.inputTitleField("Automation Testing" + title);
     }
@@ -87,9 +87,9 @@ export default class PackageStepDefinition {
 
     @Step("User update title")
     public async updateTitle() {
-        let title="";
+        let title = "";
         title = await packagePage.genRandomString();
-        await packagePage.inputTitleField("Title Update "+ title);
+        await packagePage.inputTitleField("Title Update " + title);
     }
 
     @Step("User click Update button")

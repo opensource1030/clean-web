@@ -48,7 +48,7 @@ export default class PackagePage extends AbstractPage {
   async selectAdress(): Promise<void> {
     await this.clickElement(PackagePageUI.ADDRESS);
   }
-  
+
   async inputApprovalField(value: string): Promise<void> {
     await this.type(PackagePageUI.APPROVAL_FIELD, value);
   }
