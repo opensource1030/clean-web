@@ -45,7 +45,7 @@ export default class ServicesAndPlansPage extends AbstractPage {
     await this.clickElement(ServicesAndPlansPageUI.DETELE_OK_MODAL);
   }
   async getMessageDeleteModal(): Promise<string> {
-    return await this.getText(ServicesAndPlansPageUI.DETELE_MESSAGE)
+    return await this.getText(ServicesAndPlansPageUI.DETELE_MESSAGE);
   }
   async getFirstTitleSerive(): Promise<string> {
     return await this.getText(ServicesAndPlansPageUI.FRIST_SERVICE_TITLE);
@@ -59,7 +59,7 @@ export default class ServicesAndPlansPage extends AbstractPage {
   async clickInVentoryButton(): Promise<void> {
     await this.clickElementByText("INVENTORY");
   }
-  async clickServiceAndPlanButton() : Promise<void> {
+  async clickServiceAndPlanButton(): Promise<void> {
     await this.clickElementByText("Services & Plans");
   }
   async changeStatusOfService(): Promise<void> {
