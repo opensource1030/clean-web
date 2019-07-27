@@ -33,7 +33,6 @@ export default class AbstractPage extends BaseAction {
   }
 
   async navigateByLeftMenu(menu: string, submenu?: string): Promise<void> {
-    console.log("\nNavigate to " + menu + " > " + submenu);
     await this.waitForElementExisting(AbstractPageUI.LOGO_IMG);
     await this.waitForElementExisting(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);
     await this.clickElement(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);

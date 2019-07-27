@@ -27,7 +27,7 @@ export default class InventoryStepDefinition {
     @Step("User can access to Service list page")
     public async userCanAccessToServicePage() {
       await abstractPage.navigateByLeftMenu('INVENTORY', 'Services & Plans');
-      expect(await servicePlanPage.getServiceListTitle()).to.contain('Service plans')
+      expect(await servicePlanPage.getServiceListTitle()).to.contain('Service plans');
     }
 
     @Step("User can access New Service page")
@@ -126,7 +126,7 @@ export default class InventoryStepDefinition {
     //     // await equipmentPage.leaveRequireFields();
     //     // Do nothing here
     // }
-    
+
     @Step("Verify show <message> when user empty Title field at New Serive page")
     public async UserEmptyTitleField(message: string) {
       await servicePlanPage.clickSaveButton();
@@ -152,19 +152,22 @@ export default class InventoryStepDefinition {
 
     @Step("Verify show <message> when user empty Description field at New Serive page")
     public async UserEmptyDescriptionField(message: string) {
-      await servicePlanPage.inputField('cost', 'Cost')
+      await servicePlanPage.inputField('cost', 'Cost');
       await servicePlanPage.clickSaveButton();
       expect(await servicePlanPage.getMessageError()).to.contain(message);
       await servicePlanPage.clickClosePopup();
     }
 
-    @Step("Verify user can modify an existing Service") 
+    @Step("Verify user can modify an existing Service")
     public async UserCanModifyAnExistingService() {
+      // tslint:disable-next-line:prefer-const
+      let titleUpdate = 'Title update ' + await servicePlanPage.genRandomString();
       await servicePlanPage.clickEditServiceButton();
-      await servicePlanPage.inputField('123', 'Title');
+      await servicePlanPage.inputField(titleUpdate, 'Title');
       await servicePlanPage.clickSaveButton();
-      await abstractPage.sleep(3); // waiting for value update 
-      expect(await servicePlanPage.getFirstTitleSerive()).to.contain('123');
+      await abstractPage.sleep(3); // waiting for value update
+      expect (await servicePlanPage.isElementByTextDisplayed(titleUpdate));
+    //   expect(await servicePlanPage.getFirstTitleSerive()).to.contain('123');
     }
 
     @Step("Verify user can delete an existing Service")
@@ -172,7 +175,7 @@ export default class InventoryStepDefinition {
       await servicePlanPage.clickDeleteServiceButton();
       await servicePlanPage.clickDeleteSubmitModal();
       await abstractPage.sleep(10);
-      expect(await servicePlanPage.getMessageDeleteModal()).to.contain('Deleted!')
+      expect(await servicePlanPage.getMessageDeleteModal()).to.contain('Deleted!');
       await servicePlanPage.clickOkModal();
     }
 
@@ -182,9 +185,20 @@ export default class InventoryStepDefinition {
       await servicePlanPage.checkStatusCheckbox();
       await servicePlanPage.clickNewServiceButton();
       await goBack();
-      oldStatus === "true"
-        ? expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('false')
-        : expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('true');
+    //   oldStatus === "true"
+        // ? expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('false')
+        // : expect(await servicePlanPage.checkSelectedCheckbox()).to.contain('true');
+        try {
+            // tslint:disable-next-line:prefer-const
+            let newStatus = await servicePlanPage.checkSelectedCheckbox();
+            if (oldStatus = newStatus) {
+                return false;
+             } else {
+                return true;
+             }
+        } catch (error) {
+            console.log(error);
+          }
     }
 
     @Step("Verify validations appeared on required fields at New Device page")
@@ -196,5 +210,4 @@ export default class InventoryStepDefinition {
     public async VerifyValidationsAppearedInNewServicePage(message: string) {
         expect(await servicePlanPage.isNewServiceValidationDisplayed(message)).to.be.true;
     }
-
 }

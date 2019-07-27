@@ -11,6 +11,8 @@ export default class ServicesAndPlansPageUI {
     static DETELE_SUBMIT_MODAL = 'xpt=//div[@class="swal2-actions"]/button[contains(.,"Yes, delete it!")]';
     static DETELE_OK_MODAL = 'xpt=//div[@class="swal2-actions"]/button[contains(.,"OK")]';
     static DETELE_MESSAGE = 'css=#swal2-title';
-    static STATUS_CHECKBOX = 'css=.card .card-body table tbody tr:nth-child(1) td label.switch input';
+    // static STATUS_CHECKBOX = 'css=.card .card-body table tbody tr:nth-child(1) td label.switch input';
+    static  STATUS_CHECKBOX ='xpt=(//span[@class="switch-slider"])[1]/..';
     static STATUS_CHECKBOX_LABEL = 'css=.card .card-body table tbody tr:nth-child(1) td label.switch';
+    static CHANGE_STATUS_SERVICE_BUTTON = 'xpt=(//span[@class="switch-slider"])[1]';
 }
