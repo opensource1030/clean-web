@@ -4,6 +4,7 @@ const state = {
   enabled_service: false,
   enabled_order: false,
   enabled_order_report: false,
+  enabled_metric: false,
   enabled_package: false,
   enabled_package_edit: false
 }

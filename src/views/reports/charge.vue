@@ -294,8 +294,6 @@ export default {
       _.forEach(_.keys(firstItem), key => {
         const uniqOptions = _.uniqBy(this.items, key);
 
-        console.log(uniqOptions);
-
         this.fields.push({
           key,
           text: _.upperCase(key),

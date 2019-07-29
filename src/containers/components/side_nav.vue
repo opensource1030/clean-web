@@ -18,6 +18,16 @@
           </ul>
         </div>
       </li>
+      <li v-if="$store.state.feature.enabled_metric" class="nav-item">
+        <div @click="show_metrics_submenu = !show_metrics_submenu" class="nav-link nav-dropdown-toggle">
+          <i class="nav-icon fa fa-bar-chart"></i>METRICS
+        </div>
+        <div class="submenu-container">
+          <ul v-show="show_metrics_submenu" class="submenu">
+            <li><router-link to="/report-charge">Charge</router-link></li>
+          </ul>
+        </div>
+      </li>
       <li class="nav-item" v-if="$store.getters['feature/isInventoryEnabled']">
         <div @click="show_inventory_submenu = !show_inventory_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-list-alt"></i>INVENTORY
@@ -70,6 +80,7 @@ export default {
     return {
       legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
       show_report_submenu: false,
+      show_metrics_submenu: false,
       show_inventory_submenu: false,
       show_package_submenu: false,
       show_config_submenu: false
