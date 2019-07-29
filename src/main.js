@@ -93,20 +93,6 @@ Vue.component('spinner', Spinner)
 // if (process.env.NODE_ENV == 'production') {
 //   Vue.config.devtools = false
 // }
-// bugsnagClient.metaData = {
-//   company: {
-//     name: "Acme Co.",
-//     country: "uk"
-//   }
-// }
-
-// bugsnagClient.notify("Other example with custom aditional data")
-// bugsnagClient.metaData = {
-//   compani: {
-//     name: 'Custom company name',
-//     country: 'Colombia'
-//   }
-// }
 
 new Vue({
   el: '#app',
