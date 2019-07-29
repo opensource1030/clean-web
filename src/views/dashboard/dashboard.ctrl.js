@@ -9,40 +9,6 @@ import { Storage, Utils, Log } from '@/helpers'
 const { Store } = require('yayson')()
 const store = new Store()
 
-// Example for doing a post to bugsnag
-import { bugsnagClient } from '@/bugsnag'
-
-bugsnagClient.leaveBreadcrumb('User load dashboard', {
-  customField1: 'custom field 1',
-  customField2: 'custom field 2',
-})
-
-bugsnagClient.notify(new Error('CustomizedError'),{
-  metaData: { 
-    'special info': {
-      request_id: 12345,
-      message_id: 854,
-      severity: 'can be info, warning, error'
-    },
-    'metadata': {
-      reason: 'metadata xample',
-    },
-    'analitics': {
-      'favorite animal': 'you',
-      'favorite coffee': 'JV',
-    }
-  },
-  severity: 'info',
-  context: 'Context Xample',
-  device: { 
-    orientation: 'portrait' 
-  },
-  request: {
-     id: 12345,
-     'request': 'Supply additional information about the request that caused the page to load'
-  }
-})
-
 export default {
   name : 'dashboard',
 
