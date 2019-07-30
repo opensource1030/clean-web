@@ -94,7 +94,7 @@ export default {
         console.log('Flagger connected')
         vm.feature_interval = setInterval(() => {
           vm.pollingFeatures()
-        }, 5000)
+        }, 10000)
       })
     },
 
@@ -110,7 +110,7 @@ export default {
     // console.log('app created')
     // console.log('features', features)
     // console.log('process.env', process.env)
-    // this.watchFeatures()
+    this.watchFeatures()
   },
 
   beforeDestroy() {

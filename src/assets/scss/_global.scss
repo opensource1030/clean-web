@@ -4,7 +4,7 @@ body {
   font-family: $font-family;
   font-size: 14px;
   font-weight: 400;
-  background-color: #F1F2F6;
+  background-color: $body-bg;
   color: $color-8;
 }
 
@@ -30,6 +30,28 @@ b, strong {
 .ds-flex {
   display: flex;
   display: -ms-flexbox;
+}
+
+/* btn default */
+.btn-outline-default {
+  color: $default;
+  border-color: $default;
+  &:hover {
+    color: #fff;
+    background-color: $default;
+    border-color: $default;
+  }
+}
+
+.btn-default {
+  color: #fff;
+  background-color: $default;
+  border-color: $default;
+  &:hover {
+    color: #fff;
+    background-color: #047197;
+    border-color: #047197;
+  }
 }
 
 /* swal */
@@ -61,8 +83,14 @@ b, strong {
   }
 }
 
+/* font-awesome */
+.fas {
+  font: normal normal normal 14px/1 FontAwesome;
+}
+
 .page {
-  min-height: calc(100vh - 200px);
+  // min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 105px);
 
   .field {
     width: 100%;

@@ -13,13 +13,16 @@ $color-10: #20A8D8;
 $color-11: #4DBD74;
 $color-12: #355BB9;
 $color-13: #EBF0F6;
+$color-14: #F1F2F6;
 
-// $body-bg: #0C2E82;
+$body-bg: $color-14;
 $body-color: $color-4;
 $border-color: #c8ced3;
 $info: $color-1;
 $primary: $color-12;
+$secondary: $color-9;
 $success: $color-11;
+$default: $color-10;
 
 // $font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 $font-family: "Segoe UI", Roboto, sans-serif;
