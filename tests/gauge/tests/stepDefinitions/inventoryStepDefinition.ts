@@ -7,11 +7,12 @@ import { dropDown } from "taiko";
 
 const inventoryPage: InventoryPage = new InventoryPage();
 const abstractPage: AbstractPage = new AbstractPage();
+let presetsName="";
 
 export default class InventoryStepDefinition {
 
     @Step("User open New Device page")
-    public async userOpenNewDevicePage() {
+     public async userOpenNewDevicePage() {
         await abstractPage.navigateByLeftMenu('INVENTORY', 'Equipments');
         await inventoryPage.clickNewDeviceButton();
     }
@@ -107,4 +108,45 @@ export default class InventoryStepDefinition {
         expect(await inventoryPage.isDeviceNameValidationDisplayed()).to.be.true;
     }
 
+    @Step("User can access Equipment Groups page")
+    public async userCanAccessEquipmentGroupsPage() {
+        await inventoryPage.userGoToEquipmentGroupsPage();
+        expect(await inventoryPage.getCurrentUrl()).includes("presets");
+    }
+
+    @Step("User can access Equipment page")
+    public async userCanAccessEquipmentPage() {
+        await inventoryPage.userGoToEquipmentPage();
+        expect(await inventoryPage.getCurrentUrl()).includes("devices");
+    }
+
+    @Step("Verify validate message appeared incase user hasn’t finished with the form information")
+    public async verifyValidateMessageAppeared() {
+        await inventoryPage.clickSaveChangeButton();
+        expect(await inventoryPage.verifyIncorrectNamePopupAppeared()).to.true;
+        await inventoryPage.closeIncorrectDeviceNamePopup();
+    }
+
+    @Step("User access create new equipment group page")
+    public async userOpenNewEquipmentGroupPage() {
+       await abstractPage.navigateByLeftMenu('INVENTORY', 'Equipment Groups');
+       await inventoryPage.clickNewEquipmentGroupButton();
+   }
+
+   @Step("User input all new equipment information")
+   public async userInputAllNewEquipmentInformation() {
+      presetsName ="New Equiment " + await inventoryPage.genRandomString();
+      await inventoryPage.inputTitleNewEquipment(presetsName);
+      await inventoryPage.inputCompanyName("Oyster Labs");
+      await inventoryPage.clickFindDeviceButton();
+      await inventoryPage.clickShowMoreDetailsButton();
+      await inventoryPage.clicDetailsCheckbox();
+      await inventoryPage.clickSelectedDeviceButton();
+      await inventoryPage.clickSavePreSentButton();
+  }
+
+  @Step("Verify can create new equipment group successfully")
+  public async verifyNewEquipmentCreated() {
+    await inventoryPage.isPresetCreated(presetsName);
+ }
 }
