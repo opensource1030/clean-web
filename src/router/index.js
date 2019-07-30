@@ -203,10 +203,13 @@ router.beforeEach((to, from, next) => {
   ) {
     if (from.name === 'Dashboard') {
       history.go(0)
-    } else {
-      // next({name: 'Dashboard'})
+    }
+
+    // Prevent bad redirection when resetting password...
+    if (to.name !== "Reset Password Code") {
       router.go(-1)
     }
+
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
