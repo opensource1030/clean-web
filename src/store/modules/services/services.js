@@ -85,38 +85,26 @@ const actions = {
     }
 
     if (state.filter.status.length > 0) {
-      let aux = '';
-      for (let status of state.filter.status) {
-        aux += status + ',';
-      }
-      aux = aux.substring(0, aux.length - 1);
+      let statuses = state.filter.status 
+      let aux = statuses.join(',');
       params.params['filter[status]'] = aux;
     }
 
     if (state.filter.plans.length > 0) {
-      let aux = '';
-      for (let plan of state.filter.plans) {
-        aux += plan + ',';
-      }
-      aux = aux.substring(0, aux.length - 1);
+      let plans = state.filter.plans
+      let aux = plans.join(',');
       params.params['filter[title]'] = aux;
     }
 
     if (state.filter.details.length > 0) {
-      let aux = '';
-      for (let detail of state.filter.details) {
-        aux += detail + ',';
-      }
-      aux = aux.substring(0, aux.length - 1);
+      let details = state.filter.details
+      let aux = details.join(',');
       params.params['filter[description]'] = aux;
     }
     
     if (state.filter.codePlan.length > 0) {
-      let aux = '';
-      for (let codePlan of state.filter.codePlan) {
-        aux += codePlan + ',';
-      }
-      aux = aux.substring(0, aux.length - 1);
+      let codePlans = state.filter.codePlan
+      let aux = codePlans.join(',');
       params.params['filter[planCode]'] = aux;
     }
 
