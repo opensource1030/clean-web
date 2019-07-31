@@ -1,6 +1,5 @@
 import Pagination from '@/components/pagination'
 import { mapGetters, mapActions } from 'vuex'
-import swal from 'sweetalert2'
 
 export default {
   name: 'packages',
@@ -84,7 +83,7 @@ export default {
     removePackage(package_id) {
       var app = this;
 
-      swal.fire({
+      app.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         type: 'warning',
@@ -100,7 +99,7 @@ export default {
 
             app.$store.dispatch('packages/searchByName', app.searchQuery)
 
-            swal.fire({
+            app.$swal({
               title: 'Deleted!',
               text: 'Requested Package has been removed',
               type: 'success',
@@ -111,8 +110,8 @@ export default {
 
         }
         
-        if (result.dismiss === swal.DismissReason.cancel) {
-          swal.fire(
+        if (result.dismiss === "cancel") {
+          app.$swal(
             'Cancelled',
             'Selected package is safe.',
             'error'
