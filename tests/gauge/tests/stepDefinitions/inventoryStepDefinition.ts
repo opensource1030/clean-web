@@ -7,7 +7,7 @@ import { dropDown } from "taiko";
 
 const inventoryPage: InventoryPage = new InventoryPage();
 const abstractPage: AbstractPage = new AbstractPage();
-let presetsName="";
+let presetsName= " ";
 
 export default class InventoryStepDefinition {
 
@@ -135,7 +135,7 @@ export default class InventoryStepDefinition {
 
    @Step("User input all new equipment information")
    public async userInputAllNewEquipmentInformation() {
-      presetsName ="New Equiment " + await inventoryPage.genRandomString();
+      presetsName = "New Equiment " + await inventoryPage.genRandomString();
       await inventoryPage.inputTitleNewEquipment(presetsName);
       await inventoryPage.inputCompanyName("Oyster Labs");
       await inventoryPage.clickFindDeviceButton();

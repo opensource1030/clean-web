@@ -76,12 +76,12 @@ export default class BaseAction extends BaseElements {
     } catch (error) {
       console.log(error);
     }
-  }  
+  }
   async scrollDownToElement(locator: string): Promise<void> {
     try {
       await scrollDown(locator);
     } catch (error) {
       console.log(error);
     }
-  } 
+  }
 }
