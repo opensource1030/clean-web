@@ -7,7 +7,7 @@ import { dropDown } from "taiko";
 
 const inventoryPage: InventoryPage = new InventoryPage();
 const abstractPage: AbstractPage = new AbstractPage();
-let presetsName= " ";
+let presetsName = " ";
 
 export default class InventoryStepDefinition {
 
