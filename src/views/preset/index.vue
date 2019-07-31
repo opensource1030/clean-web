@@ -83,4 +83,4 @@
   </div>
 </template>
 
-<script src="./index.crtl.js" lang="babel"></script>
+<script src="./index.ctrl.js" lang="babel"></script>

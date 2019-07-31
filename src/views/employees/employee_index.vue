@@ -66,43 +66,39 @@
                 </tr>
                 <tr class="detail-tr" :data-id="employee.id" :class="activeEmployee && (activeEmployee.id == employee.id) ? 'active' : ''">
                   <td colspan="8">
-                    <div class="detail-box">
-                      <div class="content" v-if="!!employee.companies && !!employee.companies[0]">
+                    <div class="w-100 p-3" v-if="!!employee.companies && !!employee.companies[0]">
+                      <template v-for="address in employee.companies[0].address">
+                        <div class="address-wrapper">
+                          <div class="pair">
+                            <span class="key">Country: </span>
+                            <span class="value">{{ address.country }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">State: </span>
+                            <span class="value">{{ address.state }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">City: </span>
+                            <span class="value">{{ address.city }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Postal Code: </span>
+                            <span class="value">{{ address.postalCode }}</span>
+                          </div>
+                          <div class="pair">
+                            <span class="key">Address: </span>
+                            <span class="value">{{ address.address }}</span>
+                          </div>
+                        </div>
+                      </template>
 
-                        <template v-for="address in employee.companies[0].address">
-                          <div class="address-wrapper">
-                            <div class="pair">
-                              <span class="key">Country: </span>
-                              <span class="value">{{ address.country }}</span>
-                            </div>
-                            <div class="pair">
-                              <span class="key">State: </span>
-                              <span class="value">{{ address.state }}</span>
-                            </div>
-                            <div class="pair">
-                              <span class="key">City: </span>
-                              <span class="value">{{ address.city }}</span>
-                            </div>
-                            <div class="pair">
-                              <span class="key">Postal Code: </span>
-                              <span class="value">{{ address.postalCode }}</span>
-                            </div>
-                            <div class="pair">
-                              <span class="key">Address: </span>
-                              <span class="value">{{ address.address }}</span>
-                            </div>
+                      <div class="udl-wrapper">
+                        <template v-for="udl in employee.companies[0].udls">
+                          <div class="pair">
+                            <span class="key">{{ udl.name }}:&nbsp;</span>
+                            <span class="value">{{ getUDLValue(udl) }}</span>
                           </div>
                         </template>
-
-                        <div class="udl-wrapper">
-                          <template v-for="udl in employee.companies[0].udls">
-                            <div class="pair">
-                              <span class="key">{{ udl.name }}:&nbsp;</span>
-                              <span class="value">{{ getUDLValue(udl) }}</span>
-                            </div>
-                          </template>
-                        </div>
-
                       </div>
                     </div>
                   </td>

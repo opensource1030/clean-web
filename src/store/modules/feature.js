@@ -1,15 +1,21 @@
 const state = {
   enabled_place_order: false,
-  enabled_equipment: false
+  enabled_equipment: false,
+  enabled_service: false,
+  enabled_order: false,
+  enabled_order_report: false,
+  enabled_metric: false,
+  enabled_package: false,
+  enabled_package_edit: false
 }
 
 const getters = {
   isInventoryEnabled: (state) => {
-    return state.enabled_equipment || state.enabled_service
+    return state.enabled_equipment || state.enabled_service || state.enabled_order
   }
 }
 
-const actions  = {
+const actions = {
   setEnabledPlaceOrder({ commit }, enabled_place_order) {
     commit('setEnabledPlaceOrder', enabled_place_order)
   },
@@ -18,8 +24,8 @@ const actions  = {
     commit('setEnabledEquipment', enabled_equipment)
   },
 
-  setEnabledService({ commit }, enabled_service) {
-    commit('setEnabledService', enabled_service)
+  setFlag({ commit }, flag) {
+    commit('setFlag', flag)
   }
 }
 
@@ -32,8 +38,9 @@ const mutations = {
     state.enabled_equipment = enabled_equipment
   },
 
-  setEnabledService(state, enabled_service) {
-    state.enabled_service = enabled_service
+  setFlag(state, flag) {
+    // state = {...state, ...flag}
+    state = Object.assign(state, flag)
   }
 }
 

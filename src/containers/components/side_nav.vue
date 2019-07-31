@@ -18,6 +18,16 @@
           </ul>
         </div>
       </li>
+      <li v-if="$store.state.feature.enabled_metric" class="nav-item">
+        <div @click="show_metrics_submenu = !show_metrics_submenu" class="nav-link nav-dropdown-toggle">
+          <i class="nav-icon fa fa-bar-chart"></i>METRICS
+        </div>
+        <div class="submenu-container">
+          <ul v-show="show_metrics_submenu" class="submenu">
+            <li><router-link to="/report-charge">Charge</router-link></li>
+          </ul>
+        </div>
+      </li>
       <li class="nav-item" v-if="$store.getters['feature/isInventoryEnabled']">
         <div @click="show_inventory_submenu = !show_inventory_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-list-alt"></i>INVENTORY
@@ -25,26 +35,27 @@
         <div class="submenu-container">
           <ul v-show="show_inventory_submenu" class="submenu">
             <li v-if="$store.state.feature.enabled_equipment"><router-link to="/devices">Equipments</router-link></li>
-            <!-- <li><router-link to="/presets">Equipment Groups</router-link></li>-->
+            <li v-if="$store.state.feature.enabled_equipment"><router-link to="/presets">Equipment Groups</router-link></li>
             <li v-if="$store.state.feature.enabled_service"><router-link to="/services">Services & Plans</router-link></li>
+            <li v-if="$store.state.feature.enabled_order"><router-link to="/orders">Orders</router-link></li>
             <!--<li><router-link to="/employees">Employees</router-link></li>
             <li><router-link to="/companies">Companies</router-link></li>
             <li><router-link to="/orders">Orders</router-link></li> -->
           </ul>
         </div>
       </li>
-      <!-- <li class="nav-item">
+      <li class="nav-item" v-if="$store.state.feature.enabled_package">
         <div @click="show_package_submenu = !show_package_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-th-large"></i>PACKAGES
         </div>
         <div class="submenu-container">
           <ul v-show="show_package_submenu" class="submenu">
             <li><router-link to="/packages">View All Packages</router-link></li>
-            <li><router-link to="/packages/new">Create a Package</router-link></li>
+            <li v-if="$store.state.feature.enabled_package_edit"><router-link to="/packages/new">Create a Package</router-link></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <div @click="show_config_submenu = !show_config_submenu" class="nav-link nav-dropdown-toggle">
           <i class="nav-icon fa fa-tasks"></i>CONFIGURATION
         </div>
@@ -69,6 +80,7 @@ export default {
     return {
       legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
       show_report_submenu: false,
+      show_metrics_submenu: false,
       show_inventory_submenu: false,
       show_package_submenu: false,
       show_config_submenu: false

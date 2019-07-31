@@ -15,6 +15,7 @@
           <b-table
             responsive
             fixed
+            class="table-splited"
             :fields="fields"
             :items="Service.servicesList"
             @row-clicked="showDetails">
@@ -213,4 +214,4 @@
   </div>
 </template>
 
-<script src="./service_index.ctrl.js" lang="babel"></script>
+<script src="./index.ctrl.js" lang="babel"></script>
