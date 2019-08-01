@@ -12,8 +12,8 @@
 
   .btn.btn-primary {
     &:hover {
-      background: $color-1;
-      border: 1px solid $color-1;
+      background: $info;
+      border: 1px solid $info;
     }
   }
 
@@ -43,8 +43,8 @@
       border-left: 1px solid lighten(black, 45%);
       padding-left: 7px;
     }
-    .bg-login{
-      background: #066199;
-    }
+    // .bg-login{
+    //   background: #066199;
+    // }
   }
 }
