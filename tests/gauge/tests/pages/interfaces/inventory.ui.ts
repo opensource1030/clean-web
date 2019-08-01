@@ -35,5 +35,4 @@ export default class InventoryPageUI {
   // Device list
   static DEVICE_NAME_HEADER_TXT = 'css=input[placeholder="Device Name"]';
   static DEVICE_SUGGESTION_LIST = 'xpt=//ul//span/span[text()="%s"]';
-
 }
