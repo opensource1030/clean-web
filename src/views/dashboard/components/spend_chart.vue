@@ -4,7 +4,7 @@
       :ref="`spend-chart-${activeIndex}`"
       chart-type="PieChart"
       :columns="columns"
-      :rows="rows"
+      :rows="pieData"
       :options="options"
     ></vue-chart>
     <resize-observer v-if="resizeObserverEnabled" @notify="onWindowResize" />
@@ -56,12 +56,14 @@ export default {
     }
   },
 
-  methods: {
-    title(allocation) {
+  computed: {
+    title() {
+      let allocation = this.data
       return this.$options.filters.phone(allocation.mobile_number) + ' (' + moment(allocation.bill_month).format('MMM YYYY') + ')';
     },
 
-    pieData(allocation) {
+    pieData() {
+      let allocation = this.data
       // if (index !== this.activeIndex) {
       //   return [['Dummy', 0]]
       // }
@@ -78,8 +80,10 @@ export default {
         ['Other Charges', {v: oc, f: '$' + oc}]
       ];
       return piechart_data;
-    },
+    }
+  },
 
+  methods: {
     // handleResize: debounce(function () {
     //   console.log('handleResize Piechart', this)
     //   this.onWindowResize()

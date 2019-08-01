@@ -1,10 +1,12 @@
 import _ from 'lodash'
 import Avatar from 'vue-avatar'
-import employeeAPI from '@/api/employee-api'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
+import TicketSelect from './components/ticket_select'
 import OrderNewSelectUser from './../orders/OrderNewUser'
 import { Storage, Utils, Log } from '@/helpers'
+import employeeAPI from '@/api/employee-api'
+// import { all } from 'q';
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -14,6 +16,7 @@ export default {
 
   components: {
     Avatar,
+    TicketSelect,
     SpendChart,
     TrendChart,
     OrderNewSelectUser,
@@ -29,6 +32,7 @@ export default {
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
+      activeAllocation: null,
       activeDevice: null
     }
   },
@@ -48,8 +52,11 @@ export default {
   },
 
   methods: {
-    setAllocation(index) {
-      this.activeAllocationIndex = index;
+    // setAllocation(index) {
+    //   this.activeAllocationIndex = index;
+    // },
+    setAllocation(allocation) {
+      this.activeAllocation = allocation
     },
 
     prevAllocation() {
@@ -159,6 +166,7 @@ export default {
         let event = store.sync(res.data);
         this.userInfo.data = event;
 
+        this.activeAllocation = this.userInfo.data.allocations[0]
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }

@@ -28,6 +28,7 @@
 
   .left-panel {
     width: 280px;
+    min-height: calc(100vh - 105px);
     padding: 40px;
     // border-radius: 5px;
     background-color: $color-12;
@@ -75,6 +76,7 @@
           position: relative;
           width: 100%;
           margin: 0;
+          cursor: pointer;
           input[type="checkbox"] {
             display: none;
             position: absolute;
@@ -182,6 +184,7 @@
     margin: 0;
     .left-panel {
       width: 100%;
+      min-height: auto;
       padding: 0;
       background-color: $color-13;
       color: $color-4;

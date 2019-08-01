@@ -4,7 +4,7 @@
       :ref="`trend-chart-${activeIndex}`"
       chart-type="ColumnChart"
       :columns="columns"
-      :rows="rows"
+      :rows="seriesData"
       :options="options"
     ></vue-chart>
     <resize-observer @notify="onWindowResize" />
@@ -17,7 +17,7 @@ import moment from 'moment'
 import { ResizeObserver } from 'vue-resize'
 
 export default {
-  props: ['data'],
+  props: ['data', 'mobile_number'],
 
   components: {
     ResizeObserver
@@ -95,11 +95,10 @@ export default {
     groupDataKeys() {
       let group_data_keys = _.keys(this.groupData);
       return group_data_keys;
-    }
-  },
+    },
 
-  methods: {
-    seriesData (key, index) {
+    seriesData () {
+      let key = this.mobile_number
       let bill_month = null
       let trendchart_data = []
 
@@ -143,8 +142,10 @@ export default {
       }
 
       return trendchart_data;
-    },
+    }
+  },
 
+  methods: {
     onWindowResize() {
       const index = this.activeIndex
       const chart_ref = `trend-chart-${index}`
