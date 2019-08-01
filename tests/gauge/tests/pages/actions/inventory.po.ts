@@ -67,6 +67,7 @@ export default class InventoryPage extends AbstractPage {
   }
 
   async clickSaveButton(): Promise<void> {
+    await this.scrollDownToElement(InventoryPageUI.SAVE_CHANGE_BUTTON);
     await this.clickElementByText('Save Changes');
   }
 

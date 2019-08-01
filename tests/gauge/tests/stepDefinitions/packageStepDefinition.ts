@@ -111,6 +111,7 @@ export default class PackageStepDefinition {
 
     @Step("Verify package is deleted")
     public async VerifyPackageDeleted() {
+        await console.log("This bug is fail follow but User can not delete a package #503")
         expect(await packagePage.isPackageDisplayed(packageNameVerify)).to.be.false;
     }
 }
