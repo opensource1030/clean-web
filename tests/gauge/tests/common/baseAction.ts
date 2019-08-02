@@ -1,5 +1,5 @@
 import BaseElements from "./baseElements";
-import { click, write, clear, ElementWrapper, waitFor, currentURL, press, scrollDown } from "taiko";
+import { click, write, clear, ElementWrapper, waitFor, currentURL, evaluate, press, scrollDown } from "taiko";
 import Constants from "./constants";
 
 const defaultOption = Constants.timeout;
@@ -46,11 +46,21 @@ export default class BaseAction extends BaseElements {
   async isElementDisplayed(locator: string, param?: string): Promise<boolean> {
     try {
       const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
-      return element.exists();
-    } catch (e) {
+      return await element.exists();
+    } catch (error) {
       return false;
     }
   }
+
+  async isChecked(locator: string, param?: string): Promise<string> {
+    try {
+      const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
+      return await evaluate(element, (elem) => elem.getAttribute('value'));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async getCurrentUrl(): Promise<string> {
     try {
       return await currentURL();

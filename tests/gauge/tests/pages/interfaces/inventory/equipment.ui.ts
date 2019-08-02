@@ -1,4 +1,4 @@
-export default class InventoryPageUI {
+export default class EquipmentPageUI {
   static NEW_DEVICE_BUTTON = 'xpt=//a[normalize-space(text())="New Device"]';
 
   // New device page
