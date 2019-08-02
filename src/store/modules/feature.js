@@ -6,7 +6,9 @@ const state = {
   enabled_order_report: false,
   enabled_metric: false,
   enabled_package: false,
-  enabled_package_edit: false
+  enabled_package_edit: false,
+  enabled_dashboard: false,
+  enabled_dashboard_legacy: false
 }
 
 const getters = {

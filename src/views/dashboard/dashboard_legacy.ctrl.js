@@ -1,13 +1,10 @@
 import _ from 'lodash'
-import Avatar from 'vue-avatar'
-import SpendChart from './components/spend_chart'
-import TrendChart from './components/trend_chart'
-import TicketSelect from './components/ticket_select'
-import LegacyDashboard from './dashboard_legacy'
-import OrderNewSelectUser from './../orders/OrderNewUser'
-import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
-// import { all } from 'q';
+import PieChart from './Piechart.vue'
+import TrendChart from './Trendchart.vue'
+import OrderNewSelectUser from './../orders/OrderNewUser.vue'
+import swal from 'sweetalert2'
+import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -16,11 +13,8 @@ export default {
   name : 'dashboard',
 
   components: {
-    Avatar,
-    TicketSelect,
-    SpendChart,
+    PieChart,
     TrendChart,
-    LegacyDashboard,
     OrderNewSelectUser,
   },
 
@@ -34,8 +28,6 @@ export default {
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
-      activeAllocation: null,
-      activeDevice: null
     }
   },
 
@@ -54,11 +46,8 @@ export default {
   },
 
   methods: {
-    // setAllocation(index) {
-    //   this.activeAllocationIndex = index;
-    // },
-    setAllocation(allocation) {
-      this.activeAllocation = allocation
+    setAllocation(index) {
+      this.activeAllocationIndex = index;
     },
 
     prevAllocation() {
@@ -132,7 +121,7 @@ export default {
     },
 
     orderDisabled() {
-      this.$swal({
+      swal({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'
@@ -168,7 +157,6 @@ export default {
         let event = store.sync(res.data);
         this.userInfo.data = event;
 
-        this.activeAllocation = this.userInfo.data.allocations[0]
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
@@ -191,4 +179,3 @@ export default {
     })
   }
 }
-

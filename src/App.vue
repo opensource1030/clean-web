@@ -85,6 +85,18 @@ export default {
           console.log('reports-next-gen', reports_next_gen)
           this.$store.dispatch('feature/setFlag', { enabled_metric: reports_next_gen })
         }
+
+        const dashboard_new_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard != dashboard_new_enabled) {
+          console.log('dashboard-newgen', dashboard_new_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard: dashboard_new_enabled })
+        }
+
+        const dashboard_legacy_enabled = Flagger.flag('dashboard-legacy').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_legacy != dashboard_legacy_enabled) {
+          console.log('dashboard-legacy', dashboard_legacy_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_legacy: dashboard_legacy_enabled })
+        }
       }
     },
 
