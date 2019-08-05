@@ -1,5 +1,5 @@
 [
 	"gauge",
 	"run",
-	"./tests/gauge/specs/"
+	"./tests/gauge/specs/servicesAndPlans.spec"
 ]

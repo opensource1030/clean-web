@@ -14,6 +14,11 @@ export default class AbstractPage extends BaseAction {
     await this.clickElement(AbstractPageUI.HAMBURGER_BUTTON);
   }
 
+  async getTextBreadcrumb(): Promise<string> {
+    await this.waitForElementExisting(AbstractPageUI.BREADCRUMB);
+    return await this.getText(AbstractPageUI.BREADCRUMB);
+  }
+
   async inputTextFieldByLabel(label: string, value: string): Promise<void> {
     await this.type(AbstractPageUI.DYNAMIC_TEXT_FIELD_BY_LABEL, value, label);
   }
@@ -28,6 +33,7 @@ export default class AbstractPage extends BaseAction {
   }
 
   async navigateByLeftMenu(menu: string, submenu?: string): Promise<void> {
+    await this.waitForElementExisting(AbstractPageUI.LOGO_IMG);
     await this.waitForElementExisting(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);
     await this.clickElement(AbstractPageUI.DYNAMIC_ELEMENT_LEFT_MENU_BY_TEXT, menu);
     if (submenu !== null) {
