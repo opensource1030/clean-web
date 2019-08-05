@@ -217,7 +217,10 @@
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
                       <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
-                      <div class="mt-3"><span>Not Eligible for Upgrade</span></div>
+                      <div class="mt-3">
+                        <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
+                        <b-btn v-else variant="outline-default mb-3" @click="toggleUpgradeDrawer()">Upgrade Device</b-btn>
+                      </div>
                     </div>
                     <div>
                       <div class="row right-tag">
@@ -302,6 +305,10 @@
           </div>
         </div>
       </div>
+        
+      <drawer :open="showUpgradeDrawer" @close="toggleUpgradeDrawer()">
+        <div>ABC</div>
+      </drawer>
 
       <!-- <div class="contact-container">
         <div class="row">

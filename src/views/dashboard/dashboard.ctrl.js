@@ -5,6 +5,7 @@ import TrendChart from './components/trend_chart'
 import TicketSelect from './components/ticket_select'
 import LegacyDashboard from './dashboard_legacy'
 import OrderNewSelectUser from './../orders/OrderNewUser'
+import Drawer from '@/components/Drawer'
 import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
 // import { all } from 'q';
@@ -18,6 +19,7 @@ export default {
   components: {
     Avatar,
     TicketSelect,
+    Drawer,
     SpendChart,
     TrendChart,
     LegacyDashboard,
@@ -35,7 +37,8 @@ export default {
       selectedOrder: '',
       activeAllocationIndex: 0,
       activeAllocation: null,
-      activeDevice: null
+      activeDevice: null,
+      showUpgradeDrawer: false,
     }
   },
 
@@ -46,6 +49,10 @@ export default {
 
     clientInfo() {
       return this.$store.getters['auth/getClientInfo']
+    },
+
+    upgradeEnabled() {
+      return this.$store.state.feature.enabled_upgrade_device
     },
 
     disabledBeginOrder() {
@@ -144,6 +151,10 @@ export default {
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
       // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
+    },
+
+    toggleUpgradeDrawer() {
+      this.showUpgradeDrawer = !this.showUpgradeDrawer;
     }
   },
 

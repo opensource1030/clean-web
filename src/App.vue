@@ -80,6 +80,12 @@ export default {
           this.$store.dispatch('feature/setFlag', { enabled_package_edit: package_edit_enabled })
         }
 
+        const upgrade_enabled = Flagger.flag('procurement-upgrade-a-device').isEnabled(user)
+        if (this.$store.state.feature.enabled_upgrade_device !== upgrade_enabled) {
+          console.log('procurement-upgrade-a-device', upgrade_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_upgrade_device: upgrade_enabled })
+        }
+
         const reports_next_gen = Flagger.flag('reports-next-gen').isEnabled(user)
         if (this.$store.state.feature.enabled_metric != reports_next_gen) {
           console.log('reports-next-gen', reports_next_gen)

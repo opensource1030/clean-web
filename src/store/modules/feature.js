@@ -8,7 +8,8 @@ const state = {
   enabled_package: false,
   enabled_package_edit: false,
   enabled_dashboard: false,
-  enabled_dashboard_legacy: false
+  enabled_dashboard_legacy: false,
+  enabled_upgrade_device: false
 }
 
 const getters = {
