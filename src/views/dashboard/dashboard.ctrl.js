@@ -39,6 +39,10 @@ export default {
       activeAllocation: null,
       activeDevice: null,
       showUpgradeDrawer: false,
+      welcome: {
+        visible: false,
+        do_not_show_again: false
+      }
     }
   },
 
@@ -155,7 +159,11 @@ export default {
 
     toggleUpgradeDrawer() {
       this.showUpgradeDrawer = !this.showUpgradeDrawer;
-    }
+    },
+
+    toggleWelcomeDrawer() {
+      this.welcome.visible = !this.welcome.visible;
+    },
   },
 
   beforeCreate() {
@@ -192,8 +200,10 @@ export default {
         this.userInfo.lastAllocations = lastAllocations;
       }
 
-      Log.put('dashboard/created user info', this.userInfo);
       this.userInfo.loading = false;
+
+      Log.put('dashboard/created user info', this.userInfo);
+      this.welcome.visible = true;
     }, err => {
       Log.put('dashboard/created user allocation err', err);
       this.userInfo.data = profile;

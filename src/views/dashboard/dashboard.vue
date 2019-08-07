@@ -310,6 +310,32 @@
         <div>ABC</div>
       </drawer>
 
+      <drawer :open="welcome.visible" @close="toggleWelcomeDrawer()">
+        <div class="d-flex flex-column welcome-container">
+          <div class="welcome-image">
+          </div>
+          <div class="px-5">
+            <h3 class="pt-5">Welcome!</h3>
+            <div
+              class="pt-5"
+              v-html=" _.get(clientInfo.data, 'metadata.header', '')"
+            ></div>
+            <div class="pt-5">
+              <b-btn
+                variant="default"
+                @click="toggleWelcomeDrawer()"
+              >Got It!</b-btn>
+              <b-form-checkbox
+                id="do_not_show_again_checkbox"
+                v-model="welcome.do_not_show_again"
+                name="do_not_show_again_checkbox"
+                class="d-inline-block ml-3"
+              >Don't show again</b-form-checkbox>
+            </div>
+          </div>
+        </div>
+      </drawer>
+
       <!-- <div class="contact-container">
         <div class="row">
           <div class="col-lg-3">

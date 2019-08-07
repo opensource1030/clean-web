@@ -281,6 +281,27 @@
       }
     }
   }
+
+  .welcome-container {
+    width: 600px;
+    // height: 100vh;
+    .welcome-image {
+      height: 45vh;
+      background: #FFF url('assets/images/img-01.png') no-repeat center center;
+      background-size: cover;
+    }
+    .custom-checkbox {
+      line-height: 16px;
+      label {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+    .custom-control-input:checked ~ .custom-control-label::before {
+      border-color: $default;
+      background-color: $default;
+    }
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -342,6 +363,13 @@
     .setting-container {
       select {
         color: $color-4;
+      }
+    }
+
+    .welcome-container {
+      width: 100%;
+      .welcome-image {
+        display: none;
       }
     }
   }
