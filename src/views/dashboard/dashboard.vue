@@ -1,13 +1,6 @@
 <template>
   <div>
     <div v-if="$store.state.feature.enabled_dashboard" class="page dashboard-page">
-      <!-- <div class="row">
-        <div class="col-lg-3">
-          <h4 class="mb-3">Welcome</h4>
-        </div>
-        <div class="col-lg-9" v-html=" _.get(clientInfo.data, 'metadata.header', '')"></div>
-      </div> -->
-
       <spinner v-if="userInfo.loading" />
       <div v-else>
         <!-- mobile view -->
@@ -57,7 +50,7 @@
                         </div>
                         <div class="col">
                           <label>LAST UPGRADE</label>
-                          <div v-if="activeAllocation.last_upgrade">{{ activeAllocation.last_upgrade | cleanDate }}</div>
+                          <div v-if="allocation.last_upgrade">{{ allocation.last_upgrade | cleanDate }}</div>
                           <div v-else>N/A</div>
                         </div>
                       </div>
@@ -66,19 +59,19 @@
                     <div class="row price-info mt-5">
                       <div class="col-6">
                         <label>Service Plan</label>
-                        <span>${{ activeAllocation.service_plan_charge.toFixed(2) }}</span>
+                        <span>${{ allocation.service_plan_charge.toFixed(2) }}</span>
                       </div>
                       <div class="col-6">
                         <label>Usage</label>
-                        <span>${{ activeAllocation.usage_charge.toFixed(2) }}</span>
+                        <span>${{ allocation.usage_charge.toFixed(2) }}</span>
                       </div>
                       <div class="col-6">
                         <label>Allocation</label>
-                        <span>${{ activeAllocation.allocated_charge.toFixed(2) }}</span>
+                        <span>${{ allocation.allocated_charge.toFixed(2) }}</span>
                       </div>
                       <div class="col-6">
                         <label>Other</label>
-                        <span>${{ activeAllocation.other_charge.toFixed(2) }}</span>
+                        <span>${{ allocation.other_charge.toFixed(2) }}</span>
                       </div>
                       <div class="col-12 d-flex justify-content-center align-items-center">
                         <b-btn variant="outline-default w-100 mt-3">Info</b-btn>
@@ -102,7 +95,10 @@
                         </div>
                       </div>
                       <div class="col-lg">
-                        <ticket-select v-model="allocation.issue" @change="onChangeTicketIssue"/>
+                        <label>
+                          <b class="d-block mb-3">Contact support:</b>
+                          <ticket-type-select v-model="allocation.issue" @change="onChangeTicketIssue"/>
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -112,7 +108,7 @@
                       <h4>Spend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <SpendChart :data="allocation"/>
+                          <spend-chart :data="allocation"/>
                         </b-card-body>
                       </b-card>
                     </div>
@@ -120,7 +116,7 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <TrendChart :data="userInfo.lastAllocations" :mobile_number="allocation.mobile_number"/>
+                          <trend-chart :data="userInfo.lastAllocations" :mobile_number="allocation.mobile_number"/>
                         </b-card-body>
                       </b-card>
                     </div>
@@ -275,7 +271,10 @@
                       </div>
                     </div>
                     <div class="col-lg">
-                      <ticket-select  v-model="activeAllocation.issue" @change="onChangeTicketIssue"/>
+                      <label>
+                        <b class="d-block mb-3">Contact support:</b>
+                        <ticket-type-select v-model="activeAllocation.issue" @change="onChangeTicketIssue"/>
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -286,7 +285,7 @@
                       <h4>Spend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <SpendChart :data="activeAllocation"/>
+                          <spend-chart :data="activeAllocation"/>
                         </b-card-body>
                       </b-card>
                     </b-col>
@@ -294,7 +293,7 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <TrendChart :data="userInfo.lastAllocations" :mobile_number="activeAllocation.mobile_number"/>
+                          <trend-chart :data="userInfo.lastAllocations" :mobile_number="activeAllocation.mobile_number"/>
                         </b-card-body>
                       </b-card>
                     </b-col>

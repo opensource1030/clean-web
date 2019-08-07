@@ -14,21 +14,30 @@
 
 <script>
   export default {
-    props: ['open'],
-
     name: "Drawer",
 
-    mounted() {
-      $('body').addClass('overflow-hidden');
+    props: ['open'],
+
+    watch: {
+      open(newVal, oldVal) {
+        if (newVal !== oldVal && newVal === true) {
+          $('body').addClass('overflow-hidden');
+        }
+      }
     },
 
-    destroyed() {
-      $('body').removeClass('overflow-hidden');
-    },
+    // mounted() {
+    //   $('body').addClass('overflow-hidden');
+    // },
+
+    // destroyed() {
+    //   $('body').removeClass('overflow-hidden');
+    // },
 
     methods: {
       onClose() {
         this.$emit('close');
+        $('body').removeClass('overflow-hidden');
       }
     },
   }

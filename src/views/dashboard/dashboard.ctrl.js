@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Avatar from 'vue-avatar'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
-import TicketSelect from './components/ticket_select'
+import TicketTypeSelect from '@/components/ticket_type_select'
 import LegacyDashboard from './dashboard_legacy'
 import OrderNewSelectUser from './../orders/OrderNewUser'
 import Drawer from '@/components/Drawer'
@@ -18,7 +18,7 @@ export default {
 
   components: {
     Avatar,
-    TicketSelect,
+    TicketTypeSelect,
     Drawer,
     SpendChart,
     TrendChart,
