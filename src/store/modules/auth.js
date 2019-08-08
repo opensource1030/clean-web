@@ -385,6 +385,13 @@ const actions = {
       dispatch('error/addNew', {
         message: "The Email must not be empty, please, fill it properly."
       }, {root: true})
+    } 
+    
+    var regEx = /^([A-Za-z0-9]+[\.\_\-][A-Za-z0-9]+|[A-Za-z0-9]+)+(\@[A-Za-z0-9]+)\.[A-Za-z0-9]{2,64}$/;
+    if (!regEx.test(email.trim())) {
+      dispatch('error/addNew', {
+        message: "Invalid Email"
+      }, {root: true})
     } else {
       return new Promise((resolve, reject) => {
         authAPI.login({
