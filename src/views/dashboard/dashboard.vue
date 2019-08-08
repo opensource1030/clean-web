@@ -5,6 +5,7 @@
       <div v-else>
         <!-- mobile view -->
         <div class="d-block d-lg-none left-panel my-3 pt-4">
+
           <div class="user-container px-3">
             <div class="mb-3">
               <avatar
@@ -20,7 +21,7 @@
             </ul>
           </div>
 
-          <div role="tablist">
+          <div role="tablist" v-if="userInfo.lastAllocations.length > 0">
             <b-card
               v-for="(allocation, index) in userInfo.lastAllocations"
               class="device-card"
@@ -125,6 +126,21 @@
               </b-collapse>
             </b-card>
           </div>
+
+          <div class="empty-container pt-5">
+            <i class="fas fa-cogs mt-5"></i>
+            <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
+            <p class="mt-4">
+              <router-link to="/">Order a new line of service</router-link> or
+              <router-link to="/">transfer wireless services liability</router-link><br>
+              to add new device
+            </p>
+            <label class="mt-5">
+              <b class="d-block">If you think there's a mistake,</b>
+              <b class="d-block mb-3">Contact support:</b>
+              <ticket-type-select @change="onChangeTicketIssue"/>
+            </label>
+          </div>
         </div>
 
         <!-- desktop view -->
@@ -146,34 +162,42 @@
                 </ul>
               </div>
 
-              <div class="device-container">
-                <h4 class="mt-5">Devices</h4>
-                <ul class="list-unstyled">
-                  <li
-                    v-for="(allocation, index) in userInfo.lastAllocations"
-                    :key="`device-item-${index}`"
-                    no-body
-                  >
-                    <label @click="setAllocation(allocation)">
-                      <input type="checkbox">
-                      <div><b>{{ allocation.device }}</b></div>
-                      <div>{{ allocation.mobile_number | phone }}</div>
-                      <i class="fa fa-angle-right"></i>
-                    </label>
-                  </li>
-                </ul>
-              </div>
+              <template v-if="userInfo.lastAllocations.length > 0">
+                <div class="device-container">
+                  <h4 class="mt-5">Devices</h4>
+                  <ul class="list-unstyled">
+                    <li
+                      v-for="(allocation, index) in userInfo.lastAllocations"
+                      :key="`device-item-${index}`"
+                      no-body
+                    >
+                      <label @click="setAllocation(allocation)">
+                        <input type="checkbox">
+                        <div><b>{{ allocation.device }}</b></div>
+                        <div>{{ allocation.mobile_number | phone }}</div>
+                        <i class="fa fa-angle-right"></i>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
 
-              <div class="setting-container">
-                <h4 class="mt-5">Settings</h4>
-                <div class="mt-4 mb-2">Data View</div>
-                <select>
-                  <option>Me</option>
-                  <option>Supervisor</option>
-                </select>
+                <div class="setting-container">
+                  <h4 class="mt-5">Settings</h4>
+                  <div class="mt-4 mb-2">Data View</div>
+                  <select>
+                    <option>Me</option>
+                    <option>Supervisor</option>
+                  </select>
+                </div>
+              </template>
+
+              <div class="device-container empty mt-5" v-else>
+                <i class="fas fa-mobile"></i>
+                <h4 class="mt-2">Your devices<br>will be displayed here</h4>
               </div>
             </div>
-            <div class="col right-panel" v-if="activeAllocation">
+
+            <div class="col right-panel">
               <div class="order-type-container d-flex w-100 mx-0 mb-5">
                 <div class="media px-4 py-2">
                   <div class="d-flex">
@@ -204,7 +228,7 @@
                 </div>
               </div>
 
-              <div class="right-panel__body">
+              <div class="right-panel__body" v-if="userInfo.lastAllocations.length > 0 && activeAllocation">
                 <div class="service-container">
                   <div class="row justify-content-between device-info">
                     <div class="col">
@@ -300,6 +324,22 @@
                   </b-row>
                 </div>
               </div>
+
+              <div class="empty-container py-5">
+                <i class="fas fa-cogs mt-5"></i>
+                <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
+                <p class="mt-4">
+                  <router-link to="/">Order a new line of service</router-link> or
+                  <router-link to="/">transfer wireless services liability</router-link><br>
+                  to add new device
+                </p>
+                <label class="mt-5">
+                  <b class="d-block">If you think there's a mistake,</b>
+                  <b class="d-block mb-3">Contact support:</b>
+                  <ticket-type-select @change="onChangeTicketIssue"/>
+                </label>
+              </div>
+
             </div>
           </div>
         </div>
