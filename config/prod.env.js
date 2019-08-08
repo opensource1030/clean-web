@@ -11,5 +11,6 @@ module.exports = {
   EZW_SSO_URL: 'https://oauth2.ezwim.com/sso?partner=WIRELESS',
   AIRSHIP_KEY: '69znmsr2ze66kz3a',
   VERSION:'v2019.6.10',
-  EV_URL: 'https://wa.easyvista.com/api/v1'
+  EV_URL: 'https://wa.easyvista.com/api/v1',
+  BUGSNAG_API_KEY: 'ff1b86eaaf4a5afb137f0a1d046256bb'
 }

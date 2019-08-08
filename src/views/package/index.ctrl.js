@@ -83,7 +83,7 @@ export default {
     removePackage(package_id) {
       var app = this;
 
-      swal({
+      app.$swal({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
         type: 'warning',
@@ -91,34 +91,33 @@ export default {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, delete it!'
-      }).then(function () {
-        app.$store.dispatch('packages/deletePackage', package_id).then(
-          res => {
-            swal({
+      }).then((result) => {
+
+        if (result.value) {
+
+          app.$store.dispatch('packages/deletePackage', package_id).then(() => {
+
+            app.$store.dispatch('packages/searchByName', app.searchQuery)
+
+            app.$swal({
               title: 'Deleted!',
               text: 'Requested Package has been removed',
               type: 'success',
               timer: 2000,
               showConfirmButton: false
-            }).then(
-              function () {},
-              // handling the promise rejection
-              function (dismiss) {
-                app.$store.dispatch('packages/searchByName', app.searchQuery)
-              }
-            )
-          }
-        )
-      }, function (dismiss) {
-        // dismiss can be 'cancel', 'overlay',
-        // 'close', and 'timer'
-        if (dismiss === 'cancel') {
-          swal(
+            })
+          })
+
+        }
+        
+        if (result.dismiss === "cancel") {
+          app.$swal(
             'Cancelled',
             'Selected package is safe.',
             'error'
           )
         }
+
       });
     }
   }

@@ -1,40 +1,12 @@
 <template>
-  <div class="chart-container">
-    <div class="tabs">
-      <ul class="nav nav-tabs" role="tablist">
-        <template v-for="(allocation, index) in data">
-          <li class="nav-item">
-            <label
-              data-toggle="tab"
-              @click="activeIndex = index"
-              role="tab"
-              :class="{'active': activeIndex == index}"
-              class="nav-link mb-0"
-            >{{ title(allocation) }}</label>
-          </li>
-        </template>
-      </ul>
-      <div class="tab-content">
-        <template v-for="(allocation, index) in data">
-          <div
-            v-if="activeIndex == index"
-            :id="`pie-${index}`"
-            role="tabpanel"
-            :class="{'show active': activeIndex == index}"
-            class="tab-pane fade"
-          >
-            <p class="charts_tel">{{ title(allocation) }}</p>
-            <vue-chart
-              :ref="`pie-${index}`"
-              chart-type="PieChart"
-              :columns="columns"
-              :rows="pieData(allocation)"
-              :options="options"
-            ></vue-chart>
-          </div>
-        </template>
-      </div>
-    </div>
+  <div class="chart">
+    <vue-chart
+      :ref="`spend-chart-${activeIndex}`"
+      chart-type="PieChart"
+      :columns="columns"
+      :rows="rows"
+      :options="options"
+    ></vue-chart>
     <resize-observer v-if="resizeObserverEnabled" @notify="onWindowResize" />
   </div>
 </template>
@@ -115,10 +87,11 @@ export default {
 
     onWindowResize() {
       const index = this.activeIndex
-      const chart_ref = `pie-${index}`
+      const chart_ref = `spend-chart-${index}`
       // console.log('onWindowResize', index, chart_ref)
       // console.log(this.$refs[chart_ref])
-      this.$refs[chart_ref][0].drawChart()
+      // this.$refs[chart_ref][0].drawChart()
+      this.$refs[chart_ref].drawChart()
     }
   },
 

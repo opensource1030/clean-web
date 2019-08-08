@@ -1,6 +1,6 @@
 // custom predefined styles
 .sidebar {
-  background-color: #0c2e82;
+  background-color: $primary;
 
   ul.nav {
     font-weight: 400;
@@ -18,23 +18,23 @@
   }
 
   .nav-link {
-    background-color: #0c2e82;
+    background-color: $primary;
     font-weight: 500;
     &:hover {
-      background-color: #ff690a;
+      background-color: $info;
     }
     .nav-icon {
-      color: #ff690a;
+      color: $info;
     }
   }
   
   .nav-link.active {
-    background-color: #0C2E82;
+    background-color: $primary;
     &:hover {
-      background-color: #ff690a;
+      background-color: $info;
     }
     .nav-icon {
-      color: #ff690a;
+      color: $info;
     }
   }
 
@@ -46,13 +46,13 @@
       margin-left: 40px;
       list-style: none;
       line-height: 30px;
-      background-color: #0c2e82;
+      background-color: $primary;
       li {
         a, span {
           color: #ffffff;
           cursor: pointer;
           &:hover {
-            color: #ff690a;
+            color: $info;
             text-decoration: none;
           }
         }
@@ -135,7 +135,7 @@
   }
 
   // .nav > .nav-dropdown > .nav-dropdown-items {
-  //   background-color: #0c2e82;
+  //   background-color: $primary;
   // }
 
   section :not(.nav-dropdown-items) > .nav-item:last-child::after {
