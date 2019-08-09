@@ -74,7 +74,9 @@
                         <label>Other</label>
                         <span>${{ allocation.other_charge.toFixed(2) }}</span>
                       </div>
-                      <div class="col-12 d-flex justify-content-center align-items-center">
+                      <div
+                        v-if="$store.state.feature.enabled_dashboard_report_details"
+                        class="col-12 d-flex justify-content-center align-items-center">
                         <b-btn variant="outline-default w-100 mt-3">Info</b-btn>
                       </div>
                     </div>
@@ -127,7 +129,7 @@
             </b-card>
           </div>
 
-          <div class="empty-container pt-5">
+          <div class="empty-container pt-5" v-else>
             <i class="fas fa-cogs mt-5"></i>
             <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
             <p class="mt-4">
@@ -181,7 +183,7 @@
                   </ul>
                 </div>
 
-                <div class="setting-container">
+                <div class="setting-container" v-if="$store.state.feature.enabled_dashboard_report_view">
                   <h4 class="mt-5">Settings</h4>
                   <div class="mt-4 mb-2">Data View</div>
                   <select>
@@ -199,7 +201,7 @@
 
             <div class="col right-panel">
               <div class="order-type-container d-flex w-100 mx-0 mb-5">
-                <div class="media px-4 py-2">
+                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_new_line">
                   <div class="d-flex">
                     <i class="fas fa-rocket"></i>
                   </div>
@@ -208,7 +210,7 @@
                     <div>With new device</div>
                   </div>
                 </div>
-                <div class="media px-4 py-2">
+                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_transfer">
                   <div class="d-flex">
                     <i class="fas fa-exchange"></i>
                   </div>
@@ -217,7 +219,7 @@
                     <div>Includes an option to order new device</div>
                   </div>
                 </div>
-                <div class="media px-4 py-2">
+                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_accessories">
                   <div class="d-flex">
                     <i class="fas fa-headphones"></i>
                   </div>
@@ -237,7 +239,7 @@
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
                       <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
-                      <div class="mt-3">
+                      <div class="mt-3" v-if="$store.state.feature.enabled_dashboard_procure_new_device">
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
                         <b-btn v-else variant="outline-default mb-3" @click="toggleUpgradeDrawer()">Upgrade Device</b-btn>
                       </div>
@@ -258,23 +260,25 @@
                   </div>
 
                   <div class="row price-info mt-5 mx-0">
-                    <div class="col-6 col-sm-3 col-lg-2">
+                    <div class="col-6 col-sm-3 col-lg">
                       <label>Service Plan</label>
                       <span>${{ activeAllocation.service_plan_charge.toFixed(2) }}</span>
                     </div>
-                    <div class="col-6 col-sm-3 col-lg-2">
+                    <div class="col-6 col-sm-3 col-lg">
                       <label>Usage</label>
                       <span>${{ activeAllocation.usage_charge.toFixed(2) }}</span>
                     </div>
-                    <div class="col-6 col-sm-3 col-lg-2">
+                    <div class="col-6 col-sm-3 col-lg">
                       <label>Allocation</label>
                       <span>${{ activeAllocation.allocated_charge.toFixed(2) }}</span>
                     </div>
-                    <div class="col-6 col-sm-3 col-lg-2">
+                    <div class="col-6 col-sm-3 col-lg">
                       <label>Other</label>
                       <span>${{ activeAllocation.other_charge.toFixed(2) }}</span>
                     </div>
-                    <div class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
+                    <div
+                      v-if="$store.state.feature.enabled_dashboard_report_details"
+                      class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
                       <b-btn variant="outline-default px-5 my-3">Info</b-btn>
                     </div>
                   </div>
@@ -325,7 +329,7 @@
                 </div>
               </div>
 
-              <div class="empty-container py-5">
+              <div class="empty-container py-5" v-else>
                 <i class="fas fa-cogs mt-5"></i>
                 <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
                 <p class="mt-4">

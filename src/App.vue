@@ -92,6 +92,7 @@ export default {
           this.$store.dispatch('feature/setFlag', { enabled_metric: reports_next_gen })
         }
 
+        /* dashboard features */
         const dashboard_new_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
         if (this.$store.state.feature.enabled_dashboard != dashboard_new_enabled) {
           console.log('dashboard-newgen', dashboard_new_enabled)
@@ -102,6 +103,42 @@ export default {
         if (this.$store.state.feature.enabled_dashboard_legacy != dashboard_legacy_enabled) {
           console.log('dashboard-legacy', dashboard_legacy_enabled)
           this.$store.dispatch('feature/setFlag', { enabled_dashboard_legacy: dashboard_legacy_enabled })
+        }
+
+        const dashboard_report_view_enabled = Flagger.flag('dashboard-report-view').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_report_view !== dashboard_report_view_enabled) {
+          console.log('dashboard-report-view', dashboard_report_view_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_view: dashboard_report_view_enabled })
+        }
+
+        const dashboard_procure_new_line_enabled = Flagger.flag('dashboard-procure-new-line').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_new_line !== dashboard_procure_new_line_enabled) {
+          console.log('dashboard-procure-new-line', dashboard_procure_new_line_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_line: dashboard_procure_new_line_enabled })
+        }
+
+        const dashboard_procure_transfer_enabled = Flagger.flag('dashboard-procure-transfer').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_transfer !== dashboard_procure_transfer_enabled) {
+          console.log('dashboard-procure-transfer', dashboard_procure_transfer_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_transfer: dashboard_procure_transfer_enabled })
+        }
+
+        const dashboard_procure_accessories_enabled = Flagger.flag('dashboard-procure-accessories').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_accessories !== dashboard_procure_accessories_enabled) {
+          console.log('dashboard-procure-accessories', dashboard_procure_accessories_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_accessories: dashboard_procure_accessories_enabled })
+        }
+
+        const dashboard_procure_new_device_enabled = Flagger.flag('dashboard-procure-new-device').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_new_device !== dashboard_procure_new_device_enabled) {
+          console.log('dashboard-procure-new-device', dashboard_procure_new_device_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_device: dashboard_procure_new_device_enabled })
+        }
+
+        const dashboard_report_details_enabled = Flagger.flag('dashboard-report-details').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_report_details !== dashboard_report_details_enabled) {
+          console.log('dashboard-report-details', dashboard_report_details_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_details: dashboard_report_details_enabled })
         }
       }
     },
