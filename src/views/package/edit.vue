@@ -392,7 +392,7 @@
                 <hr>
               </template>
 
-              <template  v-if="activeAddress.id">
+              <template v-if="activeAddress.id">
                 <hr>
                 <div class="row">
                   <div class="col-lg-10">
