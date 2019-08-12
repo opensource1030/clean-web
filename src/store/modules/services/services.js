@@ -122,37 +122,27 @@ const actions = {
       }
     }
 
-    if (state.filter.status) {
-      let aux = state.filter.status;
-      if (aux > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    if (state.filter.status.length > 0) {
+      let statuses = state.filter.status 
+      let aux = statuses.join(',');
       params.params['filter[status]'] = aux;
     }
 
-    if (state.filter.plans) {
-      let aux = state.filter.plans;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
-      // params.params['filter[title][like]'] = aux;
-      // params.params['filter[title]'] = "100 International Add On (100MBs/100Mins/100Msg)";
+    if (state.filter.plans.length > 0) {
+      let plans = state.filter.plans
+      let aux = plans.join(',');
       params.params['filter[title]'] = aux;
     }
 
-    if (state.filter.details) {
-      let aux = state.filter.details;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    if (state.filter.details.length > 0) {
+      let details = state.filter.details
+      let aux = details.join(',');
       params.params['filter[description]'] = aux;
     }
-
-    if (state.filter.codePlan) {
-      let aux = state.filter.codePlan;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    
+    if (state.filter.codePlan.length > 0) {
+      let codePlans = state.filter.codePlan
+      let aux = codePlans.join(',');
       params.params['filter[planCode]'] = aux;
     }
 
@@ -205,10 +195,10 @@ const mutations = {
   [types.SERVICE_ADD_FILTER] (state, {type, records}) {
     switch (type) {
       case 'status':
-        state.filter.status = records[0]
+        state.filter.status = records
         break
       case 'plans':
-        state.filter.plans = records[0]
+        state.filter.plans = records
         break
       case 'carriers':
         console.log('from carriers filtering...')
@@ -216,12 +206,16 @@ const mutations = {
         state.filter.carriers = records
         break
       case 'details':
+<<<<<<< HEAD
           console.log('from details filtering...')
           console.log(records)
         state.filter.details = records[0]
+=======
+        state.filter.details = records
+>>>>>>> master
         break
       case 'codePlan':
-        state.filter.codePlan = records[0]
+        state.filter.codePlan = records
         break
       case 'cost':
         state.filter.cost = records

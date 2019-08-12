@@ -27,6 +27,8 @@
     "start:dev": "webpack-dev-server --config build/webpack.dev.conf.js"
   },
   "dependencies": {
+    "@bugsnag/js": "^6.3.2",
+    "@bugsnag/plugin-vue": "^6.3.0",
     "@coreui/coreui": "^2.1.6",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",

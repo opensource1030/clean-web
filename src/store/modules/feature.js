@@ -6,7 +6,16 @@ const state = {
   enabled_order_report: false,
   enabled_metric: false,
   enabled_package: false,
-  enabled_package_edit: false
+  enabled_package_edit: false,
+  enabled_upgrade_device: false,
+  enabled_dashboard: false,
+  enabled_dashboard_legacy: false,
+  enabled_dashboard_report_view: false,
+  enabled_dashboard_procure_new_line: false,
+  enabled_dashboard_procure_transfer: false,
+  enabled_dashboard_procure_accessories: false,
+  enabled_dashboard_procure_new_device: false,
+  enabled_dashboard_report_details: false,
 }
 
 const getters = {

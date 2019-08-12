@@ -1,12 +1,40 @@
 <template>
-  <div class="chart">
-    <vue-chart
-      :ref="`trend-chart-${activeIndex}`"
-      chart-type="ColumnChart"
-      :columns="columns"
-      :rows="seriesData"
-      :options="options"
-    ></vue-chart>
+  <div class="chart-container">
+    <div class="tabs">
+      <ul class="nav nav-tabs" role="tablist">
+        <template v-for="(key, index) in groupDataKeys">
+          <li class="nav-item">
+            <label
+              data-toggle="tab"
+              @click="activeIndex = index"
+              role="tab"
+              :class="{'active': activeIndex == index}"
+              class="nav-link mb-0"
+            >{{ $options.filters.phone(key) }}</label>
+          </li>
+        </template>
+      </ul>
+      <div class="tab-content">
+        <template v-for="(key, index) in groupDataKeys">
+          <div
+            v-if="activeIndex == index"
+            :id="`pie-${index}`"
+            role="tabpanel"
+            :class="{'show active': activeIndex == index}"
+            class="tab-pane fade"
+          >
+            <p class="charts_tel">{{ key | phone }}</p>
+            <vue-chart
+              :ref="`bar-${index}`"
+              chart-type="ColumnChart"
+              :columns="columns"
+              :rows="seriesData(key, index)"
+              :options="options"
+            ></vue-chart>
+          </div>
+        </template>
+      </div>
+    </div>
     <resize-observer @notify="onWindowResize" />
   </div>
 </template>
@@ -17,7 +45,7 @@ import moment from 'moment'
 import { ResizeObserver } from 'vue-resize'
 
 export default {
-  props: ['data', 'mobile_number'],
+  props: ['data'],
 
   components: {
     ResizeObserver
@@ -58,13 +86,6 @@ export default {
           'label': 'Other Charges'
         }
       ],
-      rows: [
-        ['2004', 1000, 800, 600, 400, 200],
-        ['2005', 1170, 900, 500, 700, 300],
-        ['2006', 660, 800, 100, 400, 200],
-        ['2007', 1030, 200, 800, 400, 600],
-        ['2008', 800, 200, 400, 600, 100]
-      ],
       options: {
         vAxis: {
           format: currency + "0.00"
@@ -95,10 +116,11 @@ export default {
     groupDataKeys() {
       let group_data_keys = _.keys(this.groupData);
       return group_data_keys;
-    },
+    }
+  },
 
-    seriesData () {
-      let key = this.mobile_number
+  methods: {
+    seriesData (key, index) {
       let bill_month = null
       let trendchart_data = []
 
@@ -142,17 +164,14 @@ export default {
       }
 
       return trendchart_data;
-    }
-  },
+    },
 
-  methods: {
     onWindowResize() {
       const index = this.activeIndex
-      const chart_ref = `trend-chart-${index}`
+      const chart_ref = `bar-${index}`
       // console.log('onWindowResize', index, chart_ref)
       // console.log(this.$refs[chart_ref])
-      // this.$refs[chart_ref][0].drawChart()
-      this.$refs[chart_ref].drawChart()
+      this.$refs[chart_ref][0].drawChart()
     }
   },
 

@@ -1,14 +1,10 @@
 import _ from 'lodash'
-import Avatar from 'vue-avatar'
-import SpendChart from './components/spend_chart'
-import TrendChart from './components/trend_chart'
-import TicketTypeSelect from '@/components/ticket_type_select'
-import LegacyDashboard from './dashboard_legacy'
-import OrderNewSelectUser from './../orders/OrderNewUser'
-import Drawer from '@/components/Drawer'
-import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
-// import { all } from 'q';
+import PieChart from './Piechart.vue'
+import TrendChart from './Trendchart.vue'
+import OrderNewSelectUser from './../orders/OrderNewUser.vue'
+import swal from 'sweetalert2'
+import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -17,12 +13,8 @@ export default {
   name : 'dashboard',
 
   components: {
-    Avatar,
-    TicketTypeSelect,
-    Drawer,
-    SpendChart,
+    PieChart,
     TrendChart,
-    LegacyDashboard,
     OrderNewSelectUser,
   },
 
@@ -36,13 +28,6 @@ export default {
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
-      activeAllocation: null,
-      activeDevice: null,
-      showUpgradeDrawer: false,
-      welcome: {
-        visible: false,
-        do_not_show_again: false
-      }
     }
   },
 
@@ -55,21 +40,14 @@ export default {
       return this.$store.getters['auth/getClientInfo']
     },
 
-    upgradeEnabled() {
-      return this.$store.state.feature.enabled_upgrade_device
-    },
-
     disabledBeginOrder() {
       return this.selectedOrder == '' ? 'disabled' : false
     }
   },
 
   methods: {
-    // setAllocation(index) {
-    //   this.activeAllocationIndex = index;
-    // },
-    setAllocation(allocation) {
-      this.activeAllocation = allocation
+    setAllocation(index) {
+      this.activeAllocationIndex = index;
     },
 
     prevAllocation() {
@@ -143,7 +121,7 @@ export default {
     },
 
     orderDisabled() {
-      this.$swal({
+      swal({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'
@@ -155,15 +133,7 @@ export default {
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
       // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
-    },
-
-    toggleUpgradeDrawer() {
-      this.showUpgradeDrawer = !this.showUpgradeDrawer;
-    },
-
-    toggleWelcomeDrawer() {
-      this.welcome.visible = !this.welcome.visible;
-    },
+    }
   },
 
   beforeCreate() {
@@ -187,7 +157,6 @@ export default {
         let event = store.sync(res.data);
         this.userInfo.data = event;
 
-        this.activeAllocation = this.userInfo.data.allocations[0]
         for (let allocation of this.userInfo.data.allocations) {
           allocation.issue = ''
         }
@@ -200,10 +169,8 @@ export default {
         this.userInfo.lastAllocations = lastAllocations;
       }
 
-      this.userInfo.loading = false;
-
       Log.put('dashboard/created user info', this.userInfo);
-      this.welcome.visible = true;
+      this.userInfo.loading = false;
     }, err => {
       Log.put('dashboard/created user allocation err', err);
       this.userInfo.data = profile;
@@ -212,4 +179,3 @@ export default {
     })
   }
 }
-
