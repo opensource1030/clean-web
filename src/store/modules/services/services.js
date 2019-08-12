@@ -147,15 +147,11 @@ const actions = {
     }
 
     if (state.filter.carriers.length > 0) {
-      console.log('Value from carriers: ')
-      console.log(state.filter.carriers)
       let aux = '';
       for (let carr of state.filter.carriers) {
         aux = aux + carr.id + ',';
       }
       aux = aux.substring(0, aux.length - 1);
-      // console.log('Value from aux: ')
-      // console.log(aux)
       params.params['filter[carrierId]'] = aux;
     }
 
@@ -201,18 +197,10 @@ const mutations = {
         state.filter.plans = records
         break
       case 'carriers':
-        console.log('from carriers filtering...')
-        console.log(records)
         state.filter.carriers = records
         break
       case 'details':
-<<<<<<< HEAD
-          console.log('from details filtering...')
-          console.log(records)
-        state.filter.details = records[0]
-=======
         state.filter.details = records
->>>>>>> master
         break
       case 'codePlan':
         state.filter.codePlan = records
@@ -313,7 +301,6 @@ const mutations = {
 
     let records = payload.records
     let filterType = payload.filterType
-    console.log(records)
 
     switch (filterType) {
 
@@ -336,7 +323,6 @@ const mutations = {
         
         if ( !(_.isEmpty(records)) ) {
           for (let serv of records) {
-            console.log(serv.title)
             if (serv.title != null) {
               state.selects.plans = getFilters(state.selects.plans, serv.title, 'string');
             }
@@ -351,7 +337,6 @@ const mutations = {
         if ( !(_.isEmpty(records)) ) {
           for (let serv of records) {
             if (serv.planCode != null) {
-              console.log('flagazo')
               state.selects.codePlan = getFilters(state.selects.codePlan, serv.planCode, 'string');
             }
           }
