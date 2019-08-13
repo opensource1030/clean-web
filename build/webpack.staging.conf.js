@@ -10,6 +10,9 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var webpackConfig = merge(baseWebpackConfig, {
   mode: `production`,
   plugins: [
+    new webpack.ProvidePlugin({
+      Promise: ['es6-promise', 'Promise']
+    }),
     // http://vuejs.github.io/vue-loader/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(config.staging.env),

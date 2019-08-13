@@ -1,7 +1,7 @@
 <template>
   <nav class="sidebar-nav">
     <b-nav>
-      <b-nav-item to="/dashboard">
+      <b-nav-item v-if="$store.state.feature.enabled_dashboard || $store.state.feature.enabled_dashboard_legacy" to="/dashboard">
         <i class="nav-icon fa fa-dashboard"></i>DASHBOARD
       </b-nav-item>
       <li class="nav-item">
@@ -15,6 +15,16 @@
             <li><span @click="goExternalUrl('/report_zero_usage.asp')">Zero Usage</span></li>
             <li><span @click="goExternalUrl('/report_usage.asp')">Usage</span></li>
             <li><span @click="goExternalUrl('/report_international.asp')">International</span></li>
+          </ul>
+        </div>
+      </li>
+      <li v-if="$store.state.feature.enabled_metric" class="nav-item">
+        <div @click="show_metrics_submenu = !show_metrics_submenu" class="nav-link nav-dropdown-toggle">
+          <i class="nav-icon fa fa-bar-chart"></i>METRICS
+        </div>
+        <div class="submenu-container">
+          <ul v-show="show_metrics_submenu" class="submenu">
+            <li><router-link to="/report-charge">Charge</router-link></li>
           </ul>
         </div>
       </li>
@@ -70,6 +80,7 @@ export default {
     return {
       legacyLink: process.env.LEGACY_URL + '/app/helpdesk/udl',
       show_report_submenu: false,
+      show_metrics_submenu: false,
       show_inventory_submenu: false,
       show_package_submenu: false,
       show_config_submenu: false

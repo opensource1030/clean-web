@@ -33,7 +33,11 @@ const state = {
     plans: [],
     details: [],
     codePlan: [],
-    cost: []
+    cost: [],
+    loading: {
+      fetching: true,
+      noResultMessage: '',
+    }
   },
   //FILTERS
   filter: {
@@ -68,6 +72,40 @@ const actions = {
     }
   },
 
+  searchServiceSelects({dispatch, commit, state}, {data}) {
+
+    let query = data.query
+    let queryStringAPI = data.filterType + '=' + query
+    let queryLength = query.length
+
+    if (queryLength > 3) {
+      if (state.selects.loading.fetching) commit(types.SERVICES_FILTER_MESSAGE, queryLength)
+      service.searchQuery(queryStringAPI, function(records) {
+        let payload = {
+          filterType: data.filterType,
+          records: records
+        }
+        commit(types.SERVICES_FILTER_SEARCH, {payload})
+        // When records get fetched from API, then conditional is executed...
+        if (payload.records) {
+          if (!state.selects.loading.fetching) commit(types.SERVICES_FILTER_MESSAGE, queryLength)
+        }
+      }, (err) => {
+        console.log(err)
+      })
+    }
+
+    if (query.length <= 3) {
+      let payload = {
+        filterType: data.filterType,
+        records: {}
+      }
+      commit(types.SERVICES_FILTER_MESSAGE, queryLength)
+      commit(types.SERVICES_FILTER_SEARCH, {payload})
+    }
+
+  },
+
   nextPage({dispatch, commit, state}) {
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.SERVICE_NEXT_PAGE)
@@ -84,37 +122,27 @@ const actions = {
       }
     }
 
-    if (state.filter.status) {
-      let aux = state.filter.status;
-      if (aux > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    if (state.filter.status.length > 0) {
+      let statuses = state.filter.status 
+      let aux = statuses.join(',');
       params.params['filter[status]'] = aux;
     }
 
-    if (state.filter.plans) {
-      let aux = state.filter.plans;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
-      // params.params['filter[title][like]'] = aux;
-      // params.params['filter[title]'] = "100 International Add On (100MBs/100Mins/100Msg)";
+    if (state.filter.plans.length > 0) {
+      let plans = state.filter.plans
+      let aux = plans.join(',');
       params.params['filter[title]'] = aux;
     }
 
-    if (state.filter.details) {
-      let aux = state.filter.details;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    if (state.filter.details.length > 0) {
+      let details = state.filter.details
+      let aux = details.join(',');
       params.params['filter[description]'] = aux;
     }
-
-    if (state.filter.codePlan) {
-      let aux = state.filter.codePlan;
-      if (aux.length > 50) {
-        aux = aux.substring(0, 50) + '%';
-      }
+    
+    if (state.filter.codePlan.length > 0) {
+      let codePlans = state.filter.codePlan
+      let aux = codePlans.join(',');
       params.params['filter[planCode]'] = aux;
     }
 
@@ -163,19 +191,19 @@ const mutations = {
   [types.SERVICE_ADD_FILTER] (state, {type, records}) {
     switch (type) {
       case 'status':
-        state.filter.status = records[0]
+        state.filter.status = records
         break
       case 'plans':
-        state.filter.plans = records[0]
+        state.filter.plans = records
         break
       case 'carriers':
         state.filter.carriers = records
         break
       case 'details':
-        state.filter.details = records[0]
+        state.filter.details = records
         break
       case 'codePlan':
-        state.filter.codePlan = records[0]
+        state.filter.codePlan = records
         break
       case 'cost':
         state.filter.cost = records
@@ -198,26 +226,20 @@ const mutations = {
       state.Services.errorNotFound = true;
     } else {
 
-      if (state.Services.firstTime) {
-        //this.getCarriers(state);
-        state.selects.services = orderFilters(records, 'title', 'string', 'asc');
+      // if (state.Services.firstTime) {
+      //   //this.getCarriers(state);
+      //   state.selects.services = orderFilters(records, 'title', 'string', 'asc');
 
-        for (let serv of records) {
-          if (serv.status != null) {
-            state.selects.status = getFilters(state.selects.status, serv.status, 'string');
-          }
-          if (serv.title != null) {
-            state.selects.plans = getFilters(state.selects.plans, serv.title, 'string');
-          }
-          if (serv.description != null) {
-            state.selects.details = getFilters(state.selects.details, serv.description, 'string');
-          }
-          if (serv.planCode != null) {
-            state.selects.codePlan = getFilters(state.selects.codePlan, serv.planCode, 'number');
-          }
-        }
-        state.Services.firstTime = false;
-      }
+      //   for (let serv of records) {
+      //     if (serv.title != null) {
+      //       state.selects.plans = getFilters(state.selects.plans, serv.title, 'string');
+      //     }
+      //     if (serv.planCode != null) {
+      //       state.selects.codePlan = getFilters(state.selects.codePlan, serv.planCode, 'number');
+      //     }
+      //   }
+      //   state.Services.firstTime = false;
+      // }
 
       for (let service of records) {
         service = Object.assign({}, service, {
@@ -250,7 +272,82 @@ const mutations = {
         state.Services.loading = false;
       }
     }
+  },
+
+  [types.SERVICES_FILTER_MESSAGE](state, queryLength) {
+
+    if (queryLength > 3) {
+      if (state.selects.loading.fetching) {
+        state.selects.loading.fetching = false
+        state.selects.loading.noResultMessage = 'Fetching...'
+        return
+      }
+      if (!state.selects.loading.fetching) {
+        state.selects.loading.fetching = true
+        state.selects.loading.noResultMessage = 'No results found'
+        return
+      }  
+    }
+
+    if (queryLength <= 3) {
+      state.selects.loading.fetching = true
+      state.selects.loading.noResultMessage = 'Search...'
+      return
+    }
+    
+  },
+
+  [types.SERVICES_FILTER_SEARCH](state, {payload}) {
+
+    let records = payload.records
+    let filterType = payload.filterType
+
+    switch (filterType) {
+
+      case '[description][like]':
+        state.selects.details = []
+        records = store.sync(records)
+        
+        if ( !(_.isEmpty(records)) ) {
+          for (let serv of records) {
+            if (serv.description != null) {
+              state.selects.details = getFilters(state.selects.details, serv.description, 'string');
+            }
+          }
+        }
+      break
+
+      case '[title][like]':
+        state.selects.plans = []
+        records = store.sync(records)
+        
+        if ( !(_.isEmpty(records)) ) {
+          for (let serv of records) {
+            if (serv.title != null) {
+              state.selects.plans = getFilters(state.selects.plans, serv.title, 'string');
+            }
+          }
+        }
+      break
+
+      case '[planCode][like]':
+        state.selects.codePlan = []
+        records = store.sync(records)
+        
+        if ( !(_.isEmpty(records)) ) {
+          for (let serv of records) {
+            if (serv.planCode != null) {
+              state.selects.codePlan = getFilters(state.selects.codePlan, serv.planCode, 'string');
+            }
+          }
+        }
+      break
+
+    }
+      
+
   }
+
 }
 
 export default {

@@ -35,7 +35,7 @@
         </SidebarFooter>
       </AppSidebar>
       <main class="main">
-        <Breadcrumb :list="list"/>
+        <!-- <Breadcrumb :list="list"/> -->
         <div class="container-fluid">
           <router-view></router-view>
         </div>
@@ -43,6 +43,9 @@
     </div>
 
     <SupportRequest v-if="$store.state.auth.show_ticket"/>
+    <!-- <drawer>
+      <ticket-form v-if="$store.state.auth.show_ticket"></ticket-form>
+    </drawer> -->
 
     <!--footer-->
     <TheFooter>
@@ -57,9 +60,6 @@
 
 <script>
   import _ from 'lodash'
-  // import nav from '@/_nav'
-  // import nav from '@/_nav_super'
-  // import normal_nav from '@/_nav_normal'
   import {
     Header as AppHeader,
     SidebarToggler,
@@ -77,7 +77,9 @@
   import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
   import SideNav from './components/side_nav'
   import SupportRequest from '@/components/SupportRequest'
-  import {Storage, Utils, Log, ScopeHelper} from '@/helpers'
+  // import Drawer from '@/components/Drawer'
+  // import TicketForm from '@/components/ticket_form'
+  import { Storage, Utils, Log, ScopeHelper } from '@/helpers'
   import authAPI from '@/api/auth-api'
 
   // const { Store } = require('yayson')()
@@ -104,6 +106,8 @@
       SidebarMinimizer,
       SideNav,
       SupportRequest
+      // Drawer,
+      // TicketForm
     },
 
     data() {

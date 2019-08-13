@@ -44,7 +44,7 @@ export default {
     ...mapGetters({
       Service: 'services/getService',
       select: 'services/getSelects',
-      carriers: 'carrier/sorted',
+      carriers: 'carrier/getCarriers',
       pagination: 'services/getPagination'
     })
   },
@@ -73,6 +73,38 @@ export default {
       'carrier/search',
       'services/getAll'
     ]),
+
+    searchDetailFilterQueryHandler(query) {
+      let data = {
+        query: query,
+        filterType: '[description][like]'
+      }
+      this.$store.dispatch('services/searchServiceSelects', {data})
+    },
+
+    searchPlanFilterQueryHandler(query) {
+      let data = {
+        query: query,
+        filterType: '[title][like]'
+      }
+      this.$store.dispatch('services/searchServiceSelects', {data})
+    },
+
+    searchPlanCodeFilterQueryHandler(query) {
+      let data = {
+        query: query,
+        filterType: '[planCode][like]'
+      }
+      this.$store.dispatch('services/searchServiceSelects', {data})
+    },
+
+    searchCarrierFilterQueryHandler(query) {
+      let data = {
+        query: query,
+        filterType: '[name][like]'
+      }
+      this.$store.dispatch('carrier/searchServiceSelects', {data})
+    },
 
     showDetails(row) {
       for (let service of this.Service.servicesList) {

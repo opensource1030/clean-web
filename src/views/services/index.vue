@@ -48,7 +48,11 @@
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="false"
-                @input="$store.dispatch('services/addFilter',{type:'plans',records:$event})" />
+                @search-change="searchPlanFilterQueryHandler"
+                @input="$store.dispatch('services/addFilter',{type:'plans',records:$event})">
+                <template slot="noResult">{{select.loading.noResultMessage}}</template>
+                <template slot="noOptions">Search...</template>
+              </multiselect>
             </template>
 
             <template slot="HEAD_details" slot-scope="data">
@@ -59,12 +63,16 @@
                 :multiple="true"
                 :internal-search="false"
                 @input="$store.dispatch('services/addFilter',{type:'details',records:$event})"
+                @search-change="searchDetailFilterQueryHandler"
                 :show-labels="false"
                 :select-label="''"
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="false"
-                :options-limit="10" />
+                :options-limit="10">
+                <template slot="noResult">{{select.loading.noResultMessage}}</template>
+                <template slot="noOptions">Search...</template>
+              </multiselect>
             </template>
 
             <template slot="HEAD_plan_code" slot-scope="data">
@@ -81,16 +89,18 @@
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="false"
-                @input="$store.dispatch('services/addFilter',{type:'codePlan',records:$event})" />
+                @search-change="searchPlanCodeFilterQueryHandler"
+                @input="$store.dispatch('services/addFilter',{type:'codePlan',records:$event})">
+                <template slot="noResult">{{select.loading.noResultMessage}}</template>
+                <template slot="noOptions">Search...</template>
+              </multiselect>
             </template>
 
             <template slot="HEAD_carrier" slot-scope="data">
               <multiselect
                 placeholder="Carrier"
-                label="presentation"
-                track-by="presentation"
                 :value="$store.state.services.filter.carriers"
-                :options="carriers"
+                :options="carriers.carriers"
                 :options-limit="10"
                 :multiple="true"
                 :searchable="true"
@@ -100,7 +110,11 @@
                 :close-on-select="false"
                 :clear-on-select="false"
                 :hide-selected="false"
-                @input="$store.dispatch('services/addFilter',{type:'carriers',records:$event})" />
+                @search-change="searchCarrierFilterQueryHandler"
+                @input="$store.dispatch('services/addFilter',{type:'carriers',records:$event})">
+                <template slot="noResult">{{carriers.loading.noResultMessage}}</template>
+                <template slot="noOptions">Search...</template>
+              </multiselect>
             </template>
 
             <!-- Columns Fields Configuration -->
