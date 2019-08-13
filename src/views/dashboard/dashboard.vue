@@ -119,7 +119,7 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <trend-chart :data="userInfo.lastAllocations" :mobile_number="allocation.mobile_number"/>
+                          <trend-chart :data="userInfo.data.allocations" :mobile_number="allocation.mobile_number"/>
                         </b-card-body>
                       </b-card>
                     </div>
@@ -321,7 +321,7 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <trend-chart :data="userInfo.lastAllocations" :mobile_number="activeAllocation.mobile_number"/>
+                          <trend-chart :data="userInfo.data.allocations" :mobile_number="activeAllocation.mobile_number"/>
                         </b-card-body>
                       </b-card>
                     </b-col>
