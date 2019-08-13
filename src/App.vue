@@ -79,6 +79,67 @@ export default {
           console.log('procurement-package-and-policy-creation', package_edit_enabled)
           this.$store.dispatch('feature/setFlag', { enabled_package_edit: package_edit_enabled })
         }
+
+        const upgrade_enabled = Flagger.flag('procurement-upgrade-a-device').isEnabled(user)
+        if (this.$store.state.feature.enabled_upgrade_device !== upgrade_enabled) {
+          console.log('procurement-upgrade-a-device', upgrade_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_upgrade_device: upgrade_enabled })
+        }
+
+        const reports_next_gen = Flagger.flag('reports-next-gen').isEnabled(user)
+        if (this.$store.state.feature.enabled_metric != reports_next_gen) {
+          console.log('reports-next-gen', reports_next_gen)
+          this.$store.dispatch('feature/setFlag', { enabled_metric: reports_next_gen })
+        }
+
+        /* dashboard features */
+        const dashboard_new_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard != dashboard_new_enabled) {
+          console.log('dashboard-newgen', dashboard_new_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard: dashboard_new_enabled })
+        }
+
+        const dashboard_legacy_enabled = Flagger.flag('dashboard-legacy').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_legacy != dashboard_legacy_enabled) {
+          console.log('dashboard-legacy', dashboard_legacy_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_legacy: dashboard_legacy_enabled })
+        }
+
+        const dashboard_report_view_enabled = Flagger.flag('dashboard-report-view').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_report_view !== dashboard_report_view_enabled) {
+          console.log('dashboard-report-view', dashboard_report_view_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_view: dashboard_report_view_enabled })
+        }
+
+        const dashboard_procure_new_line_enabled = Flagger.flag('dashboard-procure-new-line').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_new_line !== dashboard_procure_new_line_enabled) {
+          console.log('dashboard-procure-new-line', dashboard_procure_new_line_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_line: dashboard_procure_new_line_enabled })
+        }
+
+        const dashboard_procure_transfer_enabled = Flagger.flag('dashboard-procure-transfer').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_transfer !== dashboard_procure_transfer_enabled) {
+          console.log('dashboard-procure-transfer', dashboard_procure_transfer_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_transfer: dashboard_procure_transfer_enabled })
+        }
+
+        const dashboard_procure_accessories_enabled = Flagger.flag('dashboard-procure-accessories').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_accessories !== dashboard_procure_accessories_enabled) {
+          console.log('dashboard-procure-accessories', dashboard_procure_accessories_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_accessories: dashboard_procure_accessories_enabled })
+        }
+
+        const dashboard_procure_new_device_enabled = Flagger.flag('dashboard-procure-new-device').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_procure_new_device !== dashboard_procure_new_device_enabled) {
+          console.log('dashboard-procure-new-device', dashboard_procure_new_device_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_device: dashboard_procure_new_device_enabled })
+        }
+
+        const dashboard_report_details_enabled = Flagger.flag('dashboard-report-details').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_report_details !== dashboard_report_details_enabled) {
+          console.log('dashboard-report-details', dashboard_report_details_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_details: dashboard_report_details_enabled })
+        }
       }
     },
 
@@ -88,7 +149,7 @@ export default {
         console.log('Flagger connected')
         vm.feature_interval = setInterval(() => {
           vm.pollingFeatures()
-        }, 5000)
+        }, 10000)
       })
     },
 
@@ -101,10 +162,9 @@ export default {
   },
 
   created() {
-    console.log('app created')
-    console.log('features', features)
-    console.log('process.env', process.env)
-
+    // console.log('app created')
+    // console.log('features', features)
+    // console.log('process.env', process.env)
     this.watchFeatures()
   },
 
@@ -116,21 +176,21 @@ export default {
 
 <style lang="scss">
 // CoreUI Icons Set
-@import '~@coreui/icons/css/coreui-icons.min.css';
+// @import '~@coreui/icons/css/coreui-icons.min.css';
 
 /* Import Font Awesome Icons Set */
 $fa-font-path: '~font-awesome/fonts/';
 @import '~font-awesome/scss/font-awesome.scss';
 
 /* Import Simple Line Icons Set */
-$simple-line-font-path: '~simple-line-icons/fonts/';
-@import '~simple-line-icons/scss/simple-line-icons.scss';
+// $simple-line-font-path: '~simple-line-icons/fonts/';
+// @import '~simple-line-icons/scss/simple-line-icons.scss';
 
 /* Import Flag Icons Set */
-@import '~flag-icon-css/css/flag-icon.min.css';
+// @import '~flag-icon-css/css/flag-icon.min.css';
 
 /* Import Bootstrap Vue Styles */
-@import '~bootstrap-vue/dist/bootstrap-vue.css';
+// @import '~bootstrap-vue/dist/bootstrap-vue.css';
 
 // Import Main styles for this application
 @import 'assets/scss/style';

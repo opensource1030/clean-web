@@ -27,6 +27,8 @@
     "start:dev": "webpack-dev-server --config build/webpack.dev.conf.js"
   },
   "dependencies": {
+    "@bugsnag/js": "^6.3.2",
+    "@bugsnag/plugin-vue": "^6.3.0",
     "@coreui/coreui": "^2.1.6",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
@@ -40,6 +42,7 @@
     "copy-webpack-plugin": "^5.0.1",
     "core-js": "^2.6.2",
     "css-vars-ponyfill": "^1.16.2",
+    "es6-promise": "^4.2.8",
     "eslint": "^5.15.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eventsource-polyfill": "^0.9.6",

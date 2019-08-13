@@ -2,8 +2,16 @@
 
 body {
   font-family: $font-family;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: $body-bg;
+  color: $color-8;
+}
+
+@media (max-width: 767.98px) {
+  body {
+    background-color: #ffffff;
+  }
 }
 
 b, strong {
@@ -24,14 +32,31 @@ b, strong {
   display: -ms-flexbox;
 }
 
+/* btn default */
+.btn-outline-default {
+  color: $default;
+  border-color: $default;
+  &:hover {
+    color: #fff;
+    background-color: $default;
+    border-color: $default;
+  }
+}
+
+.btn-default {
+  color: #fff;
+  background-color: $default;
+  border-color: $default;
+  &:hover {
+    color: #fff;
+    background-color: #047197;
+    border-color: #047197;
+  }
+}
+
 /* swal */
 .swal2-container.swal2-shown {
   z-index: 9999;
-}
-
-/* button */
-.btn.btn-primary {
-  background-color: $color-6;
 }
 
 /* bootstrap switch */
@@ -58,8 +83,14 @@ b, strong {
   }
 }
 
+/* font-awesome */
+.fas {
+  font: normal normal normal 14px/1 FontAwesome;
+}
+
 .page {
-  min-height: calc(100vh - 200px);
+  // min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 105px);
 
   .field {
     width: 100%;

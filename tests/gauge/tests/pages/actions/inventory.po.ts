@@ -1,6 +1,7 @@
 import InventoryPageUI from "../interfaces/inventory.ui";
 import AbstractPage from "./abstract.po";
 import { press, dropDown } from "taiko";
+import { timingSafeEqual } from "crypto";
 
 export default class InventoryPage extends AbstractPage {
   constructor() {
@@ -66,6 +67,7 @@ export default class InventoryPage extends AbstractPage {
   }
 
   async clickSaveButton(): Promise<void> {
+    await this.scrollDownToElement(InventoryPageUI.SAVE_CHANGE_BUTTON);
     await this.clickElementByText('Save Changes');
   }
 
@@ -80,5 +82,67 @@ export default class InventoryPage extends AbstractPage {
     await this.type(InventoryPageUI.DEVICE_NAME_HEADER_TXT, deviceName);
     await this.clickElement(InventoryPageUI.DEVICE_SUGGESTION_LIST, deviceName);
     return await this.isElementByTextDisplayed(deviceName);
+  }
+
+  async userGoToEquipmentGroupsPage(): Promise<void> {
+    await this.navigateByLeftMenu("INVENTORY", "Equipment Groups");
+  }
+
+  async userGoToEquipmentPage(): Promise<void> {
+    await this.navigateByLeftMenu("INVENTORY", "Equipments");
+  }
+
+  async clickSaveChangeButton(): Promise<void> {
+    await this.scrollDownToElement(InventoryPageUI.SAVE_CHANGE_BUTTON);
+    await this.clickElement(InventoryPageUI.SAVE_CHANGE_BUTTON);
+  }
+
+  async verifyIncorrectNamePopupAppeared(): Promise<boolean> {
+   return await this.isElementDisplayed(InventoryPageUI.INCORRECT_DEVICE_NAME_MESSAGE);
+  }
+
+  async closeIncorrectDeviceNamePopup(): Promise<void> {
+    await this.clickElement(InventoryPageUI.CLOSE_INCORRECT_DEVICE_NAME_POPUP);
+  }
+
+  async clickNewEquipmentGroupButton(): Promise<void> {
+    await this.clickElement(InventoryPageUI.CREATE_NEW_EQUIPMENT_GROUP_BUTTON);
+  }
+
+  async inputTitleNewEquipment(value: string): Promise<void> {
+    await this.type(InventoryPageUI.NEW_EQUIPMENT_TITLE, value);
+  }
+
+  async inputCompanyName(value: string): Promise<void> {
+    await this.type(InventoryPageUI.COMPANY_FIELD, value);
+    await this.pressEnterKey();
+    await this.sleep(3);
+  }
+
+  async clickFindDeviceButton(): Promise<void> {
+    await this.clickElement(InventoryPageUI.FIND_DEVICES_BUTTON);
+  }
+
+  async clickShowMoreDetailsButton(): Promise<void> {
+    await this.clickElement(InventoryPageUI.SHOW_MORE_DETAILS_BUTTON);
+  }
+
+  async clicDetailsCheckbox(): Promise<void> {
+    await this.clickElement(InventoryPageUI.CARRIER_CHECKBOX);
+    await this.clickElement(InventoryPageUI.PROVIDER_CHECKBOX);
+    await this.clickElement(InventoryPageUI.CAPACITY_CHECKBOX);
+    await this.clickElement(InventoryPageUI.STYLE_CHECKBOX);
+  }
+
+  async clickSelectedDeviceButton(): Promise<void> {
+    await this.clickElement(InventoryPageUI.SELECTED_DEVICE_BUTTON);
+  }
+
+  async clickSavePreSentButton(): Promise<void> {
+    await this.clickElement(InventoryPageUI.SAVE_PRESET_BUTTON);
+  }
+
+  async isPresetCreated(value: string): Promise<boolean> {
+    return await this.isElementByTextDisplayed(value);
   }
 }

@@ -37,12 +37,12 @@ export default class LoginPage extends AbstractPage {
       }
     }
     // // Below code for login with company email verification site
-    await this.type(LoginPageUI.COMPANY_EMAIL_VALIDATION_INPUT, email);
-    await this.clickElement(LoginPageUI.SIGN_IN_BUTTON);
+    await this.inputIntoEmail(email);
+    await this.clickSignInButton();
+    await this.sleep(5);
 
-    // await this.type(LoginPageUI.EMAIL_INPUT, email);
-    await this.type(LoginPageUI.PASSWORD_INPUT, Constants.PASSWORD);
-    await this.clickElement(LoginPageUI.SIGN_IN_BUTTON);
+    await this.inputIntoPassword(Constants.PASSWORD);
+    await this.clickSignInButton();
     await this.sleep(5);
   }
 }

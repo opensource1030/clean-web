@@ -6,11 +6,14 @@ test/unit/coverage
 test/e2e/reports
 selenium-debug.log
 .idea/*
+.vscode
 $CIRCLE_ARTIFACTS
 log/
 tests/gauge/logs
 tests/gauge/reports
-
+tests/gauge/.gauge/
+package.json
+package-lock.json
 # ignore backup files
 *.bak
 *.org

@@ -43,6 +43,8 @@ import OrderDetail from '@/views/orders/show'
 // package
 import PackageIndex from '@/views/package/index'
 import PackageEdit from '@/views/package/edit'
+// Views Reports
+import ReportCharge from '@/views/reports/charge'
 
 Vue.use(VueResource)
 Vue.use(Router)
@@ -143,6 +145,10 @@ const router = new Router({
             { path: 'new', component: PackageEdit, name: 'Add Package', meta: { label: 'Create' } },
             { path: ':id', component: PackageEdit, name: 'Update Package', meta: { label: 'Edit' } },
           ]
+        },
+        // reports
+        {
+          path: '/report-charge', component: ReportCharge, name: 'ReportCharge',
         }
       ]
     },
@@ -182,9 +188,16 @@ router.beforeEach((to, from, next) => {
   }
 
   const toPath = to.path.split('/')
-  // console.log('rotuer.beforeEach', toPath, store.state.feature)
 
-  if (to.name === 'login' || to.name === 'loginLocal' || (to.name == undefined && from.name == null)) {
+  if (to.name == undefined && from.name == null) {
+    if (authenticated) {
+      next({name: 'Dashboard'})
+    } else {
+      next({name: 'login'})
+    }
+  } 
+  
+  if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
@@ -196,10 +209,13 @@ router.beforeEach((to, from, next) => {
   ) {
     if (from.name === 'Dashboard') {
       history.go(0)
-    } else {
-      // next({name: 'Dashboard'})
+    }
+
+    // Prevent bad redirection when resetting password...
+    if (to.name !== "Reset Password Code") {
       router.go(-1)
     }
+
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
