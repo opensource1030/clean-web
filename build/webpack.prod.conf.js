@@ -16,6 +16,9 @@ var webpackConfig = merge(baseWebpackConfig, {
   // },
   plugins: [
     // http://vuejs.github.io/vue-loader/workflow/production.html
+    new webpack.ProvidePlugin({
+      Promise: ['es6-promise', 'Promise']
+    }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(config.build.env),
       'features': config.build.env.FEATURESV
