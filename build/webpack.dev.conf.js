@@ -14,6 +14,9 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
   plugins: [
+    new webpack.ProvidePlugin({
+      Promise: ['es6-promise', 'Promise']
+    }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(config.dev.env),
       'features': features
