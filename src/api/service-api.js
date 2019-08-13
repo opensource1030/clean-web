@@ -9,6 +9,13 @@ const { Store } = require('yayson')()
 const store = new Store()
 
 export default {
+
+  searchQuery (params, cb, errCb) {
+    $store.dispatch('scope_token/get', 'get_services').then(result => {
+      http.get(API_BASE_URL + '/services?filter' + params, AuthHelper.getAuthHeader(result.accessToken)).then(res => cb(res.data), (err) => errCb(err))
+    }, err => errCb(err))
+  },
+
   getAll (params, cb, errCb) {
     $store.dispatch('scope_token/get', 'get_services').then(result => {
       http.get(API_BASE_URL + '/services', _.extend(params, AuthHelper.getAuthHeader(result.accessToken))).then(res => cb(res.data), (err) => errCb(err))
