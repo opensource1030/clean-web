@@ -75,6 +75,7 @@
       right: 0;
       // min-width: 500px;
       height: 100%;
+      overflow-y: auto;
       box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
     }
   }
