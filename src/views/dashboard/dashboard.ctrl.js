@@ -5,7 +5,7 @@ import TrendChart from './components/trend_chart'
 import TicketTypeSelect from '@/components/ticket_type_select'
 import LegacyDashboard from './dashboard_legacy'
 import OrderNewSelectUser from './../orders/OrderNewUser'
-import Drawer from '@/components/Drawer'
+import Drawer from '@/components/drawer'
 import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
 // import { all } from 'q';
