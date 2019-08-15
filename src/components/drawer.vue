@@ -20,8 +20,12 @@
 
     watch: {
       open(newVal, oldVal) {
-        if (newVal !== oldVal && newVal === true) {
-          $('body').addClass('overflow-hidden');
+        if (newVal !== oldVal) {
+          if (newVal === true) {
+            $('body').addClass('overflow-hidden');
+          } else {
+            $('body').removeClass('overflow-hidden');
+          }
         }
       }
     },
@@ -36,8 +40,7 @@
 
     methods: {
       onClose() {
-        this.$emit('close');
-        $('body').removeClass('overflow-hidden');
+        this.$emit('close')
       }
     },
   }
@@ -75,6 +78,7 @@
       right: 0;
       // min-width: 500px;
       height: 100%;
+      overflow-y: auto;
       box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
     }
   }
