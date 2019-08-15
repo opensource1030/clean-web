@@ -79,7 +79,7 @@
   import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
   import SideNav from './components/side_nav'
   // import SupportRequest from '@/components/SupportRequest'
-  import Drawer from '@/components/Drawer'
+  import Drawer from '@/components/drawer'
   import TicketForm from '@/components/ticket_form'
   import { Storage, Utils, Log, ScopeHelper } from '@/helpers'
   import authAPI from '@/api/auth-api'
