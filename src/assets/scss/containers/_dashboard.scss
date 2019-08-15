@@ -336,6 +336,42 @@
       background-color: $default;
     }
   }
+
+  .service-info-container {
+    width: 900px;
+
+    label {
+      color: $color-9;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    label + span {
+      margin-left: 15px;
+    }
+
+    .left-pane {
+      min-height: 100vh;
+      select.form-control {
+        background-color: transparent;
+        color: $color-9;
+        border-color: $color-9;
+      }
+    }
+    .right-pane {
+      .total-charges {
+        margin-left: -15px;
+        margin-right: -15px;
+        background-color: #EEF2F9;
+        color: #00237B;
+      }
+      .subtotal-charges {
+        background-color: #EEF2F9;
+      }
+    }
+    hr {
+      background-color: $color-9;
+    }
+  }
 }
 
 @media (max-width: 991.98px) {
@@ -405,6 +441,9 @@
       .welcome-image {
         display: none;
       }
+    }
+    .service-info-container {
+      width: 100%;
     }
   }
 }

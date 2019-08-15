@@ -42,6 +42,9 @@ export default {
       welcome: {
         visible: false,
         do_not_show_again: false
+      },
+      serviceInfo: {
+        visible: false
       }
     }
   },
@@ -164,6 +167,10 @@ export default {
     toggleWelcomeDrawer() {
       this.welcome.visible = !this.welcome.visible;
     },
+
+    toggleServiceInfoDrawer() {
+      this.serviceInfo.visible = !this.serviceInfo.visible;
+    }
   },
 
   beforeCreate() {
@@ -212,4 +219,3 @@ export default {
     })
   }
 }
-

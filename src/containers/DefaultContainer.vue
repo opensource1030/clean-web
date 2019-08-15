@@ -42,10 +42,12 @@
       </main>
     </div>
 
-    <SupportRequest v-if="$store.state.auth.show_ticket"/>
-    <!-- <drawer>
-      <ticket-form v-if="$store.state.auth.show_ticket"></ticket-form>
-    </drawer> -->
+    <!-- <SupportRequest v-if="$store.state.auth.show_ticket"/> -->
+    <drawer
+      :open="$store.state.auth.show_ticket"
+      @close="toggleTicketDrawer()">
+      <ticket-form></ticket-form>
+    </drawer>
 
     <!--footer-->
     <TheFooter>
@@ -76,9 +78,9 @@
   } from '@coreui/vue'
   import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
   import SideNav from './components/side_nav'
-  import SupportRequest from '@/components/SupportRequest'
-  // import Drawer from '@/components/Drawer'
-  // import TicketForm from '@/components/ticket_form'
+  // import SupportRequest from '@/components/SupportRequest'
+  import Drawer from '@/components/drawer'
+  import TicketForm from '@/components/ticket_form'
   import { Storage, Utils, Log, ScopeHelper } from '@/helpers'
   import authAPI from '@/api/auth-api'
 
@@ -105,9 +107,9 @@
       SidebarNav,
       SidebarMinimizer,
       SideNav,
-      SupportRequest
-      // Drawer,
-      // TicketForm
+      // SupportRequest
+      Drawer,
+      TicketForm
     },
 
     data() {
@@ -142,7 +144,13 @@
       }
     },
 
-    methods: {},
+    methods: {
+      toggleTicketDrawer() {
+        this.$store.commit('auth/setShowTicket', !this.$store.state.auth.show_ticket)
+        // this.$store.commit('auth/setTicketIssue', '')
+        // this.$store.commit('auth/setShowTicket', true)
+      }
+    },
 
     created() {
       let profile = Utils.parseJsonString(Storage.get('profile'))
