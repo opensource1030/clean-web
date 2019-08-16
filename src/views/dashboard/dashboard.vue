@@ -535,6 +535,8 @@
     </div>
 
     <legacy-dashboard v-else-if="$store.state.feature.enabled_dashboard_legacy"/>
+
+    <spinner v-else />
   </div>
 </template>
 
