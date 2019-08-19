@@ -105,6 +105,12 @@ export default {
           this.$store.dispatch('feature/setFlag', { enabled_dashboard_legacy: dashboard_legacy_enabled })
         }
 
+        const dashboard_nextgen_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
+        if (this.$store.state.feature.enabled_dashboard_nextgen != dashboard_nextgen_enabled) {
+          console.log('dashboard-nextgen', dashboard_nextgen_enabled)
+          this.$store.dispatch('feature/setFlag', { enabled_dashboard_nextgen: dashboard_nextgen_enabled })
+        }
+
         const dashboard_report_view_enabled = Flagger.flag('dashboard-report-view').isEnabled(user)
         if (this.$store.state.feature.enabled_dashboard_report_view !== dashboard_report_view_enabled) {
           console.log('dashboard-report-view', dashboard_report_view_enabled)

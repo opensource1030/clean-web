@@ -196,16 +196,21 @@ router.beforeEach((to, from, next) => {
       next({name: 'login'})
     }
   } 
-  
+
+  const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature
+
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
       next({name: 'Dashboard'})
     }
   } else if (
-    (toPath[1] === 'devices' && !store.state.feature.enabled_equipment) ||
-    (toPath[1] === 'services' && !store.state.feature.enabled_service ) ||
-    (toPath[1] === 'packages' && !store.state.feature.enabled_package) ||
-    (toPath[2] && !store.state.feature.enabled_package_edit)
+    (
+      (toPath[1] === 'devices' && !enabled_equipment) ||
+      (toPath[1] === 'services' && !enabled_service ) ||
+      (toPath[1] === 'packages' && !enabled_package) ||
+      (toPath[2] && (!enabled_package_edit))
+    )
+    && !enabled_dashboard_legacy && !enabled_dashboard_nextgen
   ) {
     if (from.name === 'Dashboard') {
       history.go(0)
