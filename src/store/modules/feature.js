@@ -10,6 +10,7 @@ const state = {
   enabled_upgrade_device: false,
   enabled_dashboard: false,
   enabled_dashboard_legacy: false,
+  enabled_dashboard_nextgen: false,
   enabled_dashboard_report_view: false,
   enabled_dashboard_procure_new_line: false,
   enabled_dashboard_procure_transfer: false,
