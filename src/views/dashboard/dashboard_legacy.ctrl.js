@@ -112,16 +112,13 @@ export default {
     },
 
     checkIfOrderable() {
-      var exceptionList = ['PRXL', 'BRKR'];
+      const exceptionList = ['PRXL', 'BRKR'];
 
-      if (exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
-        return false;
-      else
-        return true;
+      return exceptionList.indexOf(this.userInfo.data.companies[0].shortName) === -1
     },
 
     orderDisabled() {
-      swal({
+      swal.fire({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'
