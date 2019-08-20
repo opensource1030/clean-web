@@ -4,6 +4,7 @@
     :class="{ 'loading': loading }"
   >
     <h3 class="pt-5">Support</h3>
+
     <b-form
       class="form"
       @submit.prevent="onSubmit"
@@ -213,6 +214,8 @@
         >Submit Ticket</b-btn>
       </div>
     </b-form>
+
+    <div class="support-info" v-html="supportInformation"></div>
   </div>
 </template>
 
@@ -255,6 +258,18 @@
 @media (max-width: 991.98px) {
   .ticket-form-container {
     width: 100%;
+  }
+}
+</style>
+
+<style lang="scss">
+.ticket-form-container {
+  .support-info {
+    line-height: 36px;
+    ul {
+      padding-left: 10px;
+      list-style: none;
+    }
   }
 }
 </style>

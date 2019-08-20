@@ -53,6 +53,12 @@ export default {
     }
   },
 
+  computed: {
+    supportInformation() {
+      return _.get(this.$store.getters['auth/getClientInfo'], 'data.metadata.support_information', '')
+    }
+  },
+
   methods: {
     closeTicket() {
       this.$store.commit('auth/setShowTicket', false)

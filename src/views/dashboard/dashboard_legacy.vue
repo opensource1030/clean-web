@@ -1,5 +1,5 @@
 <template>
-  <div class="page dashboard-legacy-page">
+  <div class="page dashboard-legacy-page mt-4">
     <div class="tag-header">
       {{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}
     </div>
