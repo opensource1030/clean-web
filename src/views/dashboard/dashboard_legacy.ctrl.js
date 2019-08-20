@@ -3,7 +3,6 @@ import employeeAPI from '@/api/employee-api'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
 import OrderNewSelectUser from './../orders/OrderNewUser.vue'
-import swal from 'sweetalert2'
 import { Storage, Utils, Log } from '@/helpers'
 
 const { Store } = require('yayson')()
@@ -118,7 +117,7 @@ export default {
     },
 
     orderDisabled() {
-      swal.fire({
+      this.$swal({
         type: 'warning',
         title: 'Oops...',
         text: 'This feature is not enabled, please see your IT Admin'

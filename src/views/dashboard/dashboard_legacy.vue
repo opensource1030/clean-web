@@ -241,6 +241,8 @@
 .tag-header {
   display: inline-block;
   padding: 0px 100px 0px 20px;
+  background-color: #ff690a;
+  color: #fff;
   font-size: 18px;
   font-weight: 500;
   line-height: 40px;
