@@ -55,6 +55,10 @@
                           <label>BILL MONTH</label>
                           <div>{{ allocation.bill_month | cleanDate }}</div>
                         </div>
+                        <div class="col border-right">
+                          <label>CYCLE DATES</label>
+                          <div>N/A</div>
+                        </div>
                         <div class="col">
                           <label>LAST UPGRADE</label>
                           <div v-if="allocation.last_upgrade">{{ allocation.last_upgrade | cleanDate }}</div>
@@ -153,7 +157,7 @@
 
         <!-- desktop view -->
         <div class="d-none d-lg-block">
-          <div class="row">
+          <div class="row mx-0">
             <div class="left-panel">
               <div class="user-container">
                 <div class="mb-3">
@@ -173,10 +177,12 @@
               <template v-if="userInfo.lastAllocations.length > 0">
                 <div class="device-container">
                   <h4 class="mt-5">Devices</h4>
-                  <ul class="list-unstyled">
+                  <ul class="device-list list-unstyled mt-3">
                     <li
                       v-for="(allocation, index) in userInfo.lastAllocations"
                       :key="`device-item-${index}`"
+                      class="device-item"
+                      :class="{ 'active':  allocation.mobile_number == activeAllocation.mobile_number }"
                       no-body
                     >
                       <label @click="setAllocation(allocation)">
@@ -252,9 +258,13 @@
                     </div>
                     <div>
                       <div class="row right-tag">
-                        <div class="col">
+                        <div class="col border-right">
                           <label>BILL MONTH</label>
                           <div>{{ activeAllocation.bill_month | cleanDate }}</div>
+                        </div>
+                        <div class="col border-right">
+                          <label>CYCLE DATES</label>
+                          <div>N/A</div>
                         </div>
                         <div class="col">
                           <label>LAST UPGRADE</label>
@@ -292,11 +302,11 @@
                   <div class="row mt-5">
                     <div class="col-lg">
                       <div class="service-info">
-                        <div class="media">
-                          <div class="media-body"><b>Service Name</b></div>
-                          <div class="media-image"></div>
+                        <div class="d-flex align-items-center">
+                          <div class="service-image"></div>
+                          <div class="mb-0 ml-3"><b>Service Name</b></div>
                         </div>
-                        <ul class="list-unstyled">
+                        <ul class="list-unstyled mt-3 mb-0">
                           <li>Unlimited Voice Plan</li>
                           <li>Business Global Traveller</li>
                           <li>2GB Pooled Domestic Data Plan</li>
@@ -389,7 +399,7 @@
         <div class="service-info-container row m-0" v-if="activeAllocation">
           <div class="col-lg-5 px-5 pt-5 pb-3 bg-primary left-pane">
             <div>
-              <h4 class="d-inline-block">{{ activeAllocation.mobile_number }}</h4>
+              <h4 class="d-inline-block">{{ activeAllocation.mobile_number | phone }}</h4>
               <span class="badge bg-success ml-2 px-2 py-1">Active</span>
               <div>{{ activeAllocation.device }}</div>
               <label class="mt-3">IMEI/ESN-SIM:</label>
@@ -430,6 +440,10 @@
               <div class="border-right pr-3">
                 <label>BILL MONTH</label>
                 <div class="text-center">{{ activeAllocation.bill_month | cleanDate }}</div>
+              </div>
+              <div class="border-right px-3">
+                <label>CYCLE DATES</label>
+                <div class="text-center">N/A</div>
               </div>
               <div class="pl-3">
                 <label>LAST UPGRADE</label>
