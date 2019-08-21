@@ -8,6 +8,28 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,800&display=swap" rel="stylesheet">
 
+    <!-- The following script will check the current version of the web browser and if it is supported -->
+    <!-- Taken from: https://browser-update.org -->
+    <script> 
+      var $buoop = {
+        required:{e:11,f:-3,o:-3,s:-1,c:-3},
+        insecure:false,
+        api:2019.08,
+        reminder: 0,
+        reminderClosed: 0,
+        test: false,
+        noclose:true,
+        no_permanent_hide: true,
+      }; 
+      function $buo_f(){ 
+       var e = document.createElement("script"); 
+       e.src = "//browser-update.org/update.min.js"; 
+       document.body.appendChild(e);
+      };
+      try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+      catch(e){window.attachEvent("onload", $buo_f)}
+    </script>
+
     <!-- Heap, https://heapanalytics.com -->
     <script type="text/javascript">
       window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
