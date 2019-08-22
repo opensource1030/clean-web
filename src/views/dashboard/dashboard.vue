@@ -87,7 +87,10 @@
                       <div
                         v-if="$store.state.feature.enabled_dashboard_report_details"
                         class="col-12 d-flex justify-content-center align-items-center">
-                        <b-btn variant="outline-default w-100 mt-3" @click="toggleServiceInfoDrawer()">Bill Details</b-btn>
+                        <b-btn
+                          variant="outline-default w-100 mt-3"
+                          @click="$router.push({ path: `/dashboard/${allocation.mobile_number}/bill_info` })"
+                        >Bill Details</b-btn>
                       </div>
                     </div>
 
@@ -242,7 +245,7 @@
                 </div>
               </div>
 
-              <div class="right-panel__body" v-if="userInfo.lastAllocations.length > 0 && activeAllocation">
+              <div class="right-panel__body" v-if="userInfo.lastAllocations.length > 0">
                 <div class="service-container">
                   <div class="row justify-content-between device-info">
                     <div class="col">
@@ -253,7 +256,11 @@
                       <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
                       <div class="mt-3" v-if="$store.state.feature.enabled_dashboard_procure_new_device">
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
-                        <b-btn v-else variant="outline-default mb-3" @click="toggleUpgradeDrawer()">Upgrade Device</b-btn>
+                        <b-btn
+                          v-else
+                          variant="outline-default mb-3"
+                          @click="toggleUpgradeDrawer()"
+                        >Upgrade Device</b-btn>
                       </div>
                     </div>
                     <div>
@@ -295,7 +302,10 @@
                     <div
                       v-if="$store.state.feature.enabled_dashboard_report_details"
                       class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
-                      <b-btn variant="outline-default px-5 my-3" @click="toggleServiceInfoDrawer()">Bill Details</b-btn>
+                      <b-btn
+                        variant="outline-default px-5 my-3"
+                        @click="$router.push({ path: `/dashboard/${activeAllocation.mobile_number}/bill_info` })"
+                      >Bill Details</b-btn>
                     </div>
                   </div>
 
@@ -317,7 +327,10 @@
                     <div class="col-lg">
                       <label>
                         <b class="d-block mb-3">Contact support:</b>
-                        <ticket-type-select v-model="activeAllocation.issue" @change="onChangeTicketIssue"/>
+                        <ticket-type-select
+                          v-model="activeAllocation.issue"
+                          @change="onChangeTicketIssue"
+                        />
                       </label>
                     </div>
                   </div>
@@ -337,7 +350,10 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <trend-chart :data="userInfo.data.allocations" :mobile_number="activeAllocation.mobile_number"/>
+                          <trend-chart
+                            :data="userInfo.data.allocations"
+                            :mobile_number="activeAllocation.mobile_number"
+                          />
                         </b-card-body>
                       </b-card>
                     </b-col>
@@ -395,149 +411,6 @@
         </div>
       </drawer>
 
-      <drawer :open="serviceInfo.visible" @close="toggleServiceInfoDrawer()">
-        <div class="service-info-container row m-0" v-if="activeAllocation">
-          <div class="col-lg-5 px-5 pt-5 pb-3 bg-primary left-pane">
-            <div>
-              <h4 class="d-inline-block">{{ activeAllocation.mobile_number | phone }}</h4>
-              <span class="badge bg-success ml-2 px-2 py-1">Active</span>
-              <div>{{ activeAllocation.device }}</div>
-              <label class="mt-3">IMEI/ESN-SIM:</label>
-              <div></div>
-            </div>
-
-            <hr class="my-4">
-
-            <div>
-              <div class="mb-3">
-                <avatar
-                  :username="userInfo.data.firstName + ' ' + userInfo.data.lastName"
-                  :size="30"
-                  inline
-                ></avatar>
-                <label class="ml-2 mb-0">{{ userInfo.data.firstName }} {{ userInfo.data.lastName }}</label>
-              </div>
-              <ul class="list-unstyled">
-                <li><label>Employee Email:</label><span>employee@example.com</span></li>
-                <li><label>Employee Id:</label><span>76543</span></li>
-                <li><label>Supervisor Email:</label><span>supervisor@example.com</span></li>
-                <li><label>Division:</label><span>Scientific Research</span></li>
-                <li><label>Department:</label><span>69690.5858.58549303</span></li>
-                <li><label>Office:</label><span>Cambridge</span></li>
-              </ul>
-            </div>
-
-            <hr class="my-4">
-
-            <label>
-              <b class="d-block mb-3">Contact support:</b>
-              <ticket-type-select @change="toggleServiceInfoDrawer(); onChangeTicketIssue($event);"/>
-            </label>
-          </div>
-
-          <div class="col-lg-7 px-5 pt-5 pb-3 right-pane">
-            <div class="d-flex">
-              <div class="border-right pr-3">
-                <label>BILL MONTH</label>
-                <div class="text-center">{{ activeAllocation.bill_month | cleanDate }}</div>
-              </div>
-              <div class="border-right px-3">
-                <label>CYCLE DATES</label>
-                <div class="text-center">N/A</div>
-              </div>
-              <div class="pl-3">
-                <label>LAST UPGRADE</label>
-                <div v-if="activeAllocation.last_upgrade" class="text-center">{{ activeAllocation.last_upgrade | cleanDate }}</div>
-                <div v-else class="text-center">N/A</div>
-              </div>
-            </div>
-
-            <div class="total-charges d-flex justify-content-between px-4 py-3 mt-3">
-              <label class="mb-0">Total Allocated Charges</label>
-              <label class="mb-0">$1,500.24</label>
-            </div>
-
-            <div>
-              <h5 class="mt-3">Monthly Recurring Charges</h5>
-              <div class="d-flex justify-content-between">
-                <span>For the period (1/1/2014 - 1/31/2014)</span>
-                <label>Charge</label>
-              </div>
-              <div class="row">
-                <div class="col-4">Voice</div>
-                <div class="col-6">BNBNBN</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Data</div>
-                <div class="col-6">2GB Data Pro</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Text Messaging</div>
-                <div class="col-6">Messaging 200</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Roaming International Voice</div>
-                <div class="col-6">$5.99 Global</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Long Distance Voice</div>
-                <div class="col-6">World Connect</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="text-right">
-                <div class="subtotal-charges d-inline-block px-3 py-2">
-                  <label class="mb-0">SubTotal</label>
-                  <h5 class="d-inline-block ml-4 mb-0">$999.67</h5>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h5 class="mt-3">Partial Month Charges and Credits</h5>
-              <div class="d-flex justify-content-between">
-                <span>For the period (1/1/2014 - 1/31/2014)</span>
-                <label>Charge</label>
-              </div>
-              <div class="row">
-                <div class="col-4">Voice</div>
-                <div class="col-6">BNBNBN</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Data</div>
-                <div class="col-6">2GB Data Pro</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Text Messaging</div>
-                <div class="col-6">Messaging 200</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Roaming International Voice</div>
-                <div class="col-6">$5.99 Global</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="row">
-                <div class="col-4">Long Distance Voice</div>
-                <div class="col-6">World Connect</div>
-                <div class="col-2">$33.46</div>
-              </div>
-              <div class="text-right">
-                <div class="subtotal-charges d-inline-block px-3 py-2">
-                  <label class="mb-0">SubTotal</label>
-                  <h5 class="d-inline-block ml-4 mb-0">$999.67</h5>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </drawer>
-
       <!-- <div class="contact-container">
         <div class="row">
           <div class="col-lg-3">
@@ -546,6 +419,15 @@
           <div class="col-lg-9" v-html="_.get(clientInfo.data, 'metadata.support_information', '')"></div>
         </div>
       </div> -->
+
+      <!-- <device-bill-info
+        :toggleServiceInfoDrawer="toggleServiceInfoDrawer"
+        :onChangeTicketIssue="onChangeTicketIssue"
+        :activeAllocation="activeAllocation"
+        :userInfo="userInfo"
+      ></device-bill-info> -->
+
+      <router-view></router-view>
     </div>
 
     <legacy-dashboard v-else-if="$store.state.feature.enabled_dashboard_legacy"/>

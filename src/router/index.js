@@ -19,6 +19,7 @@ import Sso from '@/views/auth/Sso'
 // dashboard
 import Dashboard from '@/views/dashboard/dashboard'
 import LegacyInfo from '@/components/legacy_info'
+import DeviceBillInfo from '@/views/dashboard/components/device_bill_info'
 
 // employee
 import EmployeeIndex from '@/views/employees/employee_index'
@@ -71,7 +72,8 @@ const router = new Router({
           path: 'dashboard', component: Dashboard, name: 'Dashboard',
           children: [
             // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
-            { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' }
+            { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' },
+            { path: ':mobile_number/bill_info', component: DeviceBillInfo, name: 'device_bill_info' }
           ]
         },
         // employees
