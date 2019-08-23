@@ -73,7 +73,7 @@ const router = new Router({
           children: [
             // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
             { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' },
-            { path: ':mobile_number/bill_info', component: DeviceBillInfo, name: 'device_bill_info' }
+            { path: ':mobile_number/details', component: DeviceBillInfo, name: 'device_bill_info' }
           ]
         },
         // employees

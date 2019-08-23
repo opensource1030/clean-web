@@ -89,7 +89,7 @@
                         class="col-12 d-flex justify-content-center align-items-center">
                         <b-btn
                           variant="outline-default w-100 mt-3"
-                          @click="$router.push({ path: `/dashboard/${allocation.mobile_number}/bill_info` })"
+                          @click="$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })"
                         >Bill Details</b-btn>
                       </div>
                     </div>
@@ -102,10 +102,11 @@
                             <div class="mb-0 ml-3"><b>Service Name</b></div>
                           </div>
                           <ul class="list-unstyled mt-3">
-                            <li>Unlimited Voice Plan</li>
+                            <!-- <li>Unlimited Voice Plan</li>
                             <li>Business Global Traveller</li>
                             <li>2GB Pooled Domestic Data Plan</li>
-                            <li>Messaging 200</li>
+                            <li>Messaging 200</li> -->
+                            <li>N/A</li>
                           </ul>
                           <b-btn variant="default w-100 mb-5">Change Service</b-btn>
                         </div>
@@ -304,7 +305,7 @@
                       class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
                       <b-btn
                         variant="outline-default px-5 my-3"
-                        @click="$router.push({ path: `/dashboard/${activeAllocation.mobile_number}/bill_info` })"
+                        @click="$router.push({ path: `/dashboard/${activeAllocation.mobile_number}/details` })"
                       >Bill Details</b-btn>
                     </div>
                   </div>
@@ -317,10 +318,11 @@
                           <div class="mb-0 ml-3"><b>Service Name</b></div>
                         </div>
                         <ul class="list-unstyled mt-3 mb-0">
-                          <li>Unlimited Voice Plan</li>
+                          <!-- <li>Unlimited Voice Plan</li>
                           <li>Business Global Traveller</li>
                           <li>2GB Pooled Domestic Data Plan</li>
-                          <li>Messaging 200</li>
+                          <li>Messaging 200</li> -->
+                          <li>N/A</li>
                         </ul>
                       </div>
                     </div>

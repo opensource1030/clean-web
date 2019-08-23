@@ -201,7 +201,8 @@ export default {
     this.$store.dispatch('auth/loadUserInfo').then(
       res => {
         console.log('dashboard/created', res)
-        this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
+        // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
+        this.activeAllocation = _.get(this.userInfo, 'lastAllocations[0]', null)
         // if (this.fromLoginPage) {
         //   this.welcome.visible = true
         // }
