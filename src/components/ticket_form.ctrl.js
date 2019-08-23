@@ -53,6 +53,13 @@ export default {
     }
   },
 
+  computed: {
+    supportInformation() {
+      // return _.get(this.$store.getters['auth/getClientInfo'], 'data.metadata.support_information', '')
+      return _.get(this.$store.getters['auth/getClientInfo'], 'data.metadata.get_support', '')
+    }
+  },
+
   methods: {
     closeTicket() {
       this.$store.commit('auth/setShowTicket', false)

@@ -18,10 +18,6 @@ b, strong {
   font-weight: 500;
 }
 
-.main .container-fluid {
-  padding: 0 10px;
-}
-
 .width-full {
   width: 100%;
 }
@@ -88,9 +84,14 @@ b, strong {
   font: normal normal normal 14px/1 FontAwesome;
 }
 
+.main .container-fluid {
+  padding: 0;
+}
+
 .page {
   // min-height: calc(100vh - 200px);
   min-height: calc(100vh - 105px);
+  padding: 0 10px;
 
   .field {
     width: 100%;
