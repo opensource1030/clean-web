@@ -30,8 +30,8 @@
                   </b-input-group>
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />                    
-                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password2" placeholder="Reprat your password" autocomplete="Reprat your password" />
+                    <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password2" placeholder="Repeat your password" autocomplete="Repeat your password" />
+                    <b-form-input v-else type="text" class="form-control" v-model="credentials.password2" placeholder="Repeat your password" autocomplete="Repeat your password" />
                   </b-input-group>
                   <b-row class="mb-3">
                     <b-col cols="6">
