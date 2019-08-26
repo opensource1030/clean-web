@@ -3,15 +3,16 @@ import Avatar from 'vue-avatar'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
 import TicketTypeSelect from '@/components/ticket_type_select'
+import DeviceBillInfo from './components/device_bill_info'
 import LegacyDashboard from './dashboard_legacy'
 import OrderNewSelectUser from './../orders/OrderNewUser'
 import Drawer from '@/components/drawer'
-import { Storage, Utils, Log } from '@/helpers'
-import employeeAPI from '@/api/employee-api'
+// import { Storage, Utils, Log } from '@/helpers'
+// import employeeAPI from '@/api/employee-api'
 // import { all } from 'q';
 
-const { Store } = require('yayson')()
-const store = new Store()
+// const { Store } = require('yayson')()
+// const store = new Store()
 
 export default {
   name : 'dashboard',
@@ -19,6 +20,7 @@ export default {
   components: {
     Avatar,
     TicketTypeSelect,
+    DeviceBillInfo,
     Drawer,
     SpendChart,
     TrendChart,
@@ -28,17 +30,23 @@ export default {
 
   data() {
     return {
-      userInfo: {
-        data: {},
-        lastAllocations: [],
-        loading: true
-      },
+      // userInfo: {
+      //   data: {},
+      //   lastAllocations: [],
+      //   loading: true
+      // },
       startedOrder: false,
       selectedOrder: '',
       activeAllocationIndex: 0,
-      activeAllocation: null,
+      activeAllocation: {
+        service_plan_charge: 0,
+        usage_charge: 0,
+        allocated_charge: 0,
+        other_charge: 0
+      },
       activeDevice: null,
       showUpgradeDrawer: false,
+      fromLoginPage: false,
       welcome: {
         visible: false,
         do_not_show_again: false
@@ -54,6 +62,10 @@ export default {
       return _
     },
 
+    userInfo() {
+      return this.$store.state.auth.userInfo
+    },
+
     clientInfo() {
       return this.$store.getters['auth/getClientInfo']
     },
@@ -66,6 +78,15 @@ export default {
       return this.selectedOrder == '' ? 'disabled' : false
     }
   },
+
+  // watch: {
+  //   '$route' (toPath, fromPath) {
+  //     console.log('$route', toPath, fromPath)
+  //     if (fromPath.name == 'login' || fromPath.name == 'loginLocal') {
+  //       this.fromLoginPage = true
+  //     }
+  //   }
+  // },
 
   methods: {
     // setAllocation(index) {
@@ -168,54 +189,30 @@ export default {
       this.welcome.visible = !this.welcome.visible;
     },
 
-    toggleServiceInfoDrawer() {
-      this.serviceInfo.visible = !this.serviceInfo.visible;
-    }
+    // toggleServiceInfoDrawer() {
+    //   this.serviceInfo.visible = !this.serviceInfo.visible;
+    // }
   },
 
   beforeCreate() {
   },
 
   created() {
-    let profile = Utils.parseJsonString(Storage.get('profile'))
-
-    let _params = {
-      params: {
-        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
-      }
-    };
-    // console.log(this.$store.state.auth)
-
-    employeeAPI.get(this.$store.state.auth.userId, _params, res => {
-      if (res.status == 404) {
-        this.userInfo.data.allocations = []
-        this.userInfo.lastAllocations = []
-      } else {
-        let event = store.sync(res.data);
-        this.userInfo.data = event;
-
-        this.activeAllocation = this.userInfo.data.allocations[0]
-        for (let allocation of this.userInfo.data.allocations) {
-          allocation.issue = ''
+    this.$store.dispatch('auth/loadUserInfo').then(
+      res => {
+        console.log('dashboard/created', res)
+        // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
+        this.activeAllocation = _.get(this.userInfo, 'lastAllocations[0]', null)
+        // if (this.fromLoginPage) {
+        //   this.welcome.visible = true
+        // }
+        if (!this.$route.param.mobile_number) {
+          this.welcome.visible = true
         }
-
-        let lastAllocations = [];
-        let allocationsByPhone = _.groupBy(this.userInfo.data.allocations, 'mobile_number');
-        _.forEach(allocationsByPhone, function(allocations) {
-          lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
-        });
-        this.userInfo.lastAllocations = lastAllocations;
+      },
+      err => {
+        console.log('dashboard/created err', err)
       }
-
-      this.userInfo.loading = false;
-
-      Log.put('dashboard/created user info', this.userInfo);
-      this.welcome.visible = true;
-    }, err => {
-      Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = profile;
-      this.userInfo.data.allocations = [];
-      this.userInfo.loading = false;
-    })
+    )
   }
 }

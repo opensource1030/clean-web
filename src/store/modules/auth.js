@@ -1,8 +1,12 @@
 import _ from 'lodash'
 import authAPI from '@/api/auth-api'
+import employeeAPI from '@/api/employee-api'
 import * as types from './../mutation-types'
 import user from '@/models/User'
 import { Storage, Utils } from '@/helpers'
+
+const { Store } = require('yayson')()
+const store = new Store()
 
 // initial state
 const state = {
@@ -15,6 +19,11 @@ const state = {
   profile: Utils.parseJsonString(Storage.get('profile')),
   company: {},
   company_loading: true,
+  userInfo: {
+    data: {},
+    lastAllocations: [],
+    loading: true
+  },
   show_ticket: false,
   ticket_issue: '',
   isAuthenticating: false,
@@ -148,6 +157,56 @@ const actions = {
       commit('setCompanyLoading', false)
     }, (error) => {
       commit('setCompanyLoading', false)
+    })
+  },
+
+  loadUserInfo({ commit }) {
+    let userInfo = {
+      data: {},
+      lastAllocations: [],
+      loading: true
+    };
+
+    let _params = {
+      params: {
+        include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
+      }
+    };
+
+    return new Promise((resolve, reject) => {
+      employeeAPI.get(state.userId, _params, res => {
+        // console.log('auth/loadUserInfo', res);
+        if (res.status == 404) {
+          userInfo.data.allocations = []
+          userInfo.lastAllocations = []
+        } else {
+          let event = store.sync(res.data);
+          userInfo.data = event;
+
+          for (let allocation of userInfo.data.allocations) {
+            allocation.issue = ''
+          }
+
+          let lastAllocations = [];
+          let allocationsByPhone = _.groupBy(userInfo.data.allocations, 'mobile_number');
+          _.forEach(allocationsByPhone, function(allocations) {
+            lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0]);
+          });
+          userInfo.lastAllocations = lastAllocations;
+        }
+        userInfo.loading = false;
+
+        commit('setUserInfo', userInfo);
+        resolve(userInfo);
+      }, err => {
+        // console.log('auth/loadUserInfo err', err);
+        userInfo.data = state.profile;
+        userInfo.data.allocations = [];
+        userInfo.loading = false;
+
+        commit('setUserInfo', userInfo)
+        reject(err)
+      })
     })
   },
 
@@ -588,10 +647,6 @@ const mutations = {
     state.profile = result.profile
   },
 
-  setCompany (state, company) {
-    state.company = company
-  },
-
   setShowTicket (state, show_ticket) {
     state.show_ticket = show_ticket
   },
@@ -600,8 +655,17 @@ const mutations = {
     state.ticket_issue = ticket_issue
   },
 
+  setCompany (state, company) {
+    state.company = company
+  },
+
   setCompanyLoading (state, company_loading) {
     state.company_loading = company_loading
+  },
+
+  setUserInfo (state, userInfo) {
+    // console.log('auth/setUserInfo', userInfo);
+    state.userInfo = userInfo
   },
 
   recoveryVariations (state) {

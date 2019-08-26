@@ -1,5 +1,5 @@
 <template>
-  <div class="page dashboard-legacy-page">
+  <div class="page dashboard-legacy-page mt-4">
     <div class="tag-header">
       {{ _.get(clientInfo.data, 'metadata.portal_header', 'Dashboard') }}
     </div>
@@ -241,6 +241,8 @@
 .tag-header {
   display: inline-block;
   padding: 0px 100px 0px 20px;
+  background-color: #ff690a;
+  color: #fff;
   font-size: 18px;
   font-weight: 500;
   line-height: 40px;
