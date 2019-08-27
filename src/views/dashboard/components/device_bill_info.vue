@@ -97,7 +97,7 @@
             <div class="col-6">
               <div>Data: {{ activeAllocation.domestic_data_usage | formatBytes }}</div>
               <div>Text Messaging: {{ activeAllocation.domestic_text_usage }}</div>
-              <div>Voice: {{ activeAllocation.domestic_voice_usage | currency }}/mins</div>
+              <div>Voice: {{ activeAllocation.domestic_voice_usage }} mins</div>
             </div>
             <div class="col-2">{{ (activeAllocation.domestic_usage_charge + activeAllocation.messaging_charge) | currency }}</div>
           </div>
