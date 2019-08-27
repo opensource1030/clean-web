@@ -35,8 +35,8 @@ export default {
         recipient_firstname: '',
         recipient_lastname: '',
         recipient_mobile: '',
-        priority: '',
-        contact_person: '',
+        priority: 'Low',
+        contact_person: 'Recipient',
         description: '',
         data: {
           imei_meid: '',
@@ -47,7 +47,7 @@ export default {
           countries: [],
           travel_date: '',
           int_device_type: '',
-          email_service: '',
+          email_service: 'Email Setup',
         }
       }
     }
