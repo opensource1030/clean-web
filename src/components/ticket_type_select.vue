@@ -4,7 +4,7 @@
     v-model="inputValue"
     @change="$emit('change', $event)"
   >
-    <option disabled value="">-- Choose an issue --</option>
+    <option value="" disabled selected>-- Choose an issue --</option>
     <optgroup label="Billing">
       <option data-id="issue-4" data-support-tag="ALR4" data-value="Questions About My Monthly Statement" value="qamms">
         Questions About My Monthly Statement

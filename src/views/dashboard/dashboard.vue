@@ -70,19 +70,19 @@
                     <div class="row price-info mt-5">
                       <div class="col-6">
                         <label>Service Plan</label>
-                        <span>${{ allocation.service_plan_charge.toFixed(2) }}</span>
+                        <span>{{ allocation.service_plan_charge | currency }}</span>
                       </div>
                       <div class="col-6">
                         <label>Usage</label>
-                        <span>${{ allocation.usage_charge.toFixed(2) }}</span>
+                        <span>{{ allocation.usage_charge | currency }}</span>
                       </div>
                       <div class="col-6">
                         <label>Allocation</label>
-                        <span>${{ allocation.allocated_charge.toFixed(2) }}</span>
+                        <span>{{ allocation.allocated_charge | currency }}</span>
                       </div>
                       <div class="col-6">
                         <label>Other</label>
-                        <span>${{ allocation.other_charge.toFixed(2) }}</span>
+                        <span>{{ allocation.other_charge | currency }}</span>
                       </div>
                       <div
                         v-if="$store.state.feature.enabled_dashboard_report_details"
@@ -154,7 +154,10 @@
             <label class="mt-5">
               <b class="d-block">If you think there's a mistake,</b>
               <b class="d-block mb-3">Contact support:</b>
-              <ticket-type-select @change="onChangeTicketIssue"/>
+              <ticket-type-select
+                v-model="issue"
+                @change="onChangeTicketIssue"
+              />
             </label>
           </div>
         </div>
@@ -286,19 +289,19 @@
                   <div class="row price-info mt-5 mx-0">
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Service Plan</label>
-                      <span>${{ activeAllocation.service_plan_charge.toFixed(2) }}</span>
+                      <span>{{ activeAllocation.service_plan_charge | currency }}</span>
                     </div>
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Usage</label>
-                      <span>${{ activeAllocation.usage_charge.toFixed(2) }}</span>
+                      <span>{{ activeAllocation.usage_charge | currency }}</span>
                     </div>
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Allocation</label>
-                      <span>${{ activeAllocation.allocated_charge.toFixed(2) }}</span>
+                      <span>{{ activeAllocation.allocated_charge | currency }}</span>
                     </div>
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Other</label>
-                      <span>${{ activeAllocation.other_charge.toFixed(2) }}</span>
+                      <span>{{ activeAllocation.other_charge | currency }}</span>
                     </div>
                     <div
                       v-if="$store.state.feature.enabled_dashboard_report_details"
@@ -374,7 +377,10 @@
                 <label class="mt-5">
                   <b class="d-block">If you think there's a mistake,</b>
                   <b class="d-block mb-3">Contact support:</b>
-                  <ticket-type-select @change="onChangeTicketIssue"/>
+                  <ticket-type-select
+                    v-model="issue"
+                    @change="onChangeTicketIssue"
+                  />
                 </label>
               </div>
 
