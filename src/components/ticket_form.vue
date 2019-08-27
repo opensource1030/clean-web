@@ -120,7 +120,7 @@
               <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="Whomever is filling out this form.">
                 <i class="fa fa-question-circle"></i>
               </span>
-              <input v-model="ticket.requestor_email" class="form-control" id="requestor_email" type="text">
+              <input v-model="ticket.requestor_email" class="form-control" type="text" placeholder="requestor email" required>
             </label>
           </div>
         </div>
@@ -133,7 +133,7 @@
               <span data-tooltip aria-haspopup="true" class="has-tip top" data-disable-hover="false" tabindex="1" title="The affected user.">
                 <i class="fa fa-question-circle"></i>
               </span>
-              <input v-model="ticket.recipient_email" class="form-control" type="text" id="recipient_email" placeholder="your email">
+              <input v-model="ticket.recipient_email" class="form-control" type="text" placeholder="recipient email" required>
             </label>
           </div>
 
