@@ -346,7 +346,11 @@
   .service-info-container {
     width: 900px;
 
+    h5 {
+      font-weight: 600;
+    }
     label {
+      margin-bottom: 0;
       color: $color-9;
       font-weight: 600;
       text-transform: uppercase;
@@ -368,7 +372,9 @@
         margin-left: -15px;
         margin-right: -15px;
         background-color: #EEF2F9;
-        color: #00237B;
+        label {
+          color: #00237B;
+        }
       }
       .subtotal-charges {
         background-color: #EEF2F9;

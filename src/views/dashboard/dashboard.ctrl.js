@@ -45,6 +45,7 @@ export default {
         other_charge: 0
       },
       activeDevice: null,
+      issue: "",
       showUpgradeDrawer: false,
       fromLoginPage: false,
       welcome: {
