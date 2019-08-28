@@ -188,6 +188,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let params = {
         params: {
+          'filter[active]': 1,
           include: 'images'
         }
       }

@@ -220,7 +220,8 @@
                         class="card box-card"
                       >
                         <div class="card-image"><i class="fa fa-cubes"></i></div>
-                        <div class="card-body">{{ carrier.shortName }}</div>
+                        <div class="card-body">{{ carrier.presentation }}</div>
+                        <!-- <div class="card-body">{{ carrier.shortName }}</div> -->
                       </div>
                     </transition>
                   </slide>
