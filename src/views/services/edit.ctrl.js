@@ -41,6 +41,7 @@ export default {
           this.isLoading = false
         }, (err) => { console.log('error in service/getOne', err) })
       } else {
+        this.$store.commit('service/reset')
         this.isLoading = false
       }
     }, (err) => { console.log('error in carrier/search', err) })
@@ -52,31 +53,12 @@ export default {
       let valid = ServiceHelper.validateFields(self.serviceDetails, self.addons)
 
       self.$store.dispatch('error/clearAll')
-
       if (valid !== true) {
         self.$store.dispatch('error/addNew', { message: valid });
         return
       }
 
-      if (self.serviceDetails.id > 0) {
-        self.$store.dispatch('error/clearAll')
-        self.$store.dispatch('service/update', {
-          serviceDetails: self.serviceDetails,
-          domesticPlan: self.domesticPlan,
-          internationalPlan: self.internationalPlan,
-          addons: self.addons,
-          router: self.$router
-        })
-      } else {
-        self.$store.dispatch('error/clearAll')
-        self.$store.dispatch('service/add', {
-          serviceDetails: self.serviceDetails,
-          domesticPlan: self.domesticPlan,
-          internationalPlan: self.internationalPlan,
-          addons: self.addons,
-          router: self.$router
-        })
-      }
+      self.$store.dispatch('service/save', { router: self.$router })
     },
   }
 }

@@ -6,76 +6,80 @@ import { findByAddons, findServiceItem } from '@/components/filters.js'
 const { Store } = require('yayson')()
 const store = new Store()
 
-const state = {
-  serviceDetails: {
-    id: 0,
-    title: '',
-    carrierId: null,
-    status: '',
-    code: '',
-    cost: '',
-    description: '',
-    currency: 'USD'
-  },
-  domesticPlan: {
-    minutes: {
+function initialState() {
+  return {
+    serviceDetails: {
       id: 0,
-      domain: "domestic",
-      category: "voice",
-      value: 0,
-      unit: "minutes"
-    },
-    data: {
-      id: 0,
-      domain: "domestic",
-      category: "data",
-      value: 0,
-      unit: 'Gb'
-    },
-    sms: {
-      id: 0,
-      domain: "domestic",
-      category: "messaging",
-      value: 0,
-      unit: "messages"
-    }
-  },
-  internationalPlan: {
-    minutes: {
-      id: 0,
-      domain: "international",
-      category: "voice",
-      value: 0,
-      unit: "minutes"
-    },
-    data: {
-      id: 0,
-      domain: "international",
-      category: "data",
-      value: 0,
-      unit: 'Gb'
-    },
-    sms: {
-      id: 0,
-      domain: "international",
-      category: "messaging",
-      value: 0,
-      unit: "messages"
-    }
-  },
-  addons: [
-    {
-      description: '',
+      title: '',
+      carrierId: null,
+      status: true,
+      code: '',
       cost: '',
-      unit: 'USD',
-      add: true,
-      delete: false,
-      addonNameError: false,
-      addonPriceError: false
-    }
-  ],
-  items: []
+      description: '',
+      currency: 'USD'
+    },
+    domesticPlan: {
+      minutes: {
+        id: 0,
+        domain: "domestic",
+        category: "voice",
+        value: 0,
+        unit: "minutes"
+      },
+      data: {
+        id: 0,
+        domain: "domestic",
+        category: "data",
+        value: 0,
+        unit: 'Gb'
+      },
+      sms: {
+        id: 0,
+        domain: "domestic",
+        category: "messaging",
+        value: 0,
+        unit: "messages"
+      }
+    },
+    internationalPlan: {
+      minutes: {
+        id: 0,
+        domain: "international",
+        category: "voice",
+        value: 0,
+        unit: "minutes"
+      },
+      data: {
+        id: 0,
+        domain: "international",
+        category: "data",
+        value: 0,
+        unit: 'Gb'
+      },
+      sms: {
+        id: 0,
+        domain: "international",
+        category: "messaging",
+        value: 0,
+        unit: "messages"
+      }
+    },
+    addons: [
+      {
+        description: '',
+        cost: '',
+        unit: 'USD',
+        add: true,
+        delete: false,
+        addonNameError: false,
+        addonPriceError: false
+      }
+    ],
+    items: []
+  }
 }
+
+const state = initialState()
 
 const getters = {
   getServiceDetails: (state) => {
@@ -114,9 +118,10 @@ const actions = {
     })
   },
 
-  update ({ dispatch, commit, state }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
+  save({ dispatch, commit, state, rootState }, { router }) {
+    // console.log('vuex service/save', state.serviceDetails)
     let status = '';
-    if (serviceDetails.status == true) {
+    if (state.serviceDetails.status == true) {
       status = 'Enabled'
     } else {
       status = 'Disabled'
@@ -124,69 +129,64 @@ const actions = {
 
     let serviceo = new Services(
       "services",
-      serviceDetails.id,
+      state.serviceDetails.id,
       status,
-      serviceDetails.title,
-      serviceDetails.code,
-      serviceDetails.cost,
-      serviceDetails.description,
-      serviceDetails.currency,
-      serviceDetails.carrierId.id
+      state.serviceDetails.title,
+      state.serviceDetails.code,
+      state.serviceDetails.cost,
+      state.serviceDetails.description,
+      state.serviceDetails.currency,
+      state.serviceDetails.carrierId.id
     )
 
-    commit(types.SERVICE_PREPARE_ITEMS)
-    commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-    return new Promise((resolve, reject, service) => {
-      serviceAPI.update(serviceDetails.id, {data: serviceo.toJSON()}, res => {
-        commit(types.SERVICE_UPDATE, {router})
-        resolve(service)
-      }, err => {
-        console.log('service err', err)
-        reject(err)
-      })
-    })
-  },
+    let items = [];
+    items.push(state.domesticPlan.minutes);
+    items.push(state.domesticPlan.data);
+    items.push(state.domesticPlan.sms);
 
-  add ({ dispatch, commit, state, rootState }, { serviceDetails, domesticPlan, internationalPlan, addons, router }) {
-    let status = '';
-    if (serviceDetails.status == "1") {
-      status = 'Enabled'
-    } else {
-      status = "Disabled"
+    items.push(state.internationalPlan.minutes);
+    items.push(state.internationalPlan.data);
+    items.push(state.internationalPlan.sms);
+
+    for (let addon of state.addons) {
+      addon.unit = state.serviceDetails.currency;
+      if (addon.description != "" && addon.cost != "") {
+        if (addon.id == null) {
+          addon.id = 0;
+        }
+        items.push(addon);
+      }
     }
+    serviceo.itemJson(items, serviceo);
 
-    let serviceo = new Services(
-      "services",
-      serviceDetails.id,
-      status,
-      serviceDetails.title,
-      serviceDetails.code,
-      serviceDetails.cost,
-      serviceDetails.description,
-      serviceDetails.currency,
-      serviceDetails.carrierId ? serviceDetails.carrierId.id : ''
-    )
-
-    commit(types.SERVICE_PREPARE_ITEMS)
-    commit(types.SERVICE_PREPARE_JSON_ITEM,{serviceo:serviceo})
-    return new Promise((resolve, reject, service) => {
+    return new Promise((resolve, reject) => {
       let data = serviceo.toJSON()
-      data.attributes.companyId = rootState.auth.profile.companyId;
 
-      serviceAPI.create({data: data}, res => {
-        commit(types.SERVICE_ADD_NEW, {router})
-        resolve(service)
-      }, err => {
-        console.log('service create err', err)
-        reject(err)
-      })
+      if (state.serviceDetails.id > 0) {
+        serviceAPI.update(state.serviceDetails.id, {data: data}, res => {
+          commit(types.SERVICE_UPDATE, { router })
+          resolve(res)
+        }, err => {
+          console.log('service/update err', err)
+          reject(err)
+        })
+      } else {
+        data.attributes.companyId = rootState.auth.profile.companyId;
+        serviceAPI.create({data: data}, res => {
+          commit(types.SERVICE_ADD_NEW, {router})
+          resolve(res)
+        }, err => {
+          console.log('service/create err', err)
+          reject(err)
+        })
+      }
     })
   }
 }
 
 const mutations = {
   [types.SERVICES_GET_SERVICE] (state, { records }) {
-    if (records.status === "Enabled") {
+    if (records.status == 'Enabled') {
       state.serviceDetails.status = true;
     } else {
       state.serviceDetails.status = false;
@@ -213,7 +213,8 @@ const mutations = {
     //addons
     let addOns = [];
     addOns = findByAddons(records.serviceitems, "addon", "");
-    state.addons.splice(0, 1);
+    // state.addons.splice(0, 1);
+    state.addons = [];
     for (let addOn of addOns) {
       state.addons.push(addOn);
     }
@@ -250,7 +251,7 @@ const mutations = {
   },
 
   updateServiceDetail (state, { e, type }) {
-    // console.log('updateServiceDetail', e, state.serviceDetails)
+    // console.log('service/updateServiceDetail', type, e, state.serviceDetails.status)
     switch (type) {
       case 'description':
         state.serviceDetails[type] = e.target.value;
@@ -339,6 +340,13 @@ const mutations = {
       }
       addon.unit = state.serviceDetails.currency;
     }
+  },
+
+  reset(state) {
+    const s = initialState()
+    Object.keys(s).forEach(key => {
+      state[key] = s[key]
+    })
   }
 }
 
