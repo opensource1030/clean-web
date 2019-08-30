@@ -5,7 +5,6 @@
       <div v-else>
         <!-- mobile view -->
         <div class="d-block d-lg-none left-panel my-3 pt-4">
-
           <div class="user-container px-3">
             <div class="mb-3">
               <avatar
@@ -17,7 +16,9 @@
             </div>
             <ul class="list-unstyled">
               <li>{{ userInfo.data.email }}</li>
-              <li><span>{{ _.get(userInfo.data, 'companies[0].name') }}</span></li>
+              <li>
+                <span>{{ _.get(userInfo.data, 'companies[0].name') }}</span>
+              </li>
             </ul>
           </div>
 
@@ -37,14 +38,21 @@
                   class="px-3 py-4"
                 >
                   <label>
-                    <input type="checkbox">
-                    <div><b>{{ allocation.device }}</b></div>
+                    <input type="checkbox" />
+                    <div>
+                      <b>{{ allocation.device }}</b>
+                    </div>
                     <div>{{ allocation.mobile_number | phone }}</div>
                     <i class="fa fa-angle-right"></i>
                   </label>
                 </b-button>
               </b-card-header>
-              <b-collapse :id="`accordion-${index}`" visible accordion="my-accordion" role="tabpanel">
+              <b-collapse
+                :id="`accordion-${index}`"
+                visible
+                accordion="my-accordion"
+                role="tabpanel"
+              >
                 <b-card-body>
                   <div class="service-container">
                     <div class="device-info">
@@ -61,7 +69,9 @@
                         </div>
                         <div class="col">
                           <label>LAST UPGRADE</label>
-                          <div v-if="allocation.last_upgrade">{{ allocation.last_upgrade | cleanDate }}</div>
+                          <div
+                            v-if="allocation.last_upgrade"
+                          >{{ allocation.last_upgrade | cleanDate }}</div>
                           <div v-else>N/A</div>
                         </div>
                       </div>
@@ -86,7 +96,8 @@
                       </div>
                       <div
                         v-if="$store.state.feature.enabled_dashboard_report_details"
-                        class="col-12 d-flex justify-content-center align-items-center">
+                        class="col-12 d-flex justify-content-center align-items-center"
+                      >
                         <b-btn
                           variant="outline-default w-100 mt-3"
                           @click="$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })"
@@ -99,13 +110,15 @@
                         <div class="service-info">
                           <div class="d-flex align-items-center">
                             <div class="service-image"></div>
-                            <div class="mb-0 ml-3"><b>Service Name</b></div>
+                            <div class="mb-0 ml-3">
+                              <b>Service Name</b>
+                            </div>
                           </div>
                           <ul class="list-unstyled mt-3">
                             <!-- <li>Unlimited Voice Plan</li>
                             <li>Business Global Traveller</li>
                             <li>2GB Pooled Domestic Data Plan</li>
-                            <li>Messaging 200</li> -->
+                            <li>Messaging 200</li>-->
                             <li>N/A</li>
                           </ul>
                           <b-btn variant="default w-100 mb-5">Change Service</b-btn>
@@ -114,7 +127,10 @@
                       <div class="col-lg">
                         <label>
                           <b class="d-block mb-3">Contact support:</b>
-                          <ticket-type-select v-model="allocation.issue" @change="onChangeTicketIssue"/>
+                          <ticket-type-select
+                            v-model="allocation.issue"
+                            @change="onChangeTicketIssue"
+                          />
                         </label>
                       </div>
                     </div>
@@ -125,7 +141,7 @@
                       <h4>Spend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <spend-chart :data="allocation"/>
+                          <spend-chart :data="allocation" />
                         </b-card-body>
                       </b-card>
                     </div>
@@ -133,10 +149,14 @@
                       <h4>Trend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <trend-chart :data="userInfo.data.allocations" :mobile_number="allocation.mobile_number"/>
+                          <trend-chart
+                            :data="userInfo.data.allocations"
+                            :mobile_number="allocation.mobile_number"
+                          />
                         </b-card-body>
                       </b-card>
                     </div>
+                    <div>Headphones, charges, bags</div>
                   </div>
                 </b-card-body>
               </b-collapse>
@@ -145,19 +165,19 @@
 
           <div class="empty-container pt-5" v-else>
             <i class="fas fa-cogs mt-5"></i>
-            <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
+            <h4 class="mt-3">
+              You have no devices
+              <br />to analyze yet
+            </h4>
             <p class="mt-4">
-              <router-link to="/">Order a new line of service</router-link> or
-              <router-link to="/">transfer wireless services liability</router-link><br>
-              to add new device
+              <router-link to="/">Order a new line of service</router-link>or
+              <router-link to="/">transfer wireless services liability</router-link>
+              <br />to add new device
             </p>
             <label class="mt-5">
               <b class="d-block">If you think there's a mistake,</b>
               <b class="d-block mb-3">Contact support:</b>
-              <ticket-type-select
-                v-model="issue"
-                @change="onChangeTicketIssue"
-              />
+              <ticket-type-select v-model="issue" @change="onChangeTicketIssue" />
             </label>
           </div>
         </div>
@@ -173,11 +193,15 @@
                     :size="30"
                     inline
                   ></avatar>
-                  <label class="ml-2 mb-0">{{ userInfo.data.firstName }} {{ userInfo.data.lastName }}</label>
+                  <label
+                    class="ml-2 mb-0"
+                  >{{ userInfo.data.firstName }} {{ userInfo.data.lastName }}</label>
                 </div>
                 <ul class="list-unstyled">
                   <li>{{ userInfo.data.email }}</li>
-                  <li><span>{{ _.get(userInfo.data, 'companies[0].name') }}</span></li>
+                  <li>
+                    <span>{{ _.get(userInfo.data, 'companies[0].name') }}</span>
+                  </li>
                 </ul>
               </div>
 
@@ -193,8 +217,10 @@
                       no-body
                     >
                       <label @click="setAllocation(allocation)">
-                        <input type="checkbox">
-                        <div><b>{{ allocation.device }}</b></div>
+                        <input type="checkbox" />
+                        <div>
+                          <b>{{ allocation.device }}</b>
+                        </div>
                         <div>{{ allocation.mobile_number | phone }}</div>
                         <i class="fa fa-angle-right"></i>
                       </label>
@@ -202,7 +228,10 @@
                   </ul>
                 </div>
 
-                <div class="setting-container" v-if="$store.state.feature.enabled_dashboard_report_view">
+                <div
+                  class="setting-container"
+                  v-if="$store.state.feature.enabled_dashboard_report_view"
+                >
                   <h4 class="mt-5">Settings</h4>
                   <div class="mt-4 mb-2">Data View</div>
                   <select>
@@ -214,36 +243,54 @@
 
               <div class="device-container empty mt-5" v-else>
                 <i class="fas fa-mobile"></i>
-                <h4 class="mt-2">Your devices<br>will be displayed here</h4>
+                <h4 class="mt-2">
+                  Your devices
+                  <br />will be displayed here
+                </h4>
               </div>
             </div>
 
             <div class="col right-panel">
               <div class="order-type-container d-flex w-100 mx-0 mb-5">
-                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_new_line">
+                <div
+                  class="media px-4 py-2"
+                  v-if="$store.state.feature.enabled_dashboard_procure_new_line"
+                >
                   <div class="d-flex">
                     <i class="fas fa-rocket"></i>
                   </div>
                   <div class="media-body">
-                    <div><b>Order a New Line of Service</b></div>
+                    <div>
+                      <b>Order a New Line of Service</b>
+                    </div>
                     <div>With new device</div>
                   </div>
                 </div>
-                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_transfer">
+                <div
+                  class="media px-4 py-2"
+                  v-if="$store.state.feature.enabled_dashboard_procure_transfer"
+                >
                   <div class="d-flex">
                     <i class="fas fa-exchange"></i>
                   </div>
                   <div class="media-body">
-                    <div><b>Transfer Wireless Services Liability</b></div>
+                    <div>
+                      <b>Transfer Wireless Services Liability</b>
+                    </div>
                     <div>Includes an option to order new device</div>
                   </div>
                 </div>
-                <div class="media px-4 py-2" v-if="$store.state.feature.enabled_dashboard_procure_accessories">
+                <div
+                  class="media px-4 py-2"
+                  v-if="$store.state.feature.enabled_dashboard_procure_accessories"
+                >
                   <div class="d-flex">
                     <i class="fas fa-headphones"></i>
                   </div>
                   <div class="media-body">
-                    <div><b>Order Accessories</b></div>
+                    <div>
+                      <b>Order Accessories</b>
+                    </div>
                     <div>Headphones, charges, bags</div>
                   </div>
                 </div>
@@ -258,12 +305,15 @@
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
                       <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
-                      <div class="mt-3" v-if="$store.state.feature.enabled_dashboard_procure_new_device">
+                      <div
+                        class="mt-3"
+                        v-if="$store.state.feature.enabled_dashboard_procure_new_device"
+                      >
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
                         <b-btn
                           v-else
                           variant="outline-default mb-3"
-                          @click="toggleUpgradeDrawer()"
+                          @click="$router.push({ path: '/dashboard/device-upgrade'})"
                         >Upgrade Device</b-btn>
                       </div>
                     </div>
@@ -279,7 +329,9 @@
                         </div>
                         <div class="col">
                           <label>LAST UPGRADE</label>
-                          <div v-if="activeAllocation.last_upgrade">{{ activeAllocation.last_upgrade | cleanDate }}</div>
+                          <div
+                            v-if="activeAllocation.last_upgrade"
+                          >{{ activeAllocation.last_upgrade | cleanDate }}</div>
                           <div v-else>N/A</div>
                         </div>
                       </div>
@@ -305,7 +357,8 @@
                     </div>
                     <div
                       v-if="$store.state.feature.enabled_dashboard_report_details"
-                      class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
+                      class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center"
+                    >
                       <b-btn
                         variant="outline-default px-5 my-3"
                         @click="$router.push({ path: `/dashboard/${activeAllocation.mobile_number}/details` })"
@@ -318,13 +371,15 @@
                       <div class="service-info">
                         <div class="d-flex align-items-center">
                           <div class="service-image"></div>
-                          <div class="mb-0 ml-3"><b>Service Name</b></div>
+                          <div class="mb-0 ml-3">
+                            <b>Service Name</b>
+                          </div>
                         </div>
                         <ul class="list-unstyled mt-3 mb-0">
                           <!-- <li>Unlimited Voice Plan</li>
                           <li>Business Global Traveller</li>
                           <li>2GB Pooled Domestic Data Plan</li>
-                          <li>Messaging 200</li> -->
+                          <li>Messaging 200</li>-->
                           <li>N/A</li>
                         </ul>
                       </div>
@@ -347,7 +402,7 @@
                       <h4>Spend By Category</h4>
                       <b-card no-body class="chart-card border-0">
                         <b-card-body class="p-0">
-                          <spend-chart :data="activeAllocation"/>
+                          <spend-chart :data="activeAllocation" />
                         </b-card-body>
                       </b-card>
                     </b-col>
@@ -368,46 +423,36 @@
 
               <div class="empty-container py-5" v-else>
                 <i class="fas fa-cogs mt-5"></i>
-                <h4 class="mt-3">You have no devices<br>to analyze yet</h4>
+                <h4 class="mt-3">
+                  You have no devices
+                  <br />to analyze yet
+                </h4>
                 <p class="mt-4">
-                  <router-link to="/">Order a new line of service</router-link> or
-                  <router-link to="/">transfer wireless services liability</router-link><br>
-                  to add new device
+                  <router-link to="/">Order a new line of service</router-link>or
+                  <router-link to="/">transfer wireless services liability</router-link>
+                  <br />to add new device
                 </p>
                 <label class="mt-5">
                   <b class="d-block">If you think there's a mistake,</b>
                   <b class="d-block mb-3">Contact support:</b>
-                  <ticket-type-select
-                    v-model="issue"
-                    @change="onChangeTicketIssue"
-                  />
+                  <ticket-type-select v-model="issue" @change="onChangeTicketIssue" />
                 </label>
               </div>
-
             </div>
           </div>
         </div>
+
+        <order-confirm-modal :visible="hasOrder" @close="closeConfirmModal"></order-confirm-modal>
       </div>
-        
-      <drawer :open="showUpgradeDrawer" @close="toggleUpgradeDrawer()">
-        <div>ABC</div>
-      </drawer>
 
       <drawer :open="welcome.visible" @close="toggleWelcomeDrawer()">
         <div class="d-flex flex-column welcome-container">
-          <div class="welcome-image">
-          </div>
+          <div class="welcome-image"></div>
           <div class="px-5">
             <h3 class="pt-5">Welcome!</h3>
-            <div
-              class="pt-5"
-              v-html=" _.get(clientInfo.data, 'metadata.header', '')"
-            ></div>
+            <div class="pt-5" v-html=" _.get(clientInfo.data, 'metadata.header', '')"></div>
             <div class="pt-5">
-              <b-btn
-                variant="default"
-                @click="toggleWelcomeDrawer()"
-              >Got It!</b-btn>
+              <b-btn variant="default" @click="toggleWelcomeDrawer()">Got It!</b-btn>
               <b-form-checkbox
                 id="do_not_show_again_checkbox"
                 v-model="welcome.do_not_show_again"
@@ -426,19 +471,19 @@
           </div>
           <div class="col-lg-9" v-html="_.get(clientInfo.data, 'metadata.support_information', '')"></div>
         </div>
-      </div> -->
+      </div>-->
 
       <!-- <device-bill-info
         :toggleServiceInfoDrawer="toggleServiceInfoDrawer"
         :onChangeTicketIssue="onChangeTicketIssue"
         :activeAllocation="activeAllocation"
         :userInfo="userInfo"
-      ></device-bill-info> -->
+      ></device-bill-info>-->
 
       <router-view></router-view>
     </div>
 
-    <legacy-dashboard v-else-if="$store.state.feature.enabled_dashboard_legacy"/>
+    <legacy-dashboard v-else-if="$store.state.feature.enabled_dashboard_legacy" />
 
     <spinner v-else />
   </div>

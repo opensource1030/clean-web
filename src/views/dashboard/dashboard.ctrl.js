@@ -1,12 +1,13 @@
+import { mapGetters, mapActions } from 'vuex'
 import _ from 'lodash'
 import Avatar from 'vue-avatar'
+import Drawer from '@/components/drawer'
+import TicketTypeSelect from '@/components/ticket_type_select'
+import OrderConfirmModal from '@/components/order_confirm_modal'
+import DeviceBillInfo from './components/device_bill_info'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
-import TicketTypeSelect from '@/components/ticket_type_select'
-import DeviceBillInfo from './components/device_bill_info'
 import LegacyDashboard from './dashboard_legacy'
-import OrderNewSelectUser from './../orders/OrderNewUser'
-import Drawer from '@/components/drawer'
 // import { Storage, Utils, Log } from '@/helpers'
 // import employeeAPI from '@/api/employee-api'
 // import { all } from 'q';
@@ -15,7 +16,7 @@ import Drawer from '@/components/drawer'
 // const store = new Store()
 
 export default {
-  name : 'dashboard',
+  name: 'dashboard',
 
   components: {
     Avatar,
@@ -25,7 +26,7 @@ export default {
     SpendChart,
     TrendChart,
     LegacyDashboard,
-    OrderNewSelectUser,
+    OrderConfirmModal,
   },
 
   data() {
@@ -42,19 +43,19 @@ export default {
         service_plan_charge: 0,
         usage_charge: 0,
         allocated_charge: 0,
-        other_charge: 0
+        other_charge: 0,
       },
       activeDevice: null,
-      issue: "",
+      issue: '',
       showUpgradeDrawer: false,
       fromLoginPage: false,
       welcome: {
         visible: false,
-        do_not_show_again: false
+        do_not_show_again: false,
       },
       serviceInfo: {
-        visible: false
-      }
+        visible: false,
+      },
     }
   },
 
@@ -67,17 +68,19 @@ export default {
       return this.$store.state.auth.userInfo
     },
 
-    clientInfo() {
-      return this.$store.getters['auth/getClientInfo']
-    },
-
     upgradeEnabled() {
       return this.$store.state.feature.enabled_upgrade_device
     },
 
     disabledBeginOrder() {
-      return this.selectedOrder == '' ? 'disabled' : false
-    }
+      return this.selectedOrderType === '' ? 'disabled' : false
+    },
+
+    ...mapGetters({
+      userRole: 'auth/getRole',
+      clientInfo: 'auth/getClientInfo',
+      hasOrder: 'placeOrder/hasOrder',
+    }),
   },
 
   // watch: {
@@ -98,105 +101,103 @@ export default {
     },
 
     prevAllocation() {
-      this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null;
+      this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null
     },
 
     nextAllocation() {
-      this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null;
+      this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null
     },
 
     selectOrderType(type) {
-      this.selectedOrder == type ? this.$set(this, 'selectedOrder', '') : this.$set(this, 'selectedOrder', type);
+      this.$set(this, 'selectedOrderType', this.selectedOrderType === type ? '' : type)
     },
 
     upgradeDevice() {
-      this.selectedOrder = 'upgrade'
-      this.placeOrder()
+      // this.selectedOrderType = 'upgrade'
+      // this.placeOrder()
     },
 
-    placeOrder() {
-      // console.log('dashboard/placeOrder role', _.get(this.$store.state.auth.profile, 'roles[0].name', ''))
-      if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
-        this.startedOrder = true
-      } else {
-        this.$store.dispatch('placeOrder/setUserId', this.$store.state.auth.userId)
-        this.beginOrder()
-      }
-    },
+    // placeOrder() {
+    //   if (this.userRole === 'wta') {
+    //     this.showSelectUserModal = true
+    //   } else {
+    //     const { userId } = this.$store.state.auth
+
+    //     this.$store.dispatch('placeOrder/setUserId', userId)
+    //     this.beginOrder()
+    //   }
+    // },
 
     beginOrder() {
-      // this.selectedOrder ? location.href = '/order/' + this.selectedOrder : null;
-      let path = ''
-      switch (this.selectedOrder) {
-        case 'new':
-          path = '/orders/new/package'
-          this.$store.dispatch('placeOrder/setCurrentOrderType', 'New')
-          break
-        case 'transfer':
-          path = '/orders/new/package'
-          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
-          this.$store.dispatch('placeOrder/setKeepService', 'Yes')
-          break
-        case 'accessories':
-          path = '/orders/new/accessories'
-          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
-          break
-        case 'upgrade':
-          let allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
-          // console.log('dashboard deviceInfo', allocation)
-          this.$store.dispatch('placeOrder/setAllocation', allocation)
-          this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
-          path = '/orders/new/package'
-          break
-        default:
-          return
-      }
-      this.$router.push({path: path})
+      // let path = ''
+      // switch (this.selectedOrderType) {
+      //   case 'new':
+      //     path = '/orders/new/package'
+      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'New')
+      //     break
+      //   case 'transfer':
+      //     path = '/orders/new/package'
+      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
+      //     this.$store.dispatch('placeOrder/setKeepService', 'Yes')
+      //     break
+      //   case 'accessories':
+      //     path = '/orders/new/accessories'
+      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
+      //     break
+      //   case 'upgrade':
+      //     const allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
+      //     this.$store.dispatch('placeOrder/setAllocation', allocation)
+      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
+      //     path = '/orders/new/package'
+      //     break
+      //   default:
+      //     return
+      // }
+      // this.$router.push({ path })
     },
 
-    cancelOrder() {
-      this.startedOrder = false
-    },
+    cancelOrder() {},
 
     checkIfOrderable() {
-      var exceptionList = ['PRXL', 'BRKR'];
+      const exceptionList = ['PRXL', 'BRKR']
 
-      if (exceptionList.indexOf(this.userInfo.data.companies[0].shortName) > -1)
-        return false;
-      else
-        return true;
+      return exceptionList.indexOf(this.userInfo.data.companies[0].shortName) === -1
     },
 
     orderDisabled() {
       this.$swal({
         type: 'warning',
         title: 'Oops...',
-        text: 'This feature is not enabled, please see your IT Admin'
+        text: 'This feature is not enabled, please see your IT Admin',
       })
     },
 
     onChangeTicketIssue(event) {
-      const value = event.target.value
+      const { value } = event.target
+
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
       // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     },
 
-    toggleUpgradeDrawer() {
-      this.showUpgradeDrawer = !this.showUpgradeDrawer;
-    },
-
     toggleWelcomeDrawer() {
-      this.welcome.visible = !this.welcome.visible;
+      this.welcome.visible = !this.welcome.visible
     },
 
     // toggleServiceInfoDrawer() {
     //   this.serviceInfo.visible = !this.serviceInfo.visible;
     // }
+
+    closeConfirmModal() {
+      this.setHasOrder(false)
+    },
+
+    ...mapActions({
+      setHasOrder: 'placeOrder/setHasOrder',
+    }),
   },
 
-  beforeCreate() {
-  },
+  beforeCreate() {},
 
   created() {
     this.$store.dispatch('auth/loadUserInfo').then(
@@ -213,7 +214,7 @@ export default {
       },
       err => {
         console.log('dashboard/created err', err)
-      }
+      },
     )
-  }
+  },
 }

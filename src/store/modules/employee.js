@@ -21,6 +21,7 @@ const state = {
     firstName: new FilterItem(),
     email: new FilterItem(),
   },
+  selectedEmployee: null,
 }
 
 // getters
@@ -28,10 +29,27 @@ const getters = {
   sorted: (state) => {
     return state.records
   },
+  allEmployees: state => state.records,
+  selectedEmployee: state => state.selectedEmployee,
 }
 
 // actions
 const actions = {
+  getAll ({ commit, rootState }) {
+    return new Promise((resolve, reject) => {
+      employeeAPI.search({}, res => {
+        const employees = store
+          .sync(res.data)
+          .filter(employee => employee.id !== rootState.auth.userId);
+
+        commit(types.EMPLOYEE_ALL, employees)
+        resolve(employees)
+      }, err => {
+        reject(err)
+      });
+    })
+  },
+
   search ({dispatch, commit, state}) {
     return new Promise((resolve, reject) => {
       let _params = {
@@ -124,6 +142,10 @@ const actions = {
       dispatch('search')
     }
   },
+
+  selectEmployee ({ commit }, employeeId)  {
+    commit(types.EMPLOYEE_SELECT, employeeId)
+  }
 }
 
 // mutations
@@ -156,6 +178,14 @@ const mutations = {
   [types.EMPLOYEE_UPDATE_FILTERS] (state, filters) {
     _.extend(state.filters, filters)
   },
+
+  [types.EMPLOYEE_ALL] (state, employees) {
+    state.records = employees
+  },
+
+  [types.EMPLOYEE_SELECT] (state, employee) {
+    state.selectedEmployee = employee;
+  }
 }
 
 export default {

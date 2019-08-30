@@ -1,0 +1,29 @@
+.wa-tabs {
+  .nav-link {
+    border-width: 0;
+    padding: 0.5rem 0;
+
+    &.active,
+    &.active:focus {
+      border-bottom: 4px solid #20a8d8;
+      color: #20a8d8;
+    }
+  }
+
+  .nav-tabs {
+    box-sizing: border-box;
+    border-bottom: 2px solid #eaeaea;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tab-content {
+    margin-top: 0;
+    border: 0;
+  }
+
+  .tab-pane {
+    outline: none;
+    padding: 0;
+  }
+}

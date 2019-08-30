@@ -135,7 +135,6 @@
 
       list() {
         const list = this.$route.matched.filter((route) => (route.name || route.meta.label))
-        console.log('breadcrumb', list)
         return list
       },
 
