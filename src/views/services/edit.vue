@@ -72,8 +72,12 @@
                 </div>
                 <div class="form-group">
                   <label class="block">Active</label>
-                  <c-switch color="primary" value="1" uncheckedValue="0"
-                            @change="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})"/>
+                  <c-switch
+                    color="primary"
+                    :checked="serviceDetails.status"
+                    @change="$store.commit('service/updateServiceDetail', { e: $event, type: 'status' })"
+                  />
+                  <!-- <c-switch color="primary" value="1" uncheckedValue="0" @change="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})"/> -->
                 </div>
               </div>
             </div>

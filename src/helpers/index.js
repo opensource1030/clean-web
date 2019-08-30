@@ -153,6 +153,10 @@ export const ServiceHelper = {
       return 'Please input Description.'
     }
 
+    if (!serviceDetails.carrierId) {
+      return 'Please select carrier'
+    }
+
     for (let addon of addons) {
       if (addon.description == "") {
         if (addon.cost != "") {
