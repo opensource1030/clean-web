@@ -1,4 +1,4 @@
-role :app, %w{50.19.173.84}
+role :app, %w{3.87.102.207}
 
 set :stage, :staging
 set :branch, 'env/staging'
