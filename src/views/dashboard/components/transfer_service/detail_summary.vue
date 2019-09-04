@@ -50,7 +50,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Toggle from "@/components/Toggle";
+import Toggle from "@/components/toggle";
 
 export default {
   name: "DetailSummary",
