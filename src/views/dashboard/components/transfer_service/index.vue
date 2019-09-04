@@ -92,7 +92,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Drawer from "@/components/drawer";
 import Steps from "@/components/steps";
-import Toggle from "@/components/Toggle";
+import Toggle from "@/components/toggle";
 import Devices from "@/components/devices";
 import Services from "@/components/services";
 import UserSelectForm from "@/components/user_select_form";
