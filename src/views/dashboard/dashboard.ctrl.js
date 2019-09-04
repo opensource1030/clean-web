@@ -79,7 +79,8 @@ export default {
     ...mapGetters({
       userRole: 'auth/getRole',
       clientInfo: 'auth/getClientInfo',
-      hasOrder: 'placeOrder/hasOrder',
+      upgradeHasOrder: 'placeOrder/upgradeHasOrder',
+      transferHasOrder: 'placeOrder/transferHasOrder',
     }),
   },
 
@@ -189,11 +190,18 @@ export default {
     // }
 
     closeConfirmModal() {
-      this.setHasOrder(false)
+      if (this.upgradeHasOrder) {
+        this.setUpgradeHasOrder(false)
+      }
+
+      if (this.transferHasOrder) {
+        this.setTransferHasOrder(false)
+      }
     },
 
     ...mapActions({
-      setHasOrder: 'placeOrder/setHasOrder',
+      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
+      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
     }),
   },
 

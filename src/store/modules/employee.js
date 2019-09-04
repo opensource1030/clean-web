@@ -15,7 +15,7 @@ const state = {
     total_pages: 0,
     count: 0,
     total: 0,
-    per_page: 25
+    per_page: 25,
   },
   filters: {
     firstName: new FilterItem(),
@@ -26,40 +26,41 @@ const state = {
 
 // getters
 const getters = {
-  sorted: (state) => {
+  sorted: state => {
     return state.records
   },
   allEmployees: state => state.records,
-  selectedEmployee: state => state.selectedEmployee,
 }
 
 // actions
 const actions = {
-  getAll ({ commit, rootState }) {
+  getAll({ commit, rootState }) {
     return new Promise((resolve, reject) => {
-      employeeAPI.search({}, res => {
-        const employees = store
-          .sync(res.data)
-          .filter(employee => employee.id !== rootState.auth.userId);
+      employeeAPI.search(
+        {},
+        res => {
+          const employees = store.sync(res.data).filter(employee => employee.id !== rootState.auth.userId)
 
-        commit(types.EMPLOYEE_ALL, employees)
-        resolve(employees)
-      }, err => {
-        reject(err)
-      });
+          commit(types.EMPLOYEE_ALL, employees)
+          resolve(employees)
+        },
+        err => {
+          reject(err)
+        },
+      )
     })
   },
 
-  search ({dispatch, commit, state}) {
+  search({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
           page: state.pagination.current_page,
           include: 'companies,companies.udls,companies.addresses',
-        }
+        },
       }
 
-      let key, value;
+      let key, value
       // if (state.filters.firstName.operator && state.filters.firstName.value) {
       //   key = 'filter[firstName][' + state.filters.firstName.operator + ']'
       //   switch (state.filters.firstName.operator) {
@@ -78,16 +79,20 @@ const actions = {
         _params.params[key] = value
       }
 
-      employeeAPI.search(_params, res => {
-        const employees = store.sync(res.data)
-        // console.log('employee res', employees)
-        commit(types.EMPLOYEE_REFRESH, employees)
-        dispatch('setPagination', res.data.meta.pagination)
-        resolve(employees)
-      }, err => {
-        // console.log('employee err', err)
-        reject(err)
-      })
+      employeeAPI.search(
+        _params,
+        res => {
+          const employees = store.sync(res.data)
+          // console.log('employee res', employees)
+          commit(types.EMPLOYEE_REFRESH, employees)
+          dispatch('setPagination', res.data.meta.pagination)
+          resolve(employees)
+        },
+        err => {
+          // console.log('employee err', err)
+          reject(err)
+        },
+      )
     })
   },
 
@@ -101,61 +106,61 @@ const actions = {
     return dispatch('search')
   },
 
-  update ({dispatch, commit, state}, record) {
+  update({ dispatch, commit, state }, record) {
     return new Promise((resolve, reject) => {
-      let employee = _.find(state.records, (item) => {
+      let employee = _.find(state.records, item => {
         return item.id == record.id
       })
       let tmp = _.extend({}, employee, record)
       let _params = JSON.stringify(EmployeesPresenter.toJSON(tmp))
       // console.log(_params)
 
-      employeeAPI.update(record.id, _params, res => {
-        tmp = store.sync(res.data)
+      employeeAPI.update(
+        record.id,
+        _params,
+        res => {
+          tmp = store.sync(res.data)
           // console.log(tmp)
           commit(types.EMPLOYEE_UPDATE, tmp)
           resolve(res)
-        }, err => {
+        },
+        err => {
           // console.log('employee update err', err)
           reject(err)
-        })
+        },
+      )
     })
   },
 
-  destory ({dispatch, commit, state}, record) {
-  },
+  destory({ dispatch, commit, state }, record) {},
 
-  setPagination ({commit}, pagination) {
+  setPagination({ commit }, pagination) {
     commit(types.EMPLOYEE_SET_PAGINATION, pagination)
   },
 
-  prevPage ({dispatch, commit, state}) {
+  prevPage({ dispatch, commit, state }) {
     if (state.pagination.current_page > 1) {
       commit(types.EMPLOYEE_PREV_PAGE)
       dispatch('search')
     }
   },
 
-  nextPage ({dispatch, commit}) {
+  nextPage({ dispatch, commit }) {
     if (state.pagination.current_page < state.pagination.total_pages) {
       commit(types.EMPLOYEE_NEXT_PAGE)
       dispatch('search')
     }
   },
-
-  selectEmployee ({ commit }, employeeId)  {
-    commit(types.EMPLOYEE_SELECT, employeeId)
-  }
 }
 
 // mutations
 const mutations = {
-  [types.EMPLOYEE_REFRESH] (state, records) {
+  [types.EMPLOYEE_REFRESH](state, records) {
     state.records = records
   },
 
-  [types.EMPLOYEE_UPDATE] (state, record) {
-    let employee = _.find(state.records, (item) => {
+  [types.EMPLOYEE_UPDATE](state, record) {
+    let employee = _.find(state.records, item => {
       return item.id == record.id
     })
     if (employee) {
@@ -163,29 +168,25 @@ const mutations = {
     }
   },
 
-  [types.EMPLOYEE_SET_PAGINATION] (state, pagination) {
+  [types.EMPLOYEE_SET_PAGINATION](state, pagination) {
     _.extend(state.pagination, pagination)
   },
 
-  [types.EMPLOYEE_PREV_PAGE] (state) {
+  [types.EMPLOYEE_PREV_PAGE](state) {
     state.pagination.current_page--
   },
 
-  [types.EMPLOYEE_NEXT_PAGE] (state) {
+  [types.EMPLOYEE_NEXT_PAGE](state) {
     state.pagination.current_page++
   },
 
-  [types.EMPLOYEE_UPDATE_FILTERS] (state, filters) {
+  [types.EMPLOYEE_UPDATE_FILTERS](state, filters) {
     _.extend(state.filters, filters)
   },
 
-  [types.EMPLOYEE_ALL] (state, employees) {
+  [types.EMPLOYEE_ALL](state, employees) {
     state.records = employees
   },
-
-  [types.EMPLOYEE_SELECT] (state, employee) {
-    state.selectedEmployee = employee;
-  }
 }
 
 export default {
@@ -194,5 +195,5 @@ export default {
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

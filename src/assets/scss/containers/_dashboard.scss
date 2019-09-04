@@ -1,4 +1,4 @@
-@import "../variables";
+@import '../variables';
 
 .page.dashboard-legacy-page {
   .card.user-info-card {
@@ -49,21 +49,22 @@
   .custom-pagination {
     width: 100%;
     min-height: 60px;
-    background-color: rgba(255,105,10,0.2);
+    background-color: rgba(255, 105, 10, 0.2);
     position: relative;
 
-    a.item-prev, a.item-next {
+    a.item-prev,
+    a.item-next {
       height: 100%;
       width: 50px;
-      color: #FFF;
-      background-color: rgb(255,105,10);
+      color: #fff;
+      background-color: rgb(255, 105, 10);
       position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
 
       &.inactive {
-        background-color: #DDDDDD;
+        background-color: #dddddd;
         cursor: not-allowed;
       }
     }
@@ -88,16 +89,15 @@
 
       .page-item {
         display: inline-block;
-        float: left;
         margin: 3px;
         height: 18px;
         width: 18px;
         background-color: #fff;
         border-radius: 50%;
-        border: 1px solid #FF690A;
+        border: 1px solid #ff690a;
 
         &.active {
-          background-color: #FF690A;
+          background-color: #ff690a;
         }
       }
     }
@@ -143,13 +143,13 @@
     padding: 48px;
     &__body {
       padding: 48px;
-      background-color: #FFF;
+      background-color: #fff;
     }
   }
 
   .empty-container {
     text-align: center;
-    background-color: #FFF;
+    background-color: #fff;
     color: $color-8;
     i {
       color: $default;
@@ -177,10 +177,19 @@
       flex: auto;
       align-items: center;
       border: 1px solid $default;
+      border-radius: 3px;
       color: $default;
+      cursor: pointer;
+      user-select: none;
       i {
         margin-right: 30px;
         font-size: 24px;
+      }
+      .media-sub {
+        color: #657089;
+      }
+      &:hover {
+        background-color: rgba(32, 168, 216, 0.2);
       }
     }
     .media + .media {
@@ -199,7 +208,7 @@
   .device-container {
     &.empty {
       text-align: center;
-      color: rgba(255,255,255,0.1);
+      color: rgba(255, 255, 255, 0.1);
       i {
         font-size: 80px;
       }
@@ -213,14 +222,14 @@
         padding: 15px 40px;
         line-height: 28px;
         &.active {
-          background-color: rgba(255,255,255,0.2);
+          background-color: rgba(255, 255, 255, 0.2);
         }
         label {
           position: relative;
           width: 100%;
           margin: 0;
           cursor: pointer;
-          input[type="checkbox"] {
+          input[type='checkbox'] {
             display: none;
             position: absolute;
             top: 10px;
@@ -238,7 +247,7 @@
         }
       }
       li + li {
-        border-top: 1px solid rgba(255,255,255,0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
       }
     }
   }
@@ -327,7 +336,7 @@
     // height: 100vh;
     .welcome-image {
       height: 45vh;
-      background: #FFF url('assets/images/img-01.png') no-repeat center center;
+      background: #fff url('assets/images/img-01.png') no-repeat center center;
       background-size: cover;
     }
     .custom-checkbox {
@@ -371,13 +380,13 @@
       .total-charges {
         margin-left: -15px;
         margin-right: -15px;
-        background-color: #EEF2F9;
+        background-color: #eef2f9;
         label {
-          color: #00237B;
+          color: #00237b;
         }
       }
       .subtotal-charges {
-        background-color: #EEF2F9;
+        background-color: #eef2f9;
       }
     }
     hr {
@@ -415,7 +424,7 @@
             margin: 0;
             text-align: left;
             line-height: 28px;
-            input[type="checkbox"] {
+            input[type='checkbox'] {
               display: none;
               position: absolute;
               top: 10px;
@@ -438,7 +447,7 @@
     .service-container {
       .service-info {
         padding: 0;
-        background-color: #FFF;
+        background-color: #fff;
         color: $body-color;
       }
     }
@@ -457,5 +466,87 @@
     .service-info-container {
       width: 100%;
     }
+  }
+}
+
+.dashboard-drawer {
+  font-family: Montserrat;
+  display: flex;
+  height: 100%;
+
+  &-carrier-toggle {
+    span {
+      text-transform: uppercase;
+      color: #657089;
+      font-weight: 600;
+      font-size: 10px;
+    }
+  }
+
+  &-main {
+    width: 500px;
+    height: 100%;
+    background-color: white;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    overflow-x: hidden;
+    padding-top: 2rem;
+
+    h1 {
+      color: #1f2027;
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+}
+
+.dashboard-drawer-form {
+  font-family: Montserrat;
+  font-size: 10px;
+
+  .item > label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    color: #657089;
+    line-height: 13px;
+  }
+
+  input[type='text'],
+  input[type='password'] {
+    font-size: 10px;
+    border: 0.75px solid #afbad4;
+    border-radius: 4px;
+    height: 30px;
+  }
+
+  .col > div {
+    position: relative;
+  }
+
+  .error {
+    position: absolute;
+    top: calc(100% - 3px);
+    font-size: 10px;
+  }
+
+  .is-danger {
+    $danger: #ff690a;
+
+    color: $danger;
+
+    input,
+    select {
+      border-color: $danger;
+    }
+
+    label,
+    option {
+      color: $danger;
+    }
+  }
+
+  .help-pop {
+    margin-left: 10px;
   }
 }

@@ -5,109 +5,91 @@ import orderAPI from '@/api/order-api'
 const { Store } = require('yayson')()
 const store = new Store()
 
-// initial state
-const state = {
-  currentOrderType: 'New',
-  currentView: 'select_package',
-  selectedKeepService: 'Yes',
-  userId: 0,
-  packages: [],
-  selectedPackage: null,
+const initialUpgradeData = {
+  step: 0,
+  selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
-  selectedCapacity: '',
-  selectedStyle: {},
-  selectedAccessories: [],
-  selectedNeedDevice: 'Yes',
-  selectedDeviceType: 'subsided',
-  // typedServiceInfo: {
-  //   IMEI: '',
-  //   PhoneNo: '',
-  //   Sim: ''
-  // },
-  typedDeviceInfo: {
-    IMEI: '',
-    PhoneNo: '',
-    Carrier: '',
-    Sim: '',
-  },
-  loading: false,
-  allocation: {},
-  hasOrder: false,
-  upgradeStep: 0,
   changeCarrier: false,
+  hasOrder: false,
+}
+
+const initialTransferData = {
+  step: 0,
+  selectedEmployee: null,
+  selectedService: null,
+  selectedDevice: null,
+  details: {
+    carrierInfo: null,
+    wirelessNo: null,
+    accountName: null,
+    billingName: null,
+    billingAccount: null,
+    billingPassword: null,
+    keepExistingService: false,
+  },
+  needNewDevice: false,
+  existingServiceInfo: {
+    serviceImei: null,
+    servicePhoneNo: null,
+    serviceSim: null,
+  },
+  deviceInfo: {
+    deviceImei: null,
+    deviceCarrier: null,
+    deviceSim: null,
+    needNewSim: false,
+  },
+  hasOrder: false,
+}
+
+// initial state
+const state = {
+  userPackages: [],
+  userPackagesLoading: false,
+  allocation: {},
+  upgrade: { ...initialUpgradeData },
+  transfer: { ...initialTransferData },
 }
 
 const getters = {
-  getCurrentView: state => {
-    return state.currentView
+  userPackages: state => {
+    return state.userPackages
   },
 
-  getCurrentOrderType: state => {
-    return state.currentOrderType
+  userPackagesLoading: state => {
+    return state.userPackagesLoading
   },
 
-  getSelectedKeepService: state => {
-    return state.selectedKeepService
+  // Upgrade
+  upgradeStep: state => {
+    return state.upgrade.step
   },
 
-  getSelectedPackage: state => {
-    return state.selectedPackage
+  upgradeSelectedEmployee: state => {
+    return state.upgrade.selectedEmployee
   },
 
-  selectedService: state => {
-    return state.selectedService
+  upgradeSelectedDevice: state => {
+    return state.upgrade.selectedDevice
   },
 
-  selectedDevice: state => {
-    return state.selectedDevice
+  upgradeSelectedService: state => {
+    return state.upgrade.selectedService
   },
 
-  getSelectedCapacity: state => {
-    return state.selectedCapacity
+  upgradeChangeCarrier: state => {
+    return state.upgrade.changeCarrier
   },
 
-  getSelectedStyle: state => {
-    return state.selectedStyle
+  upgradeHasOrder: state => {
+    return state.upgrade.hasOrder
   },
 
-  getSelectedAccessories: state => {
-    return state.selectedAccessories
-  },
-
-  getSelectedNeedDevice: state => {
-    return state.selectedNeedDevice
-  },
-
-  getSelectedDeviceType: state => {
-    return state.selectedDeviceType
-  },
-
-  getTypedDeviceInfo: state => {
-    return state.typedDeviceInfo
-  },
-
-  getTypedServiceInfo: state => {
-    // return state.typedServiceInfo
-    return state.typedDeviceInfo
-  },
-
-  getLoadingState: state => {
-    return state.loading
-  },
-
-  hasOrder: state => {
-    return state.hasOrder
-  },
-
-  packages: state => {
-    return state.packages
-  },
-
-  devices: state => {
+  upgradeDevices: state => {
     let allDevices = []
 
-    state.packages.forEach(({ id, devicevariations }) => {
+    state.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
         allDevices.push({ ...variation, packageId: id })
       })
@@ -118,37 +100,33 @@ const getters = {
     return allDevices
   },
 
-  services: state => {
-    const { selectedDevice, packages } = state
-
+  upgradeServices: state => {
     let allServices = []
 
-    if (!selectedDevice) {
+    if (!state.upgrade.selectedDevice) {
       return allServices
     }
 
-    packages.forEach(({ devicevariations, services }) => {
-      if (_.find(devicevariations, { id: selectedDevice.id })) {
+    state.userPackages.forEach(({ devicevariations, services }) => {
+      if (_.find(devicevariations, { id: state.upgrade.selectedDevice.id })) {
         services.forEach(service => {
           allServices.push(service)
         })
       }
     })
 
-    return allServices
+    return _.uniqBy(allServices, 'id')
   },
 
-  addresses: state => {
-    const { selectedDevice, packages } = state
-
+  upgradeAddresses: state => {
     let allAddresses = []
 
-    if (!selectedDevice) {
+    if (!state.upgrade.selectedDevice) {
       return allAddresses
     }
 
-    packages.forEach(({ devicevariations, addresses }) => {
-      if (_.find(devicevariations, { id: selectedDevice.id })) {
+    state.userPackages.forEach(({ devicevariations, addresses }) => {
+      if (_.find(devicevariations, { id: state.upgrade.selectedDevice.id })) {
         addresses.forEach(address => {
           allAddresses.push(address)
         })
@@ -158,12 +136,79 @@ const getters = {
     return allAddresses
   },
 
-  upgradeStep: state => {
-    return state.upgradeStep
+  // Transfer
+
+  transferStep: state => {
+    return state.transfer.step
   },
 
-  changeCarrier: state => {
-    return state.changeCarrier
+  transferSelectedEmployee: state => {
+    return state.transfer.selectedEmployee
+  },
+
+  transferSelectedDevice: state => {
+    return state.transfer.selectedDevice
+  },
+
+  transferSelectedService: state => {
+    return state.transfer.selectedService
+  },
+
+  transferExistingServiceInfo: state => {
+    return state.transfer.existingServiceInfo
+  },
+
+  transferNeedNewDevice: state => {
+    return state.transfer.needNewDevice
+  },
+
+  transferDetails: state => {
+    return state.transfer.details
+  },
+
+  transferDeviceInfo: state => {
+    return state.transfer.deviceInfo
+  },
+
+  transferHasOrder: state => {
+    return state.transfer.hasOrder
+  },
+
+  transferDevices: (_state, getters) => {
+    return getters.upgradeDevices
+  },
+
+  transferServices: state => {
+    const { userPackages } = state
+    const { selectedDevice } = state.transfer
+
+    let allServices = []
+
+    userPackages.forEach(({ services }) => {
+      services.forEach(service => {
+        allServices.push(service)
+      })
+    })
+
+    return _.uniqBy(allServices, 'id')
+  },
+
+  transferAddresses: state => {
+    let allAddresses = []
+
+    if (!state.transfer.selectedDevice) {
+      return allAddresses
+    }
+
+    state.userPackages.forEach(({ devicevariations, addresses }) => {
+      if (_.find(devicevariations, { id: state.transfer.selectedDevice.id })) {
+        addresses.forEach(address => {
+          allAddresses.push(address)
+        })
+      }
+    })
+
+    return allAddresses
   },
 }
 
@@ -178,26 +223,126 @@ const actions = {
         },
       }
 
-      commit(types.PLACE_ORDER_SET_LOADING, true)
+      commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, true)
 
       packageAPI.getMatchedPackages(
         userId,
         payload,
         res => {
           const results = store.sync(res.data)
-          commit(types.PLACE_ORDER_SET_PACKAGES, results)
-          commit(types.PLACE_ORDER_SET_LOADING, false)
+          commit(types.PLACE_ORDER_SET_USER_PACKAGES, results)
+          commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, false)
           resolve(results)
         },
         err => {
-          commit(types.PLACE_ORDER_SET_LOADING, false)
+          commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, false)
           reject(err)
         },
       )
     })
   },
 
-  getPackageServices({ dispatch, commit, state }, packageId) {
+  createUpgradeOrder({ commit }, orderData) {
+    return new Promise((resolve, reject) => {
+      orderAPI.create(
+        orderData,
+        res => {
+          commit(types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER, true)
+          commit(types.PLACE_ORDER_RESET_UPGRADE)
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
+
+  createTransferOrder({ commit }, orderData) {
+    return new Promise((resolve, reject) => {
+      orderAPI.create(
+        orderData,
+        res => {
+          commit(types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER, true)
+          commit(types.PLACE_ORDER_RESET_TRANSFER)
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
+
+  setAllocation({ commit }, allocation) {
+    commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
+  },
+
+  // Upgrade
+
+  setUpgradeStep({ commit }, step) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_STEP, step)
+  },
+
+  setUpgradeSelectedEmployee({ commit }, selectedEmployee) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_SELECTED_EMPLOYEE, selectedEmployee)
+  },
+
+  setUpgradeSelectedDevice({ commit }, selectedDevice) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setUpgradeSelectedService({ commit }, selectedService) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_SELECTED_SERVICE, selectedService)
+  },
+
+  setUpgradeChangeCarrier({ commit }, changeCarrier) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_CHANGE_CARRIER, changeCarrier)
+  },
+
+  setUpgradeHasOrder({ commit }, hasOrder) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER, hasOrder)
+  },
+
+  // Transfer
+
+  setTransferStep({ commit }, step) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_STEP, step)
+  },
+
+  setTransferSelectedEmployee({ commit }, selectedEmployee) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_EMPLOYEE, selectedEmployee)
+  },
+
+  setTransferSelectedDevice({ commit }, selectedDevice) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setTransferSelectedService({ commit }, selectedService) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_SERVICE, selectedService)
+  },
+
+  setExistingServiceInfo({ commit }, existingServiceInfo) {
+    commit(types.PLACE_ORDER_SET_EXISTING_SERVICE_INFO, existingServiceInfo)
+  },
+
+  setTransferDetails({ commit }, details) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_DETAILS, details)
+  },
+
+  setTransferNeedNewDevice({ commit }, needNewDevice) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_NEED_NEW_DEVICE, needNewDevice)
+  },
+
+  setTransferDeviceInfo({ commit }, deviceInfo) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_DEVICE_INFO, deviceInfo)
+  },
+
+  setTransferHasOrder({ commit }, hasOrder) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER, hasOrder)
+  },
+
+  /* getPackageServices({ dispatch, commit, state }, packageId) {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
     return new Promise((resolve, reject) => {
       let _params = {
@@ -336,182 +481,95 @@ const actions = {
         },
       )
     })
-  },
-
-  createOrder({ commit, dispatch }, orderData) {
-    return new Promise((resolve, reject) => {
-      orderAPI.create(
-        orderData,
-        res => {
-          commit(types.PLACE_ORDER_SET_HAS_ORDER, true)
-          commit(types.PLACE_ORDER_RESET)
-          dispatch(`employee/selectEmployee`, null, { root: true })
-          resolve(res)
-        },
-        err => {
-          reject(err)
-        },
-      )
-    })
-  },
-
-  setCurrentOrderType({ commit }, type) {
-    commit(types.PLACE_ORDER_SET_ORDER_TYPE, type)
-  },
-
-  setCurrentView({ commit }, view) {
-    commit(types.PLACE_ORDER_SET_VIEW, view)
-  },
-
-  setUserId({ commit }, userId) {
-    commit(types.PLACE_ORDER_SET_USER_ID, userId)
-  },
-
-  setService({ commit }, service) {
-    commit(types.PLACE_ORDER_SET_SERVICE, service)
-  },
-
-  setDevice({ commit }, devicevariation) {
-    commit(types.PLACE_ORDER_SET_DEVICE, devicevariation)
-  },
-
-  setCapacitySelected({ commit }, capacity) {
-    commit(types.PLACE_ORDER_SET_CAPACITY, capacity)
-  },
-
-  setStyleSelected({ commit }, style) {
-    commit(types.PLACE_ORDER_SET_STYLE, style)
-  },
-
-  setAccessoriesSelected({ commit }, accessories) {
-    commit(types.PLACE_ORDER_SET_ACCESSORY, accessories)
-  },
-
-  setNeedDevice({ commit }, needDevice) {
-    commit(types.PLACE_ORDER_SET_NEEDDEVICE, needDevice)
-  },
-
-  setDeviceType({ commit }, deviceType) {
-    commit(types.PLACE_ORDER_SET_DEVICETYPE, deviceType)
-  },
-
-  setDeviceInfo({ commit }, deviceInfo) {
-    commit(types.PLACE_ORDER_SET_DEVICEINFO, deviceInfo)
-  },
-
-  setKeepService({ commit }, keepService) {
-    commit(types.PLACE_ORDER_SET_KEEPSERVICE, keepService)
-  },
-
-  setServiceInfo({ commit }, serviceInfo) {
-    commit(types.PLACE_ORDER_SET_SERVICEINFO, serviceInfo)
-  },
-
-  setAllocation({ commit }, allocation) {
-    commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
-  },
-
-  setHasOrder({ commit }, hasOrder) {
-    commit(types.PLACE_ORDER_SET_HAS_ORDER, hasOrder)
-  },
-
-  setUpgradeStep({ commit }, step) {
-    commit(types.PLACE_ORDER_SET_UPGRADE_STEP, step)
-  },
-
-  setChangeCarrier({ commit }, changeCarrier) {
-    commit(types.PLACE_ORDER_SET_CHANGE_CARRIER, changeCarrier)
-  },
+  }, */
 }
 
 // mutations
 const mutations = {
-  [types.PLACE_ORDER_SET_VIEW](state, view) {
-    state.currentView = view
+  [types.PLACE_ORDER_SET_USER_PACKAGES](state, userPackages) {
+    state.userPackages = userPackages
   },
 
-  [types.PLACE_ORDER_SET_ORDER_TYPE](state, type) {
-    state.currentOrderType = type
+  [types.PLACE_ORDER_SET_USER_PACKAGES_LOADING](state, userPackagesLoading) {
+    state.userPackagesLoading = userPackagesLoading
   },
 
-  [types.PLACE_ORDER_SET_USER_ID](state, userId) {
-    state.userId = userId
-  },
-
-  [types.PLACE_ORDER_SET_PACKAGES](state, packages) {
-    state.packages = packages
-  },
-
-  [types.PLACE_ORDER_SET_LOADING](state, loading) {
-    state.loading = loading
-  },
-
-  [types.PLACE_ORDER_SET_PACKAGE](state, packageId) {
-    state.selectedPackage = packageId
-  },
-
-  [types.PLACE_ORDER_SET_SERVICE](state, service) {
-    state.selectedService = service
-  },
-
-  [types.PLACE_ORDER_SET_DEVICE](state, devicevariation) {
-    state.selectedDevice = devicevariation
-  },
-
-  [types.PLACE_ORDER_SET_CAPACITY](state, capacity) {
-    state.selectedCapacity = capacity
-  },
-
-  [types.PLACE_ORDER_SET_STYLE](state, style) {
-    state.selectedStyle = style
-  },
-
-  [types.PLACE_ORDER_SET_ACCESSORY](state, accessories) {
-    state.selectedAccessories = accessories
-  },
-
-  [types.PLACE_ORDER_SET_NEEDDEVICE](state, needDevice) {
-    state.selectedNeedDevice = needDevice
-  },
-
-  [types.PLACE_ORDER_SET_DEVICETYPE](state, deviceType) {
-    state.selectedDeviceType = deviceType
-  },
-
-  [types.PLACE_ORDER_SET_DEVICEINFO](state, deviceInfo) {
-    state.typedDeviceInfo = deviceInfo
-  },
-
-  [types.PLACE_ORDER_SET_KEEPSERVICE](state, keepService) {
-    state.selectedKeepService = keepService
-  },
-
-  [types.PLACE_ORDER_SET_SERVICEINFO](state, serviceInfo) {
-    // state.typedServiceInfo = serviceInfo;
-    state.typedDeviceInfo = serviceInfo
-  },
-
-  [types.PLACE_ORDER_SET_ALLOCATION](state, allocation) {
-    state.allocation = allocation
-  },
-
-  [types.PLACE_ORDER_SET_HAS_ORDER](state, hasOrder) {
-    state.hasOrder = hasOrder
-  },
+  // Upgrade
 
   [types.PLACE_ORDER_SET_UPGRADE_STEP](state, step) {
-    state.upgradeStep = step
+    state.upgrade.step = step
   },
 
-  [types.PLACE_ORDER_SET_CHANGE_CARRIER](state, changeCarrier) {
-    state.changeCarrier = changeCarrier
+  [types.PLACE_ORDER_SET_UPGRADE_SELECTED_EMPLOYEE](state, employee) {
+    state.upgrade.selectedEmployee = employee
   },
 
-  [types.PLACE_ORDER_RESET](state) {
-    state.changeCarrier = false
-    state.upgradeStep = 0
-    state.selectedDevice = null
-    state.selectedService = null
+  [types.PLACE_ORDER_SET_UPGRADE_SELECTED_SERVICE](state, service) {
+    state.upgrade.selectedService = service
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE](state, device) {
+    state.upgrade.selectedDevice = device
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_CHANGE_CARRIER](state, changeCarrier) {
+    state.upgrade.changeCarrier = changeCarrier
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER](state, hasOrder) {
+    state.upgrade.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_RESET_UPGRADE](state) {
+    state.upgrade = {
+      ...state.upgrade,
+      ..._.omit(initialUpgradeData, 'hasOrder'),
+    }
+  },
+
+  // Transfer
+
+  [types.PLACE_ORDER_SET_TRANSFER_STEP](state, step) {
+    state.transfer.step = step
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_SELECTED_EMPLOYEE](state, selectedEmployee) {
+    state.transfer.selectedEmployee = selectedEmployee
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE](state, selectedDevice) {
+    state.transfer.selectedDevice = selectedDevice
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_SELECTED_SERVICE](state, selectedService) {
+    state.transfer.selectedService = selectedService
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_DETAILS](state, details) {
+    state.transfer.details = details
+  },
+
+  [types.PLACE_ORDER_SET_EXISTING_SERVICE_INFO](state, existingServiceInfo) {
+    state.transfer.existingServiceInfo = existingServiceInfo
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_DEVICE_INFO](state, deviceInfo) {
+    state.transfer.deviceInfo = deviceInfo
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_NEED_NEW_DEVICE](state, needNewDevice) {
+    state.transfer.needNewDevice = needNewDevice
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER](state, hasOrder) {
+    state.transfer.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_RESET_TRANSFER](state) {
+    state.transfer = {
+      ...state.transfer,
+      ..._.omit(initialTransferData, 'hasOrder'),
+    }
   },
 }
 

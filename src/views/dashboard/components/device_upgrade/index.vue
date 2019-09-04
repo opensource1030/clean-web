@@ -1,21 +1,22 @@
 <template>
   <drawer open="true" @close="toggleDrawer">
-    <div class="device-upgrade">
-      <device-upgrade-form
+    <div class="dashboard-drawer">
+      <order-form
         v-if="isReviewStep"
         :user="selectedEmployee"
         :addresses="addresses"
+        :show-shipping-form="true"
         @submit="onSubmit"
-      ></device-upgrade-form>
+      ></order-form>
 
-      <user-select-form v-if="!selectedEmployee" @selectUser="selectEmployee"></user-select-form>
+      <user-select-form v-if="!selectedEmployee" @selectUser="setEmployee"></user-select-form>
 
-      <div v-else class="device-upgrade-main pt-5">
+      <div v-else class="dashboard-drawer-main">
         <h1 class="text-center">Upgrade Device</h1>
 
         <steps
           :steps="steps"
-          :active-step="upgradeStep"
+          :active-step="step"
           :show-back-button-on-first-step="true"
           @back="onStepBack"
         ></steps>
@@ -31,7 +32,7 @@
               <devices
                 :devices="devices"
                 :selected-device="selectedDevice"
-                @requestDevice="onRequestDevice"
+                @requestDevice="onNextStep"
                 @selectDevice="onSelectDevice"
               ></devices>
             </b-tab>
@@ -49,8 +50,7 @@
         <order-summary
           v-if="isReviewStep"
           :device="selectedDevice"
-          :service="selectedService"
-          :carrierOn="changeCarrier"
+          :service="changeCarrier ? selectedService : null"
         ></order-summary>
       </div>
     </div>
@@ -66,10 +66,10 @@ import Drawer from "@/components/drawer";
 import Steps from "@/components/steps";
 import Toggle from "@/components/toggle";
 import Devices from "@/components/devices";
+import Services from "@/components/services";
 import UserSelectForm from "@/components/user_select_form";
-import Services from "./services";
-import DeviceUpgradeForm from "./upgrade_form";
-import OrderSummary from "./order_summary";
+import OrderForm from "@/components/order_form";
+import OrderSummary from "@/components/order_summary";
 
 const { Store } = require("yayson")();
 const store = new Store();
@@ -84,12 +84,12 @@ export default {
     Devices,
     Services,
     UserSelectForm,
-    DeviceUpgradeForm,
+    OrderForm,
     OrderSummary
   },
 
   created() {
-    if (this.packages.length <= 0) {
+    if (this.userPackages.length <= 0) {
       const { id } = this.currentUser;
       this.getUserPackages(id);
     }
@@ -97,15 +97,15 @@ export default {
 
   computed: {
     isSelectingDeviceStep() {
-      return this.upgradeStep === 0;
+      return this.step === 0;
     },
 
     isSelectingServiceStep() {
-      return this.changeCarrier && this.upgradeStep === 1;
+      return this.changeCarrier && this.step === 1;
     },
 
     isReviewStep() {
-      return this.upgradeStep === this.steps.length - 1;
+      return this.step === this.steps.length - 1;
     },
 
     steps() {
@@ -125,15 +125,16 @@ export default {
 
     ...mapGetters({
       currentUser: "auth/getProfile",
-      selectedEmployee: "employee/selectedEmployee",
-      packages: "placeOrder/packages",
-      devices: "placeOrder/devices",
-      services: "placeOrder/services",
-      addresses: "placeOrder/addresses",
-      selectedDevice: "placeOrder/selectedDevice",
-      selectedService: "placeOrder/selectedService",
-      upgradeStep: "placeOrder/upgradeStep",
-      changeCarrier: "placeOrder/changeCarrier"
+      userRole: "auth/getRole",
+      userPackages: "placeOrder/userPackages",
+      step: "placeOrder/upgradeStep",
+      selectedEmployee: "placeOrder/upgradeSelectedEmployee",
+      selectedDevice: "placeOrder/upgradeSelectedDevice",
+      selectedService: "placeOrder/upgradeSelectedService",
+      changeCarrier: "placeOrder/upgradeChangeCarrier",
+      devices: "placeOrder/upgradeDevices",
+      services: "placeOrder/upgradeServices",
+      addresses: "placeOrder/upgradeAddresses"
     })
   },
 
@@ -203,10 +204,10 @@ export default {
     },
 
     onStepBack() {
-      if (this.upgradeStep > 0) {
-        this.setUpgradeStep(this.upgradeStep - 1);
+      if (this.step > 0) {
+        this.setStep(this.step - 1);
       } else {
-        this.selectEmployee(null);
+        this.setEmployee(null);
       }
     },
 
@@ -214,56 +215,24 @@ export default {
       this.setDevice(devicevariation);
     },
 
-    onRequestDevice() {
-      this.setUpgradeStep(this.upgradeStep + 1);
+    onNextStep() {
+      this.setStep(this.step + 1);
     },
 
     onSelectService(service) {
       this.setService(service);
-      this.setUpgradeStep(this.upgradeStep + 1);
+      this.onNextStep();
     },
 
     ...mapActions({
       getUserPackages: "placeOrder/getUserPackages",
-      selectEmployee: "employee/selectEmployee",
-      setDevice: "placeOrder/setDevice",
-      setService: "placeOrder/setService",
-      createOrder: "placeOrder/createOrder",
-      setUpgradeStep: "placeOrder/setUpgradeStep",
-      setChangeCarrier: "placeOrder/setChangeCarrier"
+      setStep: "placeOrder/setUpgradeStep",
+      setEmployee: "placeOrder/setUpgradeSelectedEmployee",
+      setDevice: "placeOrder/setUpgradeSelectedDevice",
+      setService: "placeOrder/setUpgradeSelectedService",
+      setChangeCarrier: "placeOrder/setUpgradeChangeCarrier",
+      createOrder: "placeOrder/createUpgradeOrder"
     })
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.device-upgrade {
-  font-family: Montserrat;
-  display: flex;
-  height: 100%;
-
-  &-carrier-toggle {
-    span {
-      text-transform: uppercase;
-      color: #657089;
-      font-weight: 600;
-      font-size: 10px;
-    }
-  }
-
-  &-main {
-    width: 500px;
-    height: 100%;
-    background-color: white;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    overflow-x: hidden;
-
-    h1 {
-      color: #1f2027;
-      font-size: 16px;
-      font-weight: 600;
-    }
-  }
-}
-</style>

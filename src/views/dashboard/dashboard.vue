@@ -263,12 +263,13 @@
                     <div>
                       <b>Order a New Line of Service</b>
                     </div>
-                    <div>With new device</div>
+                    <div class="media-sub">With new device</div>
                   </div>
                 </div>
                 <div
                   class="media px-4 py-2"
                   v-if="$store.state.feature.enabled_dashboard_procure_transfer"
+                  @click="$router.push({ path: '/dashboard/transfer-service' })"
                 >
                   <div class="d-flex">
                     <i class="fas fa-exchange"></i>
@@ -277,7 +278,7 @@
                     <div>
                       <b>Transfer Wireless Services Liability</b>
                     </div>
-                    <div>Includes an option to order new device</div>
+                    <div class="media-sub">Includes an option to order new device</div>
                   </div>
                 </div>
                 <div
@@ -291,7 +292,7 @@
                     <div>
                       <b>Order Accessories</b>
                     </div>
-                    <div>Headphones, charges, bags</div>
+                    <div class="media-sub">Headphones, charges, bags</div>
                   </div>
                 </div>
               </div>
@@ -442,7 +443,10 @@
           </div>
         </div>
 
-        <order-confirm-modal :visible="hasOrder" @close="closeConfirmModal"></order-confirm-modal>
+        <order-confirm-modal
+          :visible="upgradeHasOrder || transferHasOrder"
+          @close="closeConfirmModal"
+        ></order-confirm-modal>
       </div>
 
       <drawer :open="welcome.visible" @close="toggleWelcomeDrawer()">

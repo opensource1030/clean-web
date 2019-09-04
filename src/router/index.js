@@ -20,6 +20,7 @@ import Sso from '@/views/auth/Sso'
 import Dashboard from '@/views/dashboard/dashboard'
 import LegacyInfo from '@/components/legacy_info'
 import DeviceUpgrade from '@/views/dashboard/components/device_upgrade'
+import TransferService from '@/views/dashboard/components/transfer_service'
 import DeviceBillInfo from '@/views/dashboard/components/device_bill_info'
 
 // employee
@@ -67,16 +68,21 @@ const router = new Router({
     // main
     { path: '/sso/:id', component: Sso, name: 'sso' },
     {
-      path: '/', component: DefaultContainer, meta: { requiresAuth: true },
+      path: '/',
+      component: DefaultContainer,
+      meta: { requiresAuth: true },
       children: [
         {
-          path: 'dashboard', component: Dashboard, name: 'Dashboard',
+          path: 'dashboard',
+          component: Dashboard,
+          name: 'Dashboard',
           children: [
             // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
             { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' },
             { path: 'device-upgrade', component: DeviceUpgrade, name: 'deviceUpgrade' },
-            { path: ':mobile_number/details', component: DeviceBillInfo, name: 'device_bill_info' }
-          ]
+            { path: 'transfer-service', component: TransferService, name: 'transferService' },
+            { path: ':mobile_number/details', component: DeviceBillInfo, name: 'device_bill_info' },
+          ],
         },
         // employees
         {
@@ -92,7 +98,7 @@ const router = new Router({
             { path: 'new', component: EmployeeEdit, name: 'Add Employee', meta: { label: 'Create' } },
             { path: ':id', component: EmployeeEdit, name: 'Update Employee', meta: { label: 'Edit' } },
             // { path: 'review/:id', component: EmployeeReview, name: 'Review Employee', meta: { label: 'Review' } },
-          ]
+          ],
         },
         // services
         {
@@ -101,9 +107,9 @@ const router = new Router({
           meta: { requiresAuth: true, label: 'Services' },
           children: [
             { path: '', component: ServiceIndex, name: 'List Services', meta: { label: 'All' } },
-            { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' }},
-            { path: ':id', component: ServiceEdit, name: 'Update Service', meta: {label: 'Edit'}},
-          ]
+            { path: 'new', component: ServiceEdit, name: 'Add Service', meta: { label: 'Create' } },
+            { path: ':id', component: ServiceEdit, name: 'Update Service', meta: { label: 'Edit' } },
+          ],
         },
         // devices
         {
@@ -114,7 +120,7 @@ const router = new Router({
             { path: '', component: DeviceIndex, name: 'List Devices', meta: { label: 'All' } },
             { path: 'new', component: DeviceEdit, name: 'Add Device', meta: { label: 'Create' } },
             { path: ':id', component: DeviceEdit, name: 'Update Device', meta: { label: 'Edit' } },
-          ]
+          ],
         },
         // presets
         {
@@ -125,7 +131,7 @@ const router = new Router({
             { path: '', component: PresetIndex, name: 'List Presets', meta: { label: 'All' } },
             { path: 'new', component: PresetEdit, name: 'Add Preset', meta: { label: 'Create' } },
             { path: ':id', component: PresetEdit, name: 'Update Preset', meta: { label: 'Edit' } },
-          ]
+          ],
         },
 
         // orders
@@ -135,8 +141,8 @@ const router = new Router({
           meta: { requiresAuth: true, label: 'Orders' },
           children: [
             { path: '', component: OrderIndex, name: 'List Orders', meta: { label: 'All' } },
-            { path: ':id', component: OrderDetail, name: 'Order Detail', meta: { label: 'Detail' } }
-          ]
+            { path: ':id', component: OrderDetail, name: 'Order Detail', meta: { label: 'Detail' } },
+          ],
         },
 
         // packages
@@ -148,18 +154,20 @@ const router = new Router({
             { path: '', component: PackageIndex, name: 'List Packages', meta: { label: 'All' } },
             { path: 'new', component: PackageEdit, name: 'Add Package', meta: { label: 'Create' } },
             { path: ':id', component: PackageEdit, name: 'Update Package', meta: { label: 'Edit' } },
-          ]
+          ],
         },
         // reports
         {
-          path: '/report-charge', component: ReportCharge, name: 'ReportCharge',
-        }
-      ]
+          path: '/report-charge',
+          component: ReportCharge,
+          name: 'ReportCharge',
+        },
+      ],
     },
 
     //redirect
-    { path: '*', redirect: '/dashboard' }
-  ]
+    { path: '*', redirect: '/dashboard' },
+  ],
 })
 
 router.beforeEach((to, from, next) => {
@@ -181,13 +189,13 @@ router.beforeEach((to, from, next) => {
   // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
   if (expired) {
-    document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-    document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    document.cookie = 'nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+    document.cookie = 'nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
 
     store.dispatch('auth/logout').then(res => {
       console.log('expire logout')
       history.go(0)
-      next({name: 'Dashboard'})
+      next({ name: 'Dashboard' })
     })
   }
 
@@ -195,40 +203,45 @@ router.beforeEach((to, from, next) => {
 
   if (to.name == undefined && from.name == null) {
     if (authenticated) {
-      next({name: 'Dashboard'})
+      next({ name: 'Dashboard' })
     } else {
-      next({name: 'login'})
+      next({ name: 'login' })
     }
-  } 
+  }
 
-  const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature
+  const {
+    enabled_equipment,
+    enabled_service,
+    enabled_package,
+    enabled_package_edit,
+    enabled_dashboard_legacy,
+    enabled_dashboard_nextgen,
+  } = store.state.feature
 
   if (to.name === 'login' || to.name === 'loginLocal') {
     if (authenticated) {
-      next({name: 'Dashboard'})
+      next({ name: 'Dashboard' })
     }
   } else if (
-    (
-      (toPath[1] === 'devices' && !enabled_equipment) ||
-      (toPath[1] === 'services' && !enabled_service ) ||
+    ((toPath[1] === 'devices' && !enabled_equipment) ||
+      (toPath[1] === 'services' && !enabled_service) ||
       (toPath[1] === 'packages' && !enabled_package) ||
-      (toPath[2] && (!enabled_package_edit))
-    )
-    && !enabled_dashboard_legacy && !enabled_dashboard_nextgen
+      (toPath[2] && !enabled_package_edit)) &&
+    !enabled_dashboard_legacy &&
+    !enabled_dashboard_nextgen
   ) {
     if (from.name === 'Dashboard') {
       history.go(0)
     }
 
     // Prevent bad redirection when resetting password...
-    if (to.name !== "Reset Password Code") {
+    if (to.name !== 'Reset Password Code') {
       router.go(-1)
     }
-
   } else {
     // if (to.meta.requiresAuth && !authenticated) {
     if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-      next({name: 'login'})
+      next({ name: 'login' })
     }
   }
 
@@ -243,7 +256,7 @@ router.beforeEach((to, from, next) => {
 
 Vue.http.interceptors.push((request, next) => {
   NProgress.inc(0.2)
-  next((response) => {
+  next(response => {
     NProgress.done()
   })
 })
