@@ -14,6 +14,35 @@ const initialUpgradeData = {
   hasOrder: false,
 }
 
+const initialNewlineData = {
+  step: 0,
+  selectedEmployee: null,
+  selectedService: null,
+  selectedDevice: null,
+  details: {
+    carrierInfo: null,
+    wirelessNo: null,
+    accountName: null,
+    billingName: null,
+    billingAccount: null,
+    billingPassword: null,
+    keepExistingService: false,
+  },
+  needNewDevice: false,
+  // existingServiceInfo: {
+  //   serviceImei: null,
+  //   servicePhoneNo: null,
+  //   serviceSim: null,
+  // },
+  deviceInfo: {
+    deviceImei: null,
+    deviceCarrier: null,
+    deviceSim: null,
+    needNewSim: false,
+  },
+  hasOrder: false,
+}
+
 const initialTransferData = {
   step: 0,
   selectedEmployee: null,
@@ -49,6 +78,7 @@ const state = {
   userPackagesLoading: false,
   allocation: {},
   upgrade: { ...initialUpgradeData },
+  newline: { ... initialNewlineData },
   transfer: { ...initialTransferData },
 }
 
@@ -59,6 +89,39 @@ const getters = {
 
   userPackagesLoading: state => {
     return state.userPackagesLoading
+  },
+
+  allDevices: state => {
+    let allDevices = []
+
+    state.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (device_type != 'Accessory') {
+          allDevices.push({ ...variation, packageId: id })
+        }
+      })
+    })
+
+    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+
+    return allDevices
+  },
+
+  allAccessories: state => {
+    let allAccessories = []
+
+    state.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        // console.log('allAccessories', device_type, variation)
+        if (device_type == 'Accessory') {
+          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories;
   },
 
   // Upgrade
@@ -86,18 +149,8 @@ const getters = {
     return state.upgrade.hasOrder
   },
 
-  upgradeDevices: state => {
-    let allDevices = []
-
-    state.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        allDevices.push({ ...variation, packageId: id })
-      })
-    })
-
-    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
-
-    return allDevices
+  upgradeDevices: (state, getters) => {
+    return getters.allDevices;
   },
 
   upgradeServices: state => {
@@ -127,6 +180,91 @@ const getters = {
 
     state.userPackages.forEach(({ devicevariations, addresses }) => {
       if (_.find(devicevariations, { id: state.upgrade.selectedDevice.id })) {
+        addresses.forEach(address => {
+          allAddresses.push(address)
+        })
+      }
+    })
+
+    return allAddresses
+  },
+
+  // New Line of Service
+
+  newlineStep: state => {
+    return state.newline.step
+  },
+
+  newlineSelectedEmployee: state => {
+    return state.newline.selectedEmployee
+  },
+
+  newlineSelectedDevice: state => {
+    return state.newline.selectedDevice
+  },
+
+  newlineSelectedService: state => {
+    return state.newline.selectedService
+  },
+
+  newlineDetails: state => {
+    return state.newline.details
+  },
+
+  newlineNeedNewDevice: state => {
+    return state.newline.needNewDevice
+  },
+
+  newlineNeedNewSim: state => {
+    return state.newline.needNewSim
+  },
+
+  newlineDeviceInfo: state => {
+    return state.newline.deviceInfo
+  },
+
+  newlineHasOrder: state => {
+    return state.newline.hasOrder
+  },
+
+  newlineDevices: (_state, getters) => {
+    return getters.upgradeDevices
+  },
+
+  newlineServices: state => {
+    const { userPackages } = state
+    const { needNewDevice, selectedDevice } = state.newline
+
+    let allServices = []
+
+    if (needNewDevice && selectedDevice) {
+      userPackages.forEach(({ devicevariations, services }) => {
+        if (_.find(devicevariations, { id: selectedDevice.id })) {
+          services.forEach(service => {
+            allServices.push(service)
+          })
+        }
+      })
+    } else if (!needNewDevice) {
+      userPackages.forEach(({ services }) => {
+        services.forEach(service => {
+          allServices.push(service)
+        })
+      })
+    }
+
+    return _.uniqBy(allServices, 'id')
+  },
+
+  newlineAddresses: state => {
+    let allAddresses = []
+
+    if (!state.newline.selectedDevice) {
+      return allAddresses
+    }
+
+    state.userPackages.forEach(({ devicevariations, addresses }) => {
+      if (_.find(devicevariations, { id: state.newline.selectedDevice.id })) {
         addresses.forEach(address => {
           allAddresses.push(address)
         })
@@ -258,6 +396,22 @@ const actions = {
     })
   },
 
+  createNewlineOrder({ commit }, orderData) {
+    return new Promise((resolve, reject) => {
+      orderAPI.create(
+        orderData,
+        res => {
+          commit(types.PLACE_ORDER_SET_NEWLINE_HAS_ORDER, true)
+          commit(types.PLACE_ORDER_RESET_NEWLINE)
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
+
   createTransferOrder({ commit }, orderData) {
     return new Promise((resolve, reject) => {
       orderAPI.create(
@@ -302,6 +456,48 @@ const actions = {
 
   setUpgradeHasOrder({ commit }, hasOrder) {
     commit(types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER, hasOrder)
+  },
+
+  // New Line of Service
+
+  setNewlineStep({ commit }, step) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_STEP, step)
+  },
+
+  setNewlineSelectedEmployee({ commit }, selectedEmployee) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_EMPLOYEE, selectedEmployee)
+  },
+
+  setNewlineSelectedDevice({ commit }, selectedDevice) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setNewlineSelectedService({ commit }, selectedService) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_SERVICE, selectedService)
+  },
+
+  setNewlineDetails({ commit }, details) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_DETAILS, details)
+  },
+
+  setNewlineNeedNewDevice({ commit }, needNewDevice) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE, needNewDevice)
+  },
+
+  setNewlineNeedNewSim({ commit }, needNewSim) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
+  },
+
+  setNewlineNeedNewSim({ commit }, needNewSim) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
+  },
+
+  setNewlineDeviceInfo({ commit }, deviceInfo) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO, deviceInfo)
+  },
+
+  setNewlineHasOrder({ commit }, hasOrder) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_HAS_ORDER, hasOrder)
   },
 
   // Transfer
@@ -524,6 +720,51 @@ const mutations = {
     state.upgrade = {
       ...state.upgrade,
       ..._.omit(initialUpgradeData, 'hasOrder'),
+    }
+  },
+
+  // New Line of Service
+
+  [types.PLACE_ORDER_SET_NEWLINE_STEP](state, step) {
+    state.newline.step = step
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_SELECTED_EMPLOYEE](state, selectedEmployee) {
+    state.newline.selectedEmployee = selectedEmployee
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_SELECTED_DEVICE](state, selectedDevice) {
+    state.newline.selectedDevice = selectedDevice
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_SELECTED_SERVICE](state, selectedService) {
+    state.newline.selectedService = selectedService
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_DETAILS](state, details) {
+    state.newline.details = details
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE](state, needNewDevice) {
+    state.newline.needNewDevice = needNewDevice
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM](state, needNewSim) {
+    state.newline.needNewSim = needNewSim
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO](state, deviceInfo) {
+    state.newline.deviceInfo = deviceInfo
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_HAS_ORDER](state, hasOrder) {
+    state.newline.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_RESET_NEWLINE](state) {
+    state.newline = {
+      ...state.newline,
+      ..._.omit(initialNewlineData, 'hasOrder'),
     }
   },
 
