@@ -255,6 +255,7 @@
                 <div
                   class="media px-4 py-2"
                   v-if="$store.state.feature.enabled_dashboard_procure_new_line"
+                  @click="$router.push({ path: '/dashboard/newline-service' })"
                 >
                   <div class="d-flex">
                     <i class="fas fa-rocket"></i>
