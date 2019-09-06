@@ -18,6 +18,7 @@ export default {
 
   watch: {
     open(newVal, oldVal) {
+      console.log('drawer', newVal, oldVal)
       if (newVal !== oldVal) {
         if (newVal === true) {
           $("body").addClass("overflow-hidden");
@@ -29,7 +30,7 @@ export default {
   },
 
   mounted() {
-    $("body").addClass("overflow-hidden");
+    // $("body").addClass("overflow-hidden");
   },
 
   destroyed() {

@@ -48,7 +48,7 @@
           <div class="item">
             <label>Need a new sim?</label>
             <div>
-              <toggle :active="needNewSim" @change="setNeedNewSim"></toggle>
+              <toggle :active="form.needNewSim" @change="setNeedNewSim"></toggle>
             </div>
           </div>
         </div>
@@ -84,7 +84,8 @@ export default {
       form: {
         deviceImei: null,
         deviceCarrier: null,
-        deviceSim: null
+        deviceSim: null,
+        needNewSim: false
       }
     };
   },
@@ -96,15 +97,17 @@ export default {
   computed: {
     ...mapGetters({
       deviceInfo: "placeOrder/newlineDeviceInfo",
-      needNewSim: "placeOrder/newlineNeedNewSim"
     })
   },
 
   methods: {
     ...mapActions({
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
-      setNeedNewSim: "placeOrder/setNewlineNeedNewSim"
     }),
+
+    setNeedNewSim(needNewSim) {
+      this.form.needNewSim = needNewSim;
+    },
 
     validateBeforeSubmit() {
       if (!this.needNewSim) {

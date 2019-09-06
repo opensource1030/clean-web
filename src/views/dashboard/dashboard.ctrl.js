@@ -80,8 +80,13 @@ export default {
       userRole: 'auth/getRole',
       clientInfo: 'auth/getClientInfo',
       upgradeHasOrder: 'placeOrder/upgradeHasOrder',
+      newlineHasOrder: 'placeOrder/newlineHasOrder',
       transferHasOrder: 'placeOrder/transferHasOrder',
     }),
+
+    hasOrder() {
+      return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder
+    }
   },
 
   // watch: {
@@ -113,52 +118,6 @@ export default {
       this.$set(this, 'selectedOrderType', this.selectedOrderType === type ? '' : type)
     },
 
-    upgradeDevice() {
-      // this.selectedOrderType = 'upgrade'
-      // this.placeOrder()
-    },
-
-    // placeOrder() {
-    //   if (this.userRole === 'wta') {
-    //     this.showSelectUserModal = true
-    //   } else {
-    //     const { userId } = this.$store.state.auth
-
-    //     this.$store.dispatch('placeOrder/setUserId', userId)
-    //     this.beginOrder()
-    //   }
-    // },
-
-    beginOrder() {
-      // let path = ''
-      // switch (this.selectedOrderType) {
-      //   case 'new':
-      //     path = '/orders/new/package'
-      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'New')
-      //     break
-      //   case 'transfer':
-      //     path = '/orders/new/package'
-      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Transfer')
-      //     this.$store.dispatch('placeOrder/setKeepService', 'Yes')
-      //     break
-      //   case 'accessories':
-      //     path = '/orders/new/accessories'
-      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Accessory')
-      //     break
-      //   case 'upgrade':
-      //     const allocation = this.userInfo.data.allocations[this.activeAllocationIndex]
-      //     this.$store.dispatch('placeOrder/setAllocation', allocation)
-      //     this.$store.dispatch('placeOrder/setCurrentOrderType', 'Upgrade')
-      //     path = '/orders/new/package'
-      //     break
-      //   default:
-      //     return
-      // }
-      // this.$router.push({ path })
-    },
-
-    cancelOrder() {},
-
     checkIfOrderable() {
       const exceptionList = ['PRXL', 'BRKR']
 
@@ -185,10 +144,6 @@ export default {
       this.welcome.visible = !this.welcome.visible
     },
 
-    // toggleServiceInfoDrawer() {
-    //   this.serviceInfo.visible = !this.serviceInfo.visible;
-    // }
-
     closeConfirmModal() {
       if (this.upgradeHasOrder) {
         this.setUpgradeHasOrder(false)
@@ -197,10 +152,15 @@ export default {
       if (this.transferHasOrder) {
         this.setTransferHasOrder(false)
       }
+
+      if (this.newlineHasOrder) {
+        this.setNewlineHasOrder(false)
+      }
     },
 
     ...mapActions({
       setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
+      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
       setTransferHasOrder: 'placeOrder/setTransferHasOrder',
     }),
   },
@@ -210,15 +170,15 @@ export default {
   created() {
     this.$store.dispatch('auth/loadUserInfo').then(
       res => {
-        console.log('dashboard/created', res)
+        // console.log('dashboard/created res', this.$route.param)
         // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
         this.activeAllocation = _.get(this.userInfo, 'lastAllocations[0]', null)
         // if (this.fromLoginPage) {
         //   this.welcome.visible = true
         // }
-        if (!this.$route.param.mobile_number) {
+        // if (!this.$route.param.mobile_number) {
           this.welcome.visible = true
-        }
+        // }
       },
       err => {
         console.log('dashboard/created err', err)
