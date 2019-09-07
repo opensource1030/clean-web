@@ -321,15 +321,15 @@
                     </div>
                     <div>
                       <div class="row right-tag">
-                        <div class="col border-right">
+                        <div class="col-auto border-right">
                           <label>BILL MONTH</label>
                           <div>{{ activeAllocation.bill_month | cleanDate }}</div>
                         </div>
-                        <div class="col border-right">
+                        <div class="col-auto border-right">
                           <label>CYCLE DATES</label>
                           <div>N/A</div>
                         </div>
-                        <div class="col">
+                        <div class="col-auto">
                           <label>LAST UPGRADE</label>
                           <div
                             v-if="activeAllocation.last_upgrade"
