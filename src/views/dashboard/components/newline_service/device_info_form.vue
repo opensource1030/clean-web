@@ -110,26 +110,21 @@ export default {
     },
 
     validateBeforeSubmit() {
-      if (!this.needNewSim) {
-        this.$emit("next");
-        return;
-      } else {
-        this.$validator.validateAll().then(result => {
-          if (result) {
-            let values = {};
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          let values = {};
 
-            Object.keys(this.form).forEach(key => {
-              if (!!this.form[key]) {
-                values[key] = this.form[key];
-              }
-            });
+          Object.keys(this.form).forEach(key => {
+            if (!!this.form[key]) {
+              values[key] = this.form[key];
+            }
+          });
 
-            this.setDeviceInfo(this.form);
-            this.$emit("next");
-            return;
-          }
-        });
-      }
+          this.setDeviceInfo(this.form);
+          this.$emit("next");
+          return;
+        }
+      });
     }
   }
 };

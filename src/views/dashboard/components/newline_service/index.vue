@@ -49,7 +49,10 @@
         <div v-if="isSelectingServiceStep">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
+              <services
+                :services="services"
+                @requestService="onSelectService"
+              ></services>
             </b-tab>
           </b-tabs>
         </div>
@@ -242,44 +245,6 @@ export default {
 
         this.placeOrder(orderData);
       }
-
-      /*if (this.needNewDevice) {
-        orderData.data.relationships.devicevariations.data.push({
-          type: "devicevariations",
-          id: this.selectedDevice.id
-        });
-      } else {
-        orderData.data.attributes = {
-          ...orderData.data.attributes,
-          ...this.deviceInfo
-        };
-      }
-
-      const addressInPackage = _.find(this.addresses, { ...values });
-
-      console.log('newline_service/onSubmit', values, addressInPackage);
-
-      if (addressInPackage) {
-        orderData.data.attributes["addressId"] = addressInPackage.id;
-        this.placeOrder(orderData);
-      } else {
-        const addressPayload = {
-          data: {
-            type: "addresses",
-            attributes: values
-          }
-        };
-
-        addressAPI.create(
-          addressPayload,
-          res => {
-            const newAddress = store.sync(res.data);
-            orderData.data.attributes["addressId"] = newAddress.id;
-            this.placeOrder(orderData);
-          },
-          () => {}
-        );
-      }*/
     },
 
     placeOrder(orderData) {
