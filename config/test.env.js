@@ -10,6 +10,6 @@ module.exports = merge(devEnv, {
   CLIENT_ID: '2',
   CLIENT_SECRET: 'ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7',
   LEGACY_URL: 'https://dev.legacy.wirelessanalytics.com',
-  VERSION:'v2019.8.17',
+  VERSION:'v2019.8.18',
   EV_URL: 'https://wa.easyvista.com/api/v1'
 })
