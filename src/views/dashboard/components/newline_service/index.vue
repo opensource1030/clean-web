@@ -61,6 +61,8 @@
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
+          :comment="comment"
+          @change="setComment"
         ></order-summary>
       </div>
     </div>
@@ -119,6 +121,7 @@ export default {
       selectedEmployee: "placeOrder/newlineSelectedEmployee",
       selectedDevice: "placeOrder/newlineSelectedDevice",
       selectedService: "placeOrder/newlineSelectedService",
+      comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
       needNewDevice: "placeOrder/newlineNeedNewDevice",
       needNewSim: "placeOrder/newlineNeedNewSim",
@@ -154,6 +157,7 @@ export default {
       setEmployee: "placeOrder/setNewlineSelectedEmployee",
       setDevice: "placeOrder/setNewlineSelectedDevice",
       setService: "placeOrder/setNewlineSelectedService",
+      setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
       setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
@@ -242,6 +246,13 @@ export default {
           ...orderData.data.attributes,
           ...this.deviceInfo
         };
+      }
+
+      if (this.comment) {
+        orderData.data.attributes["notes"] = comment;
+      }
+
+      const addressInPackage = _.find(this.addresses, { ...values });
 
         this.placeOrder(orderData);
       }

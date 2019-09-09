@@ -51,6 +51,8 @@
           v-if="isReviewStep"
           :device="selectedDevice"
           :service="changeCarrier ? selectedService : null"
+          :comment="comment"
+          @change="setComment"
         ></order-summary>
       </div>
     </div>
@@ -131,6 +133,7 @@ export default {
       selectedEmployee: "placeOrder/upgradeSelectedEmployee",
       selectedDevice: "placeOrder/upgradeSelectedDevice",
       selectedService: "placeOrder/upgradeSelectedService",
+      comment: "placeOrder/upgradeComment",
       changeCarrier: "placeOrder/upgradeChangeCarrier",
       devices: "placeOrder/upgradeDevices",
       services: "placeOrder/upgradeServices",
@@ -150,7 +153,7 @@ export default {
           attributes: {
             status: "New",
             orderType: "UpgradeDevice",
-            userId: this.selectedEmployee.id
+            userId: this.selectedEmployee.id,
           },
           relationships: {
             apps: {
@@ -170,6 +173,10 @@ export default {
 
       if (this.selectedService) {
         orderData.data.attributes["serviceId"] = this.selectedService.id;
+      }
+
+      if (this.comment) {
+        orderData.data.attributes["notes"] = comment;
       }
 
       const addressInPackage = _.find(this.addresses, { ...values });
@@ -230,6 +237,7 @@ export default {
       setEmployee: "placeOrder/setUpgradeSelectedEmployee",
       setDevice: "placeOrder/setUpgradeSelectedDevice",
       setService: "placeOrder/setUpgradeSelectedService",
+      setComment: "placeOrder/setUpgradeComment",
       setChangeCarrier: "placeOrder/setUpgradeChangeCarrier",
       createOrder: "placeOrder/createUpgradeOrder"
     })

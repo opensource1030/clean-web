@@ -14,7 +14,12 @@
       <div v-else class="dashboard-drawer-main">
         <h1 class="text-center">Transfer Wireless Service Liability</h1>
 
-        <steps :steps="steps" :active-step="step" @back="onStepBack" />
+        <steps
+          :steps="steps"
+          :active-step="step"
+          :show-back-button-on-first-step="true"
+          @back="onStepBack"
+        />
 
         <my-details-form v-if="isMyDetailStep" @next="onNextStep" />
 
@@ -82,6 +87,8 @@
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
+          :comment="comment"
+          @change="setComment"
         ></order-summary>
       </div>
     </div>
@@ -147,6 +154,7 @@ export default {
       selectedEmployee: "placeOrder/transferSelectedEmployee",
       selectedDevice: "placeOrder/transferSelectedDevice",
       selectedService: "placeOrder/transferSelectedService",
+      comment: "placeOrder/transferComment",
       needNewDevice: "placeOrder/transferNeedNewDevice",
       details: "placeOrder/transferDetails",
       deviceInfo: "placeOrder/transferDeviceInfo",
@@ -181,6 +189,7 @@ export default {
       setEmployee: "placeOrder/setTransferSelectedEmployee",
       setDevice: "placeOrder/setTransferSelectedDevice",
       setService: "placeOrder/setTransferSelectedService",
+      setComment: "placeOrder/setTransferComment",
       createOrder: "placeOrder/createTransferOrder"
     }),
 
@@ -191,6 +200,8 @@ export default {
     onStepBack() {
       if (this.step > 0) {
         this.setStep(this.step - 1);
+      } else {
+        this.setEmployee(null);
       }
     },
 
@@ -215,7 +226,7 @@ export default {
             status: "New",
             orderType: "TransferServiceLiability",
             userId: this.selectedEmployee.id,
-            notes: _.omit(this.details, "keepExistingService")
+            extraInfo: _.omit(this.details, "keepExistingService")
           },
           relationships: {
             apps: {
@@ -227,6 +238,10 @@ export default {
           }
         }
       };
+
+      if (this.comment) {
+        orderData.data.attributes["notes"] = comment;
+      }
 
       if (!this.details.keepExistingService) {
         orderData.data.attributes.serviceId = this.selectedService.id;
