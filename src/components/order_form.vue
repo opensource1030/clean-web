@@ -1,5 +1,5 @@
 <template>
-  <div class="order-form pt-5">
+  <div class="order-form">
     <div class="order-form-user">
       <div class="order-form-user-avatar">
         <span>{{ userNameInitial }}</span>
@@ -221,8 +221,8 @@ export default {
   color: white;
   height: 100%;
   width: 450px;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding: 2.5rem;
+  min-height: 760px;
 
   &-user {
     display: flex;

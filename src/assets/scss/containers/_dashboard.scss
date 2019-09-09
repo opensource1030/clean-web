@@ -477,6 +477,7 @@
   font-family: Montserrat;
   display: flex;
   height: 100%;
+  overflow-x: hidden;
 
   &-carrier-toggle {
     span {
@@ -491,10 +492,8 @@
     width: 500px;
     height: 100%;
     background-color: white;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    overflow-x: hidden;
-    padding-top: 2rem;
+    padding: 2.5rem; 
+    overflow-x: hidden; 
 
     h1 {
       color: #1f2027;
