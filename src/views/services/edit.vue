@@ -29,8 +29,9 @@
                 <div class="row">
                   <div class="col-sm-5">
                     <label>Plan Code</label>
-                    <b-form-input type="text" class="form-control" :value="serviceDetails.code"
+                    <b-form-input v-model="serviceDetails.code" :state="validators.planCodeError" type="text" class="form-control" :value="serviceDetails.code"
                                   @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})" />
+                    <p v-if="validators.planCodeError === false" class="mb-0 mt-2 text-danger">Number must be between 0 and 999.999</p>
                   </div>
                   <div class="col-sm-4">
                     <label>Cost</label>

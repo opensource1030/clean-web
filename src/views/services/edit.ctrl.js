@@ -19,6 +19,9 @@ export default {
       planCarrier: null,
       checker: null,
       isLoading: true,
+      validators: {
+        planCodeError: null
+      }
     }
   },
 
@@ -29,7 +32,15 @@ export default {
       internationalPlan: 'service/getInternationalPlan',
       addons: 'service/getAddons',
       carriers: 'carrier/sorted'
-    })
+    }),
+    // validators() {
+    //   return {
+    //     planCode: {
+    //       value: this.$store.state.service.serviceDetails.code,
+    //       error: null,
+    //     }
+    //   }
+    // }
   },
 
   created() {
@@ -49,6 +60,12 @@ export default {
 
   methods: {
     save() {
+
+      if (parseInt(this.serviceDetails.code) > 999999) {
+        this.validators.planCodeError = false
+        return
+      }
+
       let self = this
       let valid = ServiceHelper.validateFields(self.serviceDetails, self.addons)
 
