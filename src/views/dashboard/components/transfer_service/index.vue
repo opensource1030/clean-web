@@ -240,7 +240,7 @@ export default {
       };
 
       if (this.comment) {
-        orderData.data.attributes["notes"] = comment;
+        orderData.data.attributes["notes"] = this.comment;
       }
 
       if (!this.details.keepExistingService) {

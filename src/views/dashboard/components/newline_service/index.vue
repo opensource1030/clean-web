@@ -210,6 +210,10 @@ export default {
         }
       };
 
+      if (this.comment) {
+        orderData.data.attributes["notes"] = this.comment;
+      }
+
       if (this.needNewDevice) {
         orderData.data.relationships.devicevariations.data.push({
           type: "devicevariations",
@@ -217,8 +221,6 @@ export default {
         });
 
         const addressInPackage = _.find(this.addresses, { ...values });
-
-        console.log('newline_service/onSubmit', values, addressInPackage);
 
         if (addressInPackage) {
           orderData.data.attributes["addressId"] = addressInPackage.id;
@@ -246,13 +248,6 @@ export default {
           ...orderData.data.attributes,
           ...this.deviceInfo
         };
-      }
-
-      if (this.comment) {
-        orderData.data.attributes["notes"] = comment;
-      }
-
-      const addressInPackage = _.find(this.addresses, { ...values });
 
         this.placeOrder(orderData);
       }

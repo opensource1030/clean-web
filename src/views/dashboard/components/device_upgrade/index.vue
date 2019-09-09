@@ -176,7 +176,7 @@ export default {
       }
 
       if (this.comment) {
-        orderData.data.attributes["notes"] = comment;
+        orderData.data.attributes["notes"] = this.comment;
       }
 
       const addressInPackage = _.find(this.addresses, { ...values });
