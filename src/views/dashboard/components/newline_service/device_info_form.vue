@@ -48,7 +48,7 @@
           <div class="item">
             <label>Need a new sim?</label>
             <div>
-              <toggle :active="needNewSim" @change="setNeedNewSim"></toggle>
+              <toggle :active="form.needNewSim" @change="setNeedNewSim"></toggle>
             </div>
           </div>
         </div>
@@ -84,7 +84,8 @@ export default {
       form: {
         deviceImei: null,
         deviceCarrier: null,
-        deviceSim: null
+        deviceSim: null,
+        needNewSim: false
       }
     };
   },
@@ -96,37 +97,34 @@ export default {
   computed: {
     ...mapGetters({
       deviceInfo: "placeOrder/newlineDeviceInfo",
-      needNewSim: "placeOrder/newlineNeedNewSim"
     })
   },
 
   methods: {
     ...mapActions({
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
-      setNeedNewSim: "placeOrder/setNewlineNeedNewSim"
     }),
 
+    setNeedNewSim(needNewSim) {
+      this.form.needNewSim = needNewSim;
+    },
+
     validateBeforeSubmit() {
-      if (!this.needNewSim) {
-        this.$emit("next");
-        return;
-      } else {
-        this.$validator.validateAll().then(result => {
-          if (result) {
-            let values = {};
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          let values = {};
 
-            Object.keys(this.form).forEach(key => {
-              if (!!this.form[key]) {
-                values[key] = this.form[key];
-              }
-            });
+          Object.keys(this.form).forEach(key => {
+            if (!!this.form[key]) {
+              values[key] = this.form[key];
+            }
+          });
 
-            this.setDeviceInfo(this.form);
-            this.$emit("next");
-            return;
-          }
-        });
-      }
+          this.setDeviceInfo(this.form);
+          this.$emit("next");
+          return;
+        }
+      });
     }
   }
 };

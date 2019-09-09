@@ -258,7 +258,7 @@
                   @click="$router.push({ path: '/dashboard/newline-service' })"
                 >
                   <div class="d-flex">
-                    <i class="fas fa-rocket"></i>
+                    <img src="@/assets/images/ic_rocket.svg">
                   </div>
                   <div class="media-body">
                     <div>
@@ -273,7 +273,7 @@
                   @click="$router.push({ path: '/dashboard/transfer-service' })"
                 >
                   <div class="d-flex">
-                    <i class="fas fa-exchange"></i>
+                    <img src="@/assets/images/ic_transfer.svg">
                   </div>
                   <div class="media-body">
                     <div>
@@ -287,7 +287,7 @@
                   v-if="$store.state.feature.enabled_dashboard_procure_accessories"
                 >
                   <div class="d-flex">
-                    <i class="fas fa-headphones"></i>
+                    <img src="@/assets/images/ic_headphones.svg">
                   </div>
                   <div class="media-body">
                     <div>
@@ -321,15 +321,15 @@
                     </div>
                     <div>
                       <div class="row right-tag">
-                        <div class="col border-right">
+                        <div class="col-auto border-right">
                           <label>BILL MONTH</label>
                           <div>{{ activeAllocation.bill_month | cleanDate }}</div>
                         </div>
-                        <div class="col border-right">
+                        <div class="col-auto border-right">
                           <label>CYCLE DATES</label>
                           <div>N/A</div>
                         </div>
-                        <div class="col">
+                        <div class="col-auto">
                           <label>LAST UPGRADE</label>
                           <div
                             v-if="activeAllocation.last_upgrade"
@@ -445,7 +445,7 @@
         </div>
 
         <order-confirm-modal
-          :visible="upgradeHasOrder || transferHasOrder"
+          :visible="hasOrder"
           @close="closeConfirmModal"
         ></order-confirm-modal>
       </div>
@@ -468,22 +468,6 @@
           </div>
         </div>
       </drawer>
-
-      <!-- <div class="contact-container">
-        <div class="row">
-          <div class="col-lg-3">
-            <h4 class="mb-3">Support Information</h4>
-          </div>
-          <div class="col-lg-9" v-html="_.get(clientInfo.data, 'metadata.support_information', '')"></div>
-        </div>
-      </div>-->
-
-      <!-- <device-bill-info
-        :toggleServiceInfoDrawer="toggleServiceInfoDrawer"
-        :onChangeTicketIssue="onChangeTicketIssue"
-        :activeAllocation="activeAllocation"
-        :userInfo="userInfo"
-      ></device-bill-info>-->
 
       <router-view></router-view>
     </div>

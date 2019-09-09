@@ -240,6 +240,8 @@ export default {
 
         const addressInPackage = _.find(this.addresses, { ...values });
 
+        // console.log('transfer_service/onSubmit', values, addressInPackage);
+
         if (addressInPackage) {
           orderData.data.attributes["addressId"] = addressInPackage.id;
           this.placeOrder(orderData);
