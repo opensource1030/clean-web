@@ -42,10 +42,10 @@
       <b-form @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
-            <label>Address</label>
+            <label>Address *</label>
             <div>
               <b-input name="address" v-model="form.address" v-validate="'required'"></b-input>
-              <span v-show="errors.has('address')" class="error">Requird</span>
+              <span v-show="errors.has('address')" class="error">Required</span>
             </div>
           </div>
         </div>
@@ -55,14 +55,14 @@
             <label>Address 2</label>
             <div>
               <b-input name="address2" v-model="form.address2"></b-input>
-              <span v-show="errors.has('address2')" class="error">Requird</span>
+              <span v-show="errors.has('address2')" class="error">Required</span>
             </div>
           </div>
         </div>
 
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('country') }">
-            <label>Country</label>
+            <label>Country *</label>
             <div>
               <select
                 v-if="addresses.length > 0"
@@ -74,11 +74,11 @@
               </select>
 
               <b-input v-else name="country" v-model="form.country"></b-input>
-              <span v-show="errors.has('country')" class="error">Requird</span>
+              <span v-show="errors.has('country')" class="error">Required</span>
             </div>
           </div>
           <div class="col item" :class="{'is-danger': errors.has('postalCode') }">
-            <label>Zip code</label>
+            <label>Zip code *</label>
             <div>
               <b-input name="postalCode" v-model="form.postalCode" v-validate="'required'"></b-input>
               <span v-show="errors.has('postalCode')" class="error">Required</span>
@@ -88,14 +88,14 @@
 
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('city') }">
-            <label>City</label>
+            <label>City *</label>
             <div>
               <b-input name="city" v-model="form.city" v-validate="'required'"></b-input>
               <span v-show="errors.has('city')" class="error">Required</span>
             </div>
           </div>
           <div class="col item" :class="{'is-danger': errors.has('state') }">
-            <label>State</label>
+            <label>State *</label>
             <div>
               <select
                 name="state"
