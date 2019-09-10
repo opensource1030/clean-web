@@ -107,6 +107,7 @@ textarea {
     user-select: none;
 
     img {
+      flex: 1;
       max-width: 100%;
       max-height: 100%;
     }
