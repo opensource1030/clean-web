@@ -2,7 +2,10 @@
   <div class="drawer" v-bind:class="{ open: open }">
     <div class="drawer-mask" @click="onClose()"></div>
 
-    <transition name="slide">
+    <!-- <transition name="custom-classes-transition"
+                enter-active-class="animated bounceRight"
+                leave-active-class="animated bounceOutRight"> -->
+    <transition name="bounceRight">
       <div v-if="open" class="drawer-content">
         <slot></slot>
       </div>
@@ -81,16 +84,26 @@ export default {
   }
 }
 
-.slide-leave-active,
-.slide-enter-active {
-  transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
-}
+// .slide-leave-active,
+// .slide-enter-active {
+//   // -ms-transition-property: transform;
+//   // -ms-transition-timing-function: linear; 
+//   // -ms-transition-duration: 0.3s;
 
-.slide-enter {
-  transform: translateX(100%);
-}
+//   transition-property: right;
+//   transition-timing-function: linear; 
+//   transition-duration: 0.3s;
+//   //transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 
-.slide-leave-to {
-  transform: translateX(100%);
-}
+// }
+
+// .slide-enter {
+//   //-ms-transform: translateX(100%);
+//   right: -600px;
+// }
+
+// .slide-leave-to {
+//   //-ms-transform: translateX(100%);
+//   right: -600px;
+// }
 </style>
