@@ -11,6 +11,7 @@ const initialUpgradeData = {
   selectedService: null,
   selectedDevice: null,
   changeCarrier: false,
+  comment: null,
   hasOrder: false,
 }
 
@@ -19,6 +20,7 @@ const initialNewlineData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  comment: null,
   details: {
     carrierInfo: null,
     wirelessNo: null,
@@ -48,12 +50,12 @@ const initialTransferData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  comment: null,
   details: {
     carrierInfo: null,
     wirelessNo: null,
     accountName: null,
-    billingName: null,
-    billingAccount: null,
+    accountNumber: null,
     billingPassword: null,
     keepExistingService: false,
   },
@@ -189,6 +191,10 @@ const getters = {
     return allAddresses
   },
 
+  upgradeComment: state => {
+    return state.upgrade.comment
+  },
+
   // New Line of Service
 
   newlineStep: state => {
@@ -274,6 +280,10 @@ const getters = {
     return allAddresses
   },
 
+  newlineComment: state => {
+    return state.newline.comment
+  },
+
   // Transfer
 
   transferStep: state => {
@@ -347,6 +357,10 @@ const getters = {
     })
 
     return allAddresses
+  },
+
+  transferComment: state => {
+    return state.transfer.comment
   },
 }
 
@@ -458,6 +472,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER, hasOrder)
   },
 
+  setUpgradeComment({ commit }, comment) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_COMMENT, comment)
+  },
+
   // New Line of Service
 
   setNewlineStep({ commit }, step) {
@@ -500,6 +518,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_HAS_ORDER, hasOrder)
   },
 
+  setNewlineComment({ commit }, comment) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_COMMENT, comment)
+  },
+
   // Transfer
 
   setTransferStep({ commit }, step) {
@@ -536,6 +558,10 @@ const actions = {
 
   setTransferHasOrder({ commit }, hasOrder) {
     commit(types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER, hasOrder)
+  },
+
+  setTransferComment({ commit }, comment) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_COMMENT, comment)
   },
 
   /* getPackageServices({ dispatch, commit, state }, packageId) {
@@ -716,6 +742,10 @@ const mutations = {
     state.upgrade.hasOrder = hasOrder
   },
 
+  [types.PLACE_ORDER_SET_UPGRADE_COMMENT](state, comment) {
+    state.upgrade.comment = comment
+  },
+
   [types.PLACE_ORDER_RESET_UPGRADE](state) {
     state.upgrade = {
       ...state.upgrade,
@@ -761,6 +791,10 @@ const mutations = {
     state.newline.hasOrder = hasOrder
   },
 
+  [types.PLACE_ORDER_SET_NEWLINE_COMMENT](state, comment) {
+    state.newline.comment = comment
+  },
+
   [types.PLACE_ORDER_RESET_NEWLINE](state) {
     state.newline = {
       ...state.newline,
@@ -804,6 +838,10 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER](state, hasOrder) {
     state.transfer.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_COMMENT](state, comment) {
+    state.transfer.comment = comment
   },
 
   [types.PLACE_ORDER_RESET_TRANSFER](state) {

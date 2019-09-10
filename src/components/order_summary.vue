@@ -34,6 +34,13 @@
         <span class="font-weight-bold">${{ total }}</span>
       </div>
     </div>
+
+    <div class="mt-4">
+      <textarea
+        placeholder="Comment..."
+        @change="onCommentChange"
+      >{{ comment }}</textarea>
+    </div>
   </div>
 </template>
 
@@ -43,7 +50,7 @@ import _ from "lodash";
 export default {
   name: "OrderSummary",
 
-  props: ["device", "service"],
+  props: ["device", "service", "comment"],
 
   computed: {
     deviceModification() {
@@ -59,6 +66,12 @@ export default {
 
       return servicePrice + devicePrice;
     }
+  },
+
+  methods: {
+    onCommentChange(event) {
+      this.$emit('change', event.target.value);
+    },
   }
 };
 </script>
@@ -68,6 +81,18 @@ h1 {
   color: #1f2027;
   font-size: 12px;
   font-weight: bold;
+}
+
+textarea {
+  font-size: 10px;
+  border: 0.75px solid #afbad4;
+  border-radius: 4px;
+  width: 100%;
+  padding: 0.5rem;
+  height: 60px;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
 }
 
 .device-info {
@@ -82,6 +107,7 @@ h1 {
     user-select: none;
 
     img {
+      flex: 1;
       max-width: 100%;
       max-height: 100%;
     }
