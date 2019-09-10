@@ -273,11 +273,12 @@ export default {
     display: flex;
     flex-direction: column;
     margin-left: auto;
+    min-width: 120px;
 
     &-item {
       display: flex;
-      align-items: baseline; 
-      min-width: 90px;
+      align-items: baseline;
+      white-space: nowrap;
 
       span {
         width: 50%;
@@ -287,12 +288,17 @@ export default {
       span:last-child {
         font-weight: 600;
         font-size: 12px;
-        margin-left: 10px;
+        padding-left: 5px;
+        text-align: start;
       }
 
       b {
         color: #1f2027;
       }
+    }
+
+    &-not-available {
+      text-align: end;
     }
   }
 }
