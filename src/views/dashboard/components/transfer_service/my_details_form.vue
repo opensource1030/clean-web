@@ -35,7 +35,10 @@
 
           <div class="row mb-3">
             <div class="col item" :class="{'is-danger': errors.has('accountName') }">
-              <label>Account Name *</label>
+              <label class="d-flex align-items-center">
+                Account Name *
+                <help-pop helpText="Name of person or business the account belongs to" />
+              </label>
               <div>
                 <b-input name="accountName" v-model="form.accountName" v-validate="'required'"></b-input>
                 <span v-show="errors.has('accountName')" class="error">Requird</span>
@@ -44,25 +47,18 @@
           </div>
 
           <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('billingName') }">
-              <label>Billing Name *</label>
-              <div>
-                <b-input name="billingName" v-model="form.billingName" v-validate="'required'"></b-input>
-                <span v-show="errors.has('billingName')" class="error">Requird</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('billingAccount') }">
-              <label>Billing Account *</label>
+            <div class="col item" :class="{'is-danger': errors.has('accountNumber') }">
+              <label class="d-flex align-items-center">
+                Account Number *
+                <help-pop helpText="Number that identifies your account for billing purposes" />
+              </label>
               <div>
                 <b-input
-                  name="billingAccount"
-                  v-model="form.billingAccount"
+                  name="accountNumber"
+                  v-model="form.accountNumber"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('billingAccount')" class="error">Requird</span>
+                <span v-show="errors.has('accountNumber')" class="error">Requird</span>
               </div>
             </div>
           </div>
@@ -143,8 +139,7 @@ export default {
         carrierInfo: null,
         wirelessNo: null,
         accountName: null,
-        billingName: null,
-        billingAccount: null,
+        accountNumber: null,
         billingPassword: null,
         keepExisitingService: false
       },

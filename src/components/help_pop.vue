@@ -1,8 +1,8 @@
 <template>
   <div class="help-pop">
-    <b-button id="help-pop-button" variant="primary">?</b-button>
+    <b-button :id="id" variant="primary">?</b-button>
     <b-popover
-      target="help-pop-button"
+      :target="id"
       :placement="placement"
       triggers="hover focus"
       :content="helpText"
@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import uuid from "uuid/v1";
+
 export default {
   name: "HelpPop",
 
@@ -23,6 +25,16 @@ export default {
       type: String,
       required: true
     }
+  },
+
+  data() {
+    return {
+      id: 'help-pop-button',
+    }
+  },
+
+  created() {
+    this.id = uuid();
   }
 };
 </script>
