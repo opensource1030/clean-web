@@ -9,7 +9,7 @@
   >
     <div class="container">
       <div class="row">
-        <div class="col">
+        <div class="col pt-4 pl-3 pr-0">
           <h1>Thank You!</h1>
           <p>
             Your order has been submitted.
@@ -17,7 +17,9 @@
           </p>
           <b-btn variant="default" @click="closeModal">Got it!</b-btn>
         </div>
-        <div class="col"></div>
+        <div class="col p-0">
+          <img src="@/assets/images/confirm_modal_thank.svg" alt="Thank you">
+        </div>
       </div>
     </div>
   </b-modal>
@@ -42,7 +44,7 @@ export default {
   font-family: Montserrat;
 
   .modal-body {
-    padding: 3rem;
+    padding: 2rem 0rem 0rem 2rem;
   }
 
   .modal-content {
@@ -51,6 +53,7 @@ export default {
   }
 
   h1 {
+    color: #1f2027;
     font-size: 24px;
     font-weight: 600;
     line-height: 29px;
@@ -67,6 +70,14 @@ export default {
     margin-top: 53px;
     padding: 6px 25px;
     font-size: 12px;
+  }
+}
+
+@media (min-width: 992px) {
+  .confirm-modal {
+    .modal-lg, .modal-xl  {
+      max-width: 700px;
+    }
   }
 }
 </style>

@@ -15,12 +15,8 @@
           {{ details.accountName }}
         </div>
         <div>
-          <label>Billing Name:</label>
-          {{ details.billingName }}
-        </div>
-        <div>
-          <label>Billing Account:</label>
-          {{ details.billingAccount }}
+          <label>Account Number:</label>
+          {{ details.accoutNumber }}
         </div>
         <div>
           <label>Billing Password:</label>

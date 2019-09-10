@@ -61,6 +61,8 @@
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
+          :comment="comment"
+          @change="setComment"
         ></order-summary>
       </div>
     </div>
@@ -119,6 +121,7 @@ export default {
       selectedEmployee: "placeOrder/newlineSelectedEmployee",
       selectedDevice: "placeOrder/newlineSelectedDevice",
       selectedService: "placeOrder/newlineSelectedService",
+      comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
       needNewDevice: "placeOrder/newlineNeedNewDevice",
       needNewSim: "placeOrder/newlineNeedNewSim",
@@ -154,6 +157,7 @@ export default {
       setEmployee: "placeOrder/setNewlineSelectedEmployee",
       setDevice: "placeOrder/setNewlineSelectedDevice",
       setService: "placeOrder/setNewlineSelectedService",
+      setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
       setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
@@ -206,6 +210,10 @@ export default {
         }
       };
 
+      if (this.comment) {
+        orderData.data.attributes["notes"] = this.comment;
+      }
+
       if (this.needNewDevice) {
         orderData.data.relationships.devicevariations.data.push({
           type: "devicevariations",
@@ -213,8 +221,6 @@ export default {
         });
 
         const addressInPackage = _.find(this.addresses, { ...values });
-
-        console.log('newline_service/onSubmit', values, addressInPackage);
 
         if (addressInPackage) {
           orderData.data.attributes["addressId"] = addressInPackage.id;

@@ -307,10 +307,7 @@
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
                       <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
-                      <div
-                        class="mt-3"
-                        v-if="$store.state.feature.enabled_dashboard_procure_new_device"
-                      >
+                      <div class="mt-3">
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
                         <b-btn
                           v-else
