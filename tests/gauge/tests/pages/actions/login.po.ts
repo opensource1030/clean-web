@@ -35,11 +35,16 @@ export default class LoginPage extends AbstractPage {
           email = Constants.GLOBAL_ADMIN_EMAIL;
           break;
       }
+      case 'Dashboard User': {
+          email = Constants.DASHBOARD_USER_EMAIL;
+          break;
+    }
     }
     // // Below code for login with company email verification site
+    await this.sleep(2);
     await this.inputIntoEmail(email);
     await this.clickSignInButton();
-    await this.sleep(5);
+    await this.sleep(3);
 
     await this.inputIntoPassword(Constants.PASSWORD);
     await this.clickSignInButton();

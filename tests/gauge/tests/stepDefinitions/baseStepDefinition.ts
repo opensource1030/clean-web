@@ -6,7 +6,7 @@ export default class BaseStepDefinition {
     @BeforeScenario()
     public async specSetup() {
         await openBrowser({
-            headless: true,
+            headless: false,
             args: ['--window-size=1368,768']
         });
         console.log("Setup needs to done before running the Scenario");
@@ -19,7 +19,7 @@ export default class BaseStepDefinition {
 
     @Step("Navigate to <url>")
     public async navigateToUrl(url: string) {
-        await goto(url);
+        await goto(url, {timeout: 80000});
     }
 
 }
