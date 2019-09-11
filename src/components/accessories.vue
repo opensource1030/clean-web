@@ -3,7 +3,7 @@
     <h5 class="mb-3">Accessories that go with the device:</h5>
 
     <div class="row">
-      <div v-for="accessory of selectedAccessories" class="col-6">
+      <div v-for="accessory of deviceAccessories" class="col-6">
         <div class="accessory-in-device mb-2">
           <img class="accessory-thumb" :src="accessory.thumb" />
           <span class="accessory-name">{{ accessory.name }}</span>
@@ -44,7 +44,7 @@ import _ from "lodash";
 export default {
   name: "Accessories",
 
-  props: ["availableAccessories", "selectedAccessories"],
+  props: ["deviceAccessories", "availableAccessories", "selectedAccessories"],
 
   methods: {
     isSelectedAccessory(accessory) {

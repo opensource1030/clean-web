@@ -33,6 +33,7 @@
           <devices
             :devices="devices"
             :selected-device="selectedDevice"
+            :device-accessories="deviceAccessories"
             :available-accessories="availableAccessories"
             :selected-accessories="selectedAccessories"
             @requestDevice="onNextStep"
@@ -136,6 +137,7 @@ export default {
       selectedEmployee: "placeOrder/upgradeSelectedEmployee",
       selectedDevice: "placeOrder/upgradeSelectedDevice",
       selectedService: "placeOrder/upgradeSelectedService",
+      deviceAccessories: "placeOrder/upgradeDeviceAccessories",
       availableAccessories: "placeOrder/upgradeAvailableAccessories",
       selectedAccessories: "placeOrder/upgradeSelectedAccessories",
       comment: "placeOrder/upgradeComment",

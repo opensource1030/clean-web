@@ -14,8 +14,9 @@
     </b-tabs>
     <accessories
       v-if="currentStep === 'accessory'"
-      :availableAccessories="availableAccessories"
-      :selectedAccessories="selectedAccessories"
+      :device-accessories="deviceAccessories"
+      :available-accessories="availableAccessories"
+      :selected-accessories="selectedAccessories"
       @selectAccessory="onSelectAccessory"
       @continue="onContinue"
     />
@@ -38,6 +39,7 @@ export default {
   props: [
     "devices",
     "selectedDevice",
+    "deviceAccessories",
     "availableAccessories",
     "selectedAccessories"
   ],

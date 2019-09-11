@@ -16,6 +16,7 @@ const initialUpgradeData = {
   selectedDevice: null,
   selectedAccessories: [
     { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    { id: 2, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
     { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
     { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
   ],
@@ -212,7 +213,14 @@ const getters = {
     return state.upgrade.comment
   },
 
-  upgradeAvailableAccessories: state => {
+  upgradeDeviceAccessories: () => {
+    return [
+      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    ]
+  },
+
+  upgradeAvailableAccessories: () => {
     return [
       { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
       { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
