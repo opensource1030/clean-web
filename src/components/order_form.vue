@@ -107,7 +107,7 @@
                 <option v-for="state of states" :value="state">{{ state }}</option>
               </select>
 
-              <b-input v-else name="country" v-model="form.country"></b-input>
+              <b-input v-else name="state" v-model="form.state"></b-input>
               <span v-show="errors.has('state')" class="error">Required</span>
             </div>
           </div>
