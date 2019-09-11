@@ -7,16 +7,15 @@
           :key="variations.id"
           :variations="variations"
           :initial-value="getInitialValue(variations)"
-          @requestDevice="onContinue"
+          @requestDevice="onRequestDevice"
           @selectDevice="onSelectDevice"
         />
       </b-tab>
     </b-tabs>
     <accessories
       v-if="currentStep === 'accessory'"
-      :device-accessories="deviceAccessories"
-      :available-accessories="availableAccessories"
-      :selected-accessories="selectedAccessories"
+      :availableAccessories="availableAccessories"
+      :selectedAccessories="selectedAccessories"
       @selectAccessory="onSelectAccessory"
       @continue="onContinue"
     />
@@ -39,7 +38,6 @@ export default {
   props: [
     "devices",
     "selectedDevice",
-    "deviceAccessories",
     "availableAccessories",
     "selectedAccessories"
   ],
