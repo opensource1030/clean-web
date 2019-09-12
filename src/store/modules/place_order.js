@@ -14,12 +14,7 @@ const initialUpgradeData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
-  selectedAccessories: [
-    { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 2, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-  ],
+  selectedAccessories: [],
   changeCarrier: false,
   comment: null,
   hasOrder: false,
@@ -146,8 +141,8 @@ const getters = {
 
     state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) == -1) {
+        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (deviceType != 'Accessory') {
           allDevices.push({ ...variation, packageId: id })
         }
       })
@@ -163,9 +158,9 @@ const getters = {
 
     state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) > -1) {
-          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (deviceType == 'Accessory') {
+          allAccessories.push({ ...variation, deviceType, packageId: id })
         }
       })
     })
@@ -213,22 +208,20 @@ const getters = {
     return state.upgrade.comment
   },
 
-  upgradeDeviceAccessories: () => {
-    return [
-      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    ]
-  },
-
   upgradeAvailableAccessories: () => {
-    return [
-      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 4, name: 'Accessory 4', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 6, name: 'Accessory 6', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    ]
+    let allAccessories = []
+
+    state.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (deviceType == 'Accessory') {
+          console.log(variation)
+          allAccessories.push({ ...variation, deviceType, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories
   },
 
   upgradeSelectedAccessories: state => {

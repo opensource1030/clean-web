@@ -1,6 +1,6 @@
 <template>
   <div class="accessories pt-5">
-    <h5 class="mb-3">Accessories that go with the device:</h5>
+    <!-- <h5 class="mb-3">Accessories that go with the device:</h5>
 
     <div class="row">
       <div v-for="accessory of deviceAccessories" class="col-6">
@@ -9,9 +9,9 @@
           <span class="accessory-name">{{ accessory.name }}</span>
         </div>
       </div>
-    </div>
+    </div>-->
 
-    <h5 class="mt-5 mb-3">Need any additional accessories?</h5>
+    <h5 class="mb-3">Need any additional accessories?</h5>
 
     <div class="row">
       <div v-for="accessory of availableAccessories" class="col-4">
@@ -44,7 +44,7 @@ import _ from "lodash";
 export default {
   name: "Accessories",
 
-  props: ["deviceAccessories", "availableAccessories", "selectedAccessories"],
+  props: ["availableAccessories", "selectedAccessories"],
 
   methods: {
     isSelectedAccessory(accessory) {
