@@ -24,21 +24,24 @@ function initialState() {
         domain: "domestic",
         category: "voice",
         value: 0,
-        unit: "minutes"
+        unit: "minutes",
+        unlimited: false
       },
       data: {
         id: 0,
         domain: "domestic",
         category: "data",
         value: 0,
-        unit: 'Gb'
+        unit: 'Gb',
+        unlimited: false
       },
       sms: {
         id: 0,
         domain: "domestic",
         category: "messaging",
         value: 0,
-        unit: "messages"
+        unit: "messages",
+        unlimited: false
       }
     },
     internationalPlan: {
@@ -47,21 +50,24 @@ function initialState() {
         domain: "international",
         category: "voice",
         value: 0,
-        unit: "minutes"
+        unit: "minutes",
+        unlimited: false
       },
       data: {
         id: 0,
         domain: "international",
         category: "data",
         value: 0,
-        unit: 'Gb'
+        unit: 'Gb',
+        unlimited: false
       },
       sms: {
         id: 0,
         domain: "international",
         category: "messaging",
         value: 0,
-        unit: "messages"
+        unit: "messages",
+        unlimited: false
       }
     },
     addons: [
@@ -270,6 +276,24 @@ const mutations = {
     }
   },
 
+  updateUnlimitedDomesticplan (state, { e, type }) {
+
+      state.domesticPlan[type].unlimited = !state.domesticPlan[type].unlimited
+
+      if (state.domesticPlan[type].unlimited) {
+        state.domesticPlan[type].value = 999999
+        if (type == "data") {
+          state.domesticPlan[type].unit = "Tb"
+        }
+      } else {
+        state.domesticPlan[type].value = 0
+        if (type == "data") {
+          state.domesticPlan[type].unit = "Mb"
+        }
+      }
+      
+  },
+
   updateInternationalplan (state, { e, type }) {
     if (type == "unit") {
       state.internationalPlan.data[type] = e;
@@ -277,6 +301,24 @@ const mutations = {
       state.internationalPlan[type].value = e;
     }
   },
+
+  updateUnlimitedInternationalplan (state, { e, type }) {
+
+    state.internationalPlan[type].unlimited = !state.internationalPlan[type].unlimited
+
+    if (state.internationalPlan[type].unlimited) {
+      state.internationalPlan[type].value = 999999
+      if (type == "data") {
+        state.internationalPlan[type].unit = "Tb"
+      }
+    } else {
+      state.internationalPlan[type].value = 0
+      if (type == "data") {
+        state.internationalPlan[type].unit = "Mb"
+      }
+    }
+    
+},
 
   updateAddon(state, {i, e, type}) {
     if (type == 'name') {

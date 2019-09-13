@@ -37,11 +37,13 @@
                   <div class="col-sm-4">
                     <label>Cost</label>
                     <b-form-input type="text" class="form-control"
-                      :state="formValidators.flags.costErr"
+                      name="cost-field"
                       :value="serviceDetails.cost"
                       @input="$store.commit('service/updateServiceDetail',{e:$event,type:'cost'})"
+                      :state="!(veeErrors.has('cost-field')) ? null : false"
+                      v-validate="{ required: true, min_value:0, max_value: 999999 }"
                     />
-                    <p v-if="formValidators.flags.costErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
+                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('cost-field')">{{veeErrors.first('cost-field')}}</p>
                   </div>
                   <div class="col-sm-3">
                     <label>Currency</label>
@@ -105,19 +107,21 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
+                    name="domesticPlan-minutes"
                     :value="domesticPlan.minutes.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'minutes'})"
-                    :state="formValidators.flags.domesticMinutesErr"
-                    :disabled="!unlimitedSwitches.domesticMinutes"
+                    :state="!(veeErrors.has('domestic-minutes-field')) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :disabled="domesticPlan.minutes.unlimited"
                     />
-                    <p v-if="formValidators.flags.domesticMinutesErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-minutes')">{{veeErrors.first('domesticPlan-minutes')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited Minutes</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.domesticMinutes"
-                    @change="unlimitedSwitches.domesticMinutes = !unlimitedSwitches.domesticMinutes"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'minutes'}); unlimitedValidation('domesticPlan', 'minutes');"
+                    :checked="domesticPlan.minutes.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -128,10 +132,12 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
+                    name="domesticPlan-data"
                     :value="domesticPlan.data.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})"
-                    :state="formValidators.flags.domesticDataErr"
-                    :disabled="!unlimitedSwitches.domesticData"
+                    :state="!(veeErrors.has('domestic-data-field')) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :disabled="domesticPlan.data.unlimited"
                     />
                   <multiselect
                     placeholder="Unit"
@@ -140,14 +146,14 @@
                     :show-labels="false"
                     :value="domesticPlan.data.unit"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" />
-                  <p v-if="formValidators.flags.domesticDataErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-data')">{{veeErrors.first('domesticPlan-data')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited Data</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.domesticData"
-                    @change="unlimitedSwitches.domesticData = !unlimitedSwitches.domesticData"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'data'}); unlimitedValidation('domesticPlan', 'data');"
+                    :checked="domesticPlan.data.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -158,19 +164,21 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
+                    name="domesticPlan-sms"
                     :value="domesticPlan.sms.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'sms'})"
-                    :disabled="!unlimitedSwitches.domesticSMS"
-                    :state="formValidators.flags.domesticSMSErr"
+                    :state="!(veeErrors.has('domestic-sms-field')) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :disabled="domesticPlan.sms.unlimited"
                   />
-                  <p v-if="formValidators.flags.domesticSMSErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-sms')">{{veeErrors.first('domesticPlan-sms')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited SMS</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.domesticSMS"
-                    @change="unlimitedSwitches.domesticSMS = !unlimitedSwitches.domesticSMS"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'sms'}); unlimitedValidation('domesticPlan', 'sms');"
+                    :checked="domesticPlan.sms.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -193,19 +201,21 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
+                    name="internationalPlan-minutes"
                     :value="internationalPlan.minutes.value"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'minutes'})"
-                    :state="formValidators.flags.internationalMinutesErr"
-                    :disabled="!unlimitedSwitches.internationalMinutes"
+                    :state="!(veeErrors.has('internationalPlan-minutes')) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :disabled="internationalPlan.minutes.unlimited"
                   />
-                  <p v-if="formValidators.flags.internationalMinutesErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-minutes')">{{veeErrors.first('internationalPlan-minutes')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited Minutes</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.internationalMinutes"
-                    @change="unlimitedSwitches.internationalMinutes = !unlimitedSwitches.internationalMinutes"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'minutes'}); unlimitedValidation('internationalPlan', 'minutes');"
+                    :checked="internationalPlan.minutes.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -215,11 +225,14 @@
                   <b-input-group-prepend>
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
-                  <b-form-input type="number" class="form-control" :value="internationalPlan.data.value"
+                  <b-form-input type="number" class="form-control"
+                    name="internationalPlan-data"
+                    :value="internationalPlan.data.value"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})"
-                    :disabled="!unlimitedSwitches.internationalData"
-                    :state="formValidators.flags.internationalDataErr"
-                                />
+                    :disabled="internationalPlan.data.unlimited"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :state="!(veeErrors.has('internationalPlan-data')) ? null : false"
+                  />
                   <multiselect
                     placeholder="Unit"
                     :options="dataUnit"
@@ -227,14 +240,14 @@
                     :show-labels="false"
                     :value="internationalPlan.data.unit"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" />
-                  <p v-if="formValidators.flags.internationalDataErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-data')">{{veeErrors.first('internationalPlan-data')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited Data</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.internationalData"
-                    @change="unlimitedSwitches.internationalData = !unlimitedSwitches.internationalData"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'data'}); unlimitedValidation('internationalPlan', 'data');"
+                    :checked="internationalPlan.data.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -244,19 +257,22 @@
                   <b-input-group-prepend>
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
-                  <b-form-input type="number" class="form-control" :value="internationalPlan.sms.value"
+                  <b-form-input type="number" class="form-control"
+                    :value="internationalPlan.sms.value"
+                    name="internationalPlan-sms"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'sms'})"
-                    :state="formValidators.flags.internationalSMSErr"
-                    :disabled="!unlimitedSwitches.internationalSMS"
+                    :state="!(veeErrors.has('internationalPlan-sms')) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
+                    :disabled="internationalPlan.sms.unlimited"
                     />
-                  <p v-if="formValidators.flags.internationalSMSErr === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-sms')">{{veeErrors.first('internationalPlan-sms')}}</p>
                 <div class="d-flex">
                   <label class="block">Unlimited SMS</label>
-                  <c-switch
-                    color="primary"
-                    :checked="unlimitedSwitches.internationalSMS"
-                    @change="unlimitedSwitches.internationalSMS = !unlimitedSwitches.internationalSMS"
+                  <b-form-checkbox
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'sms'}); unlimitedValidation('internationalPlan', 'sms');"
+                    :checked="internationalPlan.sms.unlimited"
+                    switch
                   />
                 </div>
               </div>
@@ -278,8 +294,10 @@
                   <b-input-group-prepend>
                     <b-input-group-text>Description</b-input-group-text>
                   </b-input-group-prepend>
-                  <b-form-input type="text" class="form-control" :value="addon.description"
-                                @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})" />
+                  <b-form-input type="text" class="form-control"
+                    :value="addon.description"
+                    @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})"
+                    />
                 </b-input-group>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -289,22 +307,24 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
+                    :name="'addon-cost-' + index.toString()"
                     :value="addon.cost"
-                    :state="formValidators.addonFlags['addon' + index.toString() + 'Cost']"
+                    :state="!(veeErrors.has('addon-cost-' + index.toString() )) ? null : false"
+                    v-validate="{ required: true, min_value:0, max_value: 999999 }"
                     @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})" />
                   <b-input-group-prepend>
                     <b-input-group-text>{{ serviceDetails.currency }}</b-input-group-text>
                   </b-input-group-prepend>
-                  <p v-if="(formValidators.addonFlags['addon' + index.toString() + 'Cost']) === false" class="mb-0 mt-2 text-danger">Must be between 0 and 999.999</p>
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('addon-cost-' + index.toString() )">{{veeErrors.first('addon-cost-' + index.toString() )}}</p>
               </div>
               <div class="col-sm-4 col-xs-12">
                 <b-button class="btn-control" variant="danger" aria-pressed="true"
-                          @click="$store.commit('service/deleteAddOns',index); removeFormAddonValidator();">X</b-button>
+                          @click="$store.commit('service/deleteAddOns',index); validateAddons();">X</b-button>
               </div>
             </div>
             <div class="input-group-wrapper">
-              <b-button variant="primary" @click="$store.commit('service/hideAndPush'); addFormAddonValidator();">
+              <b-button variant="primary" @click="$store.commit('service/hideAndPush');">
                 <i class="fa fa-lightbulb-o"></i>&nbsp; Add New Field
               </b-button>
             </div>
@@ -313,7 +333,6 @@
       </div>
 
       <b-button variant="primary" class="mb-4" @click="save()" id="button">Save Changes</b-button>
-      <p v-if="formValidators.generalErr" class="mb-0 mt-2 text-danger">Some errors were found. Check the fields above for more details</p>
 
     </div>
   </div>
