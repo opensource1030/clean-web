@@ -20,9 +20,15 @@
           v-bind:class="{ selected: isSelectedAccessory(accessory) }"
           @click="onSelectAccessory(accessory)"
         >
-          <img class="accessory-thumb" :src="accessory.thumb" />
-          <div class="accessory-name">{{ accessory.name }}</div>
-          <div class="accessory-price">$ {{ accessory.price }}</div>
+          <img
+            class="accessory-thumb"
+            v-if="getAccessoryImage(accessory)"
+            :src="getAccessoryImage(accessory)"
+            alt
+          />
+          <span class="accessory-thumb">No thumb</span>
+          <div class="accessory-name">{{ getAccessoryName(accessory) }}</div>
+          <div class="accessory-price">$ {{ accessory.price1 }}</div>
           <div class="accessory-checkbox">
             <i class="fas fa-check"></i>
           </div>
@@ -39,8 +45,6 @@
 </template>
 
 <script>
-import _ from "lodash";
-
 export default {
   name: "Accessories",
 
@@ -49,6 +53,15 @@ export default {
   methods: {
     isSelectedAccessory(accessory) {
       return _.findIndex(this.selectedAccessories, { id: accessory.id }) !== -1;
+    },
+
+    getAccessoryName(accessory) {
+      return _.get(accessory, "devices.0.name");
+    },
+
+    getAccessoryImage(accessory) {
+      const imageUrl = _.get(accessory, "devices.0.images.0.links.self");
+      return imageUrl ? `https://${imageUrl}` : imageUrl;
     },
 
     onSelectAccessory(accessory) {

@@ -52,6 +52,7 @@
         <order-summary
           v-if="isReviewStep"
           :device="selectedDevice"
+          :accessories="selectedAccessories"
           :service="changeCarrier ? selectedService : null"
           :comment="comment"
           @change="setComment"
@@ -176,6 +177,15 @@ export default {
           }
         }
       };
+
+      if (this.selectedAccessories.length > 0) {
+        this.selectedAccessories.forEach(accessory => {
+          orderData.data.relationships.devicevariations.data.push({
+            type: "devicevariations",
+            id: accessory.id
+          });
+        });
+      }
 
       if (this.selectedService) {
         orderData.data.attributes["serviceId"] = this.selectedService.id;

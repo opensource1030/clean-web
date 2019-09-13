@@ -50,38 +50,15 @@
             v-if="needNewDevice"
             :devices="devices"
             :selected-device="selectedDevice"
+            :available-accessories="availableAccessories"
+            :selected-accessories="selectedAccessories"
             @requestDevice="onNextStep"
-            @selectDevice="onSelectDevice"
+            @selectDevice="setDevice"
+            @selectAccessory="setAccessory"
           ></devices>
 
           <device-info-form v-else @next="onNextStep"></device-info-form>
         </template>
-
-        <!-- <device-info-form
-          v-if="isSelectingDeviceStep && !details.keepExistingService"
-          @next="onNextStep"
-        ></device-info-form>
-
-        <div v-if="isSelectingDeviceStep && details.keepExistingService">
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Subsided Device">
-              <devices
-                :devices="devices"
-                :selected-device="selectedDevice"
-                @requestDevice="onNextStep"
-                @selectDevice="onSelectDevice"
-              ></devices>
-            </b-tab>
-          </b-tabs>
-        </div>
-
-        <div v-if="isSelectingServiceStep">
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
-            </b-tab>
-          </b-tabs>
-        </div>-->
 
         <order-summary
           v-if="isReviewStep"
@@ -157,6 +134,8 @@ export default {
       selectedEmployee: "placeOrder/transferSelectedEmployee",
       selectedDevice: "placeOrder/transferSelectedDevice",
       selectedService: "placeOrder/transferSelectedService",
+      availableAccessories: "placeOrder/transferAvailableAccessories",
+      selectedAccessories: "placeOrder/transferSelectedAccessories",
       comment: "placeOrder/transferComment",
       needNewDevice: "placeOrder/transferNeedNewDevice",
       details: "placeOrder/transferDetails",
@@ -191,6 +170,7 @@ export default {
       setNeedNewDevice: "placeOrder/setTransferNeedNewDevice",
       setEmployee: "placeOrder/setTransferSelectedEmployee",
       setDevice: "placeOrder/setTransferSelectedDevice",
+      setAccessory: "placeOrder/setTransferSelectedAccessory",
       setService: "placeOrder/setTransferSelectedService",
       setComment: "placeOrder/setTransferComment",
       createOrder: "placeOrder/createTransferOrder",
@@ -212,10 +192,6 @@ export default {
 
     onNextStep() {
       this.setStep(this.step + 1);
-    },
-
-    onSelectDevice(devicevariation) {
-      this.setDevice(devicevariation);
     },
 
     onSelectService(service) {
@@ -262,6 +238,15 @@ export default {
           type: "devicevariations",
           id: this.selectedDevice.id
         });
+
+        if (this.selectedAccessories.length > 0) {
+          this.selectedAccessories.forEach(accessory => {
+            orderData.data.relationships.devicevariations.data.push({
+              type: "devicevariations",
+              id: accessory.id
+            });
+          });
+        }
 
         const addressInPackage = _.find(this.addresses, { ...values });
 

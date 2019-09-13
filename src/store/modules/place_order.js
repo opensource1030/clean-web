@@ -27,6 +27,7 @@ const initialNewlineData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  selectedAccessories: [],
   comment: null,
   details: {
     carrierInfo: null,
@@ -59,6 +60,7 @@ const initialTransferData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  selectedAccessories: [],
   comment: null,
   details: {
     carrierInfo: null,
@@ -211,14 +213,20 @@ const getters = {
   upgradeAvailableAccessories: () => {
     let allAccessories = []
 
-    state.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (deviceType == 'Accessory') {
-          console.log(variation)
-          allAccessories.push({ ...variation, deviceType, packageId: id })
-        }
-      })
+    if (!state.upgrade.selectedDevice) {
+      return allAccessories
+    }
+
+    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.upgrade.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
     })
 
     return allAccessories
@@ -365,6 +373,32 @@ const getters = {
     return state.newline.comment
   },
 
+  newlineAvailableAccessories: () => {
+    let allAccessories = []
+
+    if (!state.newline.selectedDevice) {
+      return allAccessories
+    }
+
+    state.newline.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.newline.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
+    })
+
+    return allAccessories
+  },
+
+  newlineSelectedAccessories: state => {
+    return state.newline.selectedAccessories
+  },
+
   // Transfer
 
   transferStep: state => {
@@ -475,6 +509,32 @@ const getters = {
 
   transferComment: state => {
     return state.transfer.comment
+  },
+
+  transferAvailableAccessories: () => {
+    let allAccessories = []
+
+    if (!state.transfer.selectedDevice) {
+      return allAccessories
+    }
+
+    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.transfer.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
+    })
+
+    return allAccessories
+  },
+
+  transferSelectedAccessories: state => {
+    return state.transfer.selectedAccessories
   },
 
   // Accessory
@@ -730,6 +790,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE, needNewDevice)
   },
 
+  setNewlineSelectedAccessory({ commit }, accessory) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY, accessory)
+  },
+
   setNewlineNeedNewSim({ commit }, needNewSim) {
     commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
   },
@@ -792,6 +856,10 @@ const actions = {
 
   setTransferSelectedDevice({ commit }, selectedDevice) {
     commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setTransferSelectedAccessory({ commit }, accessory) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_ACCESSORY, accessory)
   },
 
   setTransferSelectedService({ commit }, selectedService) {
@@ -1095,6 +1163,16 @@ const mutations = {
     state.newline.selectedDevice = selectedDevice
   },
 
+  [types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.newline.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.newline.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.newline.selectedAccessories.push(accessory), 'id')
+    }
+  },
+
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_SERVICE](state, selectedService) {
     state.newline.selectedService = selectedService
   },
@@ -1150,6 +1228,16 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE](state, selectedDevice) {
     state.transfer.selectedDevice = selectedDevice
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.transfer.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.transfer.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.transfer.selectedAccessories.push(accessory), 'id')
+    }
   },
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_SERVICE](state, selectedService) {

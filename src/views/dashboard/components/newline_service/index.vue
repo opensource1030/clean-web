@@ -32,8 +32,11 @@
           <devices
             :devices="devices"
             :selected-device="selectedDevice"
+            :available-accessories="availableAccessories"
+            :selected-accessories="selectedAccessories"
             @requestDevice="onNextStep"
-            @selectDevice="onSelectDevice"
+            @selectDevice="setDevice"
+            @selectAccessory="setAccessory"
           ></devices>
         </div>
 
@@ -110,6 +113,8 @@ export default {
       userPackagesLoading: "placeOrder/newlineUserPackagesLoading",
       selectedEmployee: "placeOrder/newlineSelectedEmployee",
       selectedDevice: "placeOrder/newlineSelectedDevice",
+      availableAccessories: "placeOrder/newlineAvailableAccessories",
+      selectedAccessories: "placeOrder/newlineSelectedAccessories",
       selectedService: "placeOrder/newlineSelectedService",
       comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
@@ -146,6 +151,7 @@ export default {
       getUserPackages: "placeOrder/getNewlineUserPackages",
       setEmployee: "placeOrder/setNewlineSelectedEmployee",
       setDevice: "placeOrder/setNewlineSelectedDevice",
+      setAccessory: "placeOrder/setNewlineSelectedAccessory",
       setService: "placeOrder/setNewlineSelectedService",
       setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
@@ -171,10 +177,6 @@ export default {
 
     onNextStep() {
       this.setStep(this.step + 1);
-    },
-
-    onSelectDevice(devicevariation) {
-      this.setDevice(devicevariation);
     },
 
     onSelectService(service) {
@@ -217,6 +219,15 @@ export default {
           type: "devicevariations",
           id: this.selectedDevice.id
         });
+
+        if (this.selectedAccessories.length > 0) {
+          this.selectedAccessories.forEach(accessory => {
+            orderData.data.relationships.devicevariations.data.push({
+              type: "devicevariations",
+              id: accessory.id
+            });
+          });
+        }
 
         const addressInPackage = _.find(this.addresses, { ...values });
 
