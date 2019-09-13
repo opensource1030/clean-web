@@ -23,7 +23,10 @@
               <div class="col-sm-6 col-xs-12">
                 <label>Title</label>
                 <b-form-input type="text" class="form-control" :value="serviceDetails.title"
-                              @input="$store.commit('service/updateServiceDetail',{e:$event,type:'title'})" />
+                              @input="$store.commit('service/updateServiceDetail',{e:$event,type:'title'})" 
+                              name="title"
+                              v-validate="{ required: true }"/>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('title')">{{veeErrors.first('title')}}</p>
               </div>
               <div class="col-sm-6 col-xs-12">
                 <div class="row">
@@ -32,7 +35,10 @@
                     <b-form-input type="text" class="form-control"
                       :value="serviceDetails.code"
                       @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})"
+                      name="plan-code"
+                      v-validate="{ required: true }"
                     />
+                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('plan-code')">{{veeErrors.first('plan-code')}}</p>
                   </div>
                   <div class="col-sm-4">
                     <label>Cost</label>
@@ -62,7 +68,10 @@
               <div class="col-sm-6 col-xs-12">
                 <label>Description</label>
                 <textarea class="form-control" rows="5" :value="serviceDetails.description"
-                          @input="$store.commit('service/updateServiceDetail',{e:$event,type:'description'})" />
+                          @input="$store.commit('service/updateServiceDetail',{e:$event,type:'description'})"
+                          name="description"
+                          v-validate="{ required: true }"/>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('description')">{{veeErrors.first('description')}}</p>
               </div>
               <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
@@ -74,16 +83,21 @@
                     :searchable="false"
                     :show-labels="false"
                     :value="serviceDetails.carrierId"
-                    @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})">
+                    @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})"
+                    name="carriers"
+                    v-validate="{ required: true }"
+                    >
                     <template slot="singleLabel" slot-scope="{ option }">{{ option.presentation }}</template>
+                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('carrier')">{{veeErrors.first('carrier')}}</p>
                   </multiselect>
                 </div>
                 <div class="form-group">
                   <label class="block">Active</label>
-                  <c-switch
+                  <b-form-checkbox
                     color="primary"
                     :checked="serviceDetails.status"
                     @change="$store.commit('service/updateServiceDetail', { e: $event, type: 'status' })"
+                    switch
                   />
                   <!-- <c-switch color="primary" value="1" uncheckedValue="0" @change="$store.commit('service/updateServiceDetail',{e:$event,type:'status'})"/> -->
                 </div>
@@ -116,13 +130,13 @@
                     />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-minutes')">{{veeErrors.first('domesticPlan-minutes')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited Minutes</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'minutes'}); unlimitedValidation('domesticPlan', 'minutes');"
                     :checked="domesticPlan.minutes.unlimited"
                     switch
                   />
+                  <span class="block mt-1">Unlimited Minutes</span>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -148,13 +162,13 @@
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-data')">{{veeErrors.first('domesticPlan-data')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited Data</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'data'}); unlimitedValidation('domesticPlan', 'data');"
                     :checked="domesticPlan.data.unlimited"
                     switch
                   />
+                  <span class="block mt-1">Unlimited Data</span>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -173,13 +187,13 @@
                   />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-sms')">{{veeErrors.first('domesticPlan-sms')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited SMS</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'sms'}); unlimitedValidation('domesticPlan', 'sms');"
                     :checked="domesticPlan.sms.unlimited"
                     switch
                   />
+                  <span class="block mt-1">Unlimited SMS</span>
                 </div>
               </div>
             </div>
@@ -210,13 +224,13 @@
                   />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-minutes')">{{veeErrors.first('internationalPlan-minutes')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited Minutes</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'minutes'}); unlimitedValidation('internationalPlan', 'minutes');"
                     :checked="internationalPlan.minutes.unlimited"
                     switch
                   />
+                  <span class="block">Unlimited Minutes</span>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -242,13 +256,13 @@
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-data')">{{veeErrors.first('internationalPlan-data')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited Data</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'data'}); unlimitedValidation('internationalPlan', 'data');"
                     :checked="internationalPlan.data.unlimited"
                     switch
                   />
+                  <span class="block mt-1">Unlimited Data</span>
                 </div>
               </div>
               <div class="col-sm-4 col-xs-12">
@@ -267,13 +281,13 @@
                     />
                 </b-input-group>
                 <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-sms')">{{veeErrors.first('internationalPlan-sms')}}</p>
-                <div class="d-flex">
-                  <label class="block">Unlimited SMS</label>
-                  <b-form-checkbox
+                <div class="d-flex align-items-center">
+                  <b-form-checkbox class="mr-3"
                     @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'sms'}); unlimitedValidation('internationalPlan', 'sms');"
                     :checked="internationalPlan.sms.unlimited"
                     switch
                   />
+                  <span class="block mt-1">Unlimited SMS</span>
                 </div>
               </div>
             </div>
