@@ -9,7 +9,10 @@
         @submit="onSubmit"
       />
 
-      <user-select-form v-if="!selectedEmployee" @selectUser="setEmployee" />
+      <user-select-form
+        v-if="!selectedEmployee || userPackagesLoading"
+        @selectUser="onSelectEmployee"
+      ></user-select-form>
 
       <div v-else class="dashboard-drawer-main">
         <h1 class="text-center">Transfer Wireless Service Liability</h1>
@@ -43,16 +46,13 @@
         </template>
 
         <template v-if="isSelectingDeviceStep">
-          <b-tabs v-if="needNewDevice" class="wa-tabs pt-3">
-            <b-tab title="Subsided Device">
-              <devices
-                :devices="devices"
-                :selected-device="selectedDevice"
-                @requestDevice="onNextStep"
-                @selectDevice="onSelectDevice"
-              ></devices>
-            </b-tab>
-          </b-tabs>
+          <devices
+            v-if="needNewDevice"
+            :devices="devices"
+            :selected-device="selectedDevice"
+            @requestDevice="onNextStep"
+            @selectDevice="onSelectDevice"
+          ></devices>
 
           <device-info-form v-else @next="onNextStep"></device-info-form>
         </template>
@@ -140,17 +140,18 @@ export default {
   },
 
   created() {
-    if (this.userPackages.length <= 0) {
-      const { id } = this.currentUser;
-      this.getUserPackages(id);
-    }
+    // if (this.userPackages.length <= 0) {
+    //   const { id } = this.currentUser;
+    //   this.getUserPackages(id);
+    // }
   },
 
   computed: {
     ...mapGetters({
       currentUser: "auth/getProfile",
-      userPackages: "placeOrder/userPackages",
       step: "placeOrder/transferStep",
+      userPackages: "placeOrder/transferUserPackages",
+      userPackagesLoading: "placeOrder/transferUserPackagesLoading",
       selectedEmployee: "placeOrder/transferSelectedEmployee",
       selectedDevice: "placeOrder/transferSelectedDevice",
       selectedService: "placeOrder/transferSelectedService",
@@ -183,8 +184,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getUserPackages: "placeOrder/getUserPackages",
       setStep: "placeOrder/setTransferStep",
+      getUserPackages: "placeOrder/getTransferUserPackages",
       setNeedNewDevice: "placeOrder/setTransferNeedNewDevice",
       setEmployee: "placeOrder/setTransferSelectedEmployee",
       setDevice: "placeOrder/setTransferSelectedDevice",
@@ -216,6 +217,11 @@ export default {
     onSelectService(service) {
       this.setService(service);
       this.onNextStep();
+    },
+
+    onSelectEmployee(user) {
+      this.getUserPackages(user.id)
+      this.setEmployee(user)
     },
 
     onSubmit(values) {

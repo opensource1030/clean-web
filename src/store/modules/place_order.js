@@ -5,11 +5,21 @@ import orderAPI from '@/api/order-api'
 const { Store } = require('yayson')()
 const store = new Store()
 
+const AccessoryTypes = ['Accessory', 'Headphones']
+
 const initialUpgradeData = {
   step: 0,
+  userPackages: [],
+  userPackagesLoading: false,
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  selectedAccessories: [
+    { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    { id: 2, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+  ],
   changeCarrier: false,
   comment: null,
   hasOrder: false,
@@ -17,6 +27,8 @@ const initialUpgradeData = {
 
 const initialNewlineData = {
   step: 0,
+  userPackages: [],
+  userPackagesLoading: false,
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
@@ -47,6 +59,8 @@ const initialNewlineData = {
 
 const initialTransferData = {
   step: 0,
+  userPackages: [],
+  userPackagesLoading: false,
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
@@ -74,61 +88,36 @@ const initialTransferData = {
   hasOrder: false,
 }
 
-// initial state
-const state = {
+const initialAccessoryData = {
+  step: 0,
   userPackages: [],
   userPackagesLoading: false,
+  selectedEmployee: null,
+  selectedAccessories: [],
+  hasOrder: false
+}
+
+// initial state
+const state = {
   allocation: {},
   upgrade: { ...initialUpgradeData },
-  newline: { ... initialNewlineData },
+  newline: { ...initialNewlineData },
   transfer: { ...initialTransferData },
+  accessory: { ...initialAccessoryData }
 }
 
 const getters = {
-  userPackages: state => {
-    return state.userPackages
-  },
-
-  userPackagesLoading: state => {
-    return state.userPackagesLoading
-  },
-
-  allDevices: state => {
-    let allDevices = []
-
-    state.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (device_type != 'Accessory') {
-          allDevices.push({ ...variation, packageId: id })
-        }
-      })
-    })
-
-    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
-
-    return allDevices
-  },
-
-  allAccessories: state => {
-    let allAccessories = []
-
-    state.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        // console.log('allAccessories', device_type, variation)
-        if (device_type == 'Accessory') {
-          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
-        }
-      })
-    })
-
-    return allAccessories;
-  },
-
   // Upgrade
   upgradeStep: state => {
     return state.upgrade.step
+  },
+
+  upgradeUserPackages: state => {
+    return state.upgrade.userPackages
+  },
+
+  upgradeUserPackagesLoading: state => {
+    return state.upgrade.userPackagesLoading
   },
 
   upgradeSelectedEmployee: state => {
@@ -151,8 +140,36 @@ const getters = {
     return state.upgrade.hasOrder
   },
 
-  upgradeDevices: (state, getters) => {
-    return getters.allDevices;
+  upgradeDevices: state => {
+    let allDevices = []
+
+    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) == -1) {
+          allDevices.push({ ...variation, packageId: id })
+        }
+      })
+    })
+
+    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+
+    return allDevices
+  },
+
+  upgradeAccessories: state => {
+    let allAccessories = []
+
+    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) > -1) {
+          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories
   },
 
   upgradeServices: state => {
@@ -162,7 +179,7 @@ const getters = {
       return allServices
     }
 
-    state.userPackages.forEach(({ devicevariations, services }) => {
+    state.upgrade.userPackages.forEach(({ devicevariations, services }) => {
       if (_.find(devicevariations, { id: state.upgrade.selectedDevice.id })) {
         services.forEach(service => {
           allServices.push(service)
@@ -180,7 +197,7 @@ const getters = {
       return allAddresses
     }
 
-    state.userPackages.forEach(({ devicevariations, addresses }) => {
+    state.upgrade.userPackages.forEach(({ devicevariations, addresses }) => {
       if (_.find(devicevariations, { id: state.upgrade.selectedDevice.id })) {
         addresses.forEach(address => {
           allAddresses.push(address)
@@ -195,10 +212,40 @@ const getters = {
     return state.upgrade.comment
   },
 
+  upgradeDeviceAccessories: () => {
+    return [
+      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    ]
+  },
+
+  upgradeAvailableAccessories: () => {
+    return [
+      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 4, name: 'Accessory 4', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+      { id: 6, name: 'Accessory 6', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
+    ]
+  },
+
+  upgradeSelectedAccessories: state => {
+    return state.upgrade.selectedAccessories
+  },
+
   // New Line of Service
 
   newlineStep: state => {
     return state.newline.step
+  },
+
+  newlineUserPackages: state => {
+    return state.newline.userPackages
+  },
+
+  newlineUserPackagesLoading: state => {
+    return state.newline.userPackagesLoading
   },
 
   newlineSelectedEmployee: state => {
@@ -233,31 +280,63 @@ const getters = {
     return state.newline.hasOrder
   },
 
-  newlineDevices: (_state, getters) => {
-    return getters.upgradeDevices
+  newlineDevices: (state) => {
+    let allDevices = []
+
+    state.newline.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) == -1) {
+          allDevices.push({ ...variation, packageId: id })
+        }
+      })
+    })
+
+    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+
+    return allDevices
+  },
+
+  newlineAccessories: state => {
+    let allAccessories = []
+
+    state.newline.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) > -1) {
+          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories
   },
 
   newlineServices: state => {
-    const { userPackages } = state
-    const { needNewDevice, selectedDevice } = state.newline
-
     let allServices = []
 
-    if (needNewDevice && selectedDevice) {
-      userPackages.forEach(({ devicevariations, services }) => {
-        if (_.find(devicevariations, { id: selectedDevice.id })) {
-          services.forEach(service => {
-            allServices.push(service)
-          })
-        }
+    state.newline.userPackages.forEach(({ services }) => {
+      services.forEach(service => {
+        allServices.push(service)
       })
-    } else if (!needNewDevice) {
-      userPackages.forEach(({ services }) => {
-        services.forEach(service => {
-          allServices.push(service)
-        })
-      })
-    }
+    })
+
+    // const { userPackages, needNewDevice, selectedDevice } = state.newline
+    // if (needNewDevice && selectedDevice) {
+    //   userPackages.forEach(({ devicevariations, services }) => {
+    //     if (_.find(devicevariations, { id: selectedDevice.id })) {
+    //       services.forEach(service => {
+    //         allServices.push(service)
+    //       })
+    //     }
+    //   })
+    // } else if (!needNewDevice) {
+    //   userPackages.forEach(({ services }) => {
+    //     services.forEach(service => {
+    //       allServices.push(service)
+    //     })
+    //   })
+    // }
 
     return _.uniqBy(allServices, 'id')
   },
@@ -269,7 +348,7 @@ const getters = {
       return allAddresses
     }
 
-    state.userPackages.forEach(({ devicevariations, addresses }) => {
+    state.newline.userPackages.forEach(({ devicevariations, addresses }) => {
       if (_.find(devicevariations, { id: state.newline.selectedDevice.id })) {
         addresses.forEach(address => {
           allAddresses.push(address)
@@ -288,6 +367,14 @@ const getters = {
 
   transferStep: state => {
     return state.transfer.step
+  },
+
+  transferUserPackages: state => {
+    return state.transfer.userPackages
+  },
+
+  transferUserPackagesLoading: state => {
+    return state.transfer.userPackagesLoading
   },
 
   transferSelectedEmployee: state => {
@@ -322,17 +409,42 @@ const getters = {
     return state.transfer.hasOrder
   },
 
-  transferDevices: (_state, getters) => {
-    return getters.upgradeDevices
+  transferDevices: state => {
+    let allDevices = []
+
+    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) == -1) {
+          allDevices.push({ ...variation, packageId: id })
+        }
+      })
+    })
+
+    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+
+    return allDevices
+  },
+
+  transferAccessories: state => {
+    let allAccessories = []
+
+    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) > -1) {
+          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories
   },
 
   transferServices: state => {
-    const { userPackages } = state
-    const { selectedDevice } = state.transfer
-
     let allServices = []
 
-    userPackages.forEach(({ services }) => {
+    state.transfer.userPackages.forEach(({ services }) => {
       services.forEach(service => {
         allServices.push(service)
       })
@@ -348,7 +460,7 @@ const getters = {
       return allAddresses
     }
 
-    state.userPackages.forEach(({ devicevariations, addresses }) => {
+    state.transfer.userPackages.forEach(({ devicevariations, addresses }) => {
       if (_.find(devicevariations, { id: state.transfer.selectedDevice.id })) {
         addresses.forEach(address => {
           allAddresses.push(address)
@@ -362,38 +474,71 @@ const getters = {
   transferComment: state => {
     return state.transfer.comment
   },
+
+  // Accessory
+
+  accessoryStep: state => {
+    return state.accessory.step
+  },
+
+  accessoryUserPackages: state => {
+    return state.accessory.userPackages
+  },
+
+  accessoryUserPackagesLoading: state => {
+    return state.accessory.userPackagesLoading
+  },
+
+  accessorySelectedEmployee: state => {
+    return state.accessory.selectedEmployee
+  },
+
+  accessorySelectedAccessories: (state) => {
+    return state.accessory.selectedAccessories
+  },
+
+  accessoryAccessories: state => {
+    let allAccessories = []
+
+    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+      devicevariations.forEach(variation => {
+        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (AccessoryTypes.indexOf(device_type) > -1) {
+          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        }
+      })
+    })
+
+    return allAccessories
+  },
+
+  accessoryAddresses: state => {
+    let allAddresses = []
+
+    if (!state.accessory.selectedAccessories || state.accessory.selectedAccessories.length == 0) {
+      return allAddresses
+    }
+
+    const selectedAccessoriesIds = _.map(state.accessory.selectedAccessories, 'id')
+
+    state.accessory.userPackages.forEach(({ devicevariations, addresses }) => {
+      if (_.find(devicevariations, dv => selectedAccessoriesIds.indexOf(dv.id) > -1)) {
+        addresses.forEach(address => {
+          allAddresses.push(address)
+        })
+      }
+    })
+
+    return allAddresses
+  },
+
+  accessoryHasOrder: state => {
+    return state.accessory.hasOrder
+  },
 }
 
 // actions
 const actions = {
-  getUserPackages({ commit }, userId) {
-    return new Promise((resolve, reject) => {
-      const payload = {
-        params: {
-          include:
-            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
-        },
-      }
-
-      commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, true)
-
-      packageAPI.getMatchedPackages(
-        userId,
-        payload,
-        res => {
-          const results = store.sync(res.data)
-          commit(types.PLACE_ORDER_SET_USER_PACKAGES, results)
-          commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, false)
-          resolve(results)
-        },
-        err => {
-          commit(types.PLACE_ORDER_SET_USER_PACKAGES_LOADING, false)
-          reject(err)
-        },
-      )
-    })
-  },
-
   createUpgradeOrder({ commit }, orderData) {
     return new Promise((resolve, reject) => {
       orderAPI.create(
@@ -442,11 +587,53 @@ const actions = {
     })
   },
 
+  createAccessoryOrder({ commit }, orderData) {
+    return new Promise((resolve, reject) => {
+      orderAPI.create(
+        orderData,
+        res => {
+          commit(types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER, true)
+          commit(types.PLACE_ORDER_RESET_ACCESSORY)
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
+
   setAllocation({ commit }, allocation) {
     commit(types.PLACE_ORDER_SET_ALLOCATION, allocation)
   },
 
   // Upgrade
+
+  getUpgradeUserPackages({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      const payload = {
+        params: {
+          include:
+            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+        },
+      }
+      commit(types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES_LOADING, true)
+      packageAPI.getMatchedPackages(
+        userId,
+        payload,
+        res => {
+          const results = store.sync(res.data)
+          commit(types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES, results)
+          commit(types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES_LOADING, false)
+          resolve(results)
+        },
+        err => {
+          commit(types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES_LOADING, false)
+          reject(err)
+        },
+      )
+    })
+  },
 
   setUpgradeStep({ commit }, step) {
     commit(types.PLACE_ORDER_SET_UPGRADE_STEP, step)
@@ -458,6 +645,10 @@ const actions = {
 
   setUpgradeSelectedDevice({ commit }, selectedDevice) {
     commit(types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setUpgradeSelectedAccessory({ commit }, accessory) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_SELECTED_ACCESSORY, accessory)
   },
 
   setUpgradeSelectedService({ commit }, selectedService) {
@@ -477,6 +668,32 @@ const actions = {
   },
 
   // New Line of Service
+
+  getNewlineUserPackages({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      const payload = {
+        params: {
+          include:
+            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+        },
+      }
+      commit(types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES_LOADING, true)
+      packageAPI.getMatchedPackages(
+        userId,
+        payload,
+        res => {
+          const results = store.sync(res.data)
+          commit(types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES, results)
+          commit(types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES_LOADING, false)
+          resolve(results)
+        },
+        err => {
+          commit(types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES_LOADING, false)
+          reject(err)
+        },
+      )
+    })
+  },
 
   setNewlineStep({ commit }, step) {
     commit(types.PLACE_ORDER_SET_NEWLINE_STEP, step)
@@ -524,6 +741,32 @@ const actions = {
 
   // Transfer
 
+  getTransferUserPackages({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      const payload = {
+        params: {
+          include:
+            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+        },
+      }
+      commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, true)
+      packageAPI.getMatchedPackages(
+        userId,
+        payload,
+        res => {
+          const results = store.sync(res.data)
+          commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES, results)
+          commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, false)
+          resolve(results)
+        },
+        err => {
+          commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, false)
+          reject(err)
+        },
+      )
+    })
+  },
+
   setTransferStep({ commit }, step) {
     commit(types.PLACE_ORDER_SET_TRANSFER_STEP, step)
   },
@@ -562,6 +805,46 @@ const actions = {
 
   setTransferComment({ commit }, comment) {
     commit(types.PLACE_ORDER_SET_TRANSFER_COMMENT, comment)
+  },
+
+  // Accessory
+
+  getAccessoryUserPackages({ commit }, userId) {
+    return new Promise((resolve, reject) => {
+      const payload = {
+        params: {
+          include:
+            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+        },
+      }
+      commit(types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES_LOADING, true)
+      packageAPI.getMatchedPackages(
+        userId,
+        payload,
+        res => {
+          const results = store.sync(res.data)
+          commit(types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES, results)
+          commit(types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES_LOADING, false)
+          resolve(results)
+        },
+        err => {
+          commit(types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES_LOADING, false)
+          reject(err)
+        },
+      )
+    })
+  },
+
+  setAccessoryStep({ commit }, step) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_STEP, step)
+  },
+
+  setAccessorySelectedEmployee({ commit }, selectedEmployee) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_SELECTED_EMPLOYEE, selectedEmployee)
+  },
+
+  setAccessorySelectedAccessory({ commit }, selectedAccessory) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_SELECTED_ACCESSORY, selectedAccessory)
   },
 
   /* getPackageServices({ dispatch, commit, state }, packageId) {
@@ -708,18 +991,18 @@ const actions = {
 
 // mutations
 const mutations = {
-  [types.PLACE_ORDER_SET_USER_PACKAGES](state, userPackages) {
-    state.userPackages = userPackages
-  },
-
-  [types.PLACE_ORDER_SET_USER_PACKAGES_LOADING](state, userPackagesLoading) {
-    state.userPackagesLoading = userPackagesLoading
-  },
-
   // Upgrade
 
   [types.PLACE_ORDER_SET_UPGRADE_STEP](state, step) {
     state.upgrade.step = step
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES](state, userPackages) {
+    state.upgrade.userPackages = userPackages
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_USER_PACKAGES_LOADING](state, userPackagesLoading) {
+    state.upgrade.userPackagesLoading = userPackagesLoading
   },
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_EMPLOYEE](state, employee) {
@@ -732,6 +1015,16 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE](state, device) {
     state.upgrade.selectedDevice = device
+  },
+
+  [types.PLACE_ORDER_SET_UPGRADE_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.upgrade.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.upgrade.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.upgrade.selectedAccessories.push(accessory), 'id')
+    }
   },
 
   [types.PLACE_ORDER_SET_UPGRADE_CHANGE_CARRIER](state, changeCarrier) {
@@ -757,6 +1050,14 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_STEP](state, step) {
     state.newline.step = step
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES](state, userPackages) {
+    state.newline.userPackages = userPackages
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_USER_PACKAGES_LOADING](state, userPackagesLoading) {
+    state.newline.userPackagesLoading = userPackagesLoading
   },
 
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_EMPLOYEE](state, selectedEmployee) {
@@ -808,6 +1109,14 @@ const mutations = {
     state.transfer.step = step
   },
 
+  [types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES](state, userPackages) {
+    state.transfer.userPackages = userPackages
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING](state, userPackagesLoading) {
+    state.transfer.userPackagesLoading = userPackagesLoading
+  },
+
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_EMPLOYEE](state, selectedEmployee) {
     state.transfer.selectedEmployee = selectedEmployee
   },
@@ -848,6 +1157,45 @@ const mutations = {
     state.transfer = {
       ...state.transfer,
       ..._.omit(initialTransferData, 'hasOrder'),
+    }
+  },
+
+  // Accessory
+
+  [types.PLACE_ORDER_SET_ACCESSORY_STEP](state, step) {
+    state.accessory.step = step
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES](state, userPackages) {
+    state.accessory.userPackages = userPackages
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_USER_PACKAGES_LOADING](state, userPackagesLoading) {
+    state.accessory.userPackagesLoading = userPackagesLoading
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_SELECTED_EMPLOYEE](state, employee) {
+    state.accessory.selectedEmployee = employee
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.accessory.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.accessory.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.accessory.selectedAccessories.push(accessory), 'id')
+    }
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER](state, hasOrder) {
+    state.accessory.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_RESET_ACCESSORY](state) {
+    state.accessory = {
+      ...state.accessory,
+      ..._.omit(initialAccessoryData, 'hasOrder'),
     }
   },
 }
