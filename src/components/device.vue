@@ -190,9 +190,7 @@ export default {
 <style lang="scss" scoped>
 .device {
   display: flex;
-  justify-content: flex-start;
-  position: relative;
-  margin: 3rem 0;
+  margin: 3rem 0;  
 
   &-thumb {
     width: 120px;
@@ -270,23 +268,37 @@ export default {
   }
 
   &-price {
-    position: absolute;
-    right: 0;
-    top: 0;
-    text-align: right;
     color: #657089;
     font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    min-width: 120px;
 
     &-item {
+      display: flex;
+      align-items: baseline;
+      white-space: nowrap;
+
+      span {
+        width: 50%;
+        text-align: end;
+      }
+
       span:last-child {
         font-weight: 600;
         font-size: 12px;
-        padding-left: 10px;
+        padding-left: 5px;
+        text-align: start;
       }
 
       b {
         color: #1f2027;
       }
+    }
+
+    &-not-available {
+      text-align: end;
     }
   }
 }
