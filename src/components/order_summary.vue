@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div v-if="accessories.length > 0" class="accessory-info">
+    <div v-if="accessories && accessories.length > 0" class="accessory-info">
       <div v-for="accessory of accessories" class="accessory">
         <div class="d-flex align-items-center">
           <img

@@ -51,6 +51,7 @@
         <order-summary
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
+          :accessories="needNewDevice ? selectedAccessories: null"
           :service="selectedService"
           :comment="comment"
           :newSimCard="deviceInfo.needNewSim"
@@ -220,7 +221,7 @@ export default {
           id: this.selectedDevice.id
         });
 
-        if (this.selectedAccessories.length > 0) {
+        if (this.selectedAccessories && this.selectedAccessories.length > 0) {
           this.selectedAccessories.forEach(accessory => {
             orderData.data.relationships.devicevariations.data.push({
               type: "devicevariations",

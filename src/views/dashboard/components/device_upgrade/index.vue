@@ -178,7 +178,7 @@ export default {
         }
       };
 
-      if (this.selectedAccessories.length > 0) {
+      if (this.selectedAccessories && this.selectedAccessories.length > 0) {
         this.selectedAccessories.forEach(accessory => {
           orderData.data.relationships.devicevariations.data.push({
             type: "devicevariations",
