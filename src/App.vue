@@ -3,181 +3,117 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import Flagger from 'flagger'
+import { mapGetters, mapActions } from "vuex";
+import _ from "lodash";
+import Flagger from "flagger";
+import { SplitFactory } from "@splitsoftware/splitio";
+
+const isTreatmentEnabled = treatment => treatment === "on";
 
 export default {
-  name: 'app',
+  name: "app",
 
   data() {
     return {
-      feature_interval: null,
-    }
+      feature_interval: null
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      profile: 'auth/getProfile',
+    })
   },
 
   methods: {
-    pollingFeatures() {
-      if (this.$store.getters['auth/isAuthenticated']) {
-        const profile = this.$store.getters['auth/getProfile']
-        const company = _.get(profile, 'companies[0]', { id: '', name: '' })
-        const user = {
-          type: 'User',
-          id: profile.id,
-          displayName: profile.username || profile.email,
-          attributes: {
-            email: profile.email,
-            company_id: company.id,
-            company_name: company.name
-          }
-        }
+    ...mapActions({
+      setFlag: "feature/setFlag"
+    }),
 
-        // const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
-        // const place_order_value = flag.getTreatment(user)
-        // if (this.$store.state.feature.enabled_package != place_order_eanbled) {
-        //   console.log('place_order_legacy', place_order_eanbled)
-        //   this.$store.dispatch('feature/setFlag', { enabled_package: place_order_eanbled })
-        // }
+    pollingFeatures(client) {
+      if (this.isAuthenticated) {
+        const splitFeatureMaps = {
+          "place-order-legacy": "enabled_place_order",
+          "procurement-equipment-mgt": "enabled_equipment",
+          "procurement-service-mgt": "enabled_service",
+          "procurement-order-console": "enabled_order",
+          "procurement-order-console-reports": "enabled_order_report",
+          "procurement-package-and-policy-management": "enabled_package",
+          "procurement-package-and-policy-creation": "enabled_package_edit",
+          "procurement-upgrade-a-device": "enabled_upgrade_device",
+          "reports-next-gen": "enabled_metric",
+          "dashboard-nextgen": "enabled_dashboard_nextgen",
+          "dashboard-legacy": "enabled_dashboard_legacy",
+          "dashboard-report-view": "enabled_dashboard_report_view",
+          "dashboard-procure-new-line": "enabled_dashboard_procure_new_line",
+          "dashboard-procure-transfer": "enabled_dashboard_procure_transfer",
+          "dashboard-procure-accessories":
+            "enabled_dashboard_procure_accessories",
+          "dashboard-procure-new-device":
+            "enabled_dashboard_procure_new_device",
+          "dashboard-report-details": "enabled_dashboard_report_details"
+        };
 
-        const place_order_eanbled = Flagger.flag('placeorderlegacy').isEnabled(user)
-        if (this.$store.state.feature.enabled_place_order != place_order_eanbled) {
-          console.log('place_order_legacy', place_order_eanbled)
-          this.$store.dispatch('feature/setEnabledPlaceOrder', place_order_eanbled)
-        }
+        const splitNames = Object.keys(splitFeatureMaps);
 
-        const equipment_eanbled = Flagger.flag('procurement-equipment-mgt').isEnabled(user)
-        if (this.$store.state.feature.enabled_equipment != equipment_eanbled) {
-          console.log('procurement-equipment-mgt', equipment_eanbled)
-          this.$store.dispatch('feature/setEnabledEquipment', equipment_eanbled)
-        }
+        const attributes = {
+          companyName: _.get(this.profile, 'companies.0.name'),
+          email: this.profile.email,
+        };
 
-        const service_enabled = Flagger.flag('procurement-service-mgt').isEnabled(user)
-        if (this.$store.state.feature.enabled_service != service_enabled) {
-          console.log('procurement-service-mgt', service_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_service: service_enabled })
-        }
+        const treatments = client.getTreatments(splitNames, attributes);
 
-        const order_enabled = Flagger.flag('procurement-order-console').isEnabled(user)
-        if (this.$store.state.feature.enabled_order != order_enabled) {
-          console.log('procurement-order-console', order_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_order: order_enabled })
-        }
+        console.log(treatments);
 
-        const order_report_enabled = Flagger.flag('procurement-order-console-reports').isEnabled(user)
-        if (this.$store.state.feature.enabled_order_report != order_report_enabled) {
-          console.log('procurement-order-console-reports', order_report_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_order_report: order_report_enabled })
-        }
-
-        const package_enabled = Flagger.flag('procurement-package-and-policy-management').isEnabled(user)
-        if (this.$store.state.feature.enabled_package != package_enabled) {
-          console.log('procurement-package-and-policy-management', package_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_package: package_enabled })
-        }
-
-        const package_edit_enabled = Flagger.flag('procurement-package-and-policy-creation').isEnabled(user)
-        if (this.$store.state.feature.enabled_package_edit != package_edit_enabled) {
-          console.log('procurement-package-and-policy-creation', package_edit_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_package_edit: package_edit_enabled })
-        }
-
-        const upgrade_enabled = Flagger.flag('procurement-upgrade-a-device').isEnabled(user)
-        if (this.$store.state.feature.enabled_upgrade_device !== upgrade_enabled) {
-          console.log('procurement-upgrade-a-device', upgrade_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_upgrade_device: upgrade_enabled })
-        }
-
-        const reports_next_gen = Flagger.flag('reports-next-gen').isEnabled(user)
-        if (this.$store.state.feature.enabled_metric != reports_next_gen) {
-          console.log('reports-next-gen', reports_next_gen)
-          this.$store.dispatch('feature/setFlag', { enabled_metric: reports_next_gen })
-        }
-
-        /* dashboard features */
-        const dashboard_new_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard != dashboard_new_enabled) {
-          console.log('dashboard-newgen', dashboard_new_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard: dashboard_new_enabled })
-        }
-
-        const dashboard_legacy_enabled = Flagger.flag('dashboard-legacy').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_legacy != dashboard_legacy_enabled) {
-          console.log('dashboard-legacy', dashboard_legacy_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_legacy: dashboard_legacy_enabled })
-        }
-
-        const dashboard_nextgen_enabled = Flagger.flag('dashboard-nextgen').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_nextgen != dashboard_nextgen_enabled) {
-          console.log('dashboard-nextgen', dashboard_nextgen_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_nextgen: dashboard_nextgen_enabled })
-        }
-
-        const dashboard_report_view_enabled = Flagger.flag('dashboard-report-view').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_report_view !== dashboard_report_view_enabled) {
-          console.log('dashboard-report-view', dashboard_report_view_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_view: dashboard_report_view_enabled })
-        }
-
-        const dashboard_procure_new_line_enabled = Flagger.flag('dashboard-procure-new-line').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_procure_new_line !== dashboard_procure_new_line_enabled) {
-          console.log('dashboard-procure-new-line', dashboard_procure_new_line_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_line: dashboard_procure_new_line_enabled })
-        }
-
-        const dashboard_procure_transfer_enabled = Flagger.flag('dashboard-procure-transfer').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_procure_transfer !== dashboard_procure_transfer_enabled) {
-          console.log('dashboard-procure-transfer', dashboard_procure_transfer_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_transfer: dashboard_procure_transfer_enabled })
-        }
-
-        const dashboard_procure_accessories_enabled = Flagger.flag('dashboard-procure-accessories').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_procure_accessories !== dashboard_procure_accessories_enabled) {
-          console.log('dashboard-procure-accessories', dashboard_procure_accessories_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_accessories: dashboard_procure_accessories_enabled })
-        }
-
-        const dashboard_procure_new_device_enabled = Flagger.flag('dashboard-procure-new-device').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_procure_new_device !== dashboard_procure_new_device_enabled) {
-          console.log('dashboard-procure-new-device', dashboard_procure_new_device_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_procure_new_device: dashboard_procure_new_device_enabled })
-        }
-
-        const dashboard_report_details_enabled = Flagger.flag('dashboard-report-details').isEnabled(user)
-        if (this.$store.state.feature.enabled_dashboard_report_details !== dashboard_report_details_enabled) {
-          console.log('dashboard-report-details', dashboard_report_details_enabled)
-          this.$store.dispatch('feature/setFlag', { enabled_dashboard_report_details: dashboard_report_details_enabled })
-        }
+        splitNames.forEach(splitName => {
+          this.setFlag({
+            [splitFeatureMaps[splitName]]: isTreatmentEnabled(
+              treatments[splitName]
+            )
+          });
+        });
       }
     },
 
     watchFeatures() {
-      const vm = this
-      Flagger.configure({ envKey: process.env.AIRSHIP_KEY }).then(res => {
-        console.log('Flagger connected')
+      const vm = this;
+
+      const factory = SplitFactory({
+        core: {
+          authorizationKey: process.env.SPLITIO_API_KEY,
+          key: process.env.SPLITIO_CUSTOMER_ID
+        },
+        startup: {
+          readyTimeout: 1.5
+        }
+      });
+
+      const client = factory.client();
+
+      client.on(client.Event.SDK_READY, function() {
         vm.feature_interval = setInterval(() => {
-          vm.pollingFeatures()
-        }, 10000)
-      })
+          vm.pollingFeatures(client);
+        }, 10000);
+      });
     },
 
     unwatchFeatures() {
       if (this.feature_interval) {
-        clearInterval(this.feature_interval)
-        this.feature_interval = null
+        clearInterval(this.feature_interval);
+        this.feature_interval = null;
       }
     }
   },
 
   created() {
-    // console.log('app created')
-    // console.log('features', features)
-    // console.log('process.env', process.env)
-    this.watchFeatures()
+    this.watchFeatures();
   },
 
   beforeDestroy() {
-    this.unwatchFeatures()
+    this.unwatchFeatures();
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -185,8 +121,8 @@ export default {
 // @import '~@coreui/icons/css/coreui-icons.min.css';
 
 /* Import Font Awesome Icons Set */
-$fa-font-path: '~font-awesome/fonts/';
-@import '~font-awesome/scss/font-awesome.scss';
+$fa-font-path: "~font-awesome/fonts/";
+@import "~font-awesome/scss/font-awesome.scss";
 
 /* Import Simple Line Icons Set */
 // $simple-line-font-path: '~simple-line-icons/fonts/';
@@ -199,5 +135,5 @@ $fa-font-path: '~font-awesome/fonts/';
 // @import '~bootstrap-vue/dist/bootstrap-vue.css';
 
 // Import Main styles for this application
-@import 'assets/scss/style';
+@import "assets/scss/style";
 </style>

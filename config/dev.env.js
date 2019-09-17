@@ -12,5 +12,8 @@ module.exports = {
   AIRSHIP_KEY: 'm28fzq7j0yrpr8us',
   VERSION:'v2019.8.21',
   EV_URL: 'https://wa.easyvista.com/api/v1',
-  BUGSNAG_API_KEY: 'ff1b86eaaf4a5afb137f0a1d046256bb'
+  BUGSNAG_API_KEY: 'ff1b86eaaf4a5afb137f0a1d046256bb',
+  SPLITIO_API_KEY: 't7c83aqsb2gfcq7rcv4lftp9l9jbn1m7qlhq',
+  SPLITIO_CUSTOMER_ID: '00415350-ca01-11e9-b022-0e806383bae6',
+  ANALYTICS_ID: 'BWJqwmZzOl',
 }
