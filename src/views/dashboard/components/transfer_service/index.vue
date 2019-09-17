@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -191,10 +191,12 @@ export default {
       setDevice: "placeOrder/setTransferSelectedDevice",
       setService: "placeOrder/setTransferSelectedService",
       setComment: "placeOrder/setTransferComment",
-      createOrder: "placeOrder/createTransferOrder"
+      createOrder: "placeOrder/createTransferOrder",
+      resetOrder: "placeOrder/resetTransfer"
     }),
 
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
@@ -220,8 +222,8 @@ export default {
     },
 
     onSelectEmployee(user) {
-      this.getUserPackages(user.id)
-      this.setEmployee(user)
+      this.getUserPackages(user.id);
+      this.setEmployee(user);
     },
 
     onSubmit(values) {

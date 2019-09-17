@@ -1,7 +1,7 @@
 <template>
   <div class="devices">
     <b-tabs v-if="currentStep === 'device'" class="wa-tabs pt-3">
-      <b-tab title="Subsided Device">
+      <b-tab title="Subsidized Device">
         <device
           v-for="variations in devices"
           :key="variations.id"

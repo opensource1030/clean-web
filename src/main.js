@@ -18,6 +18,7 @@ import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
 import VueSweetalert2 from 'vue-sweetalert2'
+import Vue2Animate from 'vue2-animate/dist/vue2-animate.min.css'
 import DatePicker from 'vuejs-datepicker'
 import Spinner from '@/components/spinner'
 
@@ -79,6 +80,7 @@ Vue.use(VueSweetalert2, {
   confirmButtonColor: '#41b882',
   cancelButtonColor: '#ff7674'
 })
+Vue.use(Vue2Animate)
 // Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)

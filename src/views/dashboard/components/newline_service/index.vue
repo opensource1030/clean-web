@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -24,15 +24,9 @@
           @back="onStepBack"
         ></steps>
 
-        <my-details-form
-          v-if="isMyDetailStep"
-          @next="onNextStep"
-        ></my-details-form>
+        <my-details-form v-if="isMyDetailStep" @next="onNextStep"></my-details-form>
 
-        <device-info-form
-          v-if="isSelectingDeviceStep && !needNewDevice"
-          @next="onNextStep"
-        ></device-info-form>
+        <device-info-form v-if="isSelectingDeviceStep && !needNewDevice" @next="onNextStep"></device-info-form>
 
         <div v-if="isSelectingDeviceStep && needNewDevice">
           <devices
@@ -46,10 +40,7 @@
         <div v-if="isSelectingServiceStep">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services
-                :services="services"
-                @requestService="onSelectService"
-              ></services>
+              <services :services="services" @requestService="onSelectService"></services>
             </b-tab>
           </b-tabs>
         </div>
@@ -160,10 +151,12 @@ export default {
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
       setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
-      createOrder: "placeOrder/createNewlineOrder"
+      createOrder: "placeOrder/createNewlineOrder",
+      resetOrder: "placeOrder/resetNewline"
     }),
 
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
@@ -189,8 +182,8 @@ export default {
     },
 
     onSelectEmployee(user) {
-      this.getUserPackages(user.id)
-      this.setEmployee(user)
+      this.getUserPackages(user.id);
+      this.setEmployee(user);
     },
 
     onSubmit(values) {

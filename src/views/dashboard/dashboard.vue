@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="$store.state.feature.enabled_dashboard" class="page dashboard-page">
+    <div v-if="$store.state.feature.enabled_dashboard_nextgen" class="page dashboard-page">
       <spinner v-if="userInfo.loading" />
       <div v-else>
         <!-- mobile view -->
@@ -100,7 +100,7 @@
                       >
                         <b-btn
                           variant="outline-default w-100 mt-3"
-                          @click="$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })"
+                          @click="billDetails(allocation)"
                         >Bill Details</b-btn>
                       </div>
                     </div>
@@ -360,7 +360,7 @@
                     >
                       <b-btn
                         variant="outline-default px-5 my-3"
-                        @click="$router.push({ path: `/dashboard/${activeAllocation.mobile_number}/details` })"
+                        @click="billDetails(activeAllocation)"
                       >Bill Details</b-btn>
                     </div>
                   </div>
