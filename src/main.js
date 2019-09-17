@@ -14,6 +14,7 @@ import VueCharts from './../node_modules/vue-charts/dist/vue-charts.js'
 // import VueGoogleCharts from 'vue-google-charts'
 // import {GoogleCharts} from 'google-charts'
 import VeeValidate from 'vee-validate'
+import { Validator } from 'vee-validate';
 import Vue2Filters from 'vue2-filters'
 import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
@@ -26,7 +27,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
+import { dict } from '@/helpers/modules/dictionary'
 
+Validator.localize('en', dict)
 import './filters/phone-formatter.js'
 
 // import './assets/scss/support.scss'

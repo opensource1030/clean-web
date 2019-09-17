@@ -13,7 +13,7 @@
                   v-model="form.carrierInfo"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('carrierInfo')" class="error">Requird</span>
+                <span v-show="errors.has('carrierInfo')" class="error">{{ errors.first('carrierInfo') }}</span>
               </div>
             </div>
           </div>
@@ -26,9 +26,9 @@
                   name="wirelessNo"
                   placeholder="e.g. 199-902-5522"
                   v-model="form.wirelessNo"
-                  v-validate="'required'"
+                  v-validate="{ required: true , numeric: true }"
                 ></b-input>
-                <span v-show="errors.has('wirelessNo')" class="error">Requird</span>
+                <span v-show="errors.has('wirelessNo')" class="error"> {{ errors.first('wirelessNo') }}</span>
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
               </label>
               <div>
                 <b-input name="accountName" v-model="form.accountName" v-validate="'required'"></b-input>
-                <span v-show="errors.has('accountName')" class="error">Requird</span>
+                <span v-show="errors.has('accountName')" class="error">{{ errors.first('accountName') }}</span>
               </div>
             </div>
           </div>
@@ -56,9 +56,9 @@
                 <b-input
                   name="accountNumber"
                   v-model="form.accountNumber"
-                  v-validate="'required'"
+                  v-validate="{ required: true , numeric: true }"
                 ></b-input>
-                <span v-show="errors.has('accountNumber')" class="error">Requird</span>
+                <span v-show="errors.has('accountNumber')" class="error">{{ errors.first('accountNumber') }}</span>
               </div>
             </div>
           </div>
@@ -73,7 +73,7 @@
                   v-model="form.billingPassword"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('billingPassword')" class="error">Requird</span>
+                <span v-show="errors.has('billingPassword')" class="error">{{ errors.first('billingPassword') }}</span>
               </div>
             </div>
           </div>
@@ -92,7 +92,7 @@
                 v-model="form.transferType"
                 v-validate="'required'"
               ></b-radio-group>
-              <span v-show="errors.has('transferType')" class="error">Requird</span>
+              <span v-show="errors.has('transferType')" class="error">{{ errors.first('transferType') }}</span>
             </div>
           </div>
         </div>
