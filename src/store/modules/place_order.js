@@ -94,7 +94,7 @@ const initialAccessoryData = {
   userPackagesLoading: false,
   selectedEmployee: null,
   selectedAccessories: [],
-  hasOrder: false
+  hasOrder: false,
 }
 
 // initial state
@@ -103,7 +103,7 @@ const state = {
   upgrade: { ...initialUpgradeData },
   newline: { ...initialNewlineData },
   transfer: { ...initialTransferData },
-  accessory: { ...initialAccessoryData }
+  accessory: { ...initialAccessoryData },
 }
 
 const getters = {
@@ -280,7 +280,7 @@ const getters = {
     return state.newline.hasOrder
   },
 
-  newlineDevices: (state) => {
+  newlineDevices: state => {
     let allDevices = []
 
     state.newline.userPackages.forEach(({ id, devicevariations }) => {
@@ -493,7 +493,7 @@ const getters = {
     return state.accessory.selectedEmployee
   },
 
-  accessorySelectedAccessories: (state) => {
+  accessorySelectedAccessories: state => {
     return state.accessory.selectedAccessories
   },
 
@@ -545,7 +545,7 @@ const actions = {
         orderData,
         res => {
           commit(types.PLACE_ORDER_SET_UPGRADE_HAS_ORDER, true)
-          commit(types.PLACE_ORDER_RESET_UPGRADE)
+          commit(types.PLACE_ORDER_RESET_UPGRADE, false)
           resolve(res)
         },
         err => {
@@ -561,7 +561,7 @@ const actions = {
         orderData,
         res => {
           commit(types.PLACE_ORDER_SET_NEWLINE_HAS_ORDER, true)
-          commit(types.PLACE_ORDER_RESET_NEWLINE)
+          commit(types.PLACE_ORDER_RESET_NEWLINE, false)
           resolve(res)
         },
         err => {
@@ -577,7 +577,7 @@ const actions = {
         orderData,
         res => {
           commit(types.PLACE_ORDER_SET_TRANSFER_HAS_ORDER, true)
-          commit(types.PLACE_ORDER_RESET_TRANSFER)
+          commit(types.PLACE_ORDER_RESET_TRANSFER, false)
           resolve(res)
         },
         err => {
@@ -593,7 +593,7 @@ const actions = {
         orderData,
         res => {
           commit(types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER, true)
-          commit(types.PLACE_ORDER_RESET_ACCESSORY)
+          commit(types.PLACE_ORDER_RESET_ACCESSORY, false)
           resolve(res)
         },
         err => {
@@ -665,6 +665,10 @@ const actions = {
 
   setUpgradeComment({ commit }, comment) {
     commit(types.PLACE_ORDER_SET_UPGRADE_COMMENT, comment)
+  },
+
+  resetUpgrade({ commit }, resetHasOrder) {
+    commit(types.PLACE_ORDER_RESET_UPGRADE, resetHasOrder)
   },
 
   // New Line of Service
@@ -739,6 +743,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_COMMENT, comment)
   },
 
+  resetNewline({ commit }, resetHasOrder) {
+    commit(types.PLACE_ORDER_RESET_NEWLINE, resetHasOrder)
+  },
+
   // Transfer
 
   getTransferUserPackages({ commit }, userId) {
@@ -807,6 +815,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_TRANSFER_COMMENT, comment)
   },
 
+  resetTransfer({ commit }, resetHasOrder) {
+    commit(types.PLACE_ORDER_RESET_TRANSFER, resetHasOrder)
+  },
+
   // Accessory
 
   getAccessoryUserPackages({ commit }, userId) {
@@ -845,6 +857,10 @@ const actions = {
 
   setAccessorySelectedAccessory({ commit }, selectedAccessory) {
     commit(types.PLACE_ORDER_SET_ACCESSORY_SELECTED_ACCESSORY, selectedAccessory)
+  },
+
+  resetAccessory({ commit }, resetHasOrder) {
+    commit(types.PLACE_ORDER_RESET_ACCESSORY, resetHasOrder)
   },
 
   /* getPackageServices({ dispatch, commit, state }, packageId) {
@@ -1039,10 +1055,10 @@ const mutations = {
     state.upgrade.comment = comment
   },
 
-  [types.PLACE_ORDER_RESET_UPGRADE](state) {
+  [types.PLACE_ORDER_RESET_UPGRADE](state, clearHasOrder) {
     state.upgrade = {
       ...state.upgrade,
-      ..._.omit(initialUpgradeData, 'hasOrder'),
+      ..._.omit(initialUpgradeData, clearHasOrder ? '' : 'hasOrder'),
     }
   },
 
@@ -1096,10 +1112,10 @@ const mutations = {
     state.newline.comment = comment
   },
 
-  [types.PLACE_ORDER_RESET_NEWLINE](state) {
+  [types.PLACE_ORDER_RESET_NEWLINE](state, clearHasOrder) {
     state.newline = {
       ...state.newline,
-      ..._.omit(initialNewlineData, 'hasOrder'),
+      ..._.omit(initialNewlineData, clearHasOrder ? '' : 'hasOrder'),
     }
   },
 
@@ -1153,10 +1169,10 @@ const mutations = {
     state.transfer.comment = comment
   },
 
-  [types.PLACE_ORDER_RESET_TRANSFER](state) {
+  [types.PLACE_ORDER_RESET_TRANSFER](state, clearHasOrder) {
     state.transfer = {
       ...state.transfer,
-      ..._.omit(initialTransferData, 'hasOrder'),
+      ..._.omit(initialTransferData, clearHasOrder ? '' : 'hasOrder'),
     }
   },
 
@@ -1192,10 +1208,10 @@ const mutations = {
     state.accessory.hasOrder = hasOrder
   },
 
-  [types.PLACE_ORDER_RESET_ACCESSORY](state) {
+  [types.PLACE_ORDER_RESET_ACCESSORY](state, clearHasOrder) {
     state.accessory = {
       ...state.accessory,
-      ..._.omit(initialAccessoryData, 'hasOrder'),
+      ..._.omit(initialAccessoryData, clearHasOrder ? '' : 'hasOrder'),
     }
   },
 }

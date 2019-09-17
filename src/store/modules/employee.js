@@ -36,8 +36,14 @@ const getters = {
 const actions = {
   getAll({ commit, rootState }) {
     return new Promise((resolve, reject) => {
+      const payload = {
+        params: {
+          include: 'udlvalues',
+        },
+      }
+
       employeeAPI.search(
-        {},
+        payload,
         res => {
           const employees = store.sync(res.data).filter(employee => employee.id !== rootState.auth.userId)
 

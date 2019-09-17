@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -150,6 +150,7 @@ export default {
 
   methods: {
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
@@ -239,8 +240,8 @@ export default {
       this.getUserPackages(user.id).then(res => {
         // console.log('upgrade getUserPackages', res)
         // console.log(this.userPackages)
-      })
-      this.setEmployee(user)
+      });
+      this.setEmployee(user);
     },
 
     ...mapActions({
@@ -252,7 +253,8 @@ export default {
       setService: "placeOrder/setUpgradeSelectedService",
       setComment: "placeOrder/setUpgradeComment",
       setChangeCarrier: "placeOrder/setUpgradeChangeCarrier",
-      createOrder: "placeOrder/createUpgradeOrder"
+      createOrder: "placeOrder/createUpgradeOrder",
+      resetOrder: "placeOrder/resetUpgrade"
     })
   }
 };

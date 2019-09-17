@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -9,10 +9,7 @@
         @submit="onSubmit"
       ></order-form>
 
-      <user-select-form
-        v-if="!selectedEmployee"
-        @selectUser="setEmployee"
-      ></user-select-form>
+      <user-select-form v-if="!selectedEmployee" @selectUser="setEmployee"></user-select-form>
 
       <div v-else class="dashboard-drawer-main">
         <h1 class="text-center">Order a New Line of Service</h1>
@@ -32,10 +29,7 @@
           @continue="onNextStep"
         />
 
-        <order-summary
-          v-if="isReviewStep"
-          :accessories = "accessories"
-        ></order-summary>
+        <order-summary v-if="isReviewStep" :accessories="accessories"></order-summary>
       </div>
     </div>
   </drawer>
@@ -65,7 +59,7 @@ export default {
     return {
       steps: [
         { key: "select-accessories", text: "Select Accessories" },
-        { key: "review", text: "Review" },
+        { key: "review", text: "Review" }
       ]
     };
   },
@@ -104,10 +98,12 @@ export default {
       setStep: "placeOrder/setAccessoryStep",
       setEmployee: "placeOrder/setAccessorySelectedEmployee",
       setAccessory: "placeOrder/setAccessorySelectedAccessory",
-      createOrder: "placeOrder/createAccessoryOrder"
+      createOrder: "placeOrder/createAccessoryOrder",
+      resetOrder: "placeOrder/resetAccessory"
     }),
 
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
@@ -159,7 +155,7 @@ export default {
 
       const addressInPackage = _.find(this.addresses, { ...values });
 
-      console.log('accessories/onSubmit', values, addressInPackage);
+      console.log("accessories/onSubmit", values, addressInPackage);
 
       if (addressInPackage) {
         orderData.data.attributes["addressId"] = addressInPackage.id;
@@ -185,7 +181,7 @@ export default {
     },
 
     placeOrder(orderData) {
-      console.log('accessories placeOrder', orderData);
+      console.log("accessories placeOrder", orderData);
       // this.createOrder(orderData).then(res => {
       //   this.$router.push({ path: "/dashboard" });
       // });

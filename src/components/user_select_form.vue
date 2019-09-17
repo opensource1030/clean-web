@@ -42,10 +42,10 @@
         {{ selectedEmployee.supervisorEmail }}
         <br />
         <label>Department:</label>
-        {{ selectedEmployee.department }}
+        {{ employeeDepartment }}
         <br />
         <label>Cost center:</label>
-        {{ selectedEmployee.costCenter }}
+        {{ employeeCostCenter }}
         <br />
       </div>
 
@@ -73,6 +73,30 @@ export default {
   computed: {
     disabledNextButton() {
       return this.selectedEmployee ? false : "disabled";
+    },
+
+    employeeDepartment() {
+      if (!this.selectedEmployee) {
+        return "";
+      }
+
+      const value = _.find(this.selectedEmployee.udlvalues, {
+        udlName: "Department"
+      });
+
+      return _.get(value, "udlValue");
+    },
+
+    employeeCostCenter() {
+      if (!this.selectedEmployee) {
+        return "";
+      }
+
+      const value = _.find(this.selectedEmployee.udlvalues, {
+        udlName: "Cost Center"
+      });
+
+      return _.get(value, "udlValue");
     },
 
     ...mapGetters({
