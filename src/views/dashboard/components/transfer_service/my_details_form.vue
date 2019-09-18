@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-drawer-form pt-4">
+  <div class="dashboard-form pt-4">
     <b-form @submit.prevent="validateBeforeSubmit">
       <div class="row">
         <div class="col-6">

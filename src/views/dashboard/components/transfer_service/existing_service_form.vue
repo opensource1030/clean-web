@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-drawer-form pt-4">
+  <div class="dashboard-form pt-4">
     <b-form @submit.prevent="validateBeforeSubmit">
       <div class="row">
         <div class="col-12">
@@ -21,7 +21,7 @@
               <label>Previous IMEI *</label>
               <div>
                 <b-input name="serviceImei" v-model="form.serviceImei" v-validate="'required'"></b-input>
-                <span v-show="errors.has('serviceImei')" class="error">Requird</span>
+                <span v-show="errors.has('serviceImei')" class="error">Required</span>
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@
                   v-model="form.servicePhoneNo"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('servicePhoneNo')" class="error">Requird</span>
+                <span v-show="errors.has('servicePhoneNo')" class="error">Required</span>
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@
                   v-model="form.serviceSim"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('serviceSim')" class="error">Requird</span>
+                <span v-show="errors.has('serviceSim')" class="error">Required</span>
               </div>
             </div>
           </div>

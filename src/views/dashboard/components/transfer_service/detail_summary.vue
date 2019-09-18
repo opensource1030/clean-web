@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-drawer-form pt-4">
+  <div class="dashboard-form pt-4">
     <div class="row">
       <div class="detail-summary col-12">
         <div>

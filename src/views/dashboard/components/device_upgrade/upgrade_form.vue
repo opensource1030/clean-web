@@ -45,7 +45,7 @@
             <label>Address</label>
             <div>
               <b-input name="address" v-model="form.address" v-validate="'required'"></b-input>
-              <span v-show="errors.has('address')" class="error">Requird</span>
+              <span v-show="errors.has('address')" class="error">Required</span>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@
             <label>Address 2</label>
             <div>
               <b-input name="address2" v-model="form.address2"></b-input>
-              <span v-show="errors.has('address2')" class="error">Requird</span>
+              <span v-show="errors.has('address2')" class="error">Required</span>
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@
               </select>
 
               <b-input v-else name="country" v-model="form.country"></b-input>
-              <span v-show="errors.has('country')" class="error">Requird</span>
+              <span v-show="errors.has('country')" class="error">Required</span>
             </div>
           </div>
           <div class="col" :class="{'is-danger': errors.has('postalCode') }">

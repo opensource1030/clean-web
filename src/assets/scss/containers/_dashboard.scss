@@ -214,6 +214,10 @@
         line-height: 12px;
       }
     }
+
+    .edit-profile-btn {
+      font-size: 11px;
+    }
   }
   .device-container {
     &.empty {
@@ -498,8 +502,8 @@
     width: 500px;
     height: 100%;
     background-color: white;
-    padding: 2.5rem; 
-    overflow-x: hidden; 
+    padding: 2.5rem;
+    overflow-x: hidden;
 
     h1 {
       color: #1f2027;
@@ -509,7 +513,7 @@
   }
 }
 
-.dashboard-drawer-form {
+.dashboard-form {
   font-family: Montserrat;
   font-size: 10px;
 
@@ -547,16 +551,16 @@
   .is-danger {
     $danger: #ff690a;
 
-    color: $danger;
+    color: $danger !important;
 
     input,
     select {
-      border-color: $danger;
+      border-color: $danger !important;
     }
 
     label,
     option {
-      color: $danger;
+      color: $danger !important;
     }
   }
 
