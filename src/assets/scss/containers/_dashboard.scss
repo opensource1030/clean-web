@@ -527,10 +527,15 @@
     position: relative;
   }
 
+  .item {
+    &-field-wrapper {
+      line-height: normal;
+    }
+  }
+
   .error {
-    position: absolute;
-    top: calc(100% - 3px);
     font-size: 10px;
+    margin-top:10px;
   }
 
   .is-danger {
