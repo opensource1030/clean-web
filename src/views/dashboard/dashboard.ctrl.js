@@ -185,6 +185,16 @@ export default {
     onEditProfile() {
       this.editingProfile = true
     },
+
+    updateProfile(values) {
+      console.log(values)
+    },
+
+    ...mapActions({
+      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
+      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
+      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
+    }),
   },
 
   beforeCreate() {},

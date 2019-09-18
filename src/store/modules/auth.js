@@ -123,7 +123,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'roles.permissions.scopes,companies.contents'
+          include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues'
         }
       };
 

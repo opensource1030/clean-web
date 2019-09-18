@@ -6,30 +6,49 @@
 
     <b-form @submit.prevent="validateBeforeSubmit">
       <div class="row mb-3">
-        <div class="col item" :class="{'is-danger': errors.has('name') }">
-          <label>Name *</label>
+        <div class="col item" :class="{'is-danger': errors.has('firstName') }">
+          <label>First name *</label>
           <div>
-            <b-input name="name" v-model="form.name" v-validate="'required'"></b-input>
-            <span v-show="errors.has('name')" class="error">Required</span>
+            <b-input name="firstName" v-model="form.firstName" v-validate="'required'"></b-input>
+            <span v-show="errors.has('firstName')" class="error">Required</span>
           </div>
         </div>
       </div>
 
       <div class="row mb-3">
+        <div class="col item" :class="{'is-danger': errors.has('lastName') }">
+          <label>Last name *</label>
+          <div>
+            <b-input name="lastName" v-model="form.lastName" v-validate="'required'"></b-input>
+            <span v-show="errors.has('lastName')" class="error">Required</span>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="positions.length > 0" class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('position') }">
           <label>Position *</label>
           <div>
-            <b-input name="position" v-model="form.position" v-validate="'required'"></b-input>
+            <select name="position" v-model="form.position" v-validate="'required'">
+              <option v-for="position of positions" :value="position.id">{{ position.value }}</option>
+            </select>
+
             <span v-show="errors.has('position')" class="error">Required</span>
           </div>
         </div>
       </div>
 
-      <div class="row mb-3">
+      <div v-if="departments.length > 0" class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('department') }">
-          <label>Department *</label>
+          <label>Departments *</label>
           <div>
-            <b-input name="department" v-model="form.department" v-validate="'required'"></b-input>
+            <select name="department" v-model="form.department" v-validate="'required'">
+              <option
+                v-for="department of departments"
+                :value="department.id"
+              >{{ department.value }}</option>
+            </select>
+
             <span v-show="errors.has('department')" class="error">Required</span>
           </div>
         </div>
@@ -45,7 +64,7 @@
         </div>
       </div>
 
-      <div class="row mb-3">
+      <!-- <div class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('city') }">
           <label>City *</label>
           <div>
@@ -61,7 +80,7 @@
             <span v-show="errors.has('state')" class="error">Required</span>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <div class="row mt-4">
         <div class="col">
@@ -81,23 +100,37 @@ export default {
   data() {
     return {
       form: {
-        name: null,
-        position: null,
-        department: null,
+        firstName: null,
+        lastName: null,
         email: null,
-        city: null,
-        state: null
+        position: null,
+        department: null
       }
     };
   },
 
   created() {
-    console.log(this.profile);
+    this.form = {
+      ...this.form,
+      firstName: this.profile.firstName,
+      lastName: this.profile.lastName,
+      email: this.profile.email
+    };
+
+    this.profile.udlvalues.forEach(udl => {
+      if (udl.udlName === "Job Title Description") {
+        this.form.position = udl.udlId;
+      } else if (udl.udlName === "Home Department Description") {
+        this.form.department = udl.udlId;
+      }
+    });
   },
 
   computed: {
     ...mapGetters({
-      profile: "auth/getProfile"
+      profile: "auth/getProfile",
+      departments: "auth/getDepartments",
+      positions: "auth/getPositions"
     })
   },
 
@@ -145,13 +178,16 @@ export default {
     text-transform: uppercase;
   }
 
-  input[type="text"] {
+  input[type="text"],
+  select {
+    width: 100%;
     height: 30px;
     background-color: transparent;
     border-radius: 4px;
     border: 0.75px solid rgba(127, 161, 255, 0.61);
     color: white;
     font-size: 11px;
+    outline: none;
   }
 
   button {
@@ -161,15 +197,19 @@ export default {
   }
 
   i {
-    cursor: pointer;
     position: absolute;
     right: -23px;
     top: -23px;
-    color: #20a8d8;
+    cursor: pointer;
+
+    &:hover {
+      color: #20a8d8;
+    }
   }
 
   .error {
     top: calc(100% - 6px);
+    left: 0;
   }
 }
 </style>

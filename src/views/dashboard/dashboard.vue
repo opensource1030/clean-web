@@ -252,7 +252,7 @@
             </div>
 
             <div v-else class="left-panel">
-              <profile-form @close="closeProfileForm" />
+              <profile-form @close="closeProfileForm" @submit="updateProfile" />
             </div>
 
             <div class="col right-panel">
