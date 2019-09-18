@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -9,7 +9,10 @@
         @submit="onSubmit"
       ></order-form>
 
-      <user-select-form v-if="!selectedEmployee" @selectUser="setEmployee"></user-select-form>
+      <user-select-form
+        v-if="!selectedEmployee || userPackagesLoading"
+        @selectUser="onSelectEmployee"
+      ></user-select-form>
 
       <div v-else class="dashboard-drawer-main">
         <h1 class="text-center">Upgrade Device</h1>
@@ -27,16 +30,16 @@
             <toggle :active="changeCarrier" @change="setChangeCarrier"></toggle>
           </div>
 
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Subsided Device">
-              <devices
-                :devices="devices"
-                :selected-device="selectedDevice"
-                @requestDevice="onNextStep"
-                @selectDevice="onSelectDevice"
-              ></devices>
-            </b-tab>
-          </b-tabs>
+          <devices
+            :devices="devices"
+            :selected-device="selectedDevice"
+            :device-accessories="deviceAccessories"
+            :available-accessories="availableAccessories"
+            :selected-accessories="selectedAccessories"
+            @requestDevice="onNextStep"
+            @selectDevice="setDevice"
+            @selectAccessory="setAccessory"
+          ></devices>
         </div>
 
         <div v-if="isSelectingServiceStep" class="device-upgrade-service-step">
@@ -91,10 +94,10 @@ export default {
   },
 
   created() {
-    if (this.userPackages.length <= 0) {
-      const { id } = this.currentUser;
-      this.getUserPackages(id);
-    }
+    // if (this.userPackages.length <= 0) {
+    //   const { id } = this.currentUser;
+    //   this.getUserPackages(id);
+    // }
   },
 
   computed: {
@@ -128,11 +131,15 @@ export default {
     ...mapGetters({
       currentUser: "auth/getProfile",
       userRole: "auth/getRole",
-      userPackages: "placeOrder/userPackages",
       step: "placeOrder/upgradeStep",
+      userPackages: "placeOrder/upgradeUserPackages",
+      userPackagesLoading: "placeOrder/upgradeUserPackagesLoading",
       selectedEmployee: "placeOrder/upgradeSelectedEmployee",
       selectedDevice: "placeOrder/upgradeSelectedDevice",
       selectedService: "placeOrder/upgradeSelectedService",
+      deviceAccessories: "placeOrder/upgradeDeviceAccessories",
+      availableAccessories: "placeOrder/upgradeAvailableAccessories",
+      selectedAccessories: "placeOrder/upgradeSelectedAccessories",
       comment: "placeOrder/upgradeComment",
       changeCarrier: "placeOrder/upgradeChangeCarrier",
       devices: "placeOrder/upgradeDevices",
@@ -143,6 +150,7 @@ export default {
 
   methods: {
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
@@ -153,7 +161,7 @@ export default {
           attributes: {
             status: "New",
             orderType: "UpgradeDevice",
-            userId: this.selectedEmployee.id,
+            userId: this.selectedEmployee.id
           },
           relationships: {
             apps: {
@@ -218,10 +226,6 @@ export default {
       }
     },
 
-    onSelectDevice(devicevariation) {
-      this.setDevice(devicevariation);
-    },
-
     onNextStep() {
       this.setStep(this.step + 1);
     },
@@ -231,15 +235,26 @@ export default {
       this.onNextStep();
     },
 
+    onSelectEmployee(user) {
+      // console.log('upgrade onSelectEmployee', user)
+      this.getUserPackages(user.id).then(res => {
+        // console.log('upgrade getUserPackages', res)
+        // console.log(this.userPackages)
+      });
+      this.setEmployee(user);
+    },
+
     ...mapActions({
-      getUserPackages: "placeOrder/getUserPackages",
       setStep: "placeOrder/setUpgradeStep",
+      getUserPackages: "placeOrder/getUpgradeUserPackages",
       setEmployee: "placeOrder/setUpgradeSelectedEmployee",
       setDevice: "placeOrder/setUpgradeSelectedDevice",
+      setAccessory: "placeOrder/setUpgradeSelectedAccessory",
       setService: "placeOrder/setUpgradeSelectedService",
       setComment: "placeOrder/setUpgradeComment",
       setChangeCarrier: "placeOrder/setUpgradeChangeCarrier",
-      createOrder: "placeOrder/createUpgradeOrder"
+      createOrder: "placeOrder/createUpgradeOrder",
+      resetOrder: "placeOrder/resetUpgrade"
     })
   }
 };

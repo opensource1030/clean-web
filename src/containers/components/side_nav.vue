@@ -1,7 +1,7 @@
 <template>
   <nav class="sidebar-nav">
     <b-nav>
-      <b-nav-item v-if="$store.state.feature.enabled_dashboard || $store.state.feature.enabled_dashboard_legacy" to="/dashboard">
+      <b-nav-item v-if="$store.state.feature.enabled_dashboard_nextgen || $store.state.feature.enabled_dashboard_legacy" to="/dashboard">
         <i class="nav-icon fa fa-dashboard"></i>DASHBOARD
       </b-nav-item>
       <li class="nav-item">
@@ -91,6 +91,7 @@ export default {
     openSupport() {
       this.$store.commit('auth/setTicketIssue', '')
       this.$store.commit('auth/setShowTicket', true)
+      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'get_support' });
     },
 
     goExternalUrl(path) {

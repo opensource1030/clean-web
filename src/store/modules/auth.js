@@ -8,6 +8,8 @@ import { Storage, Utils } from '@/helpers'
 const { Store } = require('yayson')()
 const store = new Store()
 
+analytics.identify(process.env.ANALYTICS_ID)
+
 // initial state
 const state = {
   // email: localStorage.getItem('email') || '',
@@ -567,7 +569,24 @@ const actions = {
 
   logout ({ commit }) {
     commit('LOGOUT')
-  }
+  },
+
+  trackEventWithAnalytics({ state }, data) {
+    const { type, value } = data
+    let payload = {
+      fullName: `${state.profile.firstName} ${state.profile.lastName}`,
+      companyName: state.company.object.title,
+      email: state.profile.email,
+      userId: state.userId,
+      identification: state.profile.identification,
+    }
+
+    if (type === 'contact_support') {
+      payload['selectedOption'] = value
+    }
+
+    analytics.track(type, payload)
+  },
 }
 
 // mutations

@@ -137,6 +137,7 @@ export default {
 
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
+      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'contact_support', value });
       // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     },
 
@@ -156,6 +157,11 @@ export default {
       if (this.newlineHasOrder) {
         this.setNewlineHasOrder(false)
       }
+    },
+
+    billDetails(allocation) {
+      this.$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })
+      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'bill_details' });
     },
 
     ...mapActions({

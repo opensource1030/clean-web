@@ -22,6 +22,7 @@ import LegacyInfo from '@/components/legacy_info'
 import DeviceUpgrade from '@/views/dashboard/components/device_upgrade'
 import TransferService from '@/views/dashboard/components/transfer_service'
 import NewlineService from '@/views/dashboard/components/newline_service'
+import Accessory from '@/views/dashboard/components/accessory'
 import DeviceBillInfo from '@/views/dashboard/components/device_bill_info'
 
 // employee
@@ -83,6 +84,7 @@ const router = new Router({
             { path: 'device-upgrade', component: DeviceUpgrade, name: 'deviceUpgrade' },
             { path: 'newline-service', component: NewlineService, name: 'newlineService' },
             { path: 'transfer-service', component: TransferService, name: 'transferService' },
+            { path: 'accessory', component: Accessory, name: 'accessory' },
             { path: ':mobile_number/details', component: DeviceBillInfo, name: 'device_bill_info' },
           ],
         },

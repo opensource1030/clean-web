@@ -1,5 +1,5 @@
 <template>
-  <drawer open="true" @close="toggleDrawer">
+  <drawer :open="true" :show-close-confirm="true" @close="toggleDrawer">
     <div class="dashboard-drawer">
       <order-form
         v-if="isReviewStep"
@@ -10,8 +10,8 @@
       ></order-form>
 
       <user-select-form
-        v-if="!selectedEmployee"
-        @selectUser="setEmployee"
+        v-if="!selectedEmployee || userPackagesLoading"
+        @selectUser="onSelectEmployee"
       ></user-select-form>
 
       <div v-else class="dashboard-drawer-main">
@@ -20,39 +20,27 @@
         <steps
           :steps="steps"
           :active-step="step"
+          :show-back-button-on-first-step="true"
           @back="onStepBack"
         ></steps>
 
-        <my-details-form
-          v-if="isMyDetailStep"
-          @next="onNextStep"
-        ></my-details-form>
+        <my-details-form v-if="isMyDetailStep" @next="onNextStep"></my-details-form>
 
-        <device-info-form
-          v-if="isSelectingDeviceStep && !needNewDevice"
-          @next="onNextStep"
-        ></device-info-form>
+        <device-info-form v-if="isSelectingDeviceStep && !needNewDevice" @next="onNextStep"></device-info-form>
 
         <div v-if="isSelectingDeviceStep && needNewDevice">
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Subsided Device">
-              <devices
-                :devices="devices"
-                :selected-device="selectedDevice"
-                @requestDevice="onNextStep"
-                @selectDevice="onSelectDevice"
-              ></devices>
-            </b-tab>
-          </b-tabs>
+          <devices
+            :devices="devices"
+            :selected-device="selectedDevice"
+            @requestDevice="onNextStep"
+            @selectDevice="onSelectDevice"
+          ></devices>
         </div>
 
         <div v-if="isSelectingServiceStep">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services
-                :services="services"
-                @requestService="onSelectService"
-              ></services>
+              <services :services="services" @requestService="onSelectService"></services>
             </b-tab>
           </b-tabs>
         </div>
@@ -107,17 +95,18 @@ export default {
   },
 
   created() {
-    if (this.userPackages.length <= 0) {
-      const { id } = this.currentUser;
-      this.getUserPackages(id);
-    }
+    // if (this.userPackages.length <= 0) {
+    //   const { id } = this.currentUser;
+    //   this.getUserPackages(id);
+    // }
   },
 
   computed: {
     ...mapGetters({
       currentUser: "auth/getProfile",
-      userPackages: "placeOrder/userPackages",
       step: "placeOrder/newlineStep",
+      userPackages: "placeOrder/newlineUserPackages",
+      userPackagesLoading: "placeOrder/newlineUserPackagesLoading",
       selectedEmployee: "placeOrder/newlineSelectedEmployee",
       selectedDevice: "placeOrder/newlineSelectedDevice",
       selectedService: "placeOrder/newlineSelectedService",
@@ -128,7 +117,7 @@ export default {
       deviceInfo: "placeOrder/newlineDeviceInfo",
       hasOrder: "placeOrder/newlineHasOrder",
       devices: "placeOrder/newlineDevices",
-      accessories: "placeOrder/allAccessories",
+      accessories: "placeOrder/newlineAccessories",
       services: "placeOrder/newlineServices",
       addresses: "placeOrder/newlineAddresses"
     }),
@@ -152,8 +141,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getUserPackages: "placeOrder/getUserPackages",
       setStep: "placeOrder/setNewlineStep",
+      getUserPackages: "placeOrder/getNewlineUserPackages",
       setEmployee: "placeOrder/setNewlineSelectedEmployee",
       setDevice: "placeOrder/setNewlineSelectedDevice",
       setService: "placeOrder/setNewlineSelectedService",
@@ -162,18 +151,21 @@ export default {
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
       setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
-      createOrder: "placeOrder/createNewlineOrder"
+      createOrder: "placeOrder/createNewlineOrder",
+      resetOrder: "placeOrder/resetNewline"
     }),
 
     toggleDrawer() {
+      this.resetOrder(true);
       this.$router.push({ path: "/dashboard" });
     },
 
     onStepBack() {
       if (this.step > 0) {
         this.setStep(this.step - 1);
+      } else {
+        this.setEmployee(null);
       }
-      // console.log(this.devices);
     },
 
     onNextStep() {
@@ -187,6 +179,11 @@ export default {
     onSelectService(service) {
       this.setService(service);
       this.onNextStep();
+    },
+
+    onSelectEmployee(user) {
+      this.getUserPackages(user.id);
+      this.setEmployee(user);
     },
 
     onSubmit(values) {

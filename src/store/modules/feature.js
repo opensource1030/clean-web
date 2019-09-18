@@ -7,7 +7,6 @@ const state = {
   enabled_metric: false,
   enabled_package: false,
   enabled_package_edit: false,
-  enabled_dashboard: false,
   enabled_dashboard_legacy: false,
   enabled_upgrade_device: false,
   enabled_dashboard_nextgen: false,
@@ -26,28 +25,12 @@ const getters = {
 }
 
 const actions = {
-  setEnabledPlaceOrder({ commit }, enabled_place_order) {
-    commit('setEnabledPlaceOrder', enabled_place_order)
-  },
-
-  setEnabledEquipment({ commit }, enabled_equipment) {
-    commit('setEnabledEquipment', enabled_equipment)
-  },
-
   setFlag({ commit }, flag) {
     commit('setFlag', flag)
   }
 }
 
 const mutations = {
-  setEnabledPlaceOrder(state, enabled_place_order) {
-    state.enabled_place_order = enabled_place_order
-  },
-
-  setEnabledEquipment(state, enabled_equipment) {
-    state.enabled_equipment = enabled_equipment
-  },
-
   setFlag(state, flag) {
     // state = {...state, ...flag}
     state = Object.assign(state, flag)

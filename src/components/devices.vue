@@ -1,36 +1,70 @@
 <template>
   <div class="devices">
-    <device
-      v-for="variations in devices"
-      :key="variations.id"
-      :variations="variations"
-      :initial-value="getInitialValue(variations)"
-      @requestDevice="onRequestDevice"
-      @selectDevice="onSelectDevice"
-    ></device>
+    <b-tabs v-if="currentStep === 'device'" class="wa-tabs pt-3">
+      <b-tab title="Subsidized Device">
+        <device
+          v-for="variations in devices"
+          :key="variations.id"
+          :variations="variations"
+          :initial-value="getInitialValue(variations)"
+          @requestDevice="onContinue"
+          @selectDevice="onSelectDevice"
+        />
+      </b-tab>
+    </b-tabs>
+    <accessories
+      v-if="currentStep === 'accessory'"
+      :device-accessories="deviceAccessories"
+      :available-accessories="availableAccessories"
+      :selected-accessories="selectedAccessories"
+      @selectAccessory="onSelectAccessory"
+      @continue="onContinue"
+    />
   </div>
 </template>
 
 <script>
 import _ from "lodash";
 import Device from "@/components/device";
+import Accessories from "@/components/accessories";
 
 export default {
   name: "Devices",
 
   components: {
-    Device
+    Device,
+    Accessories
   },
 
-  props: ["devices", "selectedDevice"],
+  props: [
+    "devices",
+    "selectedDevice",
+    "deviceAccessories",
+    "availableAccessories",
+    "selectedAccessories"
+  ],
+
+  data() {
+    return {
+      currentStep: "device"
+    };
+  },
 
   methods: {
     onRequestDevice() {
-      this.$emit("requestDevice");
+      this.currentStep = "accessory";
     },
 
     onSelectDevice(devicevariation) {
       this.$emit("selectDevice", devicevariation);
+    },
+
+    onContinue() {
+      this.$emit("requestDevice");
+    },
+
+    onSelectAccessory(accessory) {
+      this.$emit("selectAccessory", accessory);
     },
 
     getInitialValue(variations) {
