@@ -25,41 +25,33 @@
         </div>
       </div>
 
-      <div v-if="positions.length > 0" class="row mb-3">
-        <div class="col item" :class="{'is-danger': errors.has('position') }">
-          <label>Position *</label>
-          <div>
-            <select name="position" v-model="form.position" v-validate="'required'">
-              <option v-for="position of positions" :value="position.id">{{ position.value }}</option>
-            </select>
-
-            <span v-show="errors.has('position')" class="error">Required</span>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="departments.length > 0" class="row mb-3">
-        <div class="col item" :class="{'is-danger': errors.has('department') }">
-          <label>Departments *</label>
-          <div>
-            <select name="department" v-model="form.department" v-validate="'required'">
-              <option
-                v-for="department of departments"
-                :value="department.id"
-              >{{ department.value }}</option>
-            </select>
-
-            <span v-show="errors.has('department')" class="error">Required</span>
-          </div>
-        </div>
-      </div>
-
       <div class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('email') }">
           <label>Email *</label>
           <div>
             <b-input name="email" v-model="form.email" v-validate="'required'"></b-input>
             <span v-show="errors.has('email')" class="error">Required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col item" :class="{'is-danger': errors.has('supervisorEmail') }">
+          <label>Supervisor Email *</label>
+          <div>
+            <b-input name="supervisorEmail" v-model="form.supervisorEmail" v-validate="'required'"></b-input>
+            <span v-show="errors.has('supervisorEmail')" class="error">Required</span>
+          </div>
+        </div>
+      </div>
+
+      <div v-for="udl of udls" class="row mb-3">
+        <div class="col item">
+          <label>{{ udl.name }} *</label>
+          <div>
+            <select :name="udl.name" v-model="form.udlvalues[udl.name]">
+              <option v-for="elem of udl.udlvalues" :value="elem.udlId">{{ elem.udlValue }}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -103,38 +95,50 @@ export default {
         firstName: null,
         lastName: null,
         email: null,
-        position: null,
-        department: null
+        supervisorEmail: null,
+        udlvalues: {}
       }
     };
   },
 
   created() {
-    this.form = {
-      ...this.form,
-      firstName: this.profile.firstName,
-      lastName: this.profile.lastName,
-      email: this.profile.email
-    };
+    this.initializeData(this.profile);
+  },
 
-    this.profile.udlvalues.forEach(udl => {
-      if (udl.udlName === "Job Title Description") {
-        this.form.position = udl.udlId;
-      } else if (udl.udlName === "Home Department Description") {
-        this.form.department = udl.udlId;
-      }
-    });
+  watch: {
+    profile(newVal) {
+      this.initializeData(newVal);
+    }
   },
 
   computed: {
     ...mapGetters({
       profile: "auth/getProfile",
-      departments: "auth/getDepartments",
-      positions: "auth/getPositions"
+      udls: "auth/getUdls"
     })
   },
 
   methods: {
+    initializeData(profile) {
+      this.form = {
+        ...this.form,
+        firstName: profile.firstName,
+        lastName: profile.lastName,
+        email: profile.email,
+        supervisorEmail: profile.supervisorEmail
+      };
+
+      const udls = _.get(profile, "companies.0.udls", []);
+      const userUdls = _.get(profile, "udlvalues");
+
+      udls.forEach(udl => {
+        this.form.udlvalues[udl.name] = _.get(
+          _.find(userUdls, { udlName: udl.name }),
+          "udlId"
+        );
+      });
+    },
+
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
         if (result) {

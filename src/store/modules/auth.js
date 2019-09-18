@@ -75,8 +75,8 @@ const getters = {
     return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
   },
 
-  getShowWelcomeFlag: (state) => {
-    return _.get(state.profile, 'show_welcome_flag') == 'true'
+  getUdls: state => {
+    return _.get(state.profile, 'companies.0.udls', []);
   }
 }
 
@@ -153,6 +153,47 @@ const actions = {
         }, {root: true})
         reject(error)
       })
+    })
+  },
+
+  updateProfile({ commit, state }, data) {
+    let udlData = []
+
+    _.keys(data.udlvalues).forEach(key => {
+      if (data.udlvalues[key]) {
+        // udlData.push({ udlName: key, udlValue: data.udlvalues[key] })
+        udlData.push({
+          type: "udlvalues",
+          id: data.udlvalues[key],
+        })
+      }
+    })
+
+    const payload = {
+      data: {
+        type: "users",
+        attributes: _.omit(data, 'udlvalues'),
+        relationships: {
+          udlvalues: {
+            data: udlData,
+          }
+        }
+      },
+    }
+
+    return new Promise((resolve, reject) => {
+      employeeAPI.update(
+        state.userId,
+        payload,
+        res => {
+          const updatedProfile = store.sync(res.data)
+          commit(types.AUTH_SET_PROFILE, updatedProfile)
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        },
+      )
     })
   },
 
@@ -670,9 +711,9 @@ const mutations = {
     state.variations.clickAgain = false;
   },
 
-  [types.AUTH_SET_PROFILE] (state, result) {
-    Storage.set('userProfile', JSON.stringify(result.profile))
-    state.profile = result.profile
+  [types.AUTH_SET_PROFILE] (state, profile) {
+    Storage.set('userProfile', JSON.stringify(profile))
+    state.profile = profile
   },
 
   setShowTicket (state, show_ticket) {

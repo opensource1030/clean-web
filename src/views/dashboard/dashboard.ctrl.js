@@ -186,14 +186,11 @@ export default {
       this.editingProfile = true
     },
 
-    updateProfile(values) {
-      console.log(values)
-    },
-
     ...mapActions({
       setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
       setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
       setTransferHasOrder: 'placeOrder/setTransferHasOrder',
+      updateProfile: 'auth/updateProfile',
     }),
   },
 
