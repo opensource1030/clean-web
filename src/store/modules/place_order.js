@@ -316,28 +316,36 @@ const getters = {
   newlineServices: state => {
     let allServices = []
 
-    state.newline.userPackages.forEach(({ services }) => {
-      services.forEach(service => {
-        allServices.push(service)
-      })
-    })
+    // state.newline.userPackages.forEach(({ services }) => {
+    //   services.forEach(service => {
+    //     allServices.push(service)
+    //   })
+    // })
 
-    // const { userPackages, needNewDevice, selectedDevice } = state.newline
-    // if (needNewDevice && selectedDevice) {
-    //   userPackages.forEach(({ devicevariations, services }) => {
-    //     if (_.find(devicevariations, { id: selectedDevice.id })) {
-    //       services.forEach(service => {
-    //         allServices.push(service)
-    //       })
-    //     }
-    //   })
-    // } else if (!needNewDevice) {
-    //   userPackages.forEach(({ services }) => {
-    //     services.forEach(service => {
-    //       allServices.push(service)
-    //     })
-    //   })
-    // }
+    const { userPackages, needNewDevice, selectedDevice } = state.newline
+    if (needNewDevice && selectedDevice) {
+      // console.log('newlineServices', selectedDevice, userPackages)
+      userPackages.forEach(({ devicevariations, services }) => {
+        // device_variations hav different carriers
+        // if (_.find(devicevariations, { id: selectedDevice.id })) {
+        if (_.find(devicevariations, (dv) => {
+          // let modifications = new Object()
+          // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
+          let modifications = dv.modifications.reduce((obj, m) => { let a = obj; a[m['modType']] = m['value']; return a; }, new Object())
+          return _.isEqual(modifications, selectedDevice.modification)
+        })) {
+          services.forEach(service => {
+            allServices.push(service)
+          })
+        }
+      })
+    } else if (!needNewDevice) {
+      userPackages.forEach(({ services }) => {
+        services.forEach(service => {
+          allServices.push(service)
+        })
+      })
+    }
 
     return _.uniqBy(allServices, 'id')
   },
