@@ -39,7 +39,7 @@
 
       <h1 class="mb-3">Shipping info</h1>
 
-      <b-form @submit.prevent="validateBeforeSubmit">
+      <b-form @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
             <label>Address</label>
@@ -121,8 +121,8 @@
       </b-form>
     </div>
 
-    <div v-else="showShippingForm">
-      <b-btn variant="default w-100" @click="onSubmit">Submit order</b-btn>
+    <div v-else>
+      <b-btn variant="default w-100" @click="onSubmitNoAddress">Submit order</b-btn>
     </div>
   </div>
 </template>
@@ -177,7 +177,7 @@ export default {
   },
 
   methods: {
-    validateBeforeSubmit() {
+    onSubmitWithAddress() {
       this.$validator.validateAll().then(result => {
         if (result) {
           let values = {};
@@ -194,7 +194,7 @@ export default {
       });
     },
 
-    onSubmit() {
+    onSubmitNoAddress() {
       this.$emit("submit");
     },
 

@@ -500,7 +500,7 @@ const getters = {
   accessoryAccessories: state => {
     let allAccessories = []
 
-    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+    state.accessory.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
         const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
         if (AccessoryTypes.indexOf(device_type) > -1) {
@@ -508,6 +508,9 @@ const getters = {
         }
       })
     })
+
+    // allAccessories = _.values(_.groupBy(_.uniqBy(allAccessories, 'id'), 'deviceId'))
+    allAccessories = _.uniqBy(allAccessories, 'id')
 
     return allAccessories
   },

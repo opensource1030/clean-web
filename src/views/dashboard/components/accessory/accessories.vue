@@ -1,29 +1,32 @@
 <template>
   <div class="accessories pt-5">
-    <!--  <h5 class="mt-5 mb-3">Need any additional accessories?</h5> -->
-
-    <div class="row">
-      <div v-for="accessory of availableAccessories" class="col-4" :key="`accessory-${accessory.id}`">
-        <div
-          class="accessory-available mb-2"
-          v-bind:class="{ selected: isSelectedAccessory(accessory) }"
-          @click="onSelectAccessory(accessory)"
-        >
-          <img class="accessory-thumb" :src="deviceImageUrl(accessory)" />
-          <div class="accessory-name">{{ deviceName(accessory) }}</div>
-          <div class="accessory-price">$ {{ accessory.priceRetail }}</div>
-          <div class="accessory-checkbox">
-            <i class="fas fa-check"></i>
+    <template v-if="!availableAccessories || availableAccessories.length == 0">
+      <h5 class="m-0 text-center">No accessory found</h5>
+    </template>
+    <template v-else>
+      <div class="row">
+        <div v-for="accessory of availableAccessories" class="col-4" :key="`accessory-${accessory.id}`">
+          <div
+            class="accessory-available mb-2"
+            v-bind:class="{ selected: isSelectedAccessory(accessory) }"
+            @click="onSelectAccessory(accessory)"
+          >
+            <img class="accessory-thumb" :src="deviceImageUrl(accessory)" />
+            <div class="accessory-name">{{ deviceName(accessory) }}</div>
+            <div class="accessory-price">$ {{ accessory.price1 }}</div>
+            <div class="accessory-checkbox">
+              <i class="fas fa-check"></i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row mt-3">
-      <div class="col text-center">
-        <b-btn variant="default" @click="onContinue" :disabled="!isValid">Continue</b-btn>
+      <div class="row mt-3">
+        <div class="col text-center">
+          <b-btn variant="default" @click="onContinue" :disabled="!isValid">Continue</b-btn>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 

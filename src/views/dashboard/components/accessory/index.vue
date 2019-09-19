@@ -9,10 +9,13 @@
         @submit="onSubmit"
       ></order-form>
 
-      <user-select-form v-if="!selectedEmployee" @selectUser="setEmployee"></user-select-form>
+      <user-select-form
+        v-if="!selectedEmployee || userPackagesLoading"
+        @selectUser="onSelectEmployee"
+      ></user-select-form>
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Order a New Line of Service</h1>
+        <h1 class="text-center">Order Accessories</h1>
 
         <steps
           :steps="steps"
@@ -74,12 +77,13 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: "auth/getProfile",
-      userPackages: "placeOrder/accessoryUserPackages",
       step: "placeOrder/accessoryStep",
+      userPackages: "placeOrder/accessoryUserPackages",
+      userPackagesLoading: "placeOrder/accessoryUserPackagesLoading",
       selectedEmployee: "placeOrder/accessorySelectedEmployee",
       selectedAccessories: "placeOrder/accessorySelectedAccessories",
       hasOrder: "placeOrder/accessoryHasOrder",
-      accessories: "placeOrder/allAccessories",
+      accessories: "placeOrder/accessoryAccessories",
       addresses: "placeOrder/accessoryAddresses"
     }),
 
@@ -94,8 +98,8 @@ export default {
 
   methods: {
     ...mapActions({
-      getUserPackages: "placeOrder/getAccessoryUserPackages",
       setStep: "placeOrder/setAccessoryStep",
+      getUserPackages: "placeOrder/getAccessoryUserPackages",
       setEmployee: "placeOrder/setAccessorySelectedEmployee",
       setAccessory: "placeOrder/setAccessorySelectedAccessory",
       createOrder: "placeOrder/createAccessoryOrder",
@@ -121,8 +125,9 @@ export default {
       // console.log(this.accessories);
     },
 
-    isSelectedAccessory(accessory) {
-      return _.findIndex(this.accessories, { id: accessory.id }) !== -1;
+    onSelectEmployee(user) {
+      this.getUserPackages(user.id)
+      this.setEmployee(user)
     },
 
     onSubmit(values) {
@@ -133,7 +138,7 @@ export default {
             status: "New",
             orderType: "Accessories",
             userId: this.selectedEmployee.id,
-            serviceId: this.selectedService.id
+            // serviceId: this.selectedService.id
           },
           relationships: {
             apps: {
@@ -149,13 +154,13 @@ export default {
       for (let accessory of this.selectedAccessories) {
         orderData.data.relationships.devicevariations.data.push({
           type: "devicevariations",
-          id: this.accessory.id
+          id: accessory.id
         });
       }
 
       const addressInPackage = _.find(this.addresses, { ...values });
 
-      console.log("accessories/onSubmit", values, addressInPackage);
+      // console.log('accessories/onSubmit', values, addressInPackage);
 
       if (addressInPackage) {
         orderData.data.attributes["addressId"] = addressInPackage.id;
@@ -181,10 +186,10 @@ export default {
     },
 
     placeOrder(orderData) {
-      console.log("accessories placeOrder", orderData);
-      // this.createOrder(orderData).then(res => {
-      //   this.$router.push({ path: "/dashboard" });
-      // });
+      // console.log('accessories placeOrder', orderData);
+      this.createOrder(orderData).then(res => {
+        this.$router.push({ path: "/dashboard" });
+      });
     }
   }
 };
