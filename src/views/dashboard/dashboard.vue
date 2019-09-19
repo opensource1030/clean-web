@@ -68,11 +68,8 @@
                           <div>N/A</div>
                         </div>
                         <div class="col">
-                          <label>LAST UPGRADE</label>
-                          <div
-                            v-if="allocation.last_upgrade"
-                          >{{ allocation.last_upgrade | cleanDate }}</div>
-                          <div v-else>N/A</div>
+                          <label>CONTRACT END DATE</label>
+                          <div>N/A</div>
                         </div>
                       </div>
                     </div>
@@ -302,12 +299,22 @@
               <div class="right-panel__body" v-if="userInfo.lastAllocations.length > 0">
                 <div class="service-container">
                   <div class="row justify-content-between device-info">
-                    <div class="col">
-                      <div class="d-flex align-items-center">
-                        <h4 class="d-inline-block">{{ activeAllocation.device }}</h4>
+                    <div class="col-sm-6">
+                      <div>
+                        <h5 class="text-dark">{{ activeAllocation.carrier }} <span class="font-weight-light">{{ activeAllocation.mobile_number | phone }}</span></h5>
+                      </div>
+                      <div class="d-flex align-items-center mt-3">
+                        <h4 class="d-inline-block text-dark">{{ activeAllocation.device }}</h4>
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
-                      <div class="mt-2">{{ activeAllocation.mobile_number | phone }}</div>
+                      <div class="mt-4">
+                        <label><b>Device ID:</b></label>
+                        <span>{{ activeAllocation.device_esn_imei }}</span>
+                      </div>
+                      <div>
+                        <label><b>SIM:</b></label>
+                        <span>{{ activeAllocation.device_sim }}</span>
+                      </div>
                       <div class="mt-3">
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
                         <b-btn
@@ -316,9 +323,16 @@
                           @click="$router.push({ path: '/dashboard/device-upgrade'})"
                         >Upgrade Device</b-btn>
                       </div>
+                      <label class="mt-5">
+                        <b class="d-block mb-3">Contact support:</b>
+                        <ticket-type-select
+                          v-model="activeAllocation.issue"
+                          @change="onChangeTicketIssue"
+                        />
+                      </label>
                     </div>
-                    <div>
-                      <div class="row right-tag">
+                    <div class="col-sm-6">
+                      <div class="row justify-content-end text-center">
                         <div class="col-auto border-right">
                           <label>BILL MONTH</label>
                           <div>{{ activeAllocation.bill_month | cleanDate }}</div>
@@ -334,6 +348,21 @@
                           >{{ activeAllocation.last_upgrade | cleanDate }}</div>
                           <div v-else>N/A</div>
                         </div>
+                      </div>
+                      <div class="service-info mt-5">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div>
+                            <b>Service Name</b>
+                          </div>
+                          <div class="service-image"></div>
+                        </div>
+                        <ul class="list-unstyled mt-3 mb-0">
+                          <!-- <li>Unlimited Voice Plan</li>
+                          <li>Business Global Traveller</li>
+                          <li>2GB Pooled Domestic Data Plan</li>
+                          <li>Messaging 200</li>-->
+                          <li>N/A</li>
+                        </ul>
                       </div>
                     </div>
                   </div>
@@ -363,35 +392,6 @@
                         variant="outline-default px-5 my-3"
                         @click="billDetails(activeAllocation)"
                       >Bill Details</b-btn>
-                    </div>
-                  </div>
-
-                  <div class="row mt-5">
-                    <div class="col-lg">
-                      <div class="service-info">
-                        <div class="d-flex align-items-center">
-                          <div class="service-image"></div>
-                          <div class="mb-0 ml-3">
-                            <b>Service Name</b>
-                          </div>
-                        </div>
-                        <ul class="list-unstyled mt-3 mb-0">
-                          <!-- <li>Unlimited Voice Plan</li>
-                          <li>Business Global Traveller</li>
-                          <li>2GB Pooled Domestic Data Plan</li>
-                          <li>Messaging 200</li>-->
-                          <li>N/A</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg">
-                      <label>
-                        <b class="d-block mb-3">Contact support:</b>
-                        <ticket-type-select
-                          v-model="activeAllocation.issue"
-                          @change="onChangeTicketIssue"
-                        />
-                      </label>
                     </div>
                   </div>
                 </div>
