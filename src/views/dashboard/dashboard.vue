@@ -285,6 +285,7 @@
                 <div
                   class="media px-4 py-2"
                   v-if="$store.state.feature.enabled_dashboard_procure_accessories"
+                  @click="$router.push({ path: '/dashboard/accessory' })"
                 >
                   <div class="d-flex">
                     <img src="@/assets/images/ic_headphones.svg">
