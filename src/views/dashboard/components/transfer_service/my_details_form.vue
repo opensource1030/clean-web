@@ -4,76 +4,80 @@
       <div class="row">
         <div class="col-6">
           <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('carrierInfo') }">
+            <div class="col item" :class="{'is-danger': errors.has('Existing Carrier') }">
               <label>Existing Carrier *</label>
-              <div>
+              <div class="item-field-wrapper">
                 <b-input
-                  name="carrierInfo"
+                  class="mb-1"
+                  name="Existing Carrier"
                   placeholder="e.g. T Mobile"
                   v-model="form.carrierInfo"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('carrierInfo')" class="error">Requird</span>
+                <span v-show="errors.has('Existing Carrier')" class="error">{{ errors.first('Existing Carrier') }}</span>
               </div>
             </div>
           </div>
 
           <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('wirelessNo') }">
+            <div class="col item" :class="{'is-danger': errors.has('Phone Number') }">
               <label>Phone Number *</label>
-              <div>
+              <div class="item-field-wrapper">
                 <b-input
-                  name="wirelessNo"
+                  class="mb-1"
+                  name="Phone Number"
                   placeholder="e.g. 199-902-5522"
                   v-model="form.wirelessNo"
-                  v-validate="'required'"
+                  v-validate="{ required: true , numeric: true }"
                 ></b-input>
-                <span v-show="errors.has('wirelessNo')" class="error">Requird</span>
+                <span v-show="errors.has('Phone Number')" class="error"> {{ errors.first('Phone Number') }}</span>
               </div>
             </div>
           </div>
 
           <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('accountName') }">
+            <div class="col item" :class="{'is-danger': errors.has('Account Name') }">
               <label class="d-flex align-items-center">
                 Account Name *
                 <help-pop helpText="Name of person or business the account belongs to" />
               </label>
-              <div>
-                <b-input name="accountName" v-model="form.accountName" v-validate="'required'"></b-input>
-                <span v-show="errors.has('accountName')" class="error">Requird</span>
+              <div class="item-field-wrapper">
+                <b-input name="Account Name" v-model="form.accountName" v-validate="'required'" class="mb-1"></b-input>
+                <span v-show="errors.has('Account Name')" class="error">{{ errors.first('Account Name') }}</span>
               </div>
             </div>
           </div>
 
           <div class="row mb-3">
-            <div class="col item" :class="{'is-danger': errors.has('accountNumber') }">
+            <div class="col item" :class="{'is-danger': errors.has('Account Number') }">
               <label class="d-flex align-items-center">
                 Account Number *
                 <help-pop helpText="Number that identifies your account for billing purposes" />
               </label>
-              <div>
+              <div class="item-field-wrapper">
                 <b-input
-                  name="accountNumber"
+                  class="mb-1"
+                  name="Account Number"
                   v-model="form.accountNumber"
-                  v-validate="'required'"
+                  v-validate="{ required: true , numeric: true }"
                 ></b-input>
-                <span v-show="errors.has('accountNumber')" class="error">Requird</span>
+                <span v-show="errors.has('Account Number')" class="error">{{ errors.first('Account Number') }}</span>
               </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="col item" :class="{'is-danger': errors.has('billingPassword') }">
+            <div class="col item" :class="{'is-danger': errors.has('Billing Password') }">
               <label>Billing Password *</label>
-              <div>
+              <div class="item-field-wrapper">
                 <b-input
+                  class="mb-1"
                   type="password"
-                  name="billingPassword"
+                  name="Billing Password"
                   v-model="form.billingPassword"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('billingPassword')" class="error">Requird</span>
+                <span v-show="errors.has('Billing Password')" class="error">{{ errors.first('Billing Password') }}</span>
               </div>
             </div>
           </div>
@@ -85,14 +89,15 @@
               Transfer Type *
               <help-pop helpText="Transfer Type"></help-pop>
             </label>
-            <div :class="{'is-danger': errors.has('transferType') }">
+            <div :class="{'is-danger': errors.has('Transfer Type') }">
               <b-radio-group
-                name="transferType"
+                class="mb-1"
+                name="Transfer Type"
                 :options="transferTypes"
                 v-model="form.transferType"
                 v-validate="'required'"
               ></b-radio-group>
-              <span v-show="errors.has('transferType')" class="error">Requird</span>
+              <span v-show="errors.has('Transfer Type')" class="error">{{ errors.first('Transfer Type') }}</span>
             </div>
           </div>
         </div>

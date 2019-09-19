@@ -50,6 +50,7 @@
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
           :comment="comment"
+          :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
         ></order-summary>
       </div>
@@ -233,11 +234,10 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              const newAddress = store.sync(res.data);
-              orderData.data.attributes["addressId"] = newAddress.id;
+              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
               this.placeOrder(orderData);
             },
-            () => {}
+            (err) => { console.log(err) }
           );
         }
       } else {

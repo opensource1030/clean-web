@@ -8,7 +8,7 @@ import DeviceBillInfo from './components/device_bill_info'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
 import LegacyDashboard from './dashboard_legacy'
-// import { Storage, Utils, Log } from '@/helpers'
+import { Storage, Utils, Log } from '@/helpers'
 // import employeeAPI from '@/api/employee-api'
 // import { all } from 'q';
 
@@ -79,6 +79,7 @@ export default {
     ...mapGetters({
       userRole: 'auth/getRole',
       clientInfo: 'auth/getClientInfo',
+      // showWelcomeFlag: 'auth/getShowWelcomeFlag',
       upgradeHasOrder: 'placeOrder/upgradeHasOrder',
       newlineHasOrder: 'placeOrder/newlineHasOrder',
       transferHasOrder: 'placeOrder/transferHasOrder',
@@ -99,6 +100,13 @@ export default {
   // },
 
   methods: {
+    ...mapActions({
+      setShowWelcomeFlag: 'auth/setShowWelcomeFlag',
+      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
+      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
+      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
+    }),
+
     // setAllocation(index) {
     //   this.activeAllocationIndex = index;
     // },
@@ -143,6 +151,9 @@ export default {
 
     toggleWelcomeDrawer() {
       this.welcome.visible = !this.welcome.visible
+      if (this.welcome.do_not_show_again) {
+        this.setShowWelcomeFlag(false)
+      }
     },
 
     closeConfirmModal() {
@@ -163,12 +174,6 @@ export default {
       this.$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })
       this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'bill_details' });
     },
-
-    ...mapActions({
-      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
-      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
-      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
-    }),
   },
 
   beforeCreate() {},
@@ -182,9 +187,9 @@ export default {
         // if (this.fromLoginPage) {
         //   this.welcome.visible = true
         // }
-        // if (!this.$route.param.mobile_number) {
+        if (!Storage.get('show_welcome_flag') ? true :  Storage.get('show_welcome_flag') == 'true') {
           this.welcome.visible = true
-        // }
+        }
       },
       err => {
         console.log('dashboard/created err', err)

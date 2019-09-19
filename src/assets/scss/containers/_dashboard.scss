@@ -124,6 +124,12 @@
     font-size: 16px;
     font-weight: 600;
   }
+  h5 {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
   p {
     margin: 0;
   }
@@ -527,10 +533,15 @@
     position: relative;
   }
 
+  .item {
+    &-field-wrapper {
+      line-height: normal;
+    }
+  }
+
   .error {
-    position: absolute;
-    top: calc(100% - 3px);
     font-size: 10px;
+    margin-top:10px;
   }
 
   .is-danger {

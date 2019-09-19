@@ -73,6 +73,10 @@ const getters = {
   getPermissions: (state) => {
     // return _.get(state.profile, 'roles[0].permissions', {})
     return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
+  },
+
+  getShowWelcomeFlag: (state) => {
+    return _.get(state.profile, 'show_welcome_flag') == 'true'
   }
 }
 
@@ -587,6 +591,11 @@ const actions = {
 
     analytics.track(type, payload)
   },
+
+  setShowWelcomeFlag({ commit }, flag) {
+    Storage.set('show_welcome_flag', flag)
+    commit('setShowWelcomeFlag', flag)
+  }
 }
 
 // mutations
@@ -692,6 +701,10 @@ const mutations = {
     state.variations.clickAgain = true;
     state.variations.messageShow = false;
     state.variations.message = '';
+  },
+
+  setShowWelcomeFlag (state, flag) {
+    state.profile.show_welcome_flag = flag
   }
 }
 

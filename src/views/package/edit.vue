@@ -137,12 +137,7 @@
                       <h4>Devices Available from {{ activePreset.name }}</h4>
                       <carousel :perPage="6">
                         <slide v-for="(device, index) in devices.availableDevices" :key="`available-device-${index}`">
-                          <transition appear
-                                      enter-class=""
-                                      enter-active-class="animated zoomIn"
-                                      leave-class=""
-                                      leave-active-class="animated zoomOut"
-                          >
+                          <transition appear name="zoom">
                             <div
                               @click="addDevice(index)"
                               class="card box-card"
@@ -170,12 +165,7 @@
                   <h4>Selected Devices</h4>
                   <carousel :perPage="6">
                     <slide v-for="(device, index) in devices.selected" :key="`selected-device-${index}`">
-                      <transition appear
-                                  enter-class=""
-                                  enter-active-class="animated zoomIn"
-                                  leave-class=""
-                                  leave-active-class="animated zoomOut"
-                      >
+                      <transition appear name="zoom">
                         <div
                           @click="removeDevice(index)"
                           class="card box-card"
@@ -208,12 +198,7 @@
                 <h4>Carriers Available</h4>
                 <carousel :perPage="6">
                   <slide v-for="(carrier, index) in carriers" :key="`carrier-${carrier.id}`">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated zoomIn"
-                                leave-class=""
-                                leave-active-class="animated zoomOut"
-                    >
+                    <transition appear name="zoom">
                       <div
                         @click="setActive('activeCarrier', carrier)"
                         :class="{'active': carrier.id == activeCarrier.id}"
@@ -240,12 +225,7 @@
                       <h4>Services Available From {{ activeCarrier.shortName }}</h4>
                       <carousel :perPage="5">
                         <slide v-for="(service, index) in services.availableServices" :key="`available-service-${service.id}`">
-                          <transition appear
-                                      enter-class=""
-                                      enter-active-class="animated zoomIn"
-                                      leave-class=""
-                                      leave-active-class="animated zoomOut"
-                          >
+                          <transition appear name="zoom">
                             <div
                               @click="setActive('activeService', service)"
                               :class="{'active': service.id == activeService.id}"
@@ -266,12 +246,7 @@
               </template>
               <template v-if="activeService.id">
                 <hr>
-                <transition appear
-                            enter-class=""
-                            enter-active-class="animated fadeIn"
-                            leave-class=""
-                            leave-active-class="animated fadeOut"
-                >
+                <transition appear name="fade">
                   <div>
                     <div>
                       <label class="field">
@@ -332,12 +307,7 @@
                   <h4>Selected Services</h4>
                   <carousel :perPage="5">
                     <slide v-for="(service, index) in services.selected" :key="`selected-service-${index}`">
-                      <transition appear
-                                  enter-class=""
-                                  enter-active-class="animated fadeIn"
-                                  leave-class=""
-                                  leave-active-class="animated fadeOut"
-                      >
+                      <transition appear name="fade">
                         <div
                           @click="setActive('activeService', service)"
                           :class="{'active': service.id == activeService.id}"
@@ -369,12 +339,7 @@
                   <h4>Addresses Available</h4>
                   <carousel :perPage="6">
                     <slide v-for="(address, index) in addresses.availableAddresses" :key="`available-address-${address.id}`">
-                      <transition appear
-                                  enter-class=""
-                                  enter-active-class="animated fadeIn"
-                                  leave-class=""
-                                  leave-active-class="animated fadeOut"
-                      >
+                      <transition appear name="fade">
                         <div
                           @click="setActive('activeAddress', address)"
                           :class="{'active': address.id == activeAddress.id}"
@@ -397,12 +362,7 @@
                 <hr>
                 <div class="row">
                   <div class="col-lg-10">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated fadeIn"
-                                leave-class=""
-                                leave-active-class="animated fadeOut"
-                    >
+                    <transition appear name="fade">
                       <table class="table table-borderless">
                         <thead>
                           <tr>
@@ -451,12 +411,7 @@
                 <h4>Selected Addresses</h4>
                 <carousel :perPage="6">
                   <slide v-for="(address, index) in addresses.selected" :key="`selected-address-${address.id}`">
-                    <transition appear
-                                enter-class=""
-                                enter-active-class="animated zoomIn"
-                                leave-class=""
-                                leave-active-class="animated zoomOut"
-                    >
+                    <transition appear name="zoom">
                       <div
                         @click="setActive('activeAddress', address)"
                         :class="{'active': address.id == activeAddress.id}"

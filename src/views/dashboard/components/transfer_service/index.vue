@@ -88,6 +88,7 @@
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
           :comment="comment"
+          :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
         ></order-summary>
       </div>
@@ -109,6 +110,7 @@ import ExistingServiceForm from "./existing_service_form";
 import MyDetailsForm from "./my_details_form";
 import DeviceInfoForm from "./device_info_form";
 import DetailSummary from "./detail_summary";
+import addressAPI from "@/api/address-api";
 
 export default {
   name: "TransferService",
@@ -234,7 +236,7 @@ export default {
             status: "New",
             orderType: "TransferServiceLiability",
             userId: this.selectedEmployee.id,
-            extraInfo: _.omit(this.details, "keepExistingService")
+            extraInfo: JSON.stringify( _.omit(this.details, "keepExistingService") )
           },
           relationships: {
             apps: {
@@ -279,11 +281,10 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              const newAddress = store.sync(res.data);
-              orderData.data.attributes["addressId"] = newAddress.id;
+              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
               this.placeOrder(orderData);
             },
-            () => {}
+            (err) => { console.log(err) }
           );
         }
       } else {
