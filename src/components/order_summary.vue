@@ -89,6 +89,20 @@
       </div>
     </div>
 
+    <div class="extra-details-container my-4">
+      <table class="extra-info-table">
+        <tr v-if="device == null">
+          <td class="label-heading extra-info-name">Include new SIM Card</td>
+          <td v-if="newSimCard">Yes</td>
+          <td v-else>No</td>
+        </tr>
+        <tr v-if="device != null">
+          <td class="label-heading extra-info-name">Include new SIM Card</td>
+          <td>Yes - A new simcard is included when ordering or upgrading a device</td>
+        </tr>
+      </table>
+    </div>
+
     <div class="mt-4">
       <h5 class="order-title-label">Additional Comments</h5>
       <textarea
@@ -96,7 +110,9 @@
         @change="onCommentChange"
       >{{ comment }}</textarea>
     </div>
+    
   </div>
+
 </template>
 
 <script>
@@ -105,9 +121,10 @@ import _ from "lodash";
 export default {
   name: "OrderSummary",
 
-  props: ["device", "service", "comment"],
+  props: ["device", "service", "comment", "newSimCard"],
 
   computed: {
+
     deviceModification() {
       return _.join(_.values(this.device.modification), " | ");
     },
@@ -213,6 +230,20 @@ textarea {
   }
 }
 
+.extra-info {
+
+  font-size: 11px;
+
+  &-table {
+    width: 100%;
+  }
+  &-name {
+    color: #a9b5d1;
+    text-transform: uppercase;
+    width: 50%;
+  }
+}
+
 .order-total {
   padding: 6px 20px;
   background-color: rgba(53, 91, 185, 0.08);
@@ -235,4 +266,5 @@ textarea {
   font-weight: 600;
   text-align: right;
 }
+
 </style>

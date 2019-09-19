@@ -100,6 +100,7 @@ const initialAccessoryData = {
 // initial state
 const state = {
   allocation: {},
+
   upgrade: { ...initialUpgradeData },
   newline: { ...initialNewlineData },
   transfer: { ...initialTransferData },
@@ -575,7 +576,9 @@ const actions = {
   },
 
   createTransferOrder({ commit }, orderData) {
+    console.log(orderData)
     return new Promise((resolve, reject) => {
+      //console.log('Hello')
       orderAPI.create(
         orderData,
         res => {

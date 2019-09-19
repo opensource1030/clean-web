@@ -88,6 +88,7 @@
           :device="needNewDevice ? selectedDevice : null"
           :service="selectedService"
           :comment="comment"
+          :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
         ></order-summary>
       </div>
