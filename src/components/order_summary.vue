@@ -8,7 +8,7 @@
           </div>
 
           <div class="device-info-detail pl-3">
-            <h1 class="order-title-label">Device Information</h1>
+            <div class="order-title-label">Device Information</div>
             <div class="device-info-name">{{ device.name }}</div>
             <div class="device-info-variation">{{ deviceModification }}</div>
           </div>
@@ -24,11 +24,11 @@
       </div>
     </div>
 
-    <div v-if="!!service" class="usage-info mt-5">
-      <h1 class="order-title-label">Service Package Information</h1>
+    <div v-if="!!service" class="usage-info mt-4">
+      <div class="order-title-label">Service Package Information</div>
 
       <div v-if="domesticServices.length > 0">
-        <h1 class="service-label">- Domestic Services</h1>
+        <div class="service-label">- Domestic Services</div>
         <table>
           <tr v-for="item in domesticServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
@@ -39,7 +39,7 @@
       </div>
 
       <div v-if="internationalServices.length > 0" class="mt-2">
-        <h1 class="service-label">- International Services</h1>
+        <div class="service-label">- International Services</div>
         <table>
           <tr v-for="item in internationalServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
@@ -56,8 +56,8 @@
         </div>
       </div>
 
-      <div v-if="addons.length > 0">
-        <h1 class="service-label">- Service Package Addons</h1>
+      <div v-if="addons.length > 0" class="mt-5">
+        <div class="service-label">- Service Package Addons</div>
 
         <table>
           <tr v-for="item in addons">
@@ -100,7 +100,7 @@
     </div>
 
     <div class="mt-4">
-      <h1 class="service-label mb-2">Additional Comments</h1>
+      <div class="service-label mb-1">Additional Comments</div>
       <textarea placeholder="Your message..." @change="onCommentChange">{{ comment }}</textarea>
     </div>
   </div>
@@ -172,8 +172,8 @@ export default {
 .service-label {
   color: #1f2027;
   font-size: 12px;
-  margin-top: 30px;
-  margin-bottom: 8px;
+  font-weight: 600;
+  margin-top: 16px;
 }
 
 textarea {

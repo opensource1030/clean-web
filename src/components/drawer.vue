@@ -12,8 +12,8 @@
     </transition>
 
     <div v-if="confirmDialogOpened" class="drawer-close-confirm">
-      <h1>Attention</h1>
-      <h5>Are you sure you want to discard progress?</h5>
+      <div class="drawer-close-confirm-title">Attention</div>
+      <div class="drawer-close-confirm-desc">Are you sure you want to discard progress?</div>
       <div class="row">
         <div class="col">
           <b-btn variant="outline-default w-100" @click="onStay">Stay</b-btn>
@@ -123,7 +123,7 @@ export default {
     width: 350px;
     text-align: center;
 
-    h1 {
+    &-title {
       color: #1f2027;
       font-size: 24px;
       font-weight: 600;
@@ -131,7 +131,7 @@ export default {
       margin-bottom: 17px;
     }
 
-    h5 {
+    &-desc {
       color: #1f2027;
       font-size: 12px !important;
       font-weight: normal !important;
