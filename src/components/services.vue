@@ -10,6 +10,7 @@
           <div class="service-details mt-4">
             <div
               v-for="item of serviceItems(service)"
+              class="mt-1"
             >{{ item.category | capitalize }} {{ item.value }} {{ item.unit }}</div>
           </div>
         </div>

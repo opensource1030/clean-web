@@ -133,9 +133,10 @@ export default {
 
     h5 {
       color: #1f2027;
-      font-size: 12px;
+      font-size: 12px !important;
+      font-weight: normal !important;
       line-height: 21px;
-      margin-bottom: 27px;
+      margin-bottom: 27px !important;
     }
 
     button {

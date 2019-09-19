@@ -14,6 +14,7 @@
             <div v-for="(values, key) in allVariations" class="d-flex align-items-center mt-3">
               <div
                 v-for="value of values"
+                class="device-mod mr-2"
                 :class="getModClass(key, value)"
                 @click="toggleDeviceMod(key, value)"
               >
@@ -249,8 +250,7 @@ export default {
     font-size: 14px;
   }
 
-  &-color,
-  &-capacity {
+  &-mod {
     user-select: none;
     cursor: pointer;
   }
