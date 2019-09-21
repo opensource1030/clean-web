@@ -186,6 +186,12 @@ export default {
       this.editingProfile = true
     },
 
+    profileSubmit(values) {
+      this.updateProfile(values).then(() => {
+        this.editingProfile = false
+      })
+    },
+
     ...mapActions({
       setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
       setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',

@@ -50,7 +50,7 @@
           <label>{{ udl.name }} *</label>
           <div>
             <select :name="udl.name" v-model="form.udlvalues[udl.name]">
-              <option v-for="elem of udl.udlvalues" :value="elem.udlId">{{ elem.udlValue }}</option>
+              <option v-for="elem of udl.udlvalues" :value="elem.id">{{ elem.udlValue }}</option>
             </select>
           </div>
         </div>
@@ -132,10 +132,7 @@ export default {
       const userUdls = _.get(profile, "udlvalues");
 
       udls.forEach(udl => {
-        this.form.udlvalues[udl.name] = _.get(
-          _.find(userUdls, { udlName: udl.name }),
-          "udlId"
-        );
+        this.form.udlvalues[udl.name] = _.get(_.find(userUdls, { udlName: udl.name }), "id");
       });
     },
 
