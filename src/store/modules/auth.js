@@ -143,7 +143,9 @@ const actions = {
           commit(types.AUTH_LOGIN_DONE)
 
           // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-          router.push({name: 'Dashboard'})
+          if (router) {
+            router.push({name: 'Dashboard'})
+          }
           resolve(result)
         }
       }, (error) => {
@@ -156,7 +158,7 @@ const actions = {
     })
   },
 
-  updateProfile({ commit, state }, data) {
+  updateProfile({ dispatch, state }, data) {
     let udlData = []
 
     _.keys(data.udlvalues).forEach(key => {
@@ -185,14 +187,30 @@ const actions = {
       employeeAPI.update(
         state.userId,
         payload,
-        res => {
-          const updatedProfile = store.sync(res.data)
-          commit(types.AUTH_SET_PROFILE, updatedProfile)
-          resolve(res)
+        () => {
+          dispatch('getProfileAfterUpdate').then(res => resolve(res), err => reject(err))    
         },
         err => {
           reject(err)
         },
+      )
+    })
+  },
+
+  getProfileAfterUpdate({ commit }) {
+    const profilePayload = {
+      params: {
+        include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues'
+      }
+    }
+
+    return new Promise((resolve, reject) => {
+      authAPI.profile(profilePayload,
+        profile => {
+          commit(types.AUTH_SET_PROFILE, profile)
+          resolve(profile)
+        },
+        error => reject(error)
       )
     })
   },
@@ -712,7 +730,7 @@ const mutations = {
   },
 
   [types.AUTH_SET_PROFILE] (state, profile) {
-    Storage.set('userProfile', JSON.stringify(profile))
+    Storage.set('profile', JSON.stringify(profile))
     state.profile = profile
   },
 
