@@ -29,7 +29,7 @@
         <template v-if="isSelectingServiceStep">
           <detail-summary v-if="details.keepExistingService" @next="onNextStep" />
 
-          <div v-else class="dashboard-drawer-form pt-4">
+          <div v-else class="dashboard-form pt-4">
             <div class="item d-flex flex-column align-items-center">
               <label>Need a new device?</label>
               <div class="mt-2">

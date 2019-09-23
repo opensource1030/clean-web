@@ -14,10 +14,11 @@
             <div v-for="(values, key) in allVariations" class="d-flex align-items-center mt-3">
               <div
                 v-for="value of values"
+                class="device-mod mr-2"
                 :class="getModClass(key, value)"
                 @click="toggleDeviceMod(key, value)"
               >
-                <span v-if="key !== 'color'">{{ value }}</span>
+                <span v-if="key !== 'style'">{{ value }}</span>
               </div>
             </div>
           </div>
@@ -157,9 +158,6 @@ export default {
   },
 
   created() {
-    this.variations.forEach(({ devices }) => {
-      console.log(devices[0].properties);
-    });
     this.populateSelected(this.initialValue);
   },
 
@@ -205,7 +203,7 @@ export default {
           [`device-${key}`]: true,
           [`device-${key}--active`]: this.selected[key] === value
         },
-        key === "color" && { [`mod-${_.kebabCase(value)}`]: true }
+        key === "style" && { [`mod-${_.kebabCase(value)}`]: true }
       );
     },
 
@@ -249,13 +247,12 @@ export default {
     font-size: 14px;
   }
 
-  &-color,
-  &-capacity {
+  &-mod {
     user-select: none;
     cursor: pointer;
   }
 
-  &-color {
+  &-style {
     width: 12px;
     height: 12px;
     background-color: #ffbdbd;

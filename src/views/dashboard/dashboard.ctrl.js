@@ -4,6 +4,7 @@ import Avatar from 'vue-avatar'
 import Drawer from '@/components/drawer'
 import TicketTypeSelect from '@/components/ticket_type_select'
 import OrderConfirmModal from '@/components/order_confirm_modal'
+import ProfileForm from '@/components/profile_form'
 import DeviceBillInfo from './components/device_bill_info'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
@@ -27,6 +28,7 @@ export default {
     TrendChart,
     LegacyDashboard,
     OrderConfirmModal,
+    ProfileForm,
   },
 
   data() {
@@ -56,6 +58,7 @@ export default {
       serviceInfo: {
         visible: false,
       },
+      editingProfile: false,
     }
   },
 
@@ -87,7 +90,7 @@ export default {
 
     hasOrder() {
       return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder
-    }
+    },
   },
 
   // watch: {
@@ -145,7 +148,7 @@ export default {
 
       this.$store.commit('auth/setTicketIssue', value)
       this.$store.commit('auth/setShowTicket', true)
-      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'contact_support', value });
+      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'contact_support', value })
       // console.log('onChangeTicketIssue', value, this.$store.state.auth.show_ticket, this.$store.state.auth.ticket_issue)
     },
 
@@ -172,8 +175,29 @@ export default {
 
     billDetails(allocation) {
       this.$router.push({ path: `/dashboard/${allocation.mobile_number}/details` })
-      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'bill_details' });
+      this.$store.dispatch('auth/trackEventWithAnalytics', { type: 'bill_details' })
     },
+
+    closeProfileForm() {
+      this.editingProfile = false
+    },
+
+    onEditProfile() {
+      this.editingProfile = true
+    },
+
+    profileSubmit(values) {
+      this.updateProfile(values).then(() => {
+        this.editingProfile = false
+      })
+    },
+
+    ...mapActions({
+      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
+      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
+      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
+      updateProfile: 'auth/updateProfile',
+    }),
   },
 
   beforeCreate() {},
@@ -187,7 +211,7 @@ export default {
         // if (this.fromLoginPage) {
         //   this.welcome.visible = true
         // }
-        if (!Storage.get('show_welcome_flag') ? true :  Storage.get('show_welcome_flag') == 'true') {
+        if (!Storage.get('show_welcome_flag') ? true : Storage.get('show_welcome_flag') == 'true') {
           this.welcome.visible = true
         }
       },

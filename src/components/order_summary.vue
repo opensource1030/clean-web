@@ -8,7 +8,7 @@
           </div>
 
           <div class="device-info-detail pl-3">
-            <h5 class="order-title-label">Device Information</h5>
+            <div class="order-title-label">Device Information</div>
             <div class="device-info-name">{{ device.name }}</div>
             <div class="device-info-variation">{{ deviceModification }}</div>
           </div>
@@ -25,11 +25,10 @@
     </div>
 
     <div v-if="!!service" class="usage-info mt-4">
+      <div class="order-title-label">Service Package Information</div>
 
-      <h5 class="order-title-label" style="margin: 40px 0;">Service Package Information</h5>
-
-      <div>
-        <h5 class="service-label">- Domestic Services</h5>
+      <div v-if="domesticServices.length > 0">
+        <div class="service-label">- Domestic Services</div>
         <table>
           <tr v-for="item in domesticServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
@@ -39,8 +38,8 @@
         </table>
       </div>
 
-      <div>
-        <h5 class="service-label">- International Services</h5>
+      <div v-if="internationalServices.length > 0" class="mt-2">
+        <div class="service-label">- International Services</div>
         <table>
           <tr v-for="item in internationalServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
@@ -57,9 +56,8 @@
         </div>
       </div>
 
-      <div v-if="addons.length > 0">
-
-        <h5 class="service-label">- Service Package Addons</h5>
+      <div v-if="addons.length > 0" class="mt-5">
+        <div class="service-label">- Service Package Addons</div>
 
         <table>
           <tr v-for="item in addons">
@@ -75,12 +73,10 @@
             <span class="font-weight-bold">${{ addonsCost }}</span>
           </div>
         </div>
-
       </div>
-
     </div>
 
-    <hr>
+    <hr />
 
     <div class="text-right mt-3">
       <div class="order-total">
@@ -104,15 +100,10 @@
     </div>
 
     <div class="mt-4">
-      <h5 class="order-title-label">Additional Comments</h5>
-      <textarea
-        placeholder="Your message..."
-        @change="onCommentChange"
-      >{{ comment }}</textarea>
+      <div class="service-label mb-1">Additional Comments</div>
+      <textarea placeholder="Your message..." @change="onCommentChange">{{ comment }}</textarea>
     </div>
-    
   </div>
-
 </template>
 
 <script>
@@ -124,30 +115,32 @@ export default {
   props: ["device", "service", "comment", "newSimCard"],
 
   computed: {
-
     deviceModification() {
       return _.join(_.values(this.device.modification), " | ");
     },
 
     domesticServices() {
-      return _.filter(this.service.serviceitems, ['domain', 'domestic']);
+      return _.filter(this.service.serviceitems, ["domain", "domestic"]);
     },
 
     internationalServices() {
-      return _.filter(this.service.serviceitems, ['domain', 'international']);
+      return _.filter(this.service.serviceitems, ["domain", "international"]);
     },
 
     baseServiceCost() {
-      let serviceItems = _.union(this.domesticServices, this.internationalServices)
-      return _.sumBy(serviceItems, 'cost');
+      const serviceItems = _.union(
+        this.domesticServices,
+        this.internationalServices
+      );
+      return _.sumBy(serviceItems, "cost");
     },
 
     addons() {
-      return _.filter(this.service.serviceitems, ['category', 'addon']);
+      return _.filter(this.service.serviceitems, ["category", "addon"]);
     },
 
     addonsCost() {
-      return _.sumBy(this.addons, 'cost');
+      return _.sumBy(this.addons, "cost");
     },
 
     total() {
@@ -163,8 +156,8 @@ export default {
 
   methods: {
     onCommentChange(event) {
-      this.$emit('change', event.target.value);
-    },
+      this.$emit("change", event.target.value);
+    }
   }
 };
 </script>
@@ -179,10 +172,8 @@ export default {
 .service-label {
   color: #1f2027;
   font-size: 12px;
-  font-weight: bold;
-  margin-left: 30px;
+  font-weight: 600;
   margin-top: 16px;
-  margin-bottom: 16px;
 }
 
 textarea {
@@ -231,7 +222,6 @@ textarea {
 }
 
 .extra-info {
-
   font-size: 11px;
 
   &-table {
@@ -266,5 +256,4 @@ textarea {
   font-weight: 600;
   text-align: right;
 }
-
 </style>

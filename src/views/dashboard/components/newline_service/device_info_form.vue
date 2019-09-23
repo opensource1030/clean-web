@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-drawer-form pt-4">
+  <div class="dashboard-form pt-4">
     <b-form @submit.prevent="validateBeforeSubmit">
       <div class="row">
         <div class="col-6">
@@ -8,7 +8,7 @@
               <label>IMEI</label>
               <div>
                 <b-input name="deviceImei" v-model="form.deviceImei" v-validate="'required'"></b-input>
-                <span v-show="errors.has('deviceImei')" class="error">Requird</span>
+                <span v-show="errors.has('deviceImei')" class="error">Required</span>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@
                   v-model="form.deviceCarrier"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('deviceCarrier')" class="error">Requird</span>
+                <span v-show="errors.has('deviceCarrier')" class="error">Required</span>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
                   v-model="form.deviceSim"
                   v-validate="'required'"
                 ></b-input>
-                <span v-show="errors.has('deviceSim')" class="error">Requird</span>
+                <span v-show="errors.has('deviceSim')" class="error">Required</span>
               </div>
             </div>
           </div>
@@ -96,13 +96,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      deviceInfo: "placeOrder/newlineDeviceInfo",
+      deviceInfo: "placeOrder/newlineDeviceInfo"
     })
   },
 
   methods: {
     ...mapActions({
-      setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
+      setDeviceInfo: "placeOrder/setNewlineDeviceInfo"
     }),
 
     setNeedNewSim(needNewSim) {

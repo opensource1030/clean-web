@@ -75,8 +75,8 @@ const getters = {
     return _.map(_.get(state.profile, 'roles[0].permissions', {}), 'name')
   },
 
-  getShowWelcomeFlag: (state) => {
-    return _.get(state.profile, 'show_welcome_flag') == 'true'
+  getUdls: state => {
+    return _.get(state.profile, 'companies.0.udls', []);
   }
 }
 
@@ -123,7 +123,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       let _params = {
         params: {
-          include: 'roles.permissions.scopes,companies.contents'
+          include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues'
         }
       };
 
@@ -143,7 +143,9 @@ const actions = {
           commit(types.AUTH_LOGIN_DONE)
 
           // // Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
-          router.push({name: 'Dashboard'})
+          if (router) {
+            router.push({name: 'Dashboard'})
+          }
           resolve(result)
         }
       }, (error) => {
@@ -153,6 +155,63 @@ const actions = {
         }, {root: true})
         reject(error)
       })
+    })
+  },
+
+  updateProfile({ dispatch, state }, data) {
+    let udlData = []
+
+    _.keys(data.udlvalues).forEach(key => {
+      if (data.udlvalues[key]) {
+        // udlData.push({ udlName: key, udlValue: data.udlvalues[key] })
+        udlData.push({
+          type: "udlvalues",
+          id: data.udlvalues[key],
+        })
+      }
+    })
+
+    const payload = {
+      data: {
+        type: "users",
+        attributes: _.omit(data, 'udlvalues'),
+        relationships: {
+          udlvalues: {
+            data: udlData,
+          }
+        }
+      },
+    }
+
+    return new Promise((resolve, reject) => {
+      employeeAPI.update(
+        state.userId,
+        payload,
+        () => {
+          dispatch('getProfileAfterUpdate').then(res => resolve(res), err => reject(err))    
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
+
+  getProfileAfterUpdate({ commit }) {
+    const profilePayload = {
+      params: {
+        include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues'
+      }
+    }
+
+    return new Promise((resolve, reject) => {
+      authAPI.profile(profilePayload,
+        profile => {
+          commit(types.AUTH_SET_PROFILE, profile)
+          resolve(profile)
+        },
+        error => reject(error)
+      )
     })
   },
 
@@ -670,9 +729,9 @@ const mutations = {
     state.variations.clickAgain = false;
   },
 
-  [types.AUTH_SET_PROFILE] (state, result) {
-    Storage.set('userProfile', JSON.stringify(result.profile))
-    state.profile = result.profile
+  [types.AUTH_SET_PROFILE] (state, profile) {
+    Storage.set('profile', JSON.stringify(profile))
+    state.profile = profile
   },
 
   setShowTicket (state, show_ticket) {

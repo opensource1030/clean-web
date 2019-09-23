@@ -136,6 +136,8 @@ export default {
 
     &:last-child {
       &::before {
+        top: -14px;
+        border-width: 4px;
         border-color: white;
       }
     }

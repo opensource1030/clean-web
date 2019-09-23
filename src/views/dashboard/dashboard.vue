@@ -182,7 +182,7 @@
         <!-- desktop view -->
         <div class="d-none d-lg-block">
           <div class="row mx-0">
-            <div class="left-panel">
+            <div v-if="!editingProfile" class="left-panel">
               <div class="user-container">
                 <div class="mb-3">
                   <avatar
@@ -200,6 +200,10 @@
                     <span>{{ _.get(userInfo.data, 'companies[0].name') }}</span>
                   </li>
                 </ul>
+                <b-btn
+                  variant="outline-default w-100 edit-profile-btn"
+                  @click="onEditProfile"
+                >Edit Profile</b-btn>
               </div>
 
               <template v-if="userInfo.lastAllocations.length > 0">
@@ -247,6 +251,10 @@
               </div>
             </div>
 
+            <div v-else class="left-panel">
+              <profile-form @close="closeProfileForm" @submit="profileSubmit" />
+            </div>
+
             <div class="col right-panel">
               <div class="order-type-container d-flex w-100 mx-0 mb-5">
                 <div
@@ -255,7 +263,7 @@
                   @click="$router.push({ path: '/dashboard/newline-service' })"
                 >
                   <div class="d-flex">
-                    <img src="@/assets/images/ic_rocket.svg">
+                    <img src="@/assets/images/ic_rocket.svg" />
                   </div>
                   <div class="media-body">
                     <div>
@@ -270,7 +278,7 @@
                   @click="$router.push({ path: '/dashboard/transfer-service' })"
                 >
                   <div class="d-flex">
-                    <img src="@/assets/images/ic_transfer.svg">
+                    <img src="@/assets/images/ic_transfer.svg" />
                   </div>
                   <div class="media-body">
                     <div>
@@ -285,7 +293,7 @@
                   @click="$router.push({ path: '/dashboard/accessory' })"
                 >
                   <div class="d-flex">
-                    <img src="@/assets/images/ic_headphones.svg">
+                    <img src="@/assets/images/ic_headphones.svg" />
                   </div>
                   <div class="media-body">
                     <div>
@@ -442,10 +450,7 @@
           </div>
         </div>
 
-        <order-confirm-modal
-          :visible="hasOrder"
-          @close="closeConfirmModal"
-        ></order-confirm-modal>
+        <order-confirm-modal :visible="hasOrder" @close="closeConfirmModal"></order-confirm-modal>
       </div>
 
       <drawer :open="welcome.visible" @close="toggleWelcomeDrawer()">

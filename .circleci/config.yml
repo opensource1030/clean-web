@@ -1,0 +1,52 @@
+version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:10.16.0
+jobs:
+  setup:
+    <<: *defaults
+    steps:
+      - type: checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: NPM Dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+           - .
+
+  build_test:
+    <<: *defaults
+    docker:
+      - image: konekto/gauge-taiko
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Run App
+          command: npm run start:dev
+          background: true
+      - run:
+          name: Run Gauge for Functional Testing
+          command: npm run test:gauge
+      - store_test_results:
+          path: ~/repo/tests/gauge/reports/xml-report
+
+
+workflows:
+  version: 2
+  setup_build_test-gauge:
+    jobs:
+      - setup
+      - build_test:
+          requires:
+            - setup
