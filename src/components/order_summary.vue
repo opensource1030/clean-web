@@ -32,8 +32,8 @@
         <table>
           <tr v-for="item in domesticServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
-            <td class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
-            <!-- <td class="usage-info-price">${{ item.cost }}</td> -->
+            <td v-if="!item.unlimited" class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
+            <td v-else class="usage-info-desc">Unlimited</td>
           </tr>
         </table>
       </div>
@@ -43,8 +43,8 @@
         <table>
           <tr v-for="item in internationalServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
-            <td class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
-            <!-- <td class="usage-info-price">${{ item.cost }}</td> -->
+            <td v-if="!item.unlimited" class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
+            <td v-else class="usage-info-desc">Unlimited</td>
           </tr>
         </table>
       </div>
