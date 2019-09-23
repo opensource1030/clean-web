@@ -78,7 +78,13 @@ export default {
 
     unlimitedValidation(validatorField, scope, type) {
       this.$validator.validate(validatorField, this[scope][type].value)
+    },
+
+    showInConsole(text) {
+      console.log(text)
     }
 
   }
 }
+
+

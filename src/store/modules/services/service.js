@@ -253,15 +253,7 @@ const mutations = {
   },
 
   updateServiceDetail (state, { e, type }) {
-    // console.log('service/updateServiceDetail', type, e, state.serviceDetails.status)
-    switch (type) {
-      case 'description':
-        state.serviceDetails[type] = e.target.value;
-        break;
-      default:
-        state.serviceDetails[type] = e;
-        break;
-    }
+    state.serviceDetails[type] = e;
   },
 
   updateDomesticplan (state, { e, type }) {
@@ -317,20 +309,13 @@ const mutations = {
   updateAddon(state, {i, e, type}) {
     if (type == 'name') {
       state.addons[i].description = e.target.value;
-      let value = e.target.value;
-      if (value == null || value == '') {
-        state.addons[i].addonNameError = true;
-      }
-      state.addons[i].addonNameError = false;
     }
 
     if (type == 'price') {
-      state.addons[i].cost = parseInt(e.target.value);
       let value = e.target.value;
-      if (value == null || value == '') {
-        state.addons[i].addonPriceError = true;
+      if (value != '') {
+        state.addons[i].cost = e.target.value;
       }
-      state.addons[i].addonPriceError = false;
     }
 
     for (let add of state.addons) {
