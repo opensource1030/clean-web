@@ -8,7 +8,7 @@ export default class Constants {
   static PASSWORD = 'user1234';
 
   static timeout = {
-    navigationTimeout: 60000,
+    navigationTimeout: 80000,
     waitForStart: 1000,
   };
 }

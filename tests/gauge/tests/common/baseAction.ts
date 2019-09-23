@@ -87,9 +87,10 @@ export default class BaseAction extends BaseElements {
       console.log(error);
     }
   }
-  async scrollDownToElement(locator: string): Promise<void> {
+  async scrollDownToElement(locator: string, param?: string): Promise<void> {
     try {
-      await scrollDown(locator);
+      const element: ElementWrapper = param ? await this.findElement(locator, param) : await this.findElement(locator);
+      await scrollDown(element);
     } catch (error) {
       console.log(error);
     }

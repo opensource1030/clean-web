@@ -16,8 +16,8 @@ export default class DashboardPageUI {
 
     static ORDERING_FOR_MYSELF_CONTINUE_BUTTON = 'xpt=//h2[text()="Ordering for my self"]/../button';
     static ORDERING_FOR_OTHER_USER_CONTINUE_BUTTON = 'xpt=//h2[text()="On behalf of other user"]/../button';
-    static CHANGE_CARRIER_SWITCH = 'xpt=//div[text()="No"]/..';
-    static CHANGE_CARRIER_NO_OPTION = 'xpt=//div[@class="toggle-content toggle-content--off"]';
+    static CHANGE_SWITCH_OPTION_BUTTON = 'xpt=//div[text()="No"]/..';
+    static SWITCH_NO_OPTION = 'xpt=//div[@class="toggle-content toggle-content--off"]';
     static CATEGORY_OPTION = 'xpt=(//div[@class="service"])[1]';
     static DEVICE_CAPACITY = 'xpt=(//div[@class="device-capacity"])[1]';
     static SPACE_GREY_COLOR = 'xpt=(//div[@class="device-color mod-space-grey"])[1]';
@@ -30,4 +30,14 @@ export default class DashboardPageUI {
     static GOT_IT_SUBMIT_ORDER = 'xpt=//button[text()="Got it!"]';
     static SELECT_USER_DROPDOWN = 'xpt=//div[@class="multiselect__tags"]';
     static THE_FIRST_USER_OPTION = 'xpt=(//li[@class="multiselect__element"])[1]';
+
+    static TRANSFER_WIRELESS_SERVICES_LIABILITY_BUTTON = 'xpt=//b[text()="Transfer Wireless Services Liability"]/../..';
+    static EIXSTING_CARRIER_FIELD = 'xpt=//input[@name="carrierInfo"]';
+    static PHONE_NUMBER_FIELD = 'xpt=//input[@name="wirelessNo"]';
+    static ACCOUNT_NAME_FIELD = 'xpt=//input[@name="accountName"]';
+    static ACCOUNT_NUMBER_FIELD = 'xpt=//input[@name="accountNumber"]';
+    static BILLING_PASSWORD_FIELD = 'xpt=//input[@name="billingPassword"]';
+    static PERSONAL_TO_CORPORATE_OPTION = 'xpt=//span[text()="Personal to corporate"]/..';
+    static NEXT_BUTTON = 'xpt=//button[text()="Next"]';
+    static ERROR_MESSAGE = 'xpt=(//span[@class="error"])[1]';
   }

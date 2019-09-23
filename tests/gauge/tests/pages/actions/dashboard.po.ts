@@ -2,6 +2,7 @@ import DashboardPageUI from "../interfaces/dashboard.ui";
 import AbstractPage from "./abstract.po";
 import { press, dropDown } from "taiko";
 import { timingSafeEqual } from "crypto";
+import * as faker from "faker";
 
 export default class DashboardPage extends AbstractPage {
   constructor() {
@@ -10,6 +11,7 @@ export default class DashboardPage extends AbstractPage {
 
   async clickGotItButton(): Promise<void> {
     if (await this.isElementDisplayed(DashboardPageUI.GOTIT_BUTTON) == true) {
+      await this.scrollDownToElement(DashboardPageUI.GOTIT_BUTTON);
       await this.clickElement(DashboardPageUI.GOTIT_BUTTON);
     } else {
       /* else block statements */
@@ -41,7 +43,7 @@ export default class DashboardPage extends AbstractPage {
   }
 
   async inputMobilenumber(): Promise<void> {
-    await this.type(DashboardPageUI.MOBILE_NUMBER_FIELD, "+84764332329");
+    await this.type(DashboardPageUI.MOBILE_NUMBER_FIELD, faker.phone.phoneNumber());
   }
 
   async clickSubmitTicketButton(): Promise<void> {
@@ -71,9 +73,9 @@ export default class DashboardPage extends AbstractPage {
     await this.clickElement(DashboardPageUI.ORDERING_FOR_OTHER_USER_CONTINUE_BUTTON);
   }
 
-  async changeCarrierToYes(): Promise<void> {
-    if (await this.isElementDisplayed(DashboardPageUI.CHANGE_CARRIER_NO_OPTION) == true) {
-      await this.clickElement(DashboardPageUI.CHANGE_CARRIER_SWITCH);
+  async changeSwitchButtonToYes(): Promise<void> {
+    if (await this.isElementDisplayed(DashboardPageUI.SWITCH_NO_OPTION) == true) {
+      await this.clickElement(DashboardPageUI.CHANGE_SWITCH_OPTION_BUTTON);
     } else {
       /* else block statements */
     }
@@ -119,5 +121,41 @@ export default class DashboardPage extends AbstractPage {
   async selectUserForOrder(): Promise<void> {
     await this.clickElement(DashboardPageUI.SELECT_USER_DROPDOWN);
     await this.clickElement(DashboardPageUI.THE_FIRST_USER_OPTION);
+  }
+
+  async clickTransferWirelessServicesLiabilityButton(): Promise<void> {
+    await this.clickElement(DashboardPageUI.TRANSFER_WIRELESS_SERVICES_LIABILITY_BUTTON);
+  }
+
+  async inputExistingCarrier(): Promise<void> {
+    await this.type(DashboardPageUI.EIXSTING_CARRIER_FIELD, "T-Mobile - Testing");
+  }
+
+  async inputPhoneNumber(): Promise<void> {
+    await this.type(DashboardPageUI.PHONE_NUMBER_FIELD, faker.phone.phoneNumberFormat());
+  }
+
+  async inputAccountName(): Promise<void> {
+    await this.type(DashboardPageUI.ACCOUNT_NAME_FIELD, faker.name.findName());
+  }
+
+  async inputAccountNumber(): Promise<void> {
+    await this.type(DashboardPageUI.ACCOUNT_NUMBER_FIELD, faker.random.number({min: 1000, max: 100000}).toString());
+  }
+
+  async inputBillingPassword(): Promise<void> {
+    await this.type(DashboardPageUI.BILLING_PASSWORD_FIELD, "billingPassword");
+  }
+
+  async selectTranserType(): Promise<void> {
+    await this.clickElement(DashboardPageUI.PERSONAL_TO_CORPORATE_OPTION);
+  }
+
+  async clickNextButton(): Promise<void> {
+    await this.clickElement(DashboardPageUI.NEXT_BUTTON);
+  }
+
+  async isErrorMessageDisplayed(): Promise<boolean> {
+    return await this.isElementDisplayed(DashboardPageUI.ERROR_MESSAGE);
   }
 }
