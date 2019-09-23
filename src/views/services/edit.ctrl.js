@@ -63,34 +63,21 @@ export default {
     save() {
 
       this.$validator.validateAll().then( validator => {
-        
-        if (!validator) {
-          return
-        }
-        
-        let self = this
-        let valid = ServiceHelper.validateFields(self.serviceDetails, self.addons)
-
-        self.$store.dispatch('error/clearAll')
-        if (valid !== true) {
-          self.$store.dispatch('error/addNew', { message: valid });
-          return
-        }
-
-        self.$store.dispatch('service/save', { router: self.$router })
-              
+        if (!validator) { return }
+        this.$store.dispatch('service/save', { router: this.$router })
       })
 
     },
 
     validateAddons() {
       for (let i = 0; i < this.addons.length; i++) {
-        this.$validator.validate('addon-cost-' + i, this.addons[i].cost)        
+        this.$validator.validate('addon ' + i + ' description' + i, this.addons[i].description)
+        this.$validator.validate('addon ' + i + ' cost' + i, this.addons[i].cost)        
       }
     },
 
-    unlimitedValidation(scope, type) {
-      this.$validator.validate(scope + '-' + type, this[scope][type].value)
+    unlimitedValidation(validatorField, scope, type) {
+      this.$validator.validate(validatorField, this[scope][type].value)
     }
 
   }

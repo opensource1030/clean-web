@@ -25,7 +25,7 @@ function initialState() {
         category: "voice",
         value: 0,
         unit: "minutes",
-        unlimited: false
+        unlimited: 0
       },
       data: {
         id: 0,
@@ -33,7 +33,7 @@ function initialState() {
         category: "data",
         value: 0,
         unit: 'Gb',
-        unlimited: false
+        unlimited: 0
       },
       sms: {
         id: 0,
@@ -41,7 +41,7 @@ function initialState() {
         category: "messaging",
         value: 0,
         unit: "messages",
-        unlimited: false
+        unlimited: 0
       }
     },
     internationalPlan: {
@@ -51,7 +51,7 @@ function initialState() {
         category: "voice",
         value: 0,
         unit: "minutes",
-        unlimited: false
+        unlimited: 0
       },
       data: {
         id: 0,
@@ -59,7 +59,7 @@ function initialState() {
         category: "data",
         value: 0,
         unit: 'Gb',
-        unlimited: false
+        unlimited: 0
       },
       sms: {
         id: 0,
@@ -67,20 +67,10 @@ function initialState() {
         category: "messaging",
         value: 0,
         unit: "messages",
-        unlimited: false
+        unlimited: 0
       }
     },
-    addons: [
-      {
-        description: '',
-        cost: '',
-        unit: 'USD',
-        add: true,
-        delete: false,
-        addonNameError: false,
-        addonPriceError: false
-      }
-    ],
+    addons: [],
     items: []
   }
 }
@@ -225,11 +215,14 @@ const mutations = {
       state.addons.push(addOn);
     }
 
-    if (state.addons.length == 0) {
-      state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
+    // if (state.addons.length == 0) {
+    //   state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
+    // }
+
+    if (state.addons.length != 0) {
+      reorderButtons(state)
     }
 
-    reorderButtons(state)
   },
 
   hideAndPush (state) {
@@ -244,16 +237,19 @@ const mutations = {
 
   deleteAddOns (state, index) {
     state.addons.splice(index, 1);
-    if (state.addons.length == 0) {
-      state.addons.push({id: state.serviceDetails.id, description: '', cost: '', add: false, delete: false});
-    }
+    // if (state.addons.length == 0) {
+    //   state.addons.push({id: state.serviceDetails.id, description: '', cost: '', add: false, delete: false});
+    // }
 
     for (let add of state.addons) {
       add.add = false;
       add.delete = true;
     }
 
-    reorderButtons(state)
+    if (state.addons.length != 0) {
+      reorderButtons(state)      
+    }
+
   },
 
   updateServiceDetail (state, { e, type }) {
@@ -278,17 +274,16 @@ const mutations = {
 
   updateUnlimitedDomesticplan (state, { e, type }) {
 
-      state.domesticPlan[type].unlimited = !state.domesticPlan[type].unlimited
+      state.domesticPlan[type].unlimited = (state.domesticPlan[type].unlimited == 0) ? 1 : 0
 
       if (state.domesticPlan[type].unlimited) {
-        state.domesticPlan[type].value = 999999
+        state.domesticPlan[type].value = 0
         if (type == "data") {
           state.domesticPlan[type].unit = "Tb"
         }
       } else {
-        state.domesticPlan[type].value = 0
         if (type == "data") {
-          state.domesticPlan[type].unit = "Mb"
+          state.domesticPlan[type].unit = "Gb"
         }
       }
       
@@ -304,17 +299,16 @@ const mutations = {
 
   updateUnlimitedInternationalplan (state, { e, type }) {
 
-    state.internationalPlan[type].unlimited = !state.internationalPlan[type].unlimited
+    state.internationalPlan[type].unlimited = (state.internationalPlan[type].unlimited == 0) ? 1 : 0
 
     if (state.internationalPlan[type].unlimited) {
-      state.internationalPlan[type].value = 999999
+      state.internationalPlan[type].value = 0
       if (type == "data") {
         state.internationalPlan[type].unit = "Tb"
       }
     } else {
-      state.internationalPlan[type].value = 0
       if (type == "data") {
-        state.internationalPlan[type].unit = "Mb"
+        state.internationalPlan[type].unit = "Gb"
       }
     }
     

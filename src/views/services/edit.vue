@@ -35,21 +35,21 @@
                     <b-form-input type="text" class="form-control"
                       :value="serviceDetails.code"
                       @input="$store.commit('service/updateServiceDetail',{e:$event,type:'code'})"
-                      name="plan-code"
+                      name="plan code"
                       v-validate="{ required: true }"
                     />
-                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('plan-code')">{{veeErrors.first('plan-code')}}</p>
+                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('plan code')">{{veeErrors.first('plan code')}}</p>
                   </div>
                   <div class="col-sm-4">
                     <label>Cost</label>
                     <b-form-input type="text" class="form-control"
-                      name="cost-field"
+                      name="service cost"
                       :value="serviceDetails.cost"
                       @input="$store.commit('service/updateServiceDetail',{e:$event,type:'cost'})"
                       :state="!(veeErrors.has('cost-field')) ? null : false"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
                     />
-                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('cost-field')">{{veeErrors.first('cost-field')}}</p>
+                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('service cost')">{{veeErrors.first('service cost')}}</p>
                   </div>
                   <div class="col-sm-3">
                     <label>Currency</label>
@@ -84,12 +84,12 @@
                     :show-labels="false"
                     :value="serviceDetails.carrierId"
                     @input="$store.commit('service/updateServiceDetail',{e:$event,type:'carrierId'})"
-                    name="carriers"
+                    name="carrier option"
                     v-validate="{ required: true }"
                     >
                     <template slot="singleLabel" slot-scope="{ option }">{{ option.presentation }}</template>
-                    <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('carrier')">{{veeErrors.first('carrier')}}</p>
                   </multiselect>
+                  <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('carrier option')">{{veeErrors.first('carrier option')}}</p>
                 </div>
                 <div class="form-group">
                   <label class="block">Active</label>
@@ -121,19 +121,19 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    name="domesticPlan-minutes"
+                    name="domestic plan minutes"
                     :value="domesticPlan.minutes.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'minutes'})"
                     :state="!(veeErrors.has('domestic-minutes-field')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :disabled="domesticPlan.minutes.unlimited"
+                    :disabled="(domesticPlan.minutes.unlimited == 0) ? false : true"
                     />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-minutes')">{{veeErrors.first('domesticPlan-minutes')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domestic plan minutes')">{{veeErrors.first('domestic plan minutes')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'minutes'}); unlimitedValidation('domesticPlan', 'minutes');"
-                    :checked="domesticPlan.minutes.unlimited"
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'minutes'}); unlimitedValidation('domestic plan minutes', 'domesticPlan', 'minutes');"
+                    :checked="(domesticPlan.minutes.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block mt-1">Unlimited Minutes</span>
@@ -146,12 +146,12 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    name="domesticPlan-data"
+                    name="domestic plan data"
                     :value="domesticPlan.data.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})"
                     :state="!(veeErrors.has('domestic-data-field')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :disabled="domesticPlan.data.unlimited"
+                    :disabled="(domesticPlan.data.unlimited == 0) ? false : true"
                     />
                   <multiselect
                     placeholder="Unit"
@@ -159,13 +159,15 @@
                     :searchable="false"
                     :show-labels="false"
                     :value="domesticPlan.data.unit"
-                    @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})" />
+                    @input="$store.commit('service/updateDomesticplan',{e:$event,type:'unit'})"
+                    :disabled="(domesticPlan.data.unlimited == 0) ? false : true"
+                  />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-data')">{{veeErrors.first('domesticPlan-data')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domestic plan data')">{{veeErrors.first('domestic plan data')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'data'}); unlimitedValidation('domesticPlan', 'data');"
-                    :checked="domesticPlan.data.unlimited"
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'data'}); unlimitedValidation('domestic plan data', 'domesticPlan', 'data');"
+                    :checked="(domesticPlan.data.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block mt-1">Unlimited Data</span>
@@ -178,19 +180,19 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    name="domesticPlan-sms"
+                    name="domestic plan sms"
                     :value="domesticPlan.sms.value"
                     @input="$store.commit('service/updateDomesticplan',{e:$event,type:'sms'})"
                     :state="!(veeErrors.has('domestic-sms-field')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :disabled="domesticPlan.sms.unlimited"
+                    :disabled="(domesticPlan.sms.unlimited == 0) ? false : true"
                   />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domesticPlan-sms')">{{veeErrors.first('domesticPlan-sms')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('domestic plan sms')">{{veeErrors.first('domestic plan sms')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'sms'}); unlimitedValidation('domesticPlan', 'sms');"
-                    :checked="domesticPlan.sms.unlimited"
+                    @change="$store.commit('service/updateUnlimitedDomesticplan', {e:$event,type:'sms'}); unlimitedValidation('domestic plan sms', 'domesticPlan', 'sms');"
+                    :checked="(domesticPlan.sms.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block mt-1">Unlimited SMS</span>
@@ -215,19 +217,19 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    name="internationalPlan-minutes"
+                    name="international plan minutes"
                     :value="internationalPlan.minutes.value"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'minutes'})"
-                    :state="!(veeErrors.has('internationalPlan-minutes')) ? null : false"
+                    :state="!(veeErrors.has('international plan minutes')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :disabled="internationalPlan.minutes.unlimited"
+                    :disabled="(internationalPlan.minutes.unlimited == 0) ? false : true"
                   />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-minutes')">{{veeErrors.first('internationalPlan-minutes')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('international plan minutes')">{{veeErrors.first('international plan minutes')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'minutes'}); unlimitedValidation('internationalPlan', 'minutes');"
-                    :checked="internationalPlan.minutes.unlimited"
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'minutes'}); unlimitedValidation('international plan minutes', 'internationalPlan', 'minutes');"
+                    :checked="(internationalPlan.minutes.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block">Unlimited Minutes</span>
@@ -240,12 +242,12 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    name="internationalPlan-data"
+                    name="international plan data"
                     :value="internationalPlan.data.value"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})"
-                    :disabled="internationalPlan.data.unlimited"
+                    :disabled="(internationalPlan.data.unlimited == 0) ? false : true"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :state="!(veeErrors.has('internationalPlan-data')) ? null : false"
+                    :state="!(veeErrors.has('international plan data')) ? null : false"
                   />
                   <multiselect
                     placeholder="Unit"
@@ -253,13 +255,15 @@
                     :searchable="false"
                     :show-labels="false"
                     :value="internationalPlan.data.unit"
-                    @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})" />
+                    @input="$store.commit('service/updateInternationalplan',{e:$event,type:'unit'})"
+                    :disabled="(internationalPlan.data.unlimited == 0) ? false : true"
+                  />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-data')">{{veeErrors.first('internationalPlan-data')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('international plan data')">{{veeErrors.first('international plan data')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'data'}); unlimitedValidation('internationalPlan', 'data');"
-                    :checked="internationalPlan.data.unlimited"
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'data'}); unlimitedValidation('international plan data', 'internationalPlan', 'data');"
+                    :checked="(internationalPlan.data.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block mt-1">Unlimited Data</span>
@@ -273,18 +277,18 @@
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
                     :value="internationalPlan.sms.value"
-                    name="internationalPlan-sms"
+                    name="international plan sms"
                     @input="$store.commit('service/updateInternationalplan',{e:$event,type:'sms'})"
-                    :state="!(veeErrors.has('internationalPlan-sms')) ? null : false"
+                    :state="!(veeErrors.has('international plan sms')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
-                    :disabled="internationalPlan.sms.unlimited"
+                    :disabled="(internationalPlan.sms.unlimited == 0) ? false : true"
                     />
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('internationalPlan-sms')">{{veeErrors.first('internationalPlan-sms')}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('international plan sms')">{{veeErrors.first('international plan sms')}}</p>
                 <div class="d-flex align-items-center">
                   <b-form-checkbox class="mr-3"
-                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'sms'}); unlimitedValidation('internationalPlan', 'sms');"
-                    :checked="internationalPlan.sms.unlimited"
+                    @change="$store.commit('service/updateUnlimitedInternationalplan', {e:$event,type:'sms'}); unlimitedValidation('international plan sms', 'internationalPlan', 'sms');"
+                    :checked="(internationalPlan.sms.unlimited == 0) ? false : true"
                     switch
                   />
                   <span class="block mt-1">Unlimited SMS</span>
@@ -309,10 +313,14 @@
                     <b-input-group-text>Description</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="text" class="form-control"
+                    :name="'addon ' + (index + 1).toString() + ' description'"
                     :value="addon.description"
+                    :state="!(veeErrors.has('addon ' + (index + 1).toString() + ' description')) ? null : false"
+                    v-validate="{ required: true }"
                     @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'name'})"
                     />
                 </b-input-group>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('addon ' + (index + 1).toString() +' description')">{{veeErrors.first('addon ' + (index + 1).toString() +' description' )}}</p>
               </div>
               <div class="col-sm-4 col-xs-12">
                 <label>Cost</label>
@@ -321,16 +329,16 @@
                     <b-input-group-text>Amount</b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input type="number" class="form-control"
-                    :name="'addon-cost-' + index.toString()"
+                    :name="'addon ' + (index + 1).toString() + ' cost'"
                     :value="addon.cost"
-                    :state="!(veeErrors.has('addon-cost-' + index.toString() )) ? null : false"
+                    :state="!(veeErrors.has('addon ' + (index + 1).toString() + ' cost')) ? null : false"
                     v-validate="{ required: true, min_value:0, max_value: 999999 }"
                     @keyup="$store.commit('service/updateAddon',{i:index,e:$event,type:'price'})" />
                   <b-input-group-prepend>
                     <b-input-group-text>{{ serviceDetails.currency }}</b-input-group-text>
                   </b-input-group-prepend>
                 </b-input-group>
-                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('addon-cost-' + index.toString() )">{{veeErrors.first('addon-cost-' + index.toString() )}}</p>
+                <p class="mb-0 mt-2 text-danger" v-if="veeErrors.has('addon ' + (index + 1).toString() + ' cost')">{{veeErrors.first('addon ' + (index + 1).toString() + ' cost' )}}</p>
               </div>
               <div class="col-sm-4 col-xs-12">
                 <b-button class="btn-control" variant="danger" aria-pressed="true"
