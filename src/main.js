@@ -74,7 +74,6 @@ Vue.use(BootstrapVue)
 Vue.use(VueCharts)
 Vue.use(VeeValidate, {
   fieldsBagName: 'veeFields',
-  errorBagName: 'veeErrors'
 })
 Vue.use(Vue2Filters)
 Vue.use(VueSweetalert2, {

@@ -209,15 +209,10 @@ const mutations = {
     //addons
     let addOns = [];
     addOns = findByAddons(records.serviceitems, "addon", "");
-    // state.addons.splice(0, 1);
     state.addons = [];
     for (let addOn of addOns) {
       state.addons.push(addOn);
     }
-
-    // if (state.addons.length == 0) {
-    //   state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
-    // }
 
     if (state.addons.length != 0) {
       reorderButtons(state)
@@ -237,9 +232,6 @@ const mutations = {
 
   deleteAddOns (state, index) {
     state.addons.splice(index, 1);
-    // if (state.addons.length == 0) {
-    //   state.addons.push({id: state.serviceDetails.id, description: '', cost: '', add: false, delete: false});
-    // }
 
     for (let add of state.addons) {
       add.add = false;
@@ -312,10 +304,7 @@ const mutations = {
     }
 
     if (type == 'price') {
-      let value = e.target.value;
-      if (value != '') {
         state.addons[i].cost = e.target.value;
-      }
     }
 
     for (let add of state.addons) {

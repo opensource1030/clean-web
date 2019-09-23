@@ -71,19 +71,14 @@ export default {
 
     validateAddons() {
       for (let i = 0; i < this.addons.length; i++) {
-        this.$validator.validate('addon ' + i + ' description' + i, this.addons[i].description)
-        this.$validator.validate('addon ' + i + ' cost' + i, this.addons[i].cost)        
+        this.$validator.validate('addon ' + i + ' description', this.addons[i].description)
+        this.$validator.validate('addon ' + i + ' cost', this.addons[i].cost)        
       }
     },
 
     unlimitedValidation(validatorField, scope, type) {
       this.$validator.validate(validatorField, this[scope][type].value)
     },
-
-    showInConsole(text) {
-      console.log(text)
-    }
-
   }
 }
 
