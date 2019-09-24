@@ -409,6 +409,33 @@
   }
 }
 
+@media (max-width: 1260px) {
+  .page.dashboard-page {
+    .left-panel {
+      width: 30%;
+    }
+
+    .right-panel {
+      width: 70%;
+
+    }
+
+    .order-type-container {
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 15px !important;
+
+      .media {
+        margin: 0 0 5px;
+      }
+
+      .media + .media {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 991.98px) {
   .page.dashboard-page {
     margin: 0;
