@@ -40,7 +40,7 @@
 
       <h1 class="mb-3">Shipping info</h1>
 
-      <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
+      <b-form @change="onFormChange($event)" @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
             <label>Address <span>*</span></label>
@@ -95,6 +95,16 @@
           </div>
         </div>
 
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('attn') }">
+            <label>Attn <span>*</span></label>
+            <div>
+              <b-input name="attn" v-model="form.attn" v-validate="'required'"></b-input>
+              <span v-show="errors.has('attn')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
         <div class="row mt-4">
           <div class="col">
             <b-btn variant="default w-100" type="submit">Submit order</b-btn>
@@ -123,7 +133,8 @@ export default {
         city: null,
         state: null,
         country: null,
-        postalCode: null
+        postalCode: null,
+        attn: null,
       },
       location: "",
       customlocation: "Custom Location",
@@ -198,6 +209,7 @@ export default {
           state: null,
           country: null,
           postalCode: null,
+          attn: null,
         }
       }
 
@@ -209,6 +221,7 @@ export default {
           state: this.form.state,
           country: this.form.country,
           postalCode: this.form.postalCode,
+          attn: this.form.attn,
         }
       }
       
@@ -219,11 +232,20 @@ export default {
         city: address.city,
         state: address.state,
         country: address.country,
-        postalCode: address.postalCode
+        postalCode: address.postalCode,
       };
+
+      this.$validator.validateAll()
+
     },
 
-    onFormChange() {
+    onFormChange(evt) {
+
+      // Guard: don't change to "custom address" option if attn changes
+      if (evt.target.name == "attn") {
+        return
+      }
+
       if (this.customlocation != this.location) {
         this.location = this.customlocation
         this.onPackageAddressChange({ target: { value: this.customlocation } }, true) ;
@@ -237,10 +259,9 @@ export default {
 .order-form {
   background-color: #355bb9;
   color: white;
-  height: 100%;
   width: 450px;
   padding: 2.5rem;
-  min-height: 760px;
+  overflow: auto;
 
   &-user {
     display: flex;
