@@ -43,7 +43,7 @@
                   <td>
                     <span v-for="variation in preset.devicevariations" class="tag">
                       {{ variation.devices[0].name }},
-                      <template v-for="modification in variation.modifications">{{ modification.value }}</template>
+                      <template v-for="modification in variation.modifications"> {{ modification.value }}</template>
                     </span>
                   </td>
                   <td>

@@ -65,6 +65,11 @@ export const DeviceVariationHelper = {
     // return index
   },
 
+  getCapacityValue (dv) {
+    const index = this.getCapacityIndex(dv)
+    return index == -1 ? '' : dv.modifications[index].value
+  },
+
   getStyleIndex (dv) {
     return _.findIndex(dv.modifications, (m) => (_.isEmpty(m) == false && m.modType == 'style'))
     // console.log('getStyleIndex ...')
@@ -72,6 +77,11 @@ export const DeviceVariationHelper = {
     // console.log('getStyleIndex', index)
     // return index
   },
+
+  getStyleValue (dv) {
+    const index = this.getStyleIndex(dv)
+    return index == -1 ? '' : dv.modifications[index].value
+  }
 }
 
 export const PresetHelper = {
