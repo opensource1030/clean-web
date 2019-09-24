@@ -132,7 +132,10 @@ export default {
       const userUdls = _.get(profile, "udlvalues");
 
       udls.forEach(udl => {
-        this.form.udlvalues[udl.name] = _.get(_.find(userUdls, { udlName: udl.name }), "id");
+        this.form.udlvalues[udl.name] = _.get(
+          _.find(userUdls, { udlName: udl.name }),
+          "id"
+        );
       });
     },
 

@@ -1,23 +1,24 @@
 <template>
-  <div class="user-select-form text-center">
-    <h1>For whom you are ordering?</h1>
+  <div class="user-select-form">
+    <div class="user-select-form-title">For whom you are ordering?</div>
 
     <div class="user-select-form-section py-5">
-      <h2>Ordering for my self</h2>
+      <div>Ordering for my self</div>
       <b-btn variant="default" @click="goNext('me')">Continue</b-btn>
     </div>
 
     <hr class="user-select-form-separator" data-text="or" />
 
     <div class="user-select-form-section pt-5">
-      <h2>On behalf of other user</h2>
+      <div>On behalf of other user</div>
 
       <multiselect
-        id="ajax"
-        v-model="selectedEmployee"
-        placeholder="Select user"
+        v-if="!createNewUser"
+        id="user-select"
+        placeholder="Start typing user's name"
         track-by="id"
         label="username"
+        :value="selectedEmployee"
         :custom-label="customLabel"
         :options="employees"
         :multiple="false"
@@ -27,29 +28,123 @@
         :close-on-select="true"
         :clear-on-select="false"
         :hide-selected="false"
+        @select="selectEmployee"
       >
-        <span slot="noResult" style="dispay: block;">
-          No users found.
-          <router-link to="/employees/new" style="width: auto; float: right;">Create User</router-link>
-        </span>
+        <template slot="option" slot-scope="props">
+          <span class="create-user-option" v-if="props.option.id === 'new'">+ Create new user</span>
+          <span v-else>{{props.option.firstName}} {{props.option.lastName}}</span>
+        </template>
+
+        <template slot="noResult">
+          <span class="create-user-option" @click="selectEmployee({ id: 'new' })">+ Create new user</span>
+        </template>
       </multiselect>
 
-      <div v-if="selectedEmployee" class="user-select-form-employee-detail">
-        <label>User email:</label>
-        {{ selectedEmployee.email }}
-        <br />
-        <label>Supervisor:</label>
-        {{ selectedEmployee.supervisorEmail }}
-        <br />
-        <label>Department:</label>
-        {{ employeeDepartment }}
-        <br />
-        <label>Cost center:</label>
-        {{ employeeCostCenter }}
-        <br />
+      <b-form
+        v-else
+        class="user-select-form-create-user dashboard-form pt-4"
+        @submit.prevent="validateBeforeSubmit"
+      >
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('firstName') }">
+            <label>First name *</label>
+            <div>
+              <b-input name="firstName" v-model="form.firstName" v-validate="'required'"></b-input>
+              <span v-show="errors.has('firstName')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('lastName') }">
+            <label>Last name *</label>
+            <div>
+              <b-input name="lastName" v-model="form.lastName" v-validate="'required'"></b-input>
+              <span v-show="errors.has('lastName')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('email') }">
+            <label>Email *</label>
+            <div>
+              <b-input name="email" v-model="form.email" v-validate="'required'"></b-input>
+              <span v-show="errors.has('email')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('supervisorEmail') }">
+            <label>Supervisor Email *</label>
+            <div>
+              <b-input
+                name="supervisorEmail"
+                v-model="form.supervisorEmail"
+                v-validate="'required'"
+              ></b-input>
+              <span v-show="errors.has('supervisorEmail')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-for="udl of udls" class="row mb-3">
+          <div class="col item">
+            <label>{{ udl.name }}</label>
+            <div>
+              <multiselect
+                :id="`id-${udl.id}`"
+                placeholder="Not specified"
+                track-by="id"
+                label="udlValue"
+                :value="getValue(udl.name)"
+                :options="udl.udlvalues"
+                :multiple="false"
+                :searchable="true"
+                :show-labels="false"
+                :select-label="''"
+                :close-on-select="true"
+                :clear-on-select="false"
+                :hide-selected="false"
+                @select="selectUdlValue"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col">
+            <b-btn variant="outline-default w-100" @click="cancelCreate">Cancel</b-btn>
+          </div>
+          <div class="col">
+            <b-btn
+              variant="default w-100"
+              :disabled="createNewUserDisabled"
+              type="submit"
+            >Create User</b-btn>
+          </div>
+        </div>
+      </b-form>
+
+      <div v-if="selectedEmployee" class="user-select-form-employee-detail my-4">
+        <div>
+          <label>User email:</label>
+          {{ selectedEmployee.email }}
+        </div>
+
+        <div v-if="selectEmployee.supervisorEmail">
+          <label>Supervisor:</label>
+          {{ selectedEmployee.supervisorEmail }}
+        </div>
+
+        <div v-for="udl of selectedEmployee.udlvalues">
+          <label>{{ udl.udlName }}:</label>
+          {{ udl.udlValue }}
+        </div>
       </div>
 
-      <b-btn variant="default" :disabled="disabledNextButton" @click="goNext('other')">Continue</b-btn>
+      <b-btn v-if="selectedEmployee" variant="default" @click="goNext('other')">Continue</b-btn>
     </div>
   </div>
 </template>
@@ -58,62 +153,49 @@
 import { mapGetters, mapState, mapActions } from "vuex";
 import _ from "lodash";
 import employeeAPI from "@/api/employee-api";
-import toggle from "@/components/toggle";
-
-const { Store } = require("yayson")();
-const store = new Store();
+import Toggle from "@/components/toggle";
 
 export default {
   name: "UserSelectForm",
 
   components: {
-    toggle
-  },
-
-  computed: {
-    disabledNextButton() {
-      return this.selectedEmployee ? false : "disabled";
-    },
-
-    employeeDepartment() {
-      if (!this.selectedEmployee) {
-        return "";
-      }
-
-      const value = _.find(this.selectedEmployee.udlvalues, {
-        udlName: "Department"
-      });
-
-      return _.get(value, "udlValue");
-    },
-
-    employeeCostCenter() {
-      if (!this.selectedEmployee) {
-        return "";
-      }
-
-      const value = _.find(this.selectedEmployee.udlvalues, {
-        udlName: "Cost Center"
-      });
-
-      return _.get(value, "udlValue");
-    },
-
-    ...mapGetters({
-      employees: "employee/allEmployees",
-      currentUser: "auth/getProfile"
-    })
+    Toggle
   },
 
   data() {
     return {
       onBehalfOfUser: true,
-      selectedEmployee: null
+      selectedEmployee: null,
+      createNewUser: false,
+      form: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        supervisorEmail: null
+      },
+      udlvalues: {},
+      submitted: false
     };
   },
 
+  computed: {
+    employees() {
+      return [...this.allEmployees, { id: "new" }];
+    },
+
+    createNewUserDisabled() {
+      return this.submitted ? "disabled" : false;
+    },
+
+    ...mapGetters({
+      allEmployees: "employee/allEmployees",
+      profile: "auth/getProfile",
+      udls: "auth/getUdls"
+    })
+  },
+
   created() {
-    this.getAll();
+    this.getAllEmployees();
   },
 
   methods: {
@@ -121,14 +203,69 @@ export default {
       return `${firstName} ${lastName}`;
     },
 
+    selectEmployee(employee) {
+      this.createNewUser = employee.id === "new";
+      this.selectedEmployee = employee.id === "new" ? null : employee;
+    },
+
+    getValue(udlName) {
+      return _.get(this.udlvalues, udlName);
+    },
+
+    selectUdlValue(udl) {
+      this.udlvalues[udl.udlName] = udl;
+      this.$forceUpdate();
+    },
+
     goNext(type) {
-      const user = type === "me" ? this.currentUser : this.selectedEmployee;
+      const user = type === "me" ? this.profile : this.selectedEmployee;
 
       this.$emit("selectUser", user);
     },
 
+    cancelCreate() {
+      this.createNewUser = false;
+    },
+
+    validateBeforeSubmit() {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          const { username, email, supervisorEmail } = this.form;
+
+          const udlData = _.keys(this.udlvalues).map(key => ({
+            type: "udlvalues",
+            id: this.udlvalues[key].id
+          }));
+
+          const payload = {
+            data: {
+              type: "users",
+              attributes: { username, email, supervisorEmail },
+              relationships: {
+                udlvalues: {
+                  data: udlData
+                }
+              }
+            }
+          };
+
+          this.submitted = true;
+
+          this.createEmployee(params)
+            .then(employee => {
+              this.selectEmployee(employee);
+              this.submitted = false;
+            })
+            .catch(() => {
+              this.submitted = false;
+            });
+        }
+      });
+    },
+
     ...mapActions({
-      getAll: "employee/getAll"
+      getAllEmployees: "employee/getAll",
+      createEmployee: "employee/create"
     })
   }
 };
@@ -143,17 +280,49 @@ export default {
   padding: 4rem;
   font-weight: 600;
 
+  .create-user-option {
+    color: #20a8d8;
+    font-weight: bold;
+  }
+
   .multiselect {
-    font-size: 12px;
-    margin: 1rem 0 2rem 0;
+    width: 235px;
+    font-size: 10px;
     font-weight: normal;
     font-weight: 500;
-    width: 235px;
+    color: #1f2027;
+    line-height: 13px;
+
+    &__content-wrapper {
+      border: 0.75px solid #afbad4;
+      border-top: none;
+      max-height: 290px;
+    }
+
+    &__option {
+      padding: 12px;
+      min-height: initial;
+
+      &--highlight,
+      &--selected {
+        background: transparent !important;
+        font-weight: normal !important;
+      }
+
+      &--highlight {
+        color: inherit;
+      }
+
+      &--selected,
+      &:hover {
+        color: #20a8d8 !important;
+      }
+    }
 
     &__tags {
       min-height: 38px;
-      padding: 4px 40px 0 15px;
-      font-size: 12px;
+      padding: 12px 40px 0 12px;
+      font-size: 10px;
       border: 0.75px solid #afbad4;
     }
 
@@ -165,8 +334,8 @@ export default {
 
     &__input,
     &__single {
-      font-size: 12px;
-      margin-top: 4px;
+      font-size: 10px;
+      margin-top: -3px;
       padding: 0;
       margin-bottom: 0;
     }
@@ -180,7 +349,8 @@ export default {
     }
   }
 
-  h1 {
+  &-title {
+    text-align: center;
     color: #1f2027;
     font-size: 16px;
     font-weight: 600;
@@ -191,7 +361,7 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    h2 {
+    & > div {
       text-transform: uppercase;
       color: #657089;
       font-size: 10px;
@@ -202,7 +372,6 @@ export default {
       height: 37px;
       width: 165px;
       border-radius: 3px;
-      background-color: #20a8d8;
       font-size: 11px;
     }
   }
@@ -223,13 +392,36 @@ export default {
     }
   }
 
+  &-create-user {
+    width: 100%;
+
+    label {
+      text-align: left;
+      display: block;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 13px;
+    }
+
+    .item > div > input {
+      height: 38px !important;
+      color: #1f2027;
+      font-size: 11px;
+    }
+
+    .multiselect {
+      width: auto;
+    }
+  }
+
   &-employee-detail {
     width: 350px;
     color: #1f2027;
     font-size: 10px;
     text-align: left;
     padding: 1.5rem;
-    margin-bottom: 2rem;
     background-color: rgba(32, 168, 216, 0.21);
     border-radius: 4px;
 
@@ -237,6 +429,7 @@ export default {
       width: 85px;
       margin-bottom: 0;
       color: #20a8d8;
+      line-height: 1.3;
     }
   }
 }

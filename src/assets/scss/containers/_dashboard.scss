@@ -552,12 +552,14 @@
     line-height: 13px;
   }
 
-  input[type='text'],
-  input[type='password'] {
-    font-size: 10px;
-    border: 0.75px solid #afbad4;
-    border-radius: 4px;
-    height: 30px;
+  .item > div {
+    & > input[type='text'],
+    & > input[type='password'] {
+      font-size: 10px;
+      border: 0.75px solid #afbad4;
+      border-radius: 4px;
+      height: 30px;
+    }
   }
 
   .col > div {

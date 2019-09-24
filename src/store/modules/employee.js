@@ -57,6 +57,22 @@ const actions = {
     })
   },
 
+  create({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      employeeAPI.create(
+        params,
+        res => {
+          const employee = store.synce(res.data)
+          commit(types.EMPLOYEE_NEW, employee)
+          resolve && resolve(employee)
+        },
+        err => {
+          reject && reject(err)
+        },
+      )
+    })
+  },
+
   search({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       let _params = {
@@ -103,12 +119,16 @@ const actions = {
   },
 
   searchByFirstName({ dispatch, commit, state }, { query }) {
-    commit(types.EMPLOYEE_UPDATE_FILTERS, { firstName: { operator: 'like', value: query } })
+    commit(types.EMPLOYEE_UPDATE_FILTERS, {
+      firstName: { operator: 'like', value: query },
+    })
     return dispatch('search')
   },
 
   searchByEmail({ dispatch, commit, state }, { query }) {
-    commit(types.EMPLOYEE_UPDATE_FILTERS, { email: { operator: 'like', value: query } })
+    commit(types.EMPLOYEE_UPDATE_FILTERS, {
+      email: { operator: 'like', value: query },
+    })
     return dispatch('search')
   },
 
@@ -192,6 +212,10 @@ const mutations = {
 
   [types.EMPLOYEE_ALL](state, employees) {
     state.records = employees
+  },
+
+  [types.EMPLOYEE_NEW](state, employee) {
+    state.records.push(employee)
   },
 }
 
