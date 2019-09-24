@@ -30,8 +30,9 @@
 
         <div class="row mb-5">
           <div class="col">
-            <select @change="onPackageAddressChange">
+            <select @change="onPackageAddressChange" v-model="location">
               <option v-for="address of addresses" :value="address.id">{{ address.name }}</option>
+              <option :selected="addresses.length == 0" :value="customlocation">Custom Location</option>
             </select>
           </div>
         </div>
@@ -39,7 +40,7 @@
 
       <h1 class="mb-3">Shipping info</h1>
 
-      <b-form @submit.prevent="onSubmitWithAddress">
+      <b-form @change="onFormChange" @submit.prevent="validateBeforeSubmit">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
             <label>Address <span>*</span></label>
@@ -64,16 +65,7 @@
           <div class="col item" :class="{'is-danger': errors.has('country') }">
             <label>Country <span>*</span></label>
             <div>
-              <select
-                v-if="addresses.length > 0"
-                name="country"
-                v-model="form.country"
-                v-validate="'required'"
-              >
-                <option v-for="country of countries" :value="country">{{ country }}</option>
-              </select>
-
-              <b-input v-else name="country" v-model="form.country"></b-input>
+              <b-input name="country" v-model="form.country"></b-input>
               <span v-show="errors.has('country')" class="error">Required</span>
             </div>
           </div>
@@ -97,17 +89,7 @@
           <div class="col item" :class="{'is-danger': errors.has('state') }">
             <label>State <span>*</span></label>
             <div>
-              <select
-                name="state"
-                v-if="addresses.length > 0"
-                v-model="form.state"
-                v-validate="'required'"
-                :disabled="states.length === 0 ? 'disabled' : false"
-              >
-                <option v-for="state of states" :value="state">{{ state }}</option>
-              </select>
-
-              <b-input v-else name="state" v-model="form.state"></b-input>
+              <b-input name="state" v-model="form.state"></b-input>
               <span v-show="errors.has('state')" class="error">Required</span>
             </div>
           </div>
@@ -142,14 +124,19 @@ export default {
         state: null,
         country: null,
         postalCode: null
-      }
+      },
+      location: "",
+      customlocation: "Custom Location",
     };
   },
 
   created() {
+    this.location = this.customlocation
     if (this.addresses.length > 0) {
-      this.onPackageAddressChange({ target: { value: this.addresses[0].id } });
+      this.location = this.addresses[0].id
     }
+
+    this.onPackageAddressChange({ target: { value: this.location } });
   },
 
   computed: {
@@ -198,19 +185,50 @@ export default {
       this.$emit("submit");
     },
 
-    onPackageAddressChange(evt) {
+    onPackageAddressChange(evt, isCleanEvt) {
       const { value } = evt.target;
-      const address = _.find(this.addresses, { id: value });
 
+      var address = _.find(this.addresses, { id: value });
+
+      if (address == undefined) {
+        address = {
+          address: null,
+          address2: null,
+          city: null,
+          state: null,
+          country: null,
+          postalCode: null,
+        }
+      }
+
+      if (isCleanEvt) {
+        address = {
+          address: this.form.address,
+          address2: this.form.address2,
+          city: this.form.city,
+          state: this.form.state,
+          country: this.form.country,
+          postalCode: this.form.postalCode,
+        }
+      }
+      
       this.form = {
         ...this.form,
         address: address.address,
+        address2: address.address2,
         city: address.city,
         state: address.state,
         country: address.country,
         postalCode: address.postalCode
       };
-    }
+    },
+
+    onFormChange() {
+      if (this.customlocation != this.location) {
+        this.location = this.customlocation
+        this.onPackageAddressChange({ target: { value: this.customlocation } }, true) ;
+      }
+    },
   }
 };
 </script>

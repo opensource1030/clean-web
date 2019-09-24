@@ -24,21 +24,24 @@ function initialState() {
         domain: "domestic",
         category: "voice",
         value: 0,
-        unit: "minutes"
+        unit: "minutes",
+        unlimited: 0
       },
       data: {
         id: 0,
         domain: "domestic",
         category: "data",
         value: 0,
-        unit: 'Gb'
+        unit: 'Gb',
+        unlimited: 0
       },
       sms: {
         id: 0,
         domain: "domestic",
         category: "messaging",
         value: 0,
-        unit: "messages"
+        unit: "messages",
+        unlimited: 0
       }
     },
     internationalPlan: {
@@ -47,34 +50,27 @@ function initialState() {
         domain: "international",
         category: "voice",
         value: 0,
-        unit: "minutes"
+        unit: "minutes",
+        unlimited: 0
       },
       data: {
         id: 0,
         domain: "international",
         category: "data",
         value: 0,
-        unit: 'Gb'
+        unit: 'Gb',
+        unlimited: 0
       },
       sms: {
         id: 0,
         domain: "international",
         category: "messaging",
         value: 0,
-        unit: "messages"
+        unit: "messages",
+        unlimited: 0
       }
     },
-    addons: [
-      {
-        description: '',
-        cost: '',
-        unit: 'USD',
-        add: true,
-        delete: false,
-        addonNameError: false,
-        addonPriceError: false
-      }
-    ],
+    addons: [],
     items: []
   }
 }
@@ -213,17 +209,15 @@ const mutations = {
     //addons
     let addOns = [];
     addOns = findByAddons(records.serviceitems, "addon", "");
-    // state.addons.splice(0, 1);
     state.addons = [];
     for (let addOn of addOns) {
       state.addons.push(addOn);
     }
 
-    if (state.addons.length == 0) {
-      state.addons.push({id: "0", description: '', cost: '', add: false, delete: false});
+    if (state.addons.length != 0) {
+      reorderButtons(state)
     }
 
-    reorderButtons(state)
   },
 
   hideAndPush (state) {
@@ -238,28 +232,20 @@ const mutations = {
 
   deleteAddOns (state, index) {
     state.addons.splice(index, 1);
-    if (state.addons.length == 0) {
-      state.addons.push({id: state.serviceDetails.id, description: '', cost: '', add: false, delete: false});
-    }
 
     for (let add of state.addons) {
       add.add = false;
       add.delete = true;
     }
 
-    reorderButtons(state)
+    if (state.addons.length != 0) {
+      reorderButtons(state)      
+    }
+
   },
 
   updateServiceDetail (state, { e, type }) {
-    // console.log('service/updateServiceDetail', type, e, state.serviceDetails.status)
-    switch (type) {
-      case 'description':
-        state.serviceDetails[type] = e.target.value;
-        break;
-      default:
-        state.serviceDetails[type] = e;
-        break;
-    }
+    state.serviceDetails[type] = e;
   },
 
   updateDomesticplan (state, { e, type }) {
@@ -270,6 +256,23 @@ const mutations = {
     }
   },
 
+  updateUnlimitedDomesticplan (state, { e, type }) {
+
+      state.domesticPlan[type].unlimited = (state.domesticPlan[type].unlimited == 0) ? 1 : 0
+
+      if (state.domesticPlan[type].unlimited) {
+        state.domesticPlan[type].value = 0
+        if (type == "data") {
+          state.domesticPlan[type].unit = "Tb"
+        }
+      } else {
+        if (type == "data") {
+          state.domesticPlan[type].unit = "Gb"
+        }
+      }
+      
+  },
+
   updateInternationalplan (state, { e, type }) {
     if (type == "unit") {
       state.internationalPlan.data[type] = e;
@@ -278,23 +281,30 @@ const mutations = {
     }
   },
 
+  updateUnlimitedInternationalplan (state, { e, type }) {
+
+    state.internationalPlan[type].unlimited = (state.internationalPlan[type].unlimited == 0) ? 1 : 0
+
+    if (state.internationalPlan[type].unlimited) {
+      state.internationalPlan[type].value = 0
+      if (type == "data") {
+        state.internationalPlan[type].unit = "Tb"
+      }
+    } else {
+      if (type == "data") {
+        state.internationalPlan[type].unit = "Gb"
+      }
+    }
+    
+},
+
   updateAddon(state, {i, e, type}) {
     if (type == 'name') {
       state.addons[i].description = e.target.value;
-      let value = e.target.value;
-      if (value == null || value == '') {
-        state.addons[i].addonNameError = true;
-      }
-      state.addons[i].addonNameError = false;
     }
 
     if (type == 'price') {
-      state.addons[i].cost = parseInt(e.target.value);
-      let value = e.target.value;
-      if (value == null || value == '') {
-        state.addons[i].addonPriceError = true;
-      }
-      state.addons[i].addonPriceError = false;
+        state.addons[i].cost = e.target.value;
     }
 
     for (let add of state.addons) {
