@@ -14,12 +14,12 @@
           </div>
         </div>
 
-        <div class="device-info-price">${{ device.price1 }}</div>
+        <div class="device-info-price">${{ device.priceRetail }}</div>
       </div>
       <div class="text-right mt-3">
         <div class="order-total">
           <label class="mb-0 mr-3">Device/Accessories Subtotal</label>
-          <span class="font-weight-bold">${{ device.price1 }}</span>
+          <span class="font-weight-bold">${{ device.priceRetail }}</span>
         </div>
       </div>
     </div>
@@ -32,8 +32,8 @@
         <table>
           <tr v-for="item in domesticServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
-            <td class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
-            <!-- <td class="usage-info-price">${{ item.cost }}</td> -->
+            <td v-if="!item.unlimited" class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
+            <td v-else class="usage-info-desc">Unlimited</td>
           </tr>
         </table>
       </div>
@@ -43,8 +43,8 @@
         <table>
           <tr v-for="item in internationalServices">
             <td class="usage-info-name">{{ item.category | capitalize }}</td>
-            <td class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
-            <!-- <td class="usage-info-price">${{ item.cost }}</td> -->
+            <td v-if="!item.unlimited" class="usage-info-desc">{{ item.value }} {{ item.unit }}</td>
+            <td v-else class="usage-info-desc">Unlimited</td>
           </tr>
         </table>
       </div>
@@ -52,7 +52,7 @@
       <div class="text-right mt-3">
         <div class="order-total">
           <label class="mb-0 mr-3">Service Package Subtotal</label>
-          <span class="font-weight-bold">${{ baseServiceCost }}</span>
+          <span class="font-weight-bold">${{ service.cost }}</span>
         </div>
       </div>
 
@@ -81,7 +81,7 @@
     <div class="text-right mt-3">
       <div class="order-total">
         <label class="mb-0 mr-3">Order Total</label>
-        <span class="font-weight-bold">${{ total }}</span>
+        <span class="font-weight-bold">${{ orderTotalCost }}</span>
       </div>
     </div>
 
@@ -120,37 +120,35 @@ export default {
     },
 
     domesticServices() {
-      return _.filter(this.service.serviceitems, ["domain", "domestic"]);
+      if (this.service) {
+        return _.filter(this.service.serviceitems, ["domain", "domestic"]);
+      }
+      return null
     },
 
     internationalServices() {
-      return _.filter(this.service.serviceitems, ["domain", "international"]);
-    },
-
-    baseServiceCost() {
-      const serviceItems = _.union(
-        this.domesticServices,
-        this.internationalServices
-      );
-      return _.sumBy(serviceItems, "cost");
+      if (this.service) {
+        return _.filter(this.service.serviceitems, ["domain", "international"]);  
+      }
+      return null
     },
 
     addons() {
-      return _.filter(this.service.serviceitems, ["category", "addon"]);
+      if (this.service) {
+        return _.filter(this.service.serviceitems, ["category", "addon"]);
+      }
+      return null
     },
 
     addonsCost() {
       return _.sumBy(this.addons, "cost");
     },
 
-    total() {
-      const servicePrice = this.service
-        ? _.sumBy(this.service.serviceitems, "cost")
-        : 0;
-
-      const devicePrice = this.device ? this.device.price1 : 0;
-
-      return servicePrice + devicePrice;
+    orderTotalCost() {
+      const devicePrice = (this.device)             ? this.device.priceRetail : 0
+      const serviceCost = (this.service)            ? this.service.cost       : 0
+      const addonsCost  = (this.addons)             ? this.addonsCost         : 0
+      return devicePrice + serviceCost + addonsCost;
     }
   },
 

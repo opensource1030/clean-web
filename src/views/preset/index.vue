@@ -42,7 +42,8 @@
                   <td></td>
                   <td>
                     <span v-for="variation in preset.devicevariations" class="tag">
-                      {{ variation.devices[0].name }}, {{ variation.modifications[0].value }} {{ variation.modifications[1].value }}
+                      {{ variation.devices[0].name }},
+                      <template v-for="modification in variation.modifications">{{ modification.value }}</template>
                     </span>
                   </td>
                   <td>
@@ -62,7 +63,10 @@
                       </div>
                       <div class="row" v-for="variation in preset.devicevariations">
                         <div class="col-2 text-right"><strong>{{ variation.priceRetail }} {{ variation.devices[0].currency }}</strong></div>
-                        <div class="col-10">{{ variation.devices[0].name }} , {{ variation.modifications[0].value }} , {{ variation.modifications[1].value }}</div>
+                        <div class="col-10">
+                          {{ variation.devices[0].name }}
+                          <template v-for="modification in variation.modifications">, {{ modification.value }}</template>
+                        </div>
                       </div>
                     </div>
                   </td>
