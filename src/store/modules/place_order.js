@@ -877,6 +877,10 @@ const actions = {
     commit(types.PLACE_ORDER_RESET_ACCESSORY, resetHasOrder)
   },
 
+  setAccessoryHasOrder({ commit }, hasOrder) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER, hasOrder)
+  },
+
   /* getPackageServices({ dispatch, commit, state }, packageId) {
     commit(types.PLACE_ORDER_SET_PACKAGE, packageId)
     return new Promise((resolve, reject) => {

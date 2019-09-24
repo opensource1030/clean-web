@@ -40,7 +40,7 @@
 
       <h1 class="mb-3">Shipping info</h1>
 
-      <b-form @change="onFormChange" @submit.prevent="validateBeforeSubmit">
+      <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
             <label>Address <span>*</span></label>

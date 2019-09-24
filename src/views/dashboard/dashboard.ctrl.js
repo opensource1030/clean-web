@@ -86,10 +86,11 @@ export default {
       upgradeHasOrder: 'placeOrder/upgradeHasOrder',
       newlineHasOrder: 'placeOrder/newlineHasOrder',
       transferHasOrder: 'placeOrder/transferHasOrder',
+      accessoryHasOrder: 'placeOrder/accessoryHasOrder',
     }),
 
     hasOrder() {
-      return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder
+      return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder || this.accessoryHasOrder
     },
   },
 
@@ -108,6 +109,7 @@ export default {
       setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
       setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
       setTransferHasOrder: 'placeOrder/setTransferHasOrder',
+      setAccessoryHasOrder: 'placeOrder/setAccessoryHasOrder',
     }),
 
     // setAllocation(index) {
@@ -171,6 +173,11 @@ export default {
       if (this.newlineHasOrder) {
         this.setNewlineHasOrder(false)
       }
+
+      if (this.accessoryHasOrder) {
+        this.setAccessoryHasOrder(false)
+      }
+
     },
 
     billDetails(allocation) {
