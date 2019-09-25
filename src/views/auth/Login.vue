@@ -1,6 +1,7 @@
 <template>
   <div class="page auth-page flex-row align-items-center bg-primary">
     <div class="container-fluid">
+      <b-alert show variant="danger" v-if="emailValidator">Invalid email</b-alert>
       <b-alert show variant="danger" v-if="$store.getters['error/hasError']">{{ $store.getters['error/error'] }}</b-alert>
       <b-row class="justify-content-center">
         <b-col lg="5" md="8">
@@ -13,7 +14,7 @@
                 <b-form v-on:submit.prevent="submit()">
                   <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="fa fa-user"></i></b-input-group-text></b-input-group-prepend>
-                    <b-form-input type="text" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
+                    <b-form-input v-validate="'required|email'" name="login-mail" type="text" v-model.trim="credentials.email" class="form-control" placeholder="Enter your company email" />
                   </b-input-group>
                   <b-row>
                     <b-col cols="12">
@@ -48,17 +49,29 @@ export default {
       },
       // version: 'v 4 . 1 . 1 3',
       version: process.env.VERSION,
+      emailValidator: false,
     }
   },
 
   methods: {
+
     submit(){
-      this.$store.dispatch('error/clearAll')
-      this.$store.dispatch('auth/login', {
-        router: this.$router,
-        email: this.credentials.email
+      this.$validator.validate('login-mail', this.credentials.email).then(validator => {
+        this.$store.dispatch('error/clearAll')
+        // Email validation...
+        if (!validator) {
+          this.emailValidator = true
+          return
+        }
+        // If ok, continue process...
+        this.emailValidator = false
+        this.$store.dispatch('auth/login', {
+          router: this.$router,
+          email: this.credentials.email
+        }) 
       })
     }
+
   },
 
   mounted() {
