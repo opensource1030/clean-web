@@ -203,6 +203,10 @@ export default {
     },
 
     onStepBack() {
+      if (this.isSelectingServiceStep) {
+        this.setService(null)
+      }
+
       if (this.step > 0) {
         this.setStep(this.step - 1);
       } else {
