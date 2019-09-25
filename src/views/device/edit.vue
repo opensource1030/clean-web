@@ -38,7 +38,7 @@
                     <div class="col-lg-3">
                       <label class="field">
                         <strong>Default Price</strong>
-                        <input type="text" v-model="device.defaultPrice">
+                        <input type="number" v-model="device.defaultPrice">
                         <!-- <inputValidate id="testDefaultPrice" class="capacitys" v-model="device.defaultPrice"></inputValidate> -->
                       </label>
                     </div>
@@ -278,7 +278,7 @@
                         <strong>Retail Price</strong>
                         <div class="input-group">
                           <span class="input-group-text">{{ currency }}</span>
-                          <input type="text" v-model="dv.priceRetail">
+                          <input type="number" v-model="dv.priceRetail">
                           <!-- <inputValidate class="input-group-field price-retail" v-model="dv.priceRetail"></inputValidate> -->
                         </div>
                       </label>
@@ -288,7 +288,7 @@
                         <strong>Price One</strong>
                         <div class="input-group">
                           <span class="input-group-text">{{ currency }}</span>
-                          <input type="text" v-model="dv.price1">
+                          <input type="number" v-model="dv.price1">
                           <!-- <inputValidate class="input-group-field price-one" v-model="dv.price1"></inputValidate> -->
                         </div>
                       </label>
@@ -298,7 +298,7 @@
                         <strong>Price Two</strong>
                         <div class="input-group">
                           <span class="input-group-text">{{ currency }}</span>
-                          <input type="text" v-model="dv.price2">
+                          <input type="number" v-model="dv.price2">
                           <!-- <inputValidate class="input-group-field price-two" v-model="dv.price2"></inputValidate> -->
                         </div>
                       </label>
@@ -308,7 +308,7 @@
                         <strong>Price Own</strong>
                         <div class="input-group">
                           <span class="input-group-text">{{ currency }}</span>
-                          <input type="text" v-model="dv.priceOwn">
+                          <input type="number" v-model="dv.priceOwn">
                           <!-- <inputValidate class="input-group-field price-own" v-model="dv.priceOwn"></inputValidate> -->
                         </div>
                       </label>
