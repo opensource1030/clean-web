@@ -5,7 +5,7 @@
         v-if="isReviewStep"
         :user="selectedEmployee"
         :addresses="addresses"
-        :show-shipping-form="needNewDevice"
+        :show-shipping-form="needNewDevice || deviceInfo.needNewSim"
         @submit="onSubmit"
       ></order-form>
 
@@ -95,13 +95,6 @@ export default {
     };
   },
 
-  created() {
-    // if (this.userPackages.length <= 0) {
-    //   const { id } = this.currentUser;
-    //   this.getUserPackages(id);
-    // }
-  },
-
   computed: {
     ...mapGetters({
       currentUser: "auth/getProfile",
@@ -114,7 +107,6 @@ export default {
       comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
       needNewDevice: "placeOrder/newlineNeedNewDevice",
-      needNewSim: "placeOrder/newlineNeedNewSim",
       deviceInfo: "placeOrder/newlineDeviceInfo",
       hasOrder: "placeOrder/newlineHasOrder",
       devices: "placeOrder/newlineDevices",
@@ -150,7 +142,6 @@ export default {
       setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
-      setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
       createOrder: "placeOrder/createNewlineOrder",
       resetOrder: "placeOrder/resetNewline"
@@ -234,10 +225,14 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
+              orderData.data.attributes["addressId"] = parseInt(
+                res.data.data.id
+              );
               this.placeOrder(orderData);
             },
-            (err) => { console.log(err) }
+            err => {
+              console.log(err);
+            }
           );
         }
       } else {

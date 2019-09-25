@@ -269,10 +269,6 @@ const getters = {
     return state.newline.needNewDevice
   },
 
-  newlineNeedNewSim: state => {
-    return state.newline.needNewSim
-  },
-
   newlineDeviceInfo: state => {
     return state.newline.deviceInfo
   },
@@ -766,14 +762,6 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE, needNewDevice)
   },
 
-  setNewlineNeedNewSim({ commit }, needNewSim) {
-    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
-  },
-
-  setNewlineNeedNewSim({ commit }, needNewSim) {
-    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
-  },
-
   setNewlineDeviceInfo({ commit }, deviceInfo) {
     commit(types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO, deviceInfo)
   },
@@ -1141,10 +1129,6 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE](state, needNewDevice) {
     state.newline.needNewDevice = needNewDevice
-  },
-
-  [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM](state, needNewSim) {
-    state.newline.needNewSim = needNewSim
   },
 
   [types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO](state, deviceInfo) {
