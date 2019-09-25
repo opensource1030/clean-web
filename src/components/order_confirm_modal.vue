@@ -10,7 +10,7 @@
     <div class="container">
       <div class="row">
         <div class="col pt-4 pl-3 pr-0">
-          <h1>Thank You!</h1>
+          <div class="confirm-modal-thankyou-message">Thank You!</div>
           <p>
             Your order has been submitted.
             <br />We've sent you a confirmation email.
@@ -18,7 +18,7 @@
           <b-btn variant="default" @click="closeModal">Got it!</b-btn>
         </div>
         <div class="col p-0">
-          <img src="@/assets/images/confirm_modal_thank.svg" alt="Thank you">
+          <img src="@/assets/images/confirm_modal_thank.svg" alt="Thank you" />
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@ export default {
     border-width: 0;
   }
 
-  h1 {
+  &-thankyou-message {
     color: #1f2027;
     font-size: 24px;
     font-weight: 600;
@@ -75,7 +75,8 @@ export default {
 
 @media (min-width: 992px) {
   .confirm-modal {
-    .modal-lg, .modal-xl  {
+    .modal-lg,
+    .modal-xl {
       max-width: 700px;
     }
   }

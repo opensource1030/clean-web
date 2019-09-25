@@ -40,7 +40,7 @@
     </div>
 
     <div v-if="!!service" class="usage-info mt-5">
-      <h1>Usage Info</h1>
+      <div class="usage-title-label">Usage Info</div>
 
       <div v-if="domesticServices.length > 0">
         <div class="service-label">- Domestic Services</div>
@@ -183,7 +183,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order-title-label {
+.order-title-label,
+.usage-title-label {
   color: #1f2027;
   font-size: 12px;
   font-weight: bold;

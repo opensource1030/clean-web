@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="device-info-price">${{ dv.price1 }}</div>
-    </div> -->
+    </div>-->
 
     <div class="mt-5">
       <div v-for="dv of accessories" class="row align-items-center mt-3">
@@ -26,10 +26,9 @@
           </div>
         </div>
         <div class="col-1">
-          <b-btn-close
-            v-if="accessories.length > 1"
-            @click="setAccessory(dv)"
-          ><i class="fa fa-times"></i></b-btn-close>
+          <b-btn-close v-if="accessories.length > 1" @click="setAccessory(dv)">
+            <i class="fa fa-times" />
+          </b-btn-close>
         </div>
       </div>
     </div>
@@ -60,7 +59,7 @@ export default {
     }),
 
     total() {
-      return this.accessories.reduce((total, dv) => (total + dv.price1), 0)
+      return this.accessories.reduce((total, dv) => total + dv.price1, 0);
     }
   },
 
@@ -81,7 +80,7 @@ export default {
 
     deviceModification(dv) {
       return _.join(_.values(dv.modification), " | ");
-    },
+    }
   },
 
   created() {

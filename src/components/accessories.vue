@@ -1,17 +1,6 @@
 <template>
   <div class="accessories pt-5">
-    <!-- <h5 class="mb-3">Accessories that go with the device:</h5>
-
-    <div class="row">
-      <div v-for="accessory of deviceAccessories" class="col-6">
-        <div class="accessory-in-device mb-2">
-          <img class="accessory-thumb" :src="accessory.thumb" />
-          <span class="accessory-name">{{ accessory.name }}</span>
-        </div>
-      </div>
-    </div>-->
-
-    <h5 class="mb-3">Need any additional accessories?</h5>
+    <div class="accessories-title mb-3">Need any additional accessories?</div>
 
     <div class="row">
       <div v-for="accessory of availableAccessories" class="col-4">
@@ -77,12 +66,16 @@ export default {
 
 <style lang="scss" scoped>
 .accessories {
-  h5 {
+  &-title {
     text-transform: uppercase;
     color: #657089;
     font-size: 10px;
     font-weight: 600;
     line-height: 13px;
+  }
+
+  button {
+    font-size: 11px;
   }
 }
 

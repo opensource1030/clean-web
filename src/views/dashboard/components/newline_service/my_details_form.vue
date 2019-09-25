@@ -29,7 +29,7 @@
           <div class="item">
             <label>Need a new device?</label>
             <div>
-              <toggle :active="needNewDevice" @change="setNeedNewDevice"></toggle>
+              <toggle :active="needNewDevice" @change="setNeedNewDevice" />
             </div>
           </div>
         </div>

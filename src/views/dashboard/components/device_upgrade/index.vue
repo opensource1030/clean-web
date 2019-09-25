@@ -7,44 +7,45 @@
         :addresses="addresses"
         :show-shipping-form="true"
         @submit="onSubmit"
-      ></order-form>
+      />
 
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Upgrade Device</h1>
+        <div class="dashboard-drawer-title">Upgrade Device</div>
 
         <steps
           :steps="steps"
           :active-step="step"
           :show-back-button-on-first-step="true"
           @back="onStepBack"
-        ></steps>
+        />
 
         <div v-if="isSelectingDeviceStep" class="device-upgrade-device-step">
           <div class="device-upgrade-carrier-toggle pt-3">
             <span>Change carrier?</span>
-            <toggle :active="changeCarrier" @change="setChangeCarrier"></toggle>
+            <toggle :active="changeCarrier" @change="setChangeCarrier" />
           </div>
 
           <devices
             :devices="devices"
+            :step="stepInDevice"
             :selected-device="selectedDevice"
             :available-accessories="availableAccessories"
             :selected-accessories="selectedAccessories"
-            @requestDevice="onNextStep"
+            @continue="onDeviceContinue"
             @selectDevice="setDevice"
             @selectAccessory="setAccessory"
-          ></devices>
+          />
         </div>
 
         <div v-if="isSelectingServiceStep" class="device-upgrade-service-step">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
+              <services :services="services" @requestService="onSelectService" />
             </b-tab>
           </b-tabs>
         </div>
@@ -56,7 +57,7 @@
           :service="changeCarrier ? selectedService : null"
           :comment="comment"
           @change="setComment"
-        ></order-summary>
+        />
       </div>
     </div>
   </drawer>
@@ -93,11 +94,10 @@ export default {
     OrderSummary
   },
 
-  created() {
-    // if (this.userPackages.length <= 0) {
-    //   const { id } = this.currentUser;
-    //   this.getUserPackages(id);
-    // }
+  data() {
+    return {
+      stepInDevice: "device"
+    };
   },
 
   computed: {
@@ -226,7 +226,23 @@ export default {
       });
     },
 
+    onDeviceContinue() {
+      if (
+        this.stepInDevice === "device" &&
+        this.availableAccessories.length > 0
+      ) {
+        this.stepInDevice = "accessory";
+      } else {
+        this.onNextStep();
+      }
+    },
+
     onStepBack() {
+      if (this.isSelectingDeviceStep && this.stepInDevice === "accessory") {
+        this.stepInDevice = "device";
+        return;
+      }
+
       if (this.step > 0) {
         this.setStep(this.step - 1);
       } else {
@@ -244,11 +260,7 @@ export default {
     },
 
     onSelectEmployee(user) {
-      // console.log('upgrade onSelectEmployee', user)
-      this.getUserPackages(user.id).then(res => {
-        // console.log('upgrade getUserPackages', res)
-        // console.log(this.userPackages)
-      });
+      this.getUserPackages(user.id);
       this.setEmployee(user);
     },
 

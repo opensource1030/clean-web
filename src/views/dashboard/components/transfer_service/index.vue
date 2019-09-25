@@ -12,10 +12,10 @@
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Transfer Wireless Service Liability</h1>
+        <div class="dashboard-drawer-title">Transfer Wireless Service Liability</div>
 
         <steps
           :steps="steps"
@@ -33,13 +33,13 @@
             <div class="item d-flex flex-column align-items-center">
               <label>Need a new device?</label>
               <div class="mt-2">
-                <toggle :active="needNewDevice" @change="setNeedNewDevice"></toggle>
+                <toggle :active="needNewDevice" @change="setNeedNewDevice" />
               </div>
             </div>
 
             <b-tabs class="wa-tabs">
               <b-tab title="Category">
-                <services :services="services" @requestService="onSelectService"></services>
+                <services :services="services" @requestService="onSelectService" />
               </b-tab>
             </b-tabs>
           </div>
@@ -49,15 +49,16 @@
           <devices
             v-if="needNewDevice"
             :devices="devices"
+            :step="stepInDevice"
             :selected-device="selectedDevice"
             :available-accessories="availableAccessories"
             :selected-accessories="selectedAccessories"
-            @requestDevice="onNextStep"
+            @continue="onDeviceContinue"
             @selectDevice="setDevice"
             @selectAccessory="setAccessory"
-          ></devices>
+          />
 
-          <device-info-form v-else @next="onNextStep"></device-info-form>
+          <device-info-form v-else @next="onNextStep" />
         </template>
 
         <order-summary
@@ -68,7 +69,7 @@
           :comment="comment"
           :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
-        ></order-summary>
+        />
       </div>
     </div>
   </drawer>
@@ -115,7 +116,8 @@ export default {
         { key: "select-service", text: "Select Service" },
         { key: "select-device", text: "Select Device" },
         { key: "preview", text: "Preview" }
-      ]
+      ],
+      stepInDevice: "device"
     };
   },
 
@@ -184,10 +186,30 @@ export default {
     },
 
     onStepBack() {
+      if (
+        this.isSelectingDeviceStep &&
+        this.needNewDevice &&
+        this.stepInDevice === "accessory"
+      ) {
+        this.stepInDevice = "device";
+        return;
+      }
+
       if (this.step > 0) {
         this.setStep(this.step - 1);
       } else {
         this.setEmployee(null);
+      }
+    },
+
+    onDeviceContinue() {
+      if (
+        this.stepInDevice === "device" &&
+        this.availableAccessories.length > 0
+      ) {
+        this.stepInDevice = "accessory";
+      } else {
+        this.onNextStep();
       }
     },
 
@@ -213,7 +235,9 @@ export default {
             status: "New",
             orderType: "TransferServiceLiability",
             userId: this.selectedEmployee.id,
-            extraInfo: JSON.stringify( _.omit(this.details, "keepExistingService") )
+            extraInfo: JSON.stringify(
+              _.omit(this.details, "keepExistingService")
+            )
           },
           relationships: {
             apps: {
@@ -267,10 +291,14 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
+              orderData.data.attributes["addressId"] = parseInt(
+                res.data.data.id
+              );
               this.placeOrder(orderData);
             },
-            (err) => { console.log(err) }
+            err => {
+              console.log(err);
+            }
           );
         }
       } else {

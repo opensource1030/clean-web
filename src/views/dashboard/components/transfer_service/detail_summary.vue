@@ -32,7 +32,7 @@
         <div class="item d-flex flex-column align-items-center">
           <label>Need a new device?</label>
           <div class="mt-2">
-            <toggle :active="needNewDevice" @change="setNeedNewDevice"></toggle>
+            <toggle :active="needNewDevice" @change="setNeedNewDevice" />
           </div>
         </div>
       </div>

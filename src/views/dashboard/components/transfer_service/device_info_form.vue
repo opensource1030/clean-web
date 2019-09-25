@@ -7,7 +7,7 @@
             <div class="col item" :class="{'is-danger': errors.has('deviceImei') }">
               <label>IMEI *</label>
               <div>
-                <b-input name="deviceImei" v-model="form.deviceImei" v-validate="'required'"></b-input>
+                <b-input name="deviceImei" v-model="form.deviceImei" v-validate="'required'" />
                 <span v-show="errors.has('deviceImei')" class="error">Required</span>
               </div>
             </div>
@@ -23,7 +23,7 @@
                   placeholder="e.g. T-Mobile"
                   v-model="form.deviceCarrier"
                   v-validate="'required'"
-                ></b-input>
+                />
                 <span v-show="errors.has('deviceCarrier')" class="error">Required</span>
               </div>
             </div>
@@ -38,7 +38,7 @@
                   placeholder="If there's no existing card. add N/A"
                   v-model="form.deviceSim"
                   v-validate="'required'"
-                ></b-input>
+                />
                 <span v-show="errors.has('deviceSim')" class="error">Required</span>
               </div>
             </div>
@@ -49,7 +49,7 @@
           <div class="item">
             <label>Need a new sim?</label>
             <div>
-              <toggle :active="form.needNewSim" @change="setNeedNewSim"></toggle>
+              <toggle :active="form.needNewSim" @change="setNeedNewSim" />
             </div>
           </div>
         </div>

@@ -7,43 +7,44 @@
         :addresses="addresses"
         :show-shipping-form="needNewDevice"
         @submit="onSubmit"
-      ></order-form>
+      />
 
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Order a New Line of Service</h1>
+        <div class="dashboard-drawer-title">Order a New Line of Service</div>
 
         <steps
           :steps="steps"
           :active-step="step"
           :show-back-button-on-first-step="true"
           @back="onStepBack"
-        ></steps>
+        />
 
-        <my-details-form v-if="isMyDetailStep" @next="onNextStep"></my-details-form>
+        <my-details-form v-if="isMyDetailStep" @next="onNextStep" />
 
-        <device-info-form v-if="isSelectingDeviceStep && !needNewDevice" @next="onNextStep"></device-info-form>
-
-        <div v-if="isSelectingDeviceStep && needNewDevice">
+        <template v-if="isSelectingDeviceStep">
           <devices
+            v-if="needNewDevice"
             :devices="devices"
+            :step="stepInDevice"
             :selected-device="selectedDevice"
             :available-accessories="availableAccessories"
             :selected-accessories="selectedAccessories"
-            @requestDevice="onNextStep"
+            @continue="onDeviceContinue"
             @selectDevice="setDevice"
             @selectAccessory="setAccessory"
-          ></devices>
-        </div>
+          />
+          <device-info-form v-else @next="onNextStep" />
+        </template>
 
         <div v-if="isSelectingServiceStep">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
+              <services :services="services" @requestService="onSelectService" />
             </b-tab>
           </b-tabs>
         </div>
@@ -56,7 +57,7 @@
           :comment="comment"
           :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
-        ></order-summary>
+        />
       </div>
     </div>
   </drawer>
@@ -95,15 +96,9 @@ export default {
         { key: "select-device", text: "Select Device" },
         { key: "select-service", text: "Select Service" },
         { key: "preview", text: "Preview" }
-      ]
+      ],
+      stepInDevice: "device"
     };
-  },
-
-  created() {
-    // if (this.userPackages.length <= 0) {
-    //   const { id } = this.currentUser;
-    //   this.getUserPackages(id);
-    // }
   },
 
   computed: {
@@ -168,7 +163,27 @@ export default {
       this.$router.push({ path: "/dashboard" });
     },
 
+    onDeviceContinue() {
+      if (
+        this.stepInDevice === "device" &&
+        this.availableAccessories.length > 0
+      ) {
+        this.stepInDevice = "accessory";
+      } else {
+        this.onNextStep();
+      }
+    },
+
     onStepBack() {
+      if (
+        this.isSelectingDeviceStep &&
+        this.needNewDevice &&
+        this.stepInDevice === "accessory"
+      ) {
+        this.stepInDevice = "device";
+        return;
+      }
+
       if (this.step > 0) {
         this.setStep(this.step - 1);
       } else {
@@ -246,10 +261,14 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
+              orderData.data.attributes["addressId"] = parseInt(
+                res.data.data.id
+              );
               this.placeOrder(orderData);
             },
-            (err) => { console.log(err) }
+            err => {
+              console.log(err);
+            }
           );
         }
       } else {
