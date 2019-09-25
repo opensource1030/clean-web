@@ -10,7 +10,7 @@ module.exports = {
   EASYVISTA_CODE: 16,
   EZW_SSO_URL: 'https://oauth2.ezwim.com/sso?partner=WIRELESS',
   AIRSHIP_KEY: '69znmsr2ze66kz3a',
-  VERSION:'v2019.9.3',
+  VERSION:'v2019.9.6',
   EV_URL: 'https://wa.easyvista.com/api/v1',
   BUGSNAG_API_KEY: 'ff1b86eaaf4a5afb137f0a1d046256bb',
   SPLITIO_API_KEY: 't7c83aqsb2gfcq7rcv4lftp9l9jbn1m7qlhq',

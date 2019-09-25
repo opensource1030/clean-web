@@ -421,16 +421,33 @@ const getters = {
   transferDevices: state => {
     let allDevices = []
 
-    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) == -1) {
-          allDevices.push({ ...variation, packageId: id })
+    const { userPackages, selectedService } = state.transfer
+
+    if (!selectedService) {
+      userPackages.forEach(({ id, devicevariations }) => {
+        devicevariations.forEach(variation => {
+          const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (AccessoryTypes.indexOf(device_type) == -1) {
+            allDevices.push({ ...variation, packageId: id })
+          }
+        })
+      })
+
+      allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+    } else {
+      userPackages.forEach(({ id, devicevariations, services }) => {
+        if (_.find(services, { id: selectedService.id })) {
+          devicevariations.forEach(variation => {
+            const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+            if (AccessoryTypes.indexOf(device_type) == -1) {
+              allDevices.push({ ...variation, packageId: id })
+            }
+          })
         }
       })
-    })
 
-    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+      allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+    }
 
     return allDevices
   },
@@ -460,6 +477,18 @@ const getters = {
     })
 
     return _.uniqBy(allServices, 'id')
+  },
+
+  transferCarriers: (_state, getters) => {
+    let allCarriers = []
+
+    getters.transferServices.forEach(service => {
+      service.carriers.forEach(carrier => {
+        allCarriers.push(carrier)
+      })
+    })
+
+    return _.uniqBy(allCarriers, 'id')
   },
 
   transferAddresses: state => {
@@ -768,7 +797,7 @@ const actions = {
       const payload = {
         params: {
           include:
-            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+            'services,services.serviceitems,services.carriers,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
         },
       }
       commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, true)
@@ -875,6 +904,10 @@ const actions = {
 
   resetAccessory({ commit }, resetHasOrder) {
     commit(types.PLACE_ORDER_RESET_ACCESSORY, resetHasOrder)
+  },
+
+  setAccessoryHasOrder({ commit }, hasOrder) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER, hasOrder)
   },
 
   /* getPackageServices({ dispatch, commit, state }, packageId) {
