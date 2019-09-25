@@ -40,7 +40,7 @@
 
       <h1 class="mb-3">Shipping info</h1>
 
-      <b-form @change="onFormChange($event)" @submit.prevent="onSubmitWithAddress">
+      <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
             <label>Address <span>*</span></label>
@@ -97,9 +97,9 @@
 
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('attn') }">
-            <label>Attn <span>*</span></label>
+            <label>Attn</label>
             <div>
-              <b-input name="attn" v-model="form.attn" v-validate="'required'"></b-input>
+              <b-input name="attn" v-model="form.attn"></b-input>
               <span v-show="errors.has('attn')" class="error">Required</span>
             </div>
           </div>
@@ -233,19 +233,14 @@ export default {
         state: address.state,
         country: address.country,
         postalCode: address.postalCode,
+        attn: address.attn,
       };
 
       this.$validator.validateAll()
 
     },
 
-    onFormChange(evt) {
-
-      // Guard: don't change to "custom address" option if attn changes
-      if (evt.target.name == "attn") {
-        return
-      }
-
+    onFormChange() {
       if (this.customlocation != this.location) {
         this.location = this.customlocation
         this.onPackageAddressChange({ target: { value: this.customlocation } }, true) ;

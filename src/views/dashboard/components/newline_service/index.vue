@@ -218,17 +218,10 @@ export default {
           id: this.selectedDevice.id
         });
 
-        let valuesWithoutAttn = values
-        delete valuesWithoutAttn.attn
-
-        const addressInPackage = _.find(this.addresses, { ...valuesWithoutAttn });
-        console.log('----- ADDRESS IN PACKAGE? -----')
-        console.log(addressInPackage)
-        console.log('-------------------------------')
+        const addressInPackage = _.find(this.addresses, { ...values });
 
         if (addressInPackage) {
           orderData.data.attributes["addressId"] = addressInPackage.id;
-          console.log(orderData)
           this.placeOrder(orderData);
         } else {
           const addressPayload = {
@@ -241,9 +234,6 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              console.log('-----------------')
-              console.log(res)
-              console.log('-----------------')
               orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
               this.placeOrder(orderData);
             },
