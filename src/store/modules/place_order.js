@@ -479,6 +479,18 @@ const getters = {
     return _.uniqBy(allServices, 'id')
   },
 
+  transferCarriers: (_state, getters) => {
+    let allCarriers = []
+
+    getters.transferServices.forEach(service => {
+      service.carriers.forEach(carrier => {
+        allCarriers.push(carrier)
+      })
+    })
+
+    return _.uniqBy(allCarriers, 'id')
+  },
+
   transferAddresses: state => {
     let allAddresses = []
 
@@ -785,7 +797,7 @@ const actions = {
       const payload = {
         params: {
           include:
-            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+            'services,services.serviceitems,services.carriers,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
         },
       }
       commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, true)

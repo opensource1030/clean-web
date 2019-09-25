@@ -7,15 +7,25 @@
             <div class="col item" :class="{'is-danger': errors.has('Existing Carrier') }">
               <label>Existing Carrier *</label>
               <div class="item-field-wrapper">
-                <b-input
+                <!-- <b-input
                   class="mb-1"
                   name="Existing Carrier"
                   placeholder="e.g. T Mobile"
                   v-model="form.carrierInfo"
                   v-validate="'required'"
-                ></b-input>
+                ></b-input> -->
+                <b-form-select
+                  class="mb-1"
+                  name="Existing Carrier"
+                  v-model="form.carrierInfo"
+                  :options="carriers"
+                  value-field="presentation"
+                  text-field="presentation"
+                  v-validate="'required'"
+                ></b-form-select>
                 <span v-show="errors.has('Existing Carrier')" class="error">{{ errors.first('Existing Carrier') }}</span>
               </div>
+
             </div>
           </div>
 
@@ -161,7 +171,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      details: "placeOrder/transferDetails"
+      details: "placeOrder/transferDetails",
+      carriers: "placeOrder/transferCarriers"
     })
   },
 
@@ -194,3 +205,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.dashboard-form {
+  .custom-select {
+    background: none;
+  }
+}
+</style>
