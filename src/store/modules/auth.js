@@ -76,8 +76,8 @@ const getters = {
   },
 
   getUdls: state => {
-    return _.get(state.profile, 'companies.0.udls', [])
-  },
+    return _.get(state.profile, 'companies.0.udls', []);
+  }
 }
 
 // actions
@@ -210,7 +210,7 @@ const actions = {
       if (data.udlvalues[key]) {
         // udlData.push({ udlName: key, udlValue: data.udlvalues[key] })
         udlData.push({
-          type: 'udlvalues',
+          type: "udlvalues",
           id: data.udlvalues[key],
         })
       }
@@ -218,13 +218,13 @@ const actions = {
 
     const payload = {
       data: {
-        type: 'users',
+        type: "users",
         attributes: _.omit(data, 'udlvalues'),
         relationships: {
           udlvalues: {
             data: udlData,
-          },
-        },
+          }
+        }
       },
     }
 
@@ -233,7 +233,7 @@ const actions = {
         state.userId,
         payload,
         () => {
-          dispatch('getProfileAfterUpdate').then(res => resolve(res), err => reject(err))
+          dispatch('getProfileAfterUpdate').then(res => resolve(res), err => reject(err))    
         },
         err => {
           reject(err)
@@ -245,18 +245,17 @@ const actions = {
   getProfileAfterUpdate({ commit }) {
     const profilePayload = {
       params: {
-        include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues',
-      },
+        include: 'roles.permissions.scopes,companies.contents,companies.udls,companies.udls.udlvalues,udlvalues'
+      }
     }
 
     return new Promise((resolve, reject) => {
-      authAPI.profile(
-        profilePayload,
+      authAPI.profile(profilePayload,
         profile => {
           commit(types.AUTH_SET_PROFILE, profile)
           resolve(profile)
         },
-        error => reject(error),
+        error => reject(error)
       )
     })
   },
@@ -664,80 +663,68 @@ const actions = {
         { root: true },
       )
     }
-
-    var regEx = /^([A-Za-z0-9]+[\.\_\-][A-Za-z0-9]+|[A-Za-z0-9]+)+(\@[A-Za-z0-9]+)\.[A-Za-z0-9]{2,64}$/
-    if (!regEx.test(email.trim())) {
-      dispatch(
-        'error/addNew',
+    return new Promise((resolve, reject) => {
+      authAPI.login(
         {
-          message: 'Invalid Email',
+          email: email,
         },
-        { root: true },
+        res => {
+          window.location.href = res.data.data.redirectUrl
+          resolve(res)
+        },
+        err => {
+          commit('LOGIN_FAILURE')
+          reject(err)
+          if (err.body.error == 'User Not Found, Register Required') {
+            router.push({
+              name: 'register',
+              params: {
+                email: email,
+              },
+            })
+          } else if (err.body.error == 'Invalid Email') {
+            dispatch(
+              'error/addNew',
+              {
+                message: err.body.error,
+              },
+              { root: true },
+            )
+          } else if (err.body.error == 'User Found, Password Required') {
+            router.push({
+              name: 'loginLocal',
+              params: {
+                email: email,
+              },
+            })
+          } else if (err.body.error == 'Company Not Found') {
+            dispatch(
+              'error/addNew',
+              {
+                message: err.body.error,
+              },
+              { root: true },
+            )
+          } else if (err.body.error == 'User not Active') {
+            dispatch(
+              'error/addNew',
+              {
+                message: err.body.error + ', ' + err.body.message,
+              },
+              { root: true },
+            )
+          } else {
+            dispatch(
+              'error/addNew',
+              {
+                message: 'Unexpected server error. Please contact the administrator.',
+              },
+              { root: true },
+            )
+          }
+        },
       )
-    } else {
-      return new Promise((resolve, reject) => {
-        authAPI.login(
-          {
-            email: email,
-          },
-          res => {
-            window.location.href = res.data.data.redirectUrl
-            resolve(res)
-          },
-          err => {
-            commit('LOGIN_FAILURE')
-            reject(err)
-            if (err.body.error == 'User Not Found, Register Required') {
-              router.push({
-                name: 'register',
-                params: {
-                  email: email,
-                },
-              })
-            } else if (err.body.error == 'Invalid Email') {
-              dispatch(
-                'error/addNew',
-                {
-                  message: err.body.error,
-                },
-                { root: true },
-              )
-            } else if (err.body.error == 'User Found, Password Required') {
-              router.push({
-                name: 'loginLocal',
-                params: {
-                  email: email,
-                },
-              })
-            } else if (err.body.error == 'Company Not Found') {
-              dispatch(
-                'error/addNew',
-                {
-                  message: err.body.error,
-                },
-                { root: true },
-              )
-            } else if (err.body.error == 'User not Active') {
-              dispatch(
-                'error/addNew',
-                {
-                  message: err.body.error + ', ' + err.body.message,
-                },
-                { root: true },
-              )
-            } else {
-              dispatch(
-                'error/addNew',
-                {
-                  message: 'Unexpected server error. Please contact the administrator.',
-                },
-                { root: true },
-              )
-            }
-          },
-        )
-      })
-    }
+    })
   },
 
   loginLocal({ dispatch, commit, state }, { router, credentials, returnUrl }) {
@@ -860,7 +847,7 @@ const actions = {
   setShowWelcomeFlag({ commit }, flag) {
     Storage.set('show_welcome_flag', flag)
     commit('setShowWelcomeFlag', flag)
-  },
+  }
 }
 
 // mutations
@@ -935,7 +922,7 @@ const mutations = {
     state.variations.clickAgain = false
   },
 
-  [types.AUTH_SET_PROFILE](state, profile) {
+  [types.AUTH_SET_PROFILE] (state, profile) {
     Storage.set('profile', JSON.stringify(profile))
     state.profile = profile
   },
@@ -961,16 +948,16 @@ const mutations = {
     state.userInfo = userInfo
   },
 
-  recoveryVariations(state) {
-    state.variations.allowChanges = true
-    state.variations.clickAgain = true
-    state.variations.messageShow = false
-    state.variations.message = ''
+  recoveryVariations (state) {
+    state.variations.allowChanges = true;
+    state.variations.clickAgain = true;
+    state.variations.messageShow = false;
+    state.variations.message = '';
   },
 
-  setShowWelcomeFlag(state, flag) {
+  setShowWelcomeFlag (state, flag) {
     state.profile.show_welcome_flag = flag
-  },
+  }
 }
 
 export default {

@@ -554,12 +554,17 @@
   }
 
   .item > div {
-    & > input[type='text'],
-    & > input[type='password'] {
-      font-size: 10px;
+    & > input[type="text"],
+    & > input[type="password"],
+    & > select {
+      font-size: 11px;
       border: 0.75px solid #afbad4;
       border-radius: 4px;
       height: 30px;
+      option {
+        line-height: 14px;
+        color: #1f2027;
+      }
     }
   }
 

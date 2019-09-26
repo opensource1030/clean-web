@@ -57,17 +57,17 @@ const actions = {
     })
   },
 
-  create({ commit }, payload) {
+  create({ commit }, params) {
     return new Promise((resolve, reject) => {
       employeeAPI.create(
-        payload,
+        params,
         res => {
-          const employee = store.sync(res.data)
+          const employee = store.synce(res.data)
           commit(types.EMPLOYEE_NEW, employee)
-          resolve(employee)
+          resolve && resolve(employee)
         },
         err => {
-          reject(err)
+          reject && reject(err)
         },
       )
     })
