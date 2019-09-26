@@ -436,8 +436,8 @@
                   <br />to analyze yet
                 </h4>
                 <p class="mt-4">
-                  <router-link to="/">Order a new line of service</router-link>or
-                  <router-link to="/">transfer wireless services liability</router-link>
+                  <a @click.stop="$router.push({ path: '/dashboard/newline-service' })">Order a new line of service</a> or
+                  <a @click.stop="$router.push({ path: '/dashboard/transfer-service' })">transfer wireless services liability</a>
                   <br />to add new device
                 </p>
                 <label class="mt-5">
