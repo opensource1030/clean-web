@@ -5,7 +5,7 @@
         <div class="service" @click="requestService(service)">
           <div class="d-flex justify-content-space-between align-items-start">
             <div class="service-title pr-1">{{ service.title }}</div>
-            <div class="service-thumb"></div>
+            <div class="service-thumb" />
           </div>
           <div class="service-details mt-4">
             <div

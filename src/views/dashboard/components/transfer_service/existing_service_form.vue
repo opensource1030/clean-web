@@ -6,7 +6,7 @@
           <div class="item d-flex flex-column align-items-center">
             <label>Keep existing wireless service provider?</label>
             <div class="pt-1">
-              <toggle :active="form.keepExistingService" @change="setKeepExistingService"></toggle>
+              <toggle :active="form.keepExistingService" @change="setKeepExistingService" />
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <div class="col item" :class="{'is-danger': errors.has('serviceImei') }">
               <label>Previous IMEI *</label>
               <div>
-                <b-input name="serviceImei" v-model="form.serviceImei" v-validate="'required'"></b-input>
+                <b-input name="serviceImei" v-model="form.serviceImei" v-validate="'required'" />
                 <span v-show="errors.has('serviceImei')" class="error">Required</span>
               </div>
             </div>
@@ -35,7 +35,7 @@
                   placeholder="e.g. T-Mobile"
                   v-model="form.servicePhoneNo"
                   v-validate="'required'"
-                ></b-input>
+                />
                 <span v-show="errors.has('servicePhoneNo')" class="error">Required</span>
               </div>
             </div>
@@ -50,7 +50,7 @@
                   placeholder="If there's no existing card. add N/A"
                   v-model="form.serviceSim"
                   v-validate="'required'"
-                ></b-input>
+                />
                 <span v-show="errors.has('serviceSim')" class="error">Required</span>
               </div>
             </div>

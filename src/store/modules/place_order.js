@@ -14,12 +14,7 @@ const initialUpgradeData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
-  selectedAccessories: [
-    { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 2, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-  ],
+  selectedAccessories: [],
   changeCarrier: false,
   comment: null,
   hasOrder: false,
@@ -32,6 +27,7 @@ const initialNewlineData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  selectedAccessories: [],
   comment: null,
   details: {
     carrierInfo: null,
@@ -64,6 +60,7 @@ const initialTransferData = {
   selectedEmployee: null,
   selectedService: null,
   selectedDevice: null,
+  selectedAccessories: [],
   comment: null,
   details: {
     carrierInfo: null,
@@ -146,8 +143,8 @@ const getters = {
 
     state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) == -1) {
+        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (deviceType != 'Accessory') {
           allDevices.push({ ...variation, packageId: id })
         }
       })
@@ -163,9 +160,9 @@ const getters = {
 
     state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
       devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) > -1) {
-          allAccessories.push({ ...variation, deviceType: device_type, packageId: id })
+        const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+        if (deviceType == 'Accessory') {
+          allAccessories.push({ ...variation, deviceType, packageId: id })
         }
       })
     })
@@ -213,22 +210,26 @@ const getters = {
     return state.upgrade.comment
   },
 
-  upgradeDeviceAccessories: () => {
-    return [
-      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    ]
-  },
-
   upgradeAvailableAccessories: () => {
-    return [
-      { id: 1, name: 'Accessory 1', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 2, name: 'Accessory 2', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 3, name: 'Accessory 3', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 4, name: 'Accessory 4', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 5, name: 'Accessory 5', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-      { id: 6, name: 'Accessory 6', thumb: '/assets/img/logo.a521535.png', price: 299.99 },
-    ]
+    let allAccessories = []
+
+    if (!state.upgrade.selectedDevice) {
+      return allAccessories
+    }
+
+    state.upgrade.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.upgrade.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
+    })
+
+    return allAccessories
   },
 
   upgradeSelectedAccessories: state => {
@@ -324,12 +325,18 @@ const getters = {
       userPackages.forEach(({ devicevariations, services }) => {
         // device_variations hav different carriers
         // if (_.find(devicevariations, { id: selectedDevice.id })) {
-        if (_.find(devicevariations, (dv) => {
-          // let modifications = new Object()
-          // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
-          let modifications = dv.modifications.reduce((obj, m) => { let a = obj; a[m['modType']] = m['value']; return a; }, new Object())
-          return _.isEqual(modifications, selectedDevice.modification)
-        })) {
+        if (
+          _.find(devicevariations, dv => {
+            // let modifications = new Object()
+            // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
+            let modifications = dv.modifications.reduce((obj, m) => {
+              let a = obj
+              a[m['modType']] = m['value']
+              return a
+            }, new Object())
+            return _.isEqual(modifications, selectedDevice.modification)
+          })
+        ) {
           services.forEach(service => {
             allServices.push(service)
           })
@@ -366,6 +373,32 @@ const getters = {
 
   newlineComment: state => {
     return state.newline.comment
+  },
+
+  newlineAvailableAccessories: () => {
+    let allAccessories = []
+
+    if (!state.newline.selectedDevice) {
+      return allAccessories
+    }
+
+    state.newline.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.newline.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
+    })
+
+    return allAccessories
+  },
+
+  newlineSelectedAccessories: state => {
+    return state.newline.selectedAccessories
   },
 
   // Transfer
@@ -507,6 +540,32 @@ const getters = {
 
   transferComment: state => {
     return state.transfer.comment
+  },
+
+  transferAvailableAccessories: () => {
+    let allAccessories = []
+
+    if (!state.transfer.selectedDevice) {
+      return allAccessories
+    }
+
+    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
+      const variation = _.find(devicevariations, { id: state.transfer.selectedDevice.id })
+      if (variation) {
+        devicevariations.forEach(variation => {
+          const deviceType = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (deviceType == 'Accessory') {
+            allAccessories.push({ ...variation, deviceType, packageId: id })
+          }
+        })
+      }
+    })
+
+    return allAccessories
+  },
+
+  transferSelectedAccessories: state => {
+    return state.transfer.selectedAccessories
   },
 
   // Accessory
@@ -762,6 +821,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE, needNewDevice)
   },
 
+  setNewlineSelectedAccessory({ commit }, accessory) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY, accessory)
+  },
+
   setNewlineDeviceInfo({ commit }, deviceInfo) {
     commit(types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO, deviceInfo)
   },
@@ -816,6 +879,10 @@ const actions = {
 
   setTransferSelectedDevice({ commit }, selectedDevice) {
     commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE, selectedDevice)
+  },
+
+  setTransferSelectedAccessory({ commit }, accessory) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SELECTED_ACCESSORY, accessory)
   },
 
   setTransferSelectedService({ commit }, selectedService) {
@@ -1066,6 +1133,7 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE](state, device) {
     state.upgrade.selectedDevice = device
+    state.upgrade.selectedAccessories = []
   },
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_ACCESSORY](state, accessory) {
@@ -1117,6 +1185,17 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_DEVICE](state, selectedDevice) {
     state.newline.selectedDevice = selectedDevice
+    state.newline.selectedAccessories = []
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.newline.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.newline.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.newline.selectedAccessories.push(accessory), 'id')
+    }
   },
 
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_SERVICE](state, selectedService) {
@@ -1170,6 +1249,17 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE](state, selectedDevice) {
     state.transfer.selectedDevice = selectedDevice
+    state.transfer.selectedAccessories = []
+  },
+
+  [types.PLACE_ORDER_SET_TRANSFER_SELECTED_ACCESSORY](state, accessory) {
+    const ind = _.findIndex(state.transfer.selectedAccessories, { id: accessory.id })
+
+    if (ind !== -1) {
+      state.transfer.selectedAccessories.splice(ind, 1)
+    } else {
+      _.orderBy(state.transfer.selectedAccessories.push(accessory), 'id')
+    }
   },
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_SERVICE](state, selectedService) {

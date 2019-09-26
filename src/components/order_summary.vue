@@ -24,8 +24,23 @@
       </div>
     </div>
 
-    <div v-if="!!service" class="usage-info mt-4">
-      <div class="order-title-label">Service Package Information</div>
+    <div v-if="accessories && accessories.length > 0" class="accessory-info">
+      <div v-for="accessory of accessories" class="accessory">
+        <div class="d-flex align-items-center">
+          <img
+            v-if="getAccessoryImage(accessory)"
+            class="accessory-thumb"
+            :src="getAccessoryImage(accessory)"
+          />
+          <span v-else class="accessory-thumb">No thumb</span>
+          <div class="accessory-name">{{ getAccessoryName(accessory) }}</div>
+        </div>
+        <div class="accessory-price">$ {{ accessory.price1 }}</div>
+      </div>
+    </div>
+
+    <div v-if="!!service" class="usage-info mt-5">
+      <div class="usage-title-label">Usage Info</div>
 
       <div v-if="domesticServices.length > 0">
         <div class="service-label">- Domestic Services</div>
@@ -107,12 +122,10 @@
 </template>
 
 <script>
-import _ from "lodash";
-
 export default {
   name: "OrderSummary",
 
-  props: ["device", "service", "comment", "newSimCard"],
+  props: ["device", "accessories", "service", "comment", "newSimCard"],
 
   computed: {
     deviceModification() {
@@ -123,21 +136,21 @@ export default {
       if (this.service) {
         return _.filter(this.service.serviceitems, ["domain", "domestic"]);
       }
-      return null
+      return null;
     },
 
     internationalServices() {
       if (this.service) {
-        return _.filter(this.service.serviceitems, ["domain", "international"]);  
+        return _.filter(this.service.serviceitems, ["domain", "international"]);
       }
-      return null
+      return null;
     },
 
     addons() {
       if (this.service) {
         return _.filter(this.service.serviceitems, ["category", "addon"]);
       }
-      return null
+      return null;
     },
 
     addonsCost() {
@@ -145,14 +158,23 @@ export default {
     },
 
     orderTotalCost() {
-      const devicePrice = (this.device)             ? this.device.priceRetail : 0
-      const serviceCost = (this.service)            ? this.service.cost       : 0
-      const addonsCost  = (this.addons)             ? this.addonsCost         : 0
+      const devicePrice = this.device ? this.device.priceRetail : 0;
+      const serviceCost = this.service ? this.service.cost : 0;
+      const addonsCost = this.addons ? this.addonsCost : 0;
       return devicePrice + serviceCost + addonsCost;
     }
   },
 
   methods: {
+    getAccessoryName(accessory) {
+      return _.get(accessory, "devices.0.name");
+    },
+
+    getAccessoryImage(accessory) {
+      const imageUrl = _.get(accessory, "devices.0.images.0.links.self");
+      return imageUrl ? `https://${imageUrl}` : imageUrl;
+    },
+
     onCommentChange(event) {
       this.$emit("change", event.target.value);
     }
@@ -161,7 +183,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.order-title-label {
+.order-title-label,
+.usage-title-label {
   color: #1f2027;
   font-size: 12px;
   font-weight: bold;
@@ -189,13 +212,9 @@ textarea {
 .device-info {
   &-thumb {
     width: 120px;
-    height: 150px;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     user-select: none;
+    border: 0.75px solid #afbad4;
+    border-radius: 3px;
 
     img {
       flex: 1;
@@ -249,9 +268,32 @@ textarea {
 }
 
 .usage-info-price,
-.device-info-price {
+.device-info-price,
+.accessory-price {
   color: #1f2027;
   font-weight: 600;
   text-align: right;
+}
+
+.accessory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 0.75px solid #afbad4;
+  border-radius: 3px;
+  padding: 0.5rem;
+  margin-top: 1rem;
+
+  &-thumb {
+    height: 60px;
+    user-select: none;
+    height: 50px;
+    margin-right: 1rem;
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
 }
 </style>

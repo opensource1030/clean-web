@@ -11,13 +11,10 @@
             <label>Supervisor:</label>
             <div>{{ selectedEmployee.supervisorEmail }}</div>
           </div>
-          <div class="item mb-3">
-            <label>Department:</label>
-            <div>{{ selectedEmployee.department }}</div>
-          </div>
-          <div class="item mb-3">
-            <label>Cost center:</label>
-            <div>{{ selectedEmployee.costCenter }}</div>
+
+          <div v-for="udl of selectedEmployee.udlvalues" class="item mb-3">
+            <label>{{ udl.udlName }}:</label>
+            <div>{{ udl.udlValue }}</div>
           </div>
         </div>
       </div>
@@ -29,7 +26,7 @@
           <div class="item">
             <label>Need a new device?</label>
             <div>
-              <toggle :active="needNewDevice" @change="setNeedNewDevice"></toggle>
+              <toggle :active="needNewDevice" @change="setNeedNewDevice" />
             </div>
           </div>
         </div>
@@ -106,3 +103,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.item {
+  & > div {
+    line-height: 1;
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="profile-form dashboard-form">
-    <h1 class="mb-3">Edit Profile</h1>
+    <div class="profile-form-title mb-3">Edit Profile</div>
 
     <i class="fas fa-times" @click="onClose" />
 
@@ -167,7 +167,7 @@ export default {
 .profile-form {
   position: relative;
 
-  h1 {
+  &-title {
     color: white;
     font-size: 12px;
     font-weight: 600;

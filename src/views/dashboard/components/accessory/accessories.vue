@@ -1,11 +1,15 @@
 <template>
   <div class="accessories pt-5">
     <template v-if="!availableAccessories || availableAccessories.length == 0">
-      <h5 class="m-0 text-center">No accessory found</h5>
+      <div class="accessories-message">No accessory found</div>
     </template>
     <template v-else>
       <div class="row">
-        <div v-for="accessory of availableAccessories" class="col-4" :key="`accessory-${accessory.id}`">
+        <div
+          v-for="accessory of availableAccessories"
+          class="col-4"
+          :key="`accessory-${accessory.id}`"
+        >
           <div
             class="accessory-available mb-2"
             v-bind:class="{ selected: isSelectedAccessory(accessory) }"
@@ -15,7 +19,7 @@
             <div class="accessory-name">{{ deviceName(accessory) }}</div>
             <div class="accessory-price">$ {{ accessory.price1 }}</div>
             <div class="accessory-checkbox">
-              <i class="fas fa-check"></i>
+              <i class="fas fa-check" />
             </div>
           </div>
         </div>
@@ -40,7 +44,7 @@ export default {
 
   computed: {
     isValid() {
-      return this.selectedAccessories && this.selectedAccessories.length > 0
+      return this.selectedAccessories && this.selectedAccessories.length > 0;
     }
   },
 
@@ -72,8 +76,9 @@ export default {
 
 <style lang="scss" scoped>
 .accessories {
-  h5 {
+  &-message {
     text-transform: uppercase;
+    text-align: center;
     color: #657089;
     font-size: 10px;
     font-weight: 600;
@@ -86,6 +91,10 @@ export default {
     width: 40px;
     height: 40px;
     margin-right: 10px;
+  }
+
+  &-name {
+    line-height: 1;
   }
 
   &-price {

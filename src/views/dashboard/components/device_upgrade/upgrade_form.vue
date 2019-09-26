@@ -4,7 +4,7 @@
       <div class="upgrade-form-user-avatar">
         <span>{{ userNameInitial }}</span>
       </div>
-      <h1 class="upgrade-form-user-name mb-0">{{ user.firstName }} {{ user.lastName }}</h1>
+      <div class="upgrade-form-user-name mb-0">{{ user.firstName }} {{ user.lastName }}</div>
     </div>
 
     <div class="upgrade-form-user-profile my-4">
@@ -26,7 +26,7 @@
 
     <div class="shipping-form">
       <template v-if="addresses.length > 0">
-        <h1 class="mb-3">Select Address</h1>
+        <div class="upgrade-form-heading mb-3">Select Address</div>
 
         <div class="row mb-5">
           <div class="col">
@@ -37,14 +37,14 @@
         </div>
       </template>
 
-      <h1 class="mb-3">Shipping info</h1>
+      <div class="upgrade-form-heading mb-3">Shipping info</div>
 
       <b-form @submit.prevent="validateBeforeSubmit">
         <div class="row mb-3">
           <div class="col" :class="{'is-danger': errors.has('address') }">
             <label>Address</label>
             <div>
-              <b-input name="address" v-model="form.address" v-validate="'required'"></b-input>
+              <b-input name="address" v-model="form.address" v-validate="'required'" />
               <span v-show="errors.has('address')" class="error">Required</span>
             </div>
           </div>
@@ -54,7 +54,7 @@
           <div class="col" :class="{'is-danger': errors.has('address2') }">
             <label>Address 2</label>
             <div>
-              <b-input name="address2" v-model="form.address2"></b-input>
+              <b-input name="address2" v-model="form.address2" />
               <span v-show="errors.has('address2')" class="error">Required</span>
             </div>
           </div>
@@ -73,14 +73,14 @@
                 <option v-for="country of countries" :value="country">{{ country }}</option>
               </select>
 
-              <b-input v-else name="country" v-model="form.country"></b-input>
+              <b-input v-else name="country" v-model="form.country" />
               <span v-show="errors.has('country')" class="error">Required</span>
             </div>
           </div>
           <div class="col" :class="{'is-danger': errors.has('postalCode') }">
             <label>Zip code</label>
             <div>
-              <b-input name="postalCode" v-model="form.postalCode" v-validate="'required'"></b-input>
+              <b-input name="postalCode" v-model="form.postalCode" v-validate="'required'" />
               <span v-show="errors.has('postalCode')" class="error">Required</span>
             </div>
           </div>
@@ -90,7 +90,7 @@
           <div class="col" :class="{'is-danger': errors.has('city') }">
             <label>City</label>
             <div>
-              <b-input name="city" v-model="form.city" v-validate="'required'"></b-input>
+              <b-input name="city" v-model="form.city" v-validate="'required'" />
               <span v-show="errors.has('city')" class="error">Required</span>
             </div>
           </div>
@@ -107,7 +107,7 @@
                 <option v-for="state of states" :value="state">{{ state }}</option>
               </select>
 
-              <b-input v-else name="country" v-model="form.country"></b-input>
+              <b-input v-else name="country" v-model="form.country" />
               <span v-show="errors.has('state')" class="error">Required</span>
             </div>
           </div>
@@ -246,7 +246,7 @@ export default {
     margin-bottom: 0;
   }
 
-  h1 {
+  &-heading {
     font-size: 16px;
     font-weight: 600;
   }

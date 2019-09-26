@@ -7,22 +7,22 @@
         :addresses="addresses"
         :show-shipping-form="true"
         @submit="onSubmit"
-      ></order-form>
+      />
 
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Order Accessories</h1>
+        <div class="dashboard-drawer-title">Order Accessories</div>
 
         <steps
           :steps="steps"
           :active-step="step"
           :show-back-button-on-first-step="true"
           @back="onStepBack"
-        ></steps>
+        />
 
         <accessories
           v-if="isSelectingAccessoriesStep"
@@ -32,7 +32,7 @@
           @continue="onNextStep"
         />
 
-        <order-summary v-if="isReviewStep" :accessories="accessories"></order-summary>
+        <order-summary v-if="isReviewStep" :accessories="accessories" />
       </div>
     </div>
   </drawer>
@@ -126,8 +126,8 @@ export default {
     },
 
     onSelectEmployee(user) {
-      this.getUserPackages(user.id)
-      this.setEmployee(user)
+      this.getUserPackages(user.id);
+      this.setEmployee(user);
     },
 
     onSubmit(values) {
@@ -137,7 +137,7 @@ export default {
           attributes: {
             status: "New",
             orderType: "Accessories",
-            userId: this.selectedEmployee.id,
+            userId: this.selectedEmployee.id
             // serviceId: this.selectedService.id
           },
           relationships: {
@@ -179,7 +179,9 @@ export default {
             orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
             this.placeOrder(orderData);
           },
-          (err) => { console.log(err) }
+          err => {
+            console.log(err);
+          }
         );
       }
     },

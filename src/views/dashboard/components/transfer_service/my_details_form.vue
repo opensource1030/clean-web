@@ -7,13 +7,6 @@
             <div class="col item" :class="{'is-danger': errors.has('Existing Carrier') }">
               <label>Existing Carrier *</label>
               <div class="item-field-wrapper">
-                <!-- <b-input
-                  class="mb-1"
-                  name="Existing Carrier"
-                  placeholder="e.g. T Mobile"
-                  v-model="form.carrierInfo"
-                  v-validate="'required'"
-                ></b-input> -->
                 <b-form-select
                   class="mb-1"
                   name="Existing Carrier"
@@ -23,9 +16,11 @@
                   text-field="presentation"
                   v-validate="'required'"
                 ></b-form-select>
-                <span v-show="errors.has('Existing Carrier')" class="error">{{ errors.first('Existing Carrier') }}</span>
+                <span
+                  v-show="errors.has('Existing Carrier')"
+                  class="error"
+                >{{ errors.first('Existing Carrier') }}</span>
               </div>
-
             </div>
           </div>
 
@@ -39,8 +34,11 @@
                   placeholder="e.g. 199-902-5522"
                   v-model="form.wirelessNo"
                   v-validate="{ required: true , numeric: true }"
-                ></b-input>
-                <span v-show="errors.has('Phone Number')" class="error"> {{ errors.first('Phone Number') }}</span>
+                />
+                <span
+                  v-show="errors.has('Phone Number')"
+                  class="error"
+                >{{ errors.first('Phone Number') }}</span>
               </div>
             </div>
           </div>
@@ -52,8 +50,16 @@
                 <help-pop helpText="Name of person or business the account belongs to" />
               </label>
               <div class="item-field-wrapper">
-                <b-input name="Account Name" v-model="form.accountName" v-validate="'required'" class="mb-1"></b-input>
-                <span v-show="errors.has('Account Name')" class="error">{{ errors.first('Account Name') }}</span>
+                <b-input
+                  name="Account Name"
+                  v-model="form.accountName"
+                  v-validate="'required'"
+                  class="mb-1"
+                />
+                <span
+                  v-show="errors.has('Account Name')"
+                  class="error"
+                >{{ errors.first('Account Name') }}</span>
               </div>
             </div>
           </div>
@@ -70,8 +76,11 @@
                   name="Account Number"
                   v-model="form.accountNumber"
                   v-validate="{ required: true , numeric: true }"
-                ></b-input>
-                <span v-show="errors.has('Account Number')" class="error">{{ errors.first('Account Number') }}</span>
+                />
+                <span
+                  v-show="errors.has('Account Number')"
+                  class="error"
+                >{{ errors.first('Account Number') }}</span>
               </div>
             </div>
           </div>
@@ -86,8 +95,11 @@
                   name="Billing Password"
                   v-model="form.billingPassword"
                   v-validate="'required'"
-                ></b-input>
-                <span v-show="errors.has('Billing Password')" class="error">{{ errors.first('Billing Password') }}</span>
+                />
+                <span
+                  v-show="errors.has('Billing Password')"
+                  class="error"
+                >{{ errors.first('Billing Password') }}</span>
               </div>
             </div>
           </div>
@@ -106,8 +118,11 @@
                 :options="transferTypes"
                 v-model="form.transferType"
                 v-validate="'required'"
-              ></b-radio-group>
-              <span v-show="errors.has('Transfer Type')" class="error">{{ errors.first('Transfer Type') }}</span>
+              />
+              <span
+                v-show="errors.has('Transfer Type')"
+                class="error"
+              >{{ errors.first('Transfer Type') }}</span>
             </div>
           </div>
         </div>

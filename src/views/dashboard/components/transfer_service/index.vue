@@ -5,17 +5,17 @@
         v-if="isReviewStep"
         :user="selectedEmployee"
         :addresses="addresses"
-        :show-shipping-form="needNewDevice"
+        :show-shipping-form="needNewDevice || deviceInfo.needNewSim"
         @submit="onSubmit"
       />
 
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Transfer Wireless Service Liability</h1>
+        <div class="dashboard-drawer-title">Transfer Wireless Service Liability</div>
 
         <steps
           :steps="steps"
@@ -33,13 +33,13 @@
             <div class="item d-flex flex-column align-items-center">
               <label>Need a new device?</label>
               <div class="mt-2">
-                <toggle :active="needNewDevice" @change="setNeedNewDevice"></toggle>
+                <toggle :active="needNewDevice" @change="setNeedNewDevice" />
               </div>
             </div>
 
             <b-tabs class="wa-tabs">
               <b-tab title="Category">
-                <services :services="services" @requestService="onSelectService"></services>
+                <services :services="services" @requestService="onSelectService" />
               </b-tab>
             </b-tabs>
           </div>
@@ -49,48 +49,27 @@
           <devices
             v-if="needNewDevice"
             :devices="devices"
+            :step="stepInDevice"
             :selected-device="selectedDevice"
-            @requestDevice="onNextStep"
-            @selectDevice="onSelectDevice"
-          ></devices>
+            :available-accessories="availableAccessories"
+            :selected-accessories="selectedAccessories"
+            @continue="onDeviceContinue"
+            @selectDevice="setDevice"
+            @selectAccessory="setAccessory"
+          />
 
-          <device-info-form v-else @next="onNextStep"></device-info-form>
+          <device-info-form v-else @next="onNextStep" />
         </template>
-
-        <!-- <device-info-form
-          v-if="isSelectingDeviceStep && !details.keepExistingService"
-          @next="onNextStep"
-        ></device-info-form>
-
-        <div v-if="isSelectingDeviceStep && details.keepExistingService">
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Subsided Device">
-              <devices
-                :devices="devices"
-                :selected-device="selectedDevice"
-                @requestDevice="onNextStep"
-                @selectDevice="onSelectDevice"
-              ></devices>
-            </b-tab>
-          </b-tabs>
-        </div>
-
-        <div v-if="isSelectingServiceStep">
-          <b-tabs class="wa-tabs pt-3">
-            <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
-            </b-tab>
-          </b-tabs>
-        </div>-->
 
         <order-summary
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
+          :accessories="needNewDevice ? selectedAccessories : null"
           :service="selectedService"
           :comment="comment"
           :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
-        ></order-summary>
+        />
       </div>
     </div>
   </drawer>
@@ -137,7 +116,8 @@ export default {
         { key: "select-service", text: "Select Service" },
         { key: "select-device", text: "Select Device" },
         { key: "preview", text: "Preview" }
-      ]
+      ],
+      stepInDevice: "device"
     };
   },
 
@@ -157,6 +137,8 @@ export default {
       selectedEmployee: "placeOrder/transferSelectedEmployee",
       selectedDevice: "placeOrder/transferSelectedDevice",
       selectedService: "placeOrder/transferSelectedService",
+      availableAccessories: "placeOrder/transferAvailableAccessories",
+      selectedAccessories: "placeOrder/transferSelectedAccessories",
       comment: "placeOrder/transferComment",
       needNewDevice: "placeOrder/transferNeedNewDevice",
       details: "placeOrder/transferDetails",
@@ -191,6 +173,7 @@ export default {
       setNeedNewDevice: "placeOrder/setTransferNeedNewDevice",
       setEmployee: "placeOrder/setTransferSelectedEmployee",
       setDevice: "placeOrder/setTransferSelectedDevice",
+      setAccessory: "placeOrder/setTransferSelectedAccessory",
       setService: "placeOrder/setTransferSelectedService",
       setComment: "placeOrder/setTransferComment",
       createOrder: "placeOrder/createTransferOrder",
@@ -203,8 +186,13 @@ export default {
     },
 
     onStepBack() {
-      if (this.isSelectingServiceStep) {
-        this.setService(null)
+      if (
+        this.isSelectingDeviceStep &&
+        this.needNewDevice &&
+        this.stepInDevice === "accessory"
+      ) {
+        this.stepInDevice = "device";
+        return;
       }
 
       if (this.step > 0) {
@@ -214,12 +202,19 @@ export default {
       }
     },
 
-    onNextStep() {
-      this.setStep(this.step + 1);
+    onDeviceContinue() {
+      if (
+        this.stepInDevice === "device" &&
+        this.availableAccessories.length > 0
+      ) {
+        this.stepInDevice = "accessory";
+      } else {
+        this.onNextStep();
+      }
     },
 
-    onSelectDevice(devicevariation) {
-      this.setDevice(devicevariation);
+    onNextStep() {
+      this.setStep(this.step + 1);
     },
 
     onSelectService(service) {
@@ -240,7 +235,9 @@ export default {
             status: "New",
             orderType: "TransferServiceLiability",
             userId: this.selectedEmployee.id,
-            extraInfo: JSON.stringify( _.omit(this.details, "keepExistingService") )
+            extraInfo: JSON.stringify(
+              _.omit(this.details, "keepExistingService")
+            )
           },
           relationships: {
             apps: {
@@ -267,6 +264,15 @@ export default {
           id: this.selectedDevice.id
         });
 
+        if (this.selectedAccessories && this.selectedAccessories.length > 0) {
+          this.selectedAccessories.forEach(accessory => {
+            orderData.data.relationships.devicevariations.data.push({
+              type: "devicevariations",
+              id: accessory.id
+            });
+          });
+        }
+
         const addressInPackage = _.find(this.addresses, { ...values });
 
         // console.log('transfer_service/onSubmit', values, addressInPackage);
@@ -285,10 +291,14 @@ export default {
           addressAPI.create(
             addressPayload,
             res => {
-              orderData.data.attributes["addressId"] = parseInt(res.data.data.id);
+              orderData.data.attributes["addressId"] = parseInt(
+                res.data.data.id
+              );
               this.placeOrder(orderData);
             },
-            (err) => { console.log(err) }
+            err => {
+              console.log(err);
+            }
           );
         }
       } else {

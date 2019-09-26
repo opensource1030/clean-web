@@ -1,17 +1,6 @@
 <template>
   <div class="accessories pt-5">
-    <h5 class="mb-3">Accessories that go with the device:</h5>
-
-    <div class="row">
-      <div v-for="accessory of deviceAccessories" class="col-6">
-        <div class="accessory-in-device mb-2">
-          <img class="accessory-thumb" :src="accessory.thumb" />
-          <span class="accessory-name">{{ accessory.name }}</span>
-        </div>
-      </div>
-    </div>
-
-    <h5 class="mt-5 mb-3">Need any additional accessories?</h5>
+    <div class="accessories-title mb-3">Need any additional accessories?</div>
 
     <div class="row">
       <div v-for="accessory of availableAccessories" class="col-4">
@@ -20,9 +9,15 @@
           v-bind:class="{ selected: isSelectedAccessory(accessory) }"
           @click="onSelectAccessory(accessory)"
         >
-          <img class="accessory-thumb" :src="accessory.thumb" />
-          <div class="accessory-name">{{ accessory.name }}</div>
-          <div class="accessory-price">$ {{ accessory.price }}</div>
+          <img
+            class="accessory-thumb"
+            v-if="getAccessoryImage(accessory)"
+            :src="getAccessoryImage(accessory)"
+            alt
+          />
+          <span class="accessory-thumb">No thumb</span>
+          <div class="accessory-name">{{ getAccessoryName(accessory) }}</div>
+          <div class="accessory-price">$ {{ accessory.price1 }}</div>
           <div class="accessory-checkbox">
             <i class="fas fa-check"></i>
           </div>
@@ -39,16 +34,23 @@
 </template>
 
 <script>
-import _ from "lodash";
-
 export default {
   name: "Accessories",
 
-  props: ["deviceAccessories", "availableAccessories", "selectedAccessories"],
+  props: ["availableAccessories", "selectedAccessories"],
 
   methods: {
     isSelectedAccessory(accessory) {
       return _.findIndex(this.selectedAccessories, { id: accessory.id }) !== -1;
+    },
+
+    getAccessoryName(accessory) {
+      return _.get(accessory, "devices.0.name");
+    },
+
+    getAccessoryImage(accessory) {
+      const imageUrl = _.get(accessory, "devices.0.images.0.links.self");
+      return imageUrl ? `https://${imageUrl}` : imageUrl;
     },
 
     onSelectAccessory(accessory) {
@@ -64,12 +66,16 @@ export default {
 
 <style lang="scss" scoped>
 .accessories {
-  h5 {
+  &-title {
     text-transform: uppercase;
     color: #657089;
     font-size: 10px;
     font-weight: 600;
     line-height: 13px;
+  }
+
+  button {
+    font-size: 11px;
   }
 }
 
@@ -78,6 +84,10 @@ export default {
     width: 40px;
     height: 40px;
     margin-right: 10px;
+  }
+
+  &-name {
+    line-height: 1;
   }
 
   &-price {

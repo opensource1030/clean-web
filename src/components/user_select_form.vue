@@ -3,14 +3,14 @@
     <div class="user-select-form-title">For whom you are ordering?</div>
 
     <div class="user-select-form-section py-5">
-      <div>Ordering for my self</div>
+      <span>Ordering for my self</span>
       <b-btn variant="default" @click="goNext('me')">Continue</b-btn>
     </div>
 
     <hr class="user-select-form-separator" data-text="or" />
 
     <div class="user-select-form-section pt-5">
-      <div>On behalf of other user</div>
+      <span>On behalf of other user</span>
 
       <multiselect
         v-if="!createNewUser"
@@ -361,7 +361,7 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    & > div {
+    & > span {
       text-transform: uppercase;
       color: #657089;
       font-size: 10px;

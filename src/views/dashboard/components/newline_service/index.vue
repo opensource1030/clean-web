@@ -7,40 +7,44 @@
         :addresses="addresses"
         :show-shipping-form="needNewDevice || deviceInfo.needNewSim"
         @submit="onSubmit"
-      ></order-form>
+      />
 
       <user-select-form
         v-if="!selectedEmployee || userPackagesLoading"
         @selectUser="onSelectEmployee"
-      ></user-select-form>
+      />
 
       <div v-else class="dashboard-drawer-main">
-        <h1 class="text-center">Order a New Line of Service</h1>
+        <div class="dashboard-drawer-title">Order a New Line of Service</div>
 
         <steps
           :steps="steps"
           :active-step="step"
           :show-back-button-on-first-step="true"
           @back="onStepBack"
-        ></steps>
+        />
 
-        <my-details-form v-if="isMyDetailStep" @next="onNextStep"></my-details-form>
+        <my-details-form v-if="isMyDetailStep" @next="onNextStep" />
 
-        <device-info-form v-if="isSelectingDeviceStep && !needNewDevice" @next="onNextStep"></device-info-form>
-
-        <div v-if="isSelectingDeviceStep && needNewDevice">
+        <template v-if="isSelectingDeviceStep">
           <devices
+            v-if="needNewDevice"
             :devices="devices"
+            :step="stepInDevice"
             :selected-device="selectedDevice"
-            @requestDevice="onNextStep"
-            @selectDevice="onSelectDevice"
-          ></devices>
-        </div>
+            :available-accessories="availableAccessories"
+            :selected-accessories="selectedAccessories"
+            @continue="onDeviceContinue"
+            @selectDevice="setDevice"
+            @selectAccessory="setAccessory"
+          />
+          <device-info-form v-else @next="onNextStep" />
+        </template>
 
         <div v-if="isSelectingServiceStep">
           <b-tabs class="wa-tabs pt-3">
             <b-tab title="Category">
-              <services :services="services" @requestService="onSelectService"></services>
+              <services :services="services" @requestService="onSelectService" />
             </b-tab>
           </b-tabs>
         </div>
@@ -48,11 +52,12 @@
         <order-summary
           v-if="isReviewStep"
           :device="needNewDevice ? selectedDevice : null"
+          :accessories="needNewDevice ? selectedAccessories: null"
           :service="selectedService"
           :comment="comment"
           :newSimCard="deviceInfo.needNewSim"
           @change="setComment"
-        ></order-summary>
+        />
       </div>
     </div>
   </drawer>
@@ -91,7 +96,8 @@ export default {
         { key: "select-device", text: "Select Device" },
         { key: "select-service", text: "Select Service" },
         { key: "preview", text: "Preview" }
-      ]
+      ],
+      stepInDevice: "device"
     };
   },
 
@@ -103,6 +109,8 @@ export default {
       userPackagesLoading: "placeOrder/newlineUserPackagesLoading",
       selectedEmployee: "placeOrder/newlineSelectedEmployee",
       selectedDevice: "placeOrder/newlineSelectedDevice",
+      availableAccessories: "placeOrder/newlineAvailableAccessories",
+      selectedAccessories: "placeOrder/newlineSelectedAccessories",
       selectedService: "placeOrder/newlineSelectedService",
       comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
@@ -138,6 +146,7 @@ export default {
       getUserPackages: "placeOrder/getNewlineUserPackages",
       setEmployee: "placeOrder/setNewlineSelectedEmployee",
       setDevice: "placeOrder/setNewlineSelectedDevice",
+      setAccessory: "placeOrder/setNewlineSelectedAccessory",
       setService: "placeOrder/setNewlineSelectedService",
       setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
@@ -152,7 +161,27 @@ export default {
       this.$router.push({ path: "/dashboard" });
     },
 
+    onDeviceContinue() {
+      if (
+        this.stepInDevice === "device" &&
+        this.availableAccessories.length > 0
+      ) {
+        this.stepInDevice = "accessory";
+      } else {
+        this.onNextStep();
+      }
+    },
+
     onStepBack() {
+      if (
+        this.isSelectingDeviceStep &&
+        this.needNewDevice &&
+        this.stepInDevice === "accessory"
+      ) {
+        this.stepInDevice = "device";
+        return;
+      }
+
       if (this.step > 0) {
         this.setStep(this.step - 1);
       } else {
@@ -162,10 +191,6 @@ export default {
 
     onNextStep() {
       this.setStep(this.step + 1);
-    },
-
-    onSelectDevice(devicevariation) {
-      this.setDevice(devicevariation);
     },
 
     onSelectService(service) {
@@ -208,6 +233,15 @@ export default {
           type: "devicevariations",
           id: this.selectedDevice.id
         });
+
+        if (this.selectedAccessories && this.selectedAccessories.length > 0) {
+          this.selectedAccessories.forEach(accessory => {
+            orderData.data.relationships.devicevariations.data.push({
+              type: "devicevariations",
+              id: accessory.id
+            });
+          });
+        }
 
         const addressInPackage = _.find(this.addresses, { ...values });
 

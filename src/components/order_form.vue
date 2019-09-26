@@ -4,7 +4,7 @@
       <div class="order-form-user-avatar">
         <span>{{ userNameInitial }}</span>
       </div>
-      <h1 class="order-form-user-name mb-0">{{ user.firstName }} {{ user.lastName }}</h1>
+      <div class="order-form-heading">{{ user.firstName }} {{ user.lastName }}</div>
     </div>
 
     <div class="order-form-user-profile my-4">
@@ -26,7 +26,7 @@
 
     <div v-if="showShippingForm" class="shipping-form">
       <template v-if="addresses.length > 0">
-        <h1 class="mb-3">Select Address</h1>
+        <div class="order-form-heading mb-3">Select Address</div>
 
         <div class="row mb-5">
           <div class="col">
@@ -38,12 +38,15 @@
         </div>
       </template>
 
-      <h1 class="mb-3">Shipping info</h1>
+      <div class="order-form-heading mb-3">Shipping info</div>
 
       <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('address') }">
-            <label>Address <span>*</span></label>
+            <label>
+              Address
+              <span>*</span>
+            </label>
             <div>
               <b-input name="address" v-model="form.address" v-validate="'required'"></b-input>
               <span v-show="errors.has('address')" class="error">Required</span>
@@ -63,14 +66,20 @@
 
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('country') }">
-            <label>Country <span>*</span></label>
+            <label>
+              Country
+              <span>*</span>
+            </label>
             <div>
               <b-input name="country" v-model="form.country"></b-input>
               <span v-show="errors.has('country')" class="error">Required</span>
             </div>
           </div>
           <div class="col item" :class="{'is-danger': errors.has('postalCode') }">
-            <label>Zip code <span>*</span></label>
+            <label>
+              Zip code
+              <span>*</span>
+            </label>
             <div>
               <b-input name="postalCode" v-model="form.postalCode" v-validate="'required'"></b-input>
               <span v-show="errors.has('postalCode')" class="error">Required</span>
@@ -80,14 +89,20 @@
 
         <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('city') }">
-            <label>City <span>*</span></label>
+            <label>
+              City
+              <span>*</span>
+            </label>
             <div>
               <b-input name="city" v-model="form.city" v-validate="'required'"></b-input>
               <span v-show="errors.has('city')" class="error">Required</span>
             </div>
           </div>
           <div class="col item" :class="{'is-danger': errors.has('state') }">
-            <label>State <span>*</span></label>
+            <label>
+              State
+              <span>*</span>
+            </label>
             <div>
               <b-input name="state" v-model="form.state"></b-input>
               <span v-show="errors.has('state')" class="error">Required</span>
@@ -134,17 +149,17 @@ export default {
         state: null,
         country: null,
         postalCode: null,
-        attn: null,
+        attn: null
       },
       location: "",
-      customlocation: "Custom Location",
+      customlocation: "Custom Location"
     };
   },
 
   created() {
-    this.location = this.customlocation
+    this.location = this.customlocation;
     if (this.addresses.length > 0) {
-      this.location = this.addresses[0].id
+      this.location = this.addresses[0].id;
     }
 
     this.onPackageAddressChange({ target: { value: this.location } });
@@ -209,8 +224,8 @@ export default {
           state: null,
           country: null,
           postalCode: null,
-          attn: null,
-        }
+          attn: null
+        };
       }
 
       if (isCleanEvt) {
@@ -221,10 +236,10 @@ export default {
           state: this.form.state,
           country: this.form.country,
           postalCode: this.form.postalCode,
-          attn: this.form.attn,
-        }
+          attn: this.form.attn
+        };
       }
-      
+
       this.form = {
         ...this.form,
         address: address.address,
@@ -233,19 +248,21 @@ export default {
         state: address.state,
         country: address.country,
         postalCode: address.postalCode,
-        attn: address.attn,
+        attn: address.attn
       };
 
-      this.$validator.validateAll()
-
+      this.$validator.validateAll();
     },
 
     onFormChange() {
       if (this.customlocation != this.location) {
-        this.location = this.customlocation
-        this.onPackageAddressChange({ target: { value: this.customlocation } }, true) ;
+        this.location = this.customlocation;
+        this.onPackageAddressChange(
+          { target: { value: this.customlocation } },
+          true
+        );
       }
-    },
+    }
   }
 };
 </script>
@@ -288,7 +305,7 @@ export default {
     margin-bottom: 0;
   }
 
-  h1 {
+  &-heading {
     font-size: 16px;
     font-weight: 600;
   }

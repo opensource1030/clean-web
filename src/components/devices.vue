@@ -1,24 +1,23 @@
 <template>
   <div class="devices">
-    <b-tabs v-if="currentStep === 'device'" class="wa-tabs pt-3">
+    <b-tabs v-if="step === 'device'" class="wa-tabs pt-3">
       <b-tab title="Subsidized Device">
         <device
           v-for="variations in devices"
           :key="variations.id"
           :variations="variations"
           :initial-value="getInitialValue(variations)"
-          @requestDevice="onContinue"
+          @requestDevice="onRequestDevice"
           @selectDevice="onSelectDevice"
         />
       </b-tab>
     </b-tabs>
     <accessories
-      v-if="currentStep === 'accessory'"
-      :device-accessories="deviceAccessories"
+      v-if="step === 'accessory'"
       :available-accessories="availableAccessories"
       :selected-accessories="selectedAccessories"
+      @continue="onRequestAccessory"
       @selectAccessory="onSelectAccessory"
-      @continue="onContinue"
     />
   </div>
 </template>
@@ -37,30 +36,24 @@ export default {
   },
 
   props: [
+    "step",
     "devices",
     "selectedDevice",
-    "deviceAccessories",
     "availableAccessories",
     "selectedAccessories"
   ],
 
-  data() {
-    return {
-      currentStep: "device"
-    };
-  },
-
   methods: {
     onRequestDevice() {
-      this.currentStep = "accessory";
+      this.$emit("continue");
     },
 
     onSelectDevice(devicevariation) {
       this.$emit("selectDevice", devicevariation);
     },
 
-    onContinue() {
-      this.$emit("requestDevice");
+    onRequestAccessory() {
+      this.$emit("continue");
     },
 
     onSelectAccessory(accessory) {
