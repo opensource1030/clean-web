@@ -17,13 +17,21 @@
             <div class="col item" :class="{'is-danger': errors.has('deviceCarrier') }">
               <label>Carrier *</label>
               <div>
-                <b-input
+                <!-- <b-input
                   name="deviceCarrier"
                   on
                   placeholder="e.g. T-Mobile"
                   v-model="form.deviceCarrier"
                   v-validate="'required'"
-                ></b-input>
+                ></b-input> -->
+                <b-form-select
+                  name="deviceCarrier"
+                  v-model="form.deviceCarrier"
+                  :options="carriers"
+                  value-field="presentation"
+                  text-field="presentation"
+                  v-validate="'required'"
+                ></b-form-select>
                 <span v-show="errors.has('deviceCarrier')" class="error">Required</span>
               </div>
             </div>
@@ -96,7 +104,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      deviceInfo: "placeOrder/transferDeviceInfo"
+      deviceInfo: "placeOrder/transferDeviceInfo",
+      carriers: "placeOrder/transferCarriers"
     })
   },
 
@@ -129,3 +138,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.dashboard-form {
+  .custom-select {
+    background: none;
+  }
+}
+</style>
