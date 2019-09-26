@@ -115,14 +115,16 @@
 
         <div class="row mt-3">
           <div class="col">
-            <b-btn variant="outline-default w-100" @click="cancelCreate">Cancel</b-btn>
+            <b-btn
+              variant="outline-default w-100"
+              :disabled="createNewUserDisabled"
+              @click="cancelCreate"
+            >Cancel</b-btn>
           </div>
           <div class="col">
-            <b-btn
-              variant="default w-100"
-              :disabled="createNewUserDisabled"
-              type="submit"
-            >Create User</b-btn>
+            <b-btn variant="default w-100" :disabled="createNewUserDisabled" type="submit">
+              <i class="fa fa-spinner fa-spin mr-2" />Create User
+            </b-btn>
           </div>
         </div>
       </b-form>
@@ -230,8 +232,6 @@ export default {
     validateBeforeSubmit() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          const { username, email, supervisorEmail } = this.form;
-
           const udlData = _.keys(this.udlvalues).map(key => ({
             type: "udlvalues",
             id: this.udlvalues[key].id
@@ -240,7 +240,7 @@ export default {
           const payload = {
             data: {
               type: "users",
-              attributes: { username, email, supervisorEmail },
+              attributes: this.form,
               relationships: {
                 udlvalues: {
                   data: udlData
@@ -251,12 +251,14 @@ export default {
 
           this.submitted = true;
 
-          this.createEmployee(params)
+          this.createEmployee(payload)
             .then(employee => {
               this.selectEmployee(employee);
+              this.createNewUser = false;
               this.submitted = false;
             })
-            .catch(() => {
+            .catch(err => {
+              console.log(err);
               this.submitted = false;
             });
         }
