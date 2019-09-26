@@ -167,7 +167,7 @@
               <br />to analyze yet
             </h4>
             <p class="mt-4">
-              <router-link to="/">Order a new line of service</router-link>or
+              <router-link to="/">Order a new line of service</router-link> or
               <router-link to="/">transfer wireless services liability</router-link>
               <br />to add new device
             </p>
