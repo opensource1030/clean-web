@@ -270,10 +270,6 @@ const getters = {
     return state.newline.needNewDevice
   },
 
-  newlineNeedNewSim: state => {
-    return state.newline.needNewSim
-  },
-
   newlineDeviceInfo: state => {
     return state.newline.deviceInfo
   },
@@ -329,12 +325,18 @@ const getters = {
       userPackages.forEach(({ devicevariations, services }) => {
         // device_variations hav different carriers
         // if (_.find(devicevariations, { id: selectedDevice.id })) {
-        if (_.find(devicevariations, (dv) => {
-          // let modifications = new Object()
-          // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
-          let modifications = dv.modifications.reduce((obj, m) => { let a = obj; a[m['modType']] = m['value']; return a; }, new Object())
-          return _.isEqual(modifications, selectedDevice.modification)
-        })) {
+        if (
+          _.find(devicevariations, dv => {
+            // let modifications = new Object()
+            // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
+            let modifications = dv.modifications.reduce((obj, m) => {
+              let a = obj
+              a[m['modType']] = m['value']
+              return a
+            }, new Object())
+            return _.isEqual(modifications, selectedDevice.modification)
+          })
+        ) {
           services.forEach(service => {
             allServices.push(service)
           })
@@ -448,16 +450,33 @@ const getters = {
   transferDevices: state => {
     let allDevices = []
 
-    state.transfer.userPackages.forEach(({ id, devicevariations }) => {
-      devicevariations.forEach(variation => {
-        const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
-        if (AccessoryTypes.indexOf(device_type) == -1) {
-          allDevices.push({ ...variation, packageId: id })
+    const { userPackages, selectedService } = state.transfer
+
+    if (!selectedService) {
+      userPackages.forEach(({ id, devicevariations }) => {
+        devicevariations.forEach(variation => {
+          const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+          if (AccessoryTypes.indexOf(device_type) == -1) {
+            allDevices.push({ ...variation, packageId: id })
+          }
+        })
+      })
+
+      allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+    } else {
+      userPackages.forEach(({ id, devicevariations, services }) => {
+        if (_.find(services, { id: selectedService.id })) {
+          devicevariations.forEach(variation => {
+            const device_type = _.get(variation, 'devices[0].devicetypes[0].name', '')
+            if (AccessoryTypes.indexOf(device_type) == -1) {
+              allDevices.push({ ...variation, packageId: id })
+            }
+          })
         }
       })
-    })
 
-    allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+      allDevices = _.values(_.groupBy(_.uniqBy(allDevices, 'id'), 'deviceId'))
+    }
 
     return allDevices
   },
@@ -487,6 +506,18 @@ const getters = {
     })
 
     return _.uniqBy(allServices, 'id')
+  },
+
+  transferCarriers: (_state, getters) => {
+    let allCarriers = []
+
+    getters.transferServices.forEach(service => {
+      service.carriers.forEach(carrier => {
+        allCarriers.push(carrier)
+      })
+    })
+
+    return _.uniqBy(allCarriers, 'id')
   },
 
   transferAddresses: state => {
@@ -794,14 +825,6 @@ const actions = {
     commit(types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY, accessory)
   },
 
-  setNewlineNeedNewSim({ commit }, needNewSim) {
-    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
-  },
-
-  setNewlineNeedNewSim({ commit }, needNewSim) {
-    commit(types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM, needNewSim)
-  },
-
   setNewlineDeviceInfo({ commit }, deviceInfo) {
     commit(types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO, deviceInfo)
   },
@@ -825,7 +848,7 @@ const actions = {
       const payload = {
         params: {
           include:
-            'services,services.serviceitems,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
+            'services,services.serviceitems,services.carriers,devicevariations,devicevariations.modifications,devicevariations.devices,devicevariations.devices.images,devicevariations.devices.devicetypes,addresses',
         },
       }
       commit(types.PLACE_ORDER_SET_TRANSFER_USER_PACKAGES_LOADING, true)
@@ -1110,6 +1133,7 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_DEVICE](state, device) {
     state.upgrade.selectedDevice = device
+    state.upgrade.selectedAccessories = []
   },
 
   [types.PLACE_ORDER_SET_UPGRADE_SELECTED_ACCESSORY](state, accessory) {
@@ -1161,6 +1185,7 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_DEVICE](state, selectedDevice) {
     state.newline.selectedDevice = selectedDevice
+    state.newline.selectedAccessories = []
   },
 
   [types.PLACE_ORDER_SET_NEWLINE_SELECTED_ACCESSORY](state, accessory) {
@@ -1183,10 +1208,6 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_DEVICE](state, needNewDevice) {
     state.newline.needNewDevice = needNewDevice
-  },
-
-  [types.PLACE_ORDER_SET_NEWLINE_NEED_NEW_SIM](state, needNewSim) {
-    state.newline.needNewSim = needNewSim
   },
 
   [types.PLACE_ORDER_SET_NEWLINE_DEVICE_INFO](state, deviceInfo) {
@@ -1228,6 +1249,7 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_DEVICE](state, selectedDevice) {
     state.transfer.selectedDevice = selectedDevice
+    state.transfer.selectedAccessories = []
   },
 
   [types.PLACE_ORDER_SET_TRANSFER_SELECTED_ACCESSORY](state, accessory) {

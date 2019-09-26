@@ -110,6 +110,7 @@ export default {
       setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
       setTransferHasOrder: 'placeOrder/setTransferHasOrder',
       setAccessoryHasOrder: 'placeOrder/setAccessoryHasOrder',
+      updateProfile: 'auth/updateProfile',
     }),
 
     // setAllocation(index) {
@@ -177,7 +178,6 @@ export default {
       if (this.accessoryHasOrder) {
         this.setAccessoryHasOrder(false)
       }
-
     },
 
     billDetails(allocation) {
@@ -199,12 +199,18 @@ export default {
       })
     },
 
-    ...mapActions({
-      setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
-      setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
-      setTransferHasOrder: 'placeOrder/setTransferHasOrder',
-      updateProfile: 'auth/updateProfile',
-    }),
+    evaluateAllocation(allocation) {
+      const plan = allocation.service_plan_charge +
+        allocation.domestic_usage_charge + allocation.messaging_charge +
+        allocation.intl_ld_usage_charge + allocation.intl_roam_usage_charge;
+      const usage = allocation.taxes_charge +
+        allocation.other_carrier_charge + allocation.other_charge +
+        allocation.equipment_charge + allocation.etf_charge;
+      const other = allocation.usage_charge;
+      const total = plan + usage + other;
+
+      return { total, plan, usage, other }
+    }
   },
 
   beforeCreate() {},

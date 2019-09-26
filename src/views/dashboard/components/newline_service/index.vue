@@ -5,7 +5,7 @@
         v-if="isReviewStep"
         :user="selectedEmployee"
         :addresses="addresses"
-        :show-shipping-form="needNewDevice"
+        :show-shipping-form="needNewDevice || deviceInfo.needNewSim"
         @submit="onSubmit"
       />
 
@@ -115,7 +115,6 @@ export default {
       comment: "placeOrder/newlineComment",
       details: "placeOrder/newlineDetails",
       needNewDevice: "placeOrder/newlineNeedNewDevice",
-      needNewSim: "placeOrder/newlineNeedNewSim",
       deviceInfo: "placeOrder/newlineDeviceInfo",
       hasOrder: "placeOrder/newlineHasOrder",
       devices: "placeOrder/newlineDevices",
@@ -152,7 +151,6 @@ export default {
       setComment: "placeOrder/setNewlineComment",
       setDetails: "placeOrder/setNewlineDetails",
       setNeedNewDevice: "placeOrder/setNewlineNeedNewDevice",
-      setNeedNewSim: "placeOrder/setNewlineNeedNewSim",
       setDeviceInfo: "placeOrder/setNewlineDeviceInfo",
       createOrder: "placeOrder/createNewlineOrder",
       resetOrder: "placeOrder/resetNewline"

@@ -110,6 +110,16 @@
           </div>
         </div>
 
+        <div class="row mb-3">
+          <div class="col item" :class="{'is-danger': errors.has('attn') }">
+            <label>Attn</label>
+            <div>
+              <b-input name="attn" v-model="form.attn"></b-input>
+              <span v-show="errors.has('attn')" class="error">Required</span>
+            </div>
+          </div>
+        </div>
+
         <div class="row mt-4">
           <div class="col">
             <b-btn variant="default w-100" type="submit">Submit order</b-btn>
@@ -138,7 +148,8 @@ export default {
         city: null,
         state: null,
         country: null,
-        postalCode: null
+        postalCode: null,
+        attn: null
       },
       location: "",
       customlocation: "Custom Location"
@@ -212,7 +223,8 @@ export default {
           city: null,
           state: null,
           country: null,
-          postalCode: null
+          postalCode: null,
+          attn: null
         };
       }
 
@@ -223,7 +235,8 @@ export default {
           city: this.form.city,
           state: this.form.state,
           country: this.form.country,
-          postalCode: this.form.postalCode
+          postalCode: this.form.postalCode,
+          attn: this.form.attn
         };
       }
 
@@ -234,8 +247,11 @@ export default {
         city: address.city,
         state: address.state,
         country: address.country,
-        postalCode: address.postalCode
+        postalCode: address.postalCode,
+        attn: address.attn
       };
+
+      this.$validator.validateAll();
     },
 
     onFormChange() {
@@ -255,10 +271,9 @@ export default {
 .order-form {
   background-color: #355bb9;
   color: white;
-  height: 100%;
   width: 450px;
   padding: 2.5rem;
-  min-height: 760px;
+  overflow: auto;
 
   &-user {
     display: flex;

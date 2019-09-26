@@ -86,6 +86,10 @@ export default {
     margin-right: 10px;
   }
 
+  &-name {
+    line-height: 1;
+  }
+
   &-price {
     color: #1f2027;
     font-size: 14px;

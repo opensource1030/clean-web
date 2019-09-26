@@ -5,7 +5,7 @@
         v-if="isReviewStep"
         :user="selectedEmployee"
         :addresses="addresses"
-        :show-shipping-form="needNewDevice"
+        :show-shipping-form="needNewDevice || deviceInfo.needNewSim"
         @submit="onSubmit"
       />
 

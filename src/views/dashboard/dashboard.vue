@@ -76,20 +76,20 @@
 
                     <div class="row price-info mt-5">
                       <div class="col-6">
-                        <label>Service Plan</label>
-                        <span>{{ allocation.service_plan_charge | currency }}</span>
+                        <label>Total</label>
+                        <span>{{ evaluateAllocation(allocation).total | currency }}</span>
+                      </div>
+                      <div class="col-6">
+                        <label>Plan</label>
+                        <span>{{ evaluateAllocation(allocation).plan | currency }}</span>
                       </div>
                       <div class="col-6">
                         <label>Usage</label>
-                        <span>{{ allocation.usage_charge | currency }}</span>
-                      </div>
-                      <div class="col-6">
-                        <label>Allocation</label>
-                        <span>{{ allocation.allocated_charge | currency }}</span>
+                        <span>{{ evaluateAllocation(allocation).usage | currency }}</span>
                       </div>
                       <div class="col-6">
                         <label>Other</label>
-                        <span>{{ allocation.other_charge | currency }}</span>
+                        <span>{{ evaluateAllocation(allocation).other | currency }}</span>
                       </div>
                       <div
                         v-if="$store.state.feature.enabled_dashboard_report_details"
@@ -299,7 +299,7 @@
                     <div>
                       <b>Order Accessories</b>
                     </div>
-                    <div class="media-sub">Headphones, charges, bags</div>
+                    <div class="media-sub">Charger, headset, etc</div>
                   </div>
                 </div>
               </div>
@@ -377,20 +377,20 @@
 
                   <div class="row price-info mt-5 mx-0">
                     <div class="col-6 col-sm-3 col-lg">
-                      <label>Service Plan</label>
-                      <span>{{ activeAllocation.service_plan_charge | currency }}</span>
+                      <label>Total</label>
+                      <span>{{ evaluateAllocation(activeAllocation).total | currency }}</span>
+                    </div>
+                    <div class="col-6 col-sm-3 col-lg">
+                      <label>Plan</label>
+                      <span>{{ evaluateAllocation(activeAllocation).plan | currency }}</span>
                     </div>
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Usage</label>
-                      <span>{{ activeAllocation.usage_charge | currency }}</span>
-                    </div>
-                    <div class="col-6 col-sm-3 col-lg">
-                      <label>Allocation</label>
-                      <span>{{ activeAllocation.allocated_charge | currency }}</span>
+                      <span>{{ evaluateAllocation(activeAllocation).usage | currency }}</span>
                     </div>
                     <div class="col-6 col-sm-3 col-lg">
                       <label>Other</label>
-                      <span>{{ activeAllocation.other_charge | currency }}</span>
+                      <span>{{ evaluateAllocation(activeAllocation).other | currency }}</span>
                     </div>
                     <div
                       v-if="$store.state.feature.enabled_dashboard_report_details"
