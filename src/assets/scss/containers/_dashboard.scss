@@ -554,10 +554,10 @@
   }
 
   .item > div {
-    & > input[type="text"],
-    & > input[type="password"],
+    & > input[type='text'],
+    & > input[type='password'],
     & > select {
-      font-size: 11px;
+      font-size: 10px;
       border: 0.75px solid #afbad4;
       border-radius: 4px;
       height: 30px;
