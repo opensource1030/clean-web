@@ -61,6 +61,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       employeeAPI.create(
         payload,
+        '?include=udlvalues',
         res => {
           const employee = store.sync(res.data)
           commit(types.EMPLOYEE_NEW, employee)

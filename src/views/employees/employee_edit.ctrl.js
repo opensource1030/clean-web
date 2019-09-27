@@ -116,7 +116,7 @@ export default {
           this.$router.push({path: '/employees/review/' + this.employee.id}), err => console.log('update err', err)
         })
       } else {
-        employeeAPI.create(_params, res => {
+        employeeAPI.create(_params, '', res => {
           // this.$store.dispatch('employee/searchByEmail', {query: this.employee.email})
           //
           // let employee_id = res.data.data.id

@@ -18,9 +18,9 @@ export default {
     }, err => errCb(err))
   },
 
-  create (params, cb, errCb) {
+  create (params, queryString='', cb, errCb) {
     $store.dispatch('scope_token/get', 'create_user').then(result => {
-      http.post(API_BASE_URL + '/users', params, AuthHelper.getAuthHeader(result.accessToken)).then(res => cb(res), err => errCb(err))
+      http.post(API_BASE_URL + '/users' + queryString, params, AuthHelper.getAuthHeader(result.accessToken)).then(res => cb(res), err => errCb(err))
     }, err => errCb(err))
   },
 

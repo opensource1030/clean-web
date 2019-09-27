@@ -123,7 +123,7 @@
           </div>
           <div class="col">
             <b-btn variant="default w-100" :disabled="createNewUserDisabled" type="submit">
-              <i class="fa fa-spinner fa-spin mr-2" />Create User
+              <i v-if="submitted" class="fa fa-spinner fa-spin mr-2" />Create User
             </b-btn>
           </div>
         </div>
