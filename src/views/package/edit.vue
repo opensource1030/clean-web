@@ -145,7 +145,7 @@
                               <div class="card-image"><img :src="getImageUrl(device.devices[0])"/></div>
                               <div class="card-body">
                                 <div>{{ device.devices[0].name }}</div>
-                                <div>{{ device.modifications[0].value }} - {{ device.modifications[1].value }}</div>
+                                <div>{{ deviceModificationValues(device) }}</div>
                               </div>
                             </div>
                           </transition>
@@ -173,7 +173,7 @@
                           <div class="card-image"><img :src="getImageUrl(device.devices[0])"/></div>
                           <div class="card-body">
                             <div>{{ device.devices[0].name }}</div>
-                            <div>{{ device.modifications[0].value }} - {{ device.modifications[1].value }}</div>
+                            <div>{{ deviceModificationValues(device) }}</div>
                           </div>
                         </div>
                       </transition>

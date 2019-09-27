@@ -242,6 +242,10 @@ export default {
       this.devices.selected.splice(index, 1);
     },
 
+    deviceModificationValues(device) {
+      return _.map(_.uniqBy(device.modifications, 'id'), 'value').join(' - ')
+    },
+
     // CARRIERS METHODS
     addService() {
       this.activeService.added = 1;
