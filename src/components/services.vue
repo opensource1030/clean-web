@@ -11,7 +11,11 @@
             <div
               v-for="item of serviceItems(service)"
               class="mt-1"
-            >{{ item.category | capitalize }} {{ item.value }} {{ item.unit }}</div>
+            >
+            <span>{{ item.category | capitalize }}:</span>
+            <span v-if="item.unlimited == 0">{{ item.value }} {{ item.unit }}</span>
+            <span v-if="item.unlimited == 1">Unlimited</span>
+            </div>
           </div>
         </div>
       </div>

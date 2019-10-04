@@ -128,9 +128,9 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
+                    <b-form-input type="text" class="form-control"
                       name="domestic plan minutes"
-                      :value="domesticPlan.minutes.value"
+                      :value="( (domesticPlan.minutes.value) == 0 && (domesticPlan.minutes.unlimited != 0) ? 'Unlimited' : domesticPlan.minutes.value)"
                       @input="$store.commit('service/updateDomesticplan',{e:$event,type:'minutes'})"
                       :state="!(errors.has('domestic plan minutes')) ? null : false"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
@@ -153,9 +153,9 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
+                    <b-form-input type="text" class="form-control"
                       name="domestic plan data"
-                      :value="domesticPlan.data.value"
+                      :value="( (domesticPlan.data.value) == 0 && (domesticPlan.data.unlimited != 0) ? 'Unlimited' : domesticPlan.data.value)"
                       @input="$store.commit('service/updateDomesticplan',{e:$event,type:'data'})"
                       :state="!(errors.has('domestic plan data')) ? null : false"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
@@ -187,9 +187,9 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
+                    <b-form-input type="text" class="form-control"
                       name="domestic plan sms"
-                      :value="domesticPlan.sms.value"
+                      :value="( (domesticPlan.sms.value) == 0 && (domesticPlan.sms.unlimited != 0) ? 'Unlimited' : domesticPlan.sms.value)"
                       @input="$store.commit('service/updateDomesticplan',{e:$event,type:'sms'})"
                       :state="!(errors.has('domestic plan sms')) ? null : false"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
@@ -224,9 +224,9 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
+                    <b-form-input type="text" class="form-control"
                       name="international plan minutes"
-                      :value="internationalPlan.minutes.value"
+                      :value="( (internationalPlan.minutes.value) == 0 && (internationalPlan.minutes.unlimited != 0) ? 'Unlimited' : internationalPlan.minutes.value)"
                       @input="$store.commit('service/updateInternationalplan',{e:$event,type:'minutes'})"
                       :state="!(errors.has('international plan minutes')) ? null : false"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
@@ -249,9 +249,9 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
+                    <b-form-input type="text" class="form-control"
                       name="international plan data"
-                      :value="internationalPlan.data.value"
+                      :value="( (internationalPlan.data.value) == 0 && (internationalPlan.data.unlimited != 0) ? 'Unlimited' : internationalPlan.data.value)"
                       @input="$store.commit('service/updateInternationalplan',{e:$event,type:'data'})"
                       :disabled="(internationalPlan.data.unlimited == 0) ? false : true"
                       v-validate="{ required: true, min_value:0, max_value: 999999 }"
@@ -283,8 +283,8 @@
                     <b-input-group-prepend>
                       <b-input-group-text>Amount</b-input-group-text>
                     </b-input-group-prepend>
-                    <b-form-input type="number" class="form-control"
-                      :value="internationalPlan.sms.value"
+                    <b-form-input type="text" class="form-control"
+                      :value="( (internationalPlan.sms.value) == 0 && (internationalPlan.sms.unlimited != 0) ? 'Unlimited' : internationalPlan.sms.value)"
                       name="international plan sms"
                       @input="$store.commit('service/updateInternationalplan',{e:$event,type:'sms'})"
                       :state="!(errors.has('international plan sms')) ? null : false"
