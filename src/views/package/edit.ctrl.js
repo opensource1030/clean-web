@@ -1,5 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import { Carousel, Slide } from 'vue-carousel'
+import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 export default {
   name : 'package',
@@ -46,10 +47,11 @@ export default {
         selected: [],
         availableAddresses: [],
         loading: true
-      }
+      },
     }
   },
   created() {
+    this.$store.commit('auth/warningPopupFlagOff')
     if (this.$route.params.id) {
       this.packageId = this.$route.params.id;
       this.$store.dispatch('packages/getOne', this.packageId).then(
@@ -72,7 +74,8 @@ export default {
 
     ...mapGetters({
       presets: 'packages/allPresets',
-      carriers: 'packages/allCarriers'
+      carriers: 'packages/allCarriers',
+      warningPopupFlag: 'auth/getWarningPopupFlag',
     }),
   },
   methods : {
@@ -342,6 +345,7 @@ export default {
         if (this.packageId) {
           this.$store.dispatch('packages/updatePackage', this.packageData).then(
             res => {
+              this.$store.commit('auth/warningPopupFlagOff')
               vm.$swal(
                 'Updated!',
                 'Requested Package is updated.',
@@ -354,6 +358,7 @@ export default {
         } else {
           this.$store.dispatch('packages/createPackage', this.packageData).then(
             res => {
+              this.$store.commit('auth/warningPopupFlagOff')
               vm.$swal(
                 'Created!',
                 'Requested Package is created.',
@@ -366,5 +371,22 @@ export default {
         }
       }
     }
-  }
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.warningPopupFlag) {
+      this.$swal(swalWarningPopupOptions).then(result => {
+        if (result.value) {
+          this.$store.commit('auth/warningPopupFlagOff')
+          next()
+        }
+        if (result.dismiss == "cancel") {
+          next(false)
+        }
+      })
+    }
+    if (!this.warningPopupFlag) {
+      next()
+    }
+    
+  },
 }

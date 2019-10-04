@@ -160,6 +160,7 @@ const actions = {
 
       if (state.serviceDetails.id > 0) {
         serviceAPI.update(state.serviceDetails.id, {data: data}, res => {
+          commit('auth/warningPopupFlagOff', null, { root: true })
           commit(types.SERVICE_UPDATE, { router })
           resolve(res)
         }, err => {
@@ -169,6 +170,7 @@ const actions = {
       } else {
         data.attributes.companyId = rootState.auth.profile.companyId;
         serviceAPI.create({data: data}, res => {
+          commit('auth/warningPopupFlagOff', null, { root: true })
           commit(types.SERVICE_ADD_NEW, {router})
           resolve(res)
         }, err => {

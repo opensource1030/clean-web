@@ -1,5 +1,8 @@
 <template>
-  <div class="page edit-page package-page">
+  <div class="page edit-page package-page"
+    @click="$store.commit('auth/warningPopupFlagOn')"
+    @keyup.tab="$store.commit('auth/warningPopupFlagOn')"
+    >
     <b-modal
       :visible="$store.getters['error/hasError']"
       @hidden="$store.dispatch('error/clearAll')"

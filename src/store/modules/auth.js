@@ -32,6 +32,7 @@ const state = {
     messageShow: true,
     message: '',
   },
+  warningPopupFlag: false,
 }
 
 // Prepare the Model
@@ -74,6 +75,10 @@ const getters = {
 
   getUdls: state => {
     return _.get(state.profile, 'companies.0.udls', [])
+  },
+
+  getWarningPopupFlag: state => {
+    return state.warningPopupFlag
   },
 }
 
@@ -853,6 +858,14 @@ const actions = {
 const mutations = {
   [types.AUTH_LOGIN_REQUEST](state) {
     state.isAuthenticating = true
+  },
+
+  warningPopupFlagOn(state) {
+    state.warningPopupFlag = true
+  },
+
+  warningPopupFlagOff(state) {
+    state.warningPopupFlag = false
   },
 
   [types.AUTH_REGISTER_USER](state) {

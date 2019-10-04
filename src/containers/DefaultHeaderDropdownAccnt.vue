@@ -18,7 +18,7 @@ import { mapGetters } from 'vuex'
 import Avatar from 'vue-avatar'
 import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
-
+import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 import { HeaderDropdown as AppHeaderDropdown } from '@coreui/vue'
 
 export default {
@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: "auth/getProfile",
+      warningPopupFlag: 'auth/getWarningPopupFlag'
     }),
 
     _() {
@@ -57,15 +58,31 @@ export default {
 
   methods: {
     logout() {
-      document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-      document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-      heap.track('User logged out', {'clicked': 'yes'})
+      if (this.warningPopupFlag) {
+        this.$swal(swalWarningPopupOptions).then(result => {
+          if (result.value) {
+            this.afterGuardLogout()
+            return
+          }
+        })
+      }
 
-      this.$store.dispatch('auth/logout').then(res => {
-        console.log('header logout');
-        history.go(0);
-        this.$router.push({ path: '/login' })
-      })
+      if (!this.warningPopupFlag) {
+        this.afterGuardLogout()
+      }
+    },
+
+    afterGuardLogout() {
+      this.$store.commit('auth/warningPopupFlagOff')
+        document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+        document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+        heap.track('User logged out', {'clicked': 'yes'})
+
+        this.$store.dispatch('auth/logout').then(res => {
+          console.log('header logout');
+          history.go(0);
+          this.$router.push({ path: '/login' })
+        })
     },
 
     profile() {

@@ -2,6 +2,7 @@ import {mapGetters, mapActions} from 'vuex'
 import { Switch as cSwitch } from '@coreui/vue'
 import { ServiceHelper } from '@/helpers'
 import _ from 'lodash'
+import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 export default {
 
@@ -41,12 +42,13 @@ export default {
       domesticPlan: 'service/getDomesticPlan',
       internationalPlan: 'service/getInternationalPlan',
       addons: 'service/getAddons',
-      carriers: 'carrier/sorted'
+      carriers: 'carrier/sorted',
+      warningPopupFlag: 'auth/getWarningPopupFlag',
     }),
   },
 
   created() {
-
+    this.$store.commit('auth/warningPopupFlagOff')
     this.$store.dispatch('carrier/search').then((res) => {
       if (this.$route.params.id > 0) {
         this.$store.dispatch('service/getOne', this.$route.params.id).then((res) => {
@@ -64,7 +66,7 @@ export default {
 
       this.$validator.validateAll().then( validator => {
         if (!validator) { return }
-        this.$store.dispatch('service/save', { router: this.$router })
+        this.$store.dispatch('service/save', {router: this.$router })
       })
 
     },
@@ -79,7 +81,25 @@ export default {
     unlimitedValidation(validatorField, scope, type) {
       this.$validator.validate(validatorField, this[scope][type].value)
     },
-  }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    if (this.warningPopupFlag) {
+      this.$swal(swalWarningPopupOptions).then(result => {
+        if (result.value) {
+          this.$store.commit('auth/warningPopupFlagOff')
+          next()
+        }
+        if (result.dismiss == "cancel") {
+          next(false)
+        }
+      })
+    }
+    if (!this.warningPopupFlag) {
+      next()
+    }
+    
+  },
 }
 
 

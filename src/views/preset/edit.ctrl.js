@@ -7,6 +7,7 @@ import companyAPI from '@/api/company-api'
 import { mapGetters } from 'vuex'
 import { DeviceVariationHelper } from '@/helpers'
 import { DeviceVariationsPresenter, PresetsPresenter } from '@/presenters'
+import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -60,6 +61,7 @@ export default {
       allDevices: 'device/sorted',
       styles: 'modification/styleModifications',
       capacities: 'modification/capacityModifications',
+      warningPopupFlag: 'auth/getWarningPopupFlag',
     }),
 
     _ () {
@@ -72,6 +74,7 @@ export default {
   },
 
   created () {
+    this.$store.commit('auth/warningPopupFlagOff')
     this.$set(this, 'isReady', false)
     this.asyncFind_CompanyNames('')
     if (this.$route.params.id != null) {
@@ -340,10 +343,34 @@ export default {
       // console.log('params', _params)
 
       if (parseInt(this.preset.id) > 0) {
-        presetAPI.update(this.preset.id, _params, (res) => { this.$router.push({ path: '/presets' }) }, (err) => { console.log('err', err) })
+        presetAPI.update(this.preset.id, _params, (res) => {
+          this.$store.commit('auth/warningPopupFlagOff')
+          this.$router.push({ path: '/presets' })
+        }, (err) => { console.log('err', err) })
       } else {
-        presetAPI.create(_params, (res) => { this.$router.push({ path: '/presets' }) }, (err) => { console.log('err', err) })
+        presetAPI.create(_params, (res) => {
+          this.$store.commit('auth/warningPopupFlagOff')
+          this.$router.push({ path: '/presets' })
+        }, (err) => { console.log('err', err) })
       }
     }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    if (this.warningPopupFlag) {
+      this.$swal(swalWarningPopupOptions).then(result => {
+        if (result.value) {
+          this.$store.commit('auth/warningPopupFlagOff')
+          next()
+        }
+        if (result.dismiss == "cancel") {
+          next(false)
+        }
+      })
+    }
+    if (!this.warningPopupFlag) {
+      next()
+    }
+    
   },
 }

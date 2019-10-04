@@ -1,5 +1,8 @@
 <template>
-  <div class="page device-page device-edit-page">
+  <div class="page device-page device-edit-page"
+    @click="$store.commit('auth/warningPopupFlagOn')"
+    @keyup.tab="$store.commit('auth/warningPopupFlagOn')"
+  >
     <div v-if="device.id == device_id">
       <b-modal
         :visible="$store.getters['error/hasError']"
