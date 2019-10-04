@@ -28,6 +28,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      currentUser: 'auth/getProfile',
       employees: 'employee/sorted',
     })
   },
@@ -106,9 +107,9 @@ export default {
     if (permissions.indexOf('get_jobs_companys') > -1) {
       this.hasPermissionOnJob = true
       // check running job
-      // console.log('employee_index created', this.$store.state.auth.profile)
+      // console.log('employee_index created', this.currentUser)
       let vm = this,  jobs;
-      companyAPI.getJobs(this.$store.state.auth.profile.companyId, (res) => {
+      companyAPI.getJobs(this.currentUser.companyId, (res) => {
         jobs = store.sync(res.data)
         if (jobs instanceof Array) {
           // console.log('jobs', jobs)

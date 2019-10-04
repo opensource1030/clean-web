@@ -26,21 +26,9 @@ export default {
     closeLegacy() {
       this.$router.push('/dashboard');
     },
-
-    // greet() {
-    //   this.$ga.trackEvent('Click to Get Started');
-    // }
   },
 
   mounted() {
-    let profile = Utils.parseJsonString(Storage.get('profile'));
-
-    // analytics.track('Place Ordered', {
-    //   name: profile.firstName + ' ' + profile.lastName,
-    //   email: profile.email
-    // })
-    // this.greet()
-
     let legacySpaceHeight = $('.legacy-form-holder .pop-content').height() - $('.legacy-form-holder .form-header').outerHeight() - $('.legacy-heading').outerHeight() - 30
     $('.legacy-form-holder .iframe-wrapper').css('height', legacySpaceHeight + 'px') // Set content height
   }

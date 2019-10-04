@@ -14,6 +14,7 @@
 
 <script>
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 import Avatar from 'vue-avatar'
 import { Storage, Utils, Log } from '@/helpers'
 import employeeAPI from '@/api/employee-api'
@@ -34,18 +35,22 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      currentUser: "auth/getProfile",
+    }),
+
     _() {
       return _
     },
 
     firstName() {
-      return _.get(this.$store.state.auth.profile, 'firstName', '')
+      return _.get(this.currentUser, 'firstName', '')
     },
 
     fullName() {
       return _.compact([
-        _.get(this.$store.state.auth.profile, 'firstName', ''),
-        _.get(this.$store.state.auth.profile, 'lastName', '')
+        _.get(this.currentUser, 'firstName', ''),
+        _.get(this.currentUsere, 'lastName', '')
       ]).join(' ')
     },
   },
@@ -73,7 +78,7 @@ export default {
   },
 
   mounted () {
-    heap.identify(this.$store.state.auth.profile.identification);
+    heap.identify(this.currentUser.identification);
 
     (function () {
       let t, timeout = 7.2e+6;
@@ -86,7 +91,8 @@ export default {
       }
 
       function logOut() {
-        localStorage.clear('token');
+        // localStorage.clear('token');
+        Storage.remove('token');
         location.reload();
       }
 

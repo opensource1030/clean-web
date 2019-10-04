@@ -25,7 +25,7 @@
         <SidebarMinimizer/>
         <SidebarHeader></SidebarHeader>
         <SidebarForm/>
-        <!-- <SidebarNav v-if="this.$store.state.auth.profile && ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0])" :navItems="nav"></SidebarNav> -->
+        <!-- <SidebarNav v-if="currentUser && ScopeHelper.hasAdminRole(currentUser.roles[0])" :navItems="nav"></SidebarNav> -->
         <!-- <SidebarNav v-else :navItems="normal_nav"></SidebarNav> -->
         <side-nav/>
         <SidebarFooter>
@@ -62,6 +62,7 @@
 
 <script>
   import _ from 'lodash'
+  import { mapGetters } from 'vuex'
   import {
     Header as AppHeader,
     SidebarToggler,
@@ -88,7 +89,7 @@
   // const store = new Store()
 
   // console.log(ScopeHelper)
-  // console.log(ScopeHelper.hasAdminRole(this.$store.state.auth.profile.roles[0]))
+  // console.log(ScopeHelper.hasAdminRole(this.currentUser.roles[0]))
   export default {
     name: 'DefaultContainer',
 
@@ -121,6 +122,10 @@
     },
 
     computed: {
+      ...mapGetters({
+        currentUser: "auth/getProfile",
+      }),
+
       _() {
         return _
       },
@@ -152,9 +157,8 @@
     },
 
     created() {
-      let profile = Utils.parseJsonString(Storage.get('profile'))
-      if (profile.companies && profile.companies.length) {
-        let cosmicdata = profile.companies[0].contents[0].content
+      if (this.currentUser.companies && this.currentUser.companies.length) {
+        let cosmicdata = this.currentUser.companies[0].contents[0].content
         Log.put('DefaultContainer/created', cosmicdata)
         this.$store.dispatch('auth/loadCompany', cosmicdata)
       }
@@ -179,7 +183,7 @@
         enabled: true
       }
       Headway.init(config)
-      heap.identify(this.$store.state.auth.profile.identification)
+      heap.identify(this.currentUser.identification)
     }
   }
 </script>

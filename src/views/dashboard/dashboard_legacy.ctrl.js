@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { mapGetters } from 'vuex'
 import employeeAPI from '@/api/employee-api'
 import PieChart from './Piechart.vue'
 import TrendChart from './Trendchart.vue'
@@ -31,6 +32,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      currentUser: "auth/getProfile",
+    }),
+
     _() {
       return _
     },
@@ -67,11 +72,10 @@ export default {
     },
 
     placeOrder() {
-      // console.log('dashboard/placeOrder role', _.get(this.$store.state.auth.profile, 'roles[0].name', ''))
-      if (_.get(this.$store.state.auth.profile, 'roles[0].name', '') == 'wta') {
+      if (_.get(this.currentUser, 'roles[0].name', '') == 'wta') {
         this.startedOrder = true
       } else {
-        this.$store.dispatch('placeOrder/setUserId', this.$store.state.auth.userId)
+        this.$store.dispatch('placeOrder/setUserId', this.currentUser.userId)
         this.beginOrder()
       }
     },
@@ -136,14 +140,11 @@ export default {
   },
 
   created() {
-    let profile = Utils.parseJsonString(Storage.get('profile'))
-
     let _params = {
       params: {
         include: 'companies.currentBillMonths,allocations', 'filter[allocations.billMonth]': '[companies.currentBillMonths.last:3]'
       }
     };
-    // console.log(this.$store.state.auth)
 
     employeeAPI.get(this.$store.state.auth.userId, _params, res => {
       if (res.status == 404) {
@@ -169,7 +170,7 @@ export default {
       this.userInfo.loading = false;
     }, err => {
       Log.put('dashboard/created user allocation err', err);
-      this.userInfo.data = profile;
+      this.userInfo.data = this.currentUser;
       this.userInfo.data.allocations = [];
       this.userInfo.loading = false;
     })

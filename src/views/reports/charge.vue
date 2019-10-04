@@ -151,10 +151,11 @@
 </template>
 
 <script>
-import _ from "lodash";
-import companyAPI from "@/api/company-api";
-import employeeAPI from "@/api/employee-api";
-import { Storage, Utils, Log } from "@/helpers";
+import _ from "lodash"
+import { mapGetters } from "vuex"
+import companyAPI from "@/api/company-api"
+import employeeAPI from "@/api/employee-api"
+import { Storage, Utils, Log } from "@/helpers"
 
 const { Store } = require("yayson")();
 const store = new Store();
@@ -251,6 +252,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentUser: "auth/getProfile"
+    }),
+
     totalRows() {
       return this.items.length;
     },
@@ -261,7 +266,6 @@ export default {
   },
   created() {
     const compo = this;
-    const profile = Utils.parseJsonString(Storage.get("profile"));
 
     for (let i = 0; i < 50; i++) {
       this.items.push({
@@ -320,7 +324,7 @@ export default {
     };
 
     companyAPI.get(
-      profile.companies[0].id,
+      this.currentUser.companies[0].id,
       companyPayload,
       res => {
         const { udls } = store.sync(res.data);

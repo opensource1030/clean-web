@@ -181,81 +181,91 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  let authenticated = store.getters['auth/isAuthenticated']
-  let currentLocation = decodeURIComponent(window.location.href)
-
-  if (currentLocation.split('return=').length > 1 && authenticated) {
-    let profile = store.getters['auth/getProfile']
-    location.href = currentLocation.split('return=')[1] + '?jwt=' + profile.deskproJwt
-  }
-  let expired = store.getters['auth/isExpired']
-  // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
-  // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
-
-  if (expired) {
-    document.cookie = 'nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-    document.cookie = 'nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-
-    store.dispatch('auth/logout').then(res => {
-      console.log('expire logout')
-      history.go(0)
-      next({ name: 'Dashboard' })
-    })
-  }
-
-  const toPath = to.path.split('/')
-
-  if (to.name == undefined && from.name == null) {
-    if (authenticated) {
-      next({ name: 'Dashboard' })
-    } else {
-      next({ name: 'login' })
-    }
-  }
-
-  const {
-    enabled_equipment,
-    enabled_service,
-    enabled_package,
-    enabled_package_edit,
-    enabled_dashboard_legacy,
-    enabled_dashboard_nextgen,
-  } = store.state.feature
-
-  if (to.name === 'login' || to.name === 'loginLocal') {
-    if (authenticated) {
-      next({ name: 'Dashboard' })
-    }
-  } else if (
-    ((toPath[1] === 'devices' && !enabled_equipment) ||
-      (toPath[1] === 'services' && !enabled_service) ||
-      (toPath[1] === 'packages' && !enabled_package) ||
-      (toPath[2] && !enabled_package_edit)) &&
-    !enabled_dashboard_legacy &&
-    !enabled_dashboard_nextgen
-  ) {
-    if (from.name === 'Dashboard') {
-      history.go(0)
-    }
-
-    // Prevent bad redirection when resetting password...
-    if (to.name !== 'Reset Password Code') {
-      router.go(-1)
-    }
-  } else {
-    // if (to.meta.requiresAuth && !authenticated) {
-    if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-      next({ name: 'login' })
-    }
-  }
-
   if (to.name === 'legacyInfo') {
     $('html').addClass('overflow-hidden')
   } else {
     $('html').removeClass('overflow-hidden')
   }
 
-  next()
+  const authenticated = store.getters['auth/isAuthenticated']
+  const currentLocation = decodeURIComponent(window.location.href)
+
+  if (authenticated) {
+    store.dispatch('auth/getProfile').then(
+      (res) => {
+        if (currentLocation.split('return=').length > 1 && authenticated) {
+          const currentUser = store.getters['auth/getProfile']
+          location.href = currentLocation.split('return=')[1] + '?jwt=' + currentUser.deskproJwt
+        }
+        const expired = store.getters['auth/isExpired']
+        // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
+        // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
+
+        if (expired) {
+          document.cookie = 'nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+          document.cookie = 'nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+
+          store.dispatch('auth/logout').then(res => {
+            console.log('expire logout')
+            history.go(0)
+            next({ name: 'Dashboard' })
+          })
+        }
+
+        // if (to.name == undefined && from.name == null) {
+        //   if (authenticated) {
+        //     next({ name: 'Dashboard' })
+        //   } else {
+        //     next({ name: 'login' })
+        //   }
+        // }
+
+        const toPath = to.path.split('/')
+        const {
+          enabled_equipment,
+          enabled_service,
+          enabled_package,
+          enabled_package_edit,
+          enabled_dashboard_legacy,
+          enabled_dashboard_nextgen,
+        } = store.state.feature
+
+        if (to.name === 'login' || to.name === 'loginLocal') {
+          next({ name: 'Dashboard' })
+        } else if (
+          ((toPath[1] === 'devices' && !enabled_equipment) ||
+            (toPath[1] === 'services' && !enabled_service) ||
+            (toPath[1] === 'packages' && !enabled_package) ||
+            (toPath[2] && !enabled_package_edit)) &&
+          !enabled_dashboard_legacy &&
+          !enabled_dashboard_nextgen
+        ) {
+          if (from.name === 'Dashboard') {
+            history.go(0)
+          }
+
+          // Prevent bad redirection when resetting password...
+          if (to.name !== 'Reset Password Code') {
+            router.go(-1)
+          }
+        // } else {
+        //   // if (to.meta.requiresAuth && !authenticated) {
+        //   if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
+        //     next({ name: 'login' })
+        //   }
+        }
+        next()
+      },
+      (err) => {
+        next({ name: 'login' })
+      }
+    )
+  // } else if (to.meta.requiresAuth) {
+  } else if (to.matched.some(m => m.meta.requiresAuth)) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 Vue.http.interceptors.push((request, next) => {

@@ -12,13 +12,10 @@ analytics.identify(process.env.ANALYTICS_ID)
 
 // initial state
 const state = {
-  // email: localStorage.getItem('email') || '',
-  // token: localStorage.getItem('token') || null,
-  // userId: localStorage.getItem('userId') || null,
-  // profile: JSON.parse(localStorage.getItem('userProfile')) || {},
   userId: Storage.get('userId') || null,
   token: Utils.parseJsonString(Storage.get('token')),
-  profile: Utils.parseJsonString(Storage.get('profile')),
+  // profile: Utils.parseJsonString(Storage.get('profile')),
+  profile: {},
   company: {},
   company_loading: true,
   userInfo: {
@@ -258,6 +255,16 @@ const actions = {
         },
         error => reject(error),
       )
+    })
+  },
+
+  getProfile({ dispatch, state }) {
+    return new Promise((resolve, reject) => {
+      if (_.isEmpty(state.profile)) {
+        dispatch('getProfileAfterUpdate').then(res => resolve(res), err => reject(err))
+      } else {
+        resolve(state.profile)
+      }
     })
   },
 
@@ -877,7 +884,7 @@ const mutations = {
     Storage.set('token', JSON.stringify(result.token))
     // Storage.set('token', result.token)
     // Storage.set('refreshToken', result.refresh_token)
-    Storage.set('profile', JSON.stringify(result.profile))
+    // Storage.set('profile', JSON.stringify(result.profile))
 
     state.userId = result.user_id
     state.token = result.token
@@ -915,7 +922,7 @@ const mutations = {
   },
 
   [types.AUTH_SET_PROFILE](state, profile) {
-    Storage.set('profile', JSON.stringify(profile))
+    // Storage.set('profile', JSON.stringify(profile))
     state.profile = profile
   },
 
