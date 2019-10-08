@@ -269,7 +269,7 @@
                     <div>
                       <b>Order a New Line of Service</b>
                     </div>
-                    <div class="media-sub">With new device</div>
+                    <div class="media-sub">With new or existing device</div>
                   </div>
                 </div>
                 <div
@@ -282,7 +282,7 @@
                   </div>
                   <div class="media-body">
                     <div>
-                      <b>Transfer Wireless Services Liability</b>
+                      <b>Transfer Existing Mobile Number to Company Plan</b>
                     </div>
                     <div class="media-sub">Includes an option to order new device</div>
                   </div>
