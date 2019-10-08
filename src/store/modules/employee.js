@@ -79,7 +79,7 @@ const actions = {
       let _params = {
         params: {
           page: state.pagination.current_page,
-          include: 'companies,companies.udls,companies.addresses',
+          include: 'companies,companies.udls,companies.addresses,udlvalues'
         },
       }
 

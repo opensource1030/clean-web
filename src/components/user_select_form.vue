@@ -15,20 +15,23 @@
       <multiselect
         v-if="!createNewUser"
         id="user-select"
-        placeholder="Start typing user's name"
+        placeholder="Start typing user's email"
         track-by="id"
         label="username"
+        :loading="isLoading"
         :value="selectedEmployee"
         :custom-label="customLabel"
         :options="employees"
         :multiple="false"
         :searchable="true"
+        :internal-search="false"
         :show-labels="false"
         :select-label="''"
         :close-on-select="true"
         :clear-on-select="false"
         :hide-selected="false"
         @select="selectEmployee"
+        @search-change="asyncSearch"
       >
         <template slot="option" slot-scope="props">
           <span class="create-user-option" v-if="props.option.id === 'new'">+ Create new user</span>
@@ -168,6 +171,7 @@ export default {
     return {
       onBehalfOfUser: true,
       selectedEmployee: null,
+      employees: [{ id: "new" }],
       createNewUser: false,
       form: {
         firstName: null,
@@ -176,15 +180,12 @@ export default {
         supervisorEmail: null
       },
       udlvalues: {},
-      submitted: false
+      submitted: false,
+      isLoading: false
     };
   },
 
   computed: {
-    employees() {
-      return [...this.allEmployees, { id: "new" }];
-    },
-
     createNewUserDisabled() {
       return this.submitted ? "disabled" : false;
     },
@@ -196,10 +197,6 @@ export default {
     })
   },
 
-  created() {
-    this.getAllEmployees();
-  },
-
   methods: {
     customLabel({ firstName, lastName }) {
       return `${firstName} ${lastName}`;
@@ -208,6 +205,23 @@ export default {
     selectEmployee(employee) {
       this.createNewUser = employee.id === "new";
       this.selectedEmployee = employee.id === "new" ? null : employee;
+    },
+
+    asyncSearch(query) {
+      if(query.length < 3) {
+        this.employees = [{ id: "new"}];
+        return;
+      }
+
+      this.isLoading = true;
+
+      this.searchEmployees({query: query}).then(res => {
+        this.employees = [ ...res, { id: "new" } ];
+        this.isLoading = false;
+      }).catch(err => {
+        console.log(err);
+        this.isLoading = false;
+      });
     },
 
     getValue(udlName) {
@@ -266,7 +280,7 @@ export default {
     },
 
     ...mapActions({
-      getAllEmployees: "employee/getAll",
+      searchEmployees: "employee/searchByEmail",
       createEmployee: "employee/create"
     })
   }
