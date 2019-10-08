@@ -257,7 +257,9 @@ router.beforeEach((to, from, next) => {
         next()
       },
       (err) => {
-        next({ name: 'login' })
+        store.dispatch('auth/logout').then(res => {
+          next({ name: 'login' })
+        })
       }
     )
   // } else if (to.meta.requiresAuth) {

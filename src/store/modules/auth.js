@@ -800,10 +800,12 @@ const actions = {
             profile: {},
           }
           commit(types.AUTH_LOGIN_SUCCESS, result)
+          router.push({ name: 'login' })
           dispatch('profile', { res: re, router: router, returnUrl: '' })
         },
         er => {
           commit('LOGIN_FAILURE')
+          router.push({ name: 'login' })
           if (er.status == 500) {
             dispatch(
               'error/addNew',
