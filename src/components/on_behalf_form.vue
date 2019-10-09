@@ -1,10 +1,11 @@
 <template>
   <div class="on-behalf-form">
     <div class="on-behalf-form-wrapper">
-      <div class="on-behalf-form-title">For whom you are ordering?</div>
+<!--      <div class="on-behalf-form-title">For whom you are ordering?</div>-->
+      <div class="on-behalf-form-title">Upgrade another user</div>
 
       <div class="on-behalf-form-section pt-1">
-        <span>On behalf of other user</span>
+<!--        <span>Upgrade another user</span>-->
 
         <multiselect
           id="user-select"
