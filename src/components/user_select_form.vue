@@ -35,7 +35,7 @@
       >
         <template slot="option" slot-scope="props">
           <span class="create-user-option" v-if="props.option.id === 'new'">+ Create new user</span>
-          <span v-else>{{props.option.firstName}} {{props.option.lastName}}</span>
+          <span v-else>{{ props.option.firstName }} {{ props.option.lastName }} ({{ props.option.email }})</span>
         </template>
 
         <template slot="noResult">
@@ -302,7 +302,7 @@ export default {
   }
 
   .multiselect {
-    width: 235px;
+    width: 280px;
     font-size: 10px;
     font-weight: normal;
     font-weight: 500;
