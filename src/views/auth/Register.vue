@@ -23,6 +23,10 @@
                     <b-form-input type="text" class="form-control" v-model="credentials.email" placeholder="email" disabled/>
                   </b-input-group>
                   <b-input-group class="mb-3">
+                    <b-input-group-prepend><b-input-group-text><i class="icon-user"></i></b-input-group-text></b-input-group-prepend>
+                    <b-form-input type="text" class="form-control" v-model="credentials.supervisorEmail" placeholder="Supervisor Email"/>
+                  </b-input-group>
+                  <b-input-group class="mb-3">
                     <b-input-group-prepend><b-input-group-text><i class="icon-key"></i></b-input-group-text></b-input-group-prepend>
                     <b-form-input v-if="!passwordType" type="password" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
                     <b-form-input v-else type="text" class="form-control" v-model="credentials.password1" placeholder="Enter your password" autocomplete="Enter your password" />
@@ -74,6 +78,7 @@ export default {
         firstName: '',
         lastName: '',
         email: this.$route.params.email,
+        supervisorEmail: '',
         password1: '',
         password2: '',
       },

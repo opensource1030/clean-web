@@ -103,7 +103,9 @@ export default {
       setEmployee: "placeOrder/setAccessorySelectedEmployee",
       setAccessory: "placeOrder/setAccessorySelectedAccessory",
       createOrder: "placeOrder/createAccessoryOrder",
-      resetOrder: "placeOrder/resetAccessory"
+      resetOrder: "placeOrder/resetAccessory",
+      getEmployee: "employee/getOne",
+      updateSpecificEmployee: "employee/updateSpecificEmployee"
     }),
 
     toggleDrawer() {
@@ -150,6 +152,30 @@ export default {
           }
         }
       };
+
+      if (values != null) {
+        if (values.supervisor.needsChange) {
+          this.getEmployee(values.supervisor.userId).then(res => {
+            let rawEmployee = res.data.data
+            let params = {
+              data: {
+                type: "users",
+                id: parseInt(rawEmployee.id),
+                attributes: {
+                  supervisorEmail: values.supervisor.email,
+                }
+              }
+            }
+            this.updateSpecificEmployee(params).then(res => {
+              this.$store.dispatch('placeOrder/setAccessoryUpdateSupervisorEmail', params.data.attributes.supervisorEmail)
+              this.$store.dispatch('auth/getProfileAfterUpdate').then(res => resolve(res), err => reject(err))
+              delete values["supervisor"]
+            })
+          })
+        } else {
+          delete values["supervisor"]
+        }
+      }
 
       for (let accessory of this.selectedAccessories) {
         orderData.data.relationships.devicevariations.data.push({

@@ -765,6 +765,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_UPGRADE_COMMENT, comment)
   },
 
+  setUpgradeUpdateSupervisorEmail({ commit }, email) {
+    commit(types.PLACE_ORDER_SET_UPGRADE_SUPERVISOR_EMAIL, email)
+  },
+
   resetUpgrade({ commit }, resetHasOrder) {
     commit(types.PLACE_ORDER_RESET_UPGRADE, resetHasOrder)
   },
@@ -841,6 +845,10 @@ const actions = {
     commit(types.PLACE_ORDER_RESET_NEWLINE, resetHasOrder)
   },
 
+  updateSupervisorEmailNewline({ commit }, email) {
+    commit(types.PLACE_ORDER_SET_NEWLINE_SUPERVISOR_EMAIL, email)
+  },
+
   // Transfer
 
   getTransferUserPackages({ commit }, userId) {
@@ -913,6 +921,10 @@ const actions = {
     commit(types.PLACE_ORDER_SET_TRANSFER_COMMENT, comment)
   },
 
+  setTransferUpdateSupervisorEmail({ commit }, email) {
+    commit(types.PLACE_ORDER_SET_TRANSFER_SUPERVISOR_EMAIL, email)
+  },
+
   resetTransfer({ commit }, resetHasOrder) {
     commit(types.PLACE_ORDER_RESET_TRANSFER, resetHasOrder)
   },
@@ -955,6 +967,10 @@ const actions = {
 
   setAccessorySelectedAccessory({ commit }, selectedAccessory) {
     commit(types.PLACE_ORDER_SET_ACCESSORY_SELECTED_ACCESSORY, selectedAccessory)
+  },
+
+  setAccessoryUpdateSupervisorEmail({ commit }, email) {
+    commit(types.PLACE_ORDER_SET_ACCESSORY_SUPERVISOR_EMAIL, email)
   },
 
   resetAccessory({ commit }, resetHasOrder) {
@@ -1158,6 +1174,10 @@ const mutations = {
     state.upgrade.comment = comment
   },
 
+  [types.PLACE_ORDER_SET_UPGRADE_SUPERVISOR_EMAIL](state, email) {
+    state.upgrade.selectedEmployee.supervisorEmail = email
+  },
+
   [types.PLACE_ORDER_RESET_UPGRADE](state, clearHasOrder) {
     state.upgrade = {
       ...state.upgrade,
@@ -1220,6 +1240,10 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_NEWLINE_COMMENT](state, comment) {
     state.newline.comment = comment
+  },
+
+  [types.PLACE_ORDER_SET_NEWLINE_SUPERVISOR_EMAIL](state, email) {
+    state.newline.selectedEmployee.supervisorEmail = email
   },
 
   [types.PLACE_ORDER_RESET_NEWLINE](state, clearHasOrder) {
@@ -1290,6 +1314,10 @@ const mutations = {
     state.transfer.comment = comment
   },
 
+  [types.PLACE_ORDER_SET_TRANSFER_SUPERVISOR_EMAIL](state, email) {
+    state.transfer.selectedEmployee.supervisorEmail = email
+  },
+
   [types.PLACE_ORDER_RESET_TRANSFER](state, clearHasOrder) {
     state.transfer = {
       ...state.transfer,
@@ -1327,6 +1355,10 @@ const mutations = {
 
   [types.PLACE_ORDER_SET_ACCESSORY_HAS_ORDER](state, hasOrder) {
     state.accessory.hasOrder = hasOrder
+  },
+
+  [types.PLACE_ORDER_SET_ACCESSORY_SUPERVISOR_EMAIL](state, email) {
+    state.accessory.selectedEmployee.supervisorEmail = email
   },
 
   [types.PLACE_ORDER_RESET_ACCESSORY](state, clearHasOrder) {

@@ -18,106 +18,124 @@
         {{ user.id }}
       </div>
 
-      <div>
+      <div v-if="!showSupervisorField">
         <label>Supervisor Email</label>
         {{ user.supervisorEmail }}
       </div>
+
     </div>
 
-    <div v-if="showShippingForm" class="shipping-form">
-      <template v-if="addresses.length > 0">
-        <div class="order-form-heading mb-3">Select Address</div>
-
-        <div class="row mb-5">
-          <div class="col">
-            <select @change="onPackageAddressChange" v-model="location">
-              <option v-for="address of addresses" :value="address.id">{{ address.name }}</option>
-              <option :selected="addresses.length == 0" :value="customlocation">Custom Location</option>
-            </select>
-          </div>
-        </div>
-      </template>
-
-      <div class="order-form-heading mb-3">Shipping info</div>
+    <div v-if="showShippingForm || showSupervisorField" class="shipping-form">
 
       <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
-        <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('address') }">
-            <label>
-              Address
-              <span>*</span>
-            </label>
-            <div>
-              <b-input name="address" v-model="form.address" v-validate="'required'"></b-input>
-              <span v-show="errors.has('address')" class="error">Required</span>
-            </div>
-          </div>
-        </div>
 
-        <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('address2') }">
-            <label>Address 2</label>
-            <div>
-              <b-input name="address2" v-model="form.address2"></b-input>
-              <span v-show="errors.has('address2')" class="error">Required</span>
+        <template v-if="showSupervisorField">
+          <div class="order-form-heading mb-3">Supervisor Email</div>
+          <div class="row mb-4">
+            <div class="col item" :class="{'is-danger': errors.has('supervisor-email') }">
+              <div>
+                <b-input name="supervisor-email" v-model="form.supervisor.email" v-validate="'required|email'"></b-input>
+                <span v-show="errors.has('supervisor-email')" class="error">Invalid Email</span>
+              </div>
             </div>
           </div>
-        </div>
+        </template>
 
-        <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('country') }">
-            <label>
-              Country
-              <span>*</span>
-            </label>
-            <div>
-              <b-input name="country" v-model="form.country"></b-input>
-              <span v-show="errors.has('country')" class="error">Required</span>
-            </div>
-          </div>
-          <div class="col item" :class="{'is-danger': errors.has('postalCode') }">
-            <label>
-              Zip code
-              <span>*</span>
-            </label>
-            <div>
-              <b-input name="postalCode" v-model="form.postalCode" v-validate="'required'"></b-input>
-              <span v-show="errors.has('postalCode')" class="error">Required</span>
-            </div>
-          </div>
-        </div>
+        <div v-if="showShippingForm">
+          <template v-if="addresses.length > 0">
+            <div class="order-form-heading mb-3">Select Address</div>
 
-        <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('city') }">
-            <label>
-              City
-              <span>*</span>
-            </label>
-            <div>
-              <b-input name="city" v-model="form.city" v-validate="'required'"></b-input>
-              <span v-show="errors.has('city')" class="error">Required</span>
+            <div class="row mb-4">
+              <div class="col">
+                <select @change="onPackageAddressChange" v-model="location">
+                  <option v-for="address of addresses" :value="address.id">{{ address.name }}</option>
+                  <option :selected="addresses.length == 0" :value="customlocation">Custom Location</option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="col item" :class="{'is-danger': errors.has('state') }">
-            <label>
-              State
-              <span>*</span>
-            </label>
-            <div>
-              <b-input name="state" v-model="form.state"></b-input>
-              <span v-show="errors.has('state')" class="error">Required</span>
-            </div>
-          </div>
-        </div>
+          </template>
 
-        <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('attn') }">
-            <label>Attn</label>
-            <div>
-              <b-input name="attn" v-model="form.attn"></b-input>
-              <span v-show="errors.has('attn')" class="error">Required</span>
+          <div class="order-form-heading mb-3">Shipping info</div>
+
+          <div class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('address') }">
+              <label>
+                Address
+                <span>*</span>
+              </label>
+              <div>
+                <b-input @change="customLocation()" name="address" v-model="form.address" v-validate="'required'"></b-input>
+                <span v-show="errors.has('address')" class="error">Required</span>
+              </div>
             </div>
           </div>
+
+          <div class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('address2') }">
+              <label>Address 2</label>
+              <div>
+                <b-input @change="customLocation()" name="address2" v-model="form.address2"></b-input>
+                <span v-show="errors.has('address2')" class="error">Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('country') }">
+              <label>
+                Country
+                <span>*</span>
+              </label>
+              <div>
+                <b-input @change="customLocation()" name="country" v-model="form.country"></b-input>
+                <span v-show="errors.has('country')" class="error">Required</span>
+              </div>
+            </div>
+            <div class="col item" :class="{'is-danger': errors.has('postalCode') }">
+              <label>
+                Zip code
+                <span>*</span>
+              </label>
+              <div>
+                <b-input @change="customLocation()" name="postalCode" v-model="form.postalCode" v-validate="'required'"></b-input>
+                <span v-show="errors.has('postalCode')" class="error">Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('city') }">
+              <label>
+                City
+                <span>*</span>
+              </label>
+              <div>
+                <b-input @change="customLocation()" name="city" v-model="form.city" v-validate="'required'"></b-input>
+                <span v-show="errors.has('city')" class="error">Required</span>
+              </div>
+            </div>
+            <div class="col item" :class="{'is-danger': errors.has('state') }">
+              <label>
+                State
+                <span>*</span>
+              </label>
+              <div>
+                <b-input @change="customLocation()" name="state" v-model="form.state"></b-input>
+                <span v-show="errors.has('state')" class="error">Required</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('attn') }">
+              <label>Attn</label>
+              <div>
+                <b-input @change="customLocation()" name="attn" v-model="form.attn"></b-input>
+                <span v-show="errors.has('attn')" class="error">Required</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div class="row mt-4">
@@ -143,6 +161,11 @@ export default {
   data() {
     return {
       form: {
+        supervisor: {
+          email: this.user.supervisorEmail,
+          userId: this.user.id,
+          needsChange: true,
+        },
         address: null,
         address2: null,
         city: null,
@@ -152,7 +175,8 @@ export default {
         attn: null
       },
       location: "",
-      customlocation: "Custom Location"
+      customlocation: "Custom Location",
+      showSupervisorField: true
     };
   },
 
@@ -161,8 +185,17 @@ export default {
     if (this.addresses.length > 0) {
       this.location = this.addresses[0].id;
     }
-
     this.onPackageAddressChange({ target: { value: this.location } });
+  },
+
+  mounted() {
+    this.$validator.validate('supervisor-email', this.user.supervisorEmail).then(res => {
+      if (res) {
+        this.showSupervisorField = false
+        this.needsChange = false
+      }
+    })
+    this.$validator.reset()
   },
 
   computed: {
@@ -193,14 +226,7 @@ export default {
     onSubmitWithAddress() {
       this.$validator.validateAll().then(result => {
         if (result) {
-          let values = {};
-
-          Object.keys(this.form).forEach(key => {
-            if (!!this.form[key]) {
-              values[key] = this.form[key];
-            }
-          });
-
+          let values = this.getNonEmptyValues()
           this.$emit("submit", values);
           return;
         }
@@ -209,6 +235,20 @@ export default {
 
     onSubmitNoAddress() {
       this.$emit("submit");
+    },
+
+    getNonEmptyValues() {
+      let values = {};
+      Object.keys(this.form).forEach(key => {
+        if (!!this.form[key]) {
+          values[key] = this.form[key];
+        }
+      });
+      return values
+    },
+
+    customLocation() {
+      this.location = this.customlocation
     },
 
     onPackageAddressChange(evt, isCleanEvt) {
@@ -256,7 +296,6 @@ export default {
 
     onFormChange() {
       if (this.customlocation != this.location) {
-        this.location = this.customlocation;
         this.onPackageAddressChange(
           { target: { value: this.customlocation } },
           true
@@ -311,7 +350,8 @@ export default {
   }
 }
 
-.shipping-form {
+.shipping-form,
+.supervisor-form {
   label {
     color: #a9b5d1;
     font-size: 10px;

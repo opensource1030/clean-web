@@ -178,6 +178,30 @@ export default {
         }
       };
 
+      if (values != null) {
+        if (values.supervisor.needsChange) {
+          this.getEmployee(values.supervisor.userId).then(res => {
+            let rawEmployee = res.data.data
+            let params = {
+              data: {
+                type: "users",
+                id: parseInt(rawEmployee.id),
+                attributes: {
+                  supervisorEmail: values.supervisor.email,
+                }
+              }
+            }
+            this.updateSpecificEmployee(params).then(res => {
+              this.$store.dispatch('placeOrder/setUpgradeUpdateSupervisorEmail', params.data.attributes.supervisorEmail)
+              this.$store.dispatch('auth/getProfileAfterUpdate').then(res => resolve(res), err => reject(err))
+              delete values["supervisor"]
+            })
+          })
+        } else {
+          delete values["supervisor"]
+        }
+      }
+
       if (this.selectedAccessories && this.selectedAccessories.length > 0) {
         this.selectedAccessories.forEach(accessory => {
           orderData.data.relationships.devicevariations.data.push({
@@ -274,7 +298,9 @@ export default {
       setComment: "placeOrder/setUpgradeComment",
       setChangeCarrier: "placeOrder/setUpgradeChangeCarrier",
       createOrder: "placeOrder/createUpgradeOrder",
-      resetOrder: "placeOrder/resetUpgrade"
+      resetOrder: "placeOrder/resetUpgrade",
+      getEmployee: "employee/getOne",
+      updateSpecificEmployee: "employee/updateSpecificEmployee"
     })
   }
 };

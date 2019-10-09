@@ -57,6 +57,17 @@ const actions = {
     })
   },
 
+  getOne({ commit }, employeeId) {
+    return new Promise((resolve, reject) => {
+      employeeAPI.get(employeeId, null, employee => {
+        resolve(employee)
+      },
+      err => {
+        reject(err)
+      })
+    })
+  },
+
   create({ commit }, payload) {
     return new Promise((resolve, reject) => {
       employeeAPI.create(
@@ -131,6 +142,22 @@ const actions = {
       email: { operator: 'like', value: query },
     })
     return dispatch('search')
+  },
+
+  updateSpecificEmployee({ dispatch, commit, state }, params) {
+    return new Promise((resolve, reject) => {
+      employeeAPI.update(
+        params.data.id,
+        params,
+        res => {
+          
+          resolve(res)
+        },
+        err => {
+          reject(err)
+        }
+      )
+    })
   },
 
   update({ dispatch, commit, state }, record) {

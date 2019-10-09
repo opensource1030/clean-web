@@ -610,6 +610,17 @@ const actions = {
       )
     }
 
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(String(credentials.supervisorEmail).toLowerCase())) {
+      dispatch(
+        'error/addNew',
+        {
+          message: 'The Supervisor Email must not be empty, please, fill it properly.',
+        },
+        { root: true },
+      )
+    }
+
     dispatch('checkIfThePasswordIsStrongEnough', {
       password1: credentials.password1,
       password2: credentials.password2,
