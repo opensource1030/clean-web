@@ -34,7 +34,7 @@
                   block
                   v-b-toggle="`accordion-${index}`"
                   variant="transparent"
-                  @click.stop="setAllocation(allocation)"
+                  @click.stop="setAllocationForMe(allocation)"
                   class="px-3 py-4"
                 >
                   <label>
@@ -167,7 +167,7 @@
               <br />to analyze yet
             </h4>
             <p class="mt-4">
-              <router-link to="/">Order a new line of service</router-link> or
+              <router-link to="/">Order a new line of service</router-link>or
               <router-link to="/">transfer wireless services liability</router-link>
               <br />to add new device
             </p>
@@ -217,7 +217,7 @@
                       :class="{ 'active':  allocation.mobile_number == activeAllocation.mobile_number }"
                       no-body
                     >
-                      <label @click="setAllocation(allocation)">
+                      <label @click="setAllocationForMe(allocation)">
                         <input type="checkbox" />
                         <div>
                           <b>{{ allocation.device }}</b>
@@ -241,6 +241,14 @@
                   </select>
                 </div>
               </template>
+
+              <div v-if="canUpgradeDeviceForOthers" class="pt-2">
+                <on-behalf-form
+                  :selected-employee="selectedEmployee"
+                  @setAllocation="setAllocationForOther"
+                  @selectEmployee="setEmployeeForUpgrade"
+                />
+              </div>
 
               <div class="device-container empty mt-5" v-else>
                 <i class="fas fa-mobile"></i>
@@ -309,26 +317,35 @@
                   <div class="row justify-content-between device-info">
                     <div class="col-sm-6">
                       <div>
-                        <h5 class="text-dark">{{ activeAllocation.carrier }} <span class="font-weight-light">{{ activeAllocation.mobile_number | phone }}</span></h5>
+                        <h5 class="text-dark">
+                          {{ activeAllocation.carrier }}
+                          <span
+                            class="font-weight-light"
+                          >{{ activeAllocation.mobile_number | phone }}</span>
+                        </h5>
                       </div>
                       <div class="d-flex align-items-center mt-3">
                         <h4 class="d-inline-block text-dark">{{ activeAllocation.device }}</h4>
                         <span class="badge bg-success ml-2 px-2 py-1">Active</span>
                       </div>
                       <div class="mt-4">
-                        <label><b>Device ID:</b></label>
-                        <span>{{ activeAllocation.device_esn_imei }}</span>
+                        <label>
+                          <b>Device ID:</b>
+                        </label>
+                        <span>{{ allocationDeviceId }}</span>
                       </div>
                       <div>
-                        <label><b>SIM:</b></label>
-                        <span>{{ activeAllocation.device_sim }}</span>
+                        <label>
+                          <b>SIM:</b>
+                        </label>
+                        <span>{{ allocationDeviceSim }}</span>
                       </div>
                       <div class="mt-3">
                         <span v-if="!upgradeEnabled">Not Eligible for Upgrade</span>
                         <b-btn
                           v-else
                           variant="outline-default mb-3"
-                          @click="$router.push({ path: '/dashboard/device-upgrade'})"
+                          @click="onUpgradeDevice"
                         >Upgrade Device</b-btn>
                       </div>
                       <label class="mt-5">
@@ -436,8 +453,12 @@
                   <br />to analyze yet
                 </h4>
                 <p class="mt-4">
-                  <a @click.stop="$router.push({ path: '/dashboard/newline-service' })">Order a new line of service</a> or
-                  <a @click.stop="$router.push({ path: '/dashboard/transfer-service' })">transfer wireless services liability</a>
+                  <a
+                    @click.stop="$router.push({ path: '/dashboard/newline-service' })"
+                  >Order a new line of service</a> or
+                  <a
+                    @click.stop="$router.push({ path: '/dashboard/transfer-service' })"
+                  >transfer wireless services liability</a>
                   <br />to add new device
                 </p>
                 <label class="mt-5">

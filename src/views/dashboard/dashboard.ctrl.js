@@ -5,16 +5,12 @@ import Drawer from '@/components/drawer'
 import TicketTypeSelect from '@/components/ticket_type_select'
 import OrderConfirmModal from '@/components/order_confirm_modal'
 import ProfileForm from '@/components/profile_form'
+import OnBehalfForm from '@/components/on_behalf_form'
 import DeviceBillInfo from './components/device_bill_info'
 import SpendChart from './components/spend_chart'
 import TrendChart from './components/trend_chart'
 import LegacyDashboard from './dashboard_legacy'
-import { Storage, Utils, Log } from '@/helpers'
-// import employeeAPI from '@/api/employee-api'
-// import { all } from 'q';
-
-// const { Store } = require('yayson')()
-// const store = new Store()
+import { Storage } from '@/helpers'
 
 export default {
   name: 'dashboard',
@@ -29,34 +25,20 @@ export default {
     LegacyDashboard,
     OrderConfirmModal,
     ProfileForm,
+    OnBehalfForm,
   },
 
   data() {
     return {
-      // userInfo: {
-      //   data: {},
-      //   lastAllocations: [],
-      //   loading: true
-      // },
-      startedOrder: false,
-      selectedOrder: '',
-      activeAllocationIndex: 0,
-      activeAllocation: {
-        service_plan_charge: 0,
-        usage_charge: 0,
-        allocated_charge: 0,
-        other_charge: 0,
-      },
-      activeDevice: null,
+      onBehalfOfOther: false,
+      activeAllocationForMe: null,
+      activeAllocationForOther: null,
       issue: '',
       showUpgradeDrawer: false,
       fromLoginPage: false,
       welcome: {
         visible: false,
         do_not_show_again: false,
-      },
-      serviceInfo: {
-        visible: false,
       },
       editingProfile: false,
     }
@@ -67,6 +49,10 @@ export default {
       return _
     },
 
+    activeAllocation() {
+      return this.onBehalfOfOther ? this.activeAllocationForOther : this.activeAllocationForMe
+    },
+
     userInfo() {
       return this.$store.state.auth.userInfo
     },
@@ -75,8 +61,20 @@ export default {
       return this.$store.state.feature.enabled_upgrade_device
     },
 
-    disabledBeginOrder() {
-      return this.selectedOrderType === '' ? 'disabled' : false
+    canUpgradeDeviceForOthers() {
+      return this.userRole === 'wta'
+    },
+
+    hasOrder() {
+      return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder || this.accessoryHasOrder
+    },
+
+    allocationDeviceId() {
+      return _.get(this.activeAllocation, 'device_esn_imei', '').replace(/'/g, '')
+    },
+
+    allocationDeviceSim() {
+      return _.get(this.activeAllocation, 'device_sim', '').replace(/'/g, '')
     },
 
     ...mapGetters({
@@ -87,45 +85,50 @@ export default {
       newlineHasOrder: 'placeOrder/newlineHasOrder',
       transferHasOrder: 'placeOrder/transferHasOrder',
       accessoryHasOrder: 'placeOrder/accessoryHasOrder',
+      selectedEmployee: 'placeOrder/upgradeSelectedEmployee',
     }),
-
-    hasOrder() {
-      return this.upgradeHasOrder || this.newlineHasOrder || this.transferHasOrder || this.accessoryHasOrder
-    },
   },
 
-  // watch: {
-  //   '$route' (toPath, fromPath) {
-  //     console.log('$route', toPath, fromPath)
-  //     if (fromPath.name == 'login' || fromPath.name == 'loginLocal') {
-  //       this.fromLoginPage = true
-  //     }
-  //   }
-  // },
+  watch: {
+    $route(to, from) {
+      // console.log('$route', toPath, fromPath)
+      // if (fromPath.name == 'login' || fromPath.name == 'loginLocal') {
+      //   this.fromLoginPage = true
+      // }
+
+      if (from.name === 'deviceUpgradeAdmin' && to.name === 'Dashboard') {
+        this.onBehalfOfOther = false
+      }
+    },
+  },
 
   methods: {
     ...mapActions({
       setShowWelcomeFlag: 'auth/setShowWelcomeFlag',
+      updateProfile: 'auth/updateProfile',
       setUpgradeHasOrder: 'placeOrder/setUpgradeHasOrder',
       setNewlineHasOrder: 'placeOrder/setNewlineHasOrder',
       setTransferHasOrder: 'placeOrder/setTransferHasOrder',
       setAccessoryHasOrder: 'placeOrder/setAccessoryHasOrder',
-      updateProfile: 'auth/updateProfile',
+      setEmployee: 'placeOrder/setUpgradeSelectedEmployee',
+      resetUpgrade: 'placeOrder/resetUpgrade',
     }),
 
-    // setAllocation(index) {
-    //   this.activeAllocationIndex = index;
-    // },
-    setAllocation(allocation) {
-      this.activeAllocation = allocation
+    setAllocationForMe(allocation) {
+      this.onBehalfOfOther = false
+      this.activeAllocationForMe = allocation
+      this.resetUpgrade(true)
     },
 
-    prevAllocation() {
-      this.activeAllocationIndex > 0 ? this.activeAllocationIndex-- : null
+    setAllocationForOther(allocation) {
+      this.onBehalfOfOther = true
+      this.activeAllocationForOther = allocation
     },
 
-    nextAllocation() {
-      this.activeAllocationIndex < this.userInfo.lastAllocations.length - 1 ? this.activeAllocationIndex++ : null
+    setEmployeeForUpgrade(employee) {
+      this.onBehalfOfOther = false
+      this.activeAllocationForOther = null
+      this.setEmployee(employee)
     },
 
     selectOrderType(type) {
@@ -193,6 +196,10 @@ export default {
       this.editingProfile = true
     },
 
+    onUpgradeDevice() {
+      this.$router.push({ path: this.onBehalfOfOther ? '/dashboard/device-upgrade-admin' : '/dashboard/device-upgrade' })
+    },
+
     profileSubmit(values) {
       this.updateProfile(values).then(() => {
         this.editingProfile = false
@@ -200,17 +207,14 @@ export default {
     },
 
     evaluateAllocation(allocation) {
-      const plan = allocation.service_plan_charge +
-        allocation.domestic_usage_charge + allocation.messaging_charge +
-        allocation.intl_ld_usage_charge + allocation.intl_roam_usage_charge;
-      const usage = allocation.taxes_charge +
-        allocation.other_carrier_charge + allocation.other_charge +
-        allocation.equipment_charge + allocation.etf_charge;
-      const other = allocation.usage_charge;
-      const total = plan + usage + other;
+      const plan =
+        allocation.service_plan_charge + allocation.domestic_usage_charge + allocation.messaging_charge + allocation.intl_ld_usage_charge + allocation.intl_roam_usage_charge
+      const usage = allocation.taxes_charge + allocation.other_carrier_charge + allocation.other_charge + allocation.equipment_charge + allocation.etf_charge
+      const other = allocation.usage_charge
+      const total = plan + usage + other
 
       return { total, plan, usage, other }
-    }
+    },
   },
 
   beforeCreate() {},
@@ -220,7 +224,7 @@ export default {
       res => {
         // console.log('dashboard/created res', this.$route.param)
         // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
-        this.activeAllocation = _.get(this.userInfo, 'lastAllocations[0]', null)
+        this.activeAllocationForMe = _.get(this.userInfo, 'lastAllocations[0]', null)
         // if (this.fromLoginPage) {
         //   this.welcome.visible = true
         // }

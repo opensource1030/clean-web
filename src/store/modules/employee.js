@@ -205,6 +205,43 @@ const actions = {
       dispatch('search')
     }
   },
+
+  getEmployeeAllocations(state, employeeId) {
+    let payload = {
+      params: {
+        include: 'companies.currentBillMonths,allocations',
+      },
+    }
+
+    return new Promise((resolve, reject) => {
+      employeeAPI.get(
+        employeeId,
+        payload,
+        res => {
+          // console.log('auth/loadUserInfo', res);
+          if (res.status == 404) {
+            resolve([])
+          } else {
+            const event = store.sync(res.data)
+
+            for (let allocation of event.allocations) {
+              allocation.issue = ''
+            }
+
+            let lastAllocations = []
+            let allocationsByPhone = _.groupBy(event.allocations, 'mobile_number')
+            _.forEach(allocationsByPhone, allocations => {
+              lastAllocations.push(_.orderBy(allocations, ['bill_month'], ['desc'])[0])
+            })
+            resolve(lastAllocations)
+          }
+        },
+        err => {
+          reject(err)
+        },
+      )
+    })
+  },
 }
 
 // mutations

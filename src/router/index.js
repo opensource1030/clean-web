@@ -20,6 +20,7 @@ import Sso from '@/views/auth/Sso'
 import Dashboard from '@/views/dashboard/dashboard'
 import LegacyInfo from '@/components/legacy_info'
 import DeviceUpgrade from '@/views/dashboard/components/device_upgrade'
+import DeviceUpgradeAdmin from '@/views/dashboard/components/device_upgrade/upgrade_admin'
 import TransferService from '@/views/dashboard/components/transfer_service'
 import NewlineService from '@/views/dashboard/components/newline_service'
 import Accessory from '@/views/dashboard/components/accessory'
@@ -82,6 +83,7 @@ const router = new Router({
             // { path: 'charge/:id', component: SpentInfo, name: 'Mobile Charges' },
             { path: 'procurement', component: LegacyInfo, name: 'legacyInfo' },
             { path: 'device-upgrade', component: DeviceUpgrade, name: 'deviceUpgrade' },
+            { path: 'device-upgrade-admin', component: DeviceUpgradeAdmin, name: 'deviceUpgradeAdmin' },
             { path: 'newline-service', component: NewlineService, name: 'newlineService' },
             { path: 'transfer-service', component: TransferService, name: 'transferService' },
             { path: 'accessory', component: Accessory, name: 'accessory' },
@@ -192,7 +194,7 @@ router.beforeEach((to, from, next) => {
 
   if (authenticated) {
     store.dispatch('auth/getProfile').then(
-      (res) => {
+      res => {
         if (currentLocation.split('return=').length > 1 && authenticated) {
           const currentUser = store.getters['auth/getProfile']
           location.href = currentLocation.split('return=')[1] + '?jwt=' + currentUser.deskproJwt
@@ -221,14 +223,7 @@ router.beforeEach((to, from, next) => {
         // }
 
         const toPath = to.path.split('/')
-        const {
-          enabled_equipment,
-          enabled_service,
-          enabled_package,
-          enabled_package_edit,
-          enabled_dashboard_legacy,
-          enabled_dashboard_nextgen,
-        } = store.state.feature
+        const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature
 
         if (to.name === 'login' || to.name === 'loginLocal') {
           next({ name: 'Dashboard' })
@@ -248,21 +243,21 @@ router.beforeEach((to, from, next) => {
           if (to.name !== 'Reset Password Code') {
             router.go(-1)
           }
-        // } else {
-        //   // if (to.meta.requiresAuth && !authenticated) {
-        //   if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
-        //     next({ name: 'login' })
-        //   }
+          // } else {
+          //   // if (to.meta.requiresAuth && !authenticated) {
+          //   if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
+          //     next({ name: 'login' })
+          //   }
         }
         next()
       },
-      (err) => {
+      err => {
         store.dispatch('auth/logout').then(res => {
           next({ name: 'login' })
         })
-      }
+      },
     )
-  // } else if (to.meta.requiresAuth) {
+    // } else if (to.meta.requiresAuth) {
   } else if (to.matched.some(m => m.meta.requiresAuth)) {
     next({ name: 'login' })
   } else {
