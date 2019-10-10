@@ -312,7 +312,10 @@
                 </div>
               </div>
 
-              <div class="right-panel__body" v-if="userInfo.lastAllocations.length > 0">
+              <div
+                class="right-panel__body"
+                v-if="userInfo.lastAllocations.length > 0 || activeAllocation"
+              >
                 <div class="service-container">
                   <div class="row justify-content-between device-info">
                     <div class="col-sm-6">

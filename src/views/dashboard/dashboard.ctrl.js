@@ -57,12 +57,16 @@ export default {
       return this.$store.state.auth.userInfo
     },
 
+    userId() {
+      return this.$store.state.auth.userId
+    },
+
     upgradeEnabled() {
       return this.$store.state.feature.enabled_upgrade_device
     },
 
     canUpgradeDeviceForOthers() {
-      return this.userRole === 'wta'
+      return (this.userRole === 'wta' || this.userRole === 'admin') && this.$store.state.feature.enabled_impersonate_upgrade
     },
 
     hasOrder() {
@@ -112,6 +116,7 @@ export default {
       setAccessoryHasOrder: 'placeOrder/setAccessoryHasOrder',
       setEmployee: 'placeOrder/setUpgradeSelectedEmployee',
       resetUpgrade: 'placeOrder/resetUpgrade',
+      getUserPackages: 'placeOrder/getUpgradeUserPackages',
     }),
 
     setAllocationForMe(allocation) {
@@ -197,6 +202,10 @@ export default {
     },
 
     onUpgradeDevice() {
+      if (!this.onBehalfOfOther) {
+        this.getUserPackages(this.userId)
+      }
+
       this.$router.push({ path: this.onBehalfOfOther ? '/dashboard/device-upgrade-admin' : '/dashboard/device-upgrade' })
     },
 

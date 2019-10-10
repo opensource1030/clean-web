@@ -1,11 +1,11 @@
 <template>
   <div class="on-behalf-form">
     <div class="on-behalf-form-wrapper">
-<!--      <div class="on-behalf-form-title">For whom you are ordering?</div>-->
+      <!--      <div class="on-behalf-form-title">For whom you are ordering?</div>-->
       <div class="on-behalf-form-title">Upgrade another user</div>
 
       <div class="on-behalf-form-section pt-1">
-<!--        <span>Upgrade another user</span>-->
+        <!--        <span>Upgrade another user</span>-->
 
         <multiselect
           id="user-select"
@@ -114,20 +114,16 @@ export default {
     })
   },
 
-  created() {
-    this.getAllEmployees();
-  },
-
   watch: {
     selectedEmployee(newVal) {
-      if (!newVal) {
-        this.allocations = [];
-        this.activeAllocation = null;
-        this.udlvalues = {};
-        this.isGettingEmployees = false;
-        this.isGettingAllocations = false;
-      } else {
-        this.getAllocations();
+      this.allocations = [];
+      this.activeAllocation = null;
+      this.udlvalues = {};
+      this.isGettingEmployees = false;
+      this.isGettingAllocations = false;
+
+      if (newVal) {
+        this.getAllocations(newVal.id);
         this.getUserPackages(newVal.id);
       }
     }
@@ -142,12 +138,12 @@ export default {
       this.$emit("selectEmployee", employee);
     },
 
-    getAllocations() {
+    getAllocations(employeeId) {
       this.allocations = [];
 
       this.isGettingAllocations = true;
 
-      this.getEmployeeAllocations(this.selectedEmployee.id)
+      this.getEmployeeAllocations(employeeId)
         .then(allocations => {
           this.allocations = allocations;
           this.isGettingAllocations = false;
@@ -187,7 +183,6 @@ export default {
     },
 
     ...mapActions({
-      getAllEmployees: "employee/getAll",
       searchEmployees: "employee/searchByEmail",
       getEmployeeAllocations: "employee/getEmployeeAllocations",
       getUserPackages: "placeOrder/getUpgradeUserPackages"

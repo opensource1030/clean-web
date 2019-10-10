@@ -21,8 +21,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      isAuthenticated: 'auth/isAuthenticated',
-      profile: 'auth/getProfile',
+      isAuthenticated: "auth/isAuthenticated",
+      profile: "auth/getProfile"
     })
   },
 
@@ -52,14 +52,15 @@ export default {
             "enabled_dashboard_procure_accessories",
           "dashboard-procure-new-device":
             "enabled_dashboard_procure_new_device",
-          "dashboard-report-details": "enabled_dashboard_report_details"
+          "dashboard-report-details": "enabled_dashboard_report_details",
+          "dashboard-impersonate-upgrade": "enabled_impersonate_upgrade"
         };
 
         const splitNames = Object.keys(splitFeatureMaps);
 
         const attributes = {
-          companyName: _.get(this.profile, 'companies.0.name'),
-          email: this.profile.email,
+          companyName: _.get(this.profile, "companies.0.name"),
+          email: this.profile.email
         };
 
         const treatments = client.getTreatments(splitNames, attributes);

@@ -16,32 +16,33 @@ const state = {
   enabled_dashboard_procure_accessories: false,
   enabled_dashboard_procure_new_device: false,
   enabled_dashboard_report_details: false,
+  enabled_impersonate_upgrade: false,
 }
 
 const getters = {
-  isInventoryEnabled: (state) => {
+  isInventoryEnabled: state => {
     return state.enabled_equipment || state.enabled_service || state.enabled_order
-  }
+  },
 }
 
 const actions = {
   setFlag({ commit }, flag) {
     commit('setFlag', flag)
-  }
+  },
 }
 
 const mutations = {
   setFlag(state, flag) {
     // state = {...state, ...flag}
     state = Object.assign(state, flag)
-  }
+  },
 }
 
 export default {
-  namespaced : true,
+  namespaced: true,
   strict: process.env.NODE_ENV !== 'production',
   state,
   getters,
   actions,
-  mutations
+  mutations,
 }

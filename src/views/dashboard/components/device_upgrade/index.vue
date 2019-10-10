@@ -9,20 +9,10 @@
         @submit="onSubmit"
       />
 
-      <user-select-form
-        v-if="!selectedEmployee || userPackagesLoading"
-        @selectUser="onSelectEmployee"
-      />
-
       <div v-else class="dashboard-drawer-main">
         <div class="dashboard-drawer-title">Upgrade Device</div>
 
-        <steps
-          :steps="steps"
-          :active-step="step"
-          :show-back-button-on-first-step="true"
-          @back="onStepBack"
-        />
+        <steps :steps="steps" :active-step="step" @back="onStepBack" />
 
         <div v-if="isSelectingDeviceStep" class="device-upgrade-device-step">
           <div class="device-upgrade-carrier-toggle pt-3">
@@ -132,8 +122,6 @@ export default {
       currentUser: "auth/getProfile",
       userRole: "auth/getRole",
       step: "placeOrder/upgradeStep",
-      userPackages: "placeOrder/upgradeUserPackages",
-      userPackagesLoading: "placeOrder/upgradeUserPackagesLoading",
       selectedEmployee: "placeOrder/upgradeSelectedEmployee",
       selectedDevice: "placeOrder/upgradeSelectedDevice",
       selectedService: "placeOrder/upgradeSelectedService",
@@ -181,24 +169,29 @@ export default {
       if (values != null) {
         if (values.supervisor.needsChange) {
           this.getEmployee(values.supervisor.userId).then(res => {
-            let rawEmployee = res.data.data
+            let rawEmployee = res.data.data;
             let params = {
               data: {
                 type: "users",
                 id: parseInt(rawEmployee.id),
                 attributes: {
-                  supervisorEmail: values.supervisor.email,
+                  supervisorEmail: values.supervisor.email
                 }
               }
-            }
+            };
             this.updateSpecificEmployee(params).then(res => {
-              this.$store.dispatch('placeOrder/setUpgradeUpdateSupervisorEmail', params.data.attributes.supervisorEmail)
-              this.$store.dispatch('auth/getProfileAfterUpdate').then(res => resolve(res), err => reject(err))
-              delete values["supervisor"]
-            })
-          })
+              this.$store.dispatch(
+                "placeOrder/setUpgradeUpdateSupervisorEmail",
+                params.data.attributes.supervisorEmail
+              );
+              this.$store
+                .dispatch("auth/getProfileAfterUpdate")
+                .then(res => resolve(res), err => reject(err));
+              delete values["supervisor"];
+            });
+          });
         } else {
-          delete values["supervisor"]
+          delete values["supervisor"];
         }
       }
 
@@ -267,11 +260,7 @@ export default {
         return;
       }
 
-      if (this.step > 0) {
-        this.setStep(this.step - 1);
-      } else {
-        this.setEmployee(null);
-      }
+      this.setStep(this.step - 1);
     },
 
     onNextStep() {
@@ -283,15 +272,8 @@ export default {
       this.onNextStep();
     },
 
-    onSelectEmployee(user) {
-      this.getUserPackages(user.id);
-      this.setEmployee(user);
-    },
-
     ...mapActions({
       setStep: "placeOrder/setUpgradeStep",
-      getUserPackages: "placeOrder/getUpgradeUserPackages",
-      setEmployee: "placeOrder/setUpgradeSelectedEmployee",
       setDevice: "placeOrder/setUpgradeSelectedDevice",
       setAccessory: "placeOrder/setUpgradeSelectedAccessory",
       setService: "placeOrder/setUpgradeSelectedService",
