@@ -38,7 +38,7 @@ const initialNewlineData = {
     billingPassword: null,
     keepExistingService: false,
   },
-  needNewDevice: false,
+  needNewDevice: true,
   // existingServiceInfo: {
   //   serviceImei: null,
   //   servicePhoneNo: null,
