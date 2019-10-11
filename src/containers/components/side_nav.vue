@@ -66,7 +66,7 @@
         </div>
       </li> -->
       <b-nav-item @click="openSupport()">
-        <i class="nav-icon fa fa-phone"></i>GET SUPPORT
+        <i class="nav-icon fa fa-question-circle"></i>GET SUPPORT
       </b-nav-item>
     </b-nav>
   </nav>
