@@ -2,14 +2,14 @@
   <div class="on-behalf-form">
     <div class="on-behalf-form-wrapper">
       <!--      <div class="on-behalf-form-title">For whom you are ordering?</div>-->
-      <div class="on-behalf-form-title">Upgrade another user</div>
+      <div class="on-behalf-form-title">Search Users</div>
 
       <div class="on-behalf-form-section pt-1">
         <!--        <span>Upgrade another user</span>-->
 
         <multiselect
           id="user-select"
-          placeholder="Start typing user's email"
+          placeholder="User's email address"
           track-by="id"
           label="username"
           :loading="isGettingEmployees"
@@ -130,8 +130,8 @@ export default {
   },
 
   methods: {
-    customLabel({ firstName, lastName }) {
-      return `${firstName} ${lastName}`;
+    customLabel({ firstName, lastName, email }) {
+      return `${firstName} ${lastName} (${email})`;
     },
 
     selectEmployee(employee) {
