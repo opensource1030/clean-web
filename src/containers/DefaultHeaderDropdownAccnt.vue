@@ -61,28 +61,15 @@ export default {
       if (this.warningPopupFlag) {
         this.$swal(swalWarningPopupOptions).then(result => {
           if (result.value) {
-            this.afterGuardLogout()
+            this.$store.dispatch('auth/logout', {router: this.$router})
             return
           }
         })
       }
 
       if (!this.warningPopupFlag) {
-        this.afterGuardLogout()
+        this.$store.dispatch('auth/logout', {router: this.$router})
       }
-    },
-
-    afterGuardLogout() {
-      this.$store.commit('auth/warningPopupFlagOff')
-        document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-        document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-        heap.track('User logged out', {'clicked': 'yes'})
-
-        this.$store.dispatch('auth/logout').then(res => {
-          console.log('header logout');
-          history.go(0);
-          this.$router.push({ path: '/login' })
-        })
     },
 
     profile() {

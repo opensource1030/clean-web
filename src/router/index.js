@@ -203,24 +203,10 @@ router.beforeEach((to, from, next) => {
         // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
         // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
-        if (expired) {
-          document.cookie = 'nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-          document.cookie = 'nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+        if (expired) { store.dispatch('auth/logout', {router: router}) }
 
-          store.dispatch('auth/logout').then(res => {
-            console.log('expire logout')
-            history.go(0)
-            next({ name: 'Dashboard' })
-          })
-        }
-
-        // if (to.name == undefined && from.name == null) {
-        //   if (authenticated) {
-        //     next({ name: 'Dashboard' })
-        //   } else {
-        //     next({ name: 'login' })
-        //   }
-        // }
+        // Redirect to dashboard if route is '/'
+        if (to.name == undefined && from.name == null) { next({ name: 'Dashboard' })}
 
         const toPath = to.path.split('/')
         const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature

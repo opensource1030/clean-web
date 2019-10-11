@@ -859,8 +859,18 @@ const actions = {
     })
   },
 
-  logout({ commit }) {
-    commit('LOGOUT')
+  logout({ commit }, {router}) {
+    commit('warningPopupFlagOff')
+
+    document.cookie = "nav-item=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    document.cookie = "nav-inner=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+
+    heap.track('User logged out', {'clicked': 'yes'})
+
+    commit(types.AUTH_LOGOUT)
+
+    history.go(0);
+    router.push({ path: '/login' })
   },
 
   trackEventWithAnalytics({ state }, data) {

@@ -19,6 +19,7 @@ import BootstrapVue from 'bootstrap-vue'
 import Multiselect from 'vue-multiselect'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Vue2Animate from 'vue2-animate/dist/vue2-animate.min.css'
+import VueResource from 'vue-resource'
 import DatePicker from 'vuejs-datepicker'
 import Spinner from '@/components/spinner'
 
@@ -35,6 +36,7 @@ import './../node_modules/vue-multiselect/dist/vue-multiselect.min.css'
 import bugsnagVue from '@bugsnag/plugin-vue'
 import { bugsnagClient } from '@/bugsnag'
 bugsnagClient.use(bugsnagVue, Vue)
+import swalSessionExpiredPopupOptions from '@/helpers/modules/swal-session-expired-popup'
 
 sync(store, router)
 window.$ = require('jquery')
@@ -81,6 +83,26 @@ Vue.use(VueSweetalert2, {
   cancelButtonColor: '#ff7674'
 })
 Vue.use(Vue2Animate)
+Vue.use(VueResource)
+
+// This flag is in case there are multiple requests rejected because of
+// session expire. If that's the case, display 'swal' popup just once.
+let sessionExpiredFlag = false
+Vue.http.interceptors.push(function(request,next){
+  if (request.url == process.env.URL_API + "/oauth/personal-access-tokens") {
+    next(function(response){
+      if (response.status == 500 || response.status == 401) {
+        if (!sessionExpiredFlag) {
+          Vue.swal(swalSessionExpiredPopupOptions).then((res) => {
+            store.dispatch('auth/logout', {router: router})
+          })
+          sessionExpiredFlag = true
+        }
+      }
+    });
+  }
+})
+
 // Vue.use(VueChartjs)
 // Vue.use(VueGoogleCharts)
 // Vue.use(GoogleCharts)
