@@ -7,6 +7,7 @@
             <label>User email:</label>
             <div>{{ selectedEmployee.email }}</div>
           </div>
+
           <div class="item mb-3">
             <label>Supervisor:</label>
             <div>{{ selectedEmployee.supervisorEmail }}</div>
@@ -15,6 +16,19 @@
           <div v-for="udl of selectedEmployee.udlvalues" class="item mb-3">
             <label>{{ udl.udlName }}:</label>
             <div>{{ udl.udlValue }}</div>
+          </div>
+
+          <div class="item" :class="{'is-danger': errors.has('preferredAreaCode') }">
+            <label>Preferred Area Code <abbr>*</abbr></label>
+            <div>
+              <b-input
+                name="preferredAreaCode"
+                placeholder=""
+                v-model="form.preferredAreaCode"
+                v-validate="'required'"
+              />
+              <span v-show="errors.has('preferredAreaCode')" class="error">Required</span>
+            </div>
           </div>
         </div>
       </div>
@@ -52,10 +66,7 @@ export default {
   data() {
     return {
       form: {
-        existingCarrier: null,
-        phone: null,
-        name: null,
-        password: null
+        preferredAreaCode: null
       }
     };
   },
@@ -79,26 +90,25 @@ export default {
     }),
 
     validateBeforeSubmit() {
-      if (this.needNewDevice) {
-        this.$emit("next");
-        return;
-      } else {
-        this.$validator.validateAll().then(result => {
-          if (result) {
-            let values = {};
+      // if (this.needNewDevice) {
+      //   this.$emit("next");
+      //   return;
+      // } else {
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          let values = {};
 
-            Object.keys(this.form).forEach(key => {
-              if (!!this.form[key]) {
-                values[key] = this.form[key];
-              }
-            });
+          Object.keys(this.form).forEach(key => {
+            if (!!this.form[key]) {
+              values[key] = this.form[key];
+            }
+          });
 
-            this.setDetails(this.form);
-            this.$emit("next");
-            return;
-          }
-        });
-      }
+          this.setDetails(this.form);
+          this.$emit("next");
+          return;
+        }
+      });
     }
   }
 };

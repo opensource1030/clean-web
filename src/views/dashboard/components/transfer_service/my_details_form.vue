@@ -7,7 +7,7 @@
             <div class="col item" :class="{'is-danger': errors.has('Existing Carrier') }">
               <label>Existing Carrier *</label>
               <div class="item-field-wrapper">
-                <b-form-select
+                <!-- <b-form-select
                   class="mb-1"
                   name="Existing Carrier"
                   v-model="form.carrierInfo"
@@ -15,7 +15,13 @@
                   value-field="presentation"
                   text-field="presentation"
                   v-validate="'required'"
-                ></b-form-select>
+                ></b-form-select> -->
+                <b-input
+                  class="mb-1"
+                  name="Existing Carrier"
+                  v-model="form.carrierInfo"
+                  v-validate="'required'"
+                />
                 <span
                   v-show="errors.has('Existing Carrier')"
                   class="error"
@@ -137,6 +143,16 @@
             <div class="pt-1">
               <toggle :active="form.keepExistingService" @change="setKeepExistingService"></toggle>
             </div>
+
+            <div v-if="form.keepExistingService" :class="{'is-danger': errors.has('Proceed Confirm') }">
+              <b-form-checkbox
+                class="mt-2"
+                name="Proceed Confirm"
+                v-model="canProceed"
+                v-validate="'required:false'"
+              >Have you spoken to your carrier to tell them that you're moving your personal number onto the company plan?
+              </b-form-checkbox>
+            </div>
           </div>
         </div>
       </div>
@@ -165,6 +181,7 @@ export default {
 
   data() {
     return {
+      canProceed: false,
       form: {
         carrierInfo: null,
         wirelessNo: null,

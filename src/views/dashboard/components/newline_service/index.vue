@@ -213,7 +213,10 @@ export default {
             status: "New",
             orderType: "NewLineOfService",
             userId: this.selectedEmployee.id,
-            serviceId: this.selectedService.id
+            serviceId: this.selectedService.id,
+            extraInfo: JSON.stringify(
+              _.omit(this.details, "keepExistingService")
+            )
           },
           relationships: {
             apps: {

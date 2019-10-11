@@ -30,12 +30,7 @@ const initialNewlineData = {
   selectedAccessories: [],
   comment: null,
   details: {
-    carrierInfo: null,
-    wirelessNo: null,
-    accountName: null,
-    billingName: null,
-    billingAccount: null,
-    billingPassword: null,
+    preferredAreaCode: null,
     keepExistingService: false,
   },
   needNewDevice: true,
@@ -322,21 +317,27 @@ const getters = {
     const { userPackages, needNewDevice, selectedDevice } = state.newline
     if (needNewDevice && selectedDevice) {
       // console.log('newlineServices', selectedDevice, userPackages)
+      const selectedModificationIds = _.chain(selectedDevice.modifications).map('id').uniq().value();
       userPackages.forEach(({ devicevariations, services }) => {
         // device_variations hav different carriers
         // if (_.find(devicevariations, { id: selectedDevice.id })) {
-        if (
-          _.find(devicevariations, dv => {
-            // let modifications = new Object()
-            // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
-            let modifications = dv.modifications.reduce((obj, m) => {
-              let a = obj
-              a[m['modType']] = m['value']
-              return a
-            }, new Object())
-            return _.isEqual(modifications, selectedDevice.modification)
-          })
-        ) {
+        // if (
+        //   _.find(devicevariations, dv => {
+        //     // let modifications = new Object()
+        //     // dv.modifications.forEach((m) => { modifications[m['modType']] = m['value']})
+        //     let modifications = dv.modifications.reduce((obj, m) => {
+        //       let a = obj
+        //       a[m['modType']] = m['value']
+        //       return a
+        //     }, new Object())
+        //     // console.log(modifications)
+        //     return _.isEqual(modifications, selectedDevice.modification)
+        //   })
+        // ) {
+        if (_.find(devicevariations, dv => {
+          let modificationIds = _.chain(dv.modifications).map('id').uniq().value();
+          return _.difference(selectedModificationIds, modificationIds).length == 0
+        })) {
           services.forEach(service => {
             allServices.push(service)
           })
