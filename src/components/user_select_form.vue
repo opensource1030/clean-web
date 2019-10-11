@@ -56,9 +56,7 @@
               <span v-show="errors.has('firstName')" class="error">Required</span>
             </div>
           </div>
-        </div>
 
-        <div class="row mb-3">
           <div class="col item" :class="{'is-danger': errors.has('lastName') }">
             <label>Last name *</label>
             <div>
@@ -132,6 +130,10 @@
         </div>
       </b-form>
 
+      <div v-if="errorText" class="mt-4">
+        <b-alert show variant="danger">{{ errorText }}</b-alert>
+      </div>
+
       <div v-if="selectedEmployee" class="user-select-form-employee-detail my-4">
         <div>
           <label>User email:</label>
@@ -181,7 +183,8 @@ export default {
       },
       udlvalues: {},
       submitted: false,
-      isLoading: false
+      isLoading: false,
+      errorText: ''
     };
   },
 
@@ -204,6 +207,7 @@ export default {
     },
 
     selectEmployee(employee) {
+      this.errorText = '';
       this.createNewUser = employee.id === "new";
       this.selectedEmployee = employee.id === "new" ? null : employee;
     },
@@ -242,6 +246,20 @@ export default {
 
     cancelCreate() {
       this.createNewUser = false;
+      this.errorText = '';
+    },
+
+    getExistingUserByEmail() {
+      this.isLoading = true;
+      this.createNewUser = false;
+
+      this.searchEmployees({query: this.form.email}).then(res => {
+        this.selectEmployee(res[0]);
+        this.isLoading = false;
+      }).catch(err => {
+        console.log(err);
+        this.isLoading = false;
+      });
     },
 
     validateBeforeSubmit() {
@@ -291,21 +309,27 @@ export default {
                   }
                 }
               }
-            };
+            }
+          };
 
-            this.submitted = true;
+          this.submitted = true;
+          this.errorText = '';
 
-            this.createEmployee(payload)
-              .then(employee => {
-                this.selectEmployee(employee);
-                this.createNewUser = false;
-                this.submitted = false;
-              })
-              .catch(err => {
-                console.log(err);
-                this.submitted = false;
-              });
-          }
+          this.createEmployee(payload)
+            .then(employee => {
+              this.selectEmployee(employee);
+              this.createNewUser = false;
+              this.submitted = false;
+            })
+            .catch(err => {
+              console.log(err);
+              this.errorText = _.values(err.body.errors)[0];
+              this.submitted = false;
+
+              if(this.errorText === "The User can not be created, there are other user with the same email.") {
+                this.getExistingUserByEmail();
+              }
+            });
         }
       });
     },

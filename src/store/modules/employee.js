@@ -150,7 +150,6 @@ const actions = {
         params.data.id,
         params,
         res => {
-          
           resolve(res)
         },
         err => {
