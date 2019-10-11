@@ -8,9 +8,9 @@
       <div class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('firstName') }">
           <label>First name *</label>
-          <div>
+          <div class="wa-field-wrapper">
             <b-input name="firstName" v-model="form.firstName" v-validate="'required'"></b-input>
-            <span v-show="errors.has('firstName')" class="error">Required</span>
+            <div v-show="errors.has('firstName')" class="error mt-1">Required</div>
           </div>
         </div>
       </div>
@@ -18,9 +18,9 @@
       <div class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('lastName') }">
           <label>Last name *</label>
-          <div>
+          <div class="wa-field-wrapper">
             <b-input name="lastName" v-model="form.lastName" v-validate="'required'"></b-input>
-            <span v-show="errors.has('lastName')" class="error">Required</span>
+            <div v-show="errors.has('lastName')" class="error mt-1">Required</div>
           </div>
         </div>
       </div>
@@ -28,19 +28,19 @@
       <div class="row mb-3">
         <div class="col item" :class="{'is-danger': errors.has('email') }">
           <label>Email *</label>
-          <div>
-            <b-input name="email" v-model="form.email" v-validate="'required'"></b-input>
-            <span v-show="errors.has('email')" class="error">Required</span>
+          <div class="wa-field-wrapper">
+            <b-input name="email" v-model="form.email" v-validate="'required|email'"></b-input>
+            <div v-show="errors.has('email')" class="error mt-1">{{errors.first('email')}}</div>
           </div>
         </div>
       </div>
 
       <div class="row mb-3">
-        <div class="col item" :class="{'is-danger': errors.has('supervisorEmail') }">
+        <div class="col item" :class="{'is-danger': errors.has('supervisor email') }">
           <label>Supervisor Email *</label>
-          <div>
-            <b-input name="supervisorEmail" v-model="form.supervisorEmail" v-validate="'required'"></b-input>
-            <span v-show="errors.has('supervisorEmail')" class="error">Required</span>
+          <div class="wa-field-wrapper">
+            <b-input name="supervisor email" v-model="form.supervisorEmail" v-validate="'required|email'"></b-input>
+            <div v-show="errors.has('supervisor email')" class="error mt-1">{{errors.first('supervisor email')}}</div>
           </div>
         </div>
       </div>
@@ -92,10 +92,10 @@ export default {
   data() {
     return {
       form: {
-        firstName: null,
-        lastName: null,
-        email: null,
-        supervisorEmail: null,
+        firstName: '',
+        lastName: '',
+        email: '',
+        supervisorEmail: '',
         udlvalues: {}
       }
     };
@@ -114,7 +114,8 @@ export default {
   computed: {
     ...mapGetters({
       profile: "auth/getProfile",
-      udls: "auth/getUdls"
+      udls: "auth/getUdls",
+      allowedDomains: 'auth/getAllowedDomains',
     })
   },
 
@@ -140,18 +141,48 @@ export default {
     },
 
     validateBeforeSubmit() {
+
+      let employeeDomainFoundFlag = false
+      const employeeDomain = this.form.email.replace(/.*@/, "")
+      this.allowedDomains.forEach(domain => {
+        (employeeDomain == domain) ? employeeDomainFoundFlag = true : null
+      })
+
+      let supervisorDomainFoundFlag = false
+      const supervisorDomain = this.form.supervisorEmail.replace(/.*@/, "")
+      this.allowedDomains.forEach(domain => {
+        (supervisorDomain == domain) ? supervisorDomainFoundFlag = true : null
+      })
+
       this.$validator.validateAll().then(result => {
-        if (result) {
-          let values = {};
+        // Verify that employee domain is inside the allowed domains...
+        if (!employeeDomainFoundFlag) {
+          this.$validator.errors.add({
+            field: 'email',
+            msg: 'Employee email domain not allowed or not active'
+          }); 
+        }
+        // Verify that supervisor domain is inside the allowed domains...
+        if (!supervisorDomainFoundFlag) {
+          this.$validator.errors.add({
+            field: 'supervisor email',
+            msg: 'Supervisor email domain not allowed or not active'
+          }); 
+        }
+        // Guards above must be passed to move forward...
+        if (employeeDomainFoundFlag && supervisorDomainFoundFlag) {
+          if (result) {
+            let values = {};
 
-          Object.keys(this.form).forEach(key => {
-            if (!!this.form[key]) {
-              values[key] = this.form[key];
-            }
-          });
+            Object.keys(this.form).forEach(key => {
+              if (!!this.form[key]) {
+                values[key] = this.form[key];
+              }
+            });
 
-          this.$emit("submit", values);
-          return;
+            this.$emit("submit", values);
+            return;
+          }
         }
       });
     },
@@ -214,6 +245,10 @@ export default {
   .error {
     top: calc(100% - 6px);
     left: 0;
+  }
+
+  .wa-field-wrapper {
+    line-height: 16px;
   }
 }
 </style>

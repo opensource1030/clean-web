@@ -107,6 +107,9 @@ export default {
   },
 
   beforeCreate() {
+    if (this.$route.params.email == null) {
+      this.$router.push('login')
+    }
     this.$store.commit('auth/recoveryVariations');
   },
 }

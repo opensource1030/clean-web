@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import authAPI from '@/api/auth-api'
 import employeeAPI from '@/api/employee-api'
+import companyAPI from '@/api/company-api'
 import * as types from './../mutation-types'
 import user from '@/models/User'
 import { Storage, Utils } from '@/helpers'
@@ -18,6 +19,7 @@ const state = {
   profile: {},
   company: {},
   company_loading: true,
+  allowedDomains: [],
   userInfo: {
     data: {},
     lastAllocations: [],
@@ -79,6 +81,10 @@ const getters = {
 
   getWarningPopupFlag: state => {
     return state.warningPopupFlag
+  },
+
+  getAllowedDomains: state => {
+    return state.allowedDomains
   },
 }
 
@@ -615,7 +621,20 @@ const actions = {
       dispatch(
         'error/addNew',
         {
-          message: 'The Supervisor Email must not be empty, please, fill it properly.',
+          message: 'Invalid Supervisor Email.',
+        },
+        { root: true },
+      )
+    }
+
+    const userDomain = credentials.email.replace(/.*@/, "");
+    const supervisorDomain = credentials.supervisorEmail.replace(/.*@/, "");
+    
+    if (userDomain != supervisorDomain) {
+      dispatch(
+        'error/addNew',
+        {
+          message: "User and supervisor must share the same email domain.",
         },
         { root: true },
       )
@@ -865,6 +884,30 @@ const actions = {
     Storage.set('show_welcome_flag', flag)
     commit('setShowWelcomeFlag', flag)
   },
+
+  setCompanyAllowedDomains({commit, state}) {
+    return new Promise((resolve, reject) => {
+      let _params = {
+        params: {
+          include: 'domains',
+        }
+      }
+      let companyId = state.profile.companyId
+      companyAPI.get(
+        companyId,
+        _params,
+        res => {
+          commit(types.AUTH_SET_COMPANY_DOMAINS, res)
+          resolve()
+        },
+        err => {
+          console.log(err)
+          reject()
+        }
+      )
+    })
+  },
+
 }
 
 // mutations
@@ -950,6 +993,14 @@ const mutations = {
   [types.AUTH_SET_PROFILE](state, profile) {
     // Storage.set('profile', JSON.stringify(profile))
     state.profile = profile
+  },
+
+  [types.AUTH_SET_COMPANY_DOMAINS](state, res) {
+    let companyData = store.sync(res.body)
+    state.allowedDomains = []
+    companyData.domains.forEach(domainInfo => {
+      (!!domainInfo.active) ? state.allowedDomains.push(domainInfo.domain) : null
+    })
   },
 
   setShowTicket(state, show_ticket) {

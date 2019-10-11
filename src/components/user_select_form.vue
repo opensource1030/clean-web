@@ -72,22 +72,22 @@
           <div class="col item" :class="{'is-danger': errors.has('email') }">
             <label>Email *</label>
             <div>
-              <b-input name="email" v-model="form.email" v-validate="'required'"></b-input>
-              <span v-show="errors.has('email')" class="error">Required</span>
+              <b-input name="email" v-model="form.email" v-validate="'required|email'"></b-input>
+              <span v-show="errors.has('email')" class="error">{{errors.first('email')}}</span>
             </div>
           </div>
         </div>
 
         <div class="row mb-3">
-          <div class="col item" :class="{'is-danger': errors.has('supervisorEmail') }">
+          <div class="col item" :class="{'is-danger': errors.has('supervisor email') }">
             <label>Supervisor Email *</label>
             <div>
               <b-input
-                name="supervisorEmail"
+                name="supervisor email"
                 v-model="form.supervisorEmail"
-                v-validate="'required'"
+                v-validate="'required|email'"
               ></b-input>
-              <span v-show="errors.has('supervisorEmail')" class="error">Required</span>
+              <span v-show="errors.has('supervisor email')" class="error">{{errors.first('supervisor email')}}</span>
             </div>
           </div>
         </div>
@@ -174,10 +174,10 @@ export default {
       employees: [{ id: "new" }],
       createNewUser: false,
       form: {
-        firstName: null,
-        lastName: null,
-        email: null,
-        supervisorEmail: null
+        firstName: '',
+        lastName: '',
+        email: '',
+        supervisorEmail: ''
       },
       udlvalues: {},
       submitted: false,
@@ -193,7 +193,8 @@ export default {
     ...mapGetters({
       allEmployees: "employee/allEmployees",
       profile: "auth/getProfile",
-      udls: "auth/getUdls"
+      udls: "auth/getUdls",
+      allowedDomains: 'auth/getAllowedDomains',
     })
   },
 
@@ -244,37 +245,67 @@ export default {
     },
 
     validateBeforeSubmit() {
-      this.$validator.validateAll().then(result => {
-        if (result) {
-          const udlData = _.keys(this.udlvalues).map(key => ({
-            type: "udlvalues",
-            id: this.udlvalues[key].id
-          }));
 
-          const payload = {
-            data: {
-              type: "users",
-              attributes: this.form,
-              relationships: {
-                udlvalues: {
-                  data: udlData
+      let employeeDomainFoundFlag = false
+      const employeeDomain = this.form.email.replace(/.*@/, "")
+      this.allowedDomains.forEach(domain => {
+        (employeeDomain == domain) ? employeeDomainFoundFlag = true : null
+      })
+
+      let supervisorDomainFoundFlag = false
+      const supervisorDomain = this.form.supervisorEmail.replace(/.*@/, "")
+      this.allowedDomains.forEach(domain => {
+        (supervisorDomain == domain) ? supervisorDomainFoundFlag = true : null
+      })
+
+      this.$validator.validateAll().then(result => {
+        // Verify that employee domain is inside the allowed domains...
+        if (!employeeDomainFoundFlag) {
+          this.$validator.errors.add({
+            field: 'email',
+            msg: 'Employee email domain not allowed or not active'
+          }); 
+        }
+        // Verify that supervisor domain is inside the allowed domains...
+        if (!supervisorDomainFoundFlag) {
+          this.$validator.errors.add({
+            field: 'supervisor email',
+            msg: 'Supervisor email domain not allowed or not active'
+          }); 
+        }
+        // Guards above must be passed to move forward...
+        if (employeeDomainFoundFlag && supervisorDomainFoundFlag) {
+          if (result) {
+            const udlData = _.keys(this.udlvalues).map(key => ({
+              type: "udlvalues",
+              id: this.udlvalues[key].id
+            }));
+
+            const payload = {
+              data: {
+                type: "users",
+                attributes: this.form,
+                relationships: {
+                  udlvalues: {
+                    data: udlData
+                  }
                 }
               }
-            }
-          };
+            };
 
-          this.submitted = true;
+            this.submitted = true;
 
-          this.createEmployee(payload)
-            .then(employee => {
-              this.selectEmployee(employee);
-              this.createNewUser = false;
-              this.submitted = false;
-            })
-            .catch(err => {
-              console.log(err);
-              this.submitted = false;
-            });
+            this.createEmployee(payload)
+              .then(employee => {
+                this.selectEmployee(employee);
+                this.createNewUser = false;
+                this.submitted = false;
+              })
+              .catch(err => {
+                console.log(err);
+                this.submitted = false;
+              });
+          }
         }
       });
     },

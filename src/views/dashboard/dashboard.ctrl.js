@@ -229,21 +229,25 @@ export default {
   beforeCreate() {},
 
   created() {
-    this.$store.dispatch('auth/loadUserInfo').then(
-      res => {
-        // console.log('dashboard/created res', this.$route.param)
-        // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
-        this.activeAllocationForMe = _.get(this.userInfo, 'lastAllocations[0]', null)
-        // if (this.fromLoginPage) {
-        //   this.welcome.visible = true
-        // }
-        if (!Storage.get('show_welcome_flag') ? true : Storage.get('show_welcome_flag') == 'true') {
-          this.welcome.visible = true
-        }
-      },
-      err => {
-        console.log('dashboard/created err', err)
-      },
-    )
+      this.$store.dispatch('auth/loadUserInfo').then(
+        res => {
+          // console.log('dashboard/created res', this.$route.param)
+          // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
+          this.activeAllocation = _.get(this.userInfo, 'lastAllocations[0]', null)
+          // if (this.fromLoginPage) {
+          //   this.welcome.visible = true
+          // }
+        },
+        err => {
+          console.log('dashboard/created err', err)
+        },
+      ).then(() => {
+        this.$store.dispatch('auth/setCompanyAllowedDomains').then(() => {
+          if (!Storage.get('show_welcome_flag') ? true : Storage.get('show_welcome_flag') == 'true') {
+            this.welcome.visible = true
+          }
+        })
+      })
+    
   },
 }

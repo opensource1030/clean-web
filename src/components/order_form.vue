@@ -30,12 +30,12 @@
       <b-form @change="onFormChange" @submit.prevent="onSubmitWithAddress">
 
         <template v-if="showSupervisorField">
-          <div class="order-form-heading mb-3">Supervisor Email</div>
+          <div class="order-form-heading mb-3">Supervisor Email&nbsp;<span>*</span></div>
           <div class="row mb-4">
             <div class="col item" :class="{'is-danger': errors.has('supervisor-email') }">
               <div>
                 <b-input name="supervisor-email" v-model="form.supervisor.email" v-validate="'required|email'"></b-input>
-                <span v-show="errors.has('supervisor-email')" class="error">Invalid Email</span>
+                <span v-if="errors.has('supervisor-email')" class="error">{{errors.first('supervisor-email')}}</span>
               </div>
             </div>
           </div>
@@ -153,6 +153,9 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
   name: "OrderForm",
 
@@ -189,16 +192,28 @@ export default {
   },
 
   mounted() {
+    let domainFoundFlag = false
+    const supervisorDomain = this.user.supervisorEmail.replace(/.*@/, "")
+    this.allowedDomains.forEach(domain => {
+      (supervisorDomain == domain) ? domainFoundFlag = true : null
+    })
     this.$validator.validate('supervisor-email', this.user.supervisorEmail).then(res => {
-      if (res) {
-        this.showSupervisorField = false
-        this.needsChange = false
+      if (domainFoundFlag) {
+        if (res) {
+          this.showSupervisorField = false
+          this.needsChange = false
+        }
       }
     })
     this.$validator.reset()
   },
 
   computed: {
+
+    ...mapGetters({
+      allowedDomains: 'auth/getAllowedDomains'
+    }),
+
     userNameInitial() {
       const { firstName, lastName } = this.user;
       return `${firstName[0]}${lastName[0]}`;
@@ -224,13 +239,31 @@ export default {
 
   methods: {
     onSubmitWithAddress() {
+
+      let domainFoundFlag = false
+      const supervisorDomain = this.form.supervisor.email.replace(/.*@/, "")
+      this.allowedDomains.forEach(domain => {
+        (supervisorDomain == domain) ? domainFoundFlag = true : null
+      })
+
       this.$validator.validateAll().then(result => {
-        if (result) {
-          let values = this.getNonEmptyValues()
-          this.$emit("submit", values);
-          return;
+        // Verify that employee domain is inside the allowed domains...
+        if (!domainFoundFlag) {
+          this.$validator.errors.add({
+            field: 'supervisor-email',
+            msg: 'Supervisor email domain not allowed or not active'
+          }); 
+        }
+        // Guards above must be passed to move forward...
+        if (domainFoundFlag) {
+          if (result) {
+            let values = this.getNonEmptyValues()
+            this.$emit("submit", values);
+            return;
+          }
         }
       });
+
     },
 
     onSubmitNoAddress() {
