@@ -11,5 +11,6 @@ module.exports = merge(devEnv, {
   CLIENT_SECRET: 'ab9QdKGBXZmZn50aPlf4bLlJtC4BJJNC0M99i7B7',
   LEGACY_URL: 'https://dev.legacy.wirelessanalytics.com',
   VERSION:'v2019.9.13',
-  EV_URL: 'https://wa.easyvista.com/api/v1'
+  EV_URL: 'https://apio.wirelessanalytics.com/api/v2',
+  EV_PROXY_KEY: 'e0fb92402becd52b1116bda6872056227d56af22a73a047b39fd0741495a1bc7',
 })

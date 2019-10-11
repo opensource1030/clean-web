@@ -2,6 +2,8 @@ import _ from 'lodash'
 import { country_arr } from "@/api/countries"
 import { Log } from '@/helpers'
 import TicketTypeSelect from './ticket_type_select'
+import Vue from 'vue'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -54,6 +56,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters ({
+      profile: 'auth/getProfile'
+    }),
     supportInformation() {
       // return _.get(this.$store.getters['auth/getClientInfo'], 'data.metadata.support_information', '')
       return _.get(this.$store.getters['auth/getClientInfo'], 'data.metadata.get_support', '')
@@ -111,7 +116,10 @@ export default {
         "<strong>Who to contact: </strong>" + this.ticket.contact_person + "<hr/>"
       msg += "<strong>Description: </strong>" + this.ticket.description
 
-      var json = {
+      const vm = this
+      vm.loading = true
+
+      let params = {
         "requests" : [
           {
             // "Origin" : config.EASYVISTA_CODE,
@@ -146,52 +154,26 @@ export default {
         ]
       }
 
-      // console.log(msg)
-      // console.log(json)
-      // this.show_success_dialog = true
-      // this.show_error_dialog = true
+      let headers = { headers: { 'Content-Type': 'application/json'} }
+      let url = process.env.EV_URL + '/ev/' + process.env.EV_ACCOUNT + '/requests/?api_key=' + process.env.EV_PROXY_KEY
 
-      const vm = this
-      // vm.$swal('Error', '', 'error')
-      // vm.$swal({
-      //   title: 'Are you sure?',
-      //   text: 'You won\'t be able to revert this!',
-      //   type: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#3085d6',
-      //   cancelButtonColor: '#d33',
-      //   confirmButtonText: 'Yes, delete it!'
-      // }).then((result) => {
-      //   // console.log(result.dismiss, result)
-      //   if (!result.dismiss && result.value) {
-      //   } else {
-      //   }
-      // })
-
-      $.ajax({
-        type: "POST",
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        url: process.env.EV_URL + '/' + process.env.EV_ACCOUNT + '/requests',
-        headers: { "Authorization": "Basic anN0ZWVsZTp3MXJlbGVzcw==" },
-        // contentType: "application/x-www-form-urlencoded",
-        contentType: "application/json; charset=UTF-8",
-        processData: false,
-        data: JSON.stringify(json),
-        beforeSend: function (xhr) {
-          vm.loading = true
-        },
-        success: function () {
-          vm.$swal('Submitted', 'Ticket Opened Successfully', 'success').then(() => {
-            vm.loading = false
-            vm.$store.commit('auth/setShowTicket', false)
-          })
-          // heap.track('Support Tickets sent successfully', {'clicked': 'yes'});
-        },
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-          vm.$swal(textStatus, errorThrown, 'error')
+      Vue.http.post(url, params, headers).then(res => {
+        vm.$swal({
+          title: 'Submitted',
+          text: 'Ticket Opened Successfully',
+          type: 'success'
+        }).then(() => {
           vm.loading = false
-        }
-      })
+          vm.$store.commit('auth/setShowTicket', false)
+        })
+      }, err => {
+        vm.$swal({
+          title: 'Error',
+          text: 'Something went wrong',
+          type: 'error'
+        })
+        vm.loading = false
+      });
     }
   },
 
@@ -199,11 +181,10 @@ export default {
     // this.countries = _.map(country_arr, (c) => { return { id: c, text: c } })
     this.countries = country_arr
 
-    const profile = JSON.parse(localStorage.getItem("profile"))
-    this.ticket.recipient_email = profile.email
-    this.ticket.requestor_email = profile.email
-    this.ticket.recipient_firstname = profile.firstName
-    this.ticket.recipient_lastname = profile.lastName
+    this.ticket.recipient_email = this.profile.email
+    this.ticket.requestor_email = this.profile.email
+    this.ticket.recipient_firstname = this.profile.firstName
+    this.ticket.recipient_lastname = this.profile.lastName
 
     this.ticket.issue = this.$store.state.auth.ticket_issue
 

@@ -211,6 +211,7 @@
         <b-btn
           variant="default"
           type="submit"
+          :disabled="loading"
         >Submit Ticket</b-btn>
       </div>
     </b-form>
