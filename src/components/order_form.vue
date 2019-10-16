@@ -128,9 +128,11 @@
 
           <div class="row mb-3">
             <div class="col item" :class="{'is-danger': errors.has('attn') }">
-              <label>Attn</label>
+              <label>Attn
+                <span>*</span>
+              </label>
               <div>
-                <b-input @change="customLocation()" name="attn" v-model="form.attn"></b-input>
+                <b-input @change="customLocation()" name="attn" v-model="form.attn" v-validate="'required'"></b-input>
                 <span v-show="errors.has('attn')" class="error">Required</span>
               </div>
             </div>
@@ -252,7 +254,7 @@ export default {
           this.$validator.errors.add({
             field: 'supervisor-email',
             msg: 'Supervisor email domain not allowed or not active'
-          }); 
+          });
         }
         // Guards above must be passed to move forward...
         if (domainFoundFlag) {
