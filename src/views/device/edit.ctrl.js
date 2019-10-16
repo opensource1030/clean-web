@@ -8,7 +8,6 @@ import modal from '@/components/modal'
 // const Presenter = require('yayson')({ adapter: 'default' }).Presenter
 import { DevicesPresenter, DeviceVariationsPresenter, ModificationsPresenter } from '@/presenters'
 import { DeviceVariationHelper, ModificationHelper } from '@/helpers'
-import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -64,7 +63,6 @@ export default {
   computed: {
     ...mapGetters({
       deviceTypes: 'device_type/sorted',
-      warningPopupFlag: 'auth/getWarningPopupFlag',
       // styles: 'modification/styleModifications',
       // capacities: 'modification/capacityModifications',
     }),
@@ -102,7 +100,6 @@ export default {
   },
 
   created () {
-    this.$store.commit('auth/warningPopupFlagOff')
     let device_id = this.$route.params.id || 0
     this.$store.dispatch('device_type/search').then(
       res => this.$store.dispatch('modification/search').then(
@@ -453,23 +450,5 @@ export default {
 
   mounted () {
     // #TODO - we shoule do this.$forceUpdate() to refresh selectors in price accordion-content when changing on vendors
-  },
-
-  beforeRouteLeave (to, from, next) {
-    if (this.warningPopupFlag) {
-      this.$swal(swalWarningPopupOptions).then(result => {
-        if (result.value) {
-          this.$store.commit('auth/warningPopupFlagOff')
-          next()
-        }
-        if (result.dismiss == "cancel") {
-          next(false)
-        }
-      })
-    }
-    if (!this.warningPopupFlag) {
-      next()
-    }
-    
   }
 }

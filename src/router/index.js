@@ -52,6 +52,8 @@ import PackageEdit from '@/views/package/edit'
 // Views Reports
 import ReportCharge from '@/views/reports/charge'
 
+import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
+
 Vue.use(VueResource)
 Vue.use(Router)
 
@@ -176,6 +178,56 @@ const router = new Router({
   ],
 })
 
+// ===============================
+// WARNING POPUP IMPLEMENTATION
+// ===============================
+
+router.beforeEach((to, from, next) => {
+
+  // Each component that has warning popup:
+  // 1. Needs to be inside the conditional 'componentsWithWarningPopup' array below
+  // 2. Inside the component template, add @click and @keyup.tab
+  //    interactions to the root HTML template component.
+  //    Those actions make the popup trigger-able.
+  // 3. To avoid the warning popup when pressing saving/updating button
+  //    Look where the redirection happens ( router.push() ) and
+  //    before that line add 'this.$store.commit('auth/warningPopupFlagOff')'
+
+  let componentsWithWarningPopup = [
+    "Add Service", "Update Service",
+    "Add Device" , "Update Device" ,
+    "Add Preset" , "Update Preset" ,
+    "Add Package", "Update Package",
+  ]
+
+  let componentFoundFlag = false
+
+  componentsWithWarningPopup.forEach(componentName => {
+    if (from.name == componentName) {
+      componentFoundFlag = true
+      if (store.getters['auth/getWarningPopupFlag']) {
+        Vue.swal(swalWarningPopupOptions).then(result => {
+          if (result.value) {
+            store.commit('auth/warningPopupFlagOff')
+            next()
+          }
+          if (result.dismiss == "cancel") {
+            next(false)
+          }
+        })
+      }
+      if (!store.getters['auth/getWarningPopupFlag']) {
+        next()
+      }
+    }
+  })
+
+  if (!componentFoundFlag) {
+    next()
+  }
+  
+})
+
 router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
   NProgress.start()
@@ -199,19 +251,21 @@ router.beforeEach((to, from, next) => {
           const currentUser = store.getters['auth/getProfile']
           location.href = currentLocation.split('return=')[1] + '?jwt=' + currentUser.deskproJwt
         }
+
+        const toPath = to.path.split('/')
+        const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature
         const expired = store.getters['auth/isExpired']
         // console.log('routing: ' + from.name + ' -> ' + to.name, to.meta.requiresAuth, store.state.auth.userId, store.state.auth.token, store.state.auth.isAuthenticating )
         // console.log('routing: ' + from.name + ' -> ' + to.name, from, to)
 
-        if (expired) { store.dispatch('auth/logout', {router: router}) }
-
+        if (expired) {
+          store.dispatch('auth/logout', {router: router})
+          next()
+        }
         // Redirect to dashboard if route is '/'
-        if (to.name == undefined && from.name == null) { next({ name: 'Dashboard' })}
-
-        const toPath = to.path.split('/')
-        const { enabled_equipment, enabled_service, enabled_package, enabled_package_edit, enabled_dashboard_legacy, enabled_dashboard_nextgen } = store.state.feature
-
-        if (to.name === 'login' || to.name === 'loginLocal') {
+        else if (to.name == undefined && from.name == null) {
+          next({ name: 'Dashboard' })
+        } else if (to.name === 'login' || to.name === 'loginLocal') {
           next({ name: 'Dashboard' })
         } else if (
           ((toPath[1] === 'devices' && !enabled_equipment) ||
@@ -234,13 +288,14 @@ router.beforeEach((to, from, next) => {
           //   if (to.matched.some(m => m.meta.requiresAuth) && !authenticated) {
           //     next({ name: 'login' })
           //   }
+          next()
+        } else {
+          next()
         }
-        next()
       },
       err => {
-        store.dispatch('auth/logout').then(res => {
-          next({ name: 'login' })
-        })
+        store.dispatch('auth/logout', {router: router})
+        next()
       },
     )
     // } else if (to.meta.requiresAuth) {

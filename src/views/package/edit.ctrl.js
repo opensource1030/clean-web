@@ -1,6 +1,5 @@
 import { mapGetters, mapActions } from 'vuex'
 import { Carousel, Slide } from 'vue-carousel'
-import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 export default {
   name : 'package',
@@ -51,7 +50,6 @@ export default {
     }
   },
   created() {
-    this.$store.commit('auth/warningPopupFlagOff')
     if (this.$route.params.id) {
       this.packageId = this.$route.params.id;
       this.$store.dispatch('packages/getOne', this.packageId).then(
@@ -75,7 +73,6 @@ export default {
     ...mapGetters({
       presets: 'packages/allPresets',
       carriers: 'packages/allCarriers',
-      warningPopupFlag: 'auth/getWarningPopupFlag',
     }),
   },
   methods : {
@@ -371,22 +368,5 @@ export default {
         }
       }
     }
-  },
-  beforeRouteLeave (to, from, next) {
-    if (this.warningPopupFlag) {
-      this.$swal(swalWarningPopupOptions).then(result => {
-        if (result.value) {
-          this.$store.commit('auth/warningPopupFlagOff')
-          next()
-        }
-        if (result.dismiss == "cancel") {
-          next(false)
-        }
-      })
-    }
-    if (!this.warningPopupFlag) {
-      next()
-    }
-    
-  },
+  }
 }

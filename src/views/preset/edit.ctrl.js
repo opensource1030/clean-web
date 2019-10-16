@@ -7,7 +7,6 @@ import companyAPI from '@/api/company-api'
 import { mapGetters } from 'vuex'
 import { DeviceVariationHelper } from '@/helpers'
 import { DeviceVariationsPresenter, PresetsPresenter } from '@/presenters'
-import swalWarningPopupOptions from '@/helpers/modules/swal-warning-popup'
 
 const { Store } = require('yayson')()
 const store = new Store()
@@ -60,8 +59,7 @@ export default {
     ...mapGetters({
       allDevices: 'device/sorted',
       styles: 'modification/styleModifications',
-      capacities: 'modification/capacityModifications',
-      warningPopupFlag: 'auth/getWarningPopupFlag',
+      capacities: 'modification/capacityModifications'
     }),
 
     _ () {
@@ -74,7 +72,6 @@ export default {
   },
 
   created () {
-    this.$store.commit('auth/warningPopupFlagOff')
     this.$set(this, 'isReady', false)
     this.asyncFind_CompanyNames('')
     if (this.$route.params.id != null) {
@@ -354,23 +351,5 @@ export default {
         }, (err) => { console.log('err', err) })
       }
     }
-  },
-
-  beforeRouteLeave (to, from, next) {
-    if (this.warningPopupFlag) {
-      this.$swal(swalWarningPopupOptions).then(result => {
-        if (result.value) {
-          this.$store.commit('auth/warningPopupFlagOff')
-          next()
-        }
-        if (result.dismiss == "cancel") {
-          next(false)
-        }
-      })
-    }
-    if (!this.warningPopupFlag) {
-      next()
-    }
-    
-  },
+  }
 }
