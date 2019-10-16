@@ -91,6 +91,26 @@
             </div>
           </div>
 
+          <div v-if="!form.keepExistingService" class="row mb-3">
+            <div class="col item" :class="{'is-danger': errors.has('Billing Address') }">
+              <label class="d-flex align-items-center">
+                What is your mobile account's billing address? *
+              </label>
+              <div class="item-field-wrapper">
+                <b-input
+                  class="mb-1"
+                  name="Billing Address"
+                  v-model="form.billingAddress"
+                  v-validate="'required:true'"
+                />
+                <span
+                  v-show="errors.has('Billing Address')"
+                  class="error"
+                >{{ errors.first('Billing Address') }}</span>
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col item" :class="{'is-danger': errors.has('Billing Password') }">
               <label>Billing Password *</label>
@@ -188,7 +208,8 @@ export default {
         accountName: null,
         accountNumber: null,
         billingPassword: null,
-        keepExisitingService: false
+        keepExistingService: false,
+        billingAddress: null
       },
       transferTypes: [
         { text: "Personal to corporate", value: "personal" },
