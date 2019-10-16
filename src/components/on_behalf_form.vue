@@ -70,7 +70,7 @@
               <b>{{ allocation.device }}</b>
             </div>
             <div>
-              <b>ATT</b>
+              <b>{{ allocation.carrier }}</b>
               {{ allocation.mobile_number | phone }}
             </div>
             <i class="fa fa-angle-right"></i>
