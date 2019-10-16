@@ -18,7 +18,7 @@
       </div>
       <div class="text-right mt-3">
         <div class="order-total">
-          <label class="mb-0 mr-3">Device/Accessories Subtotal</label>
+          <label class="mb-0 mr-3">Device / Accessories Subtotal</label>
           <span class="font-weight-bold">${{ device.priceRetail }}</span>
         </div>
       </div>
@@ -40,7 +40,10 @@
     </div>
 
     <div v-if="!!service" class="usage-info mt-5">
-      <div class="usage-title-label">Usage Info</div>
+      <div class="usage-title-label">
+        Service Info:
+        <span>{{ service.title }}</span>
+      </div>
 
       <div v-if="domesticServices.length > 0">
         <div class="service-label">- Domestic Services</div>
@@ -188,6 +191,10 @@ export default {
   color: #1f2027;
   font-size: 12px;
   font-weight: bold;
+
+  span {
+    font-weight: normal;
+  }
 }
 
 .service-label {

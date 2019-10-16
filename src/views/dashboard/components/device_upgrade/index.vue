@@ -9,7 +9,7 @@
         @submit="onSubmit"
       />
 
-      <div v-else class="dashboard-drawer-main">
+      <div class="dashboard-drawer-main">
         <div class="dashboard-drawer-title">Upgrade Device</div>
 
         <steps :steps="steps" :active-step="step" @back="onStepBack" />

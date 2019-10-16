@@ -84,6 +84,7 @@ export default {
     ...mapGetters({
       userRole: 'auth/getRole',
       clientInfo: 'auth/getClientInfo',
+      profile: 'auth/getProfile',
       // showWelcomeFlag: 'auth/getShowWelcomeFlag',
       upgradeHasOrder: 'placeOrder/upgradeHasOrder',
       newlineHasOrder: 'placeOrder/newlineHasOrder',
@@ -204,6 +205,7 @@ export default {
     onUpgradeDevice() {
       if (!this.onBehalfOfOther) {
         this.getUserPackages(this.userId)
+        this.setEmployee(this.profile)
       }
 
       this.$router.push({ path: this.onBehalfOfOther ? '/dashboard/device-upgrade-admin' : '/dashboard/device-upgrade' })
@@ -229,7 +231,9 @@ export default {
   beforeCreate() {},
 
   created() {
-      this.$store.dispatch('auth/loadUserInfo').then(
+    this.$store
+      .dispatch('auth/loadUserInfo')
+      .then(
         res => {
           // console.log('dashboard/created res', this.$route.param)
           // this.activeAllocation = _.get(this.userInfo, 'data.allocations[0]', null)
@@ -241,13 +245,13 @@ export default {
         err => {
           console.log('dashboard/created err', err)
         },
-      ).then(() => {
+      )
+      .then(() => {
         this.$store.dispatch('auth/setCompanyAllowedDomains').then(() => {
           if (!Storage.get('show_welcome_flag') ? true : Storage.get('show_welcome_flag') == 'true') {
             this.welcome.visible = true
           }
         })
       })
-    
   },
 }
